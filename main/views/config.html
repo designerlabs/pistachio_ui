@@ -1,0 +1,140 @@
+<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title">
+    Configuration settings
+</h3>
+<!-- <div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="#/dashboard.html">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#/config.html">Configuration settings</a>
+        </li>
+    </ul>
+</div> -->
+<!-- END PAGE HEADER-->
+<!-- BEGIN MAIN CONTENT -->
+<div class="row">
+    <div class="col-md-12">
+        <!-- END EXAMPLE TABLE PORTLET-->
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet box red-intense" id="configUIList" style="display:block;">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>Configuration List
+                </div>
+                <div class="tools">
+                    <button class="btn btn-success btn-sm" data-toggle="modal" id="configAddBtn" data-target="#configAddForm"><i class="fa fa-plus"></i> Add</button>
+                    <!-- <a href="javascript:;" class="reload">
+                    </a> -->
+                    <!--  <a href="" id="backBtn" style="color:#fff; top: -3px; position: relative;"><i class="fa fa-chevron-circle-left"></i></a> -->
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table id="config" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Config Name</th>
+                            <th>Config Value</th>
+                            <th>Application</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <!-- <div class="portlet box red-intense" id="QueryUIListRun" style="display:none;">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>Executed Query List
+                </div>
+                <div class="tools">
+                   <a href="" id="backBtnQuery" style="color:#fff; top: -3px; position: relative;"><i class="fa fa-chevron-circle-left"></i></a>
+                    <a href="" id="backBtn" style="color:#fff; top: -3px; position: relative;"><i class="fa fa-chevron-circle-left"></i></a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table id="jqueryRunData" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%"></table>
+            </div>
+        </div> -->
+    </div>
+</div>
+<div class="modal fade" id="configAddForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="configAddFormHeader">New message</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger display-hide" id="configRequire">
+                    <button class="close" data-close="alert"></button>
+                    <span></span>
+                </div>
+                <form id="configForm" name="configUIForm">
+                    <div class="form-group">
+                        <label for="config-name" class="control-label">Configuration Name:</label>
+                        <input type="text" class="form-control" id="config-name" pattern="[A-Za-z]{3}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="config-value" class="control-label">Configuration Value:</label>
+                        <input type="text" class="form-control" id="config-value" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="config-application" class="control-label">Application:</label>
+                        <input type="text" class="form-control" id="config-application" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                <button type="button" id="configUISubmit" class="btn btn-success"><i class="fa fa-check"></i> Save</button>
+                <button type="button" id="configUIUpdate" class="btn btn-primary"><i class="fa fa-check"></i> Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="configDelete" tabindex="-1" role="dialog" aria-labelledby="configDelete">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h3 class="text-danger text-center">Are you sure you want to delete this record?</h3>
+      </div>
+      <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
+        <button type="button" class="btn btn-success" id="configDataDeleteBtn"><i class="fa fa-check"></i> Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="configDeleteErrorMsg" tabindex="-1" role="dialog" aria-labelledby="configDeleteErrorMsg">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h3 class="text-danger text-center" id="configErrorTitle"></h3>
+      </div>
+      <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END MAIN CONTENT -->
+<!-- BEGIN MAIN JS -->
+<script>
+$(function() {
+    $("#configAddBtn").click(function(event) {
+        $("#configAddForm #configUISubmit").removeClass('hide');
+        $("#configAddForm #configUIUpdate").addClass('hide');
+        $("#configAddFormHeader").html("Add New Configuration");
+        $("#configForm")[0].reset();
+    });
+});
+//TableAdvanced.init();
+</script>
