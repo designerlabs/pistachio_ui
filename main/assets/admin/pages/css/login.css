@@ -20,6 +20,7 @@ Login page
 .login .logo {
     margin: 0 auto;
     margin-top: 25px;
+    margin-bottom: 25px;
     padding: 0px;
     text-align: center;
 }
