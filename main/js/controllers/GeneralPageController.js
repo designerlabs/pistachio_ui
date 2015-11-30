@@ -1,6 +1,10 @@
 /* Setup general page controller */
-var tableFunc, jobsDataFunc, selectedQueryRunId = undefined;
+var tableFunc, jobsDataFunc, selectedQueryRunId, reportCategoryID = undefined;
 
+
+//reportCategoryID =   $("#reportCategoryID").val();
+
+/* resize function */
 function onResize1() {
     var $width = $(document).width();
     //Iphone
@@ -68,7 +72,9 @@ function inputValidation(id, callback) {
     });
 }
 
-MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http', 'settings', function($rootScope, $scope, $http, settings) {
+
+/* GeneralPageController starts */
+MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http', 'settings',  function($rootScope, $scope, $http, settings) {
     $scope.$on('$viewContentLoaded', function() {
         $("#databaseList").show();
         $("#tableList").hide();
@@ -77,6 +83,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         // initialize core components
         Metronic.initAjax();
         var databases;
+
 
         function databaseDataFunc() {
             databases = $('#databaseData').DataTable({
@@ -103,12 +110,6 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                             return '<button class="btn btn-success btn-sm tableView"><i class="fa fa-eye"></i> view</button><button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
                         }
                     }
-                    /*,
-                                    {
-                                        "data": "action",
-                                        "width": "35%",
-                                        "defaultContent": '<button class="btn btn-success btn-sm tableView"><i class="fa fa-eye"></i> view table</button><button class="btn btn-info btn-sm updateBtn"><i class="fa fa-refresh"></i> Update</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-times"></i> Delete</button>'
-                                    }*/
                 ]
             });
         }
@@ -359,16 +360,18 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
         jobsDataFunc();
 
-
+        var reportCategoryID = localStorage.getItem("reportCategoryID");
 
         var queryData;
+        //console.log(categoryId);
         queryDataFunc = function() {
+        
             queryData = $('#queryContainer').DataTable({
 
                 "ajax": {
                     "processing": true,
                     "serverSide": true,
-                    "url": "http://10.1.17.25:8080/query",
+                    "url": "http://10.1.17.25:8080/query?cat="+reportCategoryID,
                     "dataSrc": ""
                 },
                 "columns": [{
@@ -393,7 +396,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 }]
             });
 
-        }
+        };
 		
 		var reportPermitMasukData;
         queryMasukFunc = function() {
@@ -402,7 +405,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 "ajax": {
                     "processing": true,
                     "serverSide": true,
-                    "url": "http://10.1.17.25:8080/query?cat=MASUK",
+                    "url": "http://10.1.17.25:8080/query?cat=masuk",
                     "dataSrc": ""
                 },
                 "columns": [{
@@ -440,13 +443,14 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
             function queryAjax(){
                 $.ajax({
-                    url: "http://10.1.17.25:8080/query/",
+                    url: "http://10.1.17.25:8080/query",
                     type: "POST",
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify({
                         queryName: queryNameVal,
                         query: queryTextVal,
+                        category:reportCategoryID,
                         cached: null
                     })
                 })
@@ -468,10 +472,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             
         });
 
-
-
-
-
+        
         queryDataFunc();
 		queryMasukFunc();
         var selectedQueryId = undefined;

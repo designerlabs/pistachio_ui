@@ -2,7 +2,7 @@
 <h3 class="page-title">
 	Advance Federated Profiling Reporting
 </h3>
-<div ng-controller="DashboardController">
+<div ng-controller="ReportCategoryController">
     <!-- BEGIN DASHBOARD STATS -->
     <div class="tiles">
         <!-- <div class="tile image bg-green-jungle" onclick="location.href='#/query.html';">
@@ -167,7 +167,7 @@
         </div> -->
 
         <div ng-repeat="x in names">
-			<div class='tile image {{x.className}}' ng-click='go(x.url)'>
+			<div class='tile image {{x.className}}' ng-click='go(x.url)' data-category='{{x.queryCategory}}'>
 				<div class="tile-body">
 					<img ng-src='assets/pistachio/report/{{x.queryCategory}}.png' alt="">
 				</div>

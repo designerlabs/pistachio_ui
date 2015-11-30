@@ -1,6 +1,6 @@
 'use strict';
-
-MetronicApp.controller('DashboardController', function($rootScope, $scope, $http, $timeout) {
+var categoryId = undefined;
+MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$http', 'settings', function($rootScope, $scope, $http, settings) {
     $scope.$on('$viewContentLoaded', function() {   
 
         // initialize core components
@@ -14,9 +14,14 @@ MetronicApp.controller('DashboardController', function($rootScope, $scope, $http
     	$scope.go = function(data){
             
     		location.href=data;
-            var categoryId = this.$$watchers[2].last;
+            categoryId = this.$$watchers[2].last;
             //$scope.message = sharedService.categoryId;
-          
+          	//$scope.myservice = categoryId; 
+          	$("#reportCategoryID").val(categoryId);
+          	//if(!localStorage.setItem("reportCategoryID"){
+          		localStorage.setItem("reportCategoryID", categoryId);
+          	//}	
+          	
     	};
         //console.log($scope);
 
@@ -24,4 +29,4 @@ MetronicApp.controller('DashboardController', function($rootScope, $scope, $http
 
     // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.pageSidebarClosed = false;
-});
+}]);

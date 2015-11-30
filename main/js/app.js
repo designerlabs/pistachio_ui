@@ -114,6 +114,7 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
     return settings;
 }]);
 
+
 /* Setup App Main Controller */
 MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
     $scope.$on('$viewContentLoaded', function() {
@@ -208,7 +209,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         data: {
             pageTitle: 'Reports'
         },
-        controller: "DashboardController",
+        controller: "ReportCategoryController",
         resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load({
@@ -225,7 +226,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/admin/pages/scripts/index.js',
                         'assets/admin/pages/scripts/tasks.js',
 
-                        'js/controllers/DashboardController.js'
+                        'js/controllers/ReportCategoryController.js'
                     ]
                 });
 
@@ -1001,7 +1002,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         data: {
             pageTitle: 'Query UI'
         },
-        controller: "GeneralPageController",
+        controller: "ReportCategoryController",
         resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load({
@@ -1017,7 +1018,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
 
-                        'js/controllers/GeneralPageController.js'
+                        'js/controllers/ReportCategoryController.js'
                     ]
                 });
             }]
