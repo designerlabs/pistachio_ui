@@ -1,4 +1,6 @@
 <!-- BEGIN PAGE HEADER-->
+<link href="assets/global/css/animate.css" rel="stylesheet" type="text/css" />
+    
 <h3 class="page-title">
 	Advance Federated Profiling Reporting
 </h3>
@@ -167,7 +169,7 @@
         </div> -->
 
         <div ng-repeat="x in names">
-			<div class='tile image {{x.className}}' ng-click='go(x.url)' data-category='{{x.queryCategory}}'>
+			<div class='tile bounceIn image {{x.className}}' ng-click='go(x.url)' data-category='{{x.queryCategory}}'>
 				<div class="tile-body">
 					<img ng-src='assets/pistachio/report/{{x.queryCategory}}.png' alt="">
 				</div>
