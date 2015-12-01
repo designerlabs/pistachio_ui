@@ -14,7 +14,8 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
     	$scope.go = function(data){
             
     		location.href=data;
-            categoryId = this.$$watchers[2].last;
+    		console.log(this);
+            categoryId = this.x.queryCategory;
             //$scope.message = sharedService.categoryId;
           	//$scope.myservice = categoryId; 
           	$("#reportCategoryID").val(categoryId);
