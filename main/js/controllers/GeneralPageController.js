@@ -1,6 +1,8 @@
 /* Setup general page controller */
 var tableFunc, jobsDataFunc, selectedQueryRunId, reportCategoryID = undefined;
-
+var globalURL = "http://10.1.17.25:8080/";
+var queryString = "query";
+var categoryName = "cat";
 
 //reportCategoryID =   $("#reportCategoryID").val();
 
@@ -91,7 +93,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 "ajax": {
                     "processing": true,
                     "serverSide": true,
-                    "url": "http://10.1.17.25:8080/etl/databases",
+                    "url": globalURL+"/etl/databases",
                     "dataSrc": ""
                 },
                 "columns": [{
@@ -129,7 +131,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
             function databaseAjax() {
                 $.ajax({
-                        url: "http://10.1.17.25:8080/etl/databases",
+                        url: globalURL+"/etl/databases",
                         type: "POST",
                         dataType: 'json',
                         contentType: "application/json; charset=utf-8",
@@ -171,7 +173,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 "ajax": {
                     "processing": true,
                     "serverSide": true,
-                    "url": "http://10.1.17.25:8080/config",
+                    "url": globalURL+"/config",
                     "dataSrc": ""
                 },
                 "columns": [{
@@ -204,7 +206,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
             function configAjax() {
                 $.ajax({
-                        url: "http://10.1.17.25:8080/config/",
+                        url: globalURL+"/config/",
                         type: "POST",
                         dataType: 'json',
                         contentType: "application/json; charset=utf-8",
@@ -254,7 +256,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             var configApp = $("#configForm #config-application").val();
             //alert(selectedQueryId);
             $.ajax({
-                    url: "http://10.1.17.25:8080/config/",
+                    url: globalURL+"/config/",
                     type: "PUT",
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
@@ -286,7 +288,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         $('#configDataDeleteBtn').click(function(event) {
 
             $.ajax({
-                url: 'http://10.1.17.25:8080/config/' + selectedConfigForDelete.id,
+                url: globalURL+'/config/' + selectedConfigForDelete.id,
                 type: 'DELETE',
                 success: function(result) {
                     // Do something with the result
@@ -311,7 +313,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 "ajax": {
                     "processing": true,
                     "serverSide": true,
-                    "url": "http://10.1.17.25:8080/etl/jobs",
+                    "url": globalURL+"/etl/jobs",
                     "dataSrc": ""
                 },
                 "columns": [{
@@ -371,7 +373,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 "ajax": {
                     "processing": true,
                     "serverSide": true,
-                    "url": "http://10.1.17.25:8080/query?cat="+reportCategoryID,
+                    "url": globalURL+queryString+"?"+categoryName+"="+reportCategoryID,
                     "dataSrc": ""
                 },
                 "columns": [{
@@ -405,7 +407,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 "ajax": {
                     "processing": true,
                     "serverSide": true,
-                    "url": "http://10.1.17.25:8080/query?cat=masuk",
+                    "url": globalURL+queryString+"?cat=masuk",
                     "dataSrc": ""
                 },
                 "columns": [{
@@ -443,7 +445,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
             function queryAjax(){
                 $.ajax({
-                    url: "http://10.1.17.25:8080/query",
+                    url: globalURL+queryString+"/",
                     type: "POST",
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
@@ -496,17 +498,17 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
         $("#downloadBtn").click(function(event) {
             event.preventDefault(); //stop the browser from following
-            window.location.href = 'http://10.1.17.25:8080/download/csv/' + selectedQueryRunId;
+            window.location.href = globalURL+'download/csv/' + selectedQueryRunId;
         });
         
          $("#downloadBtnXLS").click(function(event) {
             event.preventDefault(); //stop the browser from following
-            window.location.href = 'http://10.1.17.25:8080/download/xls/' + selectedQueryRunId;
+            window.location.href = globalURL+'download/xls/' + selectedQueryRunId;
         });
         
          $("#downloadBtnPDF").click(function(event) {
             event.preventDefault(); //stop the browser from following
-            window.location.href = 'http://10.1.17.25:8080/download/pdf/' + selectedQueryRunId;
+            window.location.href = globalURL+'download/pdf/' + selectedQueryRunId;
         });
 
 
@@ -520,7 +522,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         $('#queryDataDeleteBtn').click(function(event) {
 
             $.ajax({
-                url: 'http://10.1.17.25:8080/query/' + selectedQueryForDelete.id,
+                url: globalURL+queryString+'/' + selectedQueryForDelete.id,
                 type: 'DELETE',
                 success: function(result) {
                     // Do something with the result
@@ -545,7 +547,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             var selectedQueryForExecute = queryData.row($(this).parents('tr')).data();
 
             $.ajax({
-                    url: 'http://10.1.17.25:8080/query/' + selectedQueryForExecute.id + "/exec",
+                    url: globalURL+queryString+'/' + selectedQueryForExecute.id + "/exec",
                     type: 'GET',
                     success: function(result) {
                         //$("#QueryUIList").hide();
@@ -629,7 +631,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             var queryTextValUpdated = $("#queryForm #query-text").val();
             //alert(selectedQueryId);
             $.ajax({
-                    url: "http://10.1.17.25:8080/query/",
+                    url: globalURL+queryString+"/",
                     type: "PUT",
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
@@ -680,7 +682,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             var databaseUpdateDriverVal = $("#databaseForm #database-driver").val();
             //alert(selectedQueryId);
             $.ajax({
-                    url: "http://10.1.17.25:8080/etl/databases/",
+                    url: globalURL+"/etl/databases/",
                     type: "PUT",
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
@@ -718,7 +720,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             //$('#databaseData').on('click', 'button.deleteBtn', function() {
             //var selectedDatabaseForDelete = databases.row($(this).parents('tr')).data();
             $.ajax({
-                url: 'http://10.1.17.25:8080/etl/databases/' + selectedDatabaseForDelete.id,
+                url: globalURL+'/etl/databases/' + selectedDatabaseForDelete.id,
                 type: 'DELETE',
                 success: function(result) {
                     // Do something with the result
@@ -762,7 +764,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     "paginate": true,
                     "retrieve": true,
                     "ajax": {
-                        "url": "http://10.1.17.25:8080/etl/databases/" + data.id + "/tables",
+                        "url": globalURL+"/etl/databases/" + data.id + "/tables",
                         "dataSrc": ""
                     },
                     "columns": [{
@@ -796,7 +798,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             $('#example12 tbody').on('click', 'button.sqoopBtn', function() {
                 var tableList = tables.row($(this).parents('tr')).data();
                 $.ajax({
-                    url: "http://10.1.17.25:8080/etl/databases/" + tableList.dbId + "/sync?table=" + tableList.tableName + "&hdfs=11",
+                    url: globalURL+"/etl/databases/" + tableList.dbId + "/sync?table=" + tableList.tableName + "&hdfs=11",
                     type: 'GET',
                     success: function(result) {
                         // Do something with the result
@@ -837,7 +839,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             var jobData = jobsData.row($(this).parents('tr')).data();
 
             $.ajax({
-                url: 'http://10.1.17.25:8080/etl/jobs/' + jobData.id + '/start',
+                url: globalURL+'/etl/jobs/' + jobData.id + '/start',
                 type: 'GET',
                 success: function(result) {
                     // Do something with the result
@@ -864,7 +866,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         $('#jobDataDeleteBtn').click(function(event) {
 
             $.ajax({
-                url: 'http://10.1.17.25:8080/etl/jobs/' + jobData.id + '/delete',
+                url: globalURL+'/etl/jobs/' + jobData.id + '/delete',
                 type: 'DELETE',
                 success: function(result) {
                     // Do something with the result

@@ -44,6 +44,27 @@
                 </li>
             </ul>
         </li>
+
+        <li id="dataManagement">
+            <a href="javascript:;">
+                <i class="icon-wrench"></i>
+                <span class="title">Profiling Management</span>
+                <span class="arrow "></span>
+            </a>
+            <ul class="sub-menu">
+                <li>
+                    <a href="#">
+                        <i class="icon-docs"></i> Report Management
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="icon-layers"></i> Dashboard Management
+                        <span class="arrow "></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
        
 
         <li class="start" id="configurationLink">
@@ -66,11 +87,11 @@
     var jimUserId = "user_audit@jim.my";
     
     if (currentUserName == jimUserId || currentUserName == mimosUserId) {
-        $("#configurationLink, #dataConslidation, #dashboard").hide();
+        $("#configurationLink, #dataConslidation, #dataManagement, #dashboard").hide();
     }else{
-        $("#configurationLink, #dataConslidation, #dashboard").show();
+        $("#configurationLink, #dataConslidation, #dataManagement, #dashboard").show();
     }
 
 });
-</script>
+</script> 
 
