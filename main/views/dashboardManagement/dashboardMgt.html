@@ -8,23 +8,24 @@
     <div class="col-md-12">
         <!-- END EXAMPLE TABLE PORTLET-->
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
-        <div class="portlet box red-intense" id="databaseList">
+        <div class="portlet box red-intense" id="dashboardList">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-globe"></i>Dashboard Management List
                 </div>
                 <div class="tools">
-                    <button class="btn btn-success btn-sm" data-toggle="modal" id="databaseAddBtn" data-target="#databaseAddForm"><i class="fa fa-plus"></i> Add</button>
+                    <button class="btn btn-success btn-sm" data-toggle="modal" id="dashboardAddBtn" data-target="#dashboardAddForm"><i class="fa fa-plus"></i> Add</button>
                 </div>
             </div>
             <div class="portlet-body">
-                <table id="databaseData" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                <table id="dashboardData" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th>DB Name</th>
-                            <th>DB type</th>
-                            <th>Username</th>
-                            <th>Created Date</th>
+                            <th>Title</th>
+                            <th>URL</th>
+                            <th>Ext</th>
+                            <th>Icon</th>
+                            <th>Theme</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -32,10 +33,11 @@
                 <tbody>
                     <tr ng-repeat="x in names">
                         <td class="hidden">{{ x.id }}</td>
-                        <td>{{ x.dbName }}</td>
-                        <td>{{ x.dbType }}</td>
-                        <td>{{ x.username }}</td>
-                        <td>{{ x.createdDate }}</td>
+                        <td>{{ x.title }}</td>
+                        <td>{{ x.url }}</td>
+                        <td>{{ x.ext }}</td>
+                        <td>{{ x.icon }}</td>
+                        <td>{{ x.color }}</td>
                     </tr>
                 </tbody>
             </div>
@@ -73,54 +75,50 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="databaseAddForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+<div class="modal fade" id="dashboardAddForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="databaseAddFormHeader">New message</h4>
+                <h4 class="modal-title" id="dashboardAddFormHeader">New message</h4>
             </div>
             <div class="modal-body">
-                <div class="alert alert-danger display-hide" id="databaseRequire">
+                <div class="alert alert-danger display-hide" id="dashboardRequire">
                     <button class="close" data-close="alert"></button>
                     <span></span>
                 </div>
-                <form id="databaseForm" name="databaseUIForm" autocomplete="off">
+                <form id="dashboardForm" name="dashboardUIForm" autocomplete="off">
                     <div class="form-group">
-                        <label for="database-name" class="control-label">Database Name:</label>
-                        <input type="text" class="form-control" id="database-name">
+                        <label for="dashboard-title" class="control-label">Dashboard Title:</label>
+                        <input type="text" class="form-control" id="dashboard-title">
                     </div>
                     <div class="form-group">
-                        <label for="database-type" class="control-label">Database Type:</label>
-                        <input type="text" class="form-control" id="database-type">
+                        <label for="dashboard-url" class="control-label">URL:</label>
+                        <input type="text" class="form-control" id="dashboard-url">
                     </div>
                     <div class="form-group">
-                        <label for="database-url" class="control-label">Database URL:</label>
-                        <input type="text" class="form-control" id="database-url">
+                        <label for="dashboard-ext" class="control-label">Ext:</label>
+                        <input type="text" class="form-control" id="dashboard-ext">
                     </div>
                     <div class="form-group">
-                        <label for="database-uname" class="control-label">Database username:</label>
-                        <input type="text" class="form-control" id="database-uname" autocomplete="off">
+                        <label for="dashboard-icon" class="control-label">Icon:</label>
+                        <input type="text" class="form-control" id="dashboard-icon">
                     </div>
                     <div class="form-group">
-                        <label for="database-pwd" class="control-label">Database password:</label>
-                        <input type="password" class="form-control" id="database-pwd">
-                    </div>
-                    <div class="form-group">
-                        <label for="database-driver" class="control-label">Database Driver:</label>
-                        <input type="text" class="form-control" id="database-driver">
+                        <label for="dashboard-theme" class="control-label">Theme:</label>
+                        <input type="text" class="form-control" id="dashboard-theme">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                <button type="button" id="databaseUISubmit" class="btn btn-success"><i class="fa fa-check"></i> Save</button>
-                <button type="button" id="databaseUIUpdate" class="btn btn-primary"><i class="fa fa-check"></i> Update</button>
+                <button type="button" id="dashboardUISubmit" class="btn btn-success"><i class="fa fa-check"></i> Save</button>
+                <button type="button" id="dashboardUIUpdate" class="btn btn-primary"><i class="fa fa-check"></i> Update</button>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="databaseDelete" tabindex="-1" role="dialog" aria-labelledby="databaseDelete">
+<div class="modal fade" id="dashboardDelete" tabindex="-1" role="dialog" aria-labelledby="dashboardDelete">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
@@ -128,12 +126,12 @@
             </div>
             <div class="modal-footer" style="text-align: center;">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
-                <button type="button" class="btn btn-success" id="databaseDataDeleteBtn"><i class="fa fa-check"></i> Yes</button>
+                <button type="button" class="btn btn-success" id="dashboardDataDeleteBtn"><i class="fa fa-check"></i> Yes</button>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="databaseDeleteErrorMsg" tabindex="-1" role="dialog" aria-labelledby="databaseDeleteErrorMsg">
+<div class="modal fade" id="dashboardDeleteErrorMsg" tabindex="-1" role="dialog" aria-labelledby="dashboardDeleteErrorMsg">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
@@ -149,11 +147,11 @@
 <!-- BEGIN MAIN JS -->
 <script>
 $(function() {
-    $("#databaseAddBtn").click(function(event) {
-        $("#databaseAddForm #databaseUISubmit").removeClass('hide');
-        $("#databaseAddForm #databaseUIUpdate").addClass('hide');
-        $("#databaseAddFormHeader").html("Add Database");
-        $("#databaseForm")[0].reset();
+    $("#dashboardAddBtn").click(function(event) {
+        $("#dashboardAddForm #dashboardUISubmit").removeClass('hide');
+        $("#dashboardAddForm #dashboardUIUpdate").addClass('hide');
+        $("#dashboardAddFormHeader").html("Add Dashboard");
+        $("#dashboardForm")[0].reset();
     });
 });
 //TableAdvanced.init();

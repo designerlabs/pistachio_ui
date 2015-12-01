@@ -3,89 +3,181 @@
 MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $http, $timeout) {
     $scope.$on('$viewContentLoaded', function() {   
 
-        $("#databaseList").show();
+        $("#dashboard").show();
         $("#tableList").hide();
 
         // initialize core components
         Metronic.initAjax();
 
 
-        var databases;
+        var dashboards;
 
 
-        function databaseDataFunc() {
-            databases = $('#databaseData').DataTable({
+        function dashboardDataFunc() {
+            dashboards = $('#dashboardData').DataTable({
 
                 "ajax": {
                     "processing": true,
                     "serverSide": true,
-                    "url": globalURL+"etl/databases",
+                    "url": globalURL+"pistachio/dashboard",
                     "dataSrc": ""
                 },
                 "columns": [{
-                        "data": "dbName"
+                        "data": "title"
                     }, {
-                        "data": "dbType"
+                        "data": "url"
                     }, {
-                        "data": "username"
+                        "data": "ext"
                     }, {
-                        "data": "createdDate",
+                        "data": "icon",
                         "width": "10%"
                     }, {
+                        "data": "color",
+                        "width": "bg-green"
+                    }, {
                         "data": "action",
-                        "width": "35%",
+                        "width": "25%",
                         "render": function(data, type, full, meta) {
-                            return '<button class="btn btn-success btn-sm tableView"><i class="fa fa-eye"></i> view</button><button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
+                            return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
                         }
                     }
                 ]
             });
         }
-        
-        formInputValidation("#databaseForm");
-        $("#databaseUISubmit").click(function(event) {
-            var databaseNameVal = $("#databaseForm #database-name").val();
-            var databaseTypeVal = $("#databaseForm #database-type").val();
-            var databaseURLVal = $("#databaseForm #database-url").val();
-            var databaseUserVal = $("#databaseForm #database-uname").val();
-            var databasePwdVal = $("#databaseForm #database-pwd").val();
-            var databaseDriverVal = $("#databaseForm #database-driver").val();
-            inputValidation("#databaseForm", databaseAjax);
 
-            function databaseAjax() {
+        formInputValidation("#dashboardForm");
+        $("#dashboardUISubmit").click(function(event) {
+            var dashboardTitleVal = $("#dashboardForm #dashboard-title").val();
+            var dashboardURLVal = $("#dashboardForm #dashboard-url").val();
+            var dashboardExtVal = $("#dashboardForm #dashboard-ext").val();
+            var dashboardIconVal = $("#dashboardForm #dashboard-icon").val();
+            var dashboardThemeVal = $("#dashboardForm #dashboard-theme").val();
+            inputValidation("#dashboardForm", dashboardAjax);
+
+            function dashboardAjax() {
                 $.ajax({
-                        url: globalURL+"etl/databases",
+                        url: globalURL+"pistachio/dashboard",
                         type: "POST",
                         dataType: 'json',
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify({
-                            dbName: databaseNameVal,
-                            dbType: databaseTypeVal,
-                            dbUrl: databaseURLVal,
-                            dbUsername: databaseUserVal,
-                            dbPassword: databasePwdVal,
-                            dbDriver: databaseDriverVal,
+                            title: dashboardTitleVal,
+                            url: dashboardURLVal,
+                            ext: dashboardExtVal,
+                            icon: dashboardIconVal,
+                            color: dashboardThemeVal,
                             active: "active",
                             username: "admin"
 
                         })
                     })
                     .done(function() {
-                        databases.destroy();
-                        databaseDataFunc();
-                        $("#databaseAddForm").modal('hide');
-                        $("#databaseRequire").hide();
+                        dashboards.destroy();
+                        dashboardDataFunc();
+                        $("#dashboardAddForm").modal('hide');
+                        $("#dashboardRequire").hide();
                     })
                     .fail(function(data) {
                         console.log(data.responseJSON.error);
-                        $("#databaseRequire span").html(data.responseJSON.error);
-                        $("#databaseRequire").show();
+                        $("#dashboardRequire span").html(data.responseJSON.error);
+                        $("#dashboardRequire").show();
                         //alert('Failed!');
                     });
             }
         });
 
-        databaseDataFunc();
+        dashboardDataFunc();
+
+
+        var selectedDashboardId = undefined;
+        $('#dashboardData').on('click', 'button.updateBtn', function() {
+            var selectedDashboard = dashboards.row($(this).parents('tr')).data();
+            selectedDashboardId = selectedDashboard.id;
+            $("#dashboardAddForm #dashboardUISubmit").addClass('hide');
+            $("#dashboardAddForm #dashboardUIUpdate").removeClass('hide');
+            $("#dashboardForm #dashboard-title").val(selectedDashboard.title);
+            $("#dashboardForm #dashboard-url").val(selectedDashboard.url);
+            $("#dashboardForm #dashboard-ext").val(selectedDashboard.ext);
+            $("#dashboardForm #dashboard-icon").val(selectedDashboard.icon);
+            $("#dashboardForm #dashboard-theme").val(selectedDashboard.color);
+            $("#dashboardAddFormHeader").html("Update Dashboard");
+            $("#dashboardAddForm").modal('show');
+        });
+
+
+
+        $("#dashboardUIUpdate").click(function(event) {
+
+            var dashboardUpdateTitleVal = $("#dashboardForm #dashboard-title").val();
+            var dashboardUpdateURLVal = $("#dashboardForm #dashboard-url").val();
+            var dashboardUpdateExtVal = $("#dashboardForm #dashboard-ext").val();
+            var dashboardUpdateIconVal = $("#dashboardForm #dashboard-icon").val();
+            var dashboardUpdateThemeVal = $("#dashboardForm #dashboard-theme").val();
+            //alert(selectedQueryId);
+            $.ajax({
+                    url: globalURL+"pistachio/dashboard",
+                    type: "PUT",
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        id: selectedDashboardId,
+                        title: dashboardUpdateTitleVal,
+                        url: dashboardUpdateURLVal,
+                        ext: dashboardUpdateExtVal,
+                        icon: dashboardUpdateIconVal,
+                        color: dashboardUpdateThemeVal,
+                        active: "active",
+                        username: "admin"
+                    })
+                })
+                .done(function(data) {
+                    dashboards.destroy();
+                    dashboardDataFunc();
+                    //selectedQueryId = null;
+                })
+                .fail(function() {
+                    alert('Failed!');
+                });
+        });
+
+
+
+        var selectedDashboardForDelete;
+        $('#dashboardData').on('click', 'button.deleteBtn', function() {
+            $("#dashboardDelete").modal('show');
+            selectedDashboardForDelete = dashboards.row($(this).parents('tr')).data();
+            console.log(selectedDashboardForDelete);
+            $("#dashboardDelete .modal-body h3").html('Are you sure do you want to<br>delete the dashboard <strong>' + selectedDashboardForDelete.title + '</strong>?');
+
+        });
+
+        $('#dashboardDataDeleteBtn').click(function(event) {
+            //$('#databaseData').on('click', 'button.deleteBtn', function() {
+            //var selectedDatabaseForDelete = databases.row($(this).parents('tr')).data();
+            $.ajax({
+                url: globalURL+'pistachio/dashboard/' + selectedDashboardForDelete.id,
+                type: 'DELETE',
+                success: function(result) {
+                    // Do something with the result
+                    dashboards.destroy();
+                    dashboardDataFunc();
+                    $("#dashboardDelete").modal('hide');
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    //alert("Status: " + textStatus);
+                    //alert("Error: " + errorThrown);
+                    //alert("request: " + XMLHttpRequest);
+                    if (errorThrown) {
+                        $("#errorTitle").html(XMLHttpRequest.responseJSON.error);
+                        $("#dashboardDeleteErrorMsg").modal('show');
+                        //console.log(XMLHttpRequest.responseJSON.error);
+                    }
+                    console.log(XMLHttpRequest);
+                    $("#dashboardDelete").modal('hide');
+                }
+            });
+
+        });
 
 
         var getUser = localStorage.getItem("username");
@@ -95,11 +187,9 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
        });
 
     	$scope.go = function(data){
-            
     		location.href=data;
             var categoryId = this.$$watchers[2].last;
             //$scope.message = sharedService.categoryId;
-          
     	};
         //console.log($scope);
 
