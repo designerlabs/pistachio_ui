@@ -1,8 +1,6 @@
 /* Setup general page controller */
 var tableFunc, jobsDataFunc, selectedQueryRunId, reportCategoryID = undefined;
-var globalURL = "http://10.1.17.25:8080/";
-var queryString = "query";
-var categoryName = "cat";
+
 
 //reportCategoryID =   $("#reportCategoryID").val();
 
@@ -26,53 +24,6 @@ function onResize1() {
 }
 
 
-//validation on keyup
-function formInputValidation(id) {
-    $(id + " input").keyup(function(event) {
-        if ($(this).val() != "") {
-            $(this).parent('.form-group').removeClass('has-error');
-        } else {
-            $(this).parent('.form-group').addClass('has-error');
-        }
-    });
-
-    $(id + " textarea").keyup(function(event) { 
-        if ($(this).val() != "") {
-            $(this).parent('.form-group').removeClass('has-error');
-        } else {
-            $(this).parent('.form-group').addClass('has-error');
-        }
-    });
-}
-
-//validation before ajax
-function inputValidation(id, callback) {
-    var errorStatus;
-    $.each($(id), function(index, val) {
-        totalCount = $(val).find("input").length;
-        totalCount += $(val).find("textarea").length;
-        totalCount = totalCount - 1;
-        $.each(val, function(index, val) {
-            if ($("#" + this.id).val() == "") {
-                $("#" + this.id).parent(".form-group").addClass("has-error");
-            } else {
-                if (index == totalCount) {
-                    errorStatus = $(id + " div").hasClass("form-group has-error");
-                    $("#" + this.id).parent(".form-group").removeClass("has-error");
-                    if (errorStatus == false) {
-                        console.log("matched");
-                        callback();
-                    } else {
-                        return false;
-                    }
-                } else {
-                    return;
-                }
-            }
-
-        });
-    });
-}
 
 
 /* GeneralPageController starts */

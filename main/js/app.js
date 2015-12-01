@@ -63,6 +63,67 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 }]);
 **/
 
+/* Global hosting details */
+var globalURL = "http://10.1.17.25:8080/";
+var queryString = "query";
+var categoryName = "cat";
+
+
+
+
+
+//validation on keyup
+function formInputValidation(id) {
+    $(id + " input").keyup(function(event) {
+        if ($(this).val() != "") {
+            $(this).parent('.form-group').removeClass('has-error');
+        } else {
+            $(this).parent('.form-group').addClass('has-error');
+        }
+    });
+
+    $(id + " textarea").keyup(function(event) {
+        if ($(this).val() != "") {
+            $(this).parent('.form-group').removeClass('has-error');
+        } else {
+            $(this).parent('.form-group').addClass('has-error');
+        }
+    });
+}
+
+
+
+//validation before ajax
+function inputValidation(id, callback) {
+    var errorStatus;
+    $.each($(id), function(index, val) {
+        totalCount = $(val).find("input").length;
+        totalCount += $(val).find("textarea").length;
+        totalCount = totalCount - 1;
+        $.each(val, function(index, val) {
+            if ($("#" + this.id).val() == "") {
+                $("#" + this.id).parent(".form-group").addClass("has-error");
+            } else {
+                if (index == totalCount) {
+                    errorStatus = $(id + " div").hasClass("form-group has-error");
+                    $("#" + this.id).parent(".form-group").removeClass("has-error");
+                    if (errorStatus == false) {
+                        console.log("matched");
+                        callback();
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return;
+                }
+            }
+
+        });
+    });
+}
+
+
+
 //AngularJS v1.3.x workaround for old style controller declarition in HTML
 MetronicApp.config(['$controllerProvider', function($controllerProvider) {
     // this option might be handy for migrating old apps, but please don't use it
@@ -75,10 +136,10 @@ MetronicApp.config(['$controllerProvider', function($controllerProvider) {
     var mimosUserId = "user_pass@mimos.my";
     var jimUserId = "user_audit@jim.my";
     console.log(currentUserName, mimosAdminId);
-    
-    if(currentUserName == mimosAdminId || currentUserName == jimAdminId || currentUserName == mimosUserId || currentUserName == jimUserId){
+
+    if (currentUserName == mimosAdminId || currentUserName == jimAdminId || currentUserName == mimosUserId || currentUserName == jimUserId) {
         console.log('true' + currentUserName);
-    }else{
+    } else {
         window.location = "login.html";
     }
 
@@ -167,7 +228,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
     //if (currentUserName == jimUserId || currentUserName == mimosUserId) {
     $urlRouterProvider.otherwise("/report2.html");
     //}else{
-      //  $urlRouterProvider.otherwise("/dashboard.html");
+    //  $urlRouterProvider.otherwise("/dashboard.html");
     //}
 
     $stateProvider
@@ -202,8 +263,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }]
         }
     })
-    
-        .state('report2', {
+
+    .state('report2', {
         url: "/report2.html",
         templateUrl: "views/report2.html",
         data: {
@@ -233,7 +294,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }]
         }
     })
-    
+
 
     // AngularJS plugins
     .state('fileupload', {
@@ -473,90 +534,90 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
 
     // Jobs
     .state('jobs', {
-        url: "/datatables/jobs.html",
-        templateUrl: "views/datatables/jobs.html",
-        data: {
-            pageTitle: 'Advanced Datatables'
-        },
-        controller: "GeneralPageController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load({
-                    name: 'MetronicApp',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                    files: [
-                        'assets/global/plugins/select2/select2.css',
-                        'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
-                        'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
-                        'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
+            url: "/datatables/jobs.html",
+            templateUrl: "views/datatables/jobs.html",
+            data: {
+                pageTitle: 'Advanced Datatables'
+            },
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            'assets/global/plugins/select2/select2.css',
+                            'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
+                            'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
+                            'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
 
-                        'assets/global/plugins/select2/select2.min.js',
-                        'assets/global/plugins/datatables/all.min.js',
-                        'js/scripts/table-advanced.js',
+                            'assets/global/plugins/select2/select2.min.js',
+                            'assets/global/plugins/datatables/all.min.js',
+                            'js/scripts/table-advanced.js',
 
-                        'js/controllers/GeneralPageController.js'
-                    ]
-                });
-            }]
-        }
-    })
-    // Query UI
-    .state('query', {
-        url: "/query.html",
-        templateUrl: "views/query.html",
-        data: {
-            pageTitle: 'Query UI'
-        },
-        controller: "GeneralPageController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load({
-                    name: 'MetronicApp',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                    files: [
-                        'assets/global/plugins/select2/select2.css',
-                        'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
-                        'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
-                        'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
+                            'js/controllers/GeneralPageController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+        // Query UI
+        .state('query', {
+            url: "/query.html",
+            templateUrl: "views/query.html",
+            data: {
+                pageTitle: 'Query UI'
+            },
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            'assets/global/plugins/select2/select2.css',
+                            'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
+                            'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
+                            'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
 
-                        'assets/global/plugins/select2/select2.min.js',
-                        'assets/global/plugins/datatables/all.min.js',
-                        'js/scripts/table-advanced.js',
+                            'assets/global/plugins/select2/select2.min.js',
+                            'assets/global/plugins/datatables/all.min.js',
+                            'js/scripts/table-advanced.js',
 
-                        'js/controllers/GeneralPageController.js'
-                    ]
-                });
-            }]
-        }
-    })
-    .state('report_masuk', {
-        url: "/reports/permit-masuk.html",
-        templateUrl: "views/reports/permit-masuk.html",
-        data: {
-            pageTitle: 'Permit Masuk'
-        },
-        controller: "GeneralPageController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load({
-                    name: 'MetronicApp',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                    files: [
-                        'assets/global/plugins/select2/select2.css',
-                        'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
-                        'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
-                        'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
+                            'js/controllers/GeneralPageController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+        .state('report_masuk', {
+            url: "/reports/permit-masuk.html",
+            templateUrl: "views/reports/permit-masuk.html",
+            data: {
+                pageTitle: 'Permit Masuk'
+            },
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            'assets/global/plugins/select2/select2.css',
+                            'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
+                            'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
+                            'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
 
-                        'assets/global/plugins/select2/select2.min.js',
-                        'assets/global/plugins/datatables/all.min.js',
-                        'js/scripts/table-advanced.js',
+                            'assets/global/plugins/select2/select2.min.js',
+                            'assets/global/plugins/datatables/all.min.js',
+                            'js/scripts/table-advanced.js',
 
-                        'js/controllers/GeneralPageController.js'
-                    ]
-                });
-            }]
-        }
-    })
+                            'js/controllers/GeneralPageController.js'
+                        ]
+                    });
+                }]
+            }
+        })
 
     .state('query?cat=paspelajar', {
         url: "/reports/pas-pelajar.html",
@@ -937,93 +998,93 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
     })
 
     .state('query?cat=reporting', {
-        url: "/reports/e-reporting.html",
-        templateUrl: "views/reports/e-reporting.html",
-        data: {
-            pageTitle: 'E-Reporting'
-        },
-        controller: "GeneralPageController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load({
-                    name: 'MetronicApp',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                    files: [
-                        'assets/global/plugins/select2/select2.css',
-                        'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
-                        'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
-                        'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
+            url: "/reports/e-reporting.html",
+            templateUrl: "views/reports/e-reporting.html",
+            data: {
+                pageTitle: 'E-Reporting'
+            },
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            'assets/global/plugins/select2/select2.css',
+                            'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
+                            'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
+                            'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
 
-                        'assets/global/plugins/select2/select2.min.js',
-                        'assets/global/plugins/datatables/all.min.js',
-                        'js/scripts/table-advanced.js',
+                            'assets/global/plugins/select2/select2.min.js',
+                            'assets/global/plugins/datatables/all.min.js',
+                            'js/scripts/table-advanced.js',
 
-                        'js/controllers/GeneralPageController.js'
-                    ]
-                });
-            }]
-        }
-    })
-    //Report 
+                            'js/controllers/GeneralPageController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+        //Report 
 
-     // Query UI
-    .state('reoirt', {
-        url: "/report.html",
-        templateUrl: "views/report.html",
-        data: {
-            pageTitle: 'Advanced Federated Reports'
-        },
-        controller: "GeneralPageController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load({
-                    name: 'MetronicApp',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                    files: [
-                        'assets/global/plugins/select2/select2.css',
-                        'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
-                        'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
-                        'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
-
-                        'assets/global/plugins/select2/select2.min.js',
-                        'assets/global/plugins/datatables/all.min.js',
-                        'js/scripts/table-advanced.js',
-
-                        'js/controllers/GeneralPageController.js'
-                    ]
-                });
-            }]
-        }
-    })
     // Query UI
-    .state('queryExe', {
-        url: "/queryExe.html",
-        templateUrl: "views/queryExe.html",
-        data: {
-            pageTitle: 'Query UI'
-        },
-        controller: "ReportCategoryController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load({
-                    name: 'MetronicApp',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                    files: [
-                        'assets/global/plugins/select2/select2.css',
-                        'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
-                        'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
-                        'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
+    .state('reoirt', {
+            url: "/report.html",
+            templateUrl: "views/report.html",
+            data: {
+                pageTitle: 'Advanced Federated Reports'
+            },
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            'assets/global/plugins/select2/select2.css',
+                            'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
+                            'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
+                            'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
 
-                        'assets/global/plugins/select2/select2.min.js',
-                        'assets/global/plugins/datatables/all.min.js',
-                        'js/scripts/table-advanced.js',
+                            'assets/global/plugins/select2/select2.min.js',
+                            'assets/global/plugins/datatables/all.min.js',
+                            'js/scripts/table-advanced.js',
 
-                        'js/controllers/ReportCategoryController.js'
-                    ]
-                });
-            }]
-        }
-    })
+                            'js/controllers/GeneralPageController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+        // Query UI
+        .state('queryExe', {
+            url: "/queryExe.html",
+            templateUrl: "views/queryExe.html",
+            data: {
+                pageTitle: 'Query UI'
+            },
+            controller: "ReportCategoryController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            'assets/global/plugins/select2/select2.css',
+                            'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
+                            'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
+                            'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
+
+                            'assets/global/plugins/select2/select2.min.js',
+                            'assets/global/plugins/datatables/all.min.js',
+                            'js/scripts/table-advanced.js',
+
+                            'js/controllers/ReportCategoryController.js'
+                        ]
+                    });
+                }]
+            }
+        })
 
     // Query UI
     .state('config', {
@@ -1144,39 +1205,38 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
-
-    //Dashboard Management script
+    //Dashboard Management
 
     .state('DashboardMgt', {
-            url: "/dashboardManagement/dashboardMgt.html",
-            templateUrl: "views/dashboardManagement/dashboardMgt.html",
-            data: {
-                pageTitle: 'Dashboard'
-            },
-            controller: "DashboardMgtController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
+        url: "/dashboardManagement/dashboardMgt.html",
+        templateUrl: "views/dashboardManagement/dashboardMgt.html",
+        data: {
+            pageTitle: 'Dashboard'
+        },
+        controller: "DashboardMgtController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                    files: [
 
-                            'assets/global/plugins/select2/select2.css',
-                            'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
-                            'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
-                            'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
+                        'assets/global/plugins/select2/select2.css',
+                        'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
+                        'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
+                        'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
 
-                            'assets/global/plugins/select2/select2.min.js',
-                            'assets/global/plugins/datatables/all.min.js',
-                            'js/scripts/table-advanced.js',
+                        'assets/global/plugins/select2/select2.min.js',
+                        'assets/global/plugins/datatables/all.min.js',
+                        'js/scripts/table-advanced.js',
 
-                            'js/controllers/DashboardMgtController.js'
+                        'js/controllers/DashboardMgtController.js'
 
-                        ]
-                    });
-                }]
-            }
-        })
+                    ]
+                });
+            }]
+        }
+    })
 
     // Todo
     .state('todo', {
