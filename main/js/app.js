@@ -1174,6 +1174,37 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
+// Report Management
+    .state("reportmanagement", {
+        url: "/reportmanagement/reportMgt.html",
+        templateUrl: "views/reportmanagement/reportMgt.html",
+        data: {
+            pageTitle: 'Report Management'
+        },
+        controller: "ReportMgtController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                    files: [
+                        //'assets/global/plugins/bootstrap-datepicker/css/datepicker3.css',
+                        'assets/global/plugins/select2/select2.css',
+                        //'assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                        'assets/global/plugins/select2/select2.min.js',
+                        'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
+                        'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
+                        'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
+                        'assets/global/plugins/datatables/all.min.js',
+                        'js/scripts/table-advanced.js',
+                        'js/controllers/ReportMgtController.js'
+
+                    ]
+                });
+            }]
+        }
+    })
+
 }]);
 
 /* Init global settings and run the app */

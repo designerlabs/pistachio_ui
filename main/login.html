@@ -66,7 +66,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- BEGIN LOGIN -->
 <div class="content">
 	<!-- BEGIN LOGIN FORM -->
-	<form class="login-form" action="index.html" method="post">
+	<form id="loginForm" class="login-form" action="index.html" method="post">
 		<h3 class="form-title">E-Reporting Jabatan Imigresen Malaysia</h3>
 		<div class="alert alert-danger display-hide" id="loginRequire">
 			<button class="close" data-close="alert"></button>
@@ -89,11 +89,15 @@ License: You must have a valid license purchased only from themeforest(the above
 			<input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password"/>
 		</div>
 		<div class="form-actions">
-			<button type="submit" class="btn btn-success uppercase">Login</button>
+		<!-- 	<button type="submit" class="btn btn-success uppercase">Login</button> -->
 			<label class="rememberme check">
 			<input type="checkbox" name="remember" value="1"/>Remember </label>
 			<a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>
 		</div>
+<div class="text-center" style="margin-bottom:5px;">
+<button type="submit" class="btn btn-block btn-success uppercase">Login</button>
+</div>
+
 	<!-- 	<div class="login-options">
 		<h4>Or login with</h4>
 		<ul class="social-icons">
@@ -117,6 +121,17 @@ License: You must have a valid license purchased only from themeforest(the above
 			</p>
 		</div>-->
 	</form>
+
+
+<form id="registerForm" style="display:none;">
+	
+	<input type="text" name="name">Name
+</form>
+
+
+<div class="text-center">
+<button id="registerBtn" class="btn btn-block btn-warning uppercase">Register</button>
+<div>
 	<!-- END LOGIN FORM -->
 	<!-- BEGIN FORGOT PASSWORD FORM  action="index.html" method="post"-->
 	<form class="forget-form">
@@ -460,6 +475,11 @@ Metronic.init(); // init metronic core components
 Layout.init(); // init current layout
 Login.init();
 Demo.init();
+});
+
+$("#registerBtn").click(function(){
+	$("#loginForm").hide('slow');
+	$("#registerForm").show('slow');
 });
 </script>
 <!-- END JAVASCRIPTS -->
