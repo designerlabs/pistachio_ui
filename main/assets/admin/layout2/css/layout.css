@@ -1802,7 +1802,7 @@ Page sidebar
   /* Default Sidebar Menu With Hoverable Submenu */
   .page-sidebar-menu.page-sidebar-menu-hover-submenu li .sub-menu {
     display: none;
-    width: 194px;
+    width: 220px;
     z-index: 2000;
     position: absolute;
     -webkit-border-radius: 4px;
