@@ -25,6 +25,13 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
           	//}	
           	
     	};
+
+
+    	$scope.goes = function(data){
+            
+ 
+          	
+    	};
         //console.log($scope);
 
     });
