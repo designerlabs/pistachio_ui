@@ -54,7 +54,7 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
             var reportMgtThemeVal = $("#reportMgtForm #reportMgt-theme").val();
             //var reportMgtIconVal = $("#reportMgtForm #reportMgt-icon").val();
             var reportMgtRoleVal = $("#reportMgtForm #reportMgt-role").val();
-            var reportMgtActivateVal = $("#reportMgtForm #reportMgt-activate").val();
+            var reportMgtActivateVal = $("#reportMgtForm #reportMgt-activated").val();
             inputValidation("#reportMgtForm", reportMgtAjax);
 
             function reportMgtAjax() {
@@ -90,40 +90,46 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
         //Update Record
         var selectedreportMgtId = undefined;
         $('#reportMgtdata').on('click', 'button.updateBtn', function() {
-            $("#reportMgtForm input").parent('.form-group').removeClass('has-error');
+            //$("#reportMgtForm input").parent('.form-group').removeClass('has-error');
             var selectedreportMgt = reportMgts.row($(this).parents('tr')).data();
             selectedreportMgtId = selectedreportMgt.id;
-            $("#reportMgtAddForm #reportMgtUIForm").addClass('hide');
+            //$("#reportMgtAddForm #reportMgtUIForm").addClass('hide');
+            $("#reportMgtAddForm #reportMgtUISubmit").addClass('hide');
             $("#reportMgtAddForm #reportMgtUIUpdate").removeClass('hide');
-            $("#reportMgtForm #reportMgt-title").val(selectedreportMgt.reportMgtTitle);
-            $("#reportMgtForm #reportMgt-category").val(selectedreportMgt.reportMgtCategory);
-            $("#reportMgtForm #reportMgt-theme").val(selectedreportMgt.reportMgtTheme);
+            $("#reportMgtForm #reportMgt-title").val(selectedreportMgt.queryCategoryName);
+            $("#reportMgtForm #reportMgt-category").val(selectedreportMgt.queryCategory);
+            $("#reportMgtForm #reportMgt-theme").val(selectedreportMgt.className);
+            $("#reportMgtForm #reportMgt-role").val(selectedreportMgt.role);
+            $("#reportMgtForm #reportMgt-activated").val(selectedreportMgt.activated);
+            $("#reportMgtAddFormHeader").html("Update Report");            
             $("#reportMgtAddForm").modal('show');
 
         });
 
         $("#reportMgtUIUpdate").click(function(event) {
-            var reportMgtNameVal = $("#reportMgtForm #reportMgt-name").val();
-            var reportMgtVal = $("#reportMgtForm #reportMgt-value").val();
-            var reportMgtApp = $("#reportMgtForm #reportMgt-application").val();
-            //alert(selectedQueryId);
+            var reportMgtTitleVal = $("#reportMgtForm #reportMgt-title").val();
+            var reportMgtCategoryVal = $("#reportMgtForm #reportMgt-category").val();
+            var reportMgtThemeVal = $("#reportMgtForm #reportMgt-theme").val();
+            var reportMgtRoleVal = $("#reportMgtForm #reportMgt-role").val();
+            var reportMgtActivatedVal = $("#reportMgtForm #reportMgt-activated").val();
             $.ajax({
-                    url: globalURL + "query/cato/",
+                    url: globalURL + "query/cato",
                     type: "PUT",
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
                     data: JSON.stringify({
                         id: selectedreportMgtId,
-                        reportMgtName: reportMgtNameVal,
-                        reportMgtValue: reportMgtVal,
-                        application: reportMgtApp
+                        queryCategoryName: reportMgtTitleVal,
+                        queryCategory: reportMgtCategoryVal,
+                        className: reportMgtThemeVal,
+                        role: reportMgtRoleVal,
+                        activated: reportMgtActivatedVal
                     })
                 })
                 .done(function(data) {
-                    reportMgturation.destroy();
-                    reportMgturationDataFunc();
-                    $("#reportMgtAddForm").modal('hide');
-                    //selectedQueryId = null;
+                	 reportMgts.destroy();
+                     reportMgtDataFunc();
+                      $("#reportMgtAddForm").modal('hide');
                 })
                 .fail(function() {
                     alert('Failed!');
@@ -145,7 +151,7 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
                 success: function(result) {
                     // Do something with the result
                     reportMgts.destroy();
-                    reportMgtsDataFunc();
+                    reportMgtDataFunc();
                     $("#reportMgtDelete").modal('hide');
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -165,14 +171,9 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
        });
 
     	$scope.go = function(data){
-            
     		location.href=data;
             var categoryId = this.$$watchers[2].last;
-            //$scope.message = sharedService.categoryId;
-          
     	};
-        //console.log($scope);
-
     });
 
     // set sidebar closed and body solid layout mode
