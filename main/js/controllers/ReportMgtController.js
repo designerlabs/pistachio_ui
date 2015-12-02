@@ -38,7 +38,7 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
                     	"data": "activated"
                     }, {
                         "data": "action",
-                        "width": "20%",
+                        "width": "25%",
                         "render": function(data, type, full, meta) {
                             return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
                         }
