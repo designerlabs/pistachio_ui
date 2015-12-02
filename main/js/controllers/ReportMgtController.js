@@ -140,7 +140,7 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
         $('#reportMgtdata').on('click', 'button.deleteBtn', function() {
             $("#reportMgtDelete").modal('show');
             selectedreportMgtForDelete = reportMgts.row($(this).parents('tr')).data();
-            $("#reportMgtDelete .modal-body h3").html('Are you sure do you want to<br>delete the reportMgt <strong>' + selectedreportMgtForDelete.id + '</strong> ?');
+            $("#reportMgtDelete .modal-body h3").html('Are you sure do you want to<br>delete the reportMgt <strong>' + selectedreportMgtForDelete.queryCategoryName + '</strong> ?');
         });
 
          $('#reportMgtDataDeleteBtn').click(function(event) {
