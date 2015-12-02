@@ -853,8 +853,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
     })
 
     .state('query?cat=visa', {
-        url: "/reports/visa-atase.html",
-        templateUrl: "views/reports/visa-atase.html",
+        url: "/reports/e-reporting.html",
+        //templateUrl: "views/reports/visa-atase.html",
+        templateUrl: "views/reports/e-reporting.html",
         data: {
             pageTitle: 'Visa Atase'
         },
@@ -882,8 +883,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
     })
 
     .state('query?cat=khas', {
-        url: "/reports/pas-khas.html",
-        templateUrl: "views/reports/pas-khas.html",
+        url: "/reports/e-reporting.html",
+        templateUrl: "views/reports/e-reporting.html",
+        //templateUrl: "views/reports/pas-khas.html",
         data: {
             pageTitle: 'Pas Khas'
         },
