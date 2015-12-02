@@ -6,34 +6,39 @@
     <div class="col-md-12">
         <!-- END EXAMPLE TABLE PORTLET-->
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
-        <div class="portlet box red-intense" id="databaseList">
+        <div class="portlet box red-intense" id="reportMgtList">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-globe"></i>Report Management List
                 </div>
                 <div class="tools">
-                    <button class="btn btn-success btn-sm" data-toggle="modal" id="databaseAddBtn" data-target="#databaseAddForm"><i class="fa fa-plus"></i> Add</button>
+                    <button class="btn btn-success btn-sm" data-toggle="modal" id="reportMgtAddBtn" data-target="#reportMgtAddForm"><i class="fa fa-plus"></i> Add</button>
                 </div>
             </div>
             <div class="portlet-body">
-                <table id="databaseData" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                <table id="reportMgtdata" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th>DB Name</th>
-                            <th>DB type</th>
-                            <th>Username</th>
-                            <th>Created Date</th>
+                            <th>ID</th>
+                            <th>Tiltle</th>
+                            <th>Category</th>
+                            <th>Theme</th>
+                            <th>Icon</th>
+                            <th>Role</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                 </table>
                 <tbody>
                     <tr ng-repeat="x in names">
-                        <td class="hidden">{{ x.id }}</td>
-                        <td>{{ x.dbName }}</td>
-                        <td>{{ x.dbType }}</td>
-                        <td>{{ x.username }}</td>
-                        <td>{{ x.createdDate }}</td>
+                        <td>{{ x.id }}</td>
+                        <td>{{ x.queryCategoryName }}</td>
+                        <td>{{ x.queryCategory }}</td>
+                        <td>{{ x.className }}</td>                        
+                        <td>{{ x.role }}</td>
+                        <td>{{ x.activated }}</td>
+                        <td>{{ x.role }}</td>
                     </tr>
                 </tbody>
             </div>
@@ -71,54 +76,54 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="databaseAddForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+<div class="modal fade" id="reportMgtAddForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="databaseAddFormHeader">New message</h4>
+                <h4 class="modal-title" id="reportMgtAddFormHeader">New message</h4>
             </div>
             <div class="modal-body">
-                <div class="alert alert-danger display-hide" id="databaseRequire">
+                <div class="alert alert-danger display-hide" id="reportMgtRequire">
                     <button class="close" data-close="alert"></button>
                     <span></span>
                 </div>
-                <form id="databaseForm" name="databaseUIForm" autocomplete="off">
+                <form id="reportMgtForm" name="reportMgtUIForm" autocomplete="off">
                     <div class="form-group">
-                        <label for="database-name" class="control-label">Database Name:</label>
-                        <input type="text" class="form-control" id="database-name">
+                        <label for="reportMgt-title" class="control-label">Title:</label>
+                        <input type="text" class="form-control" id="reportMgt-title">
                     </div>
                     <div class="form-group">
-                        <label for="database-type" class="control-label">Database Type:</label>
-                        <input type="text" class="form-control" id="database-type">
+                        <label for="reportMgt-category" class="control-label">Category:</label>
+                        <input type="text" class="form-control" id="reportMgt-category">
                     </div>
                     <div class="form-group">
-                        <label for="database-url" class="control-label">Database URL:</label>
-                        <input type="text" class="form-control" id="database-url">
+                        <label for="reportMgt-theme" class="control-label">Theme:</label>
+                        <input type="text" class="form-control" id="reportMgt-theme">
                     </div>
                     <div class="form-group">
-                        <label for="database-uname" class="control-label">Database username:</label>
-                        <input type="text" class="form-control" id="database-uname" autocomplete="off">
+                        <label for="reportMgt-icon" class="control-label">Icon:</label>
+                        <input type="text" class="form-control" id="reportMgt-icon" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label for="database-pwd" class="control-label">Database password:</label>
-                        <input type="password" class="form-control" id="database-pwd">
+                        <label for="reportMgt-role" class="control-label">Role:</label>
+                        <input type="text" class="form-control" id="reportMgt-role">
                     </div>
                     <div class="form-group">
-                        <label for="database-driver" class="control-label">Database Driver:</label>
-                        <input type="text" class="form-control" id="database-driver">
+                        <label for="reportMgt-activate" class="control-label">Activate:</label>
+                        <input type="text" class="form-control" id="reportMgt-activate">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                <button type="button" id="databaseUISubmit" class="btn btn-success"><i class="fa fa-check"></i> Save</button>
-                <button type="button" id="databaseUIUpdate" class="btn btn-primary"><i class="fa fa-check"></i> Update</button>
+                <button type="button" id="reportMgtUISubmit" class="btn btn-success"><i class="fa fa-check"></i> Save</button>
+                <button type="button" id="reportMgtUIUpdate" class="btn btn-primary"><i class="fa fa-check"></i> Update</button>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="databaseDelete" tabindex="-1" role="dialog" aria-labelledby="databaseDelete">
+<div class="modal fade" id="reportMgtDelete" tabindex="-1" role="dialog" aria-labelledby="reportMgtDelete">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
@@ -126,16 +131,16 @@
             </div>
             <div class="modal-footer" style="text-align: center;">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
-                <button type="button" class="btn btn-success" id="databaseDataDeleteBtn"><i class="fa fa-check"></i> Yes</button>
+                <button type="button" class="btn btn-success" id="reportMgtDataDeleteBtn"><i class="fa fa-check"></i> Yes</button>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="databaseDeleteErrorMsg" tabindex="-1" role="dialog" aria-labelledby="databaseDeleteErrorMsg">
+<div class="modal fade" id="reportMgtDeleteErrorMsg" tabindex="-1" role="dialog" aria-labelledby="reportMgtDeleteErrorMsg">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <h3 class="text-danger text-center" id="errorTitle"></h3>
+                <h3 class="text-danger text-center" id="errorTitle">Are you sure you want to delete this record?</h3>
             </div>
             <div class="modal-footer" style="text-align: center;">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
@@ -147,12 +152,22 @@
 <!-- BEGIN MAIN JS -->
 <script>
 $(function() {
-    $("#databaseAddBtn").click(function(event) {
-        $("#databaseAddForm #databaseUISubmit").removeClass('hide');
-        $("#databaseAddForm #databaseUIUpdate").addClass('hide');
-        $("#databaseAddFormHeader").html("Add Database");
-        $("#databaseForm")[0].reset();
+    $("#reportMgtAddBtn").click(function(event) {
+        $("#reportMgtAddForm #reportMgtUISubmit").removeClass('hide');
+        $("#reportMgtAddForm #reportMgtUIUpdate").addClass('hide');
+        $("#reportMgtAddFormHeader").html("Add Report"); //Change
+        $("#reportMgtForm")[0].reset();
     });
+     $("#reportMgtForm #reportMgt-type").keyup(function(event) {
+     	alert("hi");
+     	//debugger;	
+     	if(this.value.length > 0 && this.value.match(/[A-Z]/g) !== null && this.value.match(/[A-Z]/g).length > 0){
+     		alert("No Uppercase");
+     	}
+     	/*if($("#databaseForm #database-type").val().toUpperCase() == true){
+     		$("#databaseForm #database-type").addClass("has-error");
+     	}*/
+     });
 });
 //TableAdvanced.init();
 
