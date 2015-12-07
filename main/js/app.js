@@ -129,27 +129,25 @@ MetronicApp.config(['$controllerProvider', function($controllerProvider) {
     // this option might be handy for migrating old apps, but please don't use it
     // in new ones!
     $controllerProvider.allowGlobals();
+        
 
     var currentUserName = localStorage.getItem("username");
-    var mimosAdminId = "admin@mimos.my";
-    var jimAdminId = "admin@jim.my";
-    var mimosUserId = "user_pass@mimos.my";
-    var jimUserId = "user_audit@jim.my";
-    console.log(currentUserName, mimosAdminId);
+    var currentToken = localStorage.getItem("token");
 
-    if (currentUserName == mimosAdminId || currentUserName == jimAdminId || currentUserName == mimosUserId || currentUserName == jimUserId) {
-        console.log('true' + currentUserName);
+
+    if (currentToken) {
+        console.log('true ' + currentToken);
     } else {
         window.location = "login.html";
     }
 
 
     //return false;
-    /*if((currentUserName == undefined )|| (currentUserName !== mimosId) || (currentUserName != jimId)){
+    if((currentToken == undefined )){
         window.location = "login.html";    
     }else{
         return true;
-    }*/
+    }
 
 }]);
 

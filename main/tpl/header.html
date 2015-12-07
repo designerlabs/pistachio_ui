@@ -176,22 +176,16 @@
 <!-- END HEADER INNER -->
 <script>
 $("#logoutBtn").click(function(event) {
-    localStorage.removeItem("username");
+    localStorage.removeItem("token");
     window.location = "login.html";
 });
 
 $(function() {
-    var currentUserName = localStorage.getItem("username");
-    var mimosAdminId = "admin@mimos.my";
-    var jimAdminId = "admin@jim.my";
-    var mimosUserId = "user_pass@mimos.my";
-    var jimUserId = "user_audit@jim.my";
+    var currentToken = localStorage.getItem("token");
+  
     
-    if (currentUserName == mimosAdminId || currentUserName == mimosUserId) {
+    if (currentToken) {
         $(".img-circle").attr('src', 'assets/admin/layout2/img/mimos_logo_small.png');
-        $("span.username").html(currentUserName);
-    } else if (currentUserName == jimUserId || currentUserName == jimAdminId) {
-        $(".img-circle").attr('src', 'assets/admin/layout2/img/jim_logo_small.png');
         $("span.username").html(currentUserName);
     }
 

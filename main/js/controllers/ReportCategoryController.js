@@ -5,8 +5,8 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
 
         // initialize core components
         Metronic.initAjax();
-        var getUser = localStorage.getItem("username");
-    	$http.get("http://10.1.17.25:8080/role/report?user="+getUser)
+        var getUser = localStorage.getItem("token");
+    	$http.get("http://10.1.17.25:8080/auth/token?token="+getUser)
     	.success(function(response) {
     		$scope.names = response;
        });
