@@ -123,13 +123,12 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
         //Update Record
         var selectedreportMgtId = undefined;
         $('#reportMgtdata').on('click', 'button.updateBtn', function() {
-        	$('#reportMgt-paren').removeClass('hide');
+        	//$('#reportMgt-paren').removeClass('hide');
         	$('#chkExistingParent').prop('checked', true); 
         	$('#chkExistingParent').parent().addClass('checked');
         	$('#reportMgt-parent').removeClass('hide');
             $('#inpParent').addClass('hide');            
-            $('#inpHiddenParent').val($('#reportMgt-parent').val()); 
-
+            
         	var selectedreportMgt = reportMgts.row($(this).parents('tr')).data();
             selectedreportMgtId = selectedreportMgt.id;
             $("#reportMgtAddForm #reportMgtUISubmit").addClass('hide');
@@ -143,7 +142,8 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
             $("#reportMgtForm #reportMgt-icon").val(selectedreportMgt.icon);
             $("#reportMgtAddFormHeader").html("Update Report");            
             $("#reportMgtAddForm").modal('show');
-
+            $('#inpHiddenParent').val($('#reportMgt-parent').val()); 
+            $('#inpHiddenParentName').val($('#reportMgt-parent option:selected').text());
         });
 
         $("#reportMgtUIUpdate").click(function(event) {

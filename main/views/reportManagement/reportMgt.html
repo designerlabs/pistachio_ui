@@ -226,10 +226,10 @@ $(function() {
 
      $("#chkExistingParent").change(function() {
         if(this.checked) {
-            $('#reportMgt-parent').removeClass('hide');
-            $('#inpParent').addClass('hide');            
-            $('#reportMgt-parent').val("");
-            $('#reportMgt-parent').val('Please select');
+            $('#reportMgt-parent').removeClass('hide'); //Parent Dropdown show
+            $('#inpParent').addClass('hide'); //Parent Input ele hide           
+            $('#reportMgt-parent option:selected').text()
+
         }else{
           $('#inpParent').val("");
           $('#reportMgt-parent').addClass('hide');
