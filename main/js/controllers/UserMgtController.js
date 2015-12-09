@@ -38,7 +38,7 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
                         "data": "activated",
                         "render": function(data, type, full, meta) {
                             if(data == true){
-                            return '<button class="btn btn-primary btn-sm actBtn"><i class="fa fa-check"></i> Activated</button>';
+                            return '<button class="btn btn-success btn-sm actBtn"><i class="fa fa-check"></i> Activated</button>';
                             }else{
                             return '<button class="btn btn-danger btn-sm dActBtn"><i class="fa fa-close"></i> Deactivated</button>';
                             }
