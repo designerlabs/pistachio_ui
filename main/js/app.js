@@ -223,9 +223,9 @@ MetronicApp.controller('SidebarController', ['$scope','$http', function($scope, 
 
         console.log(authoritiesArray);
 
-
+        var flag=true;
         $scope.goes = function(data){
-
+            
             
             localStorage.setItem('sideMenuValue', data);
             $.ajax({
@@ -236,8 +236,13 @@ MetronicApp.controller('SidebarController', ['$scope','$http', function($scope, 
                 $scope.names = data;
                 console.log(data);
                 console.log("success");
-                location.reload();
-                location.href="#/report2.html";
+                if(flag){
+                    flag=false;
+                    location.href="#/report2.html";
+                }else{
+                 flag=true;
+                 location.href="#/report3.html";
+                 }
             })
             .fail(function() {
                 console.log("error");
@@ -347,6 +352,37 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
     .state('report2', {
         url: "/report2.html",
         templateUrl: "views/report2.html",
+        data: {
+            pageTitle: 'Reports'
+        },
+        controller: "ReportCategoryController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/global/plugins/morris/morris.css',
+                        'assets/admin/pages/css/tasks.css',
+
+                        'assets/global/plugins/morris/morris.min.js',
+                        'assets/global/plugins/morris/raphael-min.js',
+                        'assets/global/plugins/jquery.sparkline.min.js',
+
+                        'assets/admin/pages/scripts/index.js',
+                        'assets/admin/pages/scripts/tasks.js',
+
+                        'js/controllers/ReportCategoryController.js'
+                    ]
+                });
+
+            }]
+        }
+    })
+
+    .state('report3', {
+        url: "/report3.html",
+        templateUrl: "views/report3.html",
         data: {
             pageTitle: 'Reports'
         },
