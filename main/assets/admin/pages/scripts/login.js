@@ -1,4 +1,4 @@
-var globalURL = "http://10.1.17.25:8080/";
+var globalURL = "http://pistachio_server:8080/";
 var queryString = "query";
 var categoryName = "cat";
 
@@ -58,7 +58,7 @@ var Login = function() {
                 var passwordValue = $('.login-form input[name=password]').val();
                 var token = undefined;
                 $.ajax({
-                    url: 'http://10.1.17.25:8080/auth/login',
+                    url: 'http://pistachio_server:8080/auth/login',
                     type: 'GET',
                     data: {login: usernameValue, password: passwordValue},
                 }).done(function(data) {
@@ -304,7 +304,7 @@ var Login = function() {
 
                 
                 $.ajax({
-                    url: 'http://10.1.17.25:8080/user',
+                    url: 'http://pistachio_server:8080/user',
                     contentType: "application/json",
                     type: 'POST',
                     dataType: "json",

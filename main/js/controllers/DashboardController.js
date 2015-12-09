@@ -6,7 +6,7 @@ MetronicApp.controller('DashboardController', function($rootScope, $scope, $http
         // initialize core components
         Metronic.initAjax();
         var getUser = localStorage.getItem("username");
-    	$http.get("http://10.1.17.25:8080/role/report?user="+getUser)
+    	$http.get("http://pistachio_server:8080/role/report?user="+getUser)
     	.success(function(response) {
     		$scope.names = response;
        });

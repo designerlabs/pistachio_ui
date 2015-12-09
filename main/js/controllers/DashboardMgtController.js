@@ -181,7 +181,7 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
 
 
         var getUser = localStorage.getItem("username");
-    	$http.get("http://10.1.17.25:8080/role/report?user="+getUser)
+    	$http.get("http://pistachio_server:8080/role/report?user="+getUser)
     	.success(function(response) {
     		$scope.names = response;
        });

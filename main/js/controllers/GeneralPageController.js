@@ -841,7 +841,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     var jobData = jobsData.row($(this).parents('tr')).data();
                     //alert(jobData.id);
                     $.ajax({
-                        url: 'http://10.1.17.25:8080/etl/jobs/' + jobData.id + '/delete',
+                        url: 'http://pistachio_server:8080/etl/jobs/' + jobData.id + '/delete',
                         type: 'DELETE',
                         success: function(result) {
                             // Do something with the result
