@@ -19,8 +19,9 @@
                 <table id="reportMgtdata" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                          <!--   <th>ID</th> -->
                             <th>Title</th>
+                            <th>Parent</th>
                             <th>Category</th>
                             <th>Theme</th>
                             <th>Icon</th>
@@ -32,13 +33,14 @@
                 </table>
                 <tbody>
                     <tr ng-repeat="x in names">
-                        <td>{{ x.id }}</td>
+                        <td class="hidden">{{ x.id }}</td>
                         <td>{{ x.queryCategoryName }}</td>
+                        <td>{{ x.parent }}</td>
                         <td>{{ x.queryCategory }}</td>
-                        <td>{{ x.className }}</td>                        
+                        <td>{{ x.className }}</td>  
+                        <td>{{ x.icon }}</td>                       
                         <td>{{ x.role }}</td>
-                        <td>{{ x.activated }}</td>
-                        <td>{{ x.role }}</td>
+                        <td>{{ x.activated }}</td>                       
                     </tr>
                 </tbody>
             </div>
@@ -94,24 +96,76 @@
                         <input type="text" class="form-control" id="reportMgt-title">
                     </div>
                     <div class="form-group">
-                        <label for="reportMgt-category" class="control-label">Category:</label>
-                        <input type="text" class="form-control" id="reportMgt-category">
+                        <label for="reportMgt-parent" class="control-label">Parent:</label>
+                            <div class="form-control input-group">
+                              <span class="input-group-addon">
+                                <label><input id="chkExistingParent" type="checkbox"> Show Existing parent</label> 
+                              </span>
+                              <input type="text" id="inpParent" class="form-control" placeholder="New Parent">
+                                <!-- <input type="hidden" id="reportMgt-parent" class="form-control hide" /> -->
+                              <select id="reportMgt-parent" class="form-control hide">
+                                 <option value="" selected="selected">Select Parent</option>
+                              </select>
+                              <input id="inpHiddenParent" type="hidden">
+                              <input id="inpHiddenParentName" type="hidden">
+
+                            </div>
+                                               
                     </div>
                     <div class="form-group">
-                        <label for="reportMgt-theme" class="control-label">Theme:</label>
-                        <input type="text" class="form-control" id="reportMgt-theme">
+                        <label for="reportMgt-category" class="control-label">Category:</label>
+                        <input type="text" class="form-control" id="reportMgt-category" readonly="true"> 
+                    </div>
+                    <div class="form-group">
+                        <label for="reportMgt-theme" class="control-label">Theme:</label>   
+                        <select id="reportMgt-theme" class="defaultSelect2 form-control">
+                          <option value="">Please select</option>
+                          <option value="bg-blue">bg-blue</option>
+                          <option value="bg-red">bg-red</option>
+                          <option value="bg-green">bg-green</option>
+                        </select>                   
+                        
                     </div>
                     <div class="form-group">
                         <label for="reportMgt-icon" class="control-label">Icon:</label>
-                        <input type="text" class="form-control" id="reportMgt-icon">
+                        <!-- <input type="text" class="form-control" id="reportMgt-icon"> -->
+                        <select id="reportMgt-icon" class="defaultSelect2 form-control">
+                          <option value="">Please select</option>
+                          <option value="Ad hoc-01">Ad hoc-01</option>
+                          <option value="Depoh-01">Depoh-01</option>
+                          <option value="MM2H-01">MM2H-01</option>
+                          <option value="Pas Khas 2-01">Pas Khas 2-01</option>
+                          <option value="Pas Tangungan-01">Pas Tangungan-01</option>
+                          <option value="Pas pelajar-01">Pas pelajar-01</option>
+                          <option value="Pas pengecualian-01">Pas pengecualian-01</option>
+                          <option value="Permit Masuk-01">Permit Masuk-01</option>
+                          <option value="Visa-01">Visa-01</option>
+                          <option value="Visa Atase-01">Visa Atase-01</option>
+                          <option value="ereport">ereport</option>
+                          <option value="kerja">kerja</option>
+                          <option value="pkls">pkls</option>
+                          <option value="plik">plik</option>
+                          <option value="pls">pls</option>
+                          <option value="tanggungan">tanggungan</option>
+                        </select> 
                     </div>
                     <div class="form-group">
                         <label for="reportMgt-role" class="control-label">Role:</label>
-                        <input type="text" class="form-control" id="reportMgt-role">
+                      <select id="reportMgt-role" class="defaultSelect2 form-control">
+                          <option value="">Please select</option>
+                          <option value="VISA_PASS">VISA_PASS</option>
+                          <option value="AUDIT_PASS">AUDIT_PASS</option>   
+                           <option value="ROLE_USER">ROLE_USER</option>                        
+                        </select>  
+                        
                     </div>
                     <div class="form-group">
                         <label for="reportMgt-activated" class="control-label">Activate:</label>
-                        <input type="text" class="form-control" id="reportMgt-activated">
+                         <select id="reportMgt-activated" class="defaultSelect2 form-control">
+                          <option value="">Please select</option>
+                          <option value="true">true</option>
+                          <option value="false">false</option>                                                   
+                        </select>                         
                     </div>
                 </form>
             </div>
@@ -157,19 +211,55 @@ $(function() {
         $("#reportMgtAddForm #reportMgtUIUpdate").addClass('hide');
         $("#reportMgtAddFormHeader").html("Add Report"); //Change
         $("#reportMgtForm")[0].reset();
+        $('#chkExistingParent').prop('checked', false); //Reset parent chkbox controls
+        $('#chkExistingParent').parent().removeClass('checked');
+        $('#reportMgt-parent').addClass('hide');
+        $('#inpParent').removeClass('hide');            
+        //$('#inpHiddenParent').val($('#inpParent').val()); 
+        //$('#inpHiddenParentName').val($('#inpParent').val());  
     });
-     $("#reportMgtForm #reportMgt-type").keyup(function(event) {
-     	alert("hi");
-     	//debugger;	
-     	if(this.value.length > 0 && this.value.match(/[A-Z]/g) !== null && this.value.match(/[A-Z]/g).length > 0){
-     		alert("No Uppercase");
-     	}
-     	/*if($("#databaseForm #database-type").val().toUpperCase() == true){
-     		$("#databaseForm #database-type").addClass("has-error");
-     	}*/
+    
+      $("#reportMgtForm #reportMgt-title").keyup(function(event) {
+        var catval = $('#reportMgt-title').val().replace(/ /g,'').toLowerCase();
+        $('#reportMgt-category').val(catval);
+      });   
+
+     $("#chkExistingParent").change(function() {
+        if(this.checked) {
+            $('#reportMgt-parent').removeClass('hide');
+            $('#inpParent').addClass('hide');            
+            $('#reportMgt-parent').val("");
+            $('#reportMgt-parent').val('Please select');
+        }else{
+          $('#inpParent').val("");
+          $('#reportMgt-parent').addClass('hide');
+          $('#inpParent').removeClass('hide');   
+        }
+    });
+
+     $('#reportMgt-parent').on('change',function(){       
+        $('#inpHiddenParent').val($('#reportMgt-parent').val()); //value
+        $('#inpHiddenParentName').val($('#reportMgt-parent option:selected').text()); //display name
      });
+
+     $('#inpParent').on('keyup',function(){
+        $('#inpHiddenParentName').val($('#inpParent').val()); // display name
+        $('#inpHiddenParent').val($('#inpParent').val().replace(/ /g,'').toLowerCase()); //value
+     });
+
+        // function getInpParent(){
+        //     debugger;
+        //          var x = document.getElementById("inpParent").value;
+        //        $('#inpHiddenParent').val(x);
+        //        $('#inpHiddenParentName').val(x.replace(/ /g,'').toLowerCase());
+        // }
+    
 });
-//TableAdvanced.init();
+
+$(document).ready(function() {
+  //$(".defaultSelect2").select2();
+  
+});
 
 $("#loader").hide();
 
