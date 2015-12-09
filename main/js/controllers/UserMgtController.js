@@ -22,9 +22,11 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
                     "url": globalURL + "user",
                     "dataSrc": ""
                 },
-                "columns": [{
-                		"data": "id"
-                    },{
+                "columns": [
+                  //   {
+                		// "data": "id"
+                  //   },
+                    {
                         "data": "login"
                     }, {
                         "data": "firstName"
@@ -33,7 +35,14 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
                     }, {
                         "data": "email"
                     },{
-                        "data": "activated"                        
+                        "data": "activated",
+                        "render": function(data, type, full, meta) {
+                            if(data == true){
+                            return '<button class="btn btn-primary btn-sm actBtn"><i class="fa fa-check"></i> Activated</button>';
+                            }else{
+                            return '<button class="btn btn-danger btn-sm dActBtn"><i class="fa fa-close"></i> Deactivated</button>';
+                            }
+                        }                        
                     }, {
                     	"data": "department"
                     }, {
@@ -106,6 +115,36 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
 
         });
 
+
+        //To De Activate the user
+        var selecteduserMgtActId = undefined;
+        var selecteduserMgtDActId = undefined;
+        var getActivate = undefined;
+        $('#userMgtdata').on('click', 'button.actBtn', function() {
+            //$("#userMgtForm input").parent('.form-group').removeClass('has-error');
+            var selecteduserMgt = userMgts.row($(this).parents('tr')).data();
+            selecteduserMgtActId = selecteduserMgt.id;
+            getActivate = selecteduserMgt.activated;
+             $.get( globalURL+"user/"+selecteduserMgtActId+"?activate=false", function( data ) {
+                userMgts.destroy();
+                userMgtDataFunc();
+            });
+        });
+
+        //To Activate the user
+        $('#userMgtdata').on('click', 'button.dActBtn', function() {
+            //$("#userMgtForm input").parent('.form-group').removeClass('has-error');
+            var selecteduserMgt = userMgts.row($(this).parents('tr')).data();
+            selecteduserMgtDActId = selecteduserMgt.id;
+            getActivate = selecteduserMgt.activated;
+            $.get(globalURL+"user/"+selecteduserMgtDActId+"?activate=true", function( data ) {
+                userMgts.destroy();
+                userMgtDataFunc();
+            });
+
+
+        });
+
         $("#userMgtUIUpdate").click(function(event) {
             var userMgtTitleVal = $("#userMgtForm #userMgt-title").val();
             var userMgtCategoryVal = $("#userMgtForm #userMgt-category").val();
@@ -162,7 +201,6 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
             });
 
         });
-
 
         var getUser = localStorage.getItem("username");
     	$http.get("http://pistachio_server:8080/user?user="+getUser)
