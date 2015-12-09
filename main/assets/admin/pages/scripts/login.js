@@ -1,3 +1,8 @@
+var globalURL = "http://10.1.17.25:8080/";
+var queryString = "query";
+var categoryName = "cat";
+
+
 var Login = function() {
 
     var handleLogin = function() {
@@ -59,11 +64,49 @@ var Login = function() {
                 }).done(function(data) {
                     console.log("success");
                     token = data.value;
-                    localStorage.setItem("username", usernameValue);
-                    localStorage.setItem("token", token);
+                    
+
+                        localStorage.setItem("username", usernameValue);
+                        localStorage.setItem("token", token);
+
+                        //var getToken = localStorage.getItem("token");
+                        var authoritiesArray = [];
+                        $.ajax({
+                            url: globalURL+'auth/token?token='+token,
+                            type: 'GET',
+                        })
+                        .done(function(data) {
+                            var displayNames = data.reports;
+                            console.log(data.reports);
+                            authoritiesValue = data.user.authorities;
+                            console.log(authoritiesValue);
+                            //localStorage.setItem("authorities",authorities);
+
+                            for(var i=0; i<authoritiesValue.length;i++){
+                                console.log(authoritiesValue[i].name);
+                                authoritiesArray.push(authoritiesValue[i].name);
+                                //alert(authorities[i].name);
+                                //return true;
+                            }
+
+                            localStorage.setItem("authorities",authoritiesArray);
+                           
+                            form.submit();
+                            console.log("success");
+                        })
+                        .fail(function() {
+                            console.log("error");
+                        })
+                        .always(function() {
+                            console.log("complete");
+                        });    
+
+
+                    console.log(authoritiesArray);
+                    //console.log(data);
                     //console.log(data);
                     //return false;
-                     form.submit();
+                    
                 })
                 .fail(function(data) {
                     console.log("error");

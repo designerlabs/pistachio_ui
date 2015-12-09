@@ -6,26 +6,7 @@
     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
     <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-    <ul class="page-sidebar-menu page-sidebar-menu-hover-submenu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" ng-class="{'page-sidebar-menu-closed': settings.layout.pageSidebarClosed}">
-
-        <li class="start" id="afpr">
-            
-            <a href="#/report2.html">
-                <i class="icon-speech"></i>
-                <span class="title">eReporting</span>
-                <span class="arrow "></span>
-            </a>
-            <ul class="sub-menu">
-                <li>
-                    <a href="#/reportManagement/reportMgt.html">
-                        <i class="icon-docs"></i> Visa Pass
-                    </a>
-                </li>
-
-            </ul>
-             
-        </li>
-
+    <ul class="page-sidebar-menu page-sidebar-menu-hover-submenu" id="sidebarMenu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" ng-class="{'page-sidebar-menu-closed': settings.layout.pageSidebarClosed}">
         
 
         <li class="start" id="dashboard">
@@ -34,9 +15,31 @@
                 <span class="title">Dashboard</span>
             </a>
         </li>
+
+
+        <li class="start" id="afpr">
+            
+            <a href="javascript:;">
+                <i class="icon-speech"></i>
+                <span class="title">eReporting</span>
+                <span class="arrow "></span>
+            </a>
+            <ul class="sub-menu">
+                <li ng-repeat="x in displayNames">
+                    <a ng-click='goes(x.name)'>
+                        <i class="icon-docs"></i> {{x.display}}
+                    </a>
+                </li>
+            </ul>
+              
+        </li>
+
         
 
-        <li id="dataManagement">
+        
+        
+
+        <li id="dataManagement" class="role_admin" ng-if="checkRole('ROLE_ADMIN')">
             <a href="javascript:;">
                 <i class="icon-users"></i>
                 <span class="title">Administrator</span>
@@ -95,22 +98,16 @@
     </ul>
     <!-- END SIDEBAR MENU -->
 </div>
-
 <script>
-    
-    $(function() {
-    var currentUserName = localStorage.getItem("username");
-    var mimosAdminId = "admin@mimos.my";
-    var jimAdminId = "admin@jim.my";
-    var mimosUserId = "user_pass@mimos.my";
-    var jimUserId = "user_audit@jim.my";
-    
-    if (currentUserName == jimUserId || currentUserName == mimosUserId) {
-        $("#configurationLink, #dataConslidation, #dataManagement, #dashboard").hide();
-    }else{
-        $("#configurationLink, #dataConslidation, #dataManagement, #dashboard").show();
-    }
+$(function(){
+    $("#afpr").addClass("active");
 
+//alert(isAdmin+ "sidebar");
 });
-</script> 
-
+    $("#sidebarMenu li a").click(function(){
+        $("#sidebarMenu li").removeClass("active");
+        $(this).parent('li').addClass("active");
+        $(this).parent('li').addClass("active");
+        $(this).parents('ul').parent('li').addClass("active");
+    });
+</script>

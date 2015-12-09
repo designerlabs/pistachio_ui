@@ -177,11 +177,16 @@
 <script>
 $("#logoutBtn").click(function(event) {
     localStorage.removeItem("token");
+    localStorage.removeItem("sideMenuValue");
+    localStorage.removeItem("username");
+    localStorage.removeItem("reportCategoryID");
+    localStorage.removeItem("authorities");
     window.location = "login.html";
 });
 
 $(function() {
     var currentToken = localStorage.getItem("token");
+     var currentUserName = localStorage.getItem("username");
   
     
     if (currentToken) {
