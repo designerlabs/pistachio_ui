@@ -112,6 +112,8 @@ var Login = function() {
                     console.log("error");
                      console.log(data);
                     $('#loginRequire', $('.login-form')).hide();
+                    var responseTextData = $.parseJSON(data.responseText);
+                    $("#loginError span").html(responseTextData.error);
                     $('#loginError', $('.login-form')).show();
                      return false;
                 })
