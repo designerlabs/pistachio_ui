@@ -1,3 +1,8 @@
+var globalURL = "http://10.1.17.25:8080/";
+var queryString = "query";
+var categoryName = "cat";
+
+
 var Login = function() {
 
     var handleLogin = function() {
@@ -12,9 +17,6 @@ var Login = function() {
                 },
                 password: {
                     required: true
-                },
-                remember: {
-                    required: false
                 }
             },
 
@@ -40,10 +42,13 @@ var Login = function() {
             success: function(label) {
                 label.closest('.form-group').removeClass('has-error');
                 label.remove();
+       
             },
 
             errorPlacement: function(error, element) {
                 error.insertAfter(element.closest('.input-icon'));
+       
+                //return false;
             },
 
             submitHandler: function(form) {
@@ -51,25 +56,74 @@ var Login = function() {
                 console.log($('.login-form input[name=username]').val());
                 var usernameValue = $('.login-form input[name=username]').val();
                 var passwordValue = $('.login-form input[name=password]').val();
-                localStorage.setItem("username", usernameValue);
-                if(usernameValue == "admin@mimos.my" && passwordValue == "mimos123"){
-                    //localStorage.setItem("username", "hello");
-                    form.submit();  
+                var token = undefined;
+                $.ajax({
+                    url: 'http://10.1.17.25:8080/auth/login',
+                    type: 'GET',
+                    data: {login: usernameValue, password: passwordValue},
+                }).done(function(data) {
+                    console.log("success");
+                    token = data.value;
+                    
 
-                }else if(usernameValue == "admin@jim.my" && passwordValue == "jim123"){
-                    form.submit();
-                }else if(usernameValue == "user_pass@mimos.my" && passwordValue == "mimos123"){
-                    form.submit();
-                }else if(usernameValue == "user_audit@jim.my" && passwordValue == "jim123"){
-                    form.submit();
-                }else{
-                    //alert('sorry');
+                        localStorage.setItem("username", usernameValue);
+                        localStorage.setItem("token", token);
+
+                        //var getToken = localStorage.getItem("token");
+                        var authoritiesArray = [];
+                        $.ajax({
+                            url: globalURL+'auth/token?token='+token,
+                            type: 'GET',
+                        })
+                        .done(function(data) {
+                            var displayNames = data.reports;
+                            console.log(data.reports);
+                            authoritiesValue = data.user.authorities;
+                            console.log(authoritiesValue);
+                            //localStorage.setItem("authorities",authorities);
+
+                            for(var i=0; i<authoritiesValue.length;i++){
+                                console.log(authoritiesValue[i].name);
+                                authoritiesArray.push(authoritiesValue[i].name);
+                                //alert(authorities[i].name);
+                                //return true;
+                            }
+
+                            localStorage.setItem("authorities",authoritiesArray);
+                           
+                            form.submit();
+                            console.log("success");
+                        })
+                        .fail(function() {
+                            console.log("error");
+                        })
+                        .always(function() {
+                            console.log("complete");
+                        });    
+
+
+                    console.log(authoritiesArray);
+                    //console.log(data);
+                    //console.log(data);
+                    //return false;
+                    
+                })
+                .fail(function(data) {
+                    console.log("error");
+                     console.log(data);
                     $('#loginRequire', $('.login-form')).hide();
                     $('#loginError', $('.login-form')).show();
+                     return false;
+                })
+                .always(function(data) {
+                    console.log("complete");
+                    console.log(data);
+                    //$('#loginRequire', $('.login-form')).hide();
+                    //$('#loginError', $('.login-form')).show();
                     return false;
-                }
+                });
 
-                //form.submit(); // form validation success, call ajax form submit
+               
             }
         });
 
@@ -241,7 +295,52 @@ var Login = function() {
             },
 
             submitHandler: function(form) {
-                form.submit();
+                var firstnameValue = $('.register-form input[name=firstname]').val();
+                var lastnameValue = $('.register-form input[name=lastname]').val();
+                var emailValue = $('.register-form input[name=email]').val();
+                var departmentValue = $('.register-form input[name=department]').val();
+                var usernameValue = $('.register-form input[name=username]').val();
+                var passwordValue = $('.register-form input[name=password]').val();
+
+                
+                $.ajax({
+                    url: 'http://10.1.17.25:8080/user',
+                    contentType: "application/json",
+                    type: 'POST',
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "firstName": firstnameValue,
+                        "lastName": lastnameValue,
+                        "email":emailValue,
+                        "department":departmentValue,
+                        "login":usernameValue,
+                        "password":passwordValue,
+                        "id":"0"
+                    }),
+                }).done(function(data) {
+                    console.log("success");
+                  //  localStorage.setItem("username", usernameValue);
+                    console.log(data);
+                    form.submit();
+                    window.location = "login.html";
+                })
+                .fail(function(data) {
+                    console.log("error");
+                     console.log(data);
+                 //   $('#loginRequire', $('.login-form')).hide();
+                 //   $('#loginError', $('.login-form')).show();
+                     return false;
+                })
+                .always(function(data) {
+                    console.log("complete");
+                    console.log(data);
+                    //$('#loginRequire', $('.login-form')).hide();
+                    //$('#loginError', $('.login-form')).show();
+                    return false;
+                });
+
+
+                //form.submit();
             }
         });
 

@@ -70,8 +70,6 @@ var categoryName = "cat";
 
 
 
-
-
 //validation on keyup
 function formInputValidation(id) {
     $(id + " input").keyup(function(event) {
@@ -90,6 +88,7 @@ function formInputValidation(id) {
         }
     });
 }
+
 
 
 
@@ -129,27 +128,25 @@ MetronicApp.config(['$controllerProvider', function($controllerProvider) {
     // this option might be handy for migrating old apps, but please don't use it
     // in new ones!
     $controllerProvider.allowGlobals();
+        
 
-    var currentUserName = localStorage.getItem("username");
-    var mimosAdminId = "admin@mimos.my";
-    var jimAdminId = "admin@jim.my";
-    var mimosUserId = "user_pass@mimos.my";
-    var jimUserId = "user_audit@jim.my";
-    console.log(currentUserName, mimosAdminId);
+    //var currentUserName = localStorage.getItem("username");
+    var currentToken = localStorage.getItem("token");
 
-    if (currentUserName == mimosAdminId || currentUserName == jimAdminId || currentUserName == mimosUserId || currentUserName == jimUserId) {
-        console.log('true' + currentUserName);
+
+    if (currentToken) {
+        console.log('true ' + currentToken);
     } else {
         window.location = "login.html";
     }
 
 
     //return false;
-    /*if((currentUserName == undefined )|| (currentUserName !== mimosId) || (currentUserName != jimId)){
+    if((currentToken == undefined )){
         window.location = "login.html";    
     }else{
         return true;
-    }*/
+    }
 
 }]);
 
@@ -201,8 +198,103 @@ MetronicApp.controller('HeaderController', ['$scope', function($scope) {
 }]);
 
 /* Setup Layout Part - Sidebar */
-MetronicApp.controller('SidebarController', ['$scope', function($scope) {
+MetronicApp.controller('SidebarController', ['$scope','$http', function($scope, $http) {
     $scope.$on('$includeContentLoaded', function() {
+        var getToken = localStorage.getItem("token");
+        var authoritiesArray, res = [];
+        var authoritiesValue;
+        
+        $.ajax({
+            url: globalURL+'auth/token?token='+getToken,
+            type: 'GET',
+        })
+        .done(function(data) {
+            $scope.displayNames = data.reports;
+            console.log(data.reports);
+            //authorities = data.user.authorities;
+            //console.log(authorities);
+            //localStorage.setItem("authorities",authorities);
+            //var authoritiesValue = localStorage.getItem("authorities");
+
+            //res = authoritiesValue.split(",");
+
+            //$scope.roles = res;
+
+            
+            console.log("success");
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+            console.log("complete");
+        });
+
+
+        console.log(authoritiesArray);
+
+
+        $scope.goes = function(data){
+
+            
+            localStorage.setItem('sideMenuValue', data);
+            //alert(data);
+            //location.href="#/report2.html";
+            $.ajax({
+                url: globalURL+'query/report/'+data,
+                type: 'GET',
+            })
+            .done(function(data) {
+                $scope.names = data;
+                console.log(data);
+                console.log("success");
+                location.reload();
+                location.href="#/report2.html";
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
+        };
+
+
+        $scope.authoritiesValue = localStorage.getItem('authorities');
+         
+        $scope.res = $scope.authoritiesValue.split(",");
+        $scope.roles = $scope.res;
+
+        
+
+           $scope.checkRole = function(x){
+               //alert(x + " Admin");
+               var arrayChk = $.inArray(x,$scope.roles);
+               if(arrayChk != -1){
+                return true;
+               }else{
+                return false;
+               }
+               /*for(k = 0; k < $scope.roles.length; k++){
+                   if(x == $scope.roles[k]){
+                    return true
+                   }else{
+                    return false;
+                   }
+                   if(x == $scope.roles[k]){
+                      alert(k);
+                      debugger;
+                       return true
+                   }else{
+                       return false;
+                   }
+
+               
+
+               }*/
+           }
+
+
         Layout.initSidebar(); // init sidebar
     });
 }]);
@@ -226,7 +318,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
 
     // Redirect any unmatched url
     //if (currentUserName == jimUserId || currentUserName == mimosUserId) {
-    $urlRouterProvider.otherwise("/report2.html");
+    $urlRouterProvider.otherwise("/dashboard.html");
     //}else{
     //  $urlRouterProvider.otherwise("/dashboard.html");
     //}
@@ -288,6 +380,37 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/admin/pages/scripts/tasks.js',
 
                         'js/controllers/ReportCategoryController.js'
+                    ]
+                });
+
+            }]
+        }
+    })
+    
+    .state('reportList', {
+        url: "/reportList.html",
+        templateUrl: "views/reportList.html",
+        data: {
+            pageTitle: 'Reports'
+        },
+        controller: "SidebarController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/global/plugins/morris/morris.css',
+                        'assets/admin/pages/css/tasks.css',
+
+                        'assets/global/plugins/morris/morris.min.js',
+                        'assets/global/plugins/morris/raphael-min.js',
+                        'assets/global/plugins/jquery.sparkline.min.js',
+
+                        'assets/admin/pages/scripts/index.js',
+                        'assets/admin/pages/scripts/tasks.js',
+
+                        'js/controllers/SidebarController.js'
                     ]
                 });
 
@@ -1294,6 +1417,36 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
                         'js/controllers/ReportMgtController.js'
+                    ]
+                });
+            }]
+        }
+    })
+
+    // User Management
+    .state("userMgt", {
+        url: "/userManagement/userMgt.html",
+        templateUrl: "views/userManagement/userMgt.html",
+        data: {
+            pageTitle: 'User Management'
+        },
+        controller: "UserMgtController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                    files: [
+                        //'assets/global/plugins/bootstrap-datepicker/css/datepicker3.css',
+                        'assets/global/plugins/select2/select2.css',
+                        //'assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                        'assets/global/plugins/select2/select2.min.js',
+                        'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
+                        'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
+                        'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
+                        'assets/global/plugins/datatables/all.min.js',
+                        'js/scripts/table-advanced.js',
+                        'js/controllers/UserMgtController.js'
                     ]
                 });
             }]

@@ -5,8 +5,10 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
 
         // initialize core components
         Metronic.initAjax();
-        var getUser = localStorage.getItem("username");
-    	$http.get("http://10.1.17.25:8080/role/report?user="+getUser)
+        var getUser = localStorage.getItem("token");
+        var getSideMenu = localStorage.getItem("sideMenuValue");
+    	//$http.get("http://10.1.17.25:8080/auth/token?token="+getUser)
+      $http.get(globalURL+'query/report/'+getSideMenu)
     	.success(function(response) {
     		$scope.names = response;
        });
@@ -14,17 +16,31 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
     	$scope.go = function(data){
             
             console.log(data);
-    		location.href="#/reports/e-reporting.html";
-    		categoryId = this.x.queryCategory;
+    		    location.href="#/reports/e-reporting.html";
+    		    categoryId = this.x.queryCategory;
             $scope.category = categoryId;
             //$scope.message = sharedService.categoryId;
           	//$scope.myservice = categoryId; 
           	$("#reportCategoryID").val(categoryId);
           	//if(!localStorage.setItem("reportCategoryID"){
-          		localStorage.setItem("reportCategoryID", categoryId);
+          	localStorage.setItem("reportCategoryID", categoryId);
           	//}	
           	
     	};
+
+
+    	
+
+        $scope.goes = function(data){
+            location.href="#/report2.html";
+            $http.get("http://10.1.17.25:8080/query/report/"+data)
+                .success(function(response) {
+                $scope.namesB = response;
+                console.log(response);
+            });
+            
+            
+        };
         //console.log($scope);
 
     });
