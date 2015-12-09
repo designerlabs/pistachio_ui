@@ -211,16 +211,6 @@ MetronicApp.controller('SidebarController', ['$scope','$http', function($scope, 
         .done(function(data) {
             $scope.displayNames = data.reports;
             console.log(data.reports);
-            //authorities = data.user.authorities;
-            //console.log(authorities);
-            //localStorage.setItem("authorities",authorities);
-            //var authoritiesValue = localStorage.getItem("authorities");
-
-            //res = authoritiesValue.split(",");
-
-            //$scope.roles = res;
-
-            
             console.log("success");
         })
         .fail(function() {
@@ -238,8 +228,6 @@ MetronicApp.controller('SidebarController', ['$scope','$http', function($scope, 
 
             
             localStorage.setItem('sideMenuValue', data);
-            //alert(data);
-            //location.href="#/report2.html";
             $.ajax({
                 url: globalURL+'query/report/'+data,
                 type: 'GET',
@@ -393,7 +381,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         data: {
             pageTitle: 'Reports'
         },
-        controller: "SidebarController",
+        controller: "SidebarMenuController",
         resolve: {
             deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load({
@@ -410,7 +398,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/admin/pages/scripts/index.js',
                         'assets/admin/pages/scripts/tasks.js',
 
-                        'js/controllers/SidebarController.js'
+                        'js/controllers/SidebarMenuController.js'
                     ]
                 });
 
