@@ -91,7 +91,8 @@ var Login = function() {
 
                             localStorage.setItem("authorities",authoritiesArray);
                            
-                            form.submit();
+                            //form.submit();
+			    window.location = "index.html#/dashboard.html";
                             console.log("success");
                         })
                         .fail(function() {
