@@ -47,9 +47,10 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
                     	"data": "department"
                     }, {
                         "data": "action",
-                        "width": "25%",
+                        "width": "15%",
                         "render": function(data, type, full, meta) {
-                            return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
+                            return '<button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
+                            //<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button>
                         }
                     }
                 ]
