@@ -20,11 +20,12 @@
                     <thead>
                         <tr>
                             <!-- <th>ID</th> -->
-                            <th>Login ID</th>
+                            <!-- <th>Login ID</th> -->
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
                             <th>Activate</th>
+                            <th>Role</th>
                             <th>Department</th>
                             <th>Action</th>
                         </tr>
@@ -33,11 +34,12 @@
                 <tbody>
                     <tr ng-repeat="x in names">
                         <td class="hidden">{{ x.id }}</td>
-                        <td>{{ x.login }}</td>
+                      <!--   <td>{{ x.login }}</td> -->
                         <td>{{ x.firstName }}</td>
                         <td>{{ x.lastName }}</td>                        
                         <td>{{ x.email }}</td>
                         <td>{{ x.activated }}</td>
+                        <td>{{ x.role }}</td>
                         <td>{{ x.department }}</td>
                         <td>{{x.action}}</td>
                     </tr>
@@ -91,28 +93,30 @@
                 </div>
                 <form id="userMgtForm" name="userMgtUIForm" autocomplete="off">
                     <div class="form-group">
-                        <label for="userMgt-title" class="control-label">Title:</label>
+                        <label for="userMgt-title" class="control-label">First Name:</label>
                         <input type="text" class="form-control" id="userMgt-title">
                     </div>
                     <div class="form-group">
-                        <label for="userMgt-category" class="control-label">Category:</label>
+                        <label for="userMgt-category" class="control-label">Last Name:</label>
                         <input type="text" class="form-control" id="userMgt-category">
                     </div>
                     <div class="form-group">
-                        <label for="userMgt-theme" class="control-label">Theme:</label>
+                        <label for="userMgt-theme" class="control-label">Email:</label>
                         <input type="text" class="form-control" id="userMgt-theme">
-                    </div>
-                    <div class="form-group">
-                        <label for="userMgt-icon" class="control-label">Icon:</label>
-                        <input type="text" class="form-control" id="userMgt-icon">
-                    </div>
-                    <div class="form-group">
-                        <label for="userMgt-role" class="control-label">Role:</label>
-                        <input type="text" class="form-control" id="userMgt-role">
                     </div>
                     <div class="form-group">
                         <label for="userMgt-activated" class="control-label">Activate:</label>
                         <input type="text" class="form-control" id="userMgt-activated">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userMgt-role" class="control-label">Role:</label>
+                        <input type="text" class="form-control" id="userMgt-role">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userMgt-dept" class="control-label">Department:</label>
+                        <input type="text" class="form-control" id="userMgt-dept">
                     </div>
                 </form>
             </div>

@@ -26,9 +26,9 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
                   //   {
                 		// "data": "id"
                   //   },
-                    {
+                    /*{
                         "data": "login"
-                    }, {
+                    },*/ {
                         "data": "firstName"
                     }, {
                         "data": "lastName"
@@ -43,13 +43,25 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
                             return '<button class="btn btn-danger btn-sm dActBtn"><i class="fa fa-close"></i> Deactivated</button>';
                             }
                         }                        
+                    },{
+                        "data": "authorities",
+                        "render": function(data, type, full, meta) {
+                            /*$.each(full.authorities, function(index, val) {
+                                 console.log(val.name);
+                                 console.log('--');
+                            });*/
+                            var arr = Object.keys(data).map(function(k) { return '<span class="badge badge-primary badge-roundless">'+data[k].name+'</span>' });
+
+                            return '<div class="roleClass">'+arr+'</div>';
+
+                        }
                     }, {
                     	"data": "department"
                     }, {
                         "data": "action",
-                        "width": "15%",
+                        "width": "25%",
                         "render": function(data, type, full, meta) {
-                            return '<button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
+                            return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
                             //<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button>
                         }
                     }
@@ -57,8 +69,10 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
             });
         }
         
+
+
         formInputValidation("#userMgtForm");
-        $("#userMgtUISubmit").click(function(event) {
+        /*$("#userMgtUISubmit").click(function(event) {
             var userMgtTitleVal = $("#userMgtForm #usertMgt-title").val();
             var userMgtCategoryVal = $("#userMgtForm #userMgt-category").val();
             var userMgtThemeVal = $("#userMgtForm #userMgt-theme").val();
@@ -94,24 +108,26 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
                         //alert('Failed!');
                     });
             }
-        });
+        });*/
 
         userMgtDataFunc();
         //Update Record
         var selecteduserMgtId = undefined;
         $('#userMgtdata').on('click', 'button.updateBtn', function() {
-            //$("#userMgtForm input").parent('.form-group').removeClass('has-error');
             var selecteduserMgt = userMgts.row($(this).parents('tr')).data();
             selecteduserMgtId = selecteduserMgt.id;
-            //$("#userMgtAddForm #userMgtUIForm").addClass('hide');
             $("#userMgtAddForm #userMgtUISubmit").addClass('hide');
             $("#userMgtAddForm #userMgtUIUpdate").removeClass('hide');
-            $("#userMgtForm #userMgt-title").val(selecteduserMgt.queryCategoryName);
-            $("#userMgtForm #userMgt-category").val(selecteduserMgt.queryCategory);
-            $("#userMgtForm #userMgt-theme").val(selecteduserMgt.className);
-            $("#userMgtForm #userMgt-role").val(selecteduserMgt.role);
+            $("#userMgtForm #userMgt-title").val(selecteduserMgt.firstName);
+            $("#userMgtForm #userMgt-category").val(selecteduserMgt.lastName);
+            $("#userMgtForm #userMgt-theme").val(selecteduserMgt.email);
+            $("#userMgtForm #userMgt-role").val(selecteduserMgt.activate);
             $("#userMgtForm #userMgt-activated").val(selecteduserMgt.activated);
-            $("#userMgtAddFormHeader").html("Update User");            
+            var userAuthorities = Object.keys(selecteduserMgt.authorities).map(function(k) { return selecteduserMgt.authorities[k].name; });
+            $("#userMgtForm #userMgt-role").val(userAuthorities);
+            $("#userMgtForm #userMgt-dept").val(selecteduserMgt.department);
+            
+            $("#userMgtAddFormHeader").html("Update User");
             $("#userMgtAddForm").modal('show');
 
         });
