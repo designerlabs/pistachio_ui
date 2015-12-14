@@ -11,20 +11,21 @@
                 <div class="caption">
                     <i class="fa fa-globe"></i>User Management List
                 </div>
-                <div class="tools">
+                <!-- <div class="tools">
                     <button class="btn btn-success btn-sm" data-toggle="modal" id="userMgtAddBtn" data-target="#userMgtAddForm"><i class="fa fa-plus"></i> Add</button>
-                </div>
+                </div> -->
             </div>
             <div class="portlet-body">
                 <table id="userMgtdata" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <!-- <th>ID</th> -->
-                            <th>Login ID</th>
+                            <!-- <th>Login ID</th> -->
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
                             <th>Activate</th>
+                            <th>Role</th>
                             <th>Department</th>
                             <th>Action</th>
                         </tr>
@@ -33,11 +34,12 @@
                 <tbody>
                     <tr ng-repeat="x in names">
                         <td class="hidden">{{ x.id }}</td>
-                        <td>{{ x.login }}</td>
+                      <!--   <td>{{ x.login }}</td> -->
                         <td>{{ x.firstName }}</td>
                         <td>{{ x.lastName }}</td>                        
                         <td>{{ x.email }}</td>
                         <td>{{ x.activated }}</td>
+                        <td>{{ x.role }}</td>
                         <td>{{ x.department }}</td>
                         <td>{{x.action}}</td>
                     </tr>
@@ -91,28 +93,32 @@
                 </div>
                 <form id="userMgtForm" name="userMgtUIForm" autocomplete="off">
                     <div class="form-group">
-                        <label for="userMgt-title" class="control-label">Title:</label>
-                        <input type="text" class="form-control" id="userMgt-title">
+                        <label for="userMgt-title" class="control-label">First Name:</label>
+                        <input type="text" class="form-control" id="userMgt-title" readonly="readonly">
                     </div>
                     <div class="form-group">
-                        <label for="userMgt-category" class="control-label">Category:</label>
-                        <input type="text" class="form-control" id="userMgt-category">
+                        <label for="userMgt-category" class="control-label">Last Name:</label>
+                        <input type="text" class="form-control" id="userMgt-category"  readonly="readonly">
                     </div>
                     <div class="form-group">
-                        <label for="userMgt-theme" class="control-label">Theme:</label>
-                        <input type="text" class="form-control" id="userMgt-theme">
-                    </div>
-                    <div class="form-group">
-                        <label for="userMgt-icon" class="control-label">Icon:</label>
-                        <input type="text" class="form-control" id="userMgt-icon">
-                    </div>
-                    <div class="form-group">
-                        <label for="userMgt-role" class="control-label">Role:</label>
-                        <input type="text" class="form-control" id="userMgt-role">
+                        <label for="userMgt-theme" class="control-label">Email:</label>
+                        <input type="text" class="form-control" id="userMgt-theme"  readonly="readonly">
                     </div>
                     <div class="form-group">
                         <label for="userMgt-activated" class="control-label">Activate:</label>
-                        <input type="text" class="form-control" id="userMgt-activated">
+                        <input type="text" class="form-control" id="userMgt-activated"  readonly="readonly">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="roleMultiple" class="control-label">Role:</label>
+                        <select multiple="multiple" name="roleMultiple" id="roleMultiple" class="form-control">
+                            <option value="{{x.name}}" ng-repeat="x in name" data-val="{{x.value}}">{{x.name}}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userMgt-dept" class="control-label">Department:</label>
+                        <input type="text" class="form-control" id="userMgt-dept" readonly="readonly">
                     </div>
                 </form>
             </div>

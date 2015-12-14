@@ -23,12 +23,10 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
                     "dataSrc": ""
                 },
                 "columns": [
-                  //   {
-                		// "data": "id"
-                  //   },
-                    {
+
+                    /*{
                         "data": "login"
-                    }, {
+                    },*/ {
                         "data": "firstName"
                     }, {
                         "data": "lastName"
@@ -43,21 +41,36 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
                             return '<button class="btn btn-danger btn-sm dActBtn"><i class="fa fa-close"></i> Deactivated</button>';
                             }
                         }                        
+                    },{
+                        "data": "authorities",
+                        "render": function(data, type, full, meta) {
+                            /*$.each(full.authorities, function(index, val) {
+                                 console.log(val.name);
+                                 console.log('--');
+                            });*/
+                            var arr = Object.keys(data).map(function(k) { return '<span class="badge badge-primary badge-roundless">'+data[k].name+'</span>' });
+
+                            return '<div class="roleClass">'+arr+'</div>';
+
+                        }
                     }, {
                     	"data": "department"
                     }, {
                         "data": "action",
-                        "width": "25%",
+                        "width": "15%",
                         "render": function(data, type, full, meta) {
-                            return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
+                            return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button>';
+                            //<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>
                         }
                     }
                 ]
             });
         }
         
+
+
         formInputValidation("#userMgtForm");
-        $("#userMgtUISubmit").click(function(event) {
+        /*$("#userMgtUISubmit").click(function(event) {
             var userMgtTitleVal = $("#userMgtForm #usertMgt-title").val();
             var userMgtCategoryVal = $("#userMgtForm #userMgt-category").val();
             var userMgtThemeVal = $("#userMgtForm #userMgt-theme").val();
@@ -93,24 +106,27 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
                         //alert('Failed!');
                     });
             }
-        });
+        });*/
 
         userMgtDataFunc();
         //Update Record
         var selecteduserMgtId = undefined;
         $('#userMgtdata').on('click', 'button.updateBtn', function() {
-            //$("#userMgtForm input").parent('.form-group').removeClass('has-error');
             var selecteduserMgt = userMgts.row($(this).parents('tr')).data();
             selecteduserMgtId = selecteduserMgt.id;
-            //$("#userMgtAddForm #userMgtUIForm").addClass('hide');
             $("#userMgtAddForm #userMgtUISubmit").addClass('hide');
             $("#userMgtAddForm #userMgtUIUpdate").removeClass('hide');
-            $("#userMgtForm #userMgt-title").val(selecteduserMgt.queryCategoryName);
-            $("#userMgtForm #userMgt-category").val(selecteduserMgt.queryCategory);
-            $("#userMgtForm #userMgt-theme").val(selecteduserMgt.className);
-            $("#userMgtForm #userMgt-role").val(selecteduserMgt.role);
+            $("#userMgtForm #userMgt-title").val(selecteduserMgt.firstName);
+            $("#userMgtForm #userMgt-category").val(selecteduserMgt.lastName);
+            $("#userMgtForm #userMgt-theme").val(selecteduserMgt.email);
+            $("#userMgtForm #userMgt-role").val(selecteduserMgt.activate);
             $("#userMgtForm #userMgt-activated").val(selecteduserMgt.activated);
-            $("#userMgtAddFormHeader").html("Update User");            
+            var userAuthorities = Object.keys(selecteduserMgt.authorities).map(function(k) { return selecteduserMgt.authorities[k].name; });
+            $("#roleMultiple").val(userAuthorities);
+            //$("#userMgtForm #userMgt-role").val(userAuthorities);
+            $("#userMgtForm #userMgt-dept").val(selecteduserMgt.department);
+            
+            $("#userMgtAddFormHeader").html("Update User");
             $("#userMgtAddForm").modal('show');
 
         });
@@ -146,33 +162,67 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
         });
 
         $("#userMgtUIUpdate").click(function(event) {
+            console.log(selecteduserMgtId);
+
+            if( $('#roleMultiple :selected').length > 0){
+               //var selectedValue = {};
+               var selectedText = [];
+               
+               var colName = "name";
+               var colValue = "value";
+               
+               $('#roleMultiple :selected').each(function(i, selected) {
+                     
+                    var jsonData = {};     
+                   jsonData[colName] = $(selected).val();
+                   jsonData[colValue] = $(selected).data('val');
+                   selectedText.push(jsonData);
+                   //var arr = {'name':'+$(selected).val()+','value':'+$(selected).data('val')+'}; 
+                   //console.log(selected, i);
+                   //selectedText.push(JSON.parse(arr));
+                   //alert(selectedText[i]);
+                   //selectedValue[i] = $(selected).data('val');
+               });
+
+
+
+                   
+                    console.log(JSON.stringify(selectedText));
+
+               //var obj = $.parseJSON(selectedText);
+               //console.log(selectedText);
+               $.ajax({
+                       url: globalURL + "user/"+selecteduserMgtId+"/role",
+                       type: "PUT",
+                       dataType: 'json',
+                       contentType: "application/json; charset=utf-8",
+                       data: JSON.stringify(selectedText)
+                           /*id: selecteduserMgtId,
+                           queryCategoryName: userMgtTitleVal,
+                           queryCategory: userMgtCategoryVal,
+                           className: userMgtThemeVal,
+                           role: userMgtRoleVal,
+                           activated: userMgtActivatedVal*/
+                       
+                   })
+                   .done(function(data) {
+                     userMgts.destroy();
+                        userMgtDataFunc();
+                         $("#userMgtAddForm").modal('hide');
+                   })
+                   .fail(function() {
+                       alert('Failed!');
+                   });
+                
+            }
+            var valuesArray = $('select[name=roleMultiple]').val();
+            //console.log(valuesArray);
             var userMgtTitleVal = $("#userMgtForm #userMgt-title").val();
             var userMgtCategoryVal = $("#userMgtForm #userMgt-category").val();
             var userMgtThemeVal = $("#userMgtForm #userMgt-theme").val();
             var userMgtRoleVal = $("#userMgtForm #userMgt-role").val();
             var userMgtActivatedVal = $("#userMgtForm #userMgt-activated").val();
-            $.ajax({
-                    url: globalURL + "query/cato",
-                    type: "PUT",
-                    dataType: 'json',
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify({
-                        id: selecteduserMgtId,
-                        queryCategoryName: userMgtTitleVal,
-                        queryCategory: userMgtCategoryVal,
-                        className: userMgtThemeVal,
-                        role: userMgtRoleVal,
-                        activated: userMgtActivatedVal
-                    })
-                })
-                .done(function(data) {
-                	 userMgts.destroy();
-                     userMgtDataFunc();
-                      $("#userMgtAddForm").modal('hide');
-                })
-                .fail(function() {
-                    alert('Failed!');
-                });
+
         });
         //Delete Record
         var selecteduserMgtForDelete;
@@ -207,6 +257,18 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
     	.success(function(response) {
     		$scope.names = response;
        });
+
+        //Roles
+        $http.get("http://pistachio_server:8080/api/role")
+        .success(function(responseRole) {
+            $scope.name = responseRole;
+       });
+
+
+         $http.get("http://pistachio_server:8080/api/role")
+         .success(function(responseRole) {
+             $scope.name = responseRole;
+        });
 
     	$scope.go = function(data){
     		location.href=data;

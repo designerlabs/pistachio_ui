@@ -33,7 +33,7 @@
                     <!--  <a href="" id="backBtn" style="color:#fff; top: -3px; position: relative;"><i class="fa fa-chevron-circle-left"></i></a> -->
                 </div>
             </div>
-            <div class="portlet-body">
+            <div class="portlet-body"  ng-if="'true' == chkRole('ROLE_ADMIN')">
                 <table id="queryContainer" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                     <thead>
                         <tr>
@@ -45,6 +45,22 @@
                         </tr>
                     </thead>
                 </table>
+
+            </div>
+
+            <div class="portlet-body"  ng-if="'false' == chkRole('ROLE_ADMIN')">
+                <table id="queryContainer" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Query</th>
+                            <th>Execute</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                </table>
+
             </div>
         </div>
         <!-- <div class="portlet box red-intense" id="QueryUIListRun" style="display:none;">

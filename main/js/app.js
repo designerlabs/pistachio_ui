@@ -173,6 +173,47 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
 }]);
 
 
+
+/* Setup global Authorities */
+MetronicApp.factory('authorities', function() {
+
+    var authoritiesValue = localStorage.getItem('authorities');
+     
+    var res = authoritiesValue.split(",");
+    
+
+    return {
+            checkRole: function(x) {
+                var arrayChk = $.inArray(x,res);
+                if(arrayChk != -1){
+                 return true;
+                }else{
+                 return false;
+                }
+               
+            }
+        };
+
+});
+
+
+/*$scope.authoritiesValue = localStorage.getItem('authorities');
+ 
+$scope.res = $scope.authoritiesValue.split(",");
+$scope.roles = $scope.res;
+
+$scope.checkRole = function(x){
+    alert(x);
+    //alert(x + " Admin");
+    var arrayChk = $.inArray(x,$scope.roles);
+    if(arrayChk != -1){
+     return true;
+    }else{
+     return false;
+    }
+
+}*/
+
 /* Setup App Main Controller */
 MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
     $scope.$on('$viewContentLoaded', function() {
@@ -198,12 +239,12 @@ MetronicApp.controller('HeaderController', ['$scope', function($scope) {
 }]);
 
 /* Setup Layout Part - Sidebar */
-MetronicApp.controller('SidebarController', ['$scope','$http', function($scope, $http) {
+MetronicApp.controller('SidebarController', ['$scope','$http', 'authorities', function($scope, $http, authorities) {
     $scope.$on('$includeContentLoaded', function() {
         var getToken = localStorage.getItem("token");
         var authoritiesArray, res = [];
         var authoritiesValue;
-        
+        $scope.chkRole = authorities.checkRole;
         $.ajax({
             url: globalURL+'auth/token?token='+getToken,
             type: 'GET',
@@ -252,7 +293,7 @@ MetronicApp.controller('SidebarController', ['$scope','$http', function($scope, 
             });
         };
 
-
+/*
         $scope.authoritiesValue = localStorage.getItem('authorities');
          
         $scope.res = $scope.authoritiesValue.split(",");
@@ -268,24 +309,8 @@ MetronicApp.controller('SidebarController', ['$scope','$http', function($scope, 
                }else{
                 return false;
                }
-               /*for(k = 0; k < $scope.roles.length; k++){
-                   if(x == $scope.roles[k]){
-                    return true
-                   }else{
-                    return false;
-                   }
-                   if(x == $scope.roles[k]){
-                      alert(k);
-                      debugger;
-                       return true
-                   }else{
-                       return false;
-                   }
 
-               
-
-               }*/
-           }
+           }*/
 
 
         Layout.initSidebar(); // init sidebar
