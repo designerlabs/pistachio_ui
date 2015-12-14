@@ -94,29 +94,31 @@
                 <form id="userMgtForm" name="userMgtUIForm" autocomplete="off">
                     <div class="form-group">
                         <label for="userMgt-title" class="control-label">First Name:</label>
-                        <input type="text" class="form-control" id="userMgt-title">
+                        <input type="text" class="form-control" id="userMgt-title" readonly="readonly">
                     </div>
                     <div class="form-group">
                         <label for="userMgt-category" class="control-label">Last Name:</label>
-                        <input type="text" class="form-control" id="userMgt-category">
+                        <input type="text" class="form-control" id="userMgt-category"  readonly="readonly">
                     </div>
                     <div class="form-group">
                         <label for="userMgt-theme" class="control-label">Email:</label>
-                        <input type="text" class="form-control" id="userMgt-theme">
+                        <input type="text" class="form-control" id="userMgt-theme"  readonly="readonly">
                     </div>
                     <div class="form-group">
                         <label for="userMgt-activated" class="control-label">Activate:</label>
-                        <input type="text" class="form-control" id="userMgt-activated">
+                        <input type="text" class="form-control" id="userMgt-activated"  readonly="readonly">
                     </div>
 
                     <div class="form-group">
-                        <label for="userMgt-role" class="control-label">Role:</label>
-                        <input type="text" class="form-control" id="userMgt-role">
+                        <label for="roleMultiple" class="control-label">Role:</label>
+                        <select multiple="multiple" name="roleMultiple" id="roleMultiple" class="form-control">
+                            <option value="{{x.name}}" ng-repeat="x in name" data-val="{{x.value}}">{{x.name}}</option>
+                        </select>
                     </div>
 
                     <div class="form-group">
                         <label for="userMgt-dept" class="control-label">Department:</label>
-                        <input type="text" class="form-control" id="userMgt-dept">
+                        <input type="text" class="form-control" id="userMgt-dept" readonly="readonly">
                     </div>
                 </form>
             </div>

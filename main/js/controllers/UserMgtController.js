@@ -23,9 +23,7 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
                     "dataSrc": ""
                 },
                 "columns": [
-                  //   {
-                		// "data": "id"
-                  //   },
+
                     /*{
                         "data": "login"
                     },*/ {
@@ -59,10 +57,10 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
                     	"data": "department"
                     }, {
                         "data": "action",
-                        "width": "25%",
+                        "width": "15%",
                         "render": function(data, type, full, meta) {
-                            return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
-                            //<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button>
+                            return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button>';
+                            //<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>
                         }
                     }
                 ]
@@ -124,7 +122,8 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
             $("#userMgtForm #userMgt-role").val(selecteduserMgt.activate);
             $("#userMgtForm #userMgt-activated").val(selecteduserMgt.activated);
             var userAuthorities = Object.keys(selecteduserMgt.authorities).map(function(k) { return selecteduserMgt.authorities[k].name; });
-            $("#userMgtForm #userMgt-role").val(userAuthorities);
+            $("#roleMultiple").val(userAuthorities);
+            //$("#userMgtForm #userMgt-role").val(userAuthorities);
             $("#userMgtForm #userMgt-dept").val(selecteduserMgt.department);
             
             $("#userMgtAddFormHeader").html("Update User");
@@ -163,33 +162,67 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
         });
 
         $("#userMgtUIUpdate").click(function(event) {
+            console.log(selecteduserMgtId);
+
+            if( $('#roleMultiple :selected').length > 0){
+               //var selectedValue = {};
+               var selectedText = [];
+               
+               var colName = "name";
+               var colValue = "value";
+               
+               $('#roleMultiple :selected').each(function(i, selected) {
+                     
+                    var jsonData = {};     
+                   jsonData[colName] = $(selected).val();
+                   jsonData[colValue] = $(selected).data('val');
+                   selectedText.push(jsonData);
+                   //var arr = {'name':'+$(selected).val()+','value':'+$(selected).data('val')+'}; 
+                   //console.log(selected, i);
+                   //selectedText.push(JSON.parse(arr));
+                   //alert(selectedText[i]);
+                   //selectedValue[i] = $(selected).data('val');
+               });
+
+
+
+                   
+                    console.log(JSON.stringify(selectedText));
+
+               //var obj = $.parseJSON(selectedText);
+               //console.log(selectedText);
+               $.ajax({
+                       url: globalURL + "user/"+selecteduserMgtId+"/role",
+                       type: "PUT",
+                       dataType: 'json',
+                       contentType: "application/json; charset=utf-8",
+                       data: JSON.stringify(selectedText)
+                           /*id: selecteduserMgtId,
+                           queryCategoryName: userMgtTitleVal,
+                           queryCategory: userMgtCategoryVal,
+                           className: userMgtThemeVal,
+                           role: userMgtRoleVal,
+                           activated: userMgtActivatedVal*/
+                       
+                   })
+                   .done(function(data) {
+                     userMgts.destroy();
+                        userMgtDataFunc();
+                         $("#userMgtAddForm").modal('hide');
+                   })
+                   .fail(function() {
+                       alert('Failed!');
+                   });
+                
+            }
+            var valuesArray = $('select[name=roleMultiple]').val();
+            //console.log(valuesArray);
             var userMgtTitleVal = $("#userMgtForm #userMgt-title").val();
             var userMgtCategoryVal = $("#userMgtForm #userMgt-category").val();
             var userMgtThemeVal = $("#userMgtForm #userMgt-theme").val();
             var userMgtRoleVal = $("#userMgtForm #userMgt-role").val();
             var userMgtActivatedVal = $("#userMgtForm #userMgt-activated").val();
-            $.ajax({
-                    url: globalURL + "query/cato",
-                    type: "PUT",
-                    dataType: 'json',
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify({
-                        id: selecteduserMgtId,
-                        queryCategoryName: userMgtTitleVal,
-                        queryCategory: userMgtCategoryVal,
-                        className: userMgtThemeVal,
-                        role: userMgtRoleVal,
-                        activated: userMgtActivatedVal
-                    })
-                })
-                .done(function(data) {
-                	 userMgts.destroy();
-                     userMgtDataFunc();
-                      $("#userMgtAddForm").modal('hide');
-                })
-                .fail(function() {
-                    alert('Failed!');
-                });
+
         });
         //Delete Record
         var selecteduserMgtForDelete;
@@ -224,6 +257,18 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
     	.success(function(response) {
     		$scope.names = response;
        });
+
+        //Roles
+        $http.get("http://pistachio_server:8080/api/role")
+        .success(function(responseRole) {
+            $scope.name = responseRole;
+       });
+
+
+         $http.get("http://pistachio_server:8080/api/role")
+         .success(function(responseRole) {
+             $scope.name = responseRole;
+        });
 
     	$scope.go = function(data){
     		location.href=data;

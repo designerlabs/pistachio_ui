@@ -27,17 +27,34 @@ function onResize1() {
 
 
 /* GeneralPageController starts */
-MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http', 'settings',  function($rootScope, $scope, $http, settings) {
+MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http', 'settings', 'authorities',  function($rootScope, $scope, $http, settings, authorities) {
     $scope.$on('$viewContentLoaded', function() {
         $("#databaseList").show();
         $("#tableList").hide();
 
 
+
+        $scope.chkRole = authorities.checkRole;
+
         // initialize core components
         Metronic.initAjax();
         var databases;
+        $scope.authoritiesValue = localStorage.getItem('authorities');
+         
+        $scope.res = $scope.authoritiesValue.split(",");
+        $scope.roles = $scope.res;
 
+        $scope.checkRole = function(x){
+            alert(x);
+            //alert(x + " Admin");
+            var arrayChk = $.inArray(x,$scope.roles);
+            if(arrayChk != -1){
+             return true;
+            }else{
+             return false;
+            }
 
+        }
         function databaseDataFunc() {
             databases = $('#databaseData').DataTable({
 
@@ -318,7 +335,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         var queryData;
         //console.log(categoryId);
         queryDataFunc = function() {
-        
+            
             queryData = $('#queryContainer').DataTable({
 
                 "ajax": {
