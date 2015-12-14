@@ -33,10 +33,10 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
                         "data": "className"
                     },{
                         "data": "icon"
-                    }, {
-                        "data": "role"                        
-                    }, {
-                    	"data": "activated"
+                    // }, {
+                    //     "data": "role"                        
+                    // }, {
+                    //  "data": "activated"
                     }, {
                         "data": "action",
                         "width": "25%",
@@ -57,8 +57,8 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
             var reportMgtParentVal = $("#reportMgtForm #inpHiddenParent").val(); //$("#reportMgtForm #reportMgt-parent").val();
             var reportMgtThemeVal = $("#reportMgtForm #reportMgt-theme").val();
             var reportMgtIconVal = $("#reportMgtForm #reportMgt-icon").val();
-            var reportMgtRoleVal = $("#reportMgtForm #reportMgt-role").val();
-            var reportMgtActivateVal = $("#reportMgtForm #reportMgt-activated").val();
+            // var reportMgtRoleVal = $("#reportMgtForm #reportMgt-role").val();
+            // var reportMgtActivateVal = $("#reportMgtForm #reportMgt-activated").val();
             var reportMgtParentDisplayName = $("#reportMgtForm #inpHiddenParentName").val();
             
             inputValidation("#reportMgtForm", reportMgtAjax);
@@ -74,8 +74,8 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
                             queryCategory: reportMgtCategoryVal,
                             parent: reportMgtParentVal,
                             className: reportMgtThemeVal,
-                            activated: reportMgtActivateVal,
-                            role: reportMgtRoleVal,                            
+                            // activated: reportMgtActivateVal,
+                            // role: reportMgtRoleVal,                            
                             icon: reportMgtIconVal
                         })
                     })
@@ -137,8 +137,8 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
             $("#reportMgtForm #reportMgt-parent").val(selectedreportMgt.parent);
             $("#reportMgtForm #reportMgt-category").val(selectedreportMgt.queryCategory);
             $("#reportMgtForm #reportMgt-theme").val(selectedreportMgt.className);
-            $("#reportMgtForm #reportMgt-role").val(selectedreportMgt.role);
-            $("#reportMgtForm #reportMgt-activated").val(selectedreportMgt.activated.toString());
+            // $("#reportMgtForm #reportMgt-role").val(selectedreportMgt.role);
+            // $("#reportMgtForm #reportMgt-activated").val(selectedreportMgt.activated.toString());
             $("#reportMgtForm #reportMgt-icon").val(selectedreportMgt.icon);
             $("#reportMgtAddFormHeader").html("Update Report");            
             $("#reportMgtAddForm").modal('show');
@@ -148,11 +148,11 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
 
         $("#reportMgtUIUpdate").click(function(event) {
         	var reportMgtUpdateCategoryVal = $("#reportMgtForm #reportMgt-category").val();
-        	var reportMgtUpdateActivatedVal = $("#reportMgtForm #reportMgt-activated").val();
+        	//var reportMgtUpdateActivatedVal = $("#reportMgtForm #reportMgt-activated").val();
             var reportMgtUpdateTitleVal = $("#reportMgtForm #reportMgt-title").val();           
             var reportMgtUpdateParentVal = $("#reportMgtForm #inpHiddenParent").val(); //$("#reportMgtForm #reportMgt-parent").val();
             var reportMgtUpdateThemeVal = $("#reportMgtForm #reportMgt-theme").val();
-            var reportMgtUpdateRoleVal = $("#reportMgtForm #reportMgt-role").val();
+           // var reportMgtUpdateRoleVal = $("#reportMgtForm #reportMgt-role").val();
             var reportMgtUpdateIconVal = $("#reportMgtForm #reportMgt-icon").val();
             var reportMgtUpdateParentDisplayName = $("#reportMgtForm #inpHiddenParentName").val();
             
@@ -167,9 +167,9 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
                         queryCategoryName: reportMgtUpdateTitleVal,
                         queryCategory: reportMgtUpdateCategoryVal,  
                         parent: reportMgtUpdateParentVal,                   
-                        role: reportMgtUpdateRoleVal,
-                        icon: reportMgtUpdateIconVal,
-                        activated: reportMgtUpdateActivatedVal                        
+                        //role: reportMgtUpdateRoleVal,
+                        icon: reportMgtUpdateIconVal
+                       // activated: reportMgtUpdateActivatedVal                        
                     })
                 })
                 .done(function(data) {
@@ -241,7 +241,6 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
 	        url: 'http://pistachio_server:8080/reportcat/',
 	        success: function(data)
 	        {
-	            console.log(data);
 	            $.each(data, function (key, value) {
 				    $('#reportMgt-parent').append(
 				        $("<option></option>")
