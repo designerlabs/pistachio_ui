@@ -58,7 +58,7 @@ var Login = function() {
                 var passwordValue = $('.login-form input[name=password]').val();
                 var token = undefined;
                 $.ajax({
-                    url: 'http://pistachio_server:8080/auth/login',
+                    url: globalURL+'auth/login',
                     type: 'GET',
                     data: {login: usernameValue, password: passwordValue},
                 }).done(function(data) {
@@ -307,7 +307,7 @@ var Login = function() {
 
                 
                 $.ajax({
-                    url: 'http://pistachio_server:8080/user',
+                    url: globalURL+'user',
                     contentType: "application/json",
                     type: 'POST',
                     dataType: "json",

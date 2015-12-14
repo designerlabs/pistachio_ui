@@ -202,7 +202,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
 
        
         var getUser = localStorage.getItem("username");
-    	$http.get("http://pistachio_server:8080/user?user="+getUser)
+    	$http.get(globalURL+"user?user="+getUser)
     	.success(function(response) {
     		$scope.names = response;
        });

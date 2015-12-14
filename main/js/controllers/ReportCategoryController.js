@@ -7,7 +7,7 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
         Metronic.initAjax();
         var getUser = localStorage.getItem("token");
         var getSideMenu = localStorage.getItem("sideMenuValue");
-    	//$http.get("http://pistachio_server:8080/auth/token?token="+getUser)
+    	//$http.get(globalURL+"auth/token?token="+getUser)
       $http.get(globalURL+'query/report/'+getSideMenu)
     	.success(function(response) {
     		$scope.names = response;
@@ -33,7 +33,7 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
 
         $scope.goes = function(data){
             location.href="#/report2.html";
-            $http.get("http://pistachio_server:8080/query/report/"+data)
+            $http.get(globalURL+"query/report/"+data)
                 .success(function(response) {
                 $scope.namesB = response;
                 console.log(response);

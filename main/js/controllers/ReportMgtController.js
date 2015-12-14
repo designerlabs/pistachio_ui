@@ -238,7 +238,7 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
       $.ajax({
 	        type: "GET",
 	        cache:false,
-	        url: 'http://pistachio_server:8080/reportcat/',
+	        url: globalURL+'reportcat/',
 	        success: function(data)
 	        {
 	            console.log(data);
@@ -253,7 +253,7 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
 	    });
 
         var getUser = localStorage.getItem("username");
-    	$http.get("http://pistachio_server:8080/role/report?user="+getUser)
+    	$http.get(globalURL+"role/report?user="+getUser)
     	.success(function(response) {
     		$scope.names = response;
        });

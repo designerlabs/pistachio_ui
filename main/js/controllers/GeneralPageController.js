@@ -43,7 +43,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
          
         $scope.res = $scope.authoritiesValue.split(",");
         $scope.roles = $scope.res;
-
+/*
         $scope.checkRole = function(x){
             alert(x);
             //alert(x + " Admin");
@@ -54,7 +54,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
              return false;
             }
 
-        }
+        }*/
         function databaseDataFunc() {
             databases = $('#databaseData').DataTable({
 
@@ -361,7 +361,12 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     "data": "action",
                     "width": "22%",
                     "render": function(data, type, full, meta) {
-                        return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
+                        if($scope.chkRole('ROLE_ADMIN')){
+                         return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';   
+                     }else{
+                        return '';
+                     }
+                        
                     }
                 }]
             });
@@ -441,6 +446,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
             
         });
+        
 
         
         queryDataFunc();
@@ -858,7 +864,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     var jobData = jobsData.row($(this).parents('tr')).data();
                     //alert(jobData.id);
                     $.ajax({
-                        url: 'http://pistachio_server:8080/etl/jobs/' + jobData.id + '/delete',
+                        url: globalURL+'etl/jobs/' + jobData.id + '/delete',
                         type: 'DELETE',
                         success: function(result) {
                             // Do something with the result
