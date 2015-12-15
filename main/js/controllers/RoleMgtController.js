@@ -150,7 +150,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
                        
             $.ajax({
                     url: globalURL + "api/role/" + roleMgtUpdateNameVal + "/main",
-                    type: "POST",
+                    type: "PUT",
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
                     data:  JSON.stringify(selAryUpdate)
