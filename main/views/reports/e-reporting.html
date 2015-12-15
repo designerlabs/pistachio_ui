@@ -28,6 +28,7 @@
                 </div>
                 <div class="tools">
                     <button class="btn btn-success btn-sm" data-toggle="modal" id="queryAddBtn" data-target="#queryAddForm"><i class="fa fa-plus"></i> Add</button>
+                     <button class="btn btn-success btn-sm" data-toggle="modal" id="queryBackBtn" onclick="history.go(-1)"><i class="fa fa-angle-double-left"></i> Back</button>
                     <!-- <a href="javascript:;" class="reload">
                     </a> -->
                     <!--  <a href="" id="backBtn" style="color:#fff; top: -3px; position: relative;"><i class="fa fa-chevron-circle-left"></i></a> -->
@@ -125,14 +126,13 @@
 <!-- BEGIN MAIN JS -->
 <script>
 $(function() {
-
     $("#jqueryRunData_filter input").addClass('form-control');
     $("#queryAddBtn").click(function(event) {
         $("#queryAddForm #queryUISubmit").removeClass('hide');
         $("#queryAddForm #queryUIUpdate").addClass('hide');
         $("#queryAddFormHeader").html("Add Query UI");
         $("#queryForm")[0].reset();
-    });
+    });    
 });
 //TableAdvanced.init();
 </script>
