@@ -472,20 +472,20 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             //alert(selectedQueryRunId);
         });
 
-        $("#downloadBtn").click(function(event) {
-            event.preventDefault(); //stop the browser from following
-            window.location.href = globalURL+'download/csv/' + selectedQueryRunId;
-        });
+        // $("#downloadBtn").click(function(event) {
+        //     event.preventDefault(); //stop the browser from following
+        //     window.location.href = globalURL+'download/csv/' + selectedQueryRunId;
+        // });
         
-         $("#downloadBtnXLS").click(function(event) {
-            event.preventDefault(); //stop the browser from following
-            window.location.href = globalURL+'download/xls/' + selectedQueryRunId;
-        });
+        //  $("#downloadBtnXLS").click(function(event) {
+        //     event.preventDefault(); //stop the browser from following
+        //     window.location.href = globalURL+'download/xls/' + selectedQueryRunId;
+        // });
         
-         $("#downloadBtnPDF").click(function(event) {
-            event.preventDefault(); //stop the browser from following
-            window.location.href = globalURL+'download/pdf/' + selectedQueryRunId;
-        });
+        //  $("#downloadBtnPDF").click(function(event) {
+        //     event.preventDefault(); //stop the browser from following
+        //     window.location.href = globalURL+'download/pdf/' + selectedQueryRunId;
+        // });
 
 
         var selectedQueryForDelete;
