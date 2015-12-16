@@ -1,5 +1,6 @@
 'use strict';
 var categoryId = undefined;
+var categoryName = undefined;
 MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$http', 'settings', function($rootScope, $scope, $http, settings) {
     $scope.$on('$viewContentLoaded', function() {   
 
@@ -18,12 +19,15 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
             console.log(data);
     		    location.href="#/reports/e-reporting.html";
     		    categoryId = this.x.queryCategory;
+            categoryName = this.x.queryCategoryName;
             $scope.category = categoryId;
+            $scope.categoryName = categoryName;
             //$scope.message = sharedService.categoryId;
           	//$scope.myservice = categoryId; 
           	$("#reportCategoryID").val(categoryId);
           	//if(!localStorage.setItem("reportCategoryID"){
           	localStorage.setItem("reportCategoryID", categoryId);
+            localStorage.setItem("reportCategoryName", categoryName);
           	//}	
           	
     	};

@@ -55,6 +55,8 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             }
 
         }*/
+        $('#lblReportTitle').text(localStorage.getItem('reportCategoryName'));
+        
         function databaseDataFunc() {
             databases = $('#databaseData').DataTable({
 
