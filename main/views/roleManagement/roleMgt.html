@@ -145,7 +145,7 @@ $(document).ready(function() {
 
       $('#myParentSel').multiSelect();
 
-      $.get( "http://10.1.17.25:8080/reportcat/", function( data ) {
+      $.get( globalURL + "reportcat/", function( data ) {
         $.each(data, function (key, value) {
             $('#myParentSel').append(
                 $("<option></option>")
