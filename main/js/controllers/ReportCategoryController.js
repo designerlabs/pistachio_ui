@@ -45,6 +45,22 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
             
             
         };
+
+
+        $("#downloadBtn").click(function(event) {
+            event.preventDefault(); //stop the browser from following
+            window.location.href = globalURL+'download/csv/' + selectedQueryRunId;
+        });
+        
+         $("#downloadBtnXLS").click(function(event) {
+            event.preventDefault(); //stop the browser from following
+            window.location.href = globalURL+'download/xls/' + selectedQueryRunId;
+        });
+        
+         $("#downloadBtnPDF").click(function(event) {
+            event.preventDefault(); //stop the browser from following
+            window.location.href = globalURL+'download/pdf/' + selectedQueryRunId;
+        });
         //console.log($scope);
 
     });
