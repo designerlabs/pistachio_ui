@@ -55,7 +55,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             }
 
         }*/
-        $('#lblReportTitle').text(localStorage.getItem('reportCategoryName'));
+        $('#lblReportTitle').text(localStorage.getItem('reportCategoryTitle'));
         
         function databaseDataFunc() {
             databases = $('#databaseData').DataTable({
@@ -337,7 +337,6 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         var queryData;
         //console.log(categoryId);
         queryDataFunc = function() {
-            
             queryData = $('#queryContainer').DataTable({
 
                 "ajax": {
