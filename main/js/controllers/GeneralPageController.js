@@ -36,6 +36,13 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
         $scope.chkRole = authorities.checkRole;
 
+
+        $("#dataManagement").click(function(){
+            $("#sidebarMenu li").removeClass("active");
+            $(this).addClass('active');
+        });
+
+
         // initialize core components
         Metronic.initAjax();
         var databases;
@@ -871,6 +878,8 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             $("#databaseList").show();
             $("#tableList").hide();
         });
+
+
         /*
                 $("#backBtnQuery").click(function(event) {
                     $("#QueryUIList").show();

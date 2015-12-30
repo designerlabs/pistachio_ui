@@ -70,6 +70,7 @@ var categoryName = "cat";
 
 
 
+
 //validation on keyup
 function formInputValidation(id) {
     $(id + " input").keyup(function(event) {
@@ -120,6 +121,7 @@ function inputValidation(id, callback) {
         });
     });
 }
+
 
 
 
