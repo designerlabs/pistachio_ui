@@ -272,7 +272,8 @@ MetronicApp.controller('SidebarController', ['$scope','$http', 'authorities', fu
             
             localStorage.setItem('sideMenuValue', data);
             $.ajax({
-                url: globalURL+'query/report/'+data,
+                //url: globalURL+'query/report/'+data,
+                url: globalURL+'auth/subreports?token='+getToken+'&parent='+data,
                 type: 'GET',
             })
             .done(function(data) {

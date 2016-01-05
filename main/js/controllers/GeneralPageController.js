@@ -31,8 +31,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
     $scope.$on('$viewContentLoaded', function() {
         $("#databaseList").show();
         $("#tableList").hide();
-
-
+        console.log(authorities.checkRole("ROLE_ADMIN"));
 
         $scope.chkRole = authorities.checkRole;
 
@@ -344,6 +343,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         var queryData;
         //console.log(categoryId);
         queryDataFunc = function() {
+            if($scope.chkRole('ROLE_ADMIN')){
             queryData = $('#queryContainer').DataTable({
 
                 "ajax": {
@@ -361,23 +361,48 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 }, {
                     "data": "execute",
                     "render": function(data, type, full, meta) {
-                        return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
+                       
+                            return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';   
+                         
                     }
-
-
+                   /* "render": function(data, type, full, meta) {
+                        return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
+                    }*/
                 }, {
                     "data": "action",
                     "width": "22%",
                     "render": function(data, type, full, meta) {
-                        if($scope.chkRole('ROLE_ADMIN')){
-                         return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';   
-                     }else{
-                        return '';
-                     }
+                       
+                            return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';   
+                       
                         
                     }
                 }]
-            });
+            })
+        }else{
+            queryData = $('#queryContainerAdmin').DataTable({
+
+                "ajax": {
+                    "processing": true,
+                    "serverSide": true,
+                    "url": globalURL+queryString+"?"+categoryName+"="+reportCategoryID,
+                    "dataSrc": ""
+                },
+                "columns": [ {
+                    "data": "queryName"
+                }, {
+                    "data": "execute",
+                    "render": function(data, type, full, meta) {
+                       
+                            return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';   
+                         
+                    }
+                   /* "render": function(data, type, full, meta) {
+                        return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
+                    }*/
+                }]
+            })
+        };
 
         };
 		
@@ -473,6 +498,12 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         });
 
         $('#queryContainer').on('click', 'button.runBtn', function() {
+            var selectedRunQuery = queryData.row($(this).parents('tr')).data();
+            selectedQueryRunId = selectedRunQuery.id;
+            //alert(selectedQueryRunId);
+        });
+
+        $('#queryContainerAdmin').on('click', 'button.runBtn', function() {
             var selectedRunQuery = queryData.row($(this).parents('tr')).data();
             selectedQueryRunId = selectedRunQuery.id;
             //alert(selectedQueryRunId);

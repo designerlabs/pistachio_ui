@@ -93,31 +93,33 @@
                 <form id="dashboardForm" name="dashboardUIForm" autocomplete="off">
                     <div class="form-group">
                         <label for="dashboard-title" class="control-label">Dashboard Title:</label>
-                        <input type="text" class="form-control" id="dashboard-title">
+                        <input type="text" class="form-control" id="dashboard-title" required>
                     </div>
                     <div class="form-group">
                         <label for="dashboard-url" class="control-label">URL:</label>
-                        <input type="text" class="form-control" id="dashboard-url">
+                        <input type="url" class="form-control" id="dashboard-url" required>
                     </div>
+                    <input type="hidden" id="dashboard-ext" required />
                     <div class="form-group">
                         <label for="dashboard-ext" class="control-label">Ext:</label>
-                        <select name="dashboard-ext" class="form-control" id="dashboard-ext">
+                        <select name="dashboard-ext" class="form-control">
                              <option value="">please select</option>
                              <option value="true">true</option>
                              <option value="false">false</option>
                         </select>
                         <!-- <input type="text" class="form-control" id="dashboard-ext"> -->
                     </div>
+                    <input type="hidden" id="dashboard-icon" required />
                     <div class="form-group">
                         <label for="dashboard-icon" class="control-label">Icon:</label>
-                        <select name="dashboard-icon" class="form-control iconfiles" id="dashboard-icon">
+                        <select name="dashboard-icon" class="form-control iconfiles">
                              
                         </select>
                         <!-- <input type="text" class="form-control" id="dashboard-icon"> -->
                     </div>
                     <div class="form-group">
                         <label for="dashboard-theme" class="control-label">Theme:</label>
-                        <input type="text" class="form-control" id="dashboard-theme">
+                        <input type="text" class="form-control" id="dashboard-theme" required>
                     </div>
                 </form>
             </div>
@@ -164,6 +166,28 @@ $(function() {
         $("#dashboardAddFormHeader").html("Add Dashboard");
         $("#dashboardForm")[0].reset();
     });
+});
+
+
+$("select[name=dashboard-icon]").change(function(){
+    $("#dashboard-icon").val($(this).val());
+
+    if($("#dashboard-icon").val()==""){
+        $(this).parent(".form-group").addClass("has-error");
+    }else{
+        $(this).parent(".form-group").removeClass("has-error");
+    }
+});
+
+
+$("select[name=dashboard-ext]").change(function(){
+    $("#dashboard-ext").val($(this).val());
+
+    if($("#dashboard-ext").val()==""){
+        $(this).parent(".form-group").addClass("has-error");
+    }else{
+        $(this).parent(".form-group").removeClass("has-error");
+    }
 });
 //TableAdvanced.init();
 

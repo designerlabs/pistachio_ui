@@ -78,18 +78,18 @@ var Login = function() {
                         .done(function(data) {
                             var displayNames = data.reports;
                             console.log(data.reports);
-                            authoritiesValue = data.user.authorities;
-                            console.log(authoritiesValue);
-                            //localStorage.setItem("authorities",authorities);
+                            //authoritiesValue = data.user.authorities;
+                            //console.log(authoritiesValue);
+                            localStorage.setItem("authorities",data.roles);
 
-                            for(var i=0; i<authoritiesValue.length;i++){
+                            /*for(var i=0; i<authoritiesValue.length;i++){
                                 console.log(authoritiesValue[i].name);
                                 authoritiesArray.push(authoritiesValue[i].name);
                                 //alert(authorities[i].name);
                                 //return true;
-                            }
+                            }*/
 
-                            localStorage.setItem("authorities",authoritiesArray);
+                            localStorage.setItem("authorities",data.roles);
                            
                             //form.submit();
 			    window.location = "index.html#/dashboard.html";

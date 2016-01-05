@@ -6,19 +6,20 @@ MetronicApp.controller('DashboardController', function($rootScope, $scope, $http
         // initialize core components
         Metronic.initAjax();
         var getUser = localStorage.getItem("username");
-    	$http.get(globalURL+"role/report?user="+getUser)
+    	$http.get(globalURL+"pistachio/dashboard")
     	.success(function(response) {
     		$scope.names = response;
        });
 
     	$scope.go = function(data){
             
-    		location.href=data;
+            window.open(data, '_blank')
+    		//location.href=data;
             var categoryId = this.$$watchers[2].last;
             //$scope.message = sharedService.categoryId;
           
     	};
-        //console.log($scope);
+        console.log($scope);
 
     });
 
