@@ -36,6 +36,13 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
         $scope.chkRole = authorities.checkRole;
 
+
+        $("#dataManagement").click(function(){
+            $("#sidebarMenu li").removeClass("active");
+            $(this).addClass('active');
+        });
+
+
         // initialize core components
         Metronic.initAjax();
         var databases;
@@ -55,7 +62,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             }
 
         }*/
-        $('#lblReportTitle').text(localStorage.getItem('reportCategoryName'));
+        $('#lblReportTitle').text(localStorage.getItem('reportCategoryTitle'));
         
         function databaseDataFunc() {
             databases = $('#databaseData').DataTable({
@@ -337,7 +344,6 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         var queryData;
         //console.log(categoryId);
         queryDataFunc = function() {
-            
             queryData = $('#queryContainer').DataTable({
 
                 "ajax": {
@@ -472,20 +478,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             //alert(selectedQueryRunId);
         });
 
-        // $("#downloadBtn").click(function(event) {
-        //     event.preventDefault(); //stop the browser from following
-        //     window.location.href = globalURL+'download/csv/' + selectedQueryRunId;
-        // });
         
-        //  $("#downloadBtnXLS").click(function(event) {
-        //     event.preventDefault(); //stop the browser from following
-        //     window.location.href = globalURL+'download/xls/' + selectedQueryRunId;
-        // });
-        
-        //  $("#downloadBtnPDF").click(function(event) {
-        //     event.preventDefault(); //stop the browser from following
-        //     window.location.href = globalURL+'download/pdf/' + selectedQueryRunId;
-        // });
 
 
         var selectedQueryForDelete;
@@ -885,6 +878,8 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             $("#databaseList").show();
             $("#tableList").hide();
         });
+
+
         /*
                 $("#backBtnQuery").click(function(event) {
                     $("#QueryUIList").show();

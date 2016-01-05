@@ -13,6 +13,8 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
         var dashboards;
 
 
+        
+
         function dashboardDataFunc() {
             dashboards = $('#dashboardData').DataTable({
 
@@ -46,6 +48,27 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
         }
 
         formInputValidation("#dashboardForm");
+
+        //Icon files
+        var fileExt = {};
+            fileExt[0]=".png";
+            fileExt[1]=".jpg";
+            fileExt[2]=".gif";
+        $.ajax({
+            //This will retrieve the contents of the folder if the folder is configured as 'browsable'
+            url: '../../icons/images/',
+            success: function (data) {
+                 $(".iconfiles").html('<option value="">please select</option>');
+               //List all png or jpg or gif file names in the page
+               $(data).find('a:contains('+ fileExt[0] + '),a:contains(' + fileExt[1] + '),a:contains(' + fileExt[2] + ')').each(function () {
+                   //console.log(this);
+                   var filename = this.href.replace(window.location.host, "").replace("http:///projects/mimos/pistachio_ui/main/", "").replace(".png", "");
+                  
+                   $(".iconfiles").append('<option value="'+filename+'">'+filename+'</option>');
+               });
+             }     
+          });
+
         $("#dashboardUISubmit").click(function(event) {
             var dashboardTitleVal = $("#dashboardForm #dashboard-title").val();
             var dashboardURLVal = $("#dashboardForm #dashboard-url").val();
@@ -97,7 +120,13 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
             $("#dashboardAddForm #dashboardUIUpdate").removeClass('hide');
             $("#dashboardForm #dashboard-title").val(selectedDashboard.title);
             $("#dashboardForm #dashboard-url").val(selectedDashboard.url);
-            $("#dashboardForm #dashboard-ext").val(selectedDashboard.ext);
+            //var userAuthorities = Object.keys(selectedDashboard.ext).map(function() { return selectedDashboard.ext });
+            //$("#roleMultiple").val(userAuthorities);
+            //$("#dashboardForm #dashboard-ext").val(selectedDashboard.ext).change();
+            $('#dashboardForm #dashboard-ext option[value='+selectedDashboard.ext+']').attr('selected','selected');
+
+      
+
             $("#dashboardForm #dashboard-icon").val(selectedDashboard.icon);
             $("#dashboardForm #dashboard-theme").val(selectedDashboard.color);
             $("#dashboardAddFormHeader").html("Update Dashboard");
@@ -107,6 +136,35 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
 
 
         $("#dashboardUIUpdate").click(function(event) {
+
+            if( $('#dashboard-ext :selected').length > 0){
+               //var selectedValue = {};
+               var selectedText = [];
+               
+               var colName = "name";
+               var colValue = "value";
+               
+               $('#dashboard-ext :selected').each(function(i, selected) {
+                     
+                    var jsonData = {};     
+                   jsonData[colName] = $(selected).val();
+                   jsonData[colValue] = $(selected).data('val');
+                   selectedText.push(jsonData);
+                   //var arr = {'name':'+$(selected).val()+','value':'+$(selected).data('val')+'}; 
+                   //console.log(selected, i);
+                   //selectedText.push(JSON.parse(arr));
+                   //alert(selectedText[i]);
+                   //selectedValue[i] = $(selected).data('val');
+               });
+
+
+
+                   
+                    console.log(JSON.stringify(selectedText));
+
+                
+            }
+
 
             var dashboardUpdateTitleVal = $("#dashboardForm #dashboard-title").val();
             var dashboardUpdateURLVal = $("#dashboardForm #dashboard-url").val();

@@ -6,6 +6,7 @@
 <!-- BEGIN MAIN CONTENT -->
 <div class="row">
     <div class="col-md-12">
+    <div id='fileNames'> </div>
         <!-- END EXAMPLE TABLE PORTLET-->
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
         <div class="portlet box red-intense" id="dashboardList">
@@ -13,6 +14,8 @@
                 <div class="caption">
                     <i class="fa fa-globe"></i>Dashboard Management List
                 </div>
+
+
                 <div class="tools">
                     <button class="btn btn-success btn-sm" data-toggle="modal" id="dashboardAddBtn" data-target="#dashboardAddForm"><i class="fa fa-plus"></i> Add</button>
                 </div>
@@ -98,11 +101,19 @@
                     </div>
                     <div class="form-group">
                         <label for="dashboard-ext" class="control-label">Ext:</label>
-                        <input type="text" class="form-control" id="dashboard-ext">
+                        <select name="dashboard-ext" class="form-control" id="dashboard-ext">
+                             <option value="">please select</option>
+                             <option value="true">true</option>
+                             <option value="false">false</option>
+                        </select>
+                        <!-- <input type="text" class="form-control" id="dashboard-ext"> -->
                     </div>
                     <div class="form-group">
                         <label for="dashboard-icon" class="control-label">Icon:</label>
-                        <input type="text" class="form-control" id="dashboard-icon">
+                        <select name="dashboard-icon" class="form-control iconfiles" id="dashboard-icon">
+                             
+                        </select>
+                        <!-- <input type="text" class="form-control" id="dashboard-icon"> -->
                     </div>
                     <div class="form-group">
                         <label for="dashboard-theme" class="control-label">Theme:</label>

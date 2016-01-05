@@ -1,6 +1,6 @@
 'use strict';
 var categoryId = undefined;
-var categoryName = undefined;
+var categoryTitle = undefined;
 MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$http', 'settings', function($rootScope, $scope, $http, settings) {
     $scope.$on('$viewContentLoaded', function() {   
 
@@ -19,15 +19,15 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
             console.log(data);
     		    location.href="#/reports/e-reporting.html";
     		    categoryId = this.x.queryCategory;
-            categoryName = this.x.queryCategoryName;
+            categoryTitle = this.x.queryCategoryName;
             $scope.category = categoryId;
-            $scope.categoryName = categoryName;
+            $scope.categoryTitle = categoryTitle;
             //$scope.message = sharedService.categoryId;
           	//$scope.myservice = categoryId; 
           	$("#reportCategoryID").val(categoryId);
           	//if(!localStorage.setItem("reportCategoryID"){
           	localStorage.setItem("reportCategoryID", categoryId);
-            localStorage.setItem("reportCategoryName", categoryName);
+            localStorage.setItem("reportCategoryTitle", categoryTitle);
           	//}	
           	
     	};
@@ -45,6 +45,22 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
             
             
         };
+
+
+        $("#downloadBtn").click(function(event) {
+            event.preventDefault(); //stop the browser from following
+            window.location.href = globalURL+'download/csv/' + selectedQueryRunId;
+        });
+        
+         $("#downloadBtnXLS").click(function(event) {
+            event.preventDefault(); //stop the browser from following
+            window.location.href = globalURL+'download/xls/' + selectedQueryRunId;
+        });
+        
+         $("#downloadBtnPDF").click(function(event) {
+            event.preventDefault(); //stop the browser from following
+            window.location.href = globalURL+'download/pdf/' + selectedQueryRunId;
+        });
         //console.log($scope);
 
     });
