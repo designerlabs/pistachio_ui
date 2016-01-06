@@ -51,7 +51,7 @@
 <!-- END PAGE HEADER-->
 <!-- BEGIN MAIN CONTENT -->
 <div ng-controller="DashboardController">
-	<!-- <div class="note note-success note-bordered">
+    <!-- <div class="note note-success note-bordered">
 		<h3>Meet Metronic AngularJS Version! <span class="close" data-close="note"></span></h3>
 		<p>
 			AngularJS version of Metronic gives an extremely fast browsing experience to users. 
@@ -62,9 +62,9 @@
 		<span class="label label-danger">NOTE:</span> All Metronic features from the HTML version(pages, layout options, components, plugins, etc) are fully compatible in the AngularJS version.</span>
 		</p>
 	</div> -->
-	<!-- BEGIN DASHBOARD STATS -->
-<div class="tiles">
-  				<!-- <div class="tile double-down bg-blue-hoki">
+    <!-- BEGIN DASHBOARD STATS -->
+    <div class="tiles">
+        <!-- <div class="tile double-down bg-blue-hoki">
   										<div class="tile-body">
   											<i class="fa fa-bell-o"></i>
   										</div>
@@ -257,23 +257,25 @@
   											</div>
   										</div>
   									</div> -->
-
-  									<div ng-repeat="x in names">
-			<div class='tile bounceIn image {{x.color}}' ng-click='go(x.url)' data-category='{{x.queryCategory}}'>
-				<div class="tile-body">
-					<i class="fa {{x.icon}}"></i>
-				</div>
-				<div class="tile-object">
-					<div class="name">
-						{{x.title}}
-					</div>
-				</div>
-			</div>
-		</div>
-				</div>
-
-	<!-- END DASHBOARD STATS -->
-<!-- 	<div class="row">
+        <div ng-repeat="x in names">
+            <div class='tile bounceIn image {{x.color}}' ng-click='go(x.url)' data-category='{{x.queryCategory}}'>
+                <div class="tile-body">
+                    <i class="fa {{x.icon}}"></i>
+                </div>
+                <div class="tile-object">
+                    <div class="name">
+                        {{x.title}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="iframeContainer" allowtransparency="true" style="display:none; position: absolute; top: 20px; height: 93%; width: 80%; background: #FFFFFF;" frameborder="0">
+    <span id="iframeCloseBtn"><i class="fa fa-times" style="font-size:25px;"></i></span>
+        <iframe src="" width="100%" height="100%"> </iframe>
+    </div>
+    <!-- END DASHBOARD STATS -->
+    <!-- 	<div class="row">
 	<div class="col-md-6 col-sm-12">
 		BEGIN PORTLET
 		<div class="portlet light ">
@@ -1995,7 +1997,7 @@
 <!-- END MAIN CONTENT -->
 <!-- BEGIN MAIN JS & CSS -->
 <script>
-	Index.init();    
-	Tasks.initDashboardWidget();
+Index.init();
+Tasks.initDashboardWidget();
 </script>
 <!-- BEGIN MAIN JS & CSS -->

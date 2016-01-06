@@ -13,12 +13,14 @@ function onResize1() {
         $('td .btn1').html('<i class="fa fa-play"></i>');
         $('td .updateBtn').html('<i class="fa fa-edit"></i>');
         $('td .deleteBtn, td .btn2').html('<i class="fa fa-trash"></i>');
+        $('td .btn3').html('<i class="fa fa-clock-o"></i>');
         $('td .btn').css('padding', '3px');
     } else {
         $('.tableView').html('<i class="fa fa-eye"></i> View');
         $('td .btn1').html('<i class="fa fa-play"></i> Start');
         $('td .updateBtn').html('<i class="fa fa-edit"></i> Edit');
         $('td .deleteBtn, td .btn2').html('<i class="fa fa-trash"></i> Delete');
+        $('td .btn3').html('<i class="fa fa-clock-o"></i> Schedule');
         $('td .btn').css('padding', '6px 12px');
     }
 }
@@ -330,7 +332,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         //} else {
 
                         if (data == "JOB_CREATED") {
-                        return '<button class="btn btn-success btn-sm btn1"><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm btn2"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-info btn-sm"><i class="fa fa-clock-o"></i> Schedule</button>';
+                        return '<button class="btn btn-success btn-sm btn1"><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm btn2"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-info btn-sm btn3"><i class="fa fa-clock-o"></i> Schedule</button>';
                         } else {
                         return '<button class="btn btn-success btn-sm btn1"><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm btn2"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-info btn-sm btn3" disabled><i class="fa fa-clock-o"></i> Schedule</button>';
                         }

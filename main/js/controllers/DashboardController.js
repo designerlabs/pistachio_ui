@@ -1,6 +1,6 @@
 'use strict';
 
-MetronicApp.controller('DashboardController', function($rootScope, $scope, $http, $timeout) {
+MetronicApp.controller('DashboardController', function($rootScope, $scope, $http, $timeout, $sce) {
     $scope.$on('$viewContentLoaded', function() {   
 
         // initialize core components
@@ -11,14 +11,23 @@ MetronicApp.controller('DashboardController', function($rootScope, $scope, $http
     		$scope.names = response;
        });
 
+
     	$scope.go = function(data){
             
-            window.open(data, '_blank')
+            $("#iframeContainer").show();
+            //$("#iframeContainer iframe").attr('ng-src',data);
+            $scope.currentProjectUrl = $sce.trustAsResourceUrl($scope.data);
     		//location.href=data;
+            $("#iframeContainer iframe").attr('src',data);
             var categoryId = this.$$watchers[2].last;
             //$scope.message = sharedService.categoryId;
           
     	};
+
+        $("#iframeCloseBtn").click(function(){
+            $("#iframeContainer").hide();
+            $("#iframeContainer iframe").attr('src','');
+        });
         console.log($scope);
 
     });
