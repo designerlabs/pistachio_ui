@@ -5,6 +5,14 @@
     <div class="col-md-12">
         <!-- END EXAMPLE TABLE PORTLET-->
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div id="loader" style="position:absolute; top:0px; left:0px; background:rgba(255,255,255,0.8); width:100%; z-index:9999;">   
+            <div ng-spinner-bar class="page-spinner-bar">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+
         <div class="portlet box red-intense" id="roleMgtList">
             <div class="portlet-title">
                 <div class="caption">
@@ -150,13 +158,22 @@ $(function() {
         $("#myParentSel").multiSelect('refresh');
       });
 
-        var dtable = $('#dtCURD').DataTable(); 
+       
+
+
+});
+
+$('#roleMgtAddForm').on('hidden.bs.modal', function () {
+    triggerName = "";
+    SubReportAry = [];
+     var dtable = $('#dtCURD').DataTable(); 
         dtable
             .clear()
             .draw();
 
     });
-});
+
+})
 
 $(document).ready(function() { 
 

@@ -1,5 +1,6 @@
 'use strict';
-
+var selectedroleMgt = undefined;
+var triggerName = "";
 MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, $timeout) {
     $scope.$on('$viewContentLoaded', function() {   
 
@@ -142,6 +143,17 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
         //Update click from Data Table
         var selectedroleMgtId = undefined;
         $('#roleMgtdata').on('click', 'button.updateBtn', function() {
+        
+        triggerName = "update";
+        SubReportAry = [];
+         var dtable = $('#dtCURD').DataTable(); 
+              dtable
+                  .clear()
+                  .draw();
+
+        
+        // $("#loader").show();          
+
             $("#roleMgtForm")[0].reset();
             $('#myParentSel option').remove();;
             $('#myParentSel').multiSelect('refresh');
@@ -158,19 +170,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
                   );
               });
               $("#myParentSel").multiSelect('refresh');
-            });
-
-            // $('#myParentSel').multiSelect('deselect_all');
-            $("#roleMgtAddFormHeader").html("Update Report");            
-            $("#roleMgtAddForm").modal('show');
-            
-            var selectedroleMgt = roleMgts.row($(this).parents('tr')).data();
-            //selectedroleMgtName = selectedroleMgt.name;
-            $("#roleMgtAddForm #roleMgtUISubmit").addClass('hide');
-            $("#roleMgtAddForm #roleMgtUIUpdate").removeClass('hide');
-            $("#roleMgtForm #roleMgt-name").val(selectedroleMgt.name); 
-            
-            //Fill and Select Main reports    
+               //Fill and Select Main reports    
              $.ajax({
                     url: globalURL + "api/role/" + selectedroleMgt.name +"/main" ,
                     type: "GET",
@@ -179,55 +179,30 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
                 })
                 .done(function(data) {
                   //$('#myParentSel').multiSelect('refresh');
-                  $.each(data, function(k,v){
+                  var resultMain = data;
+                  $.each(resultMain, function(k,v){
                     $('#myParentSel').multiSelect('select', v.name); 
                   });
+                    $('#myParentSel').multiSelect('refresh');
 
-                     //Select sub reports  
-                         $.ajax({
-                                url: globalURL + "api/role/" + selectedroleMgt.name +"/subreport" ,
-                                type: "GET",
-                                dataType: 'json',
-                                contentType: "application/json; charset=utf-8"                    
-                            })
-                            .done(function(data) {
-                              //$('#myParentSel').multiSelect('refresh');
-                              $.each(data, function(k,v){
-                                $('#mySubParentSel').multiSelect('select', v.queryCategory); 
-                              });
-
-                              // Select Each report Permissions
-                                 $.ajax({
-                                      url: globalURL + "api/role/" + selectedroleMgt.name +"/subcrud" ,
-                                      type: "GET",
-                                      dataType: 'json',
-                                      contentType: "application/json; charset=utf-8"                    
-                                  })
-                                  .done(function(data) {
-
-                                    $.each(data, function(k,v){
-                                      $('#mySubParentSel').multiSelect('select', v.queryCategory); 
-                                    });
-
-                                   
-
-                                  })
-                                  .fail(function() {
-                                      alert('Failed in Sub Reports Permissions!');
-                                  });  
-
-
-                            })
-                            .fail(function() {
-                                alert('Failed in Sub Reports!');
-                            });  
                 })
                 .fail(function() {
                     alert('Failed in Parent Reports!');
                 });
 
-             
+            });
 
+            // $('#myParentSel').multiSelect('deselect_all');
+            $("#roleMgtAddFormHeader").html("Update Report");            
+            $("#roleMgtAddForm").modal('show');
+            
+            selectedroleMgt = roleMgts.row($(this).parents('tr')).data();
+            //selectedroleMgtName = selectedroleMgt.name;
+            $("#roleMgtAddForm #roleMgtUISubmit").addClass('hide');
+            $("#roleMgtAddForm #roleMgtUIUpdate").removeClass('hide');
+            $("#roleMgtForm #roleMgt-name").val(selectedroleMgt.name); 
+            
+           
 
         });
 
@@ -404,8 +379,57 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
                       .text(val.queryCategoryName)
                   );
                });
+
                $('#mySubParentSel').append(optgrp);
+
                $('#mySubParentSel').multiSelect('refresh');
+               //alert('Main completed');
+
+               //Select sub reports  
+               if(triggerName){
+                       $.ajax({
+                              url: globalURL + "api/role/" + selectedroleMgt.name +"/subreport" ,
+                              type: "GET",
+                              dataType: 'json',
+                              contentType: "application/json; charset=utf-8"                    
+                          })
+                          .done(function(data) {
+                            //$('#myParentSel').multiSelect('refresh');
+                            var resultSub = data;
+                            $.each(resultSub, function(k,v){
+                              $('#mySubParentSel').multiSelect('select', v.queryCategory); 
+                            });
+                              $('#mySubParentSel').multiSelect('refresh');
+                              triggerName = "";
+                            // $("#loader").hide();
+
+                            // Select Each report Permissions
+                               // $.ajax({
+                               //      url: globalURL + "api/role/" + selectedroleMgt.name +"/subcrud" ,
+                               //      type: "GET",
+                               //      dataType: 'json',
+                               //      contentType: "application/json; charset=utf-8"                    
+                               //  })
+                               //  .done(function(data) {
+
+                               //    $.each(data, function(k,v){
+                               //      $('#mySubParentSel').multiSelect('select', v.queryCategory); 
+                               //    });
+
+                                 
+
+                               //  })
+                               //  .fail(function() {
+                               //      alert('Failed in Sub Reports Permissions!');
+                               //  });  
+
+
+                          })
+                          .fail(function() {
+                              alert('Failed in Sub Reports!');
+                          });  
+                          }
+
             });
           },
           afterDeselect: function(value){
@@ -473,7 +497,6 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
     });
 
         $('#dtCURD tbody').on('click', 'input[type="checkbox"]', function(e){
-          // debugger;
          var $this = this;
          var table = $('#dtCURD').DataTable();
           var $row = $(this).closest('tr');
