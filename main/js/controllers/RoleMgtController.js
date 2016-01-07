@@ -1,6 +1,8 @@
 'use strict';
 var selectedroleMgt = undefined;
 var triggerName = "";
+        var SubReportAry = [];
+        var SubReportObj = [];
 MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, $timeout) {
     $scope.$on('$viewContentLoaded', function() {   
 
@@ -84,8 +86,8 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
                             })
                             .done(function() {
                                 alert("Inserted Parent Report done");
-                                roleMgts.destroy();
-                                roleMgtDataFunc();
+                                //roleMgts.destroy();
+                                //roleMgtDataFunc();
                                 // $("#roleMgtAddForm").modal('hide');
                                 // $("#roleMgtRequire").hide(); 
 
@@ -447,8 +449,6 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
             }
         });
  
-        var SubReportAry = [];
-        var SubReportObj = [];
 
       $('#mySubParentSel').multiSelect({ 
         selectableOptgroup: false,
