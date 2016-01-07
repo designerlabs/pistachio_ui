@@ -123,17 +123,18 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
             //var userAuthorities = Object.keys(selectedDashboard.ext).map(function() { return selectedDashboard.ext });
             //$("#roleMultiple").val(userAuthorities);
             //$("#dashboardForm #dashboard-ext").val(selectedDashboard.ext).change();
-            $('#dashboardForm #dashboard-ext option[value='+selectedDashboard.ext+']').attr('selected','selected');
-
+            //$('#dashboardForm #dashboard-ext option[value='+selectedDashboard.ext+']').attr('selected','selected');
+            $('#dashboardForm select[name=dashboard-ext] option[value='+selectedDashboard.ext+']').attr('selected','selected');
       
 
-            $("#dashboardForm #dashboard-icon").val(selectedDashboard.icon);
+            //$("#dashboardForm #dashboard-icon").val(selectedDashboard.icon);
+            $("#dashboardForm select[name=dashboard-icon]").val(selectedDashboard.icon);
             $("#dashboardForm #dashboard-theme").val(selectedDashboard.color);
             $("#dashboardAddFormHeader").html("Update Dashboard");
             $("#dashboardAddForm").modal('show');
         });
 
-
+        
 
         $("#dashboardUIUpdate").click(function(event) {
 
@@ -172,6 +173,10 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
             var dashboardUpdateIconVal = $("#dashboardForm #dashboard-icon").val();
             var dashboardUpdateThemeVal = $("#dashboardForm #dashboard-theme").val();
             //alert(selectedQueryId);
+            inputValidation("#dashboardForm", dashbardAjaxUpdate);
+
+
+            function dashbardAjaxUpdate(){
             $.ajax({
                     url: globalURL+"pistachio/dashboard",
                     type: "PUT",
@@ -196,6 +201,8 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
                 .fail(function() {
                     alert('Failed!');
                 });
+
+            }
         });
 
 
