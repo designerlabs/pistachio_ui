@@ -49,7 +49,7 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
 
         formInputValidation("#dashboardForm");
 
-        //Icon files
+       /* //Icon files
         var fileExt = {};
             fileExt[0]=".png";
             fileExt[1]=".jpg";
@@ -67,7 +67,36 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
                    $(".iconfiles").append('<option value="'+filename+'">'+filename+'</option>');
                });
              }     
+          });*/
+
+
+        $.ajax({
+            url: globalURL+"api/gui/icons",
+            success: function (data) {
+                 $(".iconfiles").html('<option value="">please select</option>');
+               //List all png or jpg or gif file names in the page
+                $.each( data, function( i, val ) {
+                  $(".iconfiles").append('<option value="fa-'+val+'">'+val+'</option>');
+                  // Will stop running after "three"
+                  //return ( val !== "three" );
+                });
+            }     
+          });    
+        
+
+        $.ajax({
+            url: globalURL+"api/gui/themes",
+            success: function (data) {
+                 $(".themefiles").html('<option value="">please select</option>');
+               //List all png or jpg or gif file names in the page
+                $.each( data, function( i, val) {
+                  $(".themefiles").append('<option value="bg-'+val+'">'+val+'</option>');
+                  // Will stop running after "three"
+                  //return ( val !== "three" );
+                });
+            }     
           });
+    
 
         $("#dashboardUISubmit").click(function(event) {
             var dashboardTitleVal = $("#dashboardForm #dashboard-title").val();
@@ -129,7 +158,8 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
 
             //$("#dashboardForm #dashboard-icon").val(selectedDashboard.icon);
             $("#dashboardForm select[name=dashboard-icon]").val(selectedDashboard.icon);
-            $("#dashboardForm #dashboard-theme").val(selectedDashboard.color);
+            console.log(selectedDashboard);
+            $("#dashboardForm select[name=dashboard-theme]").val(selectedDashboard.color);
             $("#dashboardAddFormHeader").html("Update Dashboard");
             $("#dashboardAddForm").modal('show');
         });
