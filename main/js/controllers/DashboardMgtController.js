@@ -145,6 +145,7 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
         $('#dashboardData').on('click', 'button.updateBtn', function() {
             var selectedDashboard = dashboards.row($(this).parents('tr')).data();
             selectedDashboardId = selectedDashboard.id;
+            console.log(selectedDashboard);
             $("#dashboardAddForm #dashboardUISubmit").addClass('hide');
             $("#dashboardAddForm #dashboardUIUpdate").removeClass('hide');
             $("#dashboardForm #dashboard-title").val(selectedDashboard.title);
@@ -158,17 +159,21 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
 
             //$("#dashboardForm #dashboard-icon").val(selectedDashboard.icon);
             $("#dashboardForm select[name=dashboard-icon]").val(selectedDashboard.icon);
-            console.log(selectedDashboard);
+            //console.log(selectedDashboard);
             $("#dashboardForm select[name=dashboard-theme]").val(selectedDashboard.color);
             $("#dashboardAddFormHeader").html("Update Dashboard");
             $("#dashboardAddForm").modal('show');
         });
+        
 
+               console.log(event);
+            
         
 
         $("#dashboardUIUpdate").click(function(event) {
 
-            if( $('#dashboard-ext :selected').length > 0){
+
+            if( $('#dashboard-ext:selected').length > 0){
                //var selectedValue = {};
                var selectedText = [];
                
