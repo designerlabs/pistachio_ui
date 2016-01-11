@@ -117,9 +117,13 @@
                         </select>
                         <!-- <input type="text" class="form-control" id="dashboard-icon"> -->
                     </div>
+
+                    <input type="hidden" id="dashboard-theme" required />
                     <div class="form-group">
                         <label for="dashboard-theme" class="control-label">Theme:</label>
-                        <input type="text" class="form-control" id="dashboard-theme" required>
+                        <select name="dashboard-theme" class="form-control themefiles">
+                             
+                        </select>
                     </div>
                 </form>
             </div>
@@ -173,6 +177,16 @@ $("select[name=dashboard-icon]").change(function(){
     $("#dashboard-icon").val($(this).val());
 
     if($("#dashboard-icon").val()==""){
+        $(this).parent(".form-group").addClass("has-error");
+    }else{
+        $(this).parent(".form-group").removeClass("has-error");
+    }
+});
+
+$("select[name=dashboard-theme]").change(function(){
+    $("#dashboard-theme").val($(this).val());
+
+    if($("#dashboard-theme").val()==""){
         $(this).parent(".form-group").addClass("has-error");
     }else{
         $(this).parent(".form-group").removeClass("has-error");
