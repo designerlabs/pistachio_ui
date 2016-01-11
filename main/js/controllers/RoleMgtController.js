@@ -2,8 +2,8 @@
 var selectedroleMgt = undefined;
 var triggerName = "";
 var triggerDataTableName = "";
-        var SubReportAry = [];
-        var SubReportObj = [];
+var SubReportAry = [];
+var SubReportObj = [];
 MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, $timeout) {
     $scope.$on('$viewContentLoaded', function() {   
 
@@ -72,8 +72,8 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
                         })
                     })
                     .done(function(){
-                         roleMgts.destroy();
-                         roleMgtDataFunc(); 
+                         // roleMgts.destroy();
+                         // roleMgtDataFunc(); 
                          console.log(selAry);
 
                           //Now adding Parent Reports to the newly created Role...
@@ -86,14 +86,8 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
                                 data: JSON.stringify(selAry)
                             })
                             .done(function() {
-                                alert("Inserted Parent Report done");
-                                //roleMgts.destroy();
-                                //roleMgtDataFunc();
-                                // $("#roleMgtAddForm").modal('hide');
-                                // $("#roleMgtRequire").hide(); 
-
-                          //Now adding Sub Reports to the newly created Role...
-
+                                alert("Inserted Parent Report done");                               
+                                //Now adding Sub Reports to the newly created Role...
                                     $.each(SubReportAry,function(k,v){
                                         $.ajax({
                                             url: globalURL + "api/role/" + roleMgtNameVal + "/sub?sid=" + v.sid,
@@ -151,12 +145,13 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
         triggerDataTableName = "update";
         SubReportAry = [];
          var dtable = $('#dtCURD').DataTable(); 
-              dtable
-                  .clear()
-                  .draw();
+          dtable
+               .clear()
+               .draw();
+            $("#loader").css('height', $(".page-content").height() + 140 + 'px');
+            $("#loader .page-spinner-bar").removeClass('hide');
 
-        
-        // $("#loader").show();          
+            $("#loader").show();          
 
             $("#roleMgtForm")[0].reset();
             $('#myParentSel option').remove();;
@@ -188,7 +183,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
                     $('#myParentSel').multiSelect('select', v.name); 
                   });
                     $('#myParentSel').multiSelect('refresh');                           
-
+                       $("#loader").hide();  
                 })
                 .fail(function(data) {
                     alert('Failed in Parent Reports!');
@@ -229,17 +224,17 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
               });
                        
             $.ajax({
-                    url: globalURL + "api/role/" + roleMgtUpdateNameVal + "/main",
-                    // url: "http://10.1.17.58:8080/api/role/" + roleMgtUpdateNameVal + "/main",
+                    url: globalURL + "api/role/" + roleMgtUpdateNameVal + "/main",                   
                     type: "PUT",
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
                     data:  JSON.stringify(selAryUpdate)
                 })
                 .done(function(data) {
-                    roleMgts.destroy();
-                    roleMgtDataFunc();
-                    $("#roleMgtAddForm").modal('hide');                      
+                  UpdateSubReportsCrud(roleMgtUpdateNameVal);
+                    // roleMgts.destroy();
+                    // roleMgtDataFunc();
+                    // $("#roleMgtAddForm").modal('hide');                      
                 })
                 .fail(function(data) {
                     alert('Failed!');
@@ -248,6 +243,34 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
                     $("#roleMgtRequire").show();
                 });
         });
+
+function UpdateSubReportsCrud(RoleName){
+  // debugger;
+  $.each(SubReportAry,function(k,v){
+            $.ajax({
+                url: globalURL + "api/role/" + RoleName + "/sub?sid=" + v.sid,
+                type: "PUT",
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(v)
+            })
+            .done(function() {
+                // alert("Inserted sub done");
+                roleMgts.destroy();
+                roleMgtDataFunc();
+                $("#roleMgtAddForm").modal('hide');
+                $("#roleMgtRequire").hide();                                                  
+
+            })
+            .fail(function(data) {
+                console.log(data.responseJSON.error);
+                $("#roleMgtRequire span").html(data.responseJSON.error);
+                $("#roleMgtRequire").show();
+                //alert('Failed!');
+            }); 
+
+        }); 
+}
 
         //Delete Record
         var selectedroleMgtForDelete;
@@ -366,38 +389,33 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
 
         roleMgtSubReportPermission();
             
-            var selectedroelMgtRolePermission;
-            // $('#dtCURD').on('click', 'checkbox.yesBtn', function() {
-               
-            //     selectedroelMgtRolePermission = RoleMgtsSubMenu.row($(this).parents('tr')).data();
-            //     var idx = RoleMgtsSubMenu.cell($(this)).index().column();
-            //     var title = RoleMgtsSubMenu.column( idx ).header();
-            //     alert(title);
-            //     console.log(title);
-            // });
-
+        var selectedroelMgtRolePermission;            
 
         $('#myParentSel').multiSelect({
           afterSelect: function (value) {
                var optgrp = $("<optgroup></optgroup>");
                optgrp[0].label = $("#myParentSel option[value =" + value + "]").text();
+               
+               $("#loader").css('height', $(".page-content").height() + 140 + 'px');
+               $("#loader .page-spinner-bar").removeClass('hide');
+                
                $.get(globalURL + "query/report/" + value, function( data ) {
-               $.each(data, function (k, val) {
-               optgrp.append(
-                    $("<option></option>")
-                      .attr("dataid", val.id)
-                      .attr("value", val.queryCategory)
-                      .text(val.queryCategoryName)
-                  );
-               });
-
-               $('#mySubParentSel').append(optgrp);
-
-               $('#mySubParentSel').multiSelect('refresh');
+                $("#loader").show(); 
+                     $.each(data, function (k, val) {
+                     optgrp.append(
+                          $("<option></option>")
+                            .attr("dataid", val.id)
+                            .attr("parentname", val.parent)
+                            .attr("value", val.queryCategory)
+                            .text(val.queryCategoryName)
+                        );
+                     });
+                     $('#mySubParentSel').append(optgrp);
+                     $('#mySubParentSel').multiSelect('refresh');
 
                //Select sub reports  
                var resultSub = undefined;
-               console.log("After select of myParentSel :"+ triggerName);
+               // console.log("After select of myParentSel :"+ triggerName);
                if(triggerName){
                        $.ajax({
                               url: globalURL + "api/role/" + selectedroleMgt.name +"/subcrud" ,
@@ -413,7 +431,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
                                 
                             });
                               $('#mySubParentSel').multiSelect('refresh');  
-                               UpdateCrud();  
+                               UpdateCrud(data);  
                              
                           })
                           .fail(function(data) {
@@ -424,31 +442,39 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
                           }); 
                            triggerName = "";
                       }
+                      $("#loader").hide(); 
 
             });
           },
           afterDeselect: function(value){
+            // debugger;
             var optionText = '';
             optionText = $("#myParentSel option[value=" + value + "]").text();
             $("#mySubParentSel optgroup[label='" + optionText + "']").remove();
             $("#mySubParentSel").multiSelect('refresh');
 
             var oTable = $('#dtCURD').dataTable();            
-            $("tr:contains('" + optionText + "')").each(function() 
+            $("tr:contains('" + value + "')").each(function() 
                {
                  oTable.fnDeleteRow(this);
                }
             );
+            var filteredNames = $(SubReportAry).filter(function( idx ) {
+                  return SubReportAry[idx].parentname == value[0]
+              });
+             SubReportAry.splice($.inArray(filteredNames[0],SubReportAry),1);
             }
         });
  
 
       $('#mySubParentSel').multiSelect({ 
         selectableOptgroup: false,
-        afterSelect: function (value) {               
+        afterSelect: function (value) {  
+        // debugger;             
                 var disText =  $("#mySubParentSel option[value =" + value + "]").text();
                 var disParentText = $("#mySubParentSel option[value =" + value + "]").parent().attr('label');
                 var disid = $("#mySubParentSel option[value =" + value + "]").attr('dataid');
+                var disparentname = $("#mySubParentSel option[value =" + value + "]").attr('parentname'); 
                 if(!triggerDataTableName){
                       SubReportObj = {
                           'sid': disid,
@@ -456,13 +482,14 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
                           'run': false,
                           'update':false,
                           'delete':false,
-                          'queryVisible':true
+                          'queryVisible':true,
+                          'parentname' : disparentname
                       };
                       SubReportAry.push(SubReportObj);
                       var table = $('#dtCURD').DataTable();
                           table.rows.add( [{
                               "id": disid,
-                              "parentname": disParentText,
+                              "parentname": disparentname,
                               "name":     disText,
                               "add":   "false",
                               "run":     "false",
@@ -491,23 +518,17 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
         }
     });
 
-function UpdateCrud(){
-
-        $.ajax({
-                url: globalURL + "api/role/" + selectedroleMgt.name +"/subcrud" ,
-                type: "GET",
-                dataType: 'json',
-                contentType: "application/json; charset=utf-8"                    
-            })
-            .done(function(data) {
-               $.each(data, function(k,v){                              
+function UpdateCrud(_data){
+        
+               $.each(_data, function(k,v){                              
                   SubReportObj = {
                         'sid': v.sid,
                         'add': v.add,
                         'run': v.run,
                         'update':v.update,
                         'delete':v.delete,
-                        'queryVisible': v.queryVisible
+                        'queryVisible': v.queryVisible,
+                        "parentname": v.subReports.parent
                     };
               SubReportAry.push(SubReportObj);
               var table = $('#dtCURD').DataTable();
@@ -522,18 +543,8 @@ function UpdateCrud(){
                             "queryVisible": v.queryVisible.toString() 
                         }] )
                         .draw();                                  
-                });
-            })
-            .fail(function(data) {
-                    alert('Failed!');
-                    console.log(data.responseJSON.error);
-                    $("#roleMgtRequire span").html(data.responseJSON.error);
-                    $("#roleMgtRequire").show();
-            });
-              console.log("function UpdateCrud triggerDataTableName :"+ triggerDataTableName);
+                });           
              triggerDataTableName = "";
-
-
 }
 
         $('#dtCURD tbody').on('click', 'input[type="checkbox"]', function(e){
@@ -549,13 +560,13 @@ function UpdateCrud(){
           var Status = $this.checked;
             //Update SubReportAry with latest data
           var result = $.grep(SubReportAry, function(e){ return e.sid == data.id; });
-          console.log(result);
+          // console.log(result);
         
           SubReportAry.splice($.inArray(result[0],SubReportAry),1);
 
              result[0][ClmName] = Status;
              SubReportAry.push(result[0]);
-             console.log(SubReportAry);         
+             // console.log(SubReportAry);         
 
         }); 
    
