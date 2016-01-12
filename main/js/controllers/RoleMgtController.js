@@ -232,9 +232,11 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
                 })
                 .done(function(data) {
                   UpdateSubReportsCrud(roleMgtUpdateNameVal);
-                    // roleMgts.destroy();
-                    // roleMgtDataFunc();
-                    // $("#roleMgtAddForm").modal('hide');                      
+                  // alert('after UpdateSubReportsCrud');
+                    roleMgts.destroy();
+                    roleMgtDataFunc();
+                    $("#roleMgtAddForm").modal('hide');
+                    $("#roleMgtRequire").hide();                          
                 })
                 .fail(function(data) {
                     alert('Failed!');
@@ -245,7 +247,6 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
         });
 
 function UpdateSubReportsCrud(RoleName){
-  // debugger;
   $.each(SubReportAry,function(k,v){
             $.ajax({
                 url: globalURL + "api/role/" + RoleName + "/sub?sid=" + v.sid,
@@ -254,13 +255,8 @@ function UpdateSubReportsCrud(RoleName){
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(v)
             })
-            .done(function() {
-                // alert("Inserted sub done");
-                roleMgts.destroy();
-                roleMgtDataFunc();
-                $("#roleMgtAddForm").modal('hide');
-                $("#roleMgtRequire").hide();                                                  
-
+            .done(function() {               
+                // alert("Inserted sub done");                                                             
             })
             .fail(function(data) {
                 console.log(data.responseJSON.error);
