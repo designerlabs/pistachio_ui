@@ -39,7 +39,10 @@ License: You must have a valid license purchased only from themeforest(the above
 <link href="assets/global/css/plugins-md.css" rel="stylesheet" type="text/css"/>
 <!-- <link href="assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
 <link href="assets/admin/layout/css/themes/darkblue.css" rel="stylesheet" type="text/css" id="style_color"/>
+<<<<<<< HEAD
 <link href="assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/> -->
+<!-- <link href="assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/> -->
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.css">
 <!-- END THEME STYLES -->
 <link rel="shortcut icon" href="favicon.ico"/>
 
@@ -47,6 +50,32 @@ License: You must have a valid license purchased only from themeforest(the above
 	.login .content .form-actions{
 		padding-bottom: 0px;
 	}
+
+
+	.select2-container {
+    padding-left: 9px;
+    padding-right: 9px;
+      background-color: #dde3ec;
+    height: 43px;
+    color: #8290a3;
+    border: 1px solid #dde3ec;
+        font-size: 14px;
+    font-weight: normal;
+        display: block;
+
+    padding: 6px 12px;
+}
+.select2-selection__rendered {
+
+       background-color:transparent !important; 
+     border: 0px !important; 
+}
+
+.select2-container--default .select2-selection--single {
+     background-color: transparent !important; 
+     border: 0px !important; 
+    border-radius: 4px;
+}
 </style>
 
 <script src="assets/global/plugins/jquery.min.js" type="text/javascript"></script>
@@ -194,6 +223,37 @@ License: You must have a valid license purchased only from themeforest(the above
 			<label class="control-label visible-ie8 visible-ie9">{{'login.department' | translate}}</label>
 			<input class="form-control placeholder-no-fix" type="text" placeholder="{{'login.department' | translate}}" name="department"/>
 		</div>
+
+
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9">Unit</label>
+			<select class="select-form-control unit">
+			  <option value=""  selected="selected">Please select Unit</option>
+			</select>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9">Rank</label>
+			<select class="select-form-control rank">
+			  <option value=""  selected="selected">Please select Rank</option>
+			</select>
+		</div>
+
+
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9">State</label>
+			<select class="select-form-control state">
+			  <option value=""  selected="selected">Please select State</option>
+			</select>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9">Branch</label>
+			<select class="select-form-control branch">
+			  <option value=""  selected="selected">Please select Branch</option>
+			</select>
+		</div>
+
 		<div class="form-group">
 			<!-- <label class="control-label visible-ie8 visible-ie9">{{'login.sellanguage' | translate}}</label> -->
 			<select id="userselLang" class="valid form-control">
@@ -202,6 +262,12 @@ License: You must have a valid license purchased only from themeforest(the above
 			    <option value="my">Bahasha Malaysia</option>    
 		    </select>
 		</div>
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9">Department</label>
+			<select class="select-form-control department">
+			  <option value=""  selected="selected">Please select Dept.</option>
+			</select>
+		</div>
 
 		<p class="hint">
 			{{'login.accdetails' | translate}}:
@@ -209,6 +275,10 @@ License: You must have a valid license purchased only from themeforest(the above
 		<div class="form-group">
 			<label class="control-label visible-ie8 visible-ie9">{{'login.username' | translate}}</label>
 			<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="{{'login.username' | translate}}" name="username"/>
+		</div>
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9">IC No</label>
+			<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="IC No" name="username"/>
 		</div>
 		<div class="form-group">
 			<label class="control-label visible-ie8 visible-ie9">{{'login.password' | translate}}</label>
@@ -243,7 +313,24 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="assets/global/plugins/respond.min.js"></script>
 <script src="assets/global/plugins/excanvas.min.js"></script> 
 <![endif]-->
+<!-- <script src="assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+<script src="assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+<script src="assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
+<script src="assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+END CORE PLUGINS
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<!-- <script src="assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script> -->
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<!-- <script src="assets/global/scripts/metronic.js" type="text/javascript"></script>
+<script src="assets/admin/layout2/scripts/layout.js" type="text/javascript"></script>
+<script src="assets/admin/layout2/scripts/demo.js" type="text/javascript"></script>
+<script src="assets/admin/pages/scripts/login.js" type="text/javascript"></script> -->
 
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/i18n/en.js"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 <script>
 jQuery(document).ready(function() {     
@@ -251,6 +338,46 @@ jQuery(document).ready(function() {
 	Layout.init(); // init current layout
 	Login.init();
 	Demo.init();
+
+
+	$.getJSON( globalURL+"api/user/reference/dept", function (json) {
+	      $(".department").select2({
+	         data: json,
+	         minimumInputLength: 2
+	      });
+	 });
+
+
+	$.getJSON( globalURL+"api/user/reference/rank", function (json) {
+	      $(".rank").select2({
+	         data: json,
+	         minimumInputLength: 2
+	      });
+	});
+
+	$.getJSON( globalURL+"api/user/reference/unit", function (json) {
+	      $(".unit").select2({
+	         data: json,
+	         minimumInputLength: 2
+	      });
+	});
+
+	$.getJSON( globalURL+"api/user/reference/branch", function (json) {
+	      $(".branch").select2({
+	         data: json,
+	         minimumInputLength: 2
+	      });
+	});
+
+	$.getJSON( globalURL+"api/user/reference/state", function (json) {
+	      $(".state").select2({
+	         data: json,
+	         minimumInputLength: 2
+	      });
+	});
+
+
+
 });
 
 
