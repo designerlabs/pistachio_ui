@@ -1,7 +1,7 @@
 var globalURL = "http://pistachio_server:8080/";
 var queryString = "query";
 var categoryName = "cat";
-
+var selectedLang = "";
 
 var Login = function() {
 
@@ -110,11 +110,14 @@ var Login = function() {
                     
                 })
                 .fail(function(data) {
-                    console.log("error");
+                    console.log("error123");
                      console.log(data);
                     $('#loginRequire', $('.login-form')).hide();
                     var responseTextData = $.parseJSON(data.responseText);
-                    $("#loginError span").html(responseTextData.error);
+                    if(responseTextData.code == "500"){
+                        $("#loginError span").html();
+                    }
+                    //$("#loginError span").html(responseTextData.errorMy | errorEn);
                     $('#loginError', $('.login-form')).show();
                      return false;
                 })
@@ -269,7 +272,7 @@ var Login = function() {
 
             messages: { // custom messages for radio buttons and checkboxes
                 tnc: {
-                    required: "Please accept TNC first."
+                    required: $("#erroraccepttnc").text() //"Please accept TNC first." //
                 }
             },
 
@@ -304,7 +307,7 @@ var Login = function() {
                 var departmentValue = $('.register-form input[name=department]').val();
                 var usernameValue = $('.register-form input[name=username]').val();
                 var passwordValue = $('.register-form input[name=password]').val();
-
+                var userlangValue = $('.register-form #userselLang').val();
                 
                 $.ajax({
                     url: globalURL+'user',
@@ -318,6 +321,7 @@ var Login = function() {
                         "department":departmentValue,
                         "login":usernameValue,
                         "password":passwordValue,
+                        "language":userlangValue,
                         "id":"0"
                     }),
                 }).done(function(data) {
@@ -367,6 +371,16 @@ var Login = function() {
         });
     }
 
+    var handleLanguage = function(){
+        $('#selLang').change(function(){ 
+        // alert($scope.changeLanguage);                
+                selectedLang = $('#selLang').val();
+                localStorage.setItem("lang", selectedLang);
+                
+                 // $translateProvider.preferredLanguage(selectedLang);
+            });
+        }
+
     return {
         //main function to initiate the module
         init: function() {
@@ -374,9 +388,32 @@ var Login = function() {
             handleLogin();
             handleForgetPassword();
             handleRegister();
-
+            handleLanguage();
         }
 
     };
 
+    
+
 }();
+
+// MetronicApp.module('MetronicApplogin').controller(, ['$translate', '$scope', function ($translate, $scope) {
+//     $scope.$on('$viewContentLoaded', function() {  
+//     alert('on scope');
+//         // initialize core components
+//         // Metronic.initAjax();
+//         $('#selLang').change(function(){     
+//         alert('change');
+//                 selectedLang = $('#selLang').val();
+//                  $translateProvider.preferredLanguage(selectedLang);
+//             });
+//     });
+
+//     // // set sidebar closed and body solid layout mode
+//     // $rootScope.settings.layout.pageSidebarClosed = false;
+    
+     
+// });
+
+
+

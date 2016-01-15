@@ -9,14 +9,29 @@ var MetronicApp = angular.module("MetronicApp", [
     "oc.lazyLoad",
     "ngSanitize",
     "ngResource",
-    "ngTable"
+    "ngTable",
+    "pascalprecht.translate"
 ]);
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
-MetronicApp.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
+MetronicApp.config(['$ocLazyLoadProvider', '$translateProvider', function($ocLazyLoadProvider, $translateProvider) {
     $ocLazyLoadProvider.config({
         // global configs go here
     });
+
+    $translateProvider.translations('en', {
+      'sidebar.dashboard':'Dashboard',
+      'login.username' : 'User Name',
+      'login.title': 'E-Reporting Immigration Department'
+    });
+    
+    $translateProvider.translations('my', {
+      'sidebar.dashboard':'Malay Dashboard',
+      'login.username' : 'Nama Pengguna',
+      'login.title': 'E-Reporting Jabatan Imigresen Malaysia'
+    });
+
+    $translateProvider.preferredLanguage('my');
 }]);
 
 /*MetronicApp.config(['$httpProvider',

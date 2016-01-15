@@ -13,7 +13,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
-<html lang="en">
+<html lang="en" ng-app="at" >
 <!--<![endif]-->
 <!-- BEGIN HEAD -->
 <head>
@@ -37,9 +37,9 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- BEGIN THEME STYLES -->
 <link href="assets/global/css/components-md.css" id="style_components" rel="stylesheet" type="text/css"/>
 <link href="assets/global/css/plugins-md.css" rel="stylesheet" type="text/css"/>
-<link href="assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
+<!-- <link href="assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
 <link href="assets/admin/layout/css/themes/darkblue.css" rel="stylesheet" type="text/css" id="style_color"/>
-<link href="assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/> -->
 <!-- END THEME STYLES -->
 <link rel="shortcut icon" href="favicon.ico"/>
 
@@ -48,10 +48,43 @@ License: You must have a valid license purchased only from themeforest(the above
 		padding-bottom: 0px;
 	}
 </style>
+
+<script src="assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+    <script src="assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+    <script src="assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+    <script src="assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src="assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+    <script src="assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
+    <script src="assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+    <!-- END CORE JQUERY PLUGINS -->
+    <!-- BEGIN CORE ANGULARJS PLUGINS -->
+    <script src="assets/global/plugins/angularjs/angular.min.js" type="text/javascript"></script>
+   <!--<script src="assets/global/plugins/angularjs/angular-sanitize.min.js" type="text/javascript"></script> -->
+    <script src="assets/global/plugins/angularjs/angular-touch.min.js" type="text/javascript"></script>
+    <script src="assets/global/plugins/angularjs/plugins/angular-ui-router.min.js" type="text/javascript"></script>
+    <script src="assets/global/plugins/angularjs/plugins/ocLazyLoad.min.js" type="text/javascript"></script>
+    <script src="assets/global/plugins/angularjs/plugins/ui-bootstrap-tpls.min.js" type="text/javascript"></script>
+    <script src="assets/global/plugins/angularjs/bower_components/ng-resource/dist/ng-resource.js" type="text/javascript"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="assets/global/plugins/angularjs/bower_components/ng-table/dist/ng-table.js" type="text/javascript"></script>
+    <script src="assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+    <!-- END CORE ANGULARJS PLUGINS -->
+    <!-- BEGIN APP LEVEL ANGULARJS SCRIPTS 
+    
+    <script src="js/directives.js" type="text/javascript"></script>-->
+    <!-- END APP LEVEL ANGULARJS SCRIPTS -->
+    <!-- BEGIN APP LEVEL JQUERY SCRIPTS -->
+    <script src="assets/global/scripts/metronic.js" type="text/javascript"></script>
+    <script src="assets/admin/layout2/scripts/layout.js" type="text/javascript"></script>
+    <script src="assets/admin/layout2/scripts/demo.js" type="text/javascript"></script>
+	<script src="assets/admin/pages/scripts/login.js" type="text/javascript"></script>
+	<script src="js/loginappController.js" type="text/javascript"></script>
+
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
-<body class="page-md login">
+<body class="page-md login" ng-controller='loginappController'>
 <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
 <div class="menu-toggler sidebar-toggler">
 </div>
@@ -64,29 +97,37 @@ License: You must have a valid license purchased only from themeforest(the above
 </div>
 <!-- END LOGO -->
 <!-- BEGIN LOGIN -->
-<div class="content">
+<div class="content" >
 	<!-- BEGIN LOGIN FORM -->
+
+	<div id="erroraccepttnc" style="display:none">{{'login.error.accepttnc' | translate}}.</div>
+	<!-- <input type="hidden" id="usernameError" value="{{'login.username.error' | translate}}">
+	<input type="hidden" id="usernameNotActive" value="{{'login.username.notactive' | translate}}"> -->
+
+
+	<!-- <div id="errMsgForLogin" class="hide">{{'login.error' | translate }}</div> -->
+
 	<form id="loginForm" class="login-form" action="index.html" method="post">
-		<h3 class="form-title">E-Reporting Jabatan Imigresen Malaysia</h3>
+		<h3 class="form-title">{{'login.title'| translate}}</h3>
 		<div class="alert alert-danger display-hide" id="loginRequire">
 			<button class="close" data-close="alert"></button>
 			<span>
-			Enter a username and password. </span>
+			{{'login.requiremessage'| translate}}. </span>
 		</div>
 
 		<div class="alert alert-danger display-hide" id="loginError">
 			<button class="close" data-close="alert"></button>
 			<span>
-			Please enter a valid username and password. </span>
+			{{'login.errormessage'| translate}}. </span>
 		</div>
 		<div class="form-group">
 			<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-			<label class="control-label visible-ie8 visible-ie9">Username</label>
-			<input class="form-control form-control-solid placeholder-no-fix" type="text" placeholder="Username" name="username"/>
+			<label class="control-label visible-ie8 visible-ie9">{{'login.username' | translate}}</label>
+			<input class="form-control form-control-solid placeholder-no-fix" type="text" placeholder="{{'login.username' | translate}}" name="username"/>
 		</div>
 		<div class="form-group">
-			<label class="control-label visible-ie8 visible-ie9">Password</label>
-			<input class="form-control form-control-solid placeholder-no-fix" type="password" placeholder="Password" name="password"/>
+			<label class="control-label visible-ie8 visible-ie9">{{'login.password' | translate}}</label>
+			<input class="form-control form-control-solid placeholder-no-fix" type="password" placeholder="{{'login.password' | translate}}" name="password"/>
 		</div>
 		<!-- <div class="form-actions">
 		<button type="submit" class="btn btn-success uppercase">Login</button>
@@ -95,12 +136,18 @@ License: You must have a valid license purchased only from themeforest(the above
 			<a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>
 		</div> -->
 		<div class="text-center" style="margin-bottom:5px;">
-			<button type="submit" class="btn btn-lg btn-success uppercase">Login</button>
+			<button type="submit" class="btn btn-lg btn-success uppercase">{{'login.login' | translate}}</button>
 		</div>
-
+		<div class="row" style="padding:10px 0 10px 0">
+		 <select id="selLang" class="valid form-control" ng-model="item" ng-change="update()">
+	        <option value="" selected>{{'login.sellanguage' | translate}}</option>
+		    <option value="en">English</option>
+		    <option value="my">Bahasha Malaysia</option>   
+         </select>
+		</div>
 		<div class="create-account">
 			<p>
-				<a href="javascript:;" id="register-btn" class="uppercase">Create an account</a>
+				<a href="javascript:;" id="register-btn" class="uppercase">{{'login.createacc' | translate}}</a>
 			</p>
 		</div>
 	</form>
@@ -111,71 +158,79 @@ License: You must have a valid license purchased only from themeforest(the above
 	<!-- END LOGIN FORM -->
 	<!-- BEGIN FORGOT PASSWORD FORM  action="index.html" method="post"-->
 	<form class="forget-form">
-		<h3>Forget Password ?</h3>
+		<h3>{{'login.forgetpassword' | translate}} ?</h3>
 		<p>
-			 Enter your e-mail address below to reset your password.
+			 {{'login.forgetpassword' | translate}}.
 		</p>
 		<div class="form-group">
 			<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email"/>
 		</div>
 		<div class="form-actions">
-			<button type="button" id="back-btn" class="btn btn-default">Back</button>
-			<button type="submit" class="btn btn-success uppercase pull-right">Submit</button>
+			<button type="button" id="back-btn" class="btn btn-default">{{'login.back' | translate}}</button>
+			<button type="submit" class="btn btn-success uppercase pull-right">{{'login.submit' | translate}}</button>
 		</div>
 	</form>
 	<!-- END FORGOT PASSWORD FORM -->
 	<!-- BEGIN REGISTRATION FORM -->
 	<form class="register-form" action="index.html" method="post">
-		<h3>Registration</h3>
+		<h3>{{'login.registration' | translate}}</h3>
 		<p class="hint">
-			 Enter your personal details below:
+			 {{'login.personaldetails' | translate}}:
 		</p>
 		<div class="form-group">
-			<label class="control-label visible-ie8 visible-ie9">First Name</label>
-			<input class="form-control placeholder-no-fix" type="text" placeholder="First Name" name="firstname"/>
+			<label class="control-label visible-ie8 visible-ie9">{{'login.firstname' | translate}}</label>
+			<input class="form-control placeholder-no-fix" type="text" placeholder="{{'login.firstname' | translate}}" name="firstname"/>
 		</div>
 		<div class="form-group">
-			<label class="control-label visible-ie8 visible-ie9">Last Name</label>
-			<input class="form-control placeholder-no-fix" type="text" placeholder="Last Name" name="lastname"/>
+			<label class="control-label visible-ie8 visible-ie9">{{'login.lastname' | translate}}</label>
+			<input class="form-control placeholder-no-fix" type="text" placeholder="{{'login.lastname' | translate}}" name="lastname"/>
 		</div>
 		<div class="form-group">
 			<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-			<label class="control-label visible-ie8 visible-ie9">Email</label>
-			<input class="form-control placeholder-no-fix" type="text" placeholder="Email" name="email"/>
+			<label class="control-label visible-ie8 visible-ie9">{{'login.email' | translate}}</label>
+			<input class="form-control placeholder-no-fix" type="text" placeholder="{{'login.email' | translate}}" name="email"/>
 		</div>
 		<div class="form-group">
-			<label class="control-label visible-ie8 visible-ie9">Department</label>
-			<input class="form-control placeholder-no-fix" type="text" placeholder="Department" name="department"/>
+			<label class="control-label visible-ie8 visible-ie9">{{'login.department' | translate}}</label>
+			<input class="form-control placeholder-no-fix" type="text" placeholder="{{'login.department' | translate}}" name="department"/>
+		</div>
+		<div class="form-group">
+			<!-- <label class="control-label visible-ie8 visible-ie9">{{'login.sellanguage' | translate}}</label> -->
+			<select id="userselLang" class="valid form-control">
+				<option value="" selected>{{'login.sellanguage' | translate}}</option>
+			    <option value="en">English</option>
+			    <option value="my">Bahasha Malaysia</option>    
+		    </select>
 		</div>
 
 		<p class="hint">
-			 Enter your account details below:
+			{{'login.accdetails' | translate}}:
 		</p>
 		<div class="form-group">
-			<label class="control-label visible-ie8 visible-ie9">Username</label>
-			<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username"/>
+			<label class="control-label visible-ie8 visible-ie9">{{'login.username' | translate}}</label>
+			<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="{{'login.username' | translate}}" name="username"/>
 		</div>
 		<div class="form-group">
-			<label class="control-label visible-ie8 visible-ie9">Password</label>
-			<input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="Password" name="password"/>
+			<label class="control-label visible-ie8 visible-ie9">{{'login.password' | translate}}</label>
+			<input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="{{'login.password' | translate}}" name="password"/>
 		</div>
 		<div class="form-group">
-			<label class="control-label visible-ie8 visible-ie9">Re-type Your Password</label>
-			<input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Re-type Your Password" name="rpassword"/>
+			<label class="control-label visible-ie8 visible-ie9">{{'login.retypepassword' | translate}}</label>
+			<input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="{{'login.retypepassword' | translate}}" name="rpassword"/>
 		</div>
 		<div class="form-group margin-top-20 margin-bottom-20">
 			<label class="check">
-			<input type="checkbox" name="tnc"/> I agree to the <a href="javascript:;">
-			Terms of Service </a>
+			<input type="checkbox" name="tnc"/> {{'login.iagree' | translate}} <a href="javascript:;">
+			{{'login.termsofservice' | translate}} </a>
 			& <a href="javascript:;">
-			Privacy Policy </a>
+			{{'login.privacypolicy' | translate}} </a>
 			</label>
 			<div id="register_tnc_error">
 			</div>
 		</div>
 		<div class="form-actions">
-			<button type="button" id="register-back-btn" class="btn btn-default">Back</button>
-			<button type="submit" id="register-submit-btn" class="btn btn-success uppercase pull-right">Submit</button>
+			<button type="button" id="register-back-btn" class="btn btn-default">{{'login.back' | translate}}</button>
+			<button type="submit" id="register-submit-btn" class="btn btn-success uppercase pull-right">{{'login.submit' | translate}}</button>
 		</div>
 	</form>
 	<!-- END REGISTRATION FORM -->
@@ -188,21 +243,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="assets/global/plugins/respond.min.js"></script>
 <script src="assets/global/plugins/excanvas.min.js"></script> 
 <![endif]-->
-<script src="assets/global/plugins/jquery.min.js" type="text/javascript"></script>
-<script src="assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
-<script src="assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
-<script src="assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
-<script src="assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
-<!-- END CORE PLUGINS -->
-<!-- BEGIN PAGE LEVEL PLUGINS -->
-<script src="assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
-<!-- END PAGE LEVEL PLUGINS -->
-<!-- BEGIN PAGE LEVEL SCRIPTS -->
-<script src="assets/global/scripts/metronic.js" type="text/javascript"></script>
-<script src="assets/admin/layout2/scripts/layout.js" type="text/javascript"></script>
-<script src="assets/admin/layout2/scripts/demo.js" type="text/javascript"></script>
-<script src="assets/admin/pages/scripts/login.js" type="text/javascript"></script>
+
 <!-- END PAGE LEVEL SCRIPTS -->
 <script>
 jQuery(document).ready(function() {     
