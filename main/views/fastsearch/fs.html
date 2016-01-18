@@ -1,0 +1,52 @@
+<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title">
+	Fast Search
+</h3>
+
+<!-- END PAGE HEADER-->
+<!-- BEGIN MAIN CONTENT -->
+<div ng-controller="FastSearchController">
+    <div class="portfolio-content portfolio-1">
+
+                        <div id="js-grid-juicy-projects" class="cbp cbp-caption-active cbp-caption-overlayBottomReveal cbp-ready" style="height: 1153px;"><div class="cbp-wrapper-outer"><div class="cbp-wrapper">
+    			    	<div ng-repeat="x in names">
+					<!--<div class="cbp-item graphic" style="width: 302px; left: 0px; top: 0px;"><div class="cbp-item-wrapper"> -->
+                        		<div class="cbp-item graphic" style="width: 302px; position:relative; float:left; padding-right:20px"><div class="cbp-item-wrapper">
+                                		<div class="cbp-caption">
+                                    			<div class="cbp-caption-defaultWrap">
+                                        			<img ng-src="{{x.image}}" alt=""> </div>
+                                    			<div class="cbp-caption-activeWrap">
+                                        			<div class="cbp-l-caption-alignCenter">
+                                            				<div class="cbp-l-caption-body">
+                                                				<a href={{x.url}} class="cbp-singlePage cbp-l-caption-buttonLeft btn red uppercase btn red uppercase" rel="nofollow">Launch</a>
+                                            				</div>
+                                        			</div>
+                                    			</div>
+                                		</div>
+                                	<div class="cbp-l-grid-projects-title uppercase text-center uppercase text-center">{{x.title}}</div>
+ <!--                               <div class="cbp-l-grid-projects-desc uppercase text-center uppercase text-center">Web Design / Graphic</div> -->
+                            	</div>
+			</div>
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+                        </div></div></div>
+                    </div>
+
+</div>
+<!-- END MAIN CONTENT -->
+<!-- BEGIN MAIN JS & CSS -->
+<script>
+Index.init();
+Tasks.initDashboardWidget();
+</script>
+<!-- BEGIN MAIN JS & CSS -->
