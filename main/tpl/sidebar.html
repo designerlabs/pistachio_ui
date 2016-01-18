@@ -7,7 +7,7 @@
     <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
     <ul class="page-sidebar-menu page-sidebar-menu-hover-submenu" id="sidebarMenu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" ng-class="{'page-sidebar-menu-closed': settings.layout.pageSidebarClosed}">
-        
+
 
         <li class="start" id="dashboard">
             <a href="#/dashboard.html">
@@ -15,10 +15,16 @@
                 <span class="title">{{'sidebar.dashboard' | translate}}</span>
             </a>
         </li>
+       <li class="start" id="fastsearch">
+            <a href="#/fastsearch.html">
+                <i class="icon-bar-chart"></i>
+                <span class="title">{{'sidebar.fastsearch' | translate}}</span>
+            </a>
+        </li>
 
 
         <li class="start" id="afpr">
-            
+
             <a href="javascript:;">
                 <i class="icon-speech"></i>
                 <span class="title">eReporting</span>
@@ -31,13 +37,13 @@
                     </a>
                 </li>
             </ul>
-              
+
         </li>
 
-        
 
-        
-        
+
+
+
         <li id="dataManagement" ng-if="chkRole('ROLE_ADMIN')">
             <a href="javascript:;">
                 <i class="icon-users"></i>
@@ -98,9 +104,9 @@
                 </li>
             </ul>
         </li>
-       
 
-        
+
+
     </ul>
     <!-- END SIDEBAR MENU -->
 </div>
@@ -118,5 +124,5 @@ $("#sidebarMenu li").click(function(){
 });
 
 
-    
+
 </script>

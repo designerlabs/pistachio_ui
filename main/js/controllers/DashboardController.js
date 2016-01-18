@@ -1,7 +1,7 @@
 'use strict';
 
 MetronicApp.controller('DashboardController', function($rootScope, $scope, $http, $timeout, $sce) {
-    $scope.$on('$viewContentLoaded', function() {   
+    $scope.$on('$viewContentLoaded', function() {
 
         // initialize core components
         Metronic.initAjax();
@@ -13,7 +13,7 @@ MetronicApp.controller('DashboardController', function($rootScope, $scope, $http
 
 
     	$scope.go = function(data){
-            
+
             $("#iframeContainer").show();
             //$("#iframeContainer iframe").attr('ng-src',data);
             $scope.currentProjectUrl = $sce.trustAsResourceUrl($scope.data);
@@ -21,7 +21,7 @@ MetronicApp.controller('DashboardController', function($rootScope, $scope, $http
             $("#iframeContainer iframe").attr('src',data);
             var categoryId = this.$$watchers[2].last;
             //$scope.message = sharedService.categoryId;
-          
+
     	};
 
         $("#iframeCloseBtn").click(function(){
