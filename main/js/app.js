@@ -458,7 +458,30 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
+    .state('globalsearch', {
+           url: "/fastsearch/gfs.html",
+           templateUrl: "views/fastsearch/gfs.html",
+           data: {
+               pageTitle: 'Global Search'
+           },
+           controller: "GlobalSearchController",
+          // controller: "DocumentSearchController1",
+           resolve: {
+               deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                   return $ocLazyLoad.load({
+                       name: 'MetronicApp',
+                       insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                       files: [
+                           'assets/pages/css/search.css',
+                           'assets/pages/css/pricing.min.css',
 
+                           'assets/admin/pages/scripts/index.js',
+                           'js/controllers/GlobalSearchController.js'
+                       ]
+                   });
+               }]
+           }
+       })
 
 
     .state('report2', {
