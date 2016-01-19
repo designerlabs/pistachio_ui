@@ -1,0 +1,211 @@
+<h3 class="page-title">
+	Global Search
+</h3>
+
+<div ng-controller="GlobalSearchController">
+  <div class="search-page search-content-4">
+  <div class="search-bar bordered">
+      <div class="row">
+          <div class="col-lg-8 col-sm-12">
+              <div class="input-group">
+                  <input ng-model="search.text" type="text" class="form-control" placeholder="Search for...">
+                  <span class="input-group-btn">
+                      <button class="btn green-soft uppercase bold" ng-click="search(search.text)" type="button">Search</button>
+                  </span>
+              </div>
+
+
+
+          </div>
+          <div class="col-lg-2 extra-buttons col-sm-6">
+              <button class="btn grey-steel uppercase bold" ng-click="reset()" type="button">Reset Search</button>
+
+          </div>
+
+      </div>
+  </div>
+  <div>
+
+  <div class="portlet light portlet-fit bordered">
+
+    <div class="portlet-body">
+        <div class="pricing-content-1">
+            <div class="row">
+              <div >
+                <div class="col-md-3">
+                    <div class="price-column-container border-active">
+                        <div class="price-table-head bg-blue">
+                            <h2 class="no-margin">Applications</h2>
+                        </div>
+                        <div class="arrow-down arrow-blue"></div>
+                        <div class="price-table-pricing">
+                            <h3>{{applicationsFound}}</h3>
+                            <p>applications found in {{qtime}} milliseconds</p>
+                        </div>
+
+                        <div class="arrow-down arrow-grey"></div>
+                        <div class="price-table-footer">
+                            <button type="button" ng-click="showApplications()" class="btn grey-salsa btn-outline sbold uppercase price-button">View</button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <div >
+                <div class="col-md-3">
+                    <div class="price-column-container border-active">
+                        <div class="price-table-head bg-green">
+                            <h2 class="no-margin">Users</h2>
+                        </div>
+                        <div class="arrow-down arrow-green"></div>
+                        <div class="price-table-pricing">
+                            <h3>222</h3>
+                            <p>users found</p>
+                        </div>
+
+                        <div class="arrow-down arrow-grey"></div>
+                        <div class="price-table-footer">
+                            <button type="button" class="btn grey-salsa btn-outline sbold uppercase price-button">View</button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <div >
+                <div class="col-md-3">
+                    <div class="price-column-container border-active">
+                        <div class="price-table-head bg-red">
+                            <h2 class="no-margin">Stickers</h2>
+                        </div>
+                        <div class="arrow-down arrow-red"></div>
+                        <div class="price-table-pricing">
+                            <h3>222</h3>
+                            <p>users found</p>
+                        </div>
+
+                        <div class="arrow-down arrow-grey"></div>
+                        <div class="price-table-footer">
+                            <button type="button" class="btn grey-salsa btn-outline sbold uppercase price-button">View</button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <div >
+                <div class="col-md-3">
+                    <div class="price-column-container border-active">
+                        <div class="price-table-head bg-purple">
+                            <h2 class="no-margin">Audit</h2>
+                        </div>
+                        <div class="arrow-down arrow-purple"></div>
+                        <div class="price-table-pricing">
+                            <h3>222</h3>
+                            <p>users found</p>
+                        </div>
+
+                        <div class="arrow-down arrow-grey"></div>
+                        <div class="price-table-footer">
+                            <button type="button" class="btn grey-salsa btn-outline sbold uppercase price-button">View</button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+
+            </div>
+        </div>
+     </div>
+  </div>
+  <div class="search-page search-content-4" ng-if="showApplication">
+    <div class="row">
+      <div class="col-md-2">
+
+        <div class="portlet light ">
+                            <div class="portlet-title">
+                                <div class="caption" data-toggle="collapse">
+                                    <span class="caption-subject font-green-sharp bold uppercase">Countries </span>
+                                    <span class="caption-helper visible-sm-inline-block visible-xs-inline-block">click to view project list</span>
+                                </div>
+
+                            </div>
+                            <div class="portlet-body todo-project-list-content in" aria-expanded="true" style="height: auto;">
+                                <div class="todo-project-list">
+                                    <ul class="nav nav-stacked">
+                                        <li data-ng-repeat="cnt in countries">
+                                            <a href="javascript:;">
+                                                <span class="badge badge-info"> {{cnt.count}} </span> {{cnt.country}} </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+      </div>
+      <div class="col-md-10">
+        <div   class="search-table table-responsive">
+            <table class="table table-bordered table-striped table-condensed">
+                <thead class="bg-blue">
+                    <tr>
+                        <th>
+                            <a href="javascript:;">Status</a>
+                        </th>
+                        <th>
+                            <a href="javascript:;">Date</a>
+                        </th>
+                        <th>
+                            <a href="javascript:;">Address </a>
+                        </th>
+                        <th>
+                            <a href="javascript:;">Country</a>
+                        </th>
+                        <th>
+                            <a href="javascript:;">ApplNo</a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    <tr ng-repeat="x in items">
+                        <td class="table-status">
+                            <a href="javascript:;">
+                                <i class="icon-arrow-right font-blue"></i>
+                            </a>
+                        </td>
+                        <td class="table-date font-blue">
+                            <a href="javascript:;">{{x.mad_crt_dt}}</a>
+                        </td>
+                        <td class="table-title">
+                          {{x.mad_applcnt_addr1}}
+                        </td>
+                        <td class="table-desc"> {{x.mad_nat_cd}} </td>
+                        <td class="table-download">
+                          {{x.mad_appl_no}}
+                        </td>
+                    </tr>
+
+
+
+
+
+
+
+
+
+                </tbody>
+            </table>
+
+        </div>
+        <div class="search-pagination">
+            <ul class="pagination">
+                <li >
+                    <a href="javascript:;"> previous </a>
+                </li>
+                <li class="page-active">
+                    <a href="javascript:;"> next </a>
+                </li>
+
+            </ul>
+        </div>
+      </div>
+    </div>
+</div>
+
+</div>
