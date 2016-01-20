@@ -129,7 +129,7 @@
                                     <ul class="nav nav-stacked">
                                         <li data-ng-repeat="cnt in countries">
                                             <a href="javascript:;">
-                                                <span class="badge badge-info"> {{cnt.count}} </span> {{cnt.country}} </a>
+                                                <span class="badge badge-info pull-right"> {{cnt.count}} </span> {{cnt.country}} </a>
                                         </li>
 
                                     </ul>
@@ -196,10 +196,10 @@
         <div class="search-pagination">
             <ul class="pagination">
                 <li >
-                    <a href="javascript:;"> previous </a>
+                    <a href="javascript:;" ng-click="previous()"> previous </a>
                 </li>
                 <li class="page-active">
-                    <a href="javascript:;"> next </a>
+                    <a href="javascript:;" ng-click="next()" ng-init="start=0"> next </a>
                 </li>
 
             </ul>
