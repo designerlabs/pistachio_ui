@@ -55,3 +55,23 @@ Rounded Portlets
 .bg-LightCoral{
     background: #F08080;
 }
+
+
+.btn-grp-padding{
+        padding-left: 10px;
+}
+
+.bg-table-gray{
+    background: #CACACA;
+}
+
+
+.bg-table-gray a{
+    color: #464444 !important;
+}
+
+
+.searchBtn i{
+    font-size: 10px !important;
+    padding-top: 2px !important;
+}
