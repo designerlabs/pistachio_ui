@@ -16,7 +16,7 @@ angular.module('MetronicApp')
         '<div class="language-select" ng-if="visible">'+
           '<label class="languageLabel"><i class="fa fa-language"></i> '+
             '{{"directives.language-select.Language" | translate}}:'+
-            '<select class="form-control" ng-model="currentLocaleDisplayName"'+
+            '<select id="selectLanguage" class="form-control" ng-model="currentLocaleDisplayName"'+
               'ng-options="localesDisplayName for localesDisplayName in localesDisplayNames"'+
               'ng-change="changeLanguage(currentLocaleDisplayName)">'+
             '</select>'+
@@ -30,6 +30,7 @@ angular.module('MetronicApp')
         $scope.localesDisplayNames.length > 1;
 
         $scope.changeLanguage = function (locale) {
+          console.log(locale);
           LocaleService.setLocaleByDisplayName(locale);
         };
       }
