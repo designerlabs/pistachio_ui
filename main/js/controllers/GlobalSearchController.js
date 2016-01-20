@@ -35,6 +35,13 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
       
       $scope.text = text;
       $scope.start = 0;
+
+
+      if($scope.applicationsFound < 10){
+        $scope.newCount = $scope.applicationsFound;  
+      }else{
+        $scope.newCount = 10;
+      }
       if($scope.showApplication != undefined && $scope.applicationsFound)
       {
         $scope.showApplications();
@@ -74,14 +81,14 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
 
         var clicks = 10;
-        $scope.newCount = 10;
+        //$scope.newCount = 10;
+ 
         $scope.next = function() {
           $(".previousBtn").prop( "disabled", false);
            clicks += 10;
           $scope.start = $scope.start + 10;
           $scope.showApplications();
           var listCount = 10;
-          $scope.newCount = clicks;
           
         }
 
@@ -112,6 +119,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
       var keys = ["country","count"];
         if($scope.text.length > 0) {
+
           $http.get('http://10.1.17.57:8983/solr/immigration1/select?q=mad_applcnt_addr1:'+$scope.text+'&wt=json&start='+$scope.start+'&rows=10&facet=true&facet.field=mad_nat_cd&facet.limit=10').
            success(function(data) {
                $scope.items = data.response.docs;
@@ -120,6 +128,16 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
                $scope.showApplication = true;
                var countryObjList= [];
                var obj = {};
+
+
+
+            if($scope.applicationsFound < 10){
+              $scope.newCount = $scope.applicationsFound;  
+              $(".nextBtn").prop("disabled", true);
+            }else{
+              $scope.newCount = clicks;
+              $(".nextBtn").prop("disabled", false);
+            }
 
                for (var j = 0; j < countries.length/2; j++) {
                    var country= {};

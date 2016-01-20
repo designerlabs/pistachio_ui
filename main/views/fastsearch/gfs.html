@@ -9,9 +9,9 @@
           <div class="col-md-8">
               <div class="input-group">
                   <input ng-model="search.text" type="search" class="form-control" placeholder="Search for...">
-                  <span class="input-group-btn">
-                      <button class="btn green-soft uppercase bold" ng-click="search(search.text)" type="button">Search</button>
-                      <button class="btn bg-LightCoral uppercase bold" ng-click="reset()" type="button">Reset Search</button>
+                  <span class="input-group-btn btn-grp-padding">
+                      <button class="btn green-soft uppercase bold" ng-click="search(search.text)" type="button"><i class="fa fa-search"></i> Search</button>
+                      <button class="btn bg-LightCoral uppercase bold" ng-click="reset()" type="button"><i class="fa fa-refresh"></i> Reset</button>
                   </span>
               </div>
 
@@ -138,11 +138,9 @@
       <div class="col-md-10">
         <div   class="search-table table-responsive">
             <table class="table table-bordered table-striped table-condensed">
-                <thead class="bg-blue">
+                <thead class="bg-table-gray">
                     <tr>
-                        <th>
-                            <a href="javascript:;">Status</a>
-                        </th>
+                        
                         <th>
                             <a href="javascript:;">Date</a>
                         </th>
@@ -152,8 +150,11 @@
                         <th>
                             <a href="javascript:;">Country</a>
                         </th>
-                        <th>
-                            <a href="javascript:;">ApplNo</a>
+                        <th style="text-align: center;">
+                            <a href="javascript:;">Application No.</a>
+                        </th>
+                        <th style="text-align: left;">
+                            <a href="javascript:;">Action</a>
                         </th>
                     </tr>
                 </thead>
@@ -161,20 +162,21 @@
 
 
                     <tr ng-repeat="x in items">
-                        <td class="table-status">
-                            <a href="javascript:;">
-                                <i class="icon-arrow-right font-blue"></i>
-                            </a>
-                        </td>
-                        <td class="table-date font-blue">
+                        
+                        <td  style="width:15%;"  class="table-title">
                             <a href="javascript:;">{{x.mad_crt_dt}}</a>
                         </td>
                         <td class="table-title">
                           {{x.mad_applcnt_addr1}}
                         </td>
-                        <td class="table-desc"> {{x.mad_nat_cd}} </td>
+                        <td style="width:5%;" class="table-desc"> {{x.mad_nat_cd}} </td>
                         <td class="table-download">
                           {{x.mad_appl_no}}
+                        </td>
+                        <td style="text-align: left; width:5%;" class="table-status">
+                            <a href="javascript:;">
+                                <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i> View</button>
+                            </a>
                         </td>
                     </tr>
 
