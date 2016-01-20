@@ -6,22 +6,19 @@
   <div class="search-page search-content-4">
   <div class="search-bar bordered">
       <div class="row">
-          <div class="col-lg-8 col-sm-12">
+          <div class="col-md-8">
               <div class="input-group">
-                  <input ng-model="search.text" type="text" class="form-control" placeholder="Search for...">
+                  <input ng-model="search.text" type="search" class="form-control" placeholder="Search for...">
                   <span class="input-group-btn">
                       <button class="btn green-soft uppercase bold" ng-click="search(search.text)" type="button">Search</button>
+                      <button class="btn bg-LightCoral uppercase bold" ng-click="reset()" type="button">Reset Search</button>
                   </span>
               </div>
 
 
 
           </div>
-          <div class="col-lg-2 extra-buttons col-sm-6">
-              <button class="btn grey-steel uppercase bold" ng-click="reset()" type="button">Reset Search</button>
-
-          </div>
-
+       
       </div>
   </div>
   <div>
@@ -45,7 +42,7 @@
 
                         <div class="arrow-down arrow-grey"></div>
                         <div class="price-table-footer">
-                            <button type="button" ng-click="showApplications()" class="btn grey-salsa btn-outline sbold uppercase price-button">View</button>
+                            <button type="button" ng-click="showApplications()" class="btn btn-success btn-outline sbold uppercase price-button">View</button>
                         </div>
                     </div>
                 </div>
@@ -53,10 +50,10 @@
               <div >
                 <div class="col-md-3">
                     <div class="price-column-container border-active">
-                        <div class="price-table-head bg-green">
+                        <div class="price-table-head bg-DarkSlateBlue">
                             <h2 class="no-margin">Users</h2>
                         </div>
-                        <div class="arrow-down arrow-green"></div>
+                        <div class="arrow-down arrow-orange"></div>
                         <div class="price-table-pricing">
                             <h3>222</h3>
                             <p>users found</p>
@@ -64,7 +61,7 @@
 
                         <div class="arrow-down arrow-grey"></div>
                         <div class="price-table-footer">
-                            <button type="button" class="btn grey-salsa btn-outline sbold uppercase price-button">View</button>
+                            <button type="button" class="btn btn-success btn-outline sbold uppercase price-button">View</button>
                         </div>
                     </div>
                 </div>
@@ -83,7 +80,7 @@
 
                         <div class="arrow-down arrow-grey"></div>
                         <div class="price-table-footer">
-                            <button type="button" class="btn grey-salsa btn-outline sbold uppercase price-button">View</button>
+                            <button type="button" class="btn btn-success btn-outline sbold uppercase price-button">View</button>
                         </div>
                     </div>
                 </div>
@@ -102,7 +99,7 @@
 
                         <div class="arrow-down arrow-grey"></div>
                         <div class="price-table-footer">
-                            <button type="button" class="btn grey-salsa btn-outline sbold uppercase price-button">View</button>
+                            <button type="button" class="btn btn-success btn-outline sbold uppercase price-button">View</button>
                         </div>
                     </div>
                 </div>
@@ -126,10 +123,10 @@
                             </div>
                             <div class="portlet-body todo-project-list-content in" aria-expanded="true" style="height: auto;">
                                 <div class="todo-project-list">
-                                    <ul class="nav nav-stacked">
-                                        <li data-ng-repeat="cnt in countries">
+                              <ul class="list-group">
+                                        <li class="list-group-item" data-ng-repeat="cnt in countries">
                                             <a href="javascript:;">
-                                                <span class="badge badge-info pull-right"> {{cnt.count}} </span> {{cnt.country}} </a>
+                                                <span class="badge pull-right"> {{cnt.count}} </span> {{cnt.country}} </a>
                                         </li>
 
                                     </ul>
@@ -196,14 +193,15 @@
         <div class="search-pagination">
             <ul class="pagination">
                 <li >
-                    <a href="javascript:;" ng-click="previous()"> previous </a>
+                    <button ng-click="previous()" class="btn btn-primary previousBtn" disabled><i class="fa fa-arrow-left"></i> previous </button>
                 </li>
                 <li class="page-active">
-                    <a href="javascript:;" ng-click="next()" ng-init="start=0"> next </a>
+                    <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">next <i class="fa fa-arrow-right"></i></button>
                 </li>
 
             </ul>
         </div>
+        <div class="pageNum">( {{newCount}} / {{applicationsFound}} )</div>
       </div>
     </div>
 </div>

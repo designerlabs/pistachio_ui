@@ -28,13 +28,18 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
     });
     $scope.text = '';
     $scope.search = function(text) {
+
+      if (/\s/.test(text)) {
+         text = text.replace(/\s+/g,",");
+      }
+      
       $scope.text = text;
+      $scope.start = 0;
       if($scope.showApplication != undefined && $scope.applicationsFound)
       {
         $scope.showApplications();
       }
       else {
-        alert('false');
         $http.get('http://10.1.17.57:8983/solr/immigration1/select?q=mad_applcnt_addr1:'+text+'&wt=json&start=0&rows=0').
          success(function(data) {
              $scope.applicationsFound = data.response.numFound;
@@ -64,15 +69,37 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
                console.log('data : ' + data); //Being logged as null
              });
         };
+
+
+
+
+        var clicks = 10;
+        $scope.newCount = 10;
         $scope.next = function() {
+          $(".previousBtn").prop( "disabled", false);
+           clicks += 10;
           $scope.start = $scope.start + 10;
           $scope.showApplications();
+          var listCount = 10;
+          $scope.newCount = clicks;
+          
         }
 
         $scope.previous = function() {
+          
+          clicks -= 10;
+
           $scope.start = $scope.start - 10;
+
+          if(clicks == 10){
+            $(".previousBtn").prop( "disabled", true);
+          }else{
+             $(".previousBtn").prop( "disabled", false);
+          }
+
           if($scope.start < 0)
             $scope.start = 0;
+            $scope.newCount = clicks;
             $scope.showApplications();
         }
 
@@ -103,7 +130,11 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
                    countryObjList.push(country);
 
                  }
+
                $scope.countries = countryObjList;
+               console.log($scope.countries);
+               console.log(countryObjList);
+
              }).
              error(function(data, status, headers, config) {
                console.log('error');
