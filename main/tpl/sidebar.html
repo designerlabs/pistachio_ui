@@ -7,7 +7,7 @@
     <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
     <ul class="page-sidebar-menu page-sidebar-menu-hover-submenu" id="sidebarMenu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" ng-class="{'page-sidebar-menu-closed': settings.layout.pageSidebarClosed}">
-        
+
 
         <li class="start" id="dashboard">
             <a href="#/dashboard.html">
@@ -15,13 +15,19 @@
                 <span class="title">{{'sidebar.dashboard' | translate}}</span>
             </a>
         </li>
+       <li class="start" id="fastsearch">
+            <a href="#/fastsearch.html">
+                <i class="icon-magnifier"></i>
+                <span class="title">{{'sidebar.fastsearch' | translate}}</span>
+            </a>
+        </li>
 
 
         <li class="start" id="afpr">
-            
+
             <a href="javascript:;">
                 <i class="icon-speech"></i>
-                <span class="title">eReporting</span>
+                <span class="title">{{'sidebar.ereport' | translate}}</span>
                 <span class="arrow "></span>
             </a>
             <ul class="sub-menu">
@@ -31,66 +37,66 @@
                     </a>
                 </li>
             </ul>
-              
+
         </li>
 
-        
 
-        
-        
+
+
+
         <li id="dataManagement" ng-if="chkRole('ROLE_ADMIN')">
             <a href="javascript:;">
                 <i class="icon-users"></i>
-                <span class="title">Administrator</span>
+                <span class="title">{{'sidebar.administrator' | translate}}</span>
                 <span class="arrow "></span>
             </a>
             <ul class="sub-menu">
                 <li>
                     <a href="#/reportManagement/reportMgt.html">
-                        <i class="icon-docs"></i> Report Management
+                        <i class="icon-docs"></i> {{'sidebar.reportmanagement' | translate}}
                     </a>
                 </li>
                 <li>
                     <a href="#/dashboardManagement/dashboardMgt.html">
-                        <i class="icon-layers"></i> Dashboard Management
+                        <i class="icon-layers"></i> {{'sidebar.dashboardmanagement' | translate}}
                         <span class="arrow "></span>
                     </a>
                 </li>
                 <li id="configurationLink">
                     <a href="#/config.html">
                         <i class="icon-settings"></i>
-                        <span class="title">Configuration</span>
+                        <span class="title">{{'sidebar.configuration' | translate}}</span>
                     </a>
                 </li>
 
                 <li id="userManagementLink">
                     <a href="#/userManagement/userMgt.html">
                         <i class="icon-user"></i>
-                        <span class="title">User Management</span>
+                        <span class="title">{{'sidebar.usermanagement' | translate}}</span>
                     </a>
                 </li>
 
                 <li id="roleManagementLink">
                     <a href="#/roleManagement/roleMgt.html">
                         <i class="icon-tag"></i>
-                        <span class="title">Role Management</span>
+                        <span class="title">{{'sidebar.rolemanagement' | translate}}</span>
                     </a>
                 </li>
                 <li id="dataConslidation">
                     <a href="javascript:;">
                         <i class="icon-energy"></i>
-                        <span class="title">Data Consolidation</span>
+                        <span class="title">{{'sidebar.dataconsolidation' | translate}}</span>
                         <span class="arrow "></span>
                     </a>
                     <ul class="sub-menu">
                         <li>
                             <a href="#/datatables/jobs.html">
-                                <i class="icon-docs"></i> Jobs
+                                <i class="icon-docs"></i> {{'sidebar.jobs' | translate}}
                             </a>
                         </li>
                         <li>
                             <a href="#/datatables/advanced.html">
-                                <i class="icon-layers"></i> Database
+                                <i class="icon-layers"></i>{{'sidebar.database' | translate}} 
                                 <span class="arrow "></span>
                             </a>
                         </li>
@@ -98,9 +104,9 @@
                 </li>
             </ul>
         </li>
-       
 
-        
+
+
     </ul>
     <!-- END SIDEBAR MENU -->
 </div>
@@ -118,5 +124,5 @@ $("#sidebarMenu li").click(function(){
 });
 
 
-    
+
 </script>

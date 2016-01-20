@@ -1,0 +1,111 @@
+<!-- BEGIN PAGE HEADER-->
+<h3 class="page-title">
+	Fast Document Search
+</h3>
+
+<!-- END PAGE HEADER-->
+<!-- BEGIN MAIN CONTENT -->
+<div ng-controller="DocumentSearchController">
+	<div class="search-page search-content-4">
+                        <div class="search-bar bordered">
+                            <div class="row">
+                                <div class="col-lg-8 col-sm-12">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Search for...">
+                                        <span class="input-group-btn">
+                                            <button class="btn green-soft uppercase bold" type="button">Search</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 extra-buttons col-sm-6">
+                                    <button class="btn grey-steel uppercase bold" type="button">Reset Search</button>
+
+                                </div>
+																<div class="col-lg-2 col-sm-6">
+                                    <div class="number">
+                                        <h3 class="font-green-sharp">
+                                          <small class="font-blue-sharp">Loaded in</small>
+                                            <span data-counter="counterup" data-value="7800">{{qtime}}</span>
+                                            <small class="font-blue-sharp">milli-secs</small>
+                                        </h3>
+
+
+   																	</div>
+
+																	</div>
+                            </div>
+                        </div>
+                        <div class="search-table table-responsive">
+                            <table class="table table-bordered table-striped table-condensed">
+                                <thead class="bg-blue">
+                                    <tr>
+                                        <th>
+                                            <a href="javascript:;">Status</a>
+                                        </th>
+                                        <th>
+                                            <a href="javascript:;">Date</a>
+                                        </th>
+                                        <th>
+                                            <a href="javascript:;">Address </a>
+                                        </th>
+                                        <th>
+                                            <a href="javascript:;">Country</a>
+                                        </th>
+                                        <th>
+                                            <a href="javascript:;">ApplNo</a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                    <tr ng-repeat="x in items">
+                                        <td class="table-status">
+                                            <a href="javascript:;">
+                                                <i class="icon-arrow-right font-blue"></i>
+                                            </a>
+                                        </td>
+                                        <td class="table-date font-blue">
+                                            <a href="javascript:;">{{x.mad_crt_dt}}</a>
+                                        </td>
+                                        <td class="table-title">
+																					{{x.mad_applcnt_addr1}}
+                                        </td>
+                                        <td class="table-desc"> {{x.mad_nat_cd}} </td>
+                                        <td class="table-download">
+																					{{x.mad_appl_no}}
+                                        </td>
+                                    </tr>
+
+
+
+
+
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="search-pagination">
+                            <ul class="pagination">
+                                <li >
+                                    <a href="javascript:;"> previous </a>
+                                </li>
+                                <li class="page-active">
+                                    <a href="javascript:;"> next </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+
+
+</div>
+<!-- END MAIN CONTENT -->
+<!-- BEGIN MAIN JS & CSS -->
+<script>
+
+</script>
+<!-- BEGIN MAIN JS & CSS -->

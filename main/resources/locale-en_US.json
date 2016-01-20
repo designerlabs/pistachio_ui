@@ -2,5 +2,16 @@
 	"Header.sellanguage" :"Select Language", 
 	"sidebar.dashboard" : "Dashboard",
 	"directives.language-select.Language": "Language",
-	"dashboard.title" : "Immigration Intelligent Dashboard"
+	"dashboard.title" : "Immigration Intelligent Dashboard",
+	"sidebar.fastsearch": "Fast Search",
+	"sidebar.ereport" : "eReporting",
+	"sidebar.administrator" : "Administrator",
+	"sidebar.reportmanagement" : "Report Management",
+	"sidebar.dashboardmanagement" : "Dashboard Management",
+	"sidebar.configuration" : "Configuration",
+	"sidebar.usermanagement" : "User Management",
+	"sidebar.rolemanagement" : "Role Management",
+	"sidebar.dataconsolidation" : "Data Consolidation",
+	"sidebar.jobs" : "Jobs",
+	"sidebar.database" : "Data base"
 }

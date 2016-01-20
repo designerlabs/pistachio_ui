@@ -56,28 +56,45 @@ var MetronicApp = angular
     $translateProvider.useStaticFilesLoader({
       prefix: 'resources/locale-',
       suffix: '.json'
-    });
+  });
+     $translateProvider.preferredLanguage(LOCALES.preferredLocale);
+ })
 
-    $translateProvider.preferredLanguage(LOCALES.preferredLocale);
-    //$translateProvider.useLocalStorage();
-  })
-  // Angular Dynamic Locale
+// Angular Dynamic Locale
   .config(function (tmhDynamicLocaleProvider) {
     tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js');
   });
-// .controller('AppController',  ['$translateProvider', '$scope', function ($translateProvider,$scope) {
-//      $translateProvider.useStaticFilesLoader({
-//       prefix: 'resources/locale-',
-//       suffix: '.json'
+
+/* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
+// MetronicApp.config(['$ocLazyLoadProvider', '$translateProvider', function($ocLazyLoadProvider, $translateProvider) {
+//     $ocLazyLoadProvider.config({
+//         // global configs go here
 //     });
 
-//   $scope.updateHeader = function() {  
-// console.log($scope.item.toString());
-//     $translateProvider.preferredLanguage($scope.item.toString());
-//   }
-// }]);
+//     $translateProvider.translations('en', {
+//       'sidebar.dashboard':'Dashboard',
+//       'sidebar.fastsearch':'Fast Search',
+//       'login.username' : 'User Name',
+//       'login.title': 'E-Reporting Immigration Department'
+//     });
 
+//     $translateProvider.translations('my', {
+//       'sidebar.dashboard':'Papan Pemuka',
+//       'sidebar.fastsearch':'Terima pengesahan',
+//       'login.username' : 'Nama Pengguna',
+//       'login.title': 'E-Reporting Jabatan Imigresen Malaysia'
+//     });
+
+//     // $translateProvider.preferredLanguage(LOCALES.preferredLocale);
+//     //$translateProvider.useLocalStorage();
+//   ]);
+  
  
+/*MetronicApp.config(['$httpProvider',
+function($httpProvider) {
+    $httpProvider.defaults.withCredentials = true;
+
+}]);*/
 
 /********************************************
  BEGIN: BREAKING CHANGE in AngularJS v1.3.x:
@@ -184,7 +201,7 @@ MetronicApp.config(['$controllerProvider', function($controllerProvider) {
     // this option might be handy for migrating old apps, but please don't use it
     // in new ones!
     $controllerProvider.allowGlobals();
-        
+
 
     //var currentUserName = localStorage.getItem("username");
     var currentToken = localStorage.getItem("token");
@@ -199,7 +216,7 @@ MetronicApp.config(['$controllerProvider', function($controllerProvider) {
 
     //return false;
     if((currentToken == undefined )){
-        window.location = "login.html";    
+        window.location = "login.html";
     }else{
         return true;
     }
@@ -234,9 +251,9 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
 MetronicApp.factory('authorities', function() {
 
     var authoritiesValue = localStorage.getItem('authorities');
-     
+
     var res = authoritiesValue.split(",");
-    
+
 
     return {
             checkRole: function(x) {
@@ -246,7 +263,7 @@ MetronicApp.factory('authorities', function() {
                 }else{
                  return false;
                 }
-               
+
             }
         };
 
@@ -254,7 +271,7 @@ MetronicApp.factory('authorities', function() {
 
 
 /*$scope.authoritiesValue = localStorage.getItem('authorities');
- 
+
 $scope.res = $scope.authoritiesValue.split(",");
 $scope.roles = $scope.res;
 
@@ -274,7 +291,7 @@ $scope.checkRole = function(x){
 MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
     $scope.$on('$viewContentLoaded', function() {
         Metronic.initComponents(); // init core components
-        //Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
+        //Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive
     });
 }]);
 
@@ -283,7 +300,7 @@ MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope
 
 /***
 Layout Partials.
-By default the partials are loaded through AngularJS ng-include directive. In case they loaded in server side(e.g: PHP include function) then below partial 
+By default the partials are loaded through AngularJS ng-include directive. In case they loaded in server side(e.g: PHP include function) then below partial
 initialization can be disabled and Layout.init() should be called on page load complete as explained above.
 ***/
 
@@ -322,8 +339,8 @@ MetronicApp.controller('SidebarController', ['$scope','$http', 'authorities', fu
 
         var flag=true;
         $scope.goes = function(data){
-            
-            
+
+
             localStorage.setItem('sideMenuValue', data);
             $.ajax({
                 //url: globalURL+'query/report/'+data,
@@ -352,11 +369,11 @@ MetronicApp.controller('SidebarController', ['$scope','$http', 'authorities', fu
 
 /*
         $scope.authoritiesValue = localStorage.getItem('authorities');
-         
+
         $scope.res = $scope.authoritiesValue.split(",");
         $scope.roles = $scope.res;
 
-        
+
 
            $scope.checkRole = function(x){
                //alert(x + " Admin");
@@ -431,6 +448,96 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
+      .state('fastsearch', {
+        url: "/fastsearch.html",
+        templateUrl: "views/fastsearch/fs.html",
+        data: {
+            pageTitle: 'Fast Search'
+        },
+        controller: "FastSearchController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/global/plugins/morris/morris.css',
+                        'assets/admin/pages/css/tasks.css',
+                        'assets/pages/css/portfolio.min.css',
+
+                        'assets/global/plugins/morris/morris.min.js',
+                        'assets/global/plugins/morris/raphael-min.js',
+                        'assets/global/plugins/cubeportfolio/js/jquery.cubeportfolio.min.js',
+                        'assets/global/plugins/cubeportfolio/css/cubeportfolio.css',
+
+                        'assets/admin/pages/scripts/index.js',
+                        'assets/admin/pages/scripts/tasks.js',
+                        'assets/admin/pages/scripts/portfolio-1.min.js',
+
+                        'js/controllers/FastSearchController.js'
+                    ]
+                });
+            }]
+        }
+    })
+
+ .state('docsearch', {
+        url: "/fastsearch/dfs.html",
+        templateUrl: "views/fastsearch/dfs.html",
+        data: {
+            pageTitle: 'Fast Document Search'
+        },
+        controller: "DocumentSearchController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/global/plugins/morris/morris.css',
+                        'assets/admin/pages/css/tasks.css',
+                        'assets/pages/css/search.css',
+
+                        'assets/global/plugins/morris/morris.min.js',
+                        'assets/global/plugins/morris/raphael-min.js',
+
+                        'assets/admin/pages/scripts/index.js',
+                        'assets/admin/pages/scripts/tasks.js',
+
+
+                        'js/controllers/DocumentSearchController.js'
+                    ]
+                });
+            }]
+        }
+    })
+
+    .state('globalsearch', {
+           url: "/fastsearch/gfs.html",
+           templateUrl: "views/fastsearch/gfs.html",
+           data: {
+               pageTitle: 'Global Search'
+           },
+           controller: "GlobalSearchController",
+          // controller: "DocumentSearchController1",
+           resolve: {
+               deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                   return $ocLazyLoad.load({
+                       name: 'MetronicApp',
+                       insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                       files: [
+                           'assets/pages/css/search.css',
+                           'assets/pages/css/pricing.min.css',
+
+                           'assets/admin/pages/scripts/index.js',
+                           'js/controllers/GlobalSearchController.js'
+                       ]
+                   });
+               }]
+           }
+       })
+
+
     .state('report2', {
         url: "/report2.html",
         templateUrl: "views/report2.html",
@@ -492,7 +599,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }]
         }
     })
-    
+
     .state('reportList', {
         url: "/reportList.html",
         templateUrl: "views/reportList.html",
@@ -1256,7 +1363,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                 }]
             }
         })
-        //Report 
+        //Report
 
     // Query UI
     .state('reoirt', {
