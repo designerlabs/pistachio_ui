@@ -3,42 +3,81 @@ Metronic AngularJS App Main Script
 ***/
 
 /* Metronic App */
-var MetronicApp = angular.module("MetronicApp", [
+var MetronicApp = angular
+.module("MetronicApp", [
     "ui.router",
     "ui.bootstrap",
     "oc.lazyLoad",
     "ngSanitize",
     "ngResource",
     "ngTable",
-    "pascalprecht.translate"
-]);
+    "pascalprecht.translate",
+    'tmh.dynamicLocale'
+])
 
-/* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
-MetronicApp.config(['$ocLazyLoadProvider', '$translateProvider', function($ocLazyLoadProvider, $translateProvider) {
-    $ocLazyLoadProvider.config({
-        // global configs go here
-    });
+// /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
+// MetronicApp.config(['$ocLazyLoadProvider', '$translateProvider', function($ocLazyLoadProvider, $translateProvider) {
+//     $ocLazyLoadProvider.config({
+//         // global configs go here
+//     });
 
-    $translateProvider.translations('en', {
-      'sidebar.dashboard':'Dashboard',
-      'login.username' : 'User Name',
-      'login.title': 'E-Reporting Immigration Department'
-    });
+//     $translateProvider.translations('en', {
+//       'sidebar.dashboard':'Dashboard',
+//       'login.username' : 'User Name',
+//       'login.title': 'E-Reporting Immigration Department'
+//     });
     
-    $translateProvider.translations('my', {
-      'sidebar.dashboard':'Malay Dashboard',
-      'login.username' : 'Nama Pengguna',
-      'login.title': 'E-Reporting Jabatan Imigresen Malaysia'
+//     $translateProvider.translations('my', {
+//       'sidebar.dashboard':'Malay Dashboard',
+//       'login.username' : 'Nama Pengguna',
+//       'login.title': 'E-Reporting Jabatan Imigresen Malaysia'
+//     });
+
+//     $translateProvider.preferredLanguage('en_EN');
+// }]);
+  .constant('DEBUG_MODE', /*DEBUG_MODE*/true/*DEBUG_MODE*/)
+  .constant('VERSION_TAG', /*VERSION_TAG_START*/new Date().getTime()/*VERSION_TAG_END*/)
+  .constant('LOCALES', {
+    'locales': {
+      'en_US': 'English',
+      'ms_my': 'Bahasa Melayu'
+      
+    },
+    'preferredLocale': 'ms_my'
+  })
+
+// Angular Translate
+
+ .config(function ($translateProvider, DEBUG_MODE, LOCALES) {
+    if (DEBUG_MODE) {
+      $translateProvider.useMissingTranslationHandlerLog();// warns about missing translates
+    }
+
+    $translateProvider.useStaticFilesLoader({
+      prefix: 'resources/locale-',
+      suffix: '.json'
     });
 
-    $translateProvider.preferredLanguage('my');
-}]);
+    $translateProvider.preferredLanguage(LOCALES.preferredLocale);
+    //$translateProvider.useLocalStorage();
+  })
+  // Angular Dynamic Locale
+  .config(function (tmhDynamicLocaleProvider) {
+    tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js');
+  });
+// .controller('AppController',  ['$translateProvider', '$scope', function ($translateProvider,$scope) {
+//      $translateProvider.useStaticFilesLoader({
+//       prefix: 'resources/locale-',
+//       suffix: '.json'
+//     });
 
-/*MetronicApp.config(['$httpProvider',
-function($httpProvider) {
-    $httpProvider.defaults.withCredentials = true;
-    
-}]);*/
+//   $scope.updateHeader = function() {  
+// console.log($scope.item.toString());
+//     $translateProvider.preferredLanguage($scope.item.toString());
+//   }
+// }]);
+
+ 
 
 /********************************************
  BEGIN: BREAKING CHANGE in AngularJS v1.3.x:

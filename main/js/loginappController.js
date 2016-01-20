@@ -34,6 +34,11 @@ MetronicApp.config(['$translateProvider',function($translateProvider) {
       'login.privacypolicy' : 'Privacy Policy',      
       'login.error.accepttnc' : 'Please accept TNC first',
       'login.sellanguage' : 'Select Language',
+      'login.sellanguage.register' : 'Select Language', 
+      'login.unit': 'Select Unit',
+      'login.rank' : 'Select Rank',
+      'login.state' : 'Select State',
+      'login.branch' : 'Select Branch'
 
 
     });
@@ -61,7 +66,12 @@ MetronicApp.config(['$translateProvider',function($translateProvider) {
       'login.termsofservice' : 'Syarat-syarat Perkhidmatan',
       'login.privacypolicy' : 'Dasar Privasi',      
       'login.error.accepttnc' : 'Sila terima TNC pertama',
-      'login.sellanguage' : 'Pilih Bahasa'
+      'login.sellanguage' : 'Pilih Bahasa', 
+      'login.sellanguage.register' : 'Pilih Bahasa', 
+      'login.unit': 'Pilih Unit',
+      'login.rank' : 'Pilih Rank',
+      'login.state' : 'Pilih Negeri',
+      'login.branch' : 'Pilih Cawangan'
 
     });
 
@@ -70,35 +80,10 @@ MetronicApp.config(['$translateProvider',function($translateProvider) {
 }]);
 
 MetronicApp.controller('loginappController',  ['$translate', '$scope', function ($translate,$scope) {
-	// console.log($scope);
-	// $translate.use(localStorage.getItem('loginController'));
-	// $scope.changeLanguage = function (key) {
- //    $translate.use(key);
- //  };
-   // $scope.toggleLang = function () {
-   // 	alert('toggleLang');
-   // 	// console.log($scope.item.code, $scope.item.name);
-   // 	 $scope.sizes = [ {code: 1, name: 'English'}, {code: 2, name: 'Bahasa Malaysia'}];
-   //      $translate.uses() === 'en'? $translate.uses('my') : $translate.uses('en');
-   //  };
-     // $scope.sizes = [ {code: 1, name: 'n1'}, {code: 2, name: 'n2'}];
+	
   $scope.update = function() {
      console.log($scope.item.toString());
      // $translateProvider.preferredLanguage($scope.item.toString());
       $translate.use($scope.item.toString());
   }
 }]);
-// function MyCtrl($scope) {
-//   $scope.sizes = [ {code: 1, name: 'n1'}, {code: 2, name: 'n2'}];
-//   $scope.update = function() {
-//     console.log($scope.item.code, $scope.item.name)
-//   }
-// }
- // function loginappController($scope){
-
- //  // $scope.sizes = [ {code: 1, name: 'n1'}, {code: 2, name: 'n2'}];
- //  $scope.toggleLang = function() {
- //  	alert('toggleLang');
- //    console.log($scope.item.code, $scope.item.name)
- // }
- // }
