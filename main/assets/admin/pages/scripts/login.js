@@ -3,6 +3,11 @@ var queryString = "query";
 var categoryName = "cat";
 var selectedLang = "";
 
+
+/* initiating the language */
+$(function(){
+    $("#selLang [name=en").attr('selected', 'selected');
+});
 var Login = function() {
 
     var handleLogin = function() {
@@ -58,7 +63,7 @@ var Login = function() {
                 var passwordValue = $('.login-form input[name=password]').val();
                 var token = undefined;
                 $.ajax({
-                    url: globalURL+'auth/login',
+                    url: globalURL+'auth/login?lang='+selectedLang,
                     type: 'GET',
                     data: {login: usernameValue, password: passwordValue},
                 }).done(function(data) {
@@ -115,7 +120,7 @@ var Login = function() {
                     $('#loginRequire', $('.login-form')).hide();
                     var responseTextData = $.parseJSON(data.responseText);
                     if(responseTextData.code == "500"){
-                        $("#loginError span").html();
+                        $("#loginError span").html(responseTextData.error);
                     }
                     //$("#loginError span").html(responseTextData.errorMy | errorEn);
                     $('#loginError', $('.login-form')).show();

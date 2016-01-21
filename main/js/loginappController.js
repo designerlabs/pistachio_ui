@@ -8,6 +8,8 @@ var MetronicApp = angular.module("at", [
     "pascalprecht.translate"
 ]);
 
+
+
 MetronicApp.config(['$translateProvider',function($translateProvider) {    
 
     $translateProvider.translations('en', {
@@ -80,7 +82,7 @@ MetronicApp.config(['$translateProvider',function($translateProvider) {
 }]);
 
 MetronicApp.controller('loginappController',  ['$translate', '$scope', function ($translate,$scope) {
-	
+
   $scope.update = function() {
      console.log($scope.item.toString());
      // $translateProvider.preferredLanguage($scope.item.toString());
