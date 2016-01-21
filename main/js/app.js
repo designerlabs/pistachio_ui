@@ -40,7 +40,7 @@ var MetronicApp = angular
   .constant('LOCALES', {
     'locales': {
       'en_US': 'English',
-      'ms_my': 'Bahasa Melayu'      
+      'ms_MY': 'Bahasa Melayu'      
     },
     'preferredLocale': 'en_US'
   })
@@ -297,7 +297,7 @@ $scope.checkRole = function(x){
 /* Setup App Main Controller */
 MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
     $scope.$on('$viewContentLoaded', function() {
-        $("#selectLanguage [value=1]").attr('selected', 'selected');
+        // $("#selectLanguage [value=1]").attr('selected', 'selected');
         Metronic.initComponents(); // init core components
         //Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive
     });

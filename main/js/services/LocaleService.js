@@ -25,7 +25,6 @@ angular.module('MetronicApp')
 
     // var currentLocale = $translate.proposedLanguage();// because of async loading
     var currentLocale = (localStorage.getItem("lang") == "en") ? "en_US" : "ms_MY";
-    console.log(currentLocale);
      // METHODS
     var checkLocaleIsValid = function (locale) {
       return _LOCALES.indexOf(locale) !== -1;
@@ -71,7 +70,6 @@ angular.module('MetronicApp')
         return localesObj[currentLocale];
       },
       setLocaleByDisplayName: function (localeDisplayName) {
-        console.log("localeDisplayName: " + localeDisplayName);
         setLocale(
           _LOCALES[
             _LOCALES_DISPLAY_NAMES.indexOf(localeDisplayName)// get locale index
