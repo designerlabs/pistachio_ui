@@ -64,7 +64,6 @@ var Login = function() {
                 }).done(function(data) {
                     console.log("success");
                     token = data.value;
-                    
 
                         localStorage.setItem("username", usernameValue);
                         localStorage.setItem("token", token);
@@ -81,6 +80,7 @@ var Login = function() {
                             //authoritiesValue = data.user.authorities;
                             //console.log(authoritiesValue);
                             localStorage.setItem("authorities",data.roles);
+                            localStorage.setItem("lang", data.lang);
 
                             /*for(var i=0; i<authoritiesValue.length;i++){
                                 console.log(authoritiesValue[i].name);
@@ -89,7 +89,7 @@ var Login = function() {
                                 //return true;
                             }*/
 
-                            localStorage.setItem("authorities",data.roles);
+                            // localStorage.setItem("authorities",data.roles);
                            
                             //form.submit();
 			    window.location = "index.html#/dashboard.html";
@@ -375,7 +375,7 @@ var Login = function() {
         $('#selLang').change(function(){ 
         // alert($scope.changeLanguage);                
                 selectedLang = $('#selLang').val();
-                localStorage.setItem("lang", selectedLang);
+                // localStorage.setItem("lang", selectedLang);
                 
                  // $translateProvider.preferredLanguage(selectedLang);
             });

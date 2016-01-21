@@ -13,5 +13,6 @@
 	"sidebar.rolemanagement" : "Role Management",
 	"sidebar.dataconsolidation" : "Data Consolidation",
 	"sidebar.jobs" : "Jobs",
-	"sidebar.database" : "Data base"
+	"sidebar.database" : "Data base",
+	"header.search" : "Search"
 }

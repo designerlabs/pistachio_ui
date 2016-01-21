@@ -40,10 +40,9 @@ var MetronicApp = angular
   .constant('LOCALES', {
     'locales': {
       'en_US': 'English',
-      'ms_my': 'Bahasa Melayu'
-      
+      'ms_my': 'Bahasa Melayu'      
     },
-    'preferredLocale': 'ms_my'
+    'preferredLocale': 'en_US'
   })
 
 // Angular Translate
@@ -58,13 +57,21 @@ var MetronicApp = angular
       suffix: '.json'
   });
      $translateProvider.preferredLanguage(LOCALES.preferredLocale);
+     // $translateProvider.useLocalStorage();
  })
 
 // Angular Dynamic Locale
   .config(function (tmhDynamicLocaleProvider) {
     tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js');
-  });
+  })
+ .controller('MetronicApp', function ($scope, $rootScope, $translate, $interval, VERSION_TAG) {
+    $rootScope.$on('$translateChangeSuccess', function (event, data) {
+      $scope.locale = data.language;
+      console.log(data.language);
+    });
 
+ });
+ 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
 // MetronicApp.config(['$ocLazyLoadProvider', '$translateProvider', function($ocLazyLoadProvider, $translateProvider) {
 //     $ocLazyLoadProvider.config({

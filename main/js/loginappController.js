@@ -35,10 +35,10 @@ MetronicApp.config(['$translateProvider',function($translateProvider) {
       'login.error.accepttnc' : 'Please accept TNC first',
       'login.sellanguage' : 'Select Language',
       'login.sellanguage.register' : 'Select Language', 
-      'login.unit': 'Select Unit',
-      'login.rank' : 'Select Rank',
-      'login.state' : 'Select State',
-      'login.branch' : 'Select Branch'
+      'login.unit': 'Unit',
+      'login.rank' : 'Rank',
+      'login.state' : 'State',
+      'login.branch' : 'Branch'
 
 
     });
@@ -68,10 +68,10 @@ MetronicApp.config(['$translateProvider',function($translateProvider) {
       'login.error.accepttnc' : 'Sila terima TNC pertama',
       'login.sellanguage' : 'Pilih Bahasa', 
       'login.sellanguage.register' : 'Pilih Bahasa', 
-      'login.unit': 'Pilih Unit',
-      'login.rank' : 'Pilih Rank',
-      'login.state' : 'Pilih Negeri',
-      'login.branch' : 'Pilih Cawangan'
+      'login.unit': 'Unit',
+      'login.rank' : 'Rank',
+      'login.state' : 'Negeri',
+      'login.branch' : 'Cawangan'
 
     });
 

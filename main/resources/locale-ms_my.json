@@ -13,5 +13,6 @@
 	"sidebar.rolemanagement" : "Pengurusan Peranan",
 	"sidebar.dataconsolidation" : "Penyatuan Data",
 	"sidebar.jobs" : "Pekerjaan",
-	"sidebar.database" : "Pangkalan Data"
+	"sidebar.database" : "Pangkalan Data",
+	"header.search" : "Carian"
 }
