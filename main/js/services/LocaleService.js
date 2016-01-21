@@ -18,6 +18,7 @@ angular.module('MetronicApp')
     }
     var _LOCALES_DISPLAY_NAMES = [];
     _LOCALES.forEach(function (locale) {
+      
       _LOCALES_DISPLAY_NAMES.push(localesObj[locale]);
       
     });

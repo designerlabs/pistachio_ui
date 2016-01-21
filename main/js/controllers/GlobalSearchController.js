@@ -81,13 +81,14 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
 
         var clicks = 10;
-        //$scope.newCount = 10;
+        $scope.newCount = clicks;
  
         $scope.next = function() {
           $(".previousBtn").prop( "disabled", false);
            clicks += 10;
           $scope.start = $scope.start + 10;
           $scope.showApplications();
+          $scope.newCount = clicks;
           var listCount = 10;
           
         }
