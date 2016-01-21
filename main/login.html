@@ -43,6 +43,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <link href="assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/> -->
 <!-- <link href="assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/> -->
 <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.css">
+<link rel="stylesheet" href="https://www.google.com/fonts#ChoosePlace:select/Collection:Open+Sans:400,300,600">
 <!-- END THEME STYLES -->
 <link rel="shortcut icon" href="favicon.ico"/>
 
@@ -167,8 +168,8 @@ License: You must have a valid license purchased only from themeforest(the above
 		<div class="text-center" style="margin-bottom:5px;">
 			<button type="submit" class="btn btn-lg btn-success uppercase">{{'login.login' | translate}}</button>
 		</div>
-		<div class="row" style="padding:10px 0 10px 0">
-		 <select id="selLang" class="valid form-control" ng-model="item" ng-change="update()">
+		<div class="form-group" style="padding:10px 0 10px 0">
+		 <select id="selLang" class="valid form-control form-control-solid" ng-model="item" ng-change="update()">
 	        <option value="" selected>{{'login.sellanguage' | translate}}</option>
 		    <option value="en">English</option>
 		    <option value="my">Bahasha Malaysia</option>   
