@@ -1,0 +1,18 @@
+{
+	"Header.sellanguage" :"Pilih Bahasa",
+	"sidebar.dashboard" : "Dashboard Malay",
+	"directives.language-select.Language": "Bahasa",
+	"dashboard.title" : "Imigresen Dashboard Perisikan",
+	"sidebar.fastsearch": "Terima pengesahan",
+	"sidebar.ereport" : "e Laporan",
+	"sidebar.administrator" : "Pentadbir",
+	"sidebar.reportmanagement" : "Pengurusan laporan",
+	"sidebar.dashboardmanagement" : "Pengurusan Dashboard",
+	"sidebar.configuration" : "Konfigurasi",
+	"sidebar.usermanagement" : "Pengurusan Pengguna",
+	"sidebar.rolemanagement" : "Pengurusan Peranan",
+	"sidebar.dataconsolidation" : "Penyatuan Data",
+	"sidebar.jobs" : "Pekerjaan",
+	"sidebar.database" : "Pangkalan Data",
+	"header.search" : "Carian"
+}

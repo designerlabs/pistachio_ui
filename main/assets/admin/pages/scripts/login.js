@@ -3,6 +3,11 @@ var queryString = "query";
 var categoryName = "cat";
 var selectedLang = "";
 
+
+/* initiating the language */
+$(function(){
+    $("#selLang [name=en").attr('selected', 'selected');
+});
 var Login = function() {
 
     var handleLogin = function() {
@@ -58,13 +63,12 @@ var Login = function() {
                 var passwordValue = $('.login-form input[name=password]').val();
                 var token = undefined;
                 $.ajax({
-                    url: globalURL+'auth/login',
+                    url: globalURL+'auth/login?lang='+selectedLang,
                     type: 'GET',
                     data: {login: usernameValue, password: passwordValue},
                 }).done(function(data) {
                     console.log("success");
                     token = data.value;
-                    
 
                         localStorage.setItem("username", usernameValue);
                         localStorage.setItem("token", token);
@@ -81,6 +85,7 @@ var Login = function() {
                             //authoritiesValue = data.user.authorities;
                             //console.log(authoritiesValue);
                             localStorage.setItem("authorities",data.roles);
+                            localStorage.setItem("lang", data.lang);
 
                             /*for(var i=0; i<authoritiesValue.length;i++){
                                 console.log(authoritiesValue[i].name);
@@ -89,7 +94,7 @@ var Login = function() {
                                 //return true;
                             }*/
 
-                            localStorage.setItem("authorities",data.roles);
+                            // localStorage.setItem("authorities",data.roles);
                            
                             //form.submit();
 			    window.location = "index.html#/dashboard.html";
@@ -115,7 +120,7 @@ var Login = function() {
                     $('#loginRequire', $('.login-form')).hide();
                     var responseTextData = $.parseJSON(data.responseText);
                     if(responseTextData.code == "500"){
-                        $("#loginError span").html();
+                        $("#loginError span").html(responseTextData.error);
                     }
                     //$("#loginError span").html(responseTextData.errorMy | errorEn);
                     $('#loginError', $('.login-form')).show();
@@ -384,7 +389,7 @@ var Login = function() {
         $('#selLang').change(function(){ 
         // alert($scope.changeLanguage);                
                 selectedLang = $('#selLang').val();
-                localStorage.setItem("lang", selectedLang);
+                // localStorage.setItem("lang", selectedLang);
                 
                  // $translateProvider.preferredLanguage(selectedLang);
             });

@@ -6,22 +6,19 @@
   <div class="search-page search-content-4">
   <div class="search-bar bordered">
       <div class="row">
-          <div class="col-lg-8 col-sm-12">
+          <div class="col-md-8">
               <div class="input-group">
-                  <input ng-model="search.text" type="text" class="form-control" placeholder="Search for...">
-                  <span class="input-group-btn">
-                      <button class="btn green-soft uppercase bold" ng-click="search(search.text)" type="button">Search</button>
+                  <input ng-model="search.text" type="search" class="form-control" placeholder="Search for...">
+                  <span class="input-group-btn btn-grp-padding">
+                      <button class="btn green-soft uppercase bold" ng-click="search(search.text)" type="button"><i class="fa fa-search"></i> Search</button>
+                      <button class="btn bg-LightCoral uppercase bold" ng-click="reset()" type="button"><i class="fa fa-refresh"></i> Reset</button>
                   </span>
               </div>
 
 
 
           </div>
-          <div class="col-lg-2 extra-buttons col-sm-6">
-              <button class="btn grey-steel uppercase bold" ng-click="reset()" type="button">Reset Search</button>
-
-          </div>
-
+       
       </div>
   </div>
   <div>
@@ -45,7 +42,7 @@
 
                         <div class="arrow-down arrow-grey"></div>
                         <div class="price-table-footer">
-                            <button type="button" ng-click="showApplications()" class="btn grey-salsa btn-outline sbold uppercase price-button">View</button>
+                            <button type="button" ng-click="showApplications()" class="btn btn-success btn-outline sbold uppercase price-button">View</button>
                         </div>
                     </div>
                 </div>
@@ -53,10 +50,10 @@
               <div >
                 <div class="col-md-3">
                     <div class="price-column-container border-active">
-                        <div class="price-table-head bg-green">
+                        <div class="price-table-head bg-DarkSlateBlue">
                             <h2 class="no-margin">Users</h2>
                         </div>
-                        <div class="arrow-down arrow-green"></div>
+                        <div class="arrow-down arrow-orange"></div>
                         <div class="price-table-pricing">
                             <h3>222</h3>
                             <p>users found</p>
@@ -64,7 +61,7 @@
 
                         <div class="arrow-down arrow-grey"></div>
                         <div class="price-table-footer">
-                            <button type="button" class="btn grey-salsa btn-outline sbold uppercase price-button">View</button>
+                            <button type="button" class="btn btn-success btn-outline sbold uppercase price-button">View</button>
                         </div>
                     </div>
                 </div>
@@ -83,7 +80,7 @@
 
                         <div class="arrow-down arrow-grey"></div>
                         <div class="price-table-footer">
-                            <button type="button" class="btn grey-salsa btn-outline sbold uppercase price-button">View</button>
+                            <button type="button" class="btn btn-success btn-outline sbold uppercase price-button">View</button>
                         </div>
                     </div>
                 </div>
@@ -102,7 +99,7 @@
 
                         <div class="arrow-down arrow-grey"></div>
                         <div class="price-table-footer">
-                            <button type="button" class="btn grey-salsa btn-outline sbold uppercase price-button">View</button>
+                            <button type="button" class="btn btn-success btn-outline sbold uppercase price-button">View</button>
                         </div>
                     </div>
                 </div>
@@ -126,10 +123,10 @@
                             </div>
                             <div class="portlet-body todo-project-list-content in" aria-expanded="true" style="height: auto;">
                                 <div class="todo-project-list">
-                                    <ul class="nav nav-stacked">
-                                        <li data-ng-repeat="cnt in countries">
+                              <ul class="list-group">
+                                        <li class="list-group-item" data-ng-repeat="cnt in countries">
                                             <a href="javascript:;">
-                                                <span class="badge badge-info"> {{cnt.count}} </span> {{cnt.country}} </a>
+                                                <span class="badge pull-right"> {{cnt.count}} </span> {{cnt.country}} </a>
                                         </li>
 
                                     </ul>
@@ -141,11 +138,9 @@
       <div class="col-md-10">
         <div   class="search-table table-responsive">
             <table class="table table-bordered table-striped table-condensed">
-                <thead class="bg-blue">
+                <thead class="bg-table-gray">
                     <tr>
-                        <th>
-                            <a href="javascript:;">Status</a>
-                        </th>
+                        
                         <th>
                             <a href="javascript:;">Date</a>
                         </th>
@@ -155,8 +150,11 @@
                         <th>
                             <a href="javascript:;">Country</a>
                         </th>
-                        <th>
-                            <a href="javascript:;">ApplNo</a>
+                        <th style="text-align: center;">
+                            <a href="javascript:;">Application No.</a>
+                        </th>
+                        <th style="text-align: left;">
+                            <a href="javascript:;">Action</a>
                         </th>
                     </tr>
                 </thead>
@@ -164,20 +162,21 @@
 
 
                     <tr ng-repeat="x in items">
-                        <td class="table-status">
-                            <a href="javascript:;">
-                                <i class="icon-arrow-right font-blue"></i>
-                            </a>
-                        </td>
-                        <td class="table-date font-blue">
+                        
+                        <td  style="width:15%;"  class="table-title">
                             <a href="javascript:;">{{x.mad_crt_dt}}</a>
                         </td>
                         <td class="table-title">
                           {{x.mad_applcnt_addr1}}
                         </td>
-                        <td class="table-desc"> {{x.mad_nat_cd}} </td>
+                        <td style="width:5%;" class="table-desc"> {{x.mad_nat_cd}} </td>
                         <td class="table-download">
                           {{x.mad_appl_no}}
+                        </td>
+                        <td style="text-align: left; width:5%;" class="table-status">
+                            <a href="javascript:;">
+                                <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i> View</button>
+                            </a>
                         </td>
                     </tr>
 
@@ -196,14 +195,15 @@
         <div class="search-pagination">
             <ul class="pagination">
                 <li >
-                    <a href="javascript:;"> previous </a>
+                    <button ng-click="previous()" class="btn btn-primary previousBtn" disabled><i class="fa fa-arrow-left"></i> previous </button>
                 </li>
                 <li class="page-active">
-                    <a href="javascript:;"> next </a>
+                    <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">next <i class="fa fa-arrow-right"></i></button>
                 </li>
 
             </ul>
         </div>
+        <div class="pageNum">( {{newCount}} / {{applicationsFound}} )</div>
       </div>
     </div>
 </div>

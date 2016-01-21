@@ -3,39 +3,100 @@ Metronic AngularJS App Main Script
 ***/
 
 /* Metronic App */
-var MetronicApp = angular.module("MetronicApp", [
+var MetronicApp = angular
+.module("MetronicApp", [
     "ui.router",
     "ui.bootstrap",
     "oc.lazyLoad",
     "ngSanitize",
     "ngResource",
     "ngTable",
-    "pascalprecht.translate"
-]);
+    "pascalprecht.translate",
+    'tmh.dynamicLocale'
+])
 
+// /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
+// MetronicApp.config(['$ocLazyLoadProvider', '$translateProvider', function($ocLazyLoadProvider, $translateProvider) {
+//     $ocLazyLoadProvider.config({
+//         // global configs go here
+//     });
+
+//     $translateProvider.translations('en', {
+//       'sidebar.dashboard':'Dashboard',
+//       'login.username' : 'User Name',
+//       'login.title': 'E-Reporting Immigration Department'
+//     });
+    
+//     $translateProvider.translations('my', {
+//       'sidebar.dashboard':'Malay Dashboard',
+//       'login.username' : 'Nama Pengguna',
+//       'login.title': 'E-Reporting Jabatan Imigresen Malaysia'
+//     });
+
+//     $translateProvider.preferredLanguage('en_EN');
+// }]);
+  .constant('DEBUG_MODE', /*DEBUG_MODE*/true/*DEBUG_MODE*/)
+  .constant('VERSION_TAG', /*VERSION_TAG_START*/new Date().getTime()/*VERSION_TAG_END*/)
+  .constant('LOCALES', {
+    'locales': {
+      'en_US': 'English',
+      'ms_MY': 'Bahasa Melayu'      
+    },
+    'preferredLocale': 'en_US'
+  })
+
+// Angular Translate
+
+ .config(function ($translateProvider, DEBUG_MODE, LOCALES) {
+    if (DEBUG_MODE) {
+      $translateProvider.useMissingTranslationHandlerLog();// warns about missing translates
+    }
+
+    $translateProvider.useStaticFilesLoader({
+      prefix: 'resources/locale-',
+      suffix: '.json'
+  });
+     $translateProvider.preferredLanguage(LOCALES.preferredLocale);
+     // $translateProvider.useLocalStorage();
+ })
+
+// Angular Dynamic Locale
+  .config(function (tmhDynamicLocaleProvider) {
+    tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js');
+  })
+ .controller('MetronicApp', function ($scope, $rootScope, $translate, $interval, VERSION_TAG) {
+    $rootScope.$on('$translateChangeSuccess', function (event, data) {
+      $scope.locale = data.language;
+      console.log(data.language);
+    });
+
+ });
+ 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
-MetronicApp.config(['$ocLazyLoadProvider', '$translateProvider', function($ocLazyLoadProvider, $translateProvider) {
-    $ocLazyLoadProvider.config({
-        // global configs go here
-    });
+// MetronicApp.config(['$ocLazyLoadProvider', '$translateProvider', function($ocLazyLoadProvider, $translateProvider) {
+//     $ocLazyLoadProvider.config({
+//         // global configs go here
+//     });
 
-    $translateProvider.translations('en', {
-      'sidebar.dashboard':'Dashboard',
-      'sidebar.fastsearch':'Fast Search',
-      'login.username' : 'User Name',
-      'login.title': 'E-Reporting Immigration Department'
-    });
+//     $translateProvider.translations('en', {
+//       'sidebar.dashboard':'Dashboard',
+//       'sidebar.fastsearch':'Fast Search',
+//       'login.username' : 'User Name',
+//       'login.title': 'E-Reporting Immigration Department'
+//     });
 
-    $translateProvider.translations('my', {
-      'sidebar.dashboard':'Papan Pemuka',
-      'sidebar.fastsearch':'Terima pengesahan',
-      'login.username' : 'Nama Pengguna',
-      'login.title': 'E-Reporting Jabatan Imigresen Malaysia'
-    });
+//     $translateProvider.translations('my', {
+//       'sidebar.dashboard':'Papan Pemuka',
+//       'sidebar.fastsearch':'Terima pengesahan',
+//       'login.username' : 'Nama Pengguna',
+//       'login.title': 'E-Reporting Jabatan Imigresen Malaysia'
+//     });
 
-    $translateProvider.preferredLanguage('my');
-}]);
-
+//     // $translateProvider.preferredLanguage(LOCALES.preferredLocale);
+//     //$translateProvider.useLocalStorage();
+//   ]);
+  
+ 
 /*MetronicApp.config(['$httpProvider',
 function($httpProvider) {
     $httpProvider.defaults.withCredentials = true;
@@ -236,6 +297,7 @@ $scope.checkRole = function(x){
 /* Setup App Main Controller */
 MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
     $scope.$on('$viewContentLoaded', function() {
+        // $("#selectLanguage [value=1]").attr('selected', 'selected');
         Metronic.initComponents(); // init core components
         //Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive
     });
