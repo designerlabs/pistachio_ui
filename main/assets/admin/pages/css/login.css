@@ -13,8 +13,15 @@ Login page
 
 /* bg color */
 
+html {
+    height: auto;
+     min-height: 100%;
+}
+
 .login {
     background-color: #A0B7B5 !important;
+    background-size: cover;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 100)), url('http://www.hdwallpaperscool.com/wp-content/uploads/2015/05/malaysia-hd-wallpaper-for-desktop-background-download-malaysia-images.jpeg'), linear-gradient(#2980B9, #2C3E50);
 }
 
 .login .logo {
@@ -26,7 +33,7 @@ Login page
 }
 
 .login .content {
-    background-color: #eceef1;
+    background-color: rgba(255, 255, 255, 0.9);
     -webkit-border-radius: 7px;
     -moz-border-radius: 7px;
     -ms-border-radius: 7px;
@@ -34,17 +41,16 @@ Login page
     border-radius: 7px;
     width: 400px;
     margin: 5px auto 10px auto;
-    padding: 30px;
-    padding-top: 10px;
+    padding: 0px 30px;
     overflow: hidden;
     position: relative;
 }
 
 .login .content h3 {
-    color: #4db3a5;
+    color: #097B41;
     text-align: center;
-    font-size: 28px;
-    font-weight: 400 !important;
+    font-size: 25px;
+    font-weight: 300 !important;
 }
 
 .login .content h4 {
@@ -153,7 +159,7 @@ Login page
 .login .content .register-form .form-actions {
     border: 0;
     margin-bottom: 0;
-    padding-bottom: 0px;
+    padding-bottom: 20px;
 }
 
 .login .content .form-actions .btn {
@@ -196,9 +202,11 @@ Login page
 
 .login .content .create-account {
     margin: 0 -40px -40px -40px;
-    padding: 15px 0 17px 0;
+    /* padding: 15px 0 17px 0; */
+    padding: 5px 0 40px 0;
     text-align: center;
-    background-color: #6c7a8d;
+    /* background-color: #6c7a8d;*/
+    background-color: #097B41;
     -webkit-border-radius: 0 0 7px 7px;
     -moz-border-radius: 0 0 7px 7px;
     -ms-border-radius: 0 0 7px 7px;
@@ -209,7 +217,7 @@ Login page
 .login .content .create-account p a {
     font-weight: 600;
     font-size: 14px;
-    color: #c3cedd;
+    color: #fff;
 }
 
 .login .content .create-account a {
