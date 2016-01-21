@@ -304,9 +304,15 @@ var Login = function() {
                 var firstnameValue = $('.register-form input[name=firstname]').val();
                 var lastnameValue = $('.register-form input[name=lastname]').val();
                 var emailValue = $('.register-form input[name=email]').val();
-                var departmentValue = $('.register-form input[name=department]').val();
                 var usernameValue = $('.register-form input[name=username]').val();
                 var passwordValue = $('.register-form input[name=password]').val();
+                
+                var unitValue = $('.register-form [name=Runit]').val();
+                var rankValue = $('.register-form [name=Rrank]').val();
+                var stateValue = $('.register-form [name=Rstate]').val();
+                var branchValue = $('.register-form [name=Rbranch]').val();
+                var departmentValue = $('.register-form [name=Rdepartment]').val();
+
                 var userlangValue = $('.register-form #userselLang').val();
                 
                 $.ajax({
@@ -318,10 +324,13 @@ var Login = function() {
                         "firstName": firstnameValue,
                         "lastName": lastnameValue,
                         "email":emailValue,
+                        "unit":unitValue,
+                        "branch":branchValue,
+                        "rank":rankValue,
                         "department":departmentValue,
                         "login":usernameValue,
                         "password":passwordValue,
-                        "language":userlangValue,
+                        "lang":userlangValue,
                         "id":"0"
                     }),
                 }).done(function(data) {

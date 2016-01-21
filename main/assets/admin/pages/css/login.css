@@ -71,10 +71,10 @@ html {
 
 .login .content .form-control {
     border: none;
-    background-color: #dde3ec;
+    background-color: #FAFFBD;
     height: 43px;
-    color: #8290a3;
-    border: 1px solid #dde3ec;
+    color: #000000;
+    border: 1px solid #B9B9B9;
 }
 
 .login .content .form-control:focus,
@@ -261,4 +261,20 @@ html {
     .login .checkbox {
         font-size: 13px;
     }
+}
+
+.select2-container{
+    background: #FAFFBD  !important;
+    border: 1px solid #B9B9B9 !important; 
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #097B41 !important;
+    border-color: #008E46 !important;
+}
+
+
+.select2-container .select2-selection--single .select2-selection__rendered{
+    padding-left: 0px !important;
 }

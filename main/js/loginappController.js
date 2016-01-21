@@ -11,10 +11,11 @@ var MetronicApp = angular.module("at", [
 MetronicApp.config(['$translateProvider',function($translateProvider) {    
 
     $translateProvider.translations('en', {
-      'login.title': 'E-Reporting Immigration Department',
+      'login.title': 'E-Reporting',
+      'login.subtitle': 'Immigration Department Malaysia',
       'login.requiremessage' : 'Enter a username and password',
       'login.errormessag' : 'Please enter a valid username and password',
-      'login.username' : 'User Name',
+      'login.username' : 'IC No.',
       'login.password' : 'Password',
       'login.login' : 'Login',
       'login.createacc': 'Sign Up',
@@ -39,10 +40,11 @@ MetronicApp.config(['$translateProvider',function($translateProvider) {
     });
     
     $translateProvider.translations('my', {
-      'login.title': 'E-Reporting Jabatan Imigresen Malaysia',
+      'login.title': 'E-Reporting',
+      'login.subtitle': 'Jabatan Imigresen Malaysia',
       'login.requiremessage' : 'Memasukkan nama pengguna dan kata laluan',
       'login.errormessag' : 'Sila masukkan nama pengguna dan kata laluan yang sah',
-      'login.username' : 'Nama pengguna',
+      'login.username' : 'IC No.',
       'login.password' : 'Kata laluan',
       'login.login' : 'Log masuk',
       'login.createacc': 'Buat akaun',

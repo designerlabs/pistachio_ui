@@ -138,7 +138,8 @@ License: You must have a valid license purchased only from themeforest(the above
 	<!-- <div id="errMsgForLogin" class="hide">{{'login.error' | translate }}</div> -->
 
 	<form id="loginForm" class="login-form" action="index.html" method="post">
-		<h3 class="form-title">{{'login.title'| translate}}</h3>
+		<h3 class="form-title">{{'login.title'| translate}}<br><span style="font-size:14px;">{{'login.subtitle'| translate}}</span></h3>
+
 		<div class="alert alert-danger display-hide" id="loginRequire">
 			<button class="close" data-close="alert"></button>
 			<span>
@@ -166,7 +167,7 @@ License: You must have a valid license purchased only from themeforest(the above
 			<a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>
 		</div> -->
 		<div class="text-center" style="margin-bottom:5px;">
-			<button type="submit" class="btn btn-lg btn-success uppercase">{{'login.login' | translate}}</button>
+			<button type="submit" class="btn btn-lg btn-success uppercase"><i class="fa fa-lock-o"></i> {{'login.login' | translate}}</button>
 		</div>
 		<div class="form-group" style="padding:10px 0 10px 0">
 		 <select id="selLang" class="valid form-control form-control-solid" ng-model="item" ng-change="update()">
@@ -220,22 +221,22 @@ License: You must have a valid license purchased only from themeforest(the above
 			<label class="control-label visible-ie8 visible-ie9">{{'login.email' | translate}}</label>
 			<input class="form-control placeholder-no-fix" type="text" placeholder="{{'login.email' | translate}}" name="email"/>
 		</div>
-		<div class="form-group">
+<!-- 		<div class="form-group">
 			<label class="control-label visible-ie8 visible-ie9">{{'login.department' | translate}}</label>
 			<input class="form-control placeholder-no-fix" type="text" placeholder="{{'login.department' | translate}}" name="department"/>
-		</div>
+		</div> -->
 
 
 		<div class="form-group">
 			<label class="control-label visible-ie8 visible-ie9">Unit</label>
-			<select class="select-form-control unit">
+			<select class="select-form-control unit" name="Runit">
 			  <option value=""  selected="selected">Please select Unit</option>
 			</select>
 		</div>
 
 		<div class="form-group">
 			<label class="control-label visible-ie8 visible-ie9">Rank</label>
-			<select class="select-form-control rank">
+			<select class="select-form-control rank" name="Rrank">
 			  <option value=""  selected="selected">Please select Rank</option>
 			</select>
 		</div>
@@ -243,17 +244,25 @@ License: You must have a valid license purchased only from themeforest(the above
 
 		<div class="form-group">
 			<label class="control-label visible-ie8 visible-ie9">State</label>
-			<select class="select-form-control state">
+			<select class="select-form-control state" name="Rstate">
 			  <option value=""  selected="selected">Please select State</option>
 			</select>
 		</div>
 
 		<div class="form-group">
 			<label class="control-label visible-ie8 visible-ie9">Branch</label>
-			<select class="select-form-control branch">
+			<select class="select-form-control branch" name="Rbranch">
 			  <option value=""  selected="selected">Please select Branch</option>
 			</select>
 		</div>
+
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9">Department</label>
+			<select class="select-form-control department" name="Rdepartment">
+			  <option value=""  selected="selected">Please select Dept.</option>
+			</select>
+		</div>
+
 
 		<div class="form-group">
 			<!-- <label class="control-label visible-ie8 visible-ie9">{{'login.sellanguage' | translate}}</label> -->
@@ -263,23 +272,14 @@ License: You must have a valid license purchased only from themeforest(the above
 			    <option value="my">Bahasha Malaysia</option>    
 		    </select>
 		</div>
-		<div class="form-group">
-			<label class="control-label visible-ie8 visible-ie9">Department</label>
-			<select class="select-form-control department">
-			  <option value=""  selected="selected">Please select Dept.</option>
-			</select>
-		</div>
 
 		<p class="hint">
 			{{'login.accdetails' | translate}}:
 		</p>
-		<div class="form-group">
-			<label class="control-label visible-ie8 visible-ie9">{{'login.username' | translate}}</label>
-			<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="{{'login.username' | translate}}" name="username"/>
-		</div>
+		
 		<div class="form-group">
 			<label class="control-label visible-ie8 visible-ie9">IC No</label>
-			<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="IC No" name="username"/>
+			<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="{{'login.username' | translate}}" name="username"/>
 		</div>
 		<div class="form-group">
 			<label class="control-label visible-ie8 visible-ie9">{{'login.password' | translate}}</label>
@@ -300,8 +300,8 @@ License: You must have a valid license purchased only from themeforest(the above
 			</div>
 		</div>
 		<div class="form-actions">
-			<button type="button" id="register-back-btn" class="btn btn-default">{{'login.back' | translate}}</button>
-			<button type="submit" id="register-submit-btn" class="btn btn-success uppercase pull-right">{{'login.submit' | translate}}</button>
+			<button type="button" id="register-back-btn" class="btn btn-danger"><i class="fa fa-arrow-left"></i> {{'login.back' | translate}}</button>
+			<button type="submit" id="register-submit-btn" class="btn btn-success uppercase pull-right"><i class="fa fa-check"></i> {{'login.submit' | translate}}</button>
 		</div>
 	</form>
 	<!-- END REGISTRATION FORM -->
