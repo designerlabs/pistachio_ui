@@ -19,13 +19,33 @@
 	"fastsearch.doc.title" : "Fast Dokumen Carian",
 	"fastsearch.doc.search" : "Carian",
 	"fastsearch.doc.resetsearch" : "Reset Carian",
+	"fastsearch.doc.searchfor" : "Carian untuk",
 	"fastsearch.doc.loadedin" : "Dimuatkan dalam",
 	"fastsearch.doc.date" : "Tarikh",
 	"fastsearch.doc.address" :"Alamat",
 	"fastsearch.doc.country" : "Negara",
 	"fastsearch.doc.applno" : "Tiada appl",
-	"fastsearch.doc.previous" : "Sebelum",
-	"fastsearch.doc.next" : "Seterusnya",
+	"fastsearch.previous" : "Sebelum",
+	"fastsearch.next" : "Seterusnya",
 	"fastsearch.global.title" : "Pencarian Global",
+	"fastsearch.global.search" : "Carian",
+	"fastsearch.global.resetsearch" : "Reset Carian",
+	"fastsearch.global.searchfor" : "Carian untuk",
+	"fastsearch.global.applications" : "Aplikasi",
+	"fastsearch.global.users" : "Pengguna",
+	"fastsearch.global.view" : "Lihat",
+	"fastsearch.global.stickers" : "Pelekat",
+	"fastsearch.global.usersfound" : "Pengguna mendapati",
+
+	"fastsearch.global.countries" : "Negara",
+	"fastsearch.global.viewprojectlist" : "klik untuk melihat senarai projek",
+	"fastsearch.global.date" : "Tarikh",
+	"fastsearch.global.address" : "Alamat",
+	"fastsearch.global.country" : "Negara",
+	"fastsearch.global.applicationno" : "Permohonan No",
+	"fastsearch.global.action" : "Tindakan",
+
+
+
 	"report.title" : "Advanced Persekutuan Profiling Laporan"
 }
