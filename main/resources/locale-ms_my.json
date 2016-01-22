@@ -14,5 +14,18 @@
 	"sidebar.dataconsolidation" : "Penyatuan Data",
 	"sidebar.jobs" : "Pekerjaan",
 	"sidebar.database" : "Pangkalan Data",
-	"header.search" : "Carian"
+	"header.search" : "Carian",
+	"fastsearch.launch" : "Pelancaran",
+	"fastsearch.doc.title" : "Fast Dokumen Carian",
+	"fastsearch.doc.search" : "Carian",
+	"fastsearch.doc.resetsearch" : "Reset Carian",
+	"fastsearch.doc.loadedin" : "Dimuatkan dalam",
+	"fastsearch.doc.date" : "Tarikh",
+	"fastsearch.doc.address" :"Alamat",
+	"fastsearch.doc.country" : "Negara",
+	"fastsearch.doc.applno" : "Tiada appl",
+	"fastsearch.doc.previous" : "Sebelum",
+	"fastsearch.doc.next" : "Seterusnya",
+	"fastsearch.global.title" : "Pencarian Global",
+	"report.title" : "Advanced Persekutuan Profiling Laporan"
 }

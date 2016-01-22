@@ -400,7 +400,8 @@ function UpdateSubReportsCrud(RoleName){
                      $.each(data, function (k, val) {
                      optgrp.append(
                           $("<option></option>")
-                            .attr("dataid", val.id)
+                            .attr("reportid", "0") //id
+                            .attr("dataid", val.id) //sid
                             .attr("parentname", val.parent)
                             .attr("value", val.queryCategory)
                             .text(val.queryCategoryName)
@@ -423,8 +424,10 @@ function UpdateSubReportsCrud(RoleName){
                             resultSub = data;
                             SubReportAry = [];
                             $.each(resultSub, function(k,v){
+                              // debugger;
                               $('#mySubParentSel').multiSelect('select', v.subReports.queryCategory);
-                                
+                              $("#mySubParentSel option[dataid =" + v.sid + "]").attr('reportid',v.id)
+                                // $('#mySubParentSel [reportid]')
                             });
                               $('#mySubParentSel').multiSelect('refresh');  
                                UpdateCrud(data);  
@@ -443,7 +446,6 @@ function UpdateSubReportsCrud(RoleName){
             });
           },
           afterDeselect: function(value){
-            // debugger;
             var optionText = '';
             optionText = $("#myParentSel option[value=" + value + "]").text();
             $("#mySubParentSel optgroup[label='" + optionText + "']").remove();
@@ -466,13 +468,14 @@ function UpdateSubReportsCrud(RoleName){
       $('#mySubParentSel').multiSelect({ 
         selectableOptgroup: false,
         afterSelect: function (value) {  
-        // debugger;             
+         // debugger;             
                 var disText =  $("#mySubParentSel option[value =" + value + "]").text();
                 var disParentText = $("#mySubParentSel option[value =" + value + "]").parent().attr('label');
                 var disid = $("#mySubParentSel option[value =" + value + "]").attr('dataid');
                 var disparentname = $("#mySubParentSel option[value =" + value + "]").attr('parentname'); 
                 if(!triggerDataTableName){
                       SubReportObj = {
+                          'id' : '',
                           'sid': disid,
                           'add': false,
                           'run': false,
@@ -518,13 +521,14 @@ function UpdateCrud(_data){
         
                $.each(_data, function(k,v){                              
                   SubReportObj = {
+                        'id' : v.id,
                         'sid': v.sid,
                         'add': v.add,
                         'run': v.run,
                         'update':v.update,
                         'delete':v.delete,
                         'queryVisible': v.queryVisible,
-                        "parentname": v.subReports.parent
+                        'parentname': v.subReports.parent
                     };
               SubReportAry.push(SubReportObj);
               var table = $('#dtCURD').DataTable();

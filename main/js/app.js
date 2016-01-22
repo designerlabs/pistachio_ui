@@ -40,7 +40,7 @@ var MetronicApp = angular
   .constant('LOCALES', {
     'locales': {
       'en_US': 'English',
-      'ms_MY': 'Bahasa Melayu'      
+      'ms_my': 'Bahasa Malayu'      
     },
     'preferredLocale': 'en_US'
   })

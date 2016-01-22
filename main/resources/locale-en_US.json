@@ -14,5 +14,18 @@
 	"sidebar.dataconsolidation" : "Data Consolidation",
 	"sidebar.jobs" : "Jobs",
 	"sidebar.database" : "Data base",
-	"header.search" : "Search"
+	"header.search" : "Search",
+	"fastsearch.launch" : "Launch",
+	"fastsearch.doc.title" : "Fast Document Search",
+	"fastsearch.doc.search" : "Search",
+	"fastsearch.doc.resetsearch" : "Reset Search",
+	"fastsearch.doc.loadedin" : "Loaded in",
+	"fastsearch.doc.date" : "Date",
+	"fastsearch.doc.address" :"Address",
+	"fastsearch.doc.country" : "Country",
+	"fastsearch.doc.applno" : "ApplNo",
+	"fastsearch.doc.previous" : "Previous",
+	"fastsearch.doc.next" : "Next",
+	"fastsearch.global.title" : "Global Search",
+ 	"report.title" : "Federal Advanced Profiling Report"
 }
