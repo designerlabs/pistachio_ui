@@ -47,7 +47,7 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
           	//$scope.myservice = categoryId; 
           	$("#reportCategoryID").val(categoryId);
           	//if(!localStorage.setItem("reportCategoryID"){
-            localStorage.setItem("reportPrivilege", this.x.add);
+            localStorage.setItem("reportPrivilege", this.x.add);    
           	localStorage.setItem("reportCategoryID", categoryId);
             localStorage.setItem("reportCategoryTitle", categoryTitle);
           	//}	

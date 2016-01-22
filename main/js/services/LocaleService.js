@@ -24,7 +24,7 @@ angular.module('MetronicApp')
     });
 
     // var currentLocale = $translate.proposedLanguage();// because of async loading
-    var currentLocale = (localStorage.getItem("lang") == "en") ? "en_US" : "ms_MY";
+    var currentLocale = (localStorage.getItem("lang") == "en") ? "en_US" : "ms_my";
      // METHODS
     var checkLocaleIsValid = function (locale) {
       return _LOCALES.indexOf(locale) !== -1;

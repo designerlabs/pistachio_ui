@@ -1,5 +1,5 @@
 <h3 class="page-title">
-	Global Search
+	{{'fastsearch.global.title' | translate}}
 </h3>
 
 <div ng-controller="GlobalSearchController">
@@ -8,10 +8,10 @@
       <div class="row">
           <div class="col-md-8">
               <div class="input-group">
-                  <input ng-model="search.text" type="search" class="form-control" placeholder="Search for...">
+                  <input ng-model="search.text" type="search" class="form-control" placeholder="{{'fastsearch.global.searchfor' | translate}}...">
                   <span class="input-group-btn btn-grp-padding">
-                      <button class="btn green-soft uppercase bold" ng-click="search(search.text)" type="button"><i class="fa fa-search"></i> Search</button>
-                      <button class="btn bg-LightCoral uppercase bold" ng-click="reset()" type="button"><i class="fa fa-refresh"></i> Reset</button>
+                      <button class="btn green-soft uppercase bold" ng-click="search(search.text)" type="button"><i class="fa fa-search"></i>{{'fastsearch.global.search' | translate}}</button>
+                      <button class="btn bg-LightCoral uppercase bold" ng-click="reset()" type="button"><i class="fa fa-refresh"></i> {{'fastsearch.global.resetsearch' | translate}}</button>
                   </span>
               </div>
 
@@ -32,7 +32,7 @@
                 <div class="col-md-3">
                     <div class="price-column-container border-active">
                         <div class="price-table-head bg-blue">
-                            <h2 class="no-margin">Applications</h2>
+                            <h2 class="no-margin">{{'fastsearch.global.applications' | translate}}</h2>
                         </div>
                         <div class="arrow-down arrow-blue"></div>
                         <div class="price-table-pricing">
@@ -42,7 +42,7 @@
 
                         <div class="arrow-down arrow-grey"></div>
                         <div class="price-table-footer">
-                            <button type="button" ng-click="showApplications()" class="btn btn-success btn-outline sbold uppercase price-button">View</button>
+                            <button type="button" ng-click="showApplications()" class="btn btn-success btn-outline sbold uppercase price-button">{{'fastsearch.global.view' | translate}}</button>
                         </div>
                     </div>
                 </div>
@@ -51,17 +51,17 @@
                 <div class="col-md-3">
                     <div class="price-column-container border-active">
                         <div class="price-table-head bg-DarkSlateBlue">
-                            <h2 class="no-margin">Users</h2>
+                            <h2 class="no-margin">{{'fastsearch.global.users' | translate}}</h2>
                         </div>
                         <div class="arrow-down arrow-orange"></div>
                         <div class="price-table-pricing">
                             <h3>222</h3>
-                            <p>users found</p>
+                            <p>{{'fastsearch.global.usersfound' | translate}}</p>
                         </div>
 
                         <div class="arrow-down arrow-grey"></div>
                         <div class="price-table-footer">
-                            <button type="button" class="btn btn-success btn-outline sbold uppercase price-button">View</button>
+                            <button type="button" class="btn btn-success btn-outline sbold uppercase price-button">{{'fastsearch.global.view' | translate}}</button>
                         </div>
                     </div>
                 </div>
@@ -70,17 +70,17 @@
                 <div class="col-md-3">
                     <div class="price-column-container border-active">
                         <div class="price-table-head bg-red">
-                            <h2 class="no-margin">Stickers</h2>
+                            <h2 class="no-margin">{{'fastsearch.global.stickers' | translate}}</h2>
                         </div>
                         <div class="arrow-down arrow-red"></div>
                         <div class="price-table-pricing">
                             <h3>222</h3>
-                            <p>users found</p>
+                            <p>{{'fastsearch.global.usersfound' | translate}}/p>
                         </div>
 
                         <div class="arrow-down arrow-grey"></div>
                         <div class="price-table-footer">
-                            <button type="button" class="btn btn-success btn-outline sbold uppercase price-button">View</button>
+                            <button type="button" class="btn btn-success btn-outline sbold uppercase price-button">{{'fastsearch.global.view' | translate}}</button>
                         </div>
                     </div>
                 </div>
@@ -94,12 +94,12 @@
                         <div class="arrow-down arrow-purple"></div>
                         <div class="price-table-pricing">
                             <h3>222</h3>
-                            <p>users found</p>
+                            <p>{{'fastsearch.global.usersfound' | translate}}</p>
                         </div>
 
                         <div class="arrow-down arrow-grey"></div>
                         <div class="price-table-footer">
-                            <button type="button" class="btn btn-success btn-outline sbold uppercase price-button">View</button>
+                            <button type="button" class="btn btn-success btn-outline sbold uppercase price-button">{{'fastsearch.global.view' | translate}}</button>
                         </div>
                     </div>
                 </div>
@@ -116,8 +116,8 @@
         <div class="portlet light ">
                             <div class="portlet-title">
                                 <div class="caption" data-toggle="collapse">
-                                    <span class="caption-subject font-green-sharp bold uppercase">Countries </span>
-                                    <span class="caption-helper visible-sm-inline-block visible-xs-inline-block">click to view project list</span>
+                                    <span class="caption-subject font-green-sharp bold uppercase">{{'fastsearch.global.countries' | translate}} </span>
+                                    <span class="caption-helper visible-sm-inline-block visible-xs-inline-block">{{'fastsearch.global.viewprojectlist' | translate}}</span>
                                 </div>
 
                             </div>
@@ -142,19 +142,19 @@
                     <tr>
                         
                         <th>
-                            <a href="javascript:;">Date</a>
+                            <a href="javascript:;">{{'fastsearch.global.date' | translate}}</a>
                         </th>
                         <th>
-                            <a href="javascript:;">Address </a>
+                            <a href="javascript:;">{{'fastsearch.global.address' | translate}}</a>
                         </th>
                         <th>
-                            <a href="javascript:;">Country</a>
+                            <a href="javascript:;">{{'fastsearch.global.country' | translate}}</a>
                         </th>
                         <th style="text-align: center;">
-                            <a href="javascript:;">Application No.</a>
+                            <a href="javascript:;">{{'fastsearch.global.applicationno' | translate}}</a>
                         </th>
                         <th style="text-align: left;">
-                            <a href="javascript:;">Action</a>
+                            <a href="javascript:;">{{'fastsearch.global.action' | translate}}</a>
                         </th>
                     </tr>
                 </thead>
@@ -175,7 +175,7 @@
                         </td>
                         <td style="text-align: left; width:5%;" class="table-status">
                             <a href="javascript:;">
-                                <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i> View</button>
+                                <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>{{'fastsearch.global.view' | translate}}</button>
                             </a>
                         </td>
                     </tr>
@@ -195,10 +195,10 @@
         <div class="search-pagination">
             <ul class="pagination">
                 <li >
-                    <button ng-click="previous()" class="btn btn-primary previousBtn" disabled><i class="fa fa-arrow-left"></i> previous </button>
+                    <button ng-click="previous()" class="btn btn-primary previousBtn" disabled><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
                 </li>
                 <li class="page-active">
-                    <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">next <i class="fa fa-arrow-right"></i></button>
+                    <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
                 </li>
 
             </ul>

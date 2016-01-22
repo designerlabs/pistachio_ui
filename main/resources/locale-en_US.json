@@ -14,5 +14,53 @@
 	"sidebar.dataconsolidation" : "Data Consolidation",
 	"sidebar.jobs" : "Jobs",
 	"sidebar.database" : "Data base",
-	"header.search" : "Search"
+	"header.search" : "Search",
+	"fastsearch.launch" : "Launch",
+	"fastsearch.doc.title" : "Fast Document Search",
+	"fastsearch.doc.search" : "Search",
+	"fastsearch.doc.resetsearch" : "Reset Search",
+	"fastsearch.doc.searchfor" : "Search for",
+	"fastsearch.doc.loadedin" : "Loaded in",
+	"fastsearch.doc.date" : "Date",
+	"fastsearch.doc.address" :"Address",
+	"fastsearch.doc.country" : "Country",
+	"fastsearch.doc.applno" : "ApplNo",
+	"fastsearch.previous" : "Previous",
+	"fastsearch.next" : "Next",
+
+	"fastsearch.global.title" : "Global Search",
+	"fastsearch.global.search" : "Search",
+	"fastsearch.global.resetsearch" : "Reset Search",
+	"fastsearch.global.searchfor" : "Search for",
+	"fastsearch.global.applications" : "Applications",
+	"fastsearch.global.users" : "Users",
+	"fastsearch.global.view" : "View",
+	"fastsearch.global.stickers" : "Stickers",
+	"fastsearch.global.usersfound" : "users found",
+
+	"fastsearch.global.countries" : "Countries",
+	"fastsearch.global.viewprojectlist" : "click to view project list",
+	"fastsearch.global.date" : "Date",
+	"fastsearch.global.address" : "Address",
+	"fastsearch.global.country" : "Country",
+	"fastsearch.global.applicationno" : "Application No",
+	"fastsearch.global.action" : "Action",
+
+	"ereporting.add" : "Add",
+	"ereporting.back" : "Back",
+	"ereporting.name" : "Name",
+	"ereporting.action" : "Action",
+	"ereporting.newmessage" : "New message",
+	"ereporting.close" : "Close",
+	"ereporting.save" : "Save",
+	"ereporting.update" : "Update",
+	"ereporting.delete.message" : "Are you sure you want to delete this record",
+	"ereporting.delete.no" : "No",
+	"ereporting.delete.yes" : "Yes",
+
+
+
+
+
+ 	"report.title" : "Federal Advanced Profiling Report"
 }
