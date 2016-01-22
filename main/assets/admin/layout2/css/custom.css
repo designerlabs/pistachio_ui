@@ -84,3 +84,9 @@ Rounded Portlets
     border-color: #008E46 !important;
 
 }
+
+
+.pricing-content-1 .price-table-pricing>h3 {
+    font-size: 40px !important;
+    position: relative;
+}
