@@ -45,6 +45,18 @@
 	"fastsearch.global.applicationno" : "Permohonan No",
 	"fastsearch.global.action" : "Tindakan",
 
+	"ereporting.add" : "Menambah",
+	"ereporting.back" : "Kembali",
+	"ereporting.name" : "Nama",
+	"ereporting.action" : "Tindakan",
+	"ereporting.newmessage" : "Mesej baru",
+	"ereporting.close" : "Tutup",
+	"ereporting.save" : "Save",
+	"ereporting.update" : "Simpan",
+	"ereporting.delete.message" : "Adakah anda pasti anda mahu memadam rekod ini",
+	"ereporting.delete.no" : "Tiada",
+	"ereporting.delete.yes" : "Ya",
+
 
 
 	"report.title" : "Advanced Persekutuan Profiling Laporan"
