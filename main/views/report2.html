@@ -165,15 +165,17 @@
                 </div>
             </div>
         </div> -->
-
+        <!-- <div ng-repeat="y in names">
+            {{y.add}}
+        </div> -->
         <div ng-repeat="x in names">
-			<div class='tile bounceIn image {{x.className}}' ng-click='go(x.url)' data-category='{{x.queryCategory}}'>
+           <div class='tile bounceIn image {{x.subReports.className}}' ng-click='go(x.subReports.url)' data-category='{{x.subReports.queryCategory}}'>
 				<div class="tile-body">
-					<img ng-src='assets/pistachio/report/{{x.icon}}.png' alt="">
+					<img ng-src='assets/pistachio/report/{{x.subReports.icon}}.png' alt="">
 				</div>
 				<div class="tile-object">
 					<div class="name">
-						{{x.queryCategoryName}}
+						{{x.subReports.queryCategoryName}}
 					</div>
 				</div>
 			</div>
