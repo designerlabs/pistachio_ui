@@ -43,7 +43,6 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             $(this).addClass('active');
         });
 
-
         // initialize core components
         Metronic.initAjax();
         var databases;
@@ -380,10 +379,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     "data": "action",
                     "width": "22%",
                     "render": function(data, type, full, meta) {
-                       
-                            return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';   
-                       
-                        
+                    return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';   
                     }
                 }]
             })
@@ -511,6 +507,9 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             //alert(selectedQueryRunId);
         });
 
+
+
+
         $('#queryContainerAdmin').on('click', 'button.runBtn', function() {
             var selectedRunQuery = queryData.row($(this).parents('tr')).data();
             selectedQueryRunId = selectedRunQuery.id;
@@ -553,10 +552,10 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         $('#queryContainer').on('click', 'button.runBtn', function() {
             //$("#jqueryRunData").remove();
             var selectedQueryForExecute = queryData.row($(this).parents('tr')).data();
-
             $.ajax({
                     url: globalURL+queryString+'/' + selectedQueryForExecute.id + "/exec",
                     type: 'GET',
+                    timeout: 50000000,
                     success: function(result) {
                         //$("#QueryUIList").hide();
                         //$("#QueryUIListRun, #jqueryRunData").show();
@@ -705,8 +704,8 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         }
                     },
                     error: function(XMLHttpRequest, textStatus, errorThrown) {
-                        alert("Status: " + textStatus);
-                        alert("Error: " + errorThrown);
+                        alert("Execution falied, Please re-try after some time!");
+                        //alert("Error: " + errorThrown);
                     }
                 })
                 .done(function() {
@@ -714,7 +713,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     queryDataFunc();
                 })
                 .fail(function() {
-                    alert('Failed!');
+                    
                 });
         });
 
@@ -1021,10 +1020,11 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 });*/
 
         $("#backBtn").click(function(event) {
-            alert('sdsd');
             $("#databaseList").show();
             $("#tableList").hide();
         });
+
+
 
 
         /*

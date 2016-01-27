@@ -1,6 +1,8 @@
 'use strict';
 var categoryId = undefined;
-var categoryTitle = undefined;
+var categoryTitle, timer = undefined;
+
+
 MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$http', 'settings', function($rootScope, $scope, $http, settings) {
     $scope.$on('$viewContentLoaded', function() {   
 
@@ -34,8 +36,14 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
             };*/
             //console.log(response.subReports);
     		//$scope.names = response;
-
        });
+
+            $scope.countDown = 1;    
+            timer = setInterval(function(){
+                $scope.countDown++;
+                $scope.$apply();
+                console.log($scope.countDown);
+            }, 1000);  
 
     	$scope.go = function(data){
     		location.href="#/reports/e-reporting.html";
@@ -84,6 +92,10 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
             window.location.href = globalURL+'download/pdf/' + selectedQueryRunId;
         });
         //console.log($scope);
+
+        $(document).ajaxStop(function() {
+            clearInterval(timer);
+        });
 
     });
 

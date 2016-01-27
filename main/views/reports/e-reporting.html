@@ -3,6 +3,8 @@
 
    {{'report.title' | translate}}
    {{category}}
+
+
 </h3>
 <!-- <div class="page-bar">
     <ul class="page-breadcrumb">
@@ -29,8 +31,8 @@
                 </div>
                 <div class="tools">
 
-                    <button ng-if="reportPrivilege" class="btn btn-success btn-sm" data-toggle="modal" id="queryAddBtn" data-target="#queryAddForm"><i class="fa fa-plus"></i> {{'ereporting.add' | translate}}</button>
-                     <button class="btn btn-success btn-sm" data-toggle="modal" id="queryBackBtn" onclick="history.go(-1)"><i class="fa fa-angle-double-left"></i> {{'ereporting.back' | translate}}</button>
+                    <button ng-show="reportPrivilege" class="btn btn-success btn-sm" data-toggle="modal" id="eReportQueryAddBtn" data-target="#queryAddForm"><i class="fa fa-plus"></i> {{'ereporting.add' | translate}}</button>
+                     <button class="btn btn-success btn-sm" data-toggle="modal" id="queryBackBtn" onclick="location.href='#report2.html'"><i class="fa fa-angle-double-left"></i> {{'ereporting.back' | translate}}</button>
 
                     <!-- <a href="javascript:;" class="reload">
                     </a> -->
@@ -85,6 +87,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
                 <h4 class="modal-title" id="queryAddFormHeader">{{'ereporting.newmessage' | translate}}</h4>
             </div>
             <div class="modal-body">
@@ -141,12 +144,14 @@
 <script>
 $(function() {
     $("#jqueryRunData_filter input").addClass('form-control');
-    $("#queryAddBtn").click(function(event) {
-        $("#queryAddForm #queryUISubmit").removeClass('hide');
-        $("#queryAddForm #queryUIUpdate").addClass('hide');
-        $("#queryAddFormHeader").html("Add Query UI");
-        $("#queryForm")[0].reset();
-    });    
+
+});
+
+$("#eReportQueryAddBtn").click(function(event) {
+    $("#queryAddForm #queryUISubmit").removeClass('hide');
+    $("#queryAddForm #queryUIUpdate").addClass('hide');
+    $("#queryAddFormHeader").html("Add Query UI");
+    $("#queryForm")[0].reset();
 });
 //TableAdvanced.init();
 </script>
