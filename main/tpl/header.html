@@ -161,8 +161,9 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-default">
                         <li>
-                            <a href="#">
-                                <i class="icon-user"></i> My Profile </a>
+                            <a id="btnmyProfile" href="#/myprofile.html">
+                                <i class="icon-user"></i> My Profile 
+                            </a>
                         </li>
                         <li>
                             <a href="" id="logoutBtn">
@@ -194,6 +195,9 @@ $("#logoutBtn").click(function(event) {
     localStorage.removeItem("authorities");
     window.location = "login.html";
 });
+// $("#logoutBtn").click(function(event) { 
+//      window.location = "login.html";
+//     });
 
 $(function() {
     var currentToken = localStorage.getItem("token");

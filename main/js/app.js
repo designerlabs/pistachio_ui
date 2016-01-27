@@ -1703,6 +1703,37 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
+//My Profile page
+    .state('myprofile', {
+            url: "/myprofile.html",
+            templateUrl: "views/profile/myprofile.html",
+            data: {
+                pageTitle: 'My Profile'
+            },
+            controller: "MyProfileController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                       
+                        'assets/global/plugins/select2/select2.css',
+                        'assets/global/plugins/select2/select2.min.js',
+                        'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
+                        'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
+                        'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
+                        'assets/global/plugins/datatables/all.min.js',
+                        'assets/global/plugins/jquery-multi-select/css/multi-select.css',
+                        'assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js',
+                        'js/scripts/table-advanced.js',
+                        'js/controllers/MyProfileController.js'
+                        ]
+                    });
+                }]
+            }
+        })
+
 
 }]);
 

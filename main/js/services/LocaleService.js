@@ -36,6 +36,7 @@ angular.module('MetronicApp')
         return;
       }
       localStorage.setItem("lang", (locale == "en_US") ? "en" : "my");
+      localStorage.setItem("langDB", (locale == "en_US") ? "en" : "my");
       startLoadingAnimation();
       currentLocale = locale;
       $translate.use(locale);
