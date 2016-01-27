@@ -87,6 +87,7 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
                         //send to report cat
 
                         	// Send Parent data on Submit
+                            if(!$('#chkExistingParent').prop('checked')){
 
                         	$.ajax({
                         		url:  globalURL + 'reportcat/',
@@ -108,6 +109,7 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
 		                        $("#reportMgtRequire").show();
 		                        //alert('Failed!');
 		                    });
+                        }
 
                     })
                     .fail(function(data) {
@@ -235,22 +237,24 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
         });
 
         // Load the Existing parent list from url 
-      $.ajax({
-	        type: "GET",
-	        cache:false,
-	        url: globalURL+'reportcat/',
-	        success: function(data)
-	        {
-	            $.each(data, function (key, value) {
-				    $('#reportMgt-parent').append(
-				        $("<option></option>")
-				          .attr("value", value.name)
-				          .text(value.display)
-				    );
-				});
-	        }
-	    });
-
+        loadParentMenu();
+        function loadParentMenu(){
+              $.ajax({
+        	        type: "GET",
+        	        cache:false,
+        	        url: globalURL+'reportcat/',
+        	        success: function(data)
+        	        {
+        	            $.each(data, function (key, value) {
+        				    $('#reportMgt-parent').append(
+        				        $("<option></option>")
+        				          .attr("value", value.name)
+        				          .text(value.display)
+        				    );
+        				});
+        	        }
+        	    });
+        }
         var getUser = localStorage.getItem("username");
     	$http.get(globalURL+"role/report?user="+getUser)
     	.success(function(response) {
