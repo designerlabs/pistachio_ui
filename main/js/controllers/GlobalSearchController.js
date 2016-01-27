@@ -218,6 +218,12 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
     };
 
+    $scope.$on('$locationChangeStart', function( event ) {
+      selected_countries = [];
+      filter_query = "";
+      $scope.showApplication =false;
+    });
+
     // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.pageSidebarClosed = true;
 });
