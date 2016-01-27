@@ -224,7 +224,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             $("#configForm #config-value").val(selectedConfig.configValue);
             $("#configForm #config-application").val(selectedConfig.application);
             $("#configAddForm").modal('show');
-
+            $("#configAddFormHeader").html("Update Configuration");
         });
 
 

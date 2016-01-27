@@ -86,7 +86,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
                                 data: JSON.stringify(selAry)
                             })
                             .done(function() {
-                                alert("Inserted Parent Report done");                               
+                                // alert("Inserted Parent Report done");                               
                                 //Now adding Sub Reports to the newly created Role...
                                     $.each(SubReportAry,function(k,v){
                                         $.ajax({
@@ -186,7 +186,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
                        $("#loader").hide();  
                 })
                 .fail(function(data) {
-                    alert('Failed in Parent Reports!');
+                    // alert('Failed in Parent Reports!');
                     console.log(data.responseJSON.error);
                     $("#roleMgtRequire span").html(data.responseJSON.error);
                     $("#roleMgtRequire").show();
@@ -239,7 +239,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
                     $("#roleMgtRequire").hide();                          
                 })
                 .fail(function(data) {
-                    alert('Failed!');
+                    // alert('Failed!');
                     console.log(data.responseJSON.error);
                     $("#roleMgtRequire span").html(data.responseJSON.error);
                     $("#roleMgtRequire").show();
@@ -434,7 +434,7 @@ function UpdateSubReportsCrud(RoleName){
                              
                           })
                           .fail(function(data) {
-                              alert('Failed in Sub Reports!');
+                              // alert('Failed in Sub Reports!');
                               console.log(data.responseJSON.error);
                               $("#roleMgtRequire span").html(data.responseJSON.error);
                               $("#roleMgtRequire").show();
