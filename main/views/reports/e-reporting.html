@@ -1,5 +1,6 @@
 <!-- BEGIN PAGE HEADER-->
 <h3 class="page-title">
+
    {{'report.title' | translate}}
    {{category}}
 </h3>
@@ -27,15 +28,17 @@
                     <i class="fa fa-globe"></i><label id="lblReportTitle"></label> 
                 </div>
                 <div class="tools">
-                    <button ng-if="chkRole('ROLE_ADMIN')" class="btn btn-success btn-sm" data-toggle="modal" id="queryAddBtn" data-target="#queryAddForm"><i class="fa fa-plus"></i> {{'ereporting.add' | translate}}</button>
+
+                    <button ng-if="reportPrivilege" class="btn btn-success btn-sm" data-toggle="modal" id="queryAddBtn" data-target="#queryAddForm"><i class="fa fa-plus"></i> {{'ereporting.add' | translate}}</button>
                      <button class="btn btn-success btn-sm" data-toggle="modal" id="queryBackBtn" onclick="history.go(-1)"><i class="fa fa-angle-double-left"></i> {{'ereporting.back' | translate}}</button>
+
                     <!-- <a href="javascript:;" class="reload">
                     </a> -->
                     <!--  <a href="" id="backBtn" style="color:#fff; top: -3px; position: relative;"><i class="fa fa-chevron-circle-left"></i></a> -->
                 </div>
             </div>
             <div class="portlet-body">
-                <table ng-show="chkRole('ROLE_ADMIN')" id="queryContainer" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                <table ng-show="reportPrivilege" id="queryContainer" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th>Id</th>
@@ -47,8 +50,8 @@
                     </thead>
                 </table>
 
-
-                <table ng-show="!chkRole('ROLE_ADMIN')" id="queryContainerAdmin" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                
+                <table ng-show="!reportPrivilege" id="queryContainerAdmin" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th>{{'ereporting.name' | translate}}</th>

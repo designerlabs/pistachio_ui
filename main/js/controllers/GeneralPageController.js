@@ -33,9 +33,9 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
     $scope.$on('$viewContentLoaded', function() {
         $("#databaseList").show();
         $("#tableList").hide();
-        console.log(authorities.checkRole("ROLE_ADMIN"));
-
         $scope.chkRole = authorities.checkRole;
+        $scope.getReportPrivilege = localStorage.getItem('reportPrivilege');
+        $scope.reportPrivilege = JSON.parse($scope.getReportPrivilege);
 
 
         $("#dataManagement").click(function(){
@@ -349,7 +349,9 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         var queryData;
         //console.log(categoryId);
         queryDataFunc = function() {
-            if($scope.chkRole('ROLE_ADMIN')){
+    
+            //if($scope.chkRole('ROLE_ADMIN')){
+            if($scope.reportPrivilege){
             queryData = $('#queryContainer').DataTable({
 
                 "ajax": {
