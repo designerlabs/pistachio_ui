@@ -90,3 +90,10 @@ Rounded Portlets
     font-size: 40px !important;
     position: relative;
 }
+
+
+.modal-header{
+    background: #4C9871;
+    border:1px solid #008E46;
+    color:#fff;
+}
