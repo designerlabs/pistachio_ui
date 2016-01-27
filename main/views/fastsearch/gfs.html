@@ -18,7 +18,7 @@
 
 
           </div>
-       
+
       </div>
   </div>
   <div>
@@ -125,8 +125,14 @@
                                 <div class="todo-project-list">
                               <ul class="list-group">
                                         <li class="list-group-item" data-ng-repeat="cnt in countries">
-                                            <a href="javascript:;">
-                                                <span class="badge pull-right"> {{cnt.count}} </span> {{cnt.country}} </a>
+
+																								<div class="md-checkbox">
+                                                  <input type="checkbox" ng-click="checkboxselected(cnt.country)" class="md-check" id={{cnt.country}}>
+                                                  <label for={{cnt.country}}>
+                                                      <span class="inc"></span>
+                                                      <span class="check"></span>
+                                                      <span class="box"></span> {{cnt.country}}</label><span class="badge pull-right ng-binding"> {{cnt.count}} </span>
+                                                </div>
                                         </li>
 
                                     </ul>
@@ -140,7 +146,7 @@
             <table class="table table-bordered table-striped table-condensed">
                 <thead class="bg-table-gray">
                     <tr>
-                        
+
                         <th>
                             <a href="javascript:;">{{'fastsearch.global.date' | translate}}</a>
                         </th>
@@ -162,7 +168,7 @@
 
 
                     <tr ng-repeat="x in items">
-                        
+
                         <td  style="width:15%;"  class="table-title">
                             <a href="javascript:;">{{x.mad_crt_dt}}</a>
                         </td>
