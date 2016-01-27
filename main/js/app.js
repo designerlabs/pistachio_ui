@@ -56,7 +56,8 @@ var MetronicApp = angular
       prefix: 'resources/locale-',
       suffix: '.json'
   });
-     $translateProvider.preferredLanguage(LOCALES.preferredLocale);
+     var DBLocale = (localStorage.getItem("lang") == "en") ? "en_US" : "ms_my";
+     $translateProvider.preferredLanguage(DBLocale);
      // $translateProvider.useLocalStorage();
  })
 

@@ -35,6 +35,7 @@ angular.module('MetronicApp')
         console.error('Locale name "' + locale + '" is invalid');
         return;
       }
+      localStorage.setItem("lang", (locale == "en_US") ? "en" : "my");
       startLoadingAnimation();
       currentLocale = locale;
       $translate.use(locale);

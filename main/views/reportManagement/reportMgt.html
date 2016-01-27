@@ -215,7 +215,17 @@ $(function() {
         $('#reportMgt-parent').addClass('hide');
         $('#inpParent').removeClass('hide');            
         //$('#inpHiddenParent').val($('#inpParent').val()); 
-        //$('#inpHiddenParentName').val($('#inpParent').val());  
+        //$('#inpHiddenParentName').val($('#inpParent').val());
+        $.get( globalURL + "reportcat/", function( data ) {
+        $.each(data, function (key, value) {
+            $('#reportMgt-parent').append(
+                $("<option></option>")
+                          .attr("value", value.name)
+                          .text(value.display)
+            );
+        });
+        // $("#myParentSel").multiSelect('refresh');
+      });  
     });
     
       $("#reportMgtForm #reportMgt-title").keyup(function(event) {

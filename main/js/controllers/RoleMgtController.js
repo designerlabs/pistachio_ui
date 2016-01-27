@@ -152,7 +152,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
             $("#loader .page-spinner-bar").removeClass('hide');
 
             $("#loader").show();          
-
+            $("#roleMgtRequire").hide();   
             $("#roleMgtForm")[0].reset();
             $('#myParentSel option').remove();;
             $('#myParentSel').multiSelect('refresh');
@@ -196,7 +196,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
 
 
             // $('#myParentSel').multiSelect('deselect_all');
-            $("#roleMgtAddFormHeader").html("Update Report");            
+            $("#roleMgtAddFormHeader").html("Update Role");            
             $("#roleMgtAddForm").modal('show');
             
             selectedroleMgt = roleMgts.row($(this).parents('tr')).data();

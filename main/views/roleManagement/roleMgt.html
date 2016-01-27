@@ -148,6 +148,7 @@ $(function() {
         $('#mySubParentSel optgroup').remove();
         $('#mySubParentSel').multiSelect('refresh');
         $("#roleMgtForm")[0].reset();
+        $("#roleMgtRequire").hide(); 
 
         $.get( globalURL + "reportcat/", function( data ) {
         $.each(data, function (key, value) {
