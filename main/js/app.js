@@ -1717,7 +1717,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         name: 'MetronicApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                         files: [
-                       
+                        'assets/global/plugins/morris/morris.css',
+                        'assets/global/plugins/morris/morris.min.js',
+
                         'assets/global/plugins/select2/select2.css',
                         'assets/global/plugins/select2/select2.min.js',
                         'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
@@ -1740,4 +1742,5 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
 /* Init global settings and run the app */
 MetronicApp.run(["$rootScope", "settings", "$state", function($rootScope, settings, $state) {
     $rootScope.$state = $state; // state to be accessed from view
+    $(".modal-header").addClass('btn-success');
 }]);
