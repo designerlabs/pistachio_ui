@@ -1,5 +1,5 @@
 {
-	"Header.sellanguage" :"Select Language", 
+	"Header.sellanguage" :"Select Language",
 	"sidebar.dashboard" : "Dashboard",
 	"directives.language-select.Language": "Language",
 	"dashboard.title" : "Immigration Intelligent Dashboard",
@@ -62,5 +62,15 @@
 
 
 
- 	"report.title" : "Federal Advanced Profiling Report"
+ 	"report.title" : "Federal Advanced Profiling Report",
+
+
+
+	"audit.title" : "Audit",
+	"audit.filter" : "filter",
+	"audit.eventTime" : "Time",
+	"audit.username" : "User",
+	"audit.status" : "Status",
+	"audit.notes" : "Notes"
+
 }

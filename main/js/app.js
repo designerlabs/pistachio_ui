@@ -26,7 +26,7 @@ var MetronicApp = angular
 //       'login.username' : 'User Name',
 //       'login.title': 'E-Reporting Immigration Department'
 //     });
-    
+
 //     $translateProvider.translations('my', {
 //       'sidebar.dashboard':'Malay Dashboard',
 //       'login.username' : 'Nama Pengguna',
@@ -40,7 +40,7 @@ var MetronicApp = angular
   .constant('LOCALES', {
     'locales': {
       'en_US': 'English',
-      'ms_my': 'Bahasa Malayu'      
+      'ms_my': 'Bahasa Malayu'
     },
     'preferredLocale': 'en_US'
   })
@@ -72,7 +72,7 @@ var MetronicApp = angular
     });
 
  });
- 
+
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
 // MetronicApp.config(['$ocLazyLoadProvider', '$translateProvider', function($ocLazyLoadProvider, $translateProvider) {
 //     $ocLazyLoadProvider.config({
@@ -96,8 +96,8 @@ var MetronicApp = angular
 //     // $translateProvider.preferredLanguage(LOCALES.preferredLocale);
 //     //$translateProvider.useLocalStorage();
 //   ]);
-  
- 
+
+
 /*MetronicApp.config(['$httpProvider',
 function($httpProvider) {
     $httpProvider.defaults.withCredentials = true;
@@ -339,6 +339,8 @@ MetronicApp.controller('SidebarController', ['$scope','$http', 'authorities', fu
             console.log("success");
         })
         .fail(function() {
+          localStorage.setItem("token","");
+          location.href="#/login.html";
             console.log("error");
         })
         .always(function() {
@@ -470,25 +472,47 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
-                        'assets/global/plugins/morris/morris.css',
                         'assets/admin/pages/css/tasks.css',
                         'assets/pages/css/portfolio.min.css',
 
-                        'assets/global/plugins/morris/morris.min.js',
-                        'assets/global/plugins/morris/raphael-min.js',
 
                         'assets/admin/pages/scripts/index.js',
                         'assets/admin/pages/scripts/tasks.js',
-                        //'assets/admin/pages/scripts/portfolio-1.min.js',
-                        
-                        'js/controllers/FastSearchController.js',
-                        'assets/global/plugins/cubeportfolio/js/jquery.cubeportfolio.min.js',
-                        'assets/global/plugins/cubeportfolio/css/cubeportfolio.css'
+                    //    'assets/admin/pages/scripts/portfolio-1.min.js',
+                    //    'assets/global/plugins/cubeportfolio/js/jquery.cubeportfolio.min.js',
+                        'assets/global/plugins/cubeportfolio/css/cubeportfolio.css',
+
+                        'js/controllers/FastSearchController.js'
+
                     ]
                 });
             }]
         }
     })
+
+    .state('audit', {
+      url: "/audit.html",
+      templateUrl: "views/audit/audit.html",
+      data: {
+          pageTitle: 'User Audit'
+      },
+      controller: "AuditController",
+      resolve: {
+          deps: ['$ocLazyLoad', function($ocLazyLoad) {
+              return $ocLazyLoad.load({
+                  name: 'MetronicApp',
+                  insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                  files: [
+
+                    'assets/pages/css/search.css',
+                    'assets/pages/css/pricing.min.css',
+
+                    'js/controllers/AuditController.js'
+                  ]
+              });
+          }]
+      }
+  })
 
  .state('docsearch', {
         url: "/fastsearch/dfs.html",
@@ -1528,7 +1552,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
-    
+
 
     // Report Management
     .state("reportMgt", {
