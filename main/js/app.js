@@ -339,7 +339,7 @@ MetronicApp.controller('SidebarController', ['$scope','$http', 'authorities', fu
             console.log("success");
         })
         .fail(function() {
-          localStorage.setItem("token",""); 
+          localStorage.setItem("token","");
           location.href="#/login.html";
             console.log("error");
         })
@@ -472,18 +472,14 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
-                        'assets/global/plugins/morris/morris.css',
                         'assets/admin/pages/css/tasks.css',
                         'assets/pages/css/portfolio.min.css',
 
-                        'assets/global/plugins/morris/morris.min.js',
-                        'assets/global/plugins/morris/raphael-min.js',
-                        'assets/global/plugins/cubeportfolio/js/jquery.cubeportfolio.min.js',
-                        'assets/global/plugins/cubeportfolio/css/cubeportfolio.css',
-
                         'assets/admin/pages/scripts/index.js',
                         'assets/admin/pages/scripts/tasks.js',
-                        'assets/admin/pages/scripts/portfolio-1.min.js',
+                    //    'assets/admin/pages/scripts/portfolio-1.min.js',
+                    //    'assets/global/plugins/cubeportfolio/js/jquery.cubeportfolio.min.js',
+                        'assets/global/plugins/cubeportfolio/css/cubeportfolio.css',
 
                         'js/controllers/FastSearchController.js'
                     ]
@@ -509,7 +505,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     'assets/pages/css/search.css',
                     'assets/pages/css/pricing.min.css',
 
-                      'js/controllers/AuditController.js'
+                    'js/controllers/AuditController.js'
                   ]
               });
           }]
@@ -1554,7 +1550,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
-    
+
 
     // Report Management
     .state("reportMgt", {

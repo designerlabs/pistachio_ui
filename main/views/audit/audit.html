@@ -1,0 +1,94 @@
+<h3 class="page-title">
+	{{'audit.title' | translate}}
+</h3>
+
+  <div class="search-page search-content-4">
+    <div class="row">
+      <div class="col-md-2">
+
+        <div class="portlet light ">
+                            <div class="portlet-title">
+                                <div class="caption" data-toggle="collapse">
+                                    <span class="caption-subject font-green-sharp bold uppercase">{{'audit.filter' | translate}} </span>
+                                    <span class="caption-helper visible-sm-inline-block visible-xs-inline-block">{{'audit.filter' | translate}}</span>
+                                </div>
+
+                            </div>
+                            <div class="portlet-body todo-project-list-content in" aria-expanded="true" style="height: auto;">
+                                <div class="todo-project-list">
+                              <ul class="list-group">
+                                        <li class="list-group-item" data-ng-repeat="stat in status">
+
+																								<div class="md-checkbox">
+                                                  <input type="checkbox" ng-click="checkboxselected(stat)" class="md-check" id={{stat}}>
+                                                  <label for={{stat}}>
+                                                      <span class="inc"></span>
+                                                      <span class="check"></span>
+                                                      <span class="box"></span> {{stat}}</label>
+                                                </div>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+      </div>
+      <div class="col-md-10">
+        <div   class="search-table table-responsive">
+            <table class="table table-bordered table-striped table-condensed">
+                <thead class="bg-table-gray">
+                    <tr>
+
+                        <th>
+                            <a href="javascript:;">{{'audit.eventTime' | translate}}</a>
+                        </th>
+                        <th>
+                            <a href="javascript:;">{{'audit.username' | translate}}</a>
+                        </th>
+                        <th>
+                            <a href="javascript:;">{{'audit.status' | translate}}</a>
+                        </th>
+                        <th>
+                            <a href="javascript:;">{{'audit.notes' | translate}}</a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr ng-repeat="x in contents">
+
+                        <td  style="width:15%;"  class="table-title">
+                            <a href="javascript:;">{{x.eventTime}}</a>
+                        </td>
+                        <td class="table-title">
+                          {{x.username}}
+                        </td>
+                        <td style="width:5%;" class="table-desc"> {{x.status}} </td>
+                        <td class="table-download">
+                          {{x.notes}}
+                        </td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+        <div class="search-pagination">
+            <ul class="pagination">
+                <li >
+                    <button ng-click="previous()" class="btn btn-primary previousBtn" disabled><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+                </li>
+                <li class="page-active">
+                    <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+                </li>
+
+            </ul>
+        </div>
+        <div class="pageNum">( {{currentPage}} / {{totalPages}} )</div>
+      </div>
+    </div>
+</div>
+
+</div>
