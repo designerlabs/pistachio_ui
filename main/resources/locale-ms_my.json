@@ -59,5 +59,12 @@
 
 
 
-	"report.title" : "Advanced Persekutuan Profiling Laporan"
+	"report.title" : "Advanced Persekutuan Profiling Laporan",
+
+	"audit.title" : "Audit",
+	"audit.filter" : "filter",
+	"audit.eventTime" : "Time",
+	"audit.username" : "User",
+	"audit.status" : "Status",
+	"audit.notes" : "Notes"
 }
