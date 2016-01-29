@@ -340,8 +340,9 @@ MetronicApp.controller('SidebarController', ['$scope','$http', 'authorities', fu
         })
         .fail(function() {
           localStorage.setItem("token","");
-          location.href="#/login.html";
-            console.log("error");
+          //location.href="#/login.html";
+          window.location = "login.html";
+          console.log("error");
         })
         .always(function() {
             console.log("complete");
