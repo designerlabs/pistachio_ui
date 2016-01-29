@@ -476,14 +476,14 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
 
                         'assets/global/plugins/morris/morris.min.js',
                         'assets/global/plugins/morris/raphael-min.js',
-                        'assets/global/plugins/cubeportfolio/js/jquery.cubeportfolio.min.js',
-                        'assets/global/plugins/cubeportfolio/css/cubeportfolio.css',
 
                         'assets/admin/pages/scripts/index.js',
                         'assets/admin/pages/scripts/tasks.js',
-                        'assets/admin/pages/scripts/portfolio-1.min.js',
-
-                        'js/controllers/FastSearchController.js'
+                        //'assets/admin/pages/scripts/portfolio-1.min.js',
+                        
+                        'js/controllers/FastSearchController.js',
+                        'assets/global/plugins/cubeportfolio/js/jquery.cubeportfolio.min.js',
+                        'assets/global/plugins/cubeportfolio/css/cubeportfolio.css'
                     ]
                 });
             }]
