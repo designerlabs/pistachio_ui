@@ -131,7 +131,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         $("#databaseRequire").hide();
                     })
                     .fail(function(data) {
-                        console.log(data.responseJSON.error);
+                        //console.log(data.responseJSON.error);
                         $("#databaseRequire span").html(data.responseJSON.error);
                         $("#databaseRequire").show();
                         //alert('Failed!');
@@ -201,7 +201,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         $("#configRequire").hide();
                     })
                     .fail(function(data) {
-                        console.log(data.responseJSON.error);
+                        //console.log(data.responseJSON.error);
                         $("#configRequire span").html(data.responseJSON.error);
                         $("#configRequire").show();
                     });
@@ -474,7 +474,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     $("#queryRequire").hide();
                 })
                 .fail(function(data) {
-                    console.log(data.responseJSON.error);
+                    //console.log(data.responseJSON.error);
                     $("#queryRequire span").html(data.responseJSON.error);
                     $("#queryRequire").show();
                     //alert('Failed!');
@@ -574,7 +574,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                             var i = 0;
 
                             $.each(resultOutputCol, function(index, val) {
-                                console.log(val);
+                                //console.log(val);
                                 var obj = {
                                     sTitle: val
                                 };
@@ -589,7 +589,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                                 var rowData = [];
                                 var j = 0;
                                 $.each(resultOutput[i], function(index, val) {
-                                    console.log(val);
+                                    //console.log(val);
                                     rowData[j] = val;
                                     j++;
                                 });
@@ -674,7 +674,6 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                                 var rowData = [];
                                 var j = 0;
                                 $.each(resultOutput[i], function(index, val) {
-                                    console.log(val);
                                     rowData[j] = val;
                                     j++;
                                 });
@@ -829,7 +828,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         $("#databaseDeleteErrorMsg").modal('show');
                         //console.log(XMLHttpRequest.responseJSON.error);
                     }
-                    console.log(XMLHttpRequest);
+                    //console.log(XMLHttpRequest);
                     $("#databaseDelete").modal('hide');
                 }
             });

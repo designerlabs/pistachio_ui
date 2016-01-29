@@ -142,6 +142,8 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 }]);
 **/
 
+
+
 /* Global hosting details */
 var globalURL = "http://pistachio_server:8080/";
 var queryString = "query";
@@ -1519,63 +1521,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
-    // User Profile
-    .state("profile", {
-        url: "/profile",
-        templateUrl: "views/profile/main.html",
-        data: {
-            pageTitle: 'User Profile'
-        },
-        controller: "UserProfileController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load({
-                    name: 'MetronicApp',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                    files: [
-                        'assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
-                        'assets/admin/pages/css/profile.css',
-                        'assets/admin/pages/css/tasks.css',
-
-                        'assets/global/plugins/jquery.sparkline.min.js',
-                        'assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
-
-                        'assets/admin/pages/scripts/profile.js',
-
-                        'js/controllers/UserProfileController.js'
-                    ]
-                });
-            }]
-        }
-    })
-
-    // User Profile Dashboard
-    .state("profile.dashboard", {
-        url: "/dashboard",
-        templateUrl: "views/profile/dashboard.html",
-        data: {
-            pageTitle: 'User Profile'
-        }
-    })
-
-    // User Profile Account
-    .state("profile.account", {
-        url: "/account",
-        templateUrl: "views/profile/account.html",
-        data: {
-            pageTitle: 'User Account'
-        }
-    })
-
-    // User Profile Help
-    .state("profile.help", {
-        url: "/help",
-        templateUrl: "views/profile/help.html",
-        data: {
-            pageTitle: 'User Help'
-        }
-    })
-
     //Dashboard Management
 
     .state('DashboardMgt', {
@@ -1609,35 +1554,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
-    // Todo
-    .state('todo', {
-        url: "/todo",
-        templateUrl: "views/todo.html",
-        data: {
-            pageTitle: 'Todo'
-        },
-        controller: "TodoController",
-        resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                return $ocLazyLoad.load({
-                    name: 'MetronicApp',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                    files: [
-                        'assets/global/plugins/bootstrap-datepicker/css/datepicker3.css',
-                        'assets/global/plugins/select2/select2.css',
-                        'assets/admin/pages/css/todo.css',
-
-                        'assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                        'assets/global/plugins/select2/select2.min.js',
-
-                        'assets/admin/pages/scripts/todo.js',
-
-                        'js/controllers/TodoController.js'
-                    ]
-                });
-            }]
-        }
-    })
+    
 
     // Report Management
     .state("reportMgt", {
@@ -1684,9 +1601,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                     files: [
                         //'assets/global/plugins/bootstrap-datepicker/css/datepicker3.css',
-                        'assets/global/plugins/select2/select2.css',
+                        /*'assets/global/plugins/select2/select2.css',*/
                         //'assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                        'assets/global/plugins/select2/select2.min.js',
+                        /*'assets/global/plugins/select2/select2.min.js',*/
                         'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
                         'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
                         'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
@@ -1743,18 +1660,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         name: 'MetronicApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                         files: [
-                        'assets/global/plugins/morris/morris.css',
-                        'assets/global/plugins/morris/morris.min.js',
-
-                        'assets/global/plugins/select2/select2.css',
-                        'assets/global/plugins/select2/select2.min.js',
-                        'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
-                        'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
-                        'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
-                        'assets/global/plugins/datatables/all.min.js',
-                        'assets/global/plugins/jquery-multi-select/css/multi-select.css',
-                        'assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js',
-                        'js/scripts/table-advanced.js',
                         'js/controllers/MyProfileController.js'
                         ]
                     });
