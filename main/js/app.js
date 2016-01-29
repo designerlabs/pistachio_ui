@@ -1647,4 +1647,5 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
 /* Init global settings and run the app */
 MetronicApp.run(["$rootScope", "settings", "$state", function($rootScope, settings, $state) {
     $rootScope.$state = $state; // state to be accessed from view
+    $(".modal-header").addClass('btn-success');
 }]);

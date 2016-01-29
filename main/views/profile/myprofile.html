@@ -6,33 +6,32 @@
 
 <!-- END PAGE HEADER-->
 <!-- BEGIN MAIN CONTENT -->
-<div class="row">
-    <div > <!-- class="col-md-12"-->
-        <!-- END EXAMPLE TABLE PORTLET-->
-        <!-- BEGIN EXAMPLE TABLE PORTLET-->
-        <div id="loader" style="position:absolute; top:0px; left:0px; background:rgba(255,255,255,0.8); width:100%; z-index:9999;">   
-            <div ng-spinner-bar class="page-spinner-bar">
-                <div class="bounce1"></div>
-                <div class="bounce2"></div>
-                <div class="bounce3"></div>
-            </div>
-        </div>
 
-	    <div class="form-group col-md-12">
-	        <label for="myprofile-name" class="control-label">Name:</label>
-	        <input type="text" class="form-control col-sm-12" id="myprofile-name" readonly="true">
-	    </div> 
-  		 <div class="form-group col-md-12">
-	        <label for="myprofile-authority" class="control-label">Authorities:</label>
-	        <input type="text" class="form-control col-sm-12" id="myprofile-authority" readonly="true">
+<div>
+	<div class="col-md-12">
+	    <div class="profile-sidebar">
+		    <div class="portlet light profile-sidebar-portlet ">
+			    <div class="profile-userpic">
+					<img class="img-responsive" alt="" src="assets/admin/layout2/img/mimos_logo_small.png">
+				</div>			
+		    </div>	    
 	    </div>
-	    <div class="form-group col-md-12">
-	        <label for="myprofile-lang" class="control-label">Language:</label>
-	        <input type="text" class="form-control col-sm-12" id="myprofile-lang" readonly="true">
-	    </div>
-
-
-    </div>
+	    <div class="profile-content">
+	       
+		    <div class="form-group col-md-10">
+		        <label for="myprofile-name" class="control-label">Name:</label>
+		        <input type="text" class="form-control col-sm-10" id="myprofile-name" readonly="true">
+		    </div> 
+	  		 <div class="form-group col-md-10">
+		        <label for="myprofile-authority" class="control-label">Authorities:</label>
+		        <input type="text" class="form-control col-sm-10" id="myprofile-authority" readonly="true">
+		    </div>
+		    <div class="form-group col-md-10">
+		        <label for="myprofile-lang" class="control-label">Language:</label>
+		        <input type="text" class="form-control col-sm-10" id="myprofile-lang" readonly="true">
+		    </div>
+	    </div>    
+	</div>
 </div>
 
   
@@ -40,17 +39,17 @@
 <!-- END MAIN CONTENT -->
 <!-- BEGIN MAIN JS & CSS -->
 <script>
-$(document).ajaxStart(function() {
-    $("#loader").hide();
-    $("#loaderTableView").css('height', '500px');
-    $("#loaderTableView .page-spinner-bar").removeClass('hide');
-    $("#loaderTableView").show();
-});
+// $(document).ajaxStart(function() {
+//     $("#loader").hide();
+//     $("#loaderTableView").css('height', '500px');
+//     $("#loaderTableView .page-spinner-bar").removeClass('hide');
+//     $("#loaderTableView").show();
+// });
 
-$(document).ajaxStop(function() {
-    $("#loader").hide();
-    $("#loaderTableView .page-spinner-bar").addClass('hide');
-    $("#loaderTableView").hide();
-});
+// $(document).ajaxStop(function() {
+//     $("#loader").hide();
+//     $("#loaderTableView .page-spinner-bar").addClass('hide');
+//     $("#loaderTableView").hide();
+// });
 </script>
 <!-- BEGIN MAIN JS & CSS -->
