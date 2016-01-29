@@ -39,12 +39,16 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
        });
 
             $scope.countDown = 1;    
-            timer = setInterval(function(){
+            $scope.timer = setInterval(function(){
                 $scope.countDown++;
                 $scope.$apply();
-                console.log($scope.countDown);
+                //console.log($scope.countDown);
             }, 1000);  
-
+        $("#queryExeBackBtn").click(function(){
+            if($scope.timer){
+            clearInterval($scope.timer);
+            }
+        });
     	$scope.go = function(data){
     		location.href="#/reports/e-reporting.html";
             categoryId = this.x.subReports.queryCategory;
@@ -70,7 +74,7 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
             $http.get(globalURL+"query/report/"+data)
                 .success(function(response) {
                 $scope.namesB = response;
-                console.log(response);
+                //console.log(response);
             });
             
             
@@ -94,7 +98,7 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
         //console.log($scope);
 
         $(document).ajaxStop(function() {
-            clearInterval(timer);
+            clearInterval($scope.timer);
         });
 
     });

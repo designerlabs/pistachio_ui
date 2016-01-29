@@ -98,9 +98,8 @@ Rounded Portlets
     color:#fff;
 }
 
-
 .modal-header h4::before { 
-    content: "\f00c";
+    content: "\f00c ";
     font-family: FontAwesome;
     font-style: normal;
     font-weight: normal;

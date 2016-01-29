@@ -1,4 +1,5 @@
 <!-- BEGIN PAGE HEADER-->
+
 <h3 class="page-title">
     Query Result
 </h3>
@@ -35,11 +36,11 @@
                     <a href="" class="blue downloadCSV" id="downloadBtnPDF" style="top: -3px; height:40px; position: relative;">
                       <img alt="Download PDF"  height="40" width="40" src="./assets/admin/layout2/img/pdficon.png">			
 					</a>
-                    <a href="#/reports/e-reporting.html" class="btn btn-success btn-sm backButton" style="color:#fff; top: -3px; height:27px; position: relative;"><i class="fa fa-chevron-circle-left"></i> Back</a>
+                    <a href="#/reports/e-reporting.html" class="btn btn-success btn-sm backButton" id="queryExeBackBtn" style="color:#fff; top: -3px; height:27px; position: relative;"><i class="fa fa-chevron-circle-left"></i> Back</a>
                     <!--  <a href="" id="backBtn" style="color:#fff; top: -3px; position: relative;"><i class="fa fa-chevron-circle-left"></i></a> -->
                 </div>
 
-                <div id="loaderExe" style="position:absolute; top:45px; left:0px; background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%;">
+                <div id="loaderExe" style="top:45px; left:0px; background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%;">
 
                     <!-- BEGIN PAGE SPINNER -->
                     <div ng-spinner-bar class="page-spinner-bar show">
@@ -51,10 +52,11 @@
                 </div>
             </div>
             <div class="portlet-body">
-                <h4 class="text-center text-success"><i class="fa fa-clock-o"></i> {{countDown}} Seconds</h4>
                 <table id="jqueryRunData" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%"></table>
             </div>
+
         </div>
+        <h4 id="countDownTimer" style="z-index:99999 !important; position:absolute; text-center:center; margin:0 auto; width:100%;" class="text-center text-success"><i class="fa fa-clock-o"></i> {{countDown}} Seconds</h4>
     </div>
 </div>
 <!-- END MAIN CONTENT -->
@@ -64,12 +66,12 @@ $("#downloadBtn").hide();
 $("#downloadBtnXLS").hide();
 $("#downloadBtnPDF").hide();
 
-
 $(document).ajaxStart(function() {
     $("#loader").hide();
     $("#loaderExe").css('height', '500px');
     $("#loaderExe .page-spinner-bar").removeClass('hide');
     $("#loaderExe").show();
+    $("#countDownTimer").show();
 });
 
 $(document).ajaxStop(function() {
@@ -81,5 +83,6 @@ $(document).ajaxStop(function() {
     $("#downloadBtn").show();
     $("#downloadBtnXLS").show();
     $("#downloadBtnPDF").show();
+    $("#countDownTimer").hide();
 });
 </script>

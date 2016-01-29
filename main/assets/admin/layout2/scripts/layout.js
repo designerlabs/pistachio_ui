@@ -58,9 +58,9 @@ var Layout = function() {
             el = $(el);
         } else if (mode === 'match') {
             menu.find("li > a").each(function() {
-                var path = $(this).attr("href").toLowerCase();       
+                var path = $(this).attr("href");       
                 // url match condition         
-                if (path.length > 1 && url.substr(1, path.length - 1) == path.substr(1)) {
+                if (path && url.substr(1, path.length - 1) == path.substr(1)) {
                     el = $(this);
                     return; 
                 }
