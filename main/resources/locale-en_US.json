@@ -14,6 +14,7 @@
 	"sidebar.dataconsolidation" : "Data Consolidation",
 	"sidebar.jobs" : "Jobs",
 	"sidebar.database" : "Data base",
+	"sidebar.audit" : "Audit",
 	"header.search" : "Search",
 	"fastsearch.launch" : "Launch",
 	"fastsearch.doc.title" : "Fast Document Search",
