@@ -15,7 +15,6 @@ MetronicApp.controller('AuditController', function($rootScope, $scope, $http, $t
        });
 
        $scope.go = function(data){
-         alert('go')
          if (typeof data == 'undefined') {
             data = "";
           }
@@ -44,7 +43,6 @@ MetronicApp.controller('AuditController', function($rootScope, $scope, $http, $t
        }
 
        $scope.filter = function(text){
-         alert(text);
          var index = selected_filter.indexOf(text);    // <-- Not supported in <IE9
          if (index !== -1) {
            selected_filter.splice(index, 1);

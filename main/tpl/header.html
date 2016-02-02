@@ -147,8 +147,8 @@
               </li> -->
 
                 <li class="text-right">
-                  <div ng-translate-language-select></div>                  
-                </li> 
+                  <div ng-translate-language-select></div>
+                </li>
                 <!-- END TODO DROPDOWN -->
                 <!-- BEGIN USER LOGIN DROPDOWN -->
                 <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
@@ -162,7 +162,7 @@
                     <ul class="dropdown-menu dropdown-menu-default">
                         <li>
                             <a id="btnmyProfile" href="#/myprofile.html">
-                                <i class="icon-user"></i> My Profile 
+                                <i class="icon-user"></i> My Profile
                             </a>
                         </li>
                         <li>
@@ -170,13 +170,13 @@
                                 <i class="icon-key"></i> Log Out </a>
                         </li>
                     </ul>
-                </li>  
-                             
+                </li>
+
 
                 <!--  <select id="selLangHeader" class="valid form-control" ng-model="item" ng-change="updateHeader()">
                     <option value="" selected>{{'Header.sellanguage' | translate}}</option>
                     <option value="en_US">English</option>
-                    <option value="ms_my">Bahasha Malaysia</option>   
+                    <option value="ms_my">Bahasha Malaysia</option>
                  </select> -->
                 <!-- END USER LOGIN DROPDOWN -->
             </ul>
@@ -188,6 +188,10 @@
 <!-- END HEADER INNER -->
 <script>
 $("#logoutBtn").click(function(event) {
+  alert("logout")
+  var getToken = localStorage.getItem("token");
+  $.getJSON(globalURL+'auth/logout?token='+getToken);
+
     localStorage.removeItem("token");
     localStorage.removeItem("sideMenuValue");
     localStorage.removeItem("username");
@@ -195,15 +199,15 @@ $("#logoutBtn").click(function(event) {
     localStorage.removeItem("authorities");
     window.location = "login.html";
 });
-// $("#logoutBtn").click(function(event) { 
+// $("#logoutBtn").click(function(event) {
 //      window.location = "login.html";
 //     });
 
 $(function() {
     var currentToken = localStorage.getItem("token");
      var currentUserName = localStorage.getItem("username");
-  
-    
+
+
     if (currentToken) {
         $(".img-circle").attr('src', 'assets/admin/layout2/img/mimos_logo_small.png');
         $("span.username").html(currentUserName);
