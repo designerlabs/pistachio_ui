@@ -188,8 +188,7 @@
 <!-- END HEADER INNER -->
 <script>
 $("#logoutBtn").click(function(event) {
-  alert("logout")
-  var getToken = localStorage.getItem("token");
+    var getToken = localStorage.getItem("token");
   $.getJSON(globalURL+'auth/logout?token='+getToken);
 
     localStorage.removeItem("token");
