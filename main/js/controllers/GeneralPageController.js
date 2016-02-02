@@ -450,6 +450,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         $("#queryUISubmit").click(function(event) {
             var queryNameVal = $("#queryForm #query-name").val();
             var queryTextVal = $("#queryForm #query-text").val();
+            var queryTemplateVal = $("#queryForm #query-template").val();
 
             inputValidation("#queryForm", queryAjax);
 
@@ -462,6 +463,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     data: JSON.stringify({
                         queryName: queryNameVal,
                         query: queryTextVal,
+                        reportFileName: queryTemplateVal,
                         category:reportCategoryID,
                         cached: null
                     })
@@ -496,6 +498,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             $("#queryAddForm #queryUIUpdate").removeClass('hide');
             $("#queryForm #query-name").val(selectedQuery.queryName);
             $("#queryForm #query-text").val(selectedQuery.query);
+            $("#queryForm #query-template").val(selectedQuery.reportFileName);
             $("#queryAddFormHeader").html("Update Query UI");
             $("#queryAddForm").modal('show');
 
