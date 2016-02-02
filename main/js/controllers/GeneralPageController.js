@@ -366,15 +366,15 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 }, {
                     "data": "query"
                 }, {
-                    "data": "execute",
+                    "data": "reportFileName",                    
                     "render": function(data, type, full, meta) {
-                       
-                            return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';   
-                         
-                    }
-                   /* "render": function(data, type, full, meta) {
-                        return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
-                    }*/
+                        // alert(data);
+                       if(data == null){
+                         return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-eye"></i> View</button></a>';   
+                       }else{                        
+                         return '<a href="#"><button class="btn btn-warning btn-sm TemplateBtn details-control"><i class="fa fa-plus-circle"></i> Expand</button></a>';   
+                       }                         
+                    }                   
                 }, {
                     "data": "action",
                     "width": "22%",
@@ -410,6 +410,51 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
         };
 		
+        // Add event listener for opening and closing details
+        $('#queryContainer').on('click', '.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = queryData.row( tr );
+     
+            if ( row.child.isShown() ) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        } );
+                    /* Formatting function for row details - modify as you need */
+            function format ( d ) {
+                // `d` is the original data object for the row
+                return '<table cellpadding="5" class="table table-striped table-bordered table-hover" cellspacing="0" '+
+                        'border="0" style="padding-left:50px;text-align:center;width:60%">'+
+                    '<tr>'+
+                        '<td colspan="2"><strong>Selected Template is : '+ d.reportFileName +'</strong></td>'+
+                    '</tr>'+
+                    '<tr>'+
+                        '<td>From : </td>'+
+                        '<td><input type="text" class="col-md-6"></td>'+
+                        '<td>To : </td>'+
+                        '<td><input type="text" class="col-md-6"></td>'+
+                    '</tr>'+
+                    '<tr>'+
+                        '<td colspan="2">State name:</td>'+
+                        '<td colspan="2"><input type="text" class="col-md-12"></td>'+
+                    '</tr>'+
+                    '<tr>'+
+                        '<td colspan="2">Branch name:</td>'+
+                        '<td colspan="2"><input type="text" class="col-md-12"></td>'+
+                    '</tr>'+
+                    '<tr>'+                     
+                        '<td colspan="4"><button type="button" class="btn btn-success"><i class="fa fa-check"></i>RUN TEMPLATE</button>'+
+                        '<button type="button" class="btn btn-danger"><i class="fa fa-times"></i>RESET</button></td>'+
+                    '</tr>'+
+                '</table>';
+            }
+
 		var reportPermitMasukData;
         queryMasukFunc = function() {
             reportPermitMasukData = $('#reportPermitMasukContainer').DataTable({
