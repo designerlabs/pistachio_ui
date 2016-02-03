@@ -422,7 +422,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
 
     // Redirect any unmatched url
     //if (currentUserName == jimUserId || currentUserName == mimosUserId) {
-    $urlRouterProvider.otherwise("/dashboard.html");
+    $urlRouterProvider.otherwise("/dashboardchart.html");
     //}else{
     //  $urlRouterProvider.otherwise("/dashboard.html");
     //}
@@ -452,8 +452,38 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
 
                         'assets/admin/pages/scripts/index.js',
                         'assets/admin/pages/scripts/tasks.js',
-                        
+
                         'js/controllers/DashboardController.js'
+                    ]
+                });
+            }]
+        }
+    })
+
+    .state('dashboardchart', {
+        url: "/dashboardchart.html",
+        templateUrl: "views/dashboardchart.html",
+        data: {
+            pageTitle: 'Admin Dashboard Template'
+        },
+        controller: "DashboardChartController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/global/plugins/morris/morris.css',
+                        'assets/admin/pages/css/tasks.css',
+
+                        'assets/global/plugins/morris/morris.min.js',
+                        'assets/global/plugins/morris/raphael-min.js',
+                        'assets/global/plugins/jquery.sparkline.min.js',
+
+                        'assets/admin/pages/scripts/index.js',
+                        'assets/admin/pages/scripts/tasks.js',
+
+                        'js/controllers/DashboardChartController.js'
                     ]
                 });
             }]

@@ -10,10 +10,23 @@
 
 
         <li class="start" id="dashboard">
-            <a href="#/dashboard.html">
+            <a  href="javascript:;">
                 <i class="icon-bar-chart"></i>
                 <span class="title">{{'sidebar.dashboard' | translate}}</span>
+                 <span class="arrow "></span>
             </a>
+             <ul class="sub-menu">
+                 <li>
+                    <a href="#/dashboard.html">
+                        <i class="icon-pie-chart"></i> {{'sidebar.dashboardlink' | translate}}
+                    </a>
+                </li>
+                 <li>
+                    <a href="#/dashboardManagement/dashboardchart.html">
+                        <i class="icon-pie-chart"></i> {{'sidebar.dashboardchart' | translate}}
+                    </a>
+                </li>
+            </ul>
         </li>
        <li class="start" id="fastsearch">
             <a href="#/fastsearch.html">
