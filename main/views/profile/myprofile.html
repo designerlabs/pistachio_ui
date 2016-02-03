@@ -1,66 +1,146 @@
 <!-- BEGIN PAGE HEADER-->
 <h3 class="page-title">
-	<span class="glyphicons glyphicons-user"></span>		
+	<span class="glyphicons glyphicons-user"></span>
 	 My Profile
 </h3>
 
 <!-- END PAGE HEADER-->
 <!-- BEGIN MAIN CONTENT -->
+<div class="col-md-12" ng-controller = "MyProfileController">
+                            <!-- BEGIN PROFILE SIDEBAR -->
+                            <div class="profile-sidebar">
+                                <!-- PORTLET MAIN -->
+                                <div class="portlet light profile-sidebar-portlet ">
+                                    <!-- SIDEBAR USERPIC -->
+                                    <div class="profile-userpic">
+                                        <img src="assets/admin/layout2/img/mimos_logo_small.png" class="img-responsive" alt=""> </div>
+                                    <!-- END SIDEBAR USERPIC -->
+                                    <!-- SIDEBAR USER TITLE -->
+                                    <div class="profile-usertitle">
+                                        <div class="profile-usertitle-name"> {{firstName_1}} </div>
+                                        <div class="profile-usertitle-job">  {{rank}} </div>
+                                    </div>
+                                    <!-- END SIDEBAR USER TITLE -->
+
+                                    <!-- SIDEBAR MENU -->
+                                    <div class="profile-usermenu">
+                                        <ul class="nav">
+                                            <li class="active">
+                                                <a href="" ng-click="overview()">
+                                                    <i class="icon-home"></i> Overview </a>
+                                            </li>
+																						<li>
+                                                <a href="" ng-click="edit()">
+                                                    <i class="icon-settings"></i> Edit </a>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                    <!-- END MENU -->
+                                </div>
+                                <!-- END PORTLET MAIN -->
+                                <!-- PORTLET MAIN -->
+
+                                <!-- END PORTLET MAIN -->
+                            </div>
+                            <!-- END BEGIN PROFILE SIDEBAR -->
+                            <!-- BEGIN PROFILE CONTENT -->
+                            <div class="profile-content">
+                                <div class="row" ng-if="noedit">
+																				<div class="col-md-6">
+																					<div class="portlet light ">
+																						<div class="portlet-title">
+																							<div class="caption caption-md">
+																									<i class="icon-bar-chart theme-font hide"></i>
+																									<span class="caption-subject font-blue-madison bold uppercase">User Info</span>
+																									<span class="caption-helper hide">weekly stats...</span>
+																							</div>
+																						</div>
+																						<div class="portlet-body">
+
+																						</div>
+																					</div>
+
+																				</div>
+																				<div class="col-md-6">
+																						<!-- BEGIN PORTLET -->
+																						<div class="portlet light ">
+																								<div class="portlet-title">
+																										<div class="caption caption-md">
+																												<i class="icon-bar-chart theme-font hide"></i>
+																												<span class="caption-subject font-blue-madison bold uppercase">Your Activity</span>
+																												<span class="caption-helper hide">weekly stats...</span>
+																										</div>
+																										<div class="actions">
+																												<div class="btn-group btn-group-devided" data-toggle="buttons">
+																														<label class="btn btn-transparent grey-salsa btn-circle btn-sm active">
+																																<input type="radio" name="options" class="toggle" id="option1">Today</label>
+																														<label class="btn btn-transparent grey-salsa btn-circle btn-sm">
+																																<input type="radio" name="options" class="toggle" id="option2">Week</label>
+																														<label class="btn btn-transparent grey-salsa btn-circle btn-sm">
+																																<input type="radio" name="options" class="toggle" id="option2">Month</label>
+																												</div>
+																										</div>
+																								</div>
+																								<div class="portlet-body">
+																										<div class="table-scrollable table-scrollable-borderless">
+																												<table class="table table-hover table-light">
+																														<thead>
+																																<tr class="uppercase">
+																																		<th colspan="2"> Time </th>
+																																		<th> Event </th>
+																																		<th> System</th>
+																																</tr>
+																														</thead>
+																														<tbody><tr>
+																																<td class="fit">
+																																		<img class="user-pic" src="../assets/pages/media/users/avatar4.jpg"> </td>
+																																<td>
+																																		<a href="javascript:;" class="primary-link">Brain</a>
+																																</td>
+																																<td> Login </td>
+
+																														</tr>
+																														<tr>
+																																<td class="fit">
+																																		<img class="user-pic" src="../assets/pages/media/users/avatar5.jpg"> </td>
+																																<td>
+																																		<a href="javascript:;" class="primary-link">Nick</a>
+																																</td>
+																																<td> Login </td>
+																														</tr>
+																														<tr>
+																																<td class="fit">
+																																		<img class="user-pic" src="../assets/pages/media/users/avatar6.jpg"> </td>
+																																<td>
+																																		<a href="javascript:;" class="primary-link">Tim</a>
+																																</td>
+																																<td> Login </td>
+																														</tr>
+																														<tr>
+																																<td class="fit">
+																																		<img class="user-pic" src="../assets/pages/media/users/avatar7.jpg"> </td>
+																																<td>
+																																		<a href="javascript:;" class="primary-link">Tom</a>
+																																</td>
+																																<td> Login </td>
+																														</tr>
+																												</tbody></table>
+																										</div>
+																								</div>
+																						</div>
+																						<!-- END PORTLET -->
+																				</div>
+
+                                        <!-- END PORTLET -->
+                                    </div>
+
+																</div>
 
 
-		<div>	  
-		    <div class="portlet light profile-sidebar-portlet col-md-12">
-			    <div class="profile-userpic">
-					<img class="img-responsive" alt="" src="assets/admin/layout2/img/mimos_logo_small.png">
-				</div>			
-		    </div>	    
-	   	       
-		    <div class="form-group col-md-6">
-		        <label for="myprofile-firstname" class="control-label">First Name:</label>
-		        <input type="text" class="form-control" id="myprofile-firstname" readonly="true">
-		    </div> 
-		    <div class="form-group col-md-6">
-		        <label for="myprofile-lastname" class="control-label">Last Name:</label>
-		        <input type="text" class="form-control" id="myprofile-lastname" readonly="true">
-		    </div>
-		    <div class="form-group col-md-6">
-		        <label for="myprofile-email" class="control-label">Email:</label>
-		        <input type="text" class="form-control" id="myprofile-email" readonly="true">
-		    </div>
-		    <div class="form-group col-md-6">
-		        <label for="myprofile-unit" class="control-label">Unit:</label>
-		        <input type="text" class="form-control" id="myprofile-unit" readonly="true">
-		    </div>
-		     <div class="form-group col-md-6">
-		        <label for="myprofile-rank" class="control-label">Rank:</label>
-		        <input type="text" class="form-control" id="myprofile-rank" readonly="true">
-		    </div>
-		     <div class="form-group col-md-6">
-		        <label for="myprofile-state" class="control-label">State:</label>
-		        <input type="text" class="form-control" id="myprofile-state" readonly="true">
-		    </div>
-		     <div class="form-group col-md-6">
-		        <label for="myprofile-branch" class="control-label">Branch:</label>
-		        <input type="text" class="form-control" id="myprofile-branch" readonly="true">
-		    </div>
-		     <div class="form-group col-md-6">
-		        <label for="myprofile-dept" class="control-label">Dept:</label>
-		        <input type="text" class="form-control" id="myprofile-dept" readonly="true">
-		    </div>
-	  		 <div class="form-group col-md-6">
-		        <label for="myprofile-authority" class="control-label">Authorities:</label>
-		        <input type="text" class="form-control" id="myprofile-authority" readonly="true">
-		    </div>
-		    <div class="form-group col-md-6">
-		        <label for="myprofile-lang" class="control-label">Language:</label>
-		        <input type="text" class="form-control" id="myprofile-lang" readonly="true">
-		    </div>			     
-		    <div class="row">		       
-		    </div>	
-	 
-		</div>  
- 
-
+                            </div>
+                            <!-- END PROFILE CONTENT -->
+                        </div>
 <!-- END MAIN CONTENT -->
 <!-- BEGIN MAIN JS & CSS -->
 <script>
@@ -77,4 +157,4 @@
 //     $("#loaderTableView").hide();
 // });
 </script>
-<!-- BEGIN MAIN JS & CSS
+<!-- BEGIN MAIN JS & CSS -->
