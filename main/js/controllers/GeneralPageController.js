@@ -427,32 +427,77 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             }
         } );
                     /* Formatting function for row details - modify as you need */
-            function format ( d ) {
+            function format ( dval ) {
                 // `d` is the original data object for the row
-                return '<table cellpadding="5" class="table table-striped table-bordered table-hover" cellspacing="0" '+
-                        'border="0" style="padding-left:50px;text-align:center;width:60%">'+
-                    '<tr>'+
-                        '<td colspan="2"><strong>Selected Template is : '+ d.reportFileName +'</strong></td>'+
-                    '</tr>'+
-                    '<tr>'+
-                        '<td>From : </td>'+
-                        '<td><input type="text" class="col-md-6"></td>'+
-                        '<td>To : </td>'+
-                        '<td><input type="text" class="col-md-6"></td>'+
-                    '</tr>'+
-                    '<tr>'+
-                        '<td colspan="2">State name:</td>'+
-                        '<td colspan="2"><input type="text" class="col-md-12"></td>'+
-                    '</tr>'+
-                    '<tr>'+
-                        '<td colspan="2">Branch name:</td>'+
-                        '<td colspan="2"><input type="text" class="col-md-12"></td>'+
-                    '</tr>'+
-                    '<tr>'+                     
-                        '<td colspan="4"><button type="button" class="btn btn-success"><i class="fa fa-check"></i>RUN TEMPLATE</button>'+
-                        '<button type="button" class="btn btn-danger"><i class="fa fa-times"></i>RESET</button></td>'+
-                    '</tr>'+
-                '</table>';
+                // return '<table cellpadding="5" class="table table-striped table-bordered table-hover" cellspacing="0" '+
+                //         'border="0" style="padding-left:50px;text-align:center;width:60%">'+
+                //     '<tr>'+
+                //         '<td colspan="2"><strong>Selected Template is : '+ d.reportFileName +'</strong></td>'+
+                //     '</tr>'+
+                //     '<tr>'+
+                //         '<td>From : </td>'+
+                //         '<td><input type="text" class="col-md-6"></td>'+
+                //         '<td>To : </td>'+
+                //         '<td><input type="text" class="col-md-6"></td>'+
+                //     '</tr>'+
+                //     '<tr>'+
+                //         '<td colspan="2">State name:</td>'+
+                //         '<td colspan="2"><input type="text" class="col-md-12"></td>'+
+                //     '</tr>'+
+                //     '<tr>'+
+                //         '<td colspan="2">Branch name:</td>'+
+                //         '<td colspan="2"><input type="text" class="col-md-12"></td>'+
+                //     '</tr>'+
+                //     '<tr>'+                     
+                //         '<td colspan="4"><button type="button" class="btn btn-success"><i class="fa fa-check"></i>RUN TEMPLATE</button>'+
+                //         '<button type="button" class="btn btn-danger"><i class="fa fa-times"></i>RESET</button></td>'+
+                //     '</tr>'+
+                // '</table>';
+
+                return '<form class="form-horizontal form-bordered" action="#">'+
+                                        '<div class="form-body">'+
+                                           ' <div class="form-group">'+
+                                               ' <label class="control-label col-md-3">Default Date Ranges</label>'+
+                                                '<div class="col-md-4">'+
+                                                    '<div id="defaultrange" class="input-group">'+
+                                                        '<input type="text" class="form-control">'+
+                                                        '<span class="input-group-btn">'+
+                                                            '<button type="button" class="btn default date-range-toggle">'+
+                                                                '<i class="fa fa-calendar"></i>'+
+                                                            '</button>'+
+                                                       ' </span>'+
+                                                    '</div>'+
+                                                '</div>'+
+                                            '</div>'+
+                                            '<div class="form-group ">'+
+                                                '<label class="control-label col-md-3">Advance Date Ranges</label>'+
+                                                '<div class="col-md-4">'+
+                                                    '<div class="btn default" id="reportrange">'+
+                                                        '<i class="fa fa-calendar"></i> &nbsp;'+
+                                                        '<span>January 5, 2016 - February 3, 2016</span>'+
+                                                        '<b class="fa fa-angle-down"></b>'+
+                                                    '</div>'+
+                                                '</div>'+
+                                            '</div>'
+                                           ' <div class="form-group last">'+
+                                                '<label class="control-label col-md-3"></label>'+
+                                                '<div class="col-md-4">'+
+                                                    '<a data-toggle="modal" href="#daterangepicker_modal" class="btn green btn-outline"> View Daterange Picker in modal'+
+                                                       ' <i class="fa fa-share"></i>'+
+                                                    '</a>'+
+                                                '</div>'+
+                                            '</div>'+
+                                        '</div>'+
+                                        '<div class="form-actions">'+
+                                           ' <div class="row">'+
+                                                '<div class="col-md-offset-3 col-md-9">'+
+                                                    '<button class="btn red" type="submit">'+
+                                                       ' <i class="fa fa-check"></i> Submit</button>'+
+                                                   ' <button class="btn default" type="button">Cancel</button>'+
+                                                '</div>'+
+                                            '</div>'+
+                                        '</div>'+
+                                    '</form>';
             }
 
 		var reportPermitMasukData;
