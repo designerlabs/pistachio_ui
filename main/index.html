@@ -21,10 +21,14 @@ Website: http://www.mimos.com.my/
     <meta content="mimos" name="author" />
     <meta name="keywords" content="e-reporting, pistachio">
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
-    <link href="assets/fonts/open-sans.css" rel="stylesheet" type="text/css" /><!-- external google fonts -->
-    <link href="assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" /><!-- Awesome fonts -->
-    <link href="assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" /><!-- icons -->
-    <link href="assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" /><!-- bootstrap -->
+    <link href="assets/fonts/open-sans.css" rel="stylesheet" type="text/css" />
+    <!-- external google fonts -->
+    <link href="assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <!-- Awesome fonts -->
+    <link href="assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- icons -->
+    <link href="assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- bootstrap -->
     <link href="assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
     <!-- BEGIN DYMANICLY LOADED CSS FILES(all plugin and page related styles must be loaded between GLOBAL and THEME css files ) -->
@@ -130,7 +134,8 @@ Website: http://www.mimos.com.my/
     <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
     <script src="bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
     <script src="bower_components/angular-translate-handler-log/angular-translate-handler-log.js"></script>
-    <script src="bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js"></script> <!-- Locale will be changed asynchronously -->
+    <script src="bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js"></script>
+    <!-- Locale will be changed asynchronously -->
 
     <script src="assets/global/plugins/angularjs/bower_components/ng-table/dist/ng-table.js" type="text/javascript"></script>
     <script src="assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
@@ -147,49 +152,49 @@ Website: http://www.mimos.com.my/
     <script src="js/directives/LanguageSelectDirective.js"></script>
     <!-- END APP LEVEL JQUERY SCRIPTS -->
     <script type="text/javascript">
-    function onResize() {
-        var $width = $(this).width();
-        //Iphone
-        if ($width < 1250 && $width > 300) {
-            $('td .tableView').html('<i class="fa fa-eye"></i>');
-            $('td .btn1').html('<i class="fa fa-play"></i>');
-            $('td .updateBtn').html('<i class="fa fa-refresh"></i>');
-            $('td .deleteBtn, td .btn2').html('<i class="fa fa-times"></i>');
-            $('td .btn3').html('<i class="fa fa-clock-o"></i>');
-            $('td .btn').css('padding', '3px');
-        } else {
-            $('.tableView').html('<i class="fa fa-eye"></i> View Table');
-            $('td .btn1').html('<i class="fa fa-play"></i> Start');
-            $('td .updateBtn').html('<i class="fa fa-refresh"></i> Update');
-            $('td .deleteBtn, td .btn2').html('<i class="fa fa-times"></i> Delete');
-            $('td .btn3').html('<i class="fa fa-clock-o"></i> Schedule');
-            $('td .btn').css('padding', '6px 12px');
+        function onResize() {
+            var $width = $(this).width();
+            //Iphone
+            if ($width < 1250 && $width > 300) {
+                $('td .tableView').html('<i class="fa fa-eye"></i>');
+                $('td .btn1').html('<i class="fa fa-play"></i>');
+                $('td .updateBtn').html('<i class="fa fa-refresh"></i>');
+                $('td .deleteBtn, td .btn2').html('<i class="fa fa-times"></i>');
+                $('td .btn3').html('<i class="fa fa-clock-o"></i>');
+                $('td .btn').css('padding', '3px');
+            } else {
+                $('.tableView').html('<i class="fa fa-eye"></i> View Table');
+                $('td .btn1').html('<i class="fa fa-play"></i> Start');
+                $('td .updateBtn').html('<i class="fa fa-refresh"></i> Update');
+                $('td .deleteBtn, td .btn2').html('<i class="fa fa-times"></i> Delete');
+                $('td .btn3').html('<i class="fa fa-clock-o"></i> Schedule');
+                $('td .btn').css('padding', '6px 12px');
+            }
         }
-    }
 
 
-    /* Init Metronic's core jquery plugins and layout scripts */
-    $(document).ready(function() {
-        Metronic.init(); // Run metronic theme
-        Metronic.setAssetsPath('assets/'); // Set the assets folder path
-        onResize();
-    });
+        /* Init Metronic's core jquery plugins and layout scripts */
+        $(document).ready(function () {
+            Metronic.init(); // Run metronic theme
+            Metronic.setAssetsPath('assets/'); // Set the assets folder path
+            onResize();
+        });
 
-    $(window).load(function() {
-        onResize();
-    });
-
-
-    
+        $(window).load(function () {
+            onResize();
+        });
 
 
-    $(window).resize(function() {
-        onResize();
-        //alert($(this).width());
-        /*if( $(this).width() > width ) {
-            // code
-        }*/
-    });
+
+
+
+        $(window).resize(function () {
+            onResize();
+            //alert($(this).width());
+            /*if( $(this).width() > width ) {
+                // code
+            }*/
+        });
     </script>
     <!-- END JAVASCRIPTS -->
 </body>
