@@ -24,17 +24,17 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
     });
 
     $scope.tabs = [{
-            title: 'One',
-            url: 'one.tpl.html'
+            title: 'Profile',
+            url: 'edit.profile.html'
         }, {
-            title: 'Two',
-            url: 'two.tpl.html'
+            title: 'Change Avatar',
+            url: 'edit.avatar.html'
         }, {
-            title: 'Three',
-            url: 'three.tpl.html'
+            title: 'Change Password',
+            url: 'change.password.html'
     }];
 
-    $scope.currentTab = 'one.tpl.html';
+    $scope.currentTab = 'edit.profile.html';
 
     $scope.onClickTab = function (tab) {
         $scope.currentTab = tab.url;
