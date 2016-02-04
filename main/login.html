@@ -197,7 +197,7 @@ License: You must have a valid license purchased only from themeforest(the above
 			<label class="control-label visible-ie8 visible-ie9">{{'login.department' | translate}}</label>
 			<input class="form-control placeholder-no-fix" type="text" placeholder="{{'login.department' | translate}}" name="department"/>
 		</div> -->
-                
+
                 <div class="form-group">
 
                     <label class="control-label visible-ie8 visible-ie9">Rank</label>
@@ -206,8 +206,8 @@ License: You must have a valid license purchased only from themeforest(the above
 
                     </select>
                 </div>
-                
-                 <div class="form-group">
+
+                <div class="form-group">
 
                     <label class="control-label visible-ie8 visible-ie9">State</label>
                     <select class="select-form-control state" name="Rstate">
@@ -231,7 +231,7 @@ License: You must have a valid license purchased only from themeforest(the above
                         <option value="" selected="selected">{{'login.department' | translate}}</option>
                     </select>
                 </div>
-                
+
 
                 <div class="form-group">
 
@@ -241,10 +241,10 @@ License: You must have a valid license purchased only from themeforest(the above
                     </select>
                 </div>
 
-                
 
 
-               
+
+
 
 
                 <div class="form-group">
@@ -322,45 +322,135 @@ END CORE PLUGINS
                 Layout.init(); // init current layout
                 Login.init();
                 Demo.init();
+                var currentLang;
+                $('#selLang').change(function () {
+                    currentLang = $(this).val();
+
+                    if (currentLang == "en") {
+                        $.getJSON(globalURL + "api/user/reference/dept", function (json) {
+                            $(".department").select2({
+                                data: json,
+                                minimumInputLength: 2,
+                                placeholder: "Department"
+                            });
+                        });
+
+
+                        $.getJSON(globalURL + "api/user/reference/rank", function (json) {
+                            $(".rank").select2({
+                                data: json,
+                                minimumInputLength: 2,
+                                placeholder: "Position"
+                            });
+                        });
+
+                        $.getJSON(globalURL + "api/user/reference/unit", function (json) {
+                            $(".unit").select2({
+                                data: json,
+                                minimumInputLength: 2,
+                                placeholder: "Unit"
+                            });
+                        });
+
+                        $.getJSON(globalURL + "api/user/reference/branch", function (json) {
+                            $(".branch").select2({
+                                data: json,
+                                minimumInputLength: 2,
+                                placeholder: "Branch"
+                            });
+                        });
+
+                        $.getJSON(globalURL + "api/user/reference/state", function (json) {
+                            $(".state").select2({
+                                data: json,
+                                minimumInputLength: 2,
+                                placeholder: "State"
+
+                            });
+                        });
+                    } else {
+                        $.getJSON(globalURL + "api/user/reference/dept", function (json) {
+                            $(".department").select2({
+                                data: json,
+                                minimumInputLength: 2,
+                                placeholder: "Bahagian"
+                            });
+                        });
+
+                        $.getJSON(globalURL + "api/user/reference/rank", function (json) {
+                            $(".rank").select2({
+                                data: json,
+                                minimumInputLength: 2,
+                                placeholder: "Jawatan"
+                            });
+                        });
+
+                        $.getJSON(globalURL + "api/user/reference/unit", function (json) {
+                            $(".unit").select2({
+                                data: json,
+                                minimumInputLength: 2,
+                                placeholder: "Unit"
+                            });
+                        });
+
+                        $.getJSON(globalURL + "api/user/reference/branch", function (json) {
+                            $(".branch").select2({
+                                data: json,
+                                minimumInputLength: 2,
+                                placeholder: "Cawangan"
+                            });
+                        });
+
+                        $.getJSON(globalURL + "api/user/reference/state", function (json) {
+                            $(".state").select2({
+                                data: json,
+                                minimumInputLength: 2,
+                                placeholder: "Negeri"
+                            });
+                        });
+                    }
+                });
 
 
                 $.getJSON(globalURL + "api/user/reference/dept", function (json) {
                     $(".department").select2({
                         data: json,
-                        minimumInputLength: 2
+                        minimumInputLength: 2,
+                        placeholder: "Bahagian"
                     });
                 });
-
 
                 $.getJSON(globalURL + "api/user/reference/rank", function (json) {
                     $(".rank").select2({
                         data: json,
-                        minimumInputLength: 2
+                        minimumInputLength: 2,
+                        placeholder: "Jawatan"
                     });
                 });
 
                 $.getJSON(globalURL + "api/user/reference/unit", function (json) {
                     $(".unit").select2({
                         data: json,
-                        minimumInputLength: 2
+                        minimumInputLength: 2,
+                        placeholder: "Unit"
                     });
                 });
 
                 $.getJSON(globalURL + "api/user/reference/branch", function (json) {
                     $(".branch").select2({
                         data: json,
-                        minimumInputLength: 2
+                        minimumInputLength: 2,
+                        placeholder: "Cawangan"
                     });
                 });
 
                 $.getJSON(globalURL + "api/user/reference/state", function (json) {
                     $(".state").select2({
                         data: json,
-                        minimumInputLength: 2
+                        minimumInputLength: 2,
+                        placeholder: "Negeri"
                     });
                 });
-
-
 
             });
         </script>
