@@ -1,6 +1,7 @@
 'use strict';
 
 var stats = ["LOGIN", "LOGOUT", "ERROR"];
+var selected_filter = [];
 
 MetronicApp.controller('AuditController', function($rootScope, $scope, $http, $timeout, $sce) {
     $scope.$on('$viewContentLoaded', function() {
@@ -8,13 +9,16 @@ MetronicApp.controller('AuditController', function($rootScope, $scope, $http, $t
         // initialize core components
         Metronic.initAjax();
         $scope.start = 0;
-        $scope.rows = 20;
+        $scope.rows = 10;
         $scope.status = stats;
         $scope.go();
        });
 
        $scope.go = function(data){
-         $http.get(globalURL+"api/pistachio/audit?start="+$scope.start+"&rows="+$scope.rows)
+         if (typeof data == 'undefined') {
+            data = "";
+          }
+         $http.get(globalURL+"api/pistachio/audit?start="+$scope.start+"&rows="+$scope.rows+"&filter="+data)
          .success(function(response) {
            $scope.contents = response.content;
            $scope.totalPages = response.totalPages;
@@ -30,15 +34,25 @@ MetronicApp.controller('AuditController', function($rootScope, $scope, $http, $t
 
        $scope.next = function(){
          $scope.start++;
+         $scope.go()
        }
 
        $scope.previous = function(){
          $scope.start--;
-         if(scope.start<0)
-           $scope.start =0;
+         $scope.go();
        }
 
-       $scope.filter = function(){
+       $scope.filter = function(text){
+         var index = selected_filter.indexOf(text);    // <-- Not supported in <IE9
+         if (index !== -1) {
+           selected_filter.splice(index, 1);
+         }
+         else {
+           selected_filter.push(text);
+         }
+         console.log(selected_filter);
+         $scope.go(text);
+
 
        }
 

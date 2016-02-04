@@ -452,7 +452,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
 
                         'assets/admin/pages/scripts/index.js',
                         'assets/admin/pages/scripts/tasks.js',
-
+                        
                         'js/controllers/DashboardController.js'
                     ]
                 });
