@@ -100,7 +100,7 @@ var MetronicApp = angular
 
 /*MetronicApp.config(['$httpProvider',
 function($httpProvider) {
-    $httpProvider.defaults.withCredentials = true;
+    $httpProvider.defaults.withCredentials = false;
 
 }]);*/
 

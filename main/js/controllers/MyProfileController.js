@@ -5,7 +5,7 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
     $scope.$on('$viewContentLoaded', function() {
         Metronic.initAjax(); // initialize core components
 
- 		var getAuthority = localStorage.getItem("authorities");
+ 	//	var getAuthority = localStorage.getItem("authorities");
   //   alert(getAuthority);
  		var getToken = localStorage.getItem("token");
   //   alert(getToken);
@@ -13,6 +13,7 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
      .success(function(response) {
        $scope.firstName_1 = response.firstName;
        $scope.rank = response.rank;
+       $scope.email = response.email;
       // alert(response.firstName)
        $scope.setProfileInfo(response);
        $scope.noedit =true;
@@ -20,12 +21,29 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
 
       ;
 
-
-
-
-
-
     });
+
+    $scope.tabs = [{
+            title: 'One',
+            url: 'one.tpl.html'
+        }, {
+            title: 'Two',
+            url: 'two.tpl.html'
+        }, {
+            title: 'Three',
+            url: 'three.tpl.html'
+    }];
+
+    $scope.currentTab = 'one.tpl.html';
+
+    $scope.onClickTab = function (tab) {
+        $scope.currentTab = tab.url;
+    }
+
+    $scope.isActiveTab = function(tabUrl) {
+        return tabUrl == $scope.currentTab;
+    }
+
     $scope.edit = function(){
       $scope.noedit = false;
     };
@@ -42,7 +60,7 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
       $('#myprofile-state').val('not available');
       $('#myprofile-branch').val(info.branch);
       $('#myprofile-dept').val(info.department);
-      $('#myprofile-authority').val(getAuthority);
+    //  $('#myprofile-authority').val(getAuthority);
         $('#myprofile-lang').val((info.lang == "en") ? "English" : "Bahasa Malayu");
     };
 
