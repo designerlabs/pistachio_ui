@@ -6,7 +6,7 @@ var selectedLang = "";
 
 /* initiating the language */
 $(function(){
-    $("#selLang [name=en").attr('selected', 'selected');
+    $("#selLang [name=my").attr('selected', 'selected');
 });
 var Login = function() {
 
@@ -27,7 +27,7 @@ var Login = function() {
 
             messages: {
                 username: {
-                    required: "Username is required."
+                    required: "This field is required"
                 },
                 password: {
                     required: "Password is required."
@@ -243,21 +243,12 @@ var Login = function() {
             ignore: "",
             rules: {
 
-                fullname: {
+                firstname: {
                     required: true
                 },
                 email: {
                     required: true,
                     email: true
-                },
-                address: {
-                    required: true
-                },
-                city: {
-                    required: true
-                },
-                country: {
-                    required: true
                 },
 
                 username: {

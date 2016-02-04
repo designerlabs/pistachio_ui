@@ -42,7 +42,7 @@ var MetronicApp = angular
             'en_US': 'English',
             'ms_my': 'Bahasa Malayu'
         },
-        'preferredLocale': 'en_US'
+        'preferredLocale': 'ms_my'
     })
 
 // Angular Translate
@@ -148,8 +148,6 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 var globalURL = "http://pistachio_server:8080/";
 var queryString = "query";
 var categoryName = "cat";
-
-
 
 
 //validation on keyup

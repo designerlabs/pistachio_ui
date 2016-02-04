@@ -100,7 +100,7 @@
             <ul class="nav navbar-nav pull-right">
                 <!-- BEGIN NOTIFICATION DROPDOWN -->
                 <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-               <!--  <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
+                <!--  <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
                    <a href="#" class="dropdown-toggle" dropdown-menu-hover data-toggle="dropdown" data-close-others="true">
                        <i class="icon-bell"></i>
                        <span class="badge badge-default">
@@ -132,7 +132,7 @@
                 <!-- END INBOX DROPDOWN -->
                 <!-- BEGIN TODO DROPDOWN -->
                 <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-              <!--   <li class="dropdown dropdown-extended dropdown-tasks" id="header_task_bar">
+                <!--   <li class="dropdown dropdown-extended dropdown-tasks" id="header_task_bar">
                   <a href="#" class="dropdown-toggle" dropdown-menu-hover data-toggle="dropdown" data-close-others="true">
                       <i class="icon-calendar"></i>
                       <span class="badge badge-default">
@@ -147,7 +147,7 @@
               </li> -->
 
                 <li class="text-right">
-                  <div ng-translate-language-select></div>
+                    <div ng-translate-language-select></div>
                 </li>
                 <!-- END TODO DROPDOWN -->
                 <!-- BEGIN USER LOGIN DROPDOWN -->
@@ -160,11 +160,11 @@
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-default">
-                        <li>
+                        <!--<li>
                             <a id="btnmyProfile" href="#/myprofile.html">
                                 <i class="icon-user"></i> My Profile
                             </a>
-                        </li>
+                        </li>-->
                         <li>
                             <a href="" id="logoutBtn">
                                 <i class="icon-key"></i> Log Out </a>
@@ -187,30 +187,30 @@
 </div>
 <!-- END HEADER INNER -->
 <script>
-$("#logoutBtn").click(function(event) {
-    var getToken = localStorage.getItem("token");
-  $.getJSON(globalURL+'auth/logout?token='+getToken);
+    $("#logoutBtn").click(function (event) {
+        var getToken = localStorage.getItem("token");
+        $.getJSON(globalURL + 'auth/logout?token=' + getToken);
 
-    localStorage.removeItem("token");
-    localStorage.removeItem("sideMenuValue");
-    localStorage.removeItem("username");
-    localStorage.removeItem("reportCategoryID");
-    localStorage.removeItem("authorities");
-    window.location = "login.html";
-});
-// $("#logoutBtn").click(function(event) {
-//      window.location = "login.html";
-//     });
+        localStorage.removeItem("token");
+        localStorage.removeItem("sideMenuValue");
+        localStorage.removeItem("username");
+        localStorage.removeItem("reportCategoryID");
+        localStorage.removeItem("authorities");
+        window.location = "login.html";
+    });
+    // $("#logoutBtn").click(function(event) {
+    //      window.location = "login.html";
+    //     });
 
-$(function() {
-    var currentToken = localStorage.getItem("token");
-     var currentUserName = localStorage.getItem("username");
+    $(function () {
+        var currentToken = localStorage.getItem("token");
+        var currentUserName = localStorage.getItem("username");
 
 
-    if (currentToken) {
-        $(".img-circle").attr('src', 'assets/admin/layout2/img/mimos_logo_small.png');
-        $("span.username").html(currentUserName);
-    }
+        if (currentToken) {
+            $(".img-circle").attr('src', 'assets/admin/layout2/img/mimos_logo_small.png');
+            $("span.username").html(currentUserName);
+        }
 
-});
+    });
 </script>
