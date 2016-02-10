@@ -87,7 +87,7 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
                 // $.post( globalURL+'jasperreport/csv/' + selectedQueryRunId, function( data ) {});          
                 $.ajax({
                     url: globalURL+'jasperreport/csv/' + selectedQueryRunId,
-                    type: "POST",
+                    type: "GET",
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
                     data: selData
@@ -102,7 +102,7 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
             if (FrmTemplate=='Yes'){
                 $.ajax({
                     url: globalURL+'jasperreport/xls/' + selectedQueryRunId,
-                    type: "POST",
+                    type: "GET",
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
                     data: selData
@@ -117,7 +117,7 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
             if (FrmTemplate=='Yes'){
                 $.ajax({
                     url: globalURL+'jasperreport/pdf/' + selectedQueryRunId,
-                    type: "POST",
+                    type: "GET",
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
                     data: selData
