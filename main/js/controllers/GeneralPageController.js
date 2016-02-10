@@ -1,5 +1,5 @@
 /* Setup general page controller */
-var tableFunc, jobsDataFunc, selectedQueryRunId, reportCategoryID, fromDate, toDate = undefined;
+var tableFunc, jobsDataFunc, selectedQueryRunId, reportCategoryID, fromDate, toDate, FrmTemplate = undefined;
 
 //reportCategoryID =   $("#reportCategoryID").val();
 
@@ -603,20 +603,23 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             var _state = $('#temp-state')[0].value;
             var _dept = $('#temp-dept')[0].value;
             var _branch = $('#temp-branch')[0].value;
-            // console.log( globalURL+ 'jasperreport/' + fileformat + '/' + reportid);             
+            // console.log( globalURL+ 'jasperreport/' + fileformat + '/' + reportid);
+            var selTemplateVal = JSON.stringify({
+                                    fromDt: fromDate,
+                                    toDt : toDate,
+                                    state : _state,
+                                    dept  : _dept,
+                                    branch : _branch
+                                });
+            localStorage.setItem("selTemplateVal",selTemplateVal);
+
 
             $.ajax({
                     url: globalURL+queryString+'/' + reportid + "/exec",
                     type: "POST",
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify({
-                        fromDt: fromDate,
-                        toDt : toDate,
-                        state : _state,
-                        dept  : _dept,
-                        branch : _branch
-                    }),
+                    data: selTemplateVal,
                     success: function(result) {
                        
                         queryData.destroy();
@@ -774,11 +777,18 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         $('#queryContainer').on('click', 'button.runBtn', function() {
             var selectedRunQuery = queryData.row($(this).parents('tr')).data();
             selectedQueryRunId = selectedRunQuery.id;
+            FrmTemplate = '';
+            localStorage.setItem("selTemplateVal","");
             //alert(selectedQueryRunId);
         });
 
-
-
+         $('#queryContainer').on('click', 'button.TemplateBtn', function() {
+            var selectedRunQuery = queryData.row($(this).parents('tr')).data();
+            selectedQueryRunId = selectedRunQuery.id;
+            FrmTemplate = 'Yes';
+           localStorage.setItem("selTemplateVal","");
+            //alert(selectedQueryRunId);
+        });
 
         $('#queryContainerAdmin').on('click', 'button.runBtn', function() {
             var selectedRunQuery = queryData.row($(this).parents('tr')).data();

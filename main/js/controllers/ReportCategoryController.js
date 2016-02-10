@@ -83,17 +83,49 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
 
         $("#downloadBtn").click(function(event) {
             event.preventDefault(); //stop the browser from following
+            var selData = localStorage.getItem("selTemplateVal");
+            if (FrmTemplate=='Yes'){
+                // $.post( globalURL+'jasperreport/csv/' + selectedQueryRunId, function( data ) {});          
+                $.ajax({
+                    url: globalURL+'jasperreport/csv/' + selectedQueryRunId,
+                    type: "POST",
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    data: selData
+                });
+            }else{
             window.location.href = globalURL+'download/csv/' + selectedQueryRunId;
+            }            
         });
         
          $("#downloadBtnXLS").click(function(event) {
             event.preventDefault(); //stop the browser from following
+            if (FrmTemplate=='Yes'){
+                $.ajax({
+                    url: globalURL+'jasperreport/xls/' + selectedQueryRunId,
+                    type: "POST",
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    data: selData
+                });
+            }else{
             window.location.href = globalURL+'download/xls/' + selectedQueryRunId;
+            }
         });
         
          $("#downloadBtnPDF").click(function(event) {
             event.preventDefault(); //stop the browser from following
+            if (FrmTemplate=='Yes'){
+                $.ajax({
+                    url: globalURL+'jasperreport/pdf/' + selectedQueryRunId,
+                    type: "POST",
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    data: selData
+                });
+            }else{
             window.location.href = globalURL+'download/pdf/' + selectedQueryRunId;
+            }
         });
         //console.log($scope);
 
