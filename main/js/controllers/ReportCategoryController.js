@@ -79,11 +79,10 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
             
             
         };
-
+        var selData = localStorage.getItem("selTemplateVal");
 
         $("#downloadBtn").click(function(event) {
             event.preventDefault(); //stop the browser from following
-            var selData = localStorage.getItem("selTemplateVal");
             if (FrmTemplate=='Yes'){
                 // $.post( globalURL+'jasperreport/csv/' + selectedQueryRunId, function( data ) {});          
                 $.ajax({
