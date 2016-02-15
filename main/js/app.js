@@ -100,7 +100,7 @@ var MetronicApp = angular
 
 /*MetronicApp.config(['$httpProvider',
 function($httpProvider) {
-    $httpProvider.defaults.withCredentials = true;
+    $httpProvider.defaults.withCredentials = false;
 
 }]);*/
 
@@ -420,7 +420,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
 
     // Redirect any unmatched url
     //if (currentUserName == jimUserId || currentUserName == mimosUserId) {
-    $urlRouterProvider.otherwise("/dashboard.html");
+    $urlRouterProvider.otherwise("/dashboardchart.html");
     //}else{
     //  $urlRouterProvider.otherwise("/dashboard.html");
     //}
@@ -450,7 +450,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
 
                         'assets/admin/pages/scripts/index.js',
                         'assets/admin/pages/scripts/tasks.js',
-                        
+
                         'js/controllers/DashboardController.js'
                     ]
                 });
@@ -459,6 +459,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
     })
 
     .state('fastsearch', {
+
         url: "/fastsearch.html",
         templateUrl: "views/fastsearch/fs.html",
         data: {
@@ -1234,14 +1235,20 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                     files: [
+                        // 'assets/global/plugins/bootstrap-daterangepicker/moment.js',
+                        // 'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/select2/select2.css',
                         'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
                         'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
                         'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
-
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
+                       
                         'assets/global/plugins/select2/select2.min.js',
+
                         'assets/global/plugins/datatables/all.min.js',
-                        'js/scripts/table-advanced.js',
+                        'js/scripts/table-advanced.js',                        
+                        
+                        
 
                         'js/controllers/GeneralPageController.js'
                     ]
@@ -1645,18 +1652,20 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
 
     //My Profile page
     .state('myprofile', {
-        url: "/myprofile.html",
-        templateUrl: "views/profile/myprofile.html",
-        data: {
-            pageTitle: 'My Profile'
-        },
-        controller: "MyProfileController",
-        resolve: {
-            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                return $ocLazyLoad.load({
-                    name: 'MetronicApp',
-                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                    files: [
+
+            url: "/myprofile.html",
+            templateUrl: "views/profile/myprofile.html",
+            data: {
+                pageTitle: 'My Profile'
+            },
+            controller: "MyProfileController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+			'assets/pages/css/profile.css',
                         'js/controllers/MyProfileController.js'
                         ]
                 });

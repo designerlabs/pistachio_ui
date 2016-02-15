@@ -1,6 +1,5 @@
 /* Setup general page controller */
-var tableFunc, jobsDataFunc, selectedQueryRunId, reportCategoryID = undefined;
-
+var tableFunc, jobsDataFunc, selectedQueryRunId, reportCategoryID, fromDate, toDate, FrmTemplate = undefined;
 
 //reportCategoryID =   $("#reportCategoryID").val();
 
@@ -29,8 +28,8 @@ function onResize1() {
 
 
 /* GeneralPageController starts */
-MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http', 'settings', 'authorities',  function($rootScope, $scope, $http, settings, authorities) {
-    $scope.$on('$viewContentLoaded', function() {
+MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http', 'settings', 'authorities', function ($rootScope, $scope, $http, settings, authorities) {
+    $scope.$on('$viewContentLoaded', function () {
         $("#databaseList").show();
         $("#tableList").hide();
         $scope.chkRole = authorities.checkRole;
@@ -38,7 +37,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         $scope.reportPrivilege = JSON.parse($scope.getReportPrivilege);
 
 
-        $("#dataManagement").click(function(){
+        $("#dataManagement").click(function () {
             $("#sidebarMenu li").removeClass("active");
             $(this).addClass('active');
         });
@@ -47,30 +46,30 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         Metronic.initAjax();
         var databases;
         $scope.authoritiesValue = localStorage.getItem('authorities');
-         
+
         $scope.res = $scope.authoritiesValue.split(",");
         $scope.roles = $scope.res;
-/*
-        $scope.checkRole = function(x){
-            alert(x);
-            //alert(x + " Admin");
-            var arrayChk = $.inArray(x,$scope.roles);
-            if(arrayChk != -1){
-             return true;
-            }else{
-             return false;
-            }
+        /*
+                $scope.checkRole = function(x){
+                    alert(x);
+                    //alert(x + " Admin");
+                    var arrayChk = $.inArray(x,$scope.roles);
+                    if(arrayChk != -1){
+                     return true;
+                    }else{
+                     return false;
+                    }
 
-        }*/
+                }*/
         $('#lblReportTitle').text(localStorage.getItem('reportCategoryTitle'));
-        
+
         function databaseDataFunc() {
             databases = $('#databaseData').DataTable({
 
                 "ajax": {
                     "processing": true,
                     "serverSide": true,
-                    "url": globalURL+"etl/databases",
+                    "url": globalURL + "etl/databases",
                     "dataSrc": ""
                 },
                 "columns": [{
@@ -85,7 +84,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     }, {
                         "data": "action",
                         "width": "35%",
-                        "render": function(data, type, full, meta) {
+                        "render": function (data, type, full, meta) {
                             return '<button class="btn btn-success btn-sm tableView"><i class="fa fa-eye"></i> view</button><button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
                         }
                     }
@@ -93,11 +92,11 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             });
         }
 
-        
+
 
 
         formInputValidation("#databaseForm");
-        $("#databaseUISubmit").click(function(event) {
+        $("#databaseUISubmit").click(function (event) {
             var databaseNameVal = $("#databaseForm #database-name").val();
             var databaseTypeVal = $("#databaseForm #database-type").val();
             var databaseURLVal = $("#databaseForm #database-url").val();
@@ -108,7 +107,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
             function databaseAjax() {
                 $.ajax({
-                        url: globalURL+"etl/databases",
+                        url: globalURL + "etl/databases",
                         type: "POST",
                         dataType: 'json',
                         contentType: "application/json; charset=utf-8",
@@ -124,13 +123,13 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
                         })
                     })
-                    .done(function() {
+                    .done(function () {
                         databases.destroy();
                         databaseDataFunc();
                         $("#databaseAddForm").modal('hide');
                         $("#databaseRequire").hide();
                     })
-                    .fail(function(data) {
+                    .fail(function (data) {
                         //console.log(data.responseJSON.error);
                         $("#databaseRequire span").html(data.responseJSON.error);
                         $("#databaseRequire").show();
@@ -144,13 +143,13 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
         // configuration
         var configuration;
-        configurationDataFunc = function() {
+        configurationDataFunc = function () {
             configuration = $('#config').DataTable({
 
                 "ajax": {
                     "processing": true,
                     "serverSide": true,
-                    "url": globalURL+"config",
+                    "url": globalURL + "config",
                     "dataSrc": ""
                 },
                 "columns": [{
@@ -164,7 +163,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 }, {
                     "data": "action",
                     "width": "22%",
-                    "render": function(data, type, full, meta) {
+                    "render": function (data, type, full, meta) {
                         return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
                     }
                 }]
@@ -175,7 +174,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
 
         formInputValidation("#configForm");
-        $("#configUISubmit").click(function(event) {
+        $("#configUISubmit").click(function (event) {
             var configNameVal = $("#configForm #config-name").val();
             var configVal = $("#configForm #config-value").val();
             var configApp = $("#configForm #config-application").val();
@@ -183,7 +182,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
             function configAjax() {
                 $.ajax({
-                        url: globalURL+"config/",
+                        url: globalURL + "config/",
                         type: "POST",
                         dataType: 'json',
                         contentType: "application/json; charset=utf-8",
@@ -193,14 +192,14 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                             application: configApp
                         })
                     })
-                    .done(function() {
+                    .done(function () {
                         configuration.destroy();
                         configurationDataFunc();
                         //$("#configForm input").parent('.form-group').removeClass('has-error');
                         $("#configAddForm").modal('hide');
                         $("#configRequire").hide();
                     })
-                    .fail(function(data) {
+                    .fail(function (data) {
                         //console.log(data.responseJSON.error);
                         $("#configRequire span").html(data.responseJSON.error);
                         $("#configRequire").show();
@@ -213,7 +212,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         configurationDataFunc();
 
         var selectedConfigId = undefined;
-        $('#config').on('click', 'button.updateBtn', function() {
+        $('#config').on('click', 'button.updateBtn', function () {
             $("#configForm input").parent('.form-group').removeClass('has-error');
             var selectedConfig = configuration.row($(this).parents('tr')).data();
             selectedConfigId = selectedConfig.id;
@@ -227,13 +226,13 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         });
 
 
-        $("#configUIUpdate").click(function(event) {
+        $("#configUIUpdate").click(function (event) {
             var configNameVal = $("#configForm #config-name").val();
             var configVal = $("#configForm #config-value").val();
             var configApp = $("#configForm #config-application").val();
             //alert(selectedQueryId);
             $.ajax({
-                    url: globalURL+"config/",
+                    url: globalURL + "config/",
                     type: "PUT",
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
@@ -244,36 +243,36 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         application: configApp
                     })
                 })
-                .done(function(data) {
+                .done(function (data) {
                     configuration.destroy();
                     configurationDataFunc();
                     $("#configAddForm").modal('hide');
                     //selectedQueryId = null;
                 })
-                .fail(function() {
+                .fail(function () {
                     alert('Failed!');
                 });
         });
 
         var selectedConfigForDelete;
-        $('#config').on('click', 'button.deleteBtn', function() {
+        $('#config').on('click', 'button.deleteBtn', function () {
             $("#configDelete").modal('show');
             selectedConfigForDelete = configuration.row($(this).parents('tr')).data();
             $("#configDelete .modal-body h3").html('Are you sure do you want to<br>delete the config <strong>' + selectedConfigForDelete.configName + '</strong> ?');
         });
 
-        $('#configDataDeleteBtn').click(function(event) {
+        $('#configDataDeleteBtn').click(function (event) {
 
             $.ajax({
-                url: globalURL+'config/' + selectedConfigForDelete.id,
+                url: globalURL + 'config/' + selectedConfigForDelete.id,
                 type: 'DELETE',
-                success: function(result) {
+                success: function (result) {
                     // Do something with the result
                     configuration.destroy();
                     configurationDataFunc();
                     $("#configDelete").modal('hide');
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $("#configErrorTitle").html(XMLHttpRequest.responseJSON.error);
                     $("#configDeleteErrorMsg").modal('show');
                     $("#configDelete").modal('hide');
@@ -284,13 +283,13 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
 
         var jobsData;
-        jobsDataFunc = function() {
+        jobsDataFunc = function () {
             jobsData = $('#jobsContainer').DataTable({
 
                 "ajax": {
                     "processing": true,
                     "serverSide": true,
-                    "url": globalURL+"etl/jobs",
+                    "url": globalURL + "etl/jobs",
                     "dataSrc": ""
                 },
                 "columns": [{
@@ -301,7 +300,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     "data": "status"
                 }, {
                     "data": "progress",
-                    "render": function(data, type, full, meta) {
+                    "render": function (data, type, full, meta) {
                         /*return '<div class="progress progress-striped">'
                                     +'<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="'+data+'" aria-valuemin="0" aria-valuemax="100" style="width: '+data+'%">'
                                         +'<span class="sr-only">'
@@ -325,15 +324,15 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 }, {
                     "data": "status",
                     "width": "52%",
-                    "render": function(data, type, full, meta) {
+                    "render": function (data, type, full, meta) {
                         //if ((data == "JOB_RUNNING") || (data == "JOB_COMPLETED")) {
                         //return '<button class="btn btn-success btn-sm" disabled><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm" disabled><i class="fa fa-times"></i> Delete</button>';
                         //} else {
 
                         if (data == "JOB_CREATED") {
-                        return '<button class="btn btn-success btn-sm btn1"><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm btn2"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-info btn-sm btn3"><i class="fa fa-clock-o"></i> Schedule</button>';
+                            return '<button class="btn btn-success btn-sm btn1"><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm btn2"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-info btn-sm btn3"><i class="fa fa-clock-o"></i> Schedule</button>';
                         } else {
-                        return '<button class="btn btn-success btn-sm btn1"><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm btn2"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-info btn-sm btn3" disabled><i class="fa fa-clock-o"></i> Schedule</button>';
+                            return '<button class="btn btn-success btn-sm btn1"><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm btn2"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-info btn-sm btn3" disabled><i class="fa fa-clock-o"></i> Schedule</button>';
                         }
                     }
 
@@ -347,122 +346,211 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
         var queryData;
         //console.log(categoryId);
-        queryDataFunc = function() {
-    
+        queryDataFunc = function () {
+
             //if($scope.chkRole('ROLE_ADMIN')){
-            if($scope.reportPrivilege){
-            queryData = $('#queryContainer').DataTable({
+            if ($scope.reportPrivilege) {
+                queryData = $('#queryContainer').DataTable({
 
-                "ajax": {
-                    "processing": true,
-                    "serverSide": true,
-                    "url": globalURL+queryString+"?"+categoryName+"="+reportCategoryID,
-                    "dataSrc": ""
-                },
-                "columns": [{
-                    "data": "id"
+                    "ajax": {
+                        "processing": true,
+                        "serverSide": true,
+                        "url": globalURL + queryString + "?" + categoryName + "=" + reportCategoryID,
+                        "dataSrc": ""
+                    },
+                    "columns": [{
+                        "data": "id"
                 }, {
-                    "data": "queryName"
+                        "data": "queryName"
                 }, {
-                    "data": "query"
+                        "data": "query"
                 }, {
-                    "data": "reportFileName",                    
-                    "render": function(data, type, full, meta) {
-                        // alert(data);
-                       if(data == null){
-                         return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-eye"></i> View</button></a>';   
-                       }else{                        
-                         return '<a href="#"><button class="btn btn-warning btn-sm TemplateBtn details-control"><i class="fa fa-plus-circle"></i> Expand</button></a>';   
-                       }                         
-                    }                   
+                        "data": "reportFileName",
+                        "render": function (data, type, full, meta) {
+                            // alert(data);
+                            if (data == null) {
+                                return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-eye"></i> View</button></a>';
+                            } else {
+                                return '<a href="#"><button class="btn btn-warning btn-sm TemplateBtn details-control"><i class="fa fa-plus-circle"></i> Expand</button></a>';
+                            }
+                        }
                 }, {
-                    "data": "action",
-                    "width": "22%",
-                    "render": function(data, type, full, meta) {
-                    return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';   
-                    }
+                        "data": "action",
+                        "width": "22%",
+                        "render": function (data, type, full, meta) {
+                            return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
+                        }
                 }]
-            })
-        }else{
-            queryData = $('#queryContainerAdmin').DataTable({
+                })
+            } else {
+                queryData = $('#queryContainerAdmin').DataTable({
 
-                "ajax": {
-                    "processing": true,
-                    "serverSide": true,
-                    "url": globalURL+queryString+"?"+categoryName+"="+reportCategoryID,
-                    "dataSrc": ""
-                },
-                "columns": [ {
-                    "data": "queryName"
+                    "ajax": {
+                        "processing": true,
+                        "serverSide": true,
+                        "url": globalURL + queryString + "?" + categoryName + "=" + reportCategoryID,
+                        "dataSrc": ""
+                    },
+                    "columns": [{
+                        "data": "queryName"
                 }, {
-                    "data": "execute",
-                    "render": function(data, type, full, meta) {
-                       
-                            return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';   
-                         
-                    }
-                   /* "render": function(data, type, full, meta) {
-                        return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
-                    }*/
+                        "data": "execute",
+                        "render": function (data, type, full, meta) {
+
+                                return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
+
+                            }
+                            /* "render": function(data, type, full, meta) {
+                                 return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
+                             }*/
                 }]
-            })
+                })
+            };
+
         };
 
-        };
-		
         // Add event listener for opening and closing details
         $('#queryContainer').on('click', '.details-control', function () {
             var tr = $(this).closest('tr');
-            var row = queryData.row( tr );
-     
-            if ( row.child.isShown() ) {
+            var row = queryData.row(tr);
+
+            // if( $('#childRow').length > 0){
+            //     $('#childRow').parent().parent().prev('tr').removeClass('shown');
+            //     $('#childRow').parent().parent().remove();
+            //     // tr.removeClass('shown');
+            // }else{
+            //     row.child(format(row.data())).show();
+            //     tr.addClass('shown');
+            //     createCalenderCtrl();
+            // }
+
+
+            if (row.child.isShown()) {
                 // This row is already open - close it
                 row.child.hide();
+                // $('#childRow').parent().parent().remove();
                 tr.removeClass('shown');
-            }
-            else {
+            } else {
                 // Open this row
+                if ($('#childRow').length > 0) {
+                    $('#childRow').parent().parent().prev('tr').removeClass('shown');
+                    $('#childRow').parent().parent().remove();
+                    tr.removeClass('shown');
+                }
+
                 row.child(format(row.data())).show();
                 tr.addClass('shown');
-            }
-        } );
-                    /* Formatting function for row details - modify as you need */
-            function format ( d ) {
-                // `d` is the original data object for the row
-                return '<table cellpadding="5" class="table table-striped table-bordered table-hover" cellspacing="0" '+
-                        'border="0" style="padding-left:50px;text-align:center;width:60%">'+
-                    '<tr>'+
-                        '<td colspan="2"><strong>Selected Template is : '+ d.reportFileName +'</strong></td>'+
-                    '</tr>'+
-                    '<tr>'+
-                        '<td>From : </td>'+
-                        '<td><input type="text" class="col-md-6"></td>'+
-                        '<td>To : </td>'+
-                        '<td><input type="text" class="col-md-6"></td>'+
-                    '</tr>'+
-                    '<tr>'+
-                        '<td colspan="2">State name:</td>'+
-                        '<td colspan="2"><input type="text" class="col-md-12"></td>'+
-                    '</tr>'+
-                    '<tr>'+
-                        '<td colspan="2">Branch name:</td>'+
-                        '<td colspan="2"><input type="text" class="col-md-12"></td>'+
-                    '</tr>'+
-                    '<tr>'+                     
-                        '<td colspan="4"><button type="button" class="btn btn-success"><i class="fa fa-check"></i>RUN TEMPLATE</button>'+
-                        '<button type="button" class="btn btn-danger"><i class="fa fa-times"></i>RESET</button></td>'+
-                    '</tr>'+
-                '</table>';
-            }
+                // $('#reportrange').daterangepicker();
+                createCalenderCtrl();
+                $.getJSON(globalURL + "api/user/reference/dept", function (json) {
+                    $(".department").select2({
+                        data: json,
+                        minimumInputLength: 2
+                    });
+                });
 
-		var reportPermitMasukData;
-        queryMasukFunc = function() {
+            }
+        });
+
+        /* Formatting function for row details - modify as you need */
+        function format(d) {
+            // `d` is the original data object for the row             
+
+            return '<form id="childRow" class="form-horizontal form-bordered" action="#">' +
+                '<div class="form-body">' +
+                '<div class="form-group">' +
+                '<label class="control-label col-md-3">Selected Template Name </label>' +
+                '<div class="col-md-4" style="padding-top: 8px;">' +
+                '<Strong> ' + d.reportFileName + ' </Strong>' +
+                '<input id="temp-reportid" type="hidden" value=' + d.id + '>' +
+                '</div>' +
+                '</div>' +
+                '<div class="form-group ">' +
+                '<label class="control-label col-md-3">Choose date </label>' +
+                '<div class="col-md-4">' +
+                '<div class="btn default form-control" id="reportrange">' +
+                '<i class="fa fa-calendar"></i> &nbsp;' +
+                '<span>From and To </span>' +
+                '<b class="fa fa-angle-down"></b>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+
+                '<div class="form-group">' +
+                '<label class="control-label col-md-3">State </label>' +
+                '<div class="col-md-4">' +
+                '<input id="temp-state" type="text" class="form-control">' +
+                '</div>' +
+                '</div>' +
+                '<div class="form-group">' +
+                '<label class="control-label col-md-3">Branch </label>' +
+                '<div class="col-md-4">' +
+                '<input id="temp-branch" type="text" class="form-control">' +
+                '</div>' +
+                '</div>' +
+                '<div class="form-group">' +
+                '<label class="control-label col-md-3">Department </label>' +
+                '<div class="col-md-4">' +
+                '<input id="temp-dept" type="text" class="form-control department">' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="form-actions">' +
+                ' <div class="row">' +
+                '<div class="col-md-offset-3 col-md-9">' +
+                '<a href="#/queryExe.html"  class="btn btn-success btn-sm btnRunTemp"><i class="fa fa-eye"></i> View </a>' +
+                ' <a href="#" class="btn btn-sm btn-warning" id="btnReset"><i class="fa fa-refresh"></i> Reset</a>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</form>';
+        }
+
+
+        $.getJSON(globalURL + "api/user/reference/dept", function (json) {
+            $(".department").select2({
+                data: json,
+                minimumInputLength: 2
+            });
+        });
+
+
+        $.getJSON(globalURL + "api/user/reference/rank", function (json) {
+            $(".rank").select2({
+                data: json,
+                minimumInputLength: 2
+            });
+        });
+
+        $.getJSON(globalURL + "api/user/reference/unit", function (json) {
+            $(".unit").select2({
+                data: json,
+                minimumInputLength: 2
+            });
+        });
+
+        $.getJSON(globalURL + "api/user/reference/branch", function (json) {
+            $(".branch").select2({
+                data: json,
+                minimumInputLength: 2
+            });
+        });
+
+        $.getJSON(globalURL + "api/user/reference/state", function (json) {
+            $(".state").select2({
+                data: json,
+                minimumInputLength: 2
+            });
+        });
+
+        var reportPermitMasukData;
+        queryMasukFunc = function () {
             reportPermitMasukData = $('#reportPermitMasukContainer').DataTable({
 
                 "ajax": {
                     "processing": true,
                     "serverSide": true,
-                    "url": globalURL+queryString+"?cat=masuk",
+                    "url": globalURL + queryString + "?cat=masuk",
                     "dataSrc": ""
                 },
                 "columns": [{
@@ -473,7 +561,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     "data": "query"
                 }, {
                     "data": "execute",
-                    "render": function(data, type, full, meta) {
+                    "render": function (data, type, full, meta) {
                         return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
                     }
 
@@ -481,62 +569,241 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 }, {
                     "data": "action",
                     "width": "22%",
-                    "render": function(data, type, full, meta) {
+                    "render": function (data, type, full, meta) {
                         return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
                     }
                 }]
             });
 
         }
-		
+
+        function createCalenderCtrl() {
+            // $("#reportrange").daterangepicker({
+            //          // opens: App.isRTL() ? "left" : "right",
+            //          startDate: moment().subtract(29,"days"),
+            //          endDate: moment(),
+            //          minDate: "01/01/1900",
+            //          maxDate: "12/31/2900",
+            //          dateLimit: {
+            //              days: 60
+            //          },
+            //          showDropdowns: !0,
+            //          showWeekNumbers: !0,
+            //          timePicker: !1,
+            //          timePickerIncrement: 1,
+            //          timePicker12Hour: !0,
+            //          ranges: {
+            //              Today: [moment(), moment()],
+            //              Yesterday: [moment().subtract(1,"days"), moment().subtract(1,"days")],
+            //              "Last 7 Days": [moment().subtract(6,"days"), moment()],
+            //              "Last 30 Days": [moment().subtract(29,"days"), moment()],
+            //              "This Month": [moment().startOf("month"), moment().endOf("month")],
+            //              "Last Month": [moment().subtract("month", 1).startOf("month"), moment().subtract(1,"month").endOf("month")]
+            //          },
+            //          buttonClasses: ["btn"],
+            //          applyClass: "green",
+            //          cancelClass: "default",
+            //          format: "MM/DD/YYYY",
+            //          separator: " to ",
+            //          locale: {
+            //              applyLabel: "Apply",
+            //              fromLabel: "From",
+            //              toLabel: "To",
+            //              customRangeLabel: "Custom Range",
+            //              daysOfWeek: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+            //              monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+            //              firstDay: 1
+            //          }
+            //      },
+            //       function(startdt, enddt) {
+            //          $("#reportrange span").html(startdt.format("MMMM D, YYYY") + " - " + enddt.format("MMMM D, YYYY"))
+            //          fromDate=startdt;
+            //          toDate=enddt;
+            //      }),
+            //       $("#reportrange span").html(moment().subtract(29,"days").format("DD-MM-YYYY") + " - " + moment().format("DD-MM-YYYY"));
+
+            $('#reportrange').daterangepicker({
+
+            });
+        }
+
+        $('#queryContainer').on('apply.daterangepicker', function (ev, picker) {
+
+            $("#reportrange span").html(picker.startDate.format("MMMM D, YYYY") + " - " + picker.endDate.format("MMMM D, YYYY"))
+            fromDate = picker.startDate.format('YYYYMMDD');
+            toDate = picker.endDate.format('YYYYMMDD');
+        });
+
+        $('#queryContainer').on('cancel.daterangepicker', function (ev, picker) {
+            // alert("on cancel");
+        });
+
+        // formInputValidation("#queryForm");
+        $('#queryContainer').on('click', '.btnRunTemp', function () {
+            console.log(fromDate + ' - ' + toDate);
+            var reportid = $('#temp-reportid')[0].value;
+            var _state = $('#temp-state')[0].value;
+            var _dept = $('#temp-dept')[0].value;
+            var _branch = $('#temp-branch')[0].value;
+            // console.log( globalURL+ 'jasperreport/' + fileformat + '/' + reportid);
+            var selTemplateVal = JSON.stringify({
+                fromDt: fromDate,
+                toDt: toDate,
+                state: _state,
+                dept: _dept,
+                branch: _branch
+            });
+            localStorage.setItem("selTemplateVal", selTemplateVal);
+
+
+            $.ajax({
+                url: globalURL + queryString + '/' + reportid + "/exec",
+                type: "POST",
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                data: selTemplateVal,
+                success: function (result) {
+
+                    queryData.destroy();
+                    queryDataFunc();
+
+                    resultOutputCol = jQuery.parseJSON(result.columns);
+                    resultOutput = jQuery.parseJSON(result.results);
+
+
+                    if (resultOutput != null && resultOutput.length > 0) {
+                        var myArrayColumn = [];
+                        var i = 0;
+
+                        $.each(resultOutputCol, function (index, val) {
+                            //console.log(val);
+                            var obj = {
+                                sTitle: val
+                            };
+                            myArrayColumn[i] = obj;
+                            i++;
+                        });
+
+                        var myArrayRow = [];
+                        var i = 0;
+
+                        $.each(resultOutput, function (index, val) {
+                            var rowData = [];
+                            var j = 0;
+                            $.each(resultOutput[i], function (index, val) {
+                                //console.log(val);
+                                rowData[j] = val;
+                                j++;
+                            });
+
+                            myArrayRow[i] = rowData;
+                            i++;
+                        });
+
+                        function queryUIFunc() {
+                            queryUI = $("#jqueryRunData").dataTable({
+                                "bDestroy": true,
+                                "bScrollCollapse": true,
+                                "bJQueryUI": true,
+                                "bScrollCollapse": true,
+                                "bInfo": true,
+                                "bFilter": true,
+                                "bSort": true,
+                                "aaData": myArrayRow,
+                                "aoColumns": myArrayColumn,
+                                "scrollCollapse": true,
+                                "paging": true
+                            });
+                        }
+
+                        queryUIFunc();
+
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Status: " + textStatus);
+                    alert("Error: " + errorThrown);
+                }
+            }).done(function () {
+                // alert("Post done successfully");
+            }).fail(function (data) {
+                // alert("Poset exec url falied");
+            });
+
+            // $.ajax({
+            //     url: globalURL+ 'jasperreport/' + fileformat + '/' + reportid,
+            //     type: "POST",
+            //     dataType: 'json',
+            //     contentType: "application/json; charset=utf-8",
+            //     data: JSON.stringify({
+            //         fromDt: fromDate,
+            //         toDt : toDate,
+            //         state : "tst",
+            //         dept  : "hello",
+            //         branch : "bb"
+
+            //     })
+            // })
+            // .done(function() {
+
+
+            // })
+            // .fail(function(data) {
+
+            // });
+
+
+        });
+
+
 
 
         formInputValidation("#queryForm");
-        $("#queryUISubmit").click(function(event) {
+        $("#queryUISubmit").click(function (event) {
             var queryNameVal = $("#queryForm #query-name").val();
             var queryTextVal = $("#queryForm #query-text").val();
             var queryTemplateVal = $("#queryForm #query-template").val();
 
             inputValidation("#queryForm", queryAjax);
 
-            function queryAjax(){
+            function queryAjax() {
                 $.ajax({
-                    url: globalURL+queryString+"/",
-                    type: "POST",
-                    dataType: 'json',
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify({
-                        queryName: queryNameVal,
-                        query: queryTextVal,
-                        reportFileName: queryTemplateVal,
-                        category:reportCategoryID,
-                        cached: null
+                        url: globalURL + queryString + "/",
+                        type: "POST",
+                        dataType: 'json',
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({
+                            queryName: queryNameVal,
+                            query: queryTextVal,
+                            reportFileName: queryTemplateVal,
+                            category: reportCategoryID,
+                            cached: null
+                        })
                     })
-                })
-                .done(function() {
-                    queryData.destroy();
-                    queryDataFunc();
-					queryMasukFunc();
-                    $("#queryAddForm").modal('hide');
-                    $("#queryRequire").hide();
-                })
-                .fail(function(data) {
-                    //console.log(data.responseJSON.error);
-                    $("#queryRequire span").html(data.responseJSON.error);
-                    $("#queryRequire").show();
-                    //alert('Failed!');
-                });
+                    .done(function () {
+                        queryData.destroy();
+                        queryDataFunc();
+                        queryMasukFunc();
+                        $("#queryAddForm").modal('hide');
+                        $("#queryRequire").hide();
+                    })
+                    .fail(function (data) {
+                        //console.log(data.responseJSON.error);
+                        $("#queryRequire span").html(data.responseJSON.error);
+                        $("#queryRequire").show();
+                        //alert('Failed!');
+                    });
             }
 
-            
-        });
-        
 
-        
+        });
+
+
+
         queryDataFunc();
-		queryMasukFunc();
+        queryMasukFunc();
         var selectedQueryId = undefined;
-        $('#queryContainer').on('click', 'button.updateBtn', function() {
+        $('#queryContainer').on('click', 'button.updateBtn', function () {
             var selectedQuery = queryData.row($(this).parents('tr')).data();
             selectedQueryId = selectedQuery.id;
             $("#queryAddForm #queryUISubmit").addClass('hide');
@@ -549,43 +816,50 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
         });
 
-        $('#queryContainer').on('click', 'button.runBtn', function() {
+        $('#queryContainer').on('click', 'button.runBtn', function () {
+            var selectedRunQuery = queryData.row($(this).parents('tr')).data();
+            selectedQueryRunId = selectedRunQuery.id;
+            FrmTemplate = '';
+            localStorage.setItem("selTemplateVal", "");
+            //alert(selectedQueryRunId);
+        });
+
+        $('#queryContainer').on('click', 'button.TemplateBtn', function () {
+            var selectedRunQuery = queryData.row($(this).parents('tr')).data();
+            selectedQueryRunId = selectedRunQuery.id;
+            FrmTemplate = 'Yes';
+            localStorage.setItem("selTemplateVal", "");
+            //alert(selectedQueryRunId);
+        });
+
+        $('#queryContainerAdmin').on('click', 'button.runBtn', function () {
             var selectedRunQuery = queryData.row($(this).parents('tr')).data();
             selectedQueryRunId = selectedRunQuery.id;
             //alert(selectedQueryRunId);
         });
 
 
-
-
-        $('#queryContainerAdmin').on('click', 'button.runBtn', function() {
-            var selectedRunQuery = queryData.row($(this).parents('tr')).data();
-            selectedQueryRunId = selectedRunQuery.id;
-            //alert(selectedQueryRunId);
-        });
-
-        
 
 
         var selectedQueryForDelete;
-        $('#queryContainer').on('click', 'button.deleteBtn', function() {
+        $('#queryContainer').on('click', 'button.deleteBtn', function () {
             $("#queryDataDelete").modal('show');
             selectedQueryForDelete = queryData.row($(this).parents('tr')).data();
             $("#queryDataDelete .modal-body h3").html('Are you sure do you want to<br>delete the query <strong>' + selectedQueryForDelete.queryName + '</strong>?');
         });
 
-        $('#queryDataDeleteBtn').click(function(event) {
+        $('#queryDataDeleteBtn').click(function (event) {
 
             $.ajax({
-                url: globalURL+queryString+'/' + selectedQueryForDelete.id,
+                url: globalURL + queryString + '/' + selectedQueryForDelete.id,
                 type: 'DELETE',
-                success: function(result) {
+                success: function (result) {
                     // Do something with the result
                     queryData.destroy();
                     queryDataFunc();
                     $("#queryDataDelete").modal('hide');
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
                     //alert("Status: " + textStatus);
                     //alert("Error: " + errorThrown);
                     $("#queryErrorTitle").html(XMLHttpRequest.responseJSON.error);
@@ -597,14 +871,14 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         });
         var queryUI, resultOutput;
 
-        $('#queryContainer').on('click', 'button.runBtn', function() {
+        $('#queryContainer').on('click', 'button.runBtn', function () {
             //$("#jqueryRunData").remove();
             var selectedQueryForExecute = queryData.row($(this).parents('tr')).data();
             $.ajax({
-                    url: globalURL+queryString+'/' + selectedQueryForExecute.id + "/exec",
+                    url: globalURL + queryString + '/' + selectedQueryForExecute.id + "/exec",
                     type: 'GET',
                     timeout: 50000000,
-                    success: function(result) {
+                    success: function (result) {
                         //$("#QueryUIList").hide();
                         //$("#QueryUIListRun, #jqueryRunData").show();
                         // Do something with the result
@@ -621,7 +895,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                             var myArrayColumn = [];
                             var i = 0;
 
-                            $.each(resultOutputCol, function(index, val) {
+                            $.each(resultOutputCol, function (index, val) {
                                 //console.log(val);
                                 var obj = {
                                     sTitle: val
@@ -633,10 +907,10 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                             var myArrayRow = [];
                             var i = 0;
 
-                            $.each(resultOutput, function(index, val) {
+                            $.each(resultOutput, function (index, val) {
                                 var rowData = [];
                                 var j = 0;
-                                $.each(resultOutput[i], function(index, val) {
+                                $.each(resultOutput[i], function (index, val) {
                                     //console.log(val);
                                     rowData[j] = val;
                                     j++;
@@ -666,30 +940,30 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
                         }
                     },
-                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
                         alert("Status: " + textStatus);
                         alert("Error: " + errorThrown);
                     }
                 })
-                .done(function() {
+                .done(function () {
                     queryData.destroy();
                     queryDataFunc();
                 })
-                .fail(function() {
+                .fail(function () {
                     alert('Failed!');
                 });
         });
 
 
 
-        $('#queryContainerAdmin').on('click', 'button.runBtn', function() {
+        $('#queryContainerAdmin').on('click', 'button.runBtn', function () {
             //$("#jqueryRunData").remove();
             var selectedQueryForExecute = queryData.row($(this).parents('tr')).data();
 
             $.ajax({
-                    url: globalURL+queryString+'/' + selectedQueryForExecute.id + "/exec",
+                    url: globalURL + queryString + '/' + selectedQueryForExecute.id + "/exec",
                     type: 'GET',
-                    success: function(result) {
+                    success: function (result) {
                         //$("#QueryUIList").hide();
                         //$("#QueryUIListRun, #jqueryRunData").show();
                         // Do something with the result
@@ -706,7 +980,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                             var myArrayColumn = [];
                             var i = 0;
 
-                            $.each(resultOutputCol, function(index, val) {
+                            $.each(resultOutputCol, function (index, val) {
                                 console.log(val);
                                 var obj = {
                                     sTitle: val
@@ -718,10 +992,10 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                             var myArrayRow = [];
                             var i = 0;
 
-                            $.each(resultOutput, function(index, val) {
+                            $.each(resultOutput, function (index, val) {
                                 var rowData = [];
                                 var j = 0;
-                                $.each(resultOutput[i], function(index, val) {
+                                $.each(resultOutput[i], function (index, val) {
                                     rowData[j] = val;
                                     j++;
                                 });
@@ -750,27 +1024,27 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
                         }
                     },
-                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
                         alert("Execution falied, Please re-try after some time!");
                         //alert("Error: " + errorThrown);
                     }
                 })
-                .done(function() {
+                .done(function () {
                     queryData.destroy();
                     queryDataFunc();
                 })
-                .fail(function() {
-                    
+                .fail(function () {
+
                 });
         });
 
 
-        $("#queryUIUpdate").click(function(event) {
+        $("#queryUIUpdate").click(function (event) {
             var queryNameValUpdated = $("#queryForm #query-name").val();
             var queryTextValUpdated = $("#queryForm #query-text").val();
             //alert(selectedQueryId);
             $.ajax({
-                    url: globalURL+queryString+"/",
+                    url: globalURL + queryString + "/",
                     type: "PUT",
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
@@ -781,12 +1055,12 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         cached: null
                     })
                 })
-                .done(function(data) {
+                .done(function (data) {
                     queryData.destroy();
                     queryDataFunc();
                     //selectedQueryId = null;
                 })
-                .fail(function() {
+                .fail(function () {
                     alert('Failed!');
                 });
         });
@@ -794,7 +1068,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
 
         var selectedDatabaseId = undefined;
-        $('#databaseData').on('click', 'button.updateBtn', function() {
+        $('#databaseData').on('click', 'button.updateBtn', function () {
             var selectedDatabase = databases.row($(this).parents('tr')).data();
             selectedDatabaseId = selectedDatabase.id;
             $("#databaseAddForm #databaseUISubmit").addClass('hide');
@@ -811,7 +1085,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
 
 
-        $("#databaseUIUpdate").click(function(event) {
+        $("#databaseUIUpdate").click(function (event) {
 
             var databaseUpdateNameVal = $("#databaseForm #database-name").val();
             var databaseUpdateTypeVal = $("#databaseForm #database-type").val();
@@ -821,7 +1095,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             var databaseUpdateDriverVal = $("#databaseForm #database-driver").val();
             //alert(selectedQueryId);
             $.ajax({
-                    url: globalURL+"etl/databases/",
+                    url: globalURL + "etl/databases/",
                     type: "PUT",
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
@@ -837,37 +1111,37 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         username: "admin"
                     })
                 })
-                .done(function(data) {
+                .done(function (data) {
                     databases.destroy();
                     databaseDataFunc();
                     //selectedQueryId = null;
                 })
-                .fail(function() {
+                .fail(function () {
                     alert('Failed!');
                 });
         });
 
         var selectedDatabaseForDelete;
-        $('#databaseData').on('click', 'button.deleteBtn', function() {
+        $('#databaseData').on('click', 'button.deleteBtn', function () {
             $("#databaseDelete").modal('show');
             selectedDatabaseForDelete = databases.row($(this).parents('tr')).data();
             $("#databaseDelete .modal-body h3").html('Are you sure do you want to<br>delete the database <strong>' + selectedDatabaseForDelete.dbName + '</strong>?');
 
         });
 
-        $('#databaseDataDeleteBtn').click(function(event) {
+        $('#databaseDataDeleteBtn').click(function (event) {
             //$('#databaseData').on('click', 'button.deleteBtn', function() {
             //var selectedDatabaseForDelete = databases.row($(this).parents('tr')).data();
             $.ajax({
-                url: globalURL+'etl/databases/' + selectedDatabaseForDelete.id,
+                url: globalURL + 'etl/databases/' + selectedDatabaseForDelete.id,
                 type: 'DELETE',
-                success: function(result) {
+                success: function (result) {
                     // Do something with the result
                     databases.destroy();
                     databaseDataFunc();
                     $("#databaseDelete").modal('hide');
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
                     //alert("Status: " + textStatus);
                     //alert("Error: " + errorThrown);
                     //alert("request: " + XMLHttpRequest);
@@ -888,12 +1162,12 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
 
 
-        $('#databaseData tbody').on('click', '.tableView', function() {
+        $('#databaseData tbody').on('click', '.tableView', function () {
             var data = databases.row($(this).parents('tr')).data();
             var tables;
             $("#databaseList").hide();
             $("#tableList").show();
-            tableFunc = function() {
+            tableFunc = function () {
                 tables = $('#example12').DataTable({
                     "paginate": true,
                     "retrieve": true
@@ -903,7 +1177,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     "paginate": true,
                     "retrieve": true,
                     "ajax": {
-                        "url": globalURL+"etl/databases/" + data.id + "/tables",
+                        "url": globalURL + "etl/databases/" + data.id + "/tables",
                         "dataSrc": ""
                     },
                     "columns": [{
@@ -914,15 +1188,13 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         "data": "progress"
                     }, {
                         "data": "status",
-                        "render": function(data, type, full, meta) {
+                        "render": function (data, type, full, meta) {
                             if ((data == "NOT_SYNCED") || (data == "NEVER_EXECUTED")) {
                                 return '<button class="btn btn-success btn-sm sqoopBtn"><i class="fa fa-compress"></i> Sqoop</button>';
                             } else
-                            if (data == "COMPLETED"){
+                            if (data == "COMPLETED") {
                                 return '<button class="btn btn-default btn-sm dailysqoopBtn" disabled><i class="fa fa-compress"></i> Sqooped</button><button class="btn btn-success btn-sm"><i class="fa fa-compress"></i> Daily Sqoop</button>';
-                            }
-                            else
-                            {
+                            } else {
                                 return '<button class="btn btn-default btn-sm dailysqoopBtn" disabled><i class="fa fa-compress"></i> Sqooped</button><button class="btn btn-danger btn-sm"><i class="fa fa-compress"></i> Daily Sqoop</button>';
                             }
                         }
@@ -934,37 +1206,37 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             tableFunc();
 
 
-            $('#example12 tbody').on('click', 'button.sqoopBtn', function() {
+            $('#example12 tbody').on('click', 'button.sqoopBtn', function () {
                 var tableList = tables.row($(this).parents('tr')).data();
                 $.ajax({
-                    url: globalURL+"etl/databases/" + tableList.dbId + "/sync?table=" + tableList.tableName + "&hdfs=11",
+                    url: globalURL + "etl/databases/" + tableList.dbId + "/sync?table=" + tableList.tableName + "&hdfs=11",
                     type: 'GET',
-                    success: function(result) {
+                    success: function (result) {
                         // Do something with the result
                         //alert('done');
                         tableFunc();
                     },
-                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
                         alert("Status: " + textStatus);
                         alert("Error: " + errorThrown);
                     }
-                }).error(function() {
+                }).error(function () {
                     alert('not working');
                 });
 
             });
-            
-            
+
+
 
         });
 
-        $(document).ajaxStart(function() {
+        $(document).ajaxStart(function () {
             $("#loader").css('height', $(".page-content").height() + 140 + 'px');
             $("#loader .page-spinner-bar").removeClass('hide');
             $("#loader").show();
         });
 
-        $(document).ajaxStop(function() {
+        $(document).ajaxStop(function () {
             onResize1();
             $("#loader .page-spinner-bar").addClass('hide');
             $("#loader").hide();
@@ -973,20 +1245,20 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
 
 
-        $('#jobsContainer').on('click', 'button.btn1', function() {
+        $('#jobsContainer').on('click', 'button.btn1', function () {
             //alert('start');
             var jobData = jobsData.row($(this).parents('tr')).data();
 
             $.ajax({
-                url: globalURL+'etl/jobs/' + jobData.id + '/start',
+                url: globalURL + 'etl/jobs/' + jobData.id + '/start',
                 type: 'GET',
-                success: function(result) {
+                success: function (result) {
                     // Do something with the result
                     //alert('done');
                     jobsData.destroy();
                     jobsDataFunc();
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert("Status: " + textStatus);
                     alert("Error: " + errorThrown);
                 }
@@ -995,20 +1267,20 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
 
 
-        $('#jobsContainer').on('click', 'button.btn3', function() {
+        $('#jobsContainer').on('click', 'button.btn3', function () {
             alert('Schedule');
             var jobData = jobsData.row($(this).parents('tr')).data();
 
             $.ajax({
-                url: globalURL+'etl/jobs/' + jobData.id + '/schedule',
+                url: globalURL + 'etl/jobs/' + jobData.id + '/schedule',
                 type: 'GET',
-                success: function(result) {
+                success: function (result) {
                     // Do something with the result
                     //alert('done');
                     jobsData.destroy();
                     jobsDataFunc();
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert("Status: " + textStatus);
                     alert("Error: " + errorThrown);
                 }
@@ -1018,24 +1290,24 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
 
         var jobData;
-        $('#jobsContainer').on('click', 'button.btn2', function() {
+        $('#jobsContainer').on('click', 'button.btn2', function () {
             $("#jobDataDelete").modal('show');
             jobData = jobsData.row($(this).parents('tr')).data();
             $("#jobDataDelete .modal-body h3").html('Are you sure do you want to<br>delete the job <strong>' + jobData.jobName + '</strong>?');
         });
 
-        $('#jobDataDeleteBtn').click(function(event) {
+        $('#jobDataDeleteBtn').click(function (event) {
 
             $.ajax({
-                url: globalURL+'etl/jobs/' + jobData.id + '/delete',
+                url: globalURL + 'etl/jobs/' + jobData.id + '/delete',
                 type: 'DELETE',
-                success: function(result) {
+                success: function (result) {
                     // Do something with the result
                     jobsData.destroy();
                     jobsDataFunc();
                     $("#jobDataDelete").modal('hide');
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
                     //alert("Status: " + textStatus);
                     //alert("Error: " + errorThrown);
                     $("#jobErrorTitle").html(XMLHttpRequest.responseJSON.error);
@@ -1066,7 +1338,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
                 });*/
 
-        $("#backBtn").click(function(event) {
+        $("#backBtn").click(function (event) {
             $("#databaseList").show();
             $("#tableList").hide();
         });

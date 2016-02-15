@@ -15,6 +15,8 @@
 	"sidebar.jobs" : "Pekerjaan",
 	"sidebar.database" : "Pangkalan Data",
 	"sidebar.audit" : "Audit",
+	"sidebar.dashboardchart": "Chart",
+	"sidebar.dashboardlink": "Links",
 	"header.search" : "Carian",
 	"fastsearch.launch" : "Pelancaran",
 	"fastsearch.doc.title" : "Fast Dokumen Carian",
