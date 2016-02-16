@@ -371,7 +371,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                             if (data == null) {
                                 return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-eye"></i> View</button></a>';
                             } else {
-                                return '<a href="#"><button class="btn btn-warning btn-sm TemplateBtn details-control"><i class="fa fa-plus-circle"></i> Expand</button></a>';
+                                return '<button class="btn btn-warning btn-sm TemplateBtn details-control"><i class="fa fa-plus-circle"></i> Expand</button>';
                             }
                         }
                 }, {
@@ -441,13 +441,13 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 row.child(format(row.data())).show();
                 tr.addClass('shown');
                 // $('#reportrange').daterangepicker();
-                createCalenderCtrl();
+                createCalenderCtrl();/*
                 $.getJSON(globalURL + "api/user/reference/dept", function (json) {
                     $(".department").select2({
                         data: json,
                         minimumInputLength: 2
                     });
-                });
+                });*/
 
             }
         });

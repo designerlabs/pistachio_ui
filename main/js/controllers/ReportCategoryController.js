@@ -92,7 +92,7 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
                     contentType: "application/json; charset=utf-8",
                     data: selData
                 });*/
-                window.location.href = globalURL+'download/csv/' + selectedQueryRunId+'?'+selData;
+                window.location.href = globalURL+'jasperreport/csv/' + selectedQueryRunId+'?'+selData;
             }else{
             window.location.href = globalURL+'download/csv/' + selectedQueryRunId;
             }            
@@ -108,7 +108,7 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
                     contentType: "application/json; charset=utf-8",
                     data: selData
                 });*/
-                window.location.href = globalURL+'download/xls/' + selectedQueryRunId+'?'+selData;
+                window.location.href = globalURL+'jasperreport/xls/' + selectedQueryRunId+'?'+selData;
             }else{
             window.location.href = globalURL+'download/xls/' + selectedQueryRunId;
             }
@@ -124,7 +124,7 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
                     contentType: "application/json; charset=utf-8",
                     data: selData
                 });*/
-                window.location.href = globalURL+'download/pdf/' + selectedQueryRunId+'?'+selData;
+                window.location.href = globalURL+'jasperreport/pdf/' + selectedQueryRunId+'?'+selData;
             }else{
             window.location.href = globalURL+'download/pdf/' + selectedQueryRunId;
             }
