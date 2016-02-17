@@ -146,8 +146,8 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 
 /* Global hosting details */
 
-var globalURL = "http://10.23.124.243:8080/";
-//var globalURL = "http://pistachio_server:8080/";
+//var globalURL = "http://10.23.124.243:8080/";
+var globalURL = "http://pistachio_server:8080/";
 var queryString = "query";
 var categoryName = "cat";
 
