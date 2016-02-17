@@ -102,65 +102,48 @@
 																								<div class="portlet-title">
 																										<div class="caption caption-md">
 																												<i class="icon-bar-chart theme-font hide"></i>
-																												<span class="caption-subject font-blue-madison bold uppercase">Your Activity</span>
-																												<span class="caption-helper hide">weekly stats...</span>
+																												<span class="caption-subject font-blue-madison bold uppercase">Recent Activities</span>
+																												
 																										</div>
-																										<div class="actions">
-																												<div class="btn-group btn-group-devided" data-toggle="buttons">
-																														<label class="btn btn-transparent grey-salsa btn-circle btn-sm active">
-																																<input type="radio" name="options" class="toggle" id="option1">Today</label>
-																														<label class="btn btn-transparent grey-salsa btn-circle btn-sm">
-																																<input type="radio" name="options" class="toggle" id="option2">Week</label>
-																														<label class="btn btn-transparent grey-salsa btn-circle btn-sm">
-																																<input type="radio" name="options" class="toggle" id="option2">Month</label>
-																												</div>
-																										</div>
+																										
 																								</div>
 																								<div class="portlet-body">
 																										<div class="table-scrollable table-scrollable-borderless">
-																												<table class="table table-hover table-light">
-																														<thead>
-																																<tr class="uppercase">
-																																		<th colspan="2"> Time </th>
-																																		<th> Event </th>
-																																		<th> System</th>
-																																</tr>
-																														</thead>
-																														<tbody><tr>
-																																<td class="fit">
-																																		<img class="user-pic" src="../assets/pages/media/users/avatar4.jpg"> </td>
-																																<td>
-																																		<a href="javascript:;" class="primary-link">Brain</a>
-																																</td>
-																																<td> Login </td>
+            <table class="table table-hover table-light">
+                <thead >
+                    <tr>
 
-																														</tr>
-																														<tr>
-																																<td class="fit">
-																																		<img class="user-pic" src="../assets/pages/media/users/avatar5.jpg"> </td>
-																																<td>
-																																		<a href="javascript:;" class="primary-link">Nick</a>
-																																</td>
-																																<td> Login </td>
-																														</tr>
-																														<tr>
-																																<td class="fit">
-																																		<img class="user-pic" src="../assets/pages/media/users/avatar6.jpg"> </td>
-																																<td>
-																																		<a href="javascript:;" class="primary-link">Tim</a>
-																																</td>
-																																<td> Login </td>
-																														</tr>
-																														<tr>
-																																<td class="fit">
-																																		<img class="user-pic" src="../assets/pages/media/users/avatar7.jpg"> </td>
-																																<td>
-																																		<a href="javascript:;" class="primary-link">Tom</a>
-																																</td>
-																																<td> Login </td>
-																														</tr>
-																												</tbody></table>
-																										</div>
+                        <th>
+                            <a href="javascript:;">{{'audit.eventTime' | translate}}</a>
+                        </th>
+                        
+                        <th>
+                            <a href="javascript:;">{{'audit.status' | translate}}</a>
+                        </th>
+                        <th>
+                            <a href="javascript:;">{{'audit.notes' | translate}}</a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr ng-repeat="x in contents">
+
+                        <td  style="width:45%;"  class="table-title">
+                            <a href="javascript:;">{{x.eventTime}}</a>
+                        </td>
+                            
+                        <td style="width:25%;" class="table-desc"> {{x.status}} </td>
+                        <td class="table-download">
+                          {{x.notes}}
+                        </td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
 																								</div>
 																						</div>
 																						<!-- END PORTLET -->
