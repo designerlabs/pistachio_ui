@@ -112,77 +112,44 @@
 							<div class="col-md-6">
 								<!-- BEGIN PORTLET -->
 								<div class="portlet light ">
-									<div class="portlet-title">
+                                    <div class="portlet-title">
 										<div class="caption caption-md">
 											<i class="icon-bar-chart theme-font hide"></i>
-											<span class="caption-subject font-blue-madison bold uppercase">Your Activity</span>
-											<span class="caption-helper hide">weekly stats...</span>
-										</div>
-										<div class="actions">
-											<div class="btn-group btn-group-devided" data-toggle="buttons">
-												<label class="btn btn-transparent grey-salsa btn-circle btn-sm active">
-												<input type="radio" name="options" class="toggle" id="option1">Today</label>
-												<label class="btn btn-transparent grey-salsa btn-circle btn-sm">
-												<input type="radio" name="options" class="toggle" id="option2">Week</label>
-												<label class="btn btn-transparent grey-salsa btn-circle btn-sm">
-												<input type="radio" name="options" class="toggle" id="option2">Mont</label>
-											</div>
+											<span class="caption-subject font-blue-madison bold uppercase">Recent Activities</span>
 										</div>
 									</div>
 									<div class="portlet-body">
 										<div class="table-scrollable table-scrollable-borderless">
-											<table class="table table-hover table-light">
-												<thead>
-													<tr class="uppercase">
-														<th colspan="2"> Time </th>
-														<th> Event </th>
-														<th> System</th>
-													</tr>
-												</thead>
-												<tbody>
-												<tr>
-													<td class="fit">
-														<img class="user-pic" src="../assets/pages/media/users/avatar4.jpg"> 
-													</td>
-													<td>
-														<a href="javascript:;" class="primary-link">Brain</a>
-													</td>
-													<td> Login </td>
-												</tr>
-												<tr>
-													<td class="fit">
-														<img class="user-pic" src="../assets/pages/media/users/avatar5.jpg"> 
-													</td>
-													<td>
-														<a href="javascript:;" class="primary-link">Nick</a>
-													</td>
-													<td> Login </td>
-												</tr>
-												<tr>
-													<td class="fit">
-													<img class="user-pic" src="../assets/pages/media/users/avatar6.jpg"> </td>
-													<td>
-														<a href="javascript:;" class="primary-link">Tim</a>
-													</td>
-													<td> Login </td>
-												</tr>
-												<tr>
-													<td class="fit">
-														<img class="user-pic" src="../assets/pages/media/users/avatar7.jpg"> 
-													</td>
-													<td>
-														<a href="javascript:;" class="primary-link">Tom</a>
-													</td>
-													<td> Login </td>
-												</tr>
-												</tbody>
-											</table>
-										</div>
+                                            <table class="table table-hover table-light">
+                                                <thead >
+                                                    <tr>
+                                                        <th>
+                                                            <a href="javascript:;">{{'audit.eventTime' | translate}}</a>
+                                                        </th>
+                                                        <th>
+                                                            <a href="javascript:;">{{'audit.status' | translate}}</a>
+                                                        </th>
+                                                        <th>
+                                                            <a href="javascript:;">{{'audit.notes' | translate}}</a>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="x in contents">
+                                                        <td  style="width:45%;"  class="table-title">
+                                                            <a href="javascript:;">{{x.eventTime}}</a>
+                                                        </td>
+                                                        <td style="width:25%;" class="table-desc"> {{x.status}} </td>
+                                                        <td class="table-download">
+                                                        {{x.notes}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
 									</div>
 								</div>
-												<!-- END PORTLET -->
-							</div>
-											<!-- END PORTLET -->
+																						<!-- END PORTLET -->
 						</div>
 					</div>
 					<!--Edit Profile -->
@@ -212,28 +179,37 @@
 										</div>
 									</div>
 								</div>
-							<script type="text/ng-template" id="edit.profile.html">
-								<div class="tab-pane active" id="tab_1_1">
-									<form role="form" class="edit-form" action="#">
-										<div class="form-group">
-											<label class="control-label">Name</label>
-											<input type="text" name="editname" class="form-control"> 
-										</div>
-										<div class="form-group">
-											<label class="control-label">Email</label>
-											<input type="text" name="editemail" class="form-control"> 
-										</div>
-										<div class="form-group">
-											<label class="control-label">Language</label>
-											<input type="text" name="editlang" class="form-control"> 
-										</div>
-											<div class="margiv-top-10">
-												<button class="btn green" id="editSaveChanges"> Save Changes</button> 
-												<button class="btn default"> Cancel </button>
-											</div>
-										</form>
+						<script type="text/ng-template" id="edit.profile.html">
+							<div class="tab-pane active" id="tab_1_1">
+								<form role="form" class="edit-form" action="#">
+									<div class="form-group">
+										<label class="control-label">Name</label>
+										<input type="text" name="editname" class="form-control"> 
 									</div>
-							</script>
+									<div class="form-group">
+										<label class="control-label">Email</label>
+										<input type="text" name="editemail" class="form-control"> 
+									</div>
+									<div class="form-group">
+										<label class="control-label">Email1</label>
+										<input type="text" name="editemail1" class="form-control"> 
+									</div>
+									<div class="form-group">
+										<label class="control-label">Language</label>
+										<!-- <input type="text" name="editlang" class="form-control">  -->
+										<select id="userselLang" class="valid form-control">
+										    <option value="" selected>{{'login.sellanguage' | translate}}</option>
+										    <option value="en">English</option>
+										    <option value="my">Bahasa Malaysia</option>
+										</select>
+									</div>
+										<div class="margiv-top-10">
+											<button class="btn green" id="editSaveChanges"> Save Changes</button> 
+											<button class="btn default"> Cancel </button>
+										</div>
+									</form>
+								</div>
+						</script>
 							<script type="text/ng-template" id="edit.avatar.html">
 								<form action="#" role="form">
 									<div class="form-group">
@@ -261,29 +237,31 @@
 										</form>
 									</script>
 									<script type="text/ng-template" id="change.password.html">
-										<form action="#">
+										<form action="#" role="form" class="PwdChangeform">
 											<div class="form-group">
 												<label class="control-label">Current Password</label>
-												<input type="password" class="form-control"> </div>
+												<input type="password" name="CurrentPwd" class="form-control"> </div>
 												<div class="form-group">
 													<label class="control-label">New Password</label>
-													<input type="password" class="form-control"> </div>
-													<div class="form-group">
+													<input type="password" name="NewPwd" class="form-control"> 
+												</div>
+												<div class="form-group">
 														<label class="control-label">Re-type New Password</label>
-														<input type="password" class="form-control"> </div>
-														<div class="margin-top-10">
-															<a href="javascript:;" class="btn green"> Change Password </a>
-															<a href="javascript:;" class="btn default"> Cancel </a>
-														</div>
-													</form>
-												</script>
-										</div>
+														<input type="password" name="ReTypePwd" class="form-control"> 
+												</div>
+												<div class="margin-top-10">
+													<button class="btn green" ng-click="OnChangePwd"> Change Password </button>
+													<button class="btn default"> Cancel </button>
+												</div>
+										</form>
+									</script>
+							</div>
 									</div>
 									<!-- END PROFILE CONTENT -->
 								</div>
 												<!-- END MAIN CONTENT -->
 												<!-- BEGIN MAIN JS & CSS -->
-												<script>
+				<script>
 	// $(document).ajaxStart(function() {
 	//     $("#loader").hide();
 	//     $("#loaderTableView").css('height', '500px');
