@@ -17,6 +17,7 @@
 	"sidebar.audit" : "Audit",
 	"sidebar.dashboardchart": "Chart",
 	"sidebar.dashboardlink": "Links",
+    "sidebar.appl_analysis": "Visa Application Analysis",
 	"header.search" : "Search",
 	"fastsearch.launch" : "Launch",
 	"fastsearch.doc.title" : "Fast Document Search",
