@@ -48,6 +48,8 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
             $('.edit-form #userselLang').val((response.lang == "en") ? "en" : "my");
            });
         }
+        
+        $("#messageView div").hide();
     }
 
     $scope.isActiveTab = function(tabUrl) {
@@ -87,8 +89,9 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
               }),
           }).done(function (data) {
               console.log("successfully Saved Profile informations");
-              // $("#Profile.errorinfo").html("successfully Saved Profile informations");
-              // $("#Profile.errorinfo").show();
+              $("#messageView div span").html("Successfully Saved Profile informations");            
+              $("#messageView div").addClass('alert-success');
+              $("#messageView div").show();
           });       
     }
 
@@ -98,7 +101,18 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
 
       $.get( globalURL + 'api/user/' + userId + '/change_password?opass='+ oldPsw +'&npass='+ newPsw, function( data ) {
         console.log("successfully Changed Password");
-      });
+        
+      }).done(function() {
+        $("#messageView div span").html("Successfully Changed Password");            
+        $("#messageView div").removeClass("alert-danger");
+        $("#messageView div").addClass('alert-success');
+        $("#messageView div").show();
+      }).fail(function(data) {
+        $("#messageView div span").html(data.responseJSON.error);          
+        $("#messageView div").removeClass("alert-success");          
+        $("#messageView div").addClass('alert-danger');
+        $("#messageView div").show();
+  });
     }
 
 
