@@ -453,6 +453,8 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 $(".branchGroup").toggle(row.data().branch);
                 $(".stateGroup").toggle(row.data().state);
                 $(".deptGroup").toggle(row.data().dept);
+                $(".nationalityGroup").toggle(row.data().nationality);
+                $(".pastypeGroup").toggle(row.data().pastype);
                 
                 tr.addClass('shown');
                 // $('#reportrange').daterangepicker();
@@ -462,19 +464,34 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 
                 $.getJSON(globalURL + "api/user/reference/state", function (json) {
                     $.each(json, function(k, v){
-                        $("#temp-state").append('<option value='+v+'>'+v+'</option>');
+                        $("#temp-state").append('<option value='+k+'>'+v+'</option>');
                     });
                 });
                 
+                
+                $.getJSON(globalURL + "api/user/reference/nationality", function (json) {
+                    $.each(json, function(k, v){
+                        $("#temp-nationality").append('<option value='+k+'>'+v+'</option>');
+                    });
+                });
+                
+                $.getJSON(globalURL + "api/user/reference/pastype", function (json) {
+                    $.each(json, function(k, v){
+                        $("#temp-pastype").append('<option value='+k+'>'+v+'</option>');
+                    });
+                });
+                
+                
+                
                 $.getJSON(globalURL + "api/user/reference/branch", function (json) {
                     $.each(json, function(k, v){
-                        $("#temp-branch").append('<option value='+v+'>'+v+'</option>');
+                        $("#temp-branch").append('<option value='+k+'>'+v+'</option>');
                     });
                 });
                 
                 $.getJSON(globalURL + "api/user/reference/dept", function (json) {
                     $.each(json, function(k, v){
-                        $("#temp-dept").append('<option value='+v+'>'+v+'</option>');
+                        $("#temp-dept").append('<option value='+k+'>'+v+'</option>');
                     });
                 });
 
@@ -521,6 +538,18 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 '<label class="control-label col-md-3">Department </label>' +
                 '<div class="col-md-4">' +
                 '<select id="temp-dept" class="form-control department"></select>' +
+                '</div>' +
+                '</div>' +
+                '<div class="form-group nationalityGroup">' +
+                '<label class="control-label col-md-3">Nationality </label>' +
+                '<div class="col-md-4">' +
+                '<select id="temp-nationality" class="form-control nationality"></select>' +
+                '</div>' +
+                '</div>' +
+                '<div class="form-group pastypeGroup">' +
+                '<label class="control-label col-md-3">Pas type </label>' +
+                '<div class="col-md-4">' +
+                '<select id="temp-pastype" class="form-control pastype"></select>' +
                 '</div>' +
                 '</div>' +
                 '</div>' +
@@ -671,16 +700,20 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         $('#queryContainer').on('click', '.btnRunTemp', function () {
             console.log(fromDate + ' - ' + toDate);
             var reportid = $('#temp-reportid')[0].value;
-            var _state = $('#temp-state')[0].value;
-            var _dept = $('#temp-dept')[0].value;
-            var _branch = $('#temp-branch')[0].value;
+            var _state = $('#temp-state option:selected').text();
+            var _dept = $('#temp-dept option:selected').text();
+            var _branch = $('#temp-branch option:selected').text();
+            var _nationality = $('#temp-nationality option:selected').text();
+            var _pastype = $('#temp-pastype option:selected').text();
             // console.log( globalURL+ 'jasperreport/' + fileformat + '/' + reportid);
             var selTemplateVal = JSON.stringify({
                 fromDt: fromDate,
                 toDt: toDate,
                 state: _state,
                 dept: _dept,
-                branch: _branch
+                branch: _branch,
+                nationality: _nationality,
+                pastype: _pastype
             });
             localStorage.setItem("selTemplateVal", selTemplateVal);
 
