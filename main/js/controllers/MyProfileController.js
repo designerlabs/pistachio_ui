@@ -126,7 +126,7 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
 
     $scope.setProfileInfo = function(info){
       // userId = infor.id;
-      $('#myprofileDsp-firstname').val('info.firstName');
+      $('#myprofileDsp-firstname').val(info.firstName);
       $('#myprofileDsp-email').val(info.email);
       $('#myprofileDsp-unit').val(info.unit);
       $('#myprofileDsp-rank').val(info.rank);
