@@ -28,7 +28,17 @@ function onResize1() {
 
 
 /* GeneralPageController starts */
-MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http', 'settings', 'authorities', function ($rootScope, $scope, $http, settings, authorities) {
+MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http', 'settings', 'authorities', 'fileUpload', function ($rootScope, $scope, $http, settings, authorities, fileUpload) {
+    
+    $scope.uploadFile = function(){
+        var file = $scope.myFile;
+        console.log('file is ' );
+        console.dir(file);
+        var uploadUrl = globalURL + "api/pistachio/upload?user=sridhar";
+        fileUpload.uploadFileToUrl(file, uploadUrl);
+    };
+    
+    
     $scope.$on('$viewContentLoaded', function () {
         $("#databaseList").show();
         $("#tableList").hide();
@@ -413,7 +423,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         $('#queryContainer').on('click', '.details-control', function () {
             var tr = $(this).closest('tr');
             var row = queryData.row(tr);
-
+            
             // if( $('#childRow').length > 0){
             //     $('#childRow').parent().parent().prev('tr').removeClass('shown');
             //     $('#childRow').parent().parent().remove();
@@ -439,15 +449,34 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 }
 
                 row.child(format(row.data())).show();
+                $(".dtRangeGroup").toggle(row.data().dtRange);
+                $(".branchGroup").toggle(row.data().branch);
+                $(".stateGroup").toggle(row.data().state);
+                $(".deptGroup").toggle(row.data().dept);
+                
                 tr.addClass('shown');
                 // $('#reportrange').daterangepicker();
-                createCalenderCtrl();/*
-                $.getJSON(globalURL + "api/user/reference/dept", function (json) {
-                    $(".department").select2({
-                        data: json,
-                        minimumInputLength: 2
+                createCalenderCtrl();
+                
+                
+                
+                $.getJSON(globalURL + "api/user/reference/state", function (json) {
+                    $.each(json, function(k, v){
+                        $("#temp-state").append('<option value='+v+'>'+v+'</option>');
                     });
-                });*/
+                });
+                
+                $.getJSON(globalURL + "api/user/reference/branch", function (json) {
+                    $.each(json, function(k, v){
+                        $("#temp-branch").append('<option value='+v+'>'+v+'</option>');
+                    });
+                });
+                
+                $.getJSON(globalURL + "api/user/reference/dept", function (json) {
+                    $.each(json, function(k, v){
+                        $("#temp-dept").append('<option value='+v+'>'+v+'</option>');
+                    });
+                });
 
             }
         });
@@ -465,7 +494,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 '<input id="temp-reportid" type="hidden" value=' + d.id + '>' +
                 '</div>' +
                 '</div>' +
-                '<div class="form-group ">' +
+                '<div class="form-group dtRangeGroup">' +
                 '<label class="control-label col-md-3">Choose date </label>' +
                 '<div class="col-md-4">' +
                 '<div class="btn default form-control" id="reportrange">' +
@@ -476,22 +505,22 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 '</div>' +
                 '</div>' +
 
-                '<div class="form-group">' +
+                '<div class="form-group stateGroup" >' +
                 '<label class="control-label col-md-3">State </label>' +
                 '<div class="col-md-4">' +
-                '<input id="temp-state" type="text" class="form-control">' +
+                '<select id="temp-state" class="form-control"></select>' +
                 '</div>' +
                 '</div>' +
-                '<div class="form-group">' +
+                '<div class="form-group branchGroup">' +
                 '<label class="control-label col-md-3">Branch </label>' +
                 '<div class="col-md-4">' +
-                '<input id="temp-branch" type="text" class="form-control">' +
+                '<select id="temp-branch" class="form-control"></select>' +
                 '</div>' +
                 '</div>' +
-                '<div class="form-group">' +
+                '<div class="form-group deptGroup">' +
                 '<label class="control-label col-md-3">Department </label>' +
                 '<div class="col-md-4">' +
-                '<input id="temp-dept" type="text" class="form-control department">' +
+                '<select id="temp-dept" class="form-control department"></select>' +
                 '</div>' +
                 '</div>' +
                 '</div>' +
@@ -756,13 +785,15 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         });
 
 
-
-
+        
+        
         formInputValidation("#queryForm");
+        formInputValidation("#queryFormTemplate");
+        
         $("#queryUISubmit").click(function (event) {
+            
             var queryNameVal = $("#queryForm #query-name").val();
             var queryTextVal = $("#queryForm #query-text").val();
-            var queryTemplateVal = $("#queryForm #query-template").val();
 
             inputValidation("#queryForm", queryAjax);
 
@@ -775,8 +806,63 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         data: JSON.stringify({
                             queryName: queryNameVal,
                             query: queryTextVal,
-                            reportFileName: queryTemplateVal,
                             category: reportCategoryID,
+                            cached: null
+                        })
+                    })
+                    .done(function () {
+                        queryData.destroy();
+                        queryDataFunc();
+                        queryMasukFunc();
+                        $("#queryAddForm").modal('hide');
+                        $("#queryRequire").hide();
+                    })
+                    .fail(function (data) {
+                        //console.log(data.responseJSON.error);
+                        $("#queryRequire span").html(data.responseJSON.error);
+                        $("#queryRequire").show();
+                        //alert('Failed!');
+                    });
+            }
+
+
+        });
+         var templateFileName;
+        $("#templateBrowse").change(function(){
+           var getVal = $('input[type=file]').val();
+            templateFileName = getVal.split(/(\\|\/)/g).pop();
+        });
+
+        
+        $("#queryUISubmitTemplate").click(function (event) {
+            
+            
+            var queryNameValTemp = $("#queryFormTemplate #query-name").val();
+           
+            var dtRange = $("#queryFormTemplate #dtRange").prop("checked");
+            var stateVal = $("#queryFormTemplate #stateVal").prop("checked");
+            var branchVal = $("#queryFormTemplate #branchVal").prop("checked");
+            var deptVal = $("#queryFormTemplate #deptVal").prop('checked');
+            console.log(deptVal);
+            console.log($("#queryFormTemplate #deptVal").prop('checked'));
+
+            inputValidation("#queryFormTemplate", queryAjax);
+
+            function queryAjax() {
+                $.ajax({
+                        url: globalURL + queryString + "/",
+                        type: "POST",
+                        dataType: 'json',
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({
+                            queryName: queryNameValTemp,
+                            dtRange:dtRange,
+                            state:stateVal,
+                            branch:branchVal,
+                            dept:deptVal,
+                            category: reportCategoryID,
+                            reportFileName: templateFileName,
+                            query:'NA',
                             cached: null
                         })
                     })
