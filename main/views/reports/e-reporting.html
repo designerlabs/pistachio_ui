@@ -96,7 +96,15 @@
                     <button class="close" data-close="alert"></button>
                     <span></span>
                 </div>
-                <form id="queryForm" name="queryUIForm">
+                <div class="form-group">
+                    <label for="query-name" class="control-label">Choose type:</label>
+                    <select ng-init="selectType = 'adhoc'" class="form-control" ng-model="selectType">
+                        <option value="">Please choose the type</option>
+                        <option value="adhoc">ad hoc</option>
+                        <option value="template">Template</option>
+                    </select>
+                </div>
+                <form id="queryForm" name="queryUIForm" ng-show="selectType == 'adhoc'">
                     <div class="form-group">
                         <label for="query-name" class="control-label">{{'ereporting.name' | translate}}:</label>
                         <input type="text" class="form-control" id="query-name">
@@ -105,16 +113,54 @@
                         <label for="query-text" class="control-label">Query:</label>
                         <textarea class="form-control" id="query-text"></textarea>
                     </div>
+
+                </form>
+                
+                
+                <form id="queryFormTemplate" name="queryUIFormTemplate"  ng-show="selectType == 'template'">
                     <div class="form-group">
-                        <label for="query-template" class="control-label">Template Name:</label>
-                        <input class="form-control" id="query-template" placeholder="Enter Template name">
+                        <label for="query-name" class="control-label">{{'ereporting.name' | translate}}:</label>
+                        <input type="text" class="form-control" id="query-name">
+                    </div>
+                    
+                    <div class="form-group">
+                    <input type="file" accept=".jrxml" class="form-control" file-model="myFile" id="templateBrowse" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-inline">
+                          <input type="checkbox" id="dtRange" value="option1"> Date Range
+                        </label>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" id="stateVal" value="option2"> State
+                        </label>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" id="branchVal" value="option3"> Branch
+                        </label>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" id="deptVal" value="option4"> Department
+                        </label>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" id="nationalityVal" value="option5"> Nationality
+                        </label>
+                        <label class="checkbox-inline">
+                          <input type="checkbox" id="pastypeVal" value="option6"> Pas type
+                        </label>
                     </div>
                 </form>
+                
+                
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer"  ng-show="selectType == 'adhoc'">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> {{'ereporting.close' | translate}}</button>
                 <button type="button" id="queryUISubmit" class="btn btn-success"><i class="fa fa-check"></i> {{'ereporting.save' | translate}}</button>
                 <button type="button" id="queryUIUpdate" class="btn btn-primary"><i class="fa fa-check"></i> {{'ereporting.update' | translate}}</button>
+            </div>
+            
+            <div class="modal-footer" id="template"  ng-show="selectType == 'template'">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> {{'ereporting.close' | translate}}</button>
+                <button type="button" id="queryUISubmitTemplate" class="btn btn-success"  ng-click="uploadFile()"><i class="fa fa-check"></i> {{'ereporting.save' | translate}}</button>
+                <button type="button" id="queryUIUpdateTemplate" class="btn btn-primary"><i class="fa fa-check"></i> {{'ereporting.update' | translate}}</button>
             </div>
         </div>
     </div>
@@ -155,6 +201,7 @@ $(function() {
 $("#eReportQueryAddBtn").click(function(event) {
     $("#queryAddForm #queryUISubmit").removeClass('hide');
     $("#queryAddForm #queryUIUpdate").addClass('hide');
+    $("#queryAddForm #queryUIUpdateTemplate").addClass('hide');
     $("#queryAddFormHeader").html("Add Query UI");
     $("#queryForm")[0].reset();
 });
