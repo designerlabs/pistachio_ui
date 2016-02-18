@@ -12,7 +12,8 @@ var MetronicApp = angular
     "ngResource",
     "ngTable",
     "pascalprecht.translate",
-    'tmh.dynamicLocale'
+    'tmh.dynamicLocale',
+    "datamaps"
 ])
 
 // /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -489,9 +490,34 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
             }]
         }
     })
+    
+    
+    .state('applAnalysis', {
+        url: "/applAnalysis.html",
+        templateUrl: "views/analysis/appl.html",
+        data: {
+            pageTitle: 'Visa Application Analysis'
+        },
+        controller: "VAAController",
+        resolve: {
+            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                    
+                    'assets/pages/scripts/datamaps/datamaps.world.js',
+                    'assets/pages/css/search.css',
+                    'assets/pages/css/pricing.min.css',
 
-    .state('fastsearch', {
+                    'js/controllers/VAAController.js'
+                  ]
+                });
+          }]
+        }
+    })
 
+      .state('fastsearch', {
         url: "/fastsearch.html",
         templateUrl: "views/fastsearch/fs.html",
         data: {

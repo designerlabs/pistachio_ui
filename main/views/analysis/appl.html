@@ -1,0 +1,69 @@
+<div ng-controller="VAAController">
+<div class="row">
+	<div class="col-md-2">
+		<div class = "row">
+			<div class="portlet light bordered " style="padding: 5px; min-height: 25px;">
+                <div class="portlet-title" style="padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
+                <i class="icon-settings font-green"></i>
+                        <span class="caption-subject font-green bold uppercase">FILTERS</span>
+                 </div>
+            
+	            <div class="portlet-body" style="padding: 5px;">
+	            <h4 class="block" style="padding: 0px; margin: 1px;">Top Jobs</h4>
+	            	<div class="list-group">
+
+	            			<a class="list-group-item bg-grey-steel" data-ng-repeat="cnt in jobs" ng-click="clickJobs(cnt.field)">
+	                                        {{cnt.field}}
+	                                            <span class="badge badge-default"> {{cnt.count}}</span>
+	                                        
+	                        </a>
+	                </div>
+	            	
+	            
+	            <h4 class="block" style="padding: 0px; margin: 1px;">Top Employer</h4>
+	            	<div class="list-group">
+
+	            			<a class="list-group-item bg-grey-steel" data-ng-repeat="cnt in employers" ng-click="clickEmply(cnt.field)" >
+	                                        {{cnt.field}}
+	                                            <span class="badge badge-default"> {{cnt.count}}</span>
+	                                        
+	                        </a>
+	                </div>
+	            	
+	            </div>
+	        </div>
+		</div>
+	</div>
+	<div class="col-md-10">
+		<div class = "row">
+			<div class="portlet light bordered ">
+                <div class="portlet-title">
+                    <div class="caption caption-md">
+                        <i class="icon-settings font-green"></i>
+                        <span class="caption-subject font-green bold uppercase">Distribution</span>
+                        <span class="caption-helper hide">Applications by country</span>
+                    </div>
+                    <div class="actions">
+                        <div data-toggle="buttons" class="btn-group btn-group-devided">
+                            <label class="btn dark btn-outline btn-circle btn-sm active">
+                                <input type="radio" id="option1" class="toggle" name="options">WorldMap</label>
+                            <label class="btn dark btn-outline btn-circle btn-sm">
+                                <input type="radio" id="option2" class="toggle" name="options">TreeMap</label>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet-body">
+				<datamap
+			  		map="mapObject"
+			  		on-click="updateActiveGeography"
+			  		plugins="mapPlugins"
+			  		>
+				</datamap>
+				</div>
+			
+		</div>
+	</div>
+</div>	
+</div>
+
