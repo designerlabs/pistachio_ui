@@ -24,9 +24,9 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
     $scope.tabs = [{
             title: 'Profile',
             url: 'edit.profile.html'
-        }, {
-            title: 'Change Avatar',
-            url: 'edit.avatar.html'
+        // }, {
+        //     title: 'Change Avatar',
+        //     url: 'edit.avatar.html'
         }, {
             title: 'Change Password',
             url: 'change.password.html'
@@ -59,9 +59,7 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
         $('.edit-form #userselLang').val((response.lang == "en") ? "en" : "my");
        });
     };
-
-  $('#editSaveChanges').click(function(event){
-      // $scope.noedit = false;
+    $rootScope.editSaveChanges = function(){
       var firstnameValue = $('.edit-form input[name=editname]').val();      
       var emailValue = $('.edit-form input[name=editemail]').val();
       var userlangValue = $('.edit-form #userselLang').val(); 
@@ -72,30 +70,33 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
               dataType: "json",
               data: JSON.stringify({
                   "firstName": firstnameValue,
-                  "lastName": null,
+                  "lastName": "null",
                   "email": emailValue,
-                  "unit": null,
-                  "branch": null,
-                  "rank": null,
-                  "department": null,
-                  "login": null,
-                  "password": null,
+                  "unit": "null",
+                  "branch": "null",
+                  "rank": "null",
+                  "department": "null",
+                  "login": "null",
+                  "password": "null",
                   "lang": userlangValue,
-                  "id": userId            
+                  "id": userId           
               }),
           }).done(function (data) {
-              console.log("success");
+              console.log("successfully Saved Profile informations");
+              // $("#Profile.errorinfo").html("successfully Saved Profile informations");
+              // $("#Profile.errorinfo").show();
           });       
-    });
+    }
 
-    $scope.OnChangePwd = function(){
+    $rootScope.OnChangePwd = function(){
       var oldPsw =   $('.PwdChangeform [name=CurrentPwd]').val();
       var newPsw =   $('.PwdChangeform [name=NewPwd]').val();
 
-      $.get( globalURL + 'api/user/' + userId + '/reset_password?opass='+ oldPsw +'&npass='+ newPsw, function( data ) {
-        alert('success');
+      $.get( globalURL + 'api/user/' + userId + '/change_password?opass='+ oldPsw +'&npass='+ newPsw, function( data ) {
+        console.log("successfully Changed Password");
       });
     }
+
 
     $scope.overview = function(){
        $scope.noedit =true;
@@ -107,7 +108,7 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
 
     $scope.setProfileInfo = function(info){
       // userId = infor.id;
-      $('#myprofileDsp-firstname').val(info.firstName);
+      $('#myprofileDsp-firstname').val('info.firstName');
       $('#myprofileDsp-email').val(info.email);
       $('#myprofileDsp-unit').val(info.unit);
       $('#myprofileDsp-rank').val(info.rank);
