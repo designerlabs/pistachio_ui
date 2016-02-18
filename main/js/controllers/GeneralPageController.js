@@ -381,7 +381,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                             if (data == null) {
                                 return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-eye"></i> View</button></a>';
                             } else {
-                                return '<button class="btn btn-warning btn-sm TemplateBtn details-control"><i class="fa fa-plus-circle"></i> Expand</button>';
+                                return '<button class="btn btn-success btn-sm TemplateBtn details-control"><i class="fa fa-plus-circle"></i> Expand</button>';
                             }
                         }
                 }, {
@@ -423,6 +423,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         $('#queryContainer').on('click', '.details-control', function () {
             var tr = $(this).closest('tr');
             var row = queryData.row(tr);
+            //console.log(row);
             
             // if( $('#childRow').length > 0){
             //     $('#childRow').parent().parent().prev('tr').removeClass('shown');
@@ -433,21 +434,41 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             //     tr.addClass('shown');
             //     createCalenderCtrl();
             // }
-
-
+            
+            
+            
             if (row.child.isShown()) {
+                
+                $(this).html('<i class="fa fa-plus-circle"></i> Expand');
+                $(this).removeClass('btn-warning');
+                $(this).removeClass('btn-danger');
+                $(this).addClass('btn-success');
+               /* $(this).removeClass('btn-danger');
+                $(this).removeClass('btn-warning');
+                $(this).addClass('btn-success');*/
+                //$(this).html('<i class="fa fa-plus-circle"></i> Expand');
                 // This row is already open - close it
                 row.child.hide();
                 // $('#childRow').parent().parent().remove();
                 tr.removeClass('shown');
+               
             } else {
+                $('.TemplateBtn').html('<i class="fa fa-plus-circle"></i> Expand');
+                $('.TemplateBtn').removeClass('btn-warning');
+                $('.TemplateBtn').addClass('btn-success');
+                
+                $(this).html('<i class="fa fa-minus-circle"></i> Close');
+                $(this).removeClass('btn-warning');
+                $(this).removeClass('btn-success');
+                $(this).addClass('btn-danger');
                 // Open this row
                 if ($('#childRow').length > 0) {
                     $('#childRow').parent().parent().prev('tr').removeClass('shown');
                     $('#childRow').parent().parent().remove();
                     tr.removeClass('shown');
                 }
-
+             
+               
                 row.child(format(row.data())).show();
                 $(".dtRangeGroup").toggle(row.data().dtRange);
                 $(".branchGroup").toggle(row.data().branch);
