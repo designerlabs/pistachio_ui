@@ -212,28 +212,37 @@
 										</div>
 									</div>
 								</div>
-							<script type="text/ng-template" id="edit.profile.html">
-								<div class="tab-pane active" id="tab_1_1">
-									<form role="form" class="edit-form" action="#">
-										<div class="form-group">
-											<label class="control-label">Name</label>
-											<input type="text" name="editname" class="form-control"> 
-										</div>
-										<div class="form-group">
-											<label class="control-label">Email</label>
-											<input type="text" name="editemail" class="form-control"> 
-										</div>
-										<div class="form-group">
-											<label class="control-label">Language</label>
-											<input type="text" name="editlang" class="form-control"> 
-										</div>
-											<div class="margiv-top-10">
-												<button class="btn green" id="editSaveChanges"> Save Changes</button> 
-												<button class="btn default"> Cancel </button>
-											</div>
-										</form>
+						<script type="text/ng-template" id="edit.profile.html">
+							<div class="tab-pane active" id="tab_1_1">
+								<form role="form" class="edit-form" action="#">
+									<div class="form-group">
+										<label class="control-label">Name</label>
+										<input type="text" name="editname" class="form-control"> 
 									</div>
-							</script>
+									<div class="form-group">
+										<label class="control-label">Email</label>
+										<input type="text" name="editemail" class="form-control"> 
+									</div>
+									<div class="form-group">
+										<label class="control-label">Email1</label>
+										<input type="text" name="editemail1" class="form-control"> 
+									</div>
+									<div class="form-group">
+										<label class="control-label">Language</label>
+										<!-- <input type="text" name="editlang" class="form-control">  -->
+										<select id="userselLang" class="valid form-control">
+										    <option value="" selected>{{'login.sellanguage' | translate}}</option>
+										    <option value="en">English</option>
+										    <option value="my">Bahasa Malaysia</option>
+										</select>
+									</div>
+										<div class="margiv-top-10">
+											<button class="btn green" id="editSaveChanges"> Save Changes</button> 
+											<button class="btn default"> Cancel </button>
+										</div>
+									</form>
+								</div>
+						</script>
 							<script type="text/ng-template" id="edit.avatar.html">
 								<form action="#" role="form">
 									<div class="form-group">
@@ -261,29 +270,31 @@
 										</form>
 									</script>
 									<script type="text/ng-template" id="change.password.html">
-										<form action="#">
+										<form action="#" role="form" class="PwdChangeform">
 											<div class="form-group">
 												<label class="control-label">Current Password</label>
-												<input type="password" class="form-control"> </div>
+												<input type="password" name="CurrentPwd" class="form-control"> </div>
 												<div class="form-group">
 													<label class="control-label">New Password</label>
-													<input type="password" class="form-control"> </div>
-													<div class="form-group">
+													<input type="password" name="NewPwd" class="form-control"> 
+												</div>
+												<div class="form-group">
 														<label class="control-label">Re-type New Password</label>
-														<input type="password" class="form-control"> </div>
-														<div class="margin-top-10">
-															<a href="javascript:;" class="btn green"> Change Password </a>
-															<a href="javascript:;" class="btn default"> Cancel </a>
-														</div>
-													</form>
-												</script>
-										</div>
+														<input type="password" name="ReTypePwd" class="form-control"> 
+												</div>
+												<div class="margin-top-10">
+													<button class="btn green" ng-click="OnChangePwd"> Change Password </button>
+													<button class="btn default"> Cancel </button>
+												</div>
+										</form>
+									</script>
+							</div>
 									</div>
 									<!-- END PROFILE CONTENT -->
 								</div>
 												<!-- END MAIN CONTENT -->
 												<!-- BEGIN MAIN JS & CSS -->
-												<script>
+				<script>
 	// $(document).ajaxStart(function() {
 	//     $("#loader").hide();
 	//     $("#loaderTableView").css('height', '500px');
