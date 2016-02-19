@@ -1,13 +1,13 @@
 'use strict';
-
+var getToken, userId = undefined;
 MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http, $timeout) {
     $scope.noedit =true;
     $scope.$on('$viewContentLoaded', function() {
         Metronic.initAjax(); // initialize core components
 
- 	//	var getAuthority = localStorage.getItem("authorities");
+  //  var getAuthority = localStorage.getItem("authorities");
   //   alert(getAuthority);
- 		var getToken = localStorage.getItem("token");
+    getToken = localStorage.getItem("token");
   //   alert(getToken);
      $http.get(globalURL+'auth/user?token=' + getToken)
      .success(function(response) {
@@ -20,20 +20,17 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
           });
        $scope.setProfileInfo(response);
        $scope.noedit =true;
+       userId = response.id;
       });
-      
-
-        
-
 
     });
 
     $scope.tabs = [{
             title: 'Profile',
             url: 'edit.profile.html'
-        }, {
-            title: 'Change Avatar',
-            url: 'edit.avatar.html'
+        // }, {
+        //     title: 'Change Avatar',
+        //     url: 'edit.avatar.html'
         }, {
             title: 'Change Password',
             url: 'change.password.html'
@@ -43,6 +40,16 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
 
     $scope.onClickTab = function (tab) {
         $scope.currentTab = tab.url;
+        if(tab.title == 'Profile'){
+           $http.get(globalURL+'auth/user?token=' + getToken)
+          .success(function(response) {
+            $('.edit-form [name=editname]').val(response.firstName);    
+            $('.edit-form [name=editemail]').val(response.email);
+            $('.edit-form #userselLang').val((response.lang == "en") ? "en" : "my");
+           });
+        }
+        
+        $("#messageView div").hide();
     }
 
     $scope.isActiveTab = function(tabUrl) {
@@ -51,22 +58,84 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
 
     $scope.edit = function(){
       $scope.noedit = false;
+       $http.get(globalURL+'auth/user?token=' + getToken)
+      .success(function(response) {
+        $('.edit-form [name=editname]').val(response.firstName);    
+        $('.edit-form [name=editemail]').val(response.email);
+        $('.edit-form #userselLang').val((response.lang == "en") ? "en" : "my");
+       });
     };
+    $rootScope.editSaveChanges = function(){
+      var firstnameValue = $('.edit-form input[name=editname]').val();      
+      var emailValue = $('.edit-form input[name=editemail]').val();
+      var userlangValue = $('.edit-form #userselLang').val(); 
+      $.ajax({
+              url: globalURL + 'user',
+              contentType: "application/json",
+              type: 'PUT',
+              dataType: "json",
+              data: JSON.stringify({
+                  "firstName": firstnameValue,
+                  "lastName": "null",
+                  "email": emailValue,
+                  "unit": "null",
+                  "branch": "null",
+                  "rank": "null",
+                  "department": "null",
+                  "login": "null",
+                  "password": "null",
+                  "lang": userlangValue,
+                  "id": userId           
+              }),
+          }).done(function (data) {
+              console.log("successfully Saved Profile informations");
+              $("#messageView div span").html("Successfully Saved Profile informations");            
+              $("#messageView div").addClass('alert-success');
+              $("#messageView div").show();
+          });       
+    }
+
+    $rootScope.OnChangePwd = function(){
+      var oldPsw =   $('.PwdChangeform [name=CurrentPwd]').val();
+      var newPsw =   $('.PwdChangeform [name=NewPwd]').val();
+
+      $.get( globalURL + 'api/user/' + userId + '/change_password?opass='+ oldPsw +'&npass='+ newPsw, function( data ) {
+        console.log("successfully Changed Password");
+        
+      }).done(function() {
+        $("#messageView div span").html("Successfully Changed Password");            
+        $("#messageView div").removeClass("alert-danger");
+        $("#messageView div").addClass('alert-success');
+        $("#messageView div").show();
+      }).fail(function(data) {
+        $("#messageView div span").html(data.responseJSON.error);          
+        $("#messageView div").removeClass("alert-success");          
+        $("#messageView div").addClass('alert-danger');
+        $("#messageView div").show();
+  });
+    }
+
+
     $scope.overview = function(){
-      $scope.noedit = true;
+       $scope.noedit =true;
+      $http.get(globalURL+'auth/user?token=' + getToken)
+     .success(function(response) {
+       $scope.setProfileInfo(response);      
+      });
     };
 
     $scope.setProfileInfo = function(info){
-      $('#myprofile-firstname').val(info.firstName);
-      $('#myprofile-lastname').val(info.lastName);
-      $('#myprofile-email').val(info.email);
-      $('#myprofile-unit').val(info.unit);
-      $('#myprofile-rank').val(info.rank);
-      $('#myprofile-state').val(info.state);
-      $('#myprofile-branch').val(info.branch);
-      $('#myprofile-dept').val(info.department);
+      // userId = infor.id;
+      $('#myprofileDsp-firstname').val(info.firstName);
+      $('#myprofileDsp-email').val(info.email);
+      $('#myprofileDsp-unit').val(info.unit);
+      $('#myprofileDsp-rank').val(info.rank);
+      // $('#myprofileDsp-state').val(info.state);
+      $('#myprofileDsp-branch').val(info.branch);
+      $('#myprofileDsp-dept').val(info.department);
     //  $('#myprofile-authority').val(getAuthority);
-        $('#myprofile-lang').val((info.lang == "en") ? "English" : "Bahasa Malayu");
+      var langval = (info.lang == "en") ? "English" : "Bahasa Malayu";
+      $('#myprofileDsp-lang').val(langval);
     };
 
     // set sidebar closed and body solid layout mode
