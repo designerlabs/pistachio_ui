@@ -85,13 +85,14 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
             event.preventDefault(); //stop the browser from following
             if (FrmTemplate=='Yes'){
                 // $.post( globalURL+'jasperreport/csv/' + selectedQueryRunId, function( data ) {});          
-                $.ajax({
+               /* $.ajax({
                     url: globalURL+'jasperreport/csv/' + selectedQueryRunId,
                     type: "GET",
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
                     data: selData
-                });
+                });*/
+                window.location.href = globalURL+'download/csv/' + selectedQueryRunId+'?'+selData;
             }else{
             window.location.href = globalURL+'download/csv/' + selectedQueryRunId;
             }            
@@ -100,13 +101,14 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
          $("#downloadBtnXLS").click(function(event) {
             event.preventDefault(); //stop the browser from following
             if (FrmTemplate=='Yes'){
-                $.ajax({
+               /* $.ajax({
                     url: globalURL+'jasperreport/xls/' + selectedQueryRunId,
                     type: "GET",
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
                     data: selData
-                });
+                });*/
+                window.location.href = globalURL+'download/xls/' + selectedQueryRunId+'?'+selData;
             }else{
             window.location.href = globalURL+'download/xls/' + selectedQueryRunId;
             }
@@ -115,13 +117,14 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
          $("#downloadBtnPDF").click(function(event) {
             event.preventDefault(); //stop the browser from following
             if (FrmTemplate=='Yes'){
-                $.ajax({
+                /*$.ajax({
                     url: globalURL+'jasperreport/pdf/' + selectedQueryRunId,
                     type: "GET",
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
                     data: selData
-                });
+                });*/
+                window.location.href = globalURL+'download/pdf/' + selectedQueryRunId+'?'+selData;
             }else{
             window.location.href = globalURL+'download/pdf/' + selectedQueryRunId;
             }
