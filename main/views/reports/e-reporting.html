@@ -123,6 +123,13 @@
                         <input type="text" class="form-control" id="query-name">
                     </div>
                     
+
+			<div class="form-group fileupload-buttonbar">
+			  <span class="btn green fileinput-button">
+			  <input type="file" id="templateBrowse" file-model="myFile" multiple="" accept=".jrxml">
+			</div>
+		<!--
+
                     <div class="form-group">
                     <input type="file" accept=".jrxml" class="form-control" file-model="myFile" id="templateBrowse" />
                     </div>
@@ -147,6 +154,7 @@
                           <input type="checkbox" id="pastypeVal" value="option6"> Pas type
                         </label>
                     </div>
+		-->
                 </form>
                 
                 
@@ -202,7 +210,7 @@ $("#eReportQueryAddBtn").click(function(event) {
     $("#queryAddForm #queryUISubmit").removeClass('hide');
     $("#queryAddForm #queryUIUpdate").addClass('hide');
     $("#queryAddForm #queryUIUpdateTemplate").addClass('hide');
-    $("#queryAddFormHeader").html("Add Query UI");
+    $("#queryAddFormHeader").html("Add Report");
     $("#queryForm")[0].reset();
 });
 //TableAdvanced.init();
