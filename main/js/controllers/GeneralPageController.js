@@ -962,6 +962,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                             state:stateVal,
                             branch:branchVal,
                             dept:deptVal,*/
+                            id: selectedQueryId,
                             category: reportCategoryID,
                             reportFileName: templateFileName,
                             query:'NA',
