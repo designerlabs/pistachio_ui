@@ -441,16 +441,10 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 row.child(format(row.data())).show();
                 tr.addClass('shown');
                 // $('#reportrange').daterangepicker();
-                createCalenderCtrl();
-                $.getJSON(globalURL + "api/user/reference/dept", function (json) {
-                    $(".department").select2({
-                        data: json,
-                        minimumInputLength: 2
-                    });
-                });
 
+                 createCalenderCtrl();
             }
-        });
+        } );
 
         /* Formatting function for row details - modify as you need */
         function format(d) {
