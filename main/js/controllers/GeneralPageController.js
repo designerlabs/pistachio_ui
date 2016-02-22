@@ -1,6 +1,5 @@
 /* Setup general page controller */
-var tableFunc, jobsDataFunc, selectedQueryRunId, reportCategoryID = undefined;
-
+var tableFunc, jobsDataFunc, selectedQueryRunId, reportCategoryID, fromDate, toDate, FrmTemplate = undefined;
 
 //reportCategoryID =   $("#reportCategoryID").val();
 
@@ -414,86 +413,92 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         $('#queryContainer').on('click', '.details-control', function () {
             var tr = $(this).closest('tr');
             var row = queryData.row( tr );
+            
+                // if( $('#childRow').length > 0){
+                //     $('#childRow').parent().parent().prev('tr').removeClass('shown');
+                //     $('#childRow').parent().parent().remove();
+                //     // tr.removeClass('shown');
+                // }else{
+                //     row.child(format(row.data())).show();
+                //     tr.addClass('shown');
+                //     createCalenderCtrl();
+                // }
+
      
             if ( row.child.isShown() ) {
                 // This row is already open - close it
-                row.child.hide();
+                 row.child.hide();
+                // $('#childRow').parent().parent().remove();
                 tr.removeClass('shown');
             }
             else {
                 // Open this row
+                if( $('#childRow').length > 0){
+                    $('#childRow').parent().parent().prev('tr').removeClass('shown');
+                    $('#childRow').parent().parent().remove();
+                    tr.removeClass('shown');
+                }
+
                 row.child(format(row.data())).show();
                 tr.addClass('shown');
+                // $('#reportrange').daterangepicker();
+                 createCalenderCtrl();
             }
         } );
-                    /* Formatting function for row details - modify as you need */
-            function format ( dval ) {
-                // `d` is the original data object for the row
-                // return '<table cellpadding="5" class="table table-striped table-bordered table-hover" cellspacing="0" '+
-                //         'border="0" style="padding-left:50px;text-align:center;width:60%">'+
-                //     '<tr>'+
-                //         '<td colspan="2"><strong>Selected Template is : '+ d.reportFileName +'</strong></td>'+
-                //     '</tr>'+
-                //     '<tr>'+
-                //         '<td>From : </td>'+
-                //         '<td><input type="text" class="col-md-6"></td>'+
-                //         '<td>To : </td>'+
-                //         '<td><input type="text" class="col-md-6"></td>'+
-                //     '</tr>'+
-                //     '<tr>'+
-                //         '<td colspan="2">State name:</td>'+
-                //         '<td colspan="2"><input type="text" class="col-md-12"></td>'+
-                //     '</tr>'+
-                //     '<tr>'+
-                //         '<td colspan="2">Branch name:</td>'+
-                //         '<td colspan="2"><input type="text" class="col-md-12"></td>'+
-                //     '</tr>'+
-                //     '<tr>'+                     
-                //         '<td colspan="4"><button type="button" class="btn btn-success"><i class="fa fa-check"></i>RUN TEMPLATE</button>'+
-                //         '<button type="button" class="btn btn-danger"><i class="fa fa-times"></i>RESET</button></td>'+
-                //     '</tr>'+
-                // '</table>';
 
-                return '<form class="form-horizontal form-bordered" action="#">'+
-                                        '<div class="form-body">'+
-                                           ' <div class="form-group">'+
-                                               ' <label class="control-label col-md-3">Default Date Ranges</label>'+
-                                                '<div class="col-md-4">'+
-                                                    '<div id="defaultrange" class="input-group">'+
-                                                        '<input type="text" class="form-control">'+
-                                                        '<span class="input-group-btn">'+
-                                                            '<button type="button" class="btn default date-range-toggle">'+
-                                                                '<i class="fa fa-calendar"></i>'+
-                                                            '</button>'+
-                                                       ' </span>'+
-                                                    '</div>'+
+                    /* Formatting function for row details - modify as you need */
+
+            function format ( d ) {
+                // `d` is the original data object for the row             
+
+                return '<form id="childRow" class="form-horizontal form-bordered" action="#">'+
+                                        '<div class="form-body">'+ 
+                                            '<div class="form-group">'+
+                                               '<label class="control-label col-md-3">Selected Template Name </label>'+
+                                               '<div class="col-md-4" style="padding-top: 8px;">'+        
+                                                  '<Strong> '+ d.reportFileName +' </Strong>'+      
+                                                  '<input id="temp-reportid" type="hidden" value='+ d.id +'>'+      
                                                 '</div>'+
-                                            '</div>'+
+                                            '</div>'+                                       
                                             '<div class="form-group ">'+
-                                                '<label class="control-label col-md-3">Advance Date Ranges</label>'+
+                                                '<label class="control-label col-md-3">Choose date </label>'+
                                                 '<div class="col-md-4">'+
-                                                    '<div class="btn default" id="reportrange">'+
+                                                    '<div class="btn default form-control" id="reportrange">'+
                                                         '<i class="fa fa-calendar"></i> &nbsp;'+
-                                                        '<span>January 5, 2016 - February 3, 2016</span>'+
+                                                        '<span>From and To </span>'+
                                                         '<b class="fa fa-angle-down"></b>'+
                                                     '</div>'+
                                                 '</div>'+
-                                            '</div>'
-                                           ' <div class="form-group last">'+
-                                                '<label class="control-label col-md-3"></label>'+
-                                                '<div class="col-md-4">'+
-                                                    '<a data-toggle="modal" href="#daterangepicker_modal" class="btn green btn-outline"> View Daterange Picker in modal'+
-                                                       ' <i class="fa fa-share"></i>'+
-                                                    '</a>'+
+                                            '</div>'+
+                                            
+                                            '<div class="form-group">'+
+                                               '<label class="control-label col-md-3">State </label>'+
+                                                '<div class="col-md-4">'+        
+                                                       '<input id="temp-state" type="text" class="form-control">'+    
                                                 '</div>'+
                                             '</div>'+
+                                            '<div class="form-group">'+
+                                               '<label class="control-label col-md-3">Branch </label>'+
+                                                '<div class="col-md-4">'+        
+                                                       '<input id="temp-branch" type="text" class="form-control">'+    
+                                                '</div>'+
+                                            '</div>'+ 
+                                            '<div class="form-group">'+
+                                               '<label class="control-label col-md-3">Department </label>'+
+                                                '<div class="col-md-4">'+        
+                                                       '<input id="temp-dept" type="text" class="form-control">'+    
+                                                '</div>'+
+                                            '</div>'+                                          
+
                                         '</div>'+
                                         '<div class="form-actions">'+
                                            ' <div class="row">'+
                                                 '<div class="col-md-offset-3 col-md-9">'+
-                                                    '<button class="btn red" type="submit">'+
-                                                       ' <i class="fa fa-check"></i> Submit</button>'+
-                                                   ' <button class="btn default" type="button">Cancel</button>'+
+
+                                                    '<a href="#/queryExe.html"><button class="btn btn-success btn-sm btnRunTemp"  type="button">'+
+                                                       ' <i class="fa fa-eye"></i> View </button></a>'+
+                                                   ' <button class="btn default" id="btnReset" type="button">Reset</button>'+
+
                                                 '</div>'+
                                             '</div>'+
                                         '</div>'+
@@ -533,7 +538,186 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             });
 
         }
-		
+
+        function createCalenderCtrl(){
+         // $("#reportrange").daterangepicker({
+         //          // opens: App.isRTL() ? "left" : "right",
+         //          startDate: moment().subtract(29,"days"),
+         //          endDate: moment(),
+         //          minDate: "01/01/1900",
+         //          maxDate: "12/31/2900",
+         //          dateLimit: {
+         //              days: 60
+         //          },
+         //          showDropdowns: !0,
+         //          showWeekNumbers: !0,
+         //          timePicker: !1,
+         //          timePickerIncrement: 1,
+         //          timePicker12Hour: !0,
+         //          ranges: {
+         //              Today: [moment(), moment()],
+         //              Yesterday: [moment().subtract(1,"days"), moment().subtract(1,"days")],
+         //              "Last 7 Days": [moment().subtract(6,"days"), moment()],
+         //              "Last 30 Days": [moment().subtract(29,"days"), moment()],
+         //              "This Month": [moment().startOf("month"), moment().endOf("month")],
+         //              "Last Month": [moment().subtract("month", 1).startOf("month"), moment().subtract(1,"month").endOf("month")]
+         //          },
+         //          buttonClasses: ["btn"],
+         //          applyClass: "green",
+         //          cancelClass: "default",
+         //          format: "MM/DD/YYYY",
+         //          separator: " to ",
+         //          locale: {
+         //              applyLabel: "Apply",
+         //              fromLabel: "From",
+         //              toLabel: "To",
+         //              customRangeLabel: "Custom Range",
+         //              daysOfWeek: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+         //              monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+         //              firstDay: 1
+         //          }
+         //      },
+         //       function(startdt, enddt) {
+         //          $("#reportrange span").html(startdt.format("MMMM D, YYYY") + " - " + enddt.format("MMMM D, YYYY"))
+         //          fromDate=startdt;
+         //          toDate=enddt;
+         //      }),
+         //       $("#reportrange span").html(moment().subtract(29,"days").format("DD-MM-YYYY") + " - " + moment().format("DD-MM-YYYY"));
+
+         $('#reportrange').daterangepicker({
+             
+          });
+        }
+
+        $('#queryContainer').on('apply.daterangepicker', function(ev, picker) {
+            // alert("on Apply");
+              $("#reportrange span").html(picker.startDate.format("MMMM D, YYYY") + " - " + picker.endDate.format("MMMM D, YYYY"))
+              fromDate = picker.startDate.format('YYYY-MM-DD'); 
+              toDate = picker.endDate.format('YYYY-MM-DD'); 
+        });
+
+        $('#queryContainer').on('cancel.daterangepicker', function(ev, picker) {
+              // alert("on cancel");
+        });
+
+        // formInputValidation("#queryForm");
+        $('#queryContainer').on('click', '.btnRunTemp', function () {
+            console.log(fromDate + ' - ' + toDate);
+            var reportid = $('#temp-reportid')[0].value;
+            var _state = $('#temp-state')[0].value;
+            var _dept = $('#temp-dept')[0].value;
+            var _branch = $('#temp-branch')[0].value;
+            // console.log( globalURL+ 'jasperreport/' + fileformat + '/' + reportid);
+            var selTemplateVal = JSON.stringify({
+                                    fromDt: fromDate,
+                                    toDt : toDate,
+                                    state : _state,
+                                    dept  : _dept,
+                                    branch : _branch
+                                });
+            localStorage.setItem("selTemplateVal",selTemplateVal);
+
+
+            $.ajax({
+                    url: globalURL+queryString+'/' + reportid + "/exec",
+                    type: "POST",
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    data: selTemplateVal,
+                    success: function(result) {
+                       
+                        queryData.destroy();
+                        queryDataFunc();
+                       
+                        resultOutputCol = jQuery.parseJSON(result.columns);
+                        resultOutput = jQuery.parseJSON(result.results);
+
+
+                        if (resultOutput != null && resultOutput.length > 0) {
+                            var myArrayColumn = [];
+                            var i = 0;
+
+                            $.each(resultOutputCol, function(index, val) {
+                                //console.log(val);
+                                var obj = {
+                                    sTitle: val
+                                };
+                                myArrayColumn[i] = obj;
+                                i++;
+                            });
+
+                            var myArrayRow = [];
+                            var i = 0;
+
+                            $.each(resultOutput, function(index, val) {
+                                var rowData = [];
+                                var j = 0;
+                                $.each(resultOutput[i], function(index, val) {
+                                    //console.log(val);
+                                    rowData[j] = val;
+                                    j++;
+                                });
+
+                                myArrayRow[i] = rowData;
+                                i++;
+                            });
+
+                            function queryUIFunc() {
+                                queryUI = $("#jqueryRunData").dataTable({
+                                    "bDestroy": true,
+                                    "bScrollCollapse": true,
+                                    "bJQueryUI": true,
+                                    "bScrollCollapse": true,
+                                    "bInfo": true,
+                                    "bFilter": true,
+                                    "bSort": true,
+                                    "aaData": myArrayRow,
+                                    "aoColumns": myArrayColumn,
+                                    "scrollCollapse": true,
+                                    "paging": true
+                                });
+                            }
+
+                            queryUIFunc();
+
+                        }
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        alert("Status: " + textStatus);
+                        alert("Error: " + errorThrown);
+                    }
+                }).done(function(){
+                    // alert("Post done successfully");
+                }).fail(function(data){
+                    // alert("Poset exec url falied");
+                });
+
+            // $.ajax({
+            //     url: globalURL+ 'jasperreport/' + fileformat + '/' + reportid,
+            //     type: "POST",
+            //     dataType: 'json',
+            //     contentType: "application/json; charset=utf-8",
+            //     data: JSON.stringify({
+            //         fromDt: fromDate,
+            //         toDt : toDate,
+            //         state : "tst",
+            //         dept  : "hello",
+            //         branch : "bb"
+
+            //     })
+            // })
+            // .done(function() {
+           
+               
+            // })
+            // .fail(function(data) {
+            
+            // });
+
+
+        });
+
+
 
 
         formInputValidation("#queryForm");
@@ -597,11 +781,18 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         $('#queryContainer').on('click', 'button.runBtn', function() {
             var selectedRunQuery = queryData.row($(this).parents('tr')).data();
             selectedQueryRunId = selectedRunQuery.id;
+            FrmTemplate = '';
+            localStorage.setItem("selTemplateVal","");
             //alert(selectedQueryRunId);
         });
 
-
-
+         $('#queryContainer').on('click', 'button.TemplateBtn', function() {
+            var selectedRunQuery = queryData.row($(this).parents('tr')).data();
+            selectedQueryRunId = selectedRunQuery.id;
+            FrmTemplate = 'Yes';
+           localStorage.setItem("selTemplateVal","");
+            //alert(selectedQueryRunId);
+        });
 
         $('#queryContainerAdmin').on('click', 'button.runBtn', function() {
             var selectedRunQuery = queryData.row($(this).parents('tr')).data();
