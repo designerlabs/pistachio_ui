@@ -490,6 +490,66 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
+    .state('workflowuser', {
+        url: "/workflowuser.html",
+        templateUrl: "views/workflow/workflowuser.html",
+        data: {
+            pageTitle: 'Workflow User'
+        },
+        controller: "WorkflowuserController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/global/plugins/morris/morris.css',
+                        'assets/admin/pages/css/tasks.css',
+
+                        'assets/global/plugins/morris/morris.min.js',
+                        'assets/global/plugins/morris/raphael-min.js',
+                        'assets/global/plugins/jquery.sparkline.min.js',
+
+                        'assets/admin/pages/scripts/index.js',
+                        'assets/admin/pages/scripts/tasks.js',
+
+                        'js/controllers/DashboardChartController.js'
+                    ]
+                });
+            }]
+        }
+    })
+
+    .state('workflowadmin', {
+        url: "/workflowadmin.html",
+        templateUrl: "views/workflow/workflowadmin.html",
+        data: {
+            pageTitle: 'Workflow Admin'
+        },
+        controller: "WorkflowadminController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/global/plugins/morris/morris.css',
+                        'assets/admin/pages/css/tasks.css',
+
+                        'assets/global/plugins/morris/morris.min.js',
+                        'assets/global/plugins/morris/raphael-min.js',
+                        'assets/global/plugins/jquery.sparkline.min.js',
+
+                        'assets/admin/pages/scripts/index.js',
+                        'assets/admin/pages/scripts/tasks.js',
+
+                        'js/controllers/DashboardChartController.js'
+                    ]
+                });
+            }]
+        }
+    })
+
       .state('fastsearch', {
         url: "/fastsearch.html",
         templateUrl: "views/fastsearch/fs.html",

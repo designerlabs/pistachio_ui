@@ -35,6 +35,14 @@
             </a>
         </li>
 
+        <li class="start" id="workflowMgt"  ng-if="!chkRole('ROLE_ADMIN')">
+            <a href="#/workflowuser.html">
+                <i class="icon-magnifier"></i>
+                <span class="title">Workflow Management</span>
+            </a>
+        </li>
+
+
 
         <li class="start" id="afpr">
 
@@ -69,6 +77,12 @@
                         <i class="icon-docs"></i> {{'sidebar.reportmanagement' | translate}}
                     </a>
                 </li>
+                <li>
+                    <a href="#/workflowadmin.html">
+                        <i class="icon-docs"></i> Workflow Management
+                    </a>
+                </li>
+
                 <li>
                     <a href="#/audit.html">
                         <i class="icon-docs"></i> {{'sidebar.audit' | translate}}
