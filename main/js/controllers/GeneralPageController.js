@@ -1000,7 +1000,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
             $("#queryAddForm #queryUISubmitTemplate").addClass('hide');
             $("#queryAddForm #queryUIUpdateTemplate").removeClass('hide');
-            
+
             
             $("#queryForm #query-name").val(selectedQuery.queryName);
             $("#queryFormTemplate #query-name").val(selectedQuery.queryName);
@@ -1010,6 +1010,12 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             $("#queryAddFormHeader").html("Update Query UI");
             $("#queryAddForm").modal('show');
 
+        });
+
+        $("#queryAddForm").on('hidden.bs.modal', function () {
+            $('form').trigger('reset');
+            $('#queryRequire').hide();
+            $('.form-group').removeClass('has-error');
         });
 
         $('#queryContainer').on('click', 'button.runBtn', function () {
