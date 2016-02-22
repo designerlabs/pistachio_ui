@@ -41,7 +41,7 @@ var MetronicApp = angular
     .constant('LOCALES', {
         'locales': {
             'en_US': 'English',
-            'ms_my': 'Bahasa Malayu'
+            'ms_my': 'Bahasa Malaysia'
         },
         'preferredLocale': 'ms_my'
     })
@@ -455,7 +455,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
 
     // Redirect any unmatched url
     //if (currentUserName == jimUserId || currentUserName == mimosUserId) {
-    $urlRouterProvider.otherwise("/dashboardchart.html");
+    $urlRouterProvider.otherwise("/myprofile.html");
     //}else{
     //  $urlRouterProvider.otherwise("/dashboard.html");
     //}

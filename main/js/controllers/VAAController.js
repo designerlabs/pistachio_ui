@@ -11,10 +11,20 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
         
         $scope.cntName = "";
         $scope.cntCode = "";
+        $scope.cJobs = "";
+         $scope.cEmply = "";
         $scope.querySolr();
            
 
     });
+
+    $scope.reset = function(){
+        $scope.cntName = "";
+        $scope.cntCode = "";
+        $scope.cJobs = "";
+        $scope.cEmply = "";
+        $scope.querySolr();
+    }
 
     $scope.loadMap = function(){
      
@@ -116,8 +126,20 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
        }
 
        $scope.clickEmply = function(data) {
+        //alert(data);
+        data = data.replace(/ /g,"*");
+        //alert(data);
+        $scope.cEmply = "employer:"+data;
+        $scope.querySolr();
+       }
 
-        alert(data);
+       $scope.clickJobs = function(data) {
+
+        //alert(data);
+        data = data.replace(/ /g,"*");
+        //alert(data);
+        $scope.cJobs = "job_en:"+data;
+        $scope.querySolr();
        }
 
        $scope.formQuery = function() {
@@ -127,7 +149,21 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
         {
           query = "mad_nat_cd:"+$scope.cntName;
         }
-
+        if($scope.cJobs.length > 1)
+        {
+          if(query.length > 2)
+            query = query + " AND " + $scope.cJobs;
+          else
+            query = $scope.cJobs;
+        }
+        if($scope.cEmply.length > 1)
+        {
+          if(query.length > 2)
+            query = query + " AND " + $scope.cEmply;
+          else
+            query = $scope.cEmply;
+        }
+        //alert(query);
         if(query.length < 3)
           return("*:*");
         else
@@ -146,7 +182,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
           var keys = ["field","count"];
           var query = "";
 
-          query = 'http://localhost:8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=employer';
+          query = 'http://10.1.17.235:8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=employer';
      
       $http.get(query).
        success(function(data) {

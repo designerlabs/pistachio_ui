@@ -1,5 +1,5 @@
 var globalURL = "http://pistachio_server:8080/";
-//var globalURL = "http://10.23.124.243:8080/";
+//var globalURL = "http://192.168.0.6:8080/";
 var queryString = "query";
 var categoryName = "cat";
 var selectedLang = "";
@@ -101,7 +101,7 @@ var Login = function () {
                                 // localStorage.setItem("authorities",data.roles);
 
                                 //form.submit();
-                                window.location = "index.html#/dashboard.html";
+                                window.location = "index.html#/myprofile.html";
                                 console.log("success");
                             })
                             .fail(function () {
