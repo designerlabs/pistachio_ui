@@ -523,7 +523,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         function format(d) {
             // `d` is the original data object for the row             
 
-            return '<form id="childRow" class="form-horizontal form-bordered" action="#">' +
+            return '<form id="childRow" class="form-horizontal form-bordered col-xs-21 col-lg-11 col-sm-11 col-md-11" action="#">' +
                 '<div class="form-body">' +
                 '<div class="form-group">' +
                 '<label class="control-label col-md-3">Selected Template Name </label>' +
@@ -889,16 +889,14 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
         
         $("#queryUISubmitTemplate").click(function (event) {
-            
-            
             var queryNameValTemp = $("#queryFormTemplate #query-name").val();
            
-            var dtRange = $("#queryFormTemplate #dtRange").prop("checked");
+            /*var dtRange = $("#queryFormTemplate #dtRange").prop("checked");
             var stateVal = $("#queryFormTemplate #stateVal").prop("checked");
             var branchVal = $("#queryFormTemplate #branchVal").prop("checked");
             var deptVal = $("#queryFormTemplate #deptVal").prop('checked');
             console.log(deptVal);
-            console.log($("#queryFormTemplate #deptVal").prop('checked'));
+            console.log($("#queryFormTemplate #deptVal").prop('checked'));*/
 
             inputValidation("#queryFormTemplate", queryAjax);
 
@@ -910,10 +908,60 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify({
                             queryName: queryNameValTemp,
-                            dtRange:dtRange,
+                           /* dtRange:dtRange,
                             state:stateVal,
                             branch:branchVal,
-                            dept:deptVal,
+                            dept:deptVal,*/
+                            category: reportCategoryID,
+                            reportFileName: templateFileName,
+                            query:'NA',
+                            cached: null
+                        })
+                    })
+                    .done(function () {
+                        queryData.destroy();
+                        queryDataFunc();
+                        queryMasukFunc();
+                        $("#queryAddForm").modal('hide');
+                        $("#queryRequire").hide();
+                    })
+                    .fail(function (data) {
+                        //console.log(data.responseJSON.error);
+                        $("#queryRequire span").html(data.responseJSON.error);
+                        $("#queryRequire").show();
+                        //alert('Failed!');
+                    });
+            }
+
+
+        });
+        
+
+
+        $("#queryUIUpdateTemplate").click(function (event) {
+            var queryNameValTemp = $("#queryFormTemplate #query-name").val();
+           /*
+            var dtRange = $("#queryFormTemplate #dtRange").prop("checked");
+            var stateVal = $("#queryFormTemplate #stateVal").prop("checked");
+            var branchVal = $("#queryFormTemplate #branchVal").prop("checked");
+            var deptVal = $("#queryFormTemplate #deptVal").prop('checked');
+            console.log(deptVal);
+            console.log($("#queryFormTemplate #deptVal").prop('checked'));*/
+
+            inputValidation("#queryFormTemplate", queryAjax);
+
+            function queryAjax() {
+                $.ajax({
+                        url: globalURL + queryString + "/",
+                        type: "PUT",
+                        dataType: 'json',
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({
+                            queryName: queryNameValTemp,
+                            /*dtRange:dtRange,
+                            state:stateVal,
+                            branch:branchVal,
+                            dept:deptVal,*/
                             category: reportCategoryID,
                             reportFileName: templateFileName,
                             query:'NA',
@@ -940,6 +988,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
 
 
+
         queryDataFunc();
         queryMasukFunc();
         var selectedQueryId = undefined;
@@ -948,7 +997,14 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             selectedQueryId = selectedQuery.id;
             $("#queryAddForm #queryUISubmit").addClass('hide');
             $("#queryAddForm #queryUIUpdate").removeClass('hide');
+
+            $("#queryAddForm #queryUISubmitTemplate").addClass('hide');
+            $("#queryAddForm #queryUIUpdateTemplate").removeClass('hide');
+            
+            
             $("#queryForm #query-name").val(selectedQuery.queryName);
+            $("#queryFormTemplate #query-name").val(selectedQuery.queryName);
+            
             $("#queryForm #query-text").val(selectedQuery.query);
             $("#queryForm #query-template").val(selectedQuery.reportFileName);
             $("#queryAddFormHeader").html("Update Query UI");
@@ -1177,10 +1233,14 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
                 });
         });
-
+        
+       /* $("#queryUIUpdateTemplate").click(function (event){
+            var queryNameValTempUpdated = $("#queryForm #query-name-update").val();
+        });*/
 
         $("#queryUIUpdate").click(function (event) {
             var queryNameValUpdated = $("#queryForm #query-name").val();
+            
             var queryTextValUpdated = $("#queryForm #query-text").val();
             //alert(selectedQueryId);
             $.ajax({
