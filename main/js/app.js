@@ -40,7 +40,7 @@ var MetronicApp = angular
   .constant('LOCALES', {
     'locales': {
       'en_US': 'English',
-      'ms_my': 'Bahasa Malayu'
+      'ms_my': 'Bahasa Malaysia'
     },
     'preferredLocale': 'en_US'
   })
@@ -148,7 +148,6 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 var globalURL = "http://pistachio_server:8080/";
 var queryString = "query";
 var categoryName = "cat";
-
 
 
 
