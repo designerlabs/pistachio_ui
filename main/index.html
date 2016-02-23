@@ -79,6 +79,7 @@ Website: http://www.mimos.com.my/
     <div>
         <div class="page-container">
             <!-- BEGIN SIDEBAR -->
+            {{'timeout.endmessage' | translate}}
             <div data-ng-include="'tpl/sidebar.html'" data-ng-controller="SidebarController" class="page-sidebar-wrapper">
             </div>
             <!-- END SIDEBAR -->
@@ -89,6 +90,12 @@ Website: http://www.mimos.com.my/
                     </div>
                     <!-- END STYLE CUSTOMIZER -->
                     <!-- BEGIN ACTUAL CONTENT -->
+                   <!--  <section data-ng-controller="SidebarController12">
+                    <p>
+                       <button type="button" class="btn btn-success" data-ng-hide="started" ng-click="start()">Start Demo</button>
+                       <button type="button" class="btn btn-danger" data-ng-show="started" ng-click="stop()">Stop Demo</button>
+                     </p>
+                    </section> -->
                     <div ui-view class="fade-in-up">
                     </div>
                     <!-- END ACTUAL CONTENT -->
@@ -101,6 +108,27 @@ Website: http://www.mimos.com.my/
         <!-- END FOOTER -->
     </div>
     <!-- END CONTAINER -->
+    <div data-ng-controller="sessionController">
+        <script type="text/ng-template" id="warning-dialog.html">
+          <div class="modal-header">
+           <h3>{{'session.idlemessage' | translate}}!</h3>
+          </div>
+          <div idle-countdown="countdown" ng-init="countdown=10" class="modal-body">
+           <progressbar max="30" value="30" animate="false" class="progress-striped active">{{'session.endmessage' | translate}} {{countdown}} {{'session.endmessageinsec' | translate}}.</progressbar>
+          </div>
+
+        </script>
+        <script type="text/ng-template" id="timedout-dialog.html">
+          <div class="modal-header">
+           <h3>{{'session.timeoutmessage' | translate}}!</h3>
+          </div>
+          <div class="modal-body">
+           <p>
+              {{'session.loggedoutmessage' | translate}}.
+           </p>
+         </div>
+        </script>
+    </div>
     <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
     <!-- BEGIN CORE JQUERY PLUGINS -->
     <!--[if lt IE 9]>
@@ -118,6 +146,7 @@ Website: http://www.mimos.com.my/
     <!-- END CORE JQUERY PLUGINS -->
     <!-- BEGIN CORE ANGULARJS PLUGINS -->
     <script src="assets/global/plugins/angularjs/angular.min.js" type="text/javascript"></script>
+    <script src="assets/global/plugins/angularjs/bower_components/ng-idle/angular-idle.js" type="text/javascript"></script>
     <script src="assets/global/plugins/angularjs/angular-sanitize.min.js" type="text/javascript"></script>
     <script src="assets/global/plugins/angularjs/angular-touch.min.js" type="text/javascript"></script>
     <script src="assets/global/plugins/angularjs/plugins/angular-ui-router.min.js" type="text/javascript"></script>

@@ -74,6 +74,13 @@
 	"audit.eventTime" : "Time",
 	"audit.username" : "User",
 	"audit.status" : "Status",
-	"audit.notes" : "Notes"
+	"audit.notes" : "Notes",
+
+	"session.endmessage" :"You'll be logged out in",
+	"session.endmessageinsec": "second(s)",
+	"session.idlemessage" : "You're Idle. Do Something",
+	"session.timeoutmessage" : "You've Timed Out",
+	"session.loggedoutmessage" : "You were idle too long. Normally you'd be logged out, but in this demo just do anything and you'll be reset"
+
 
 }

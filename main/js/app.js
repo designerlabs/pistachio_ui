@@ -12,7 +12,8 @@ var MetronicApp = angular
     "ngResource",
     "ngTable",
     "pascalprecht.translate",
-    'tmh.dynamicLocale'
+    'tmh.dynamicLocale',
+    'ngIdle'    
 ])
 
 // /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -55,7 +56,7 @@ var MetronicApp = angular
     $translateProvider.useStaticFilesLoader({
       prefix: 'resources/locale-',
       suffix: '.json'
-  });
+    });
      var DBLocale = (localStorage.getItem("lang") == "en") ? "en_US" : "ms_my";
      $translateProvider.preferredLanguage(DBLocale);
      // $translateProvider.useLocalStorage();
@@ -70,7 +71,6 @@ var MetronicApp = angular
       $scope.locale = data.language;
       console.log(data.language);
     });
-
  });
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -233,7 +233,69 @@ MetronicApp.config(['$controllerProvider', function($controllerProvider) {
 
 }]);
 
+MetronicApp.controller('sessionController', function($scope, Idle, Keepalive, $modal){
+      // $scope.started = false;
+        // start();
 
+
+      function closeModals() {
+        if ($scope.warning) {
+          $scope.warning.close();
+          $scope.warning = null;
+        }
+
+        if ($scope.timedout) {
+          $scope.timedout.close();
+          $scope.timedout = null;
+        }
+      }
+
+      $scope.$on('IdleStart', function() {
+        closeModals();
+        // window.getAttention();
+        $scope.warning = $modal.open({
+          templateUrl: 'warning-dialog.html',
+          windowClass: 'modal-danger'
+        });       
+      });
+
+      $scope.$on('IdleEnd', function() {
+        closeModals();
+      });
+
+      $scope.$on('IdleTimeout', function() {
+        closeModals();
+        $scope.timedout = $modal.open({
+          templateUrl: 'timedout-dialog.html',
+          windowClass: 'modal-danger'
+        });
+        localStorage.setItem("token","");
+        window.location = "login.html";
+      });
+
+   // function start() {
+   //      closeModals();
+   //      Idle.watch();
+   //      $scope.started = true;
+   //    };
+
+      // $scope.stop = function() {
+      //   closeModals();
+      //   Idle.unwatch();
+      //   $scope.started = false;
+
+      // };
+    })
+    .config(function(IdleProvider, KeepaliveProvider) {
+      IdleProvider.idle(300);
+      IdleProvider.timeout(30);
+      // KeepaliveProvider.interval(15);     
+    });
+
+    MetronicApp.run(['Idle', function(Idle) {
+      Idle.watch();
+      console.log("Started From session");
+    }]);
 /********************************************
  END: BREAKING CHANGE in AngularJS v1.3.x:
 *********************************************/
