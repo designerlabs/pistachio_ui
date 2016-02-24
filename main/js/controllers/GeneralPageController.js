@@ -1349,3 +1349,56 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
     });
 }]);
+
+MetronicApp.controller('GeneralPageController', function($scope, Idle, Keepalive, $modal, $rootScope){
+      $scope.started = false;
+      console.log($scope.started );
+      function closeModals() {
+        if ($scope.warning) {
+          $scope.warning.close();
+          $scope.warning = null;
+        }
+
+        if ($scope.timedout) {
+          $scope.timedout.close();
+          $scope.timedout = null;
+        }
+      }
+
+      $scope.$on('IdleStart', function() {
+        closeModals();
+
+        $scope.warning = $modal.open({
+          templateUrl: 'warning-dialog.html',
+          windowClass: 'modal-danger'
+        });
+      });
+
+      $scope.$on('IdleEnd', function() {
+        closeModals();
+      });
+
+      $scope.$on('IdleTimeout', function() {
+        closeModals();
+        $scope.timedout = $modal.open({
+          templateUrl: 'timedout-dialog.html',
+          windowClass: 'modal-danger'
+        });
+      });
+
+      $rootScope.start = function() {
+        alert('start');
+        closeModals();
+        Idle.watch();
+        alert('session time out');
+        $scope.started = true;
+      };
+
+      $scope.stop = function() {
+        alert('stop');
+        closeModals();
+        Idle.unwatch();
+        $scope.started = false;
+
+      };
+    });

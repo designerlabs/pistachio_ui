@@ -61,19 +61,48 @@
 	"ereporting.delete.no" : "No",
 	"ereporting.delete.yes" : "Yes",
 
-
-
-
-
  	"report.title" : "Federal Advanced Profiling Report",
-
-
 
 	"audit.title" : "Audit",
 	"audit.filter" : "filter",
 	"audit.eventTime" : "Time",
 	"audit.username" : "User",
 	"audit.status" : "Status",
-	"audit.notes" : "Notes"
+	"audit.notes" : "Notes",
+
+	"session.endmessage" :"You'll be logged out in",
+	"session.endmessageinsec": "second(s)",
+	"session.idlemessage" : "You're Idle. Do Something",
+	"session.timeoutmessage" : "You've Timed Out",
+	"session.loggedoutmessage" : "You were idle too long. You are logged out now, Please login again",
+
+	"profile.title" : "My Profile",
+	"profile.overview" : "Overview",
+	"profile.edit" : "Edit",
+	"profile.userinfo" : "User Info",
+	"profile.name" : "Name",
+	"profile.email" : "E-Mail",
+	"profile.unit" : "Unit",
+	"profile.rank" : "Rank",
+	"profile.branch" : "Branch",
+	"profile.department" : "Department",
+	"profile.lang" : "Language",
+	"profile.recentactivities" : "Recent Activities",
+	"profile.acc" : "Profile Account",
+
+	"profile.edit.name" : "Name",
+	"profile.edit.email" : "E-Mail",
+	"profile.edit.lang" : "Language",
+	"profile.edit.selLang" : "Select Language",
+	"profile.edit.english" : "English",
+	"profile.edit.malay" : "Bahasa Malaysia",
+	"profile.edit.save" : "Save Changes",
+	"profile.edit.cancel" : "Cancel",
+
+	"profile.edit.currentPswd" : "Current Password",
+	"profile.edit.newPswd" : "New Password",
+	"profile.edit.retypenewPswd" : "Re-type New Password",
+	"profile.edit.changePswd" : "Change Password",
+	"profile.edit.cancelPswd" : "Cancel"
 
 }
