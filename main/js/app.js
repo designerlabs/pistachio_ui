@@ -574,7 +574,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/admin/pages/scripts/index.js',
                         'assets/admin/pages/scripts/tasks.js',
 
-                        'js/controllers/DashboardChartController.js'
+                        'js/controllers/WorkflowuserController.js'
                     ]
                 });
             }]
@@ -604,7 +604,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/admin/pages/scripts/index.js',
                         'assets/admin/pages/scripts/tasks.js',
 
-                        'js/controllers/DashboardChartController.js'
+                        'js/controllers/WorkflowadminController.js'
                     ]
                 });
             }]
