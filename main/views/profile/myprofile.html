@@ -1,7 +1,7 @@
 	<!-- BEGIN PAGE HEADER-->
 	<h3 class="page-title">
 		<span class="glyphicons glyphicons-user"></span>
-		My Profile
+		{{'profile.title' | translate}}		
 	</h3>
 
 	<!-- END PAGE HEADER-->
@@ -31,11 +31,11 @@
 						<ul class="nav">
 							<li ng-class="{active:noedit}">
 								<a href="" ng-click="overview()">
-									<i class="icon-home"></i> Overview </a>
+									<i class="icon-home"></i> {{'profile.overview' | translate}} </a>
 								</li>
 								<li ng-class="{active:!noedit}">
 									<a href="" ng-click="edit()">
-										<i class="icon-settings"></i> Edit </a>
+										<i class="icon-settings"></i> {{'profile.edit' | translate}} </a>
 									</li>
 
 								</ul>
@@ -55,7 +55,7 @@
 									<div class="portlet-title">
 										<div class="caption caption-md">
 											<i class="icon-bar-chart theme-font hide"></i>
-											<span class="caption-subject font-blue-madison bold uppercase">User Info</span>
+											<span class="caption-subject font-blue-madison bold uppercase">{{'profile.userinfo' | translate}}</span>
 											<span class="caption-helper hide">weekly stats...</span>
 										</div>
 									</div>
@@ -63,43 +63,43 @@
 										<form class="form-horizontal" role="form">
 											<div class="form-body">
 												<div class="form-group">
-													<label class="col-md-3 control-label">Name</label>
+													<label class="col-md-3 control-label">{{'profile.name' | translate}}</label>
 													<div class="col-md-9">
 														<input type="text" class="form-control" id="myprofileDsp-firstname" readonly="true">
 													</div>
 												</div>
 												<div class="form-group">
-													<label class="col-md-3 control-label">E-Mail</label>
+													<label class="col-md-3 control-label">{{'profile.email' | translate}}</label>
 													<div class="col-md-9">
 														<input type="text" class="form-control" id="myprofileDsp-email" readonly="true">
 													</div>
 												</div>
 												<div class="form-group">
-													<label class="col-md-3 control-label">Unit</label>
+													<label class="col-md-3 control-label">{{'profile.unit' | translate}}</label>
 													<div class="col-md-9">
 														<input type="text" class="form-control" id="myprofileDsp-unit" readonly="true">
 													</div>
 												</div>
 												<div class="form-group">
-													<label class="col-md-3 control-label">Rank</label>
+													<label class="col-md-3 control-label">{{'profile.rank' | translate}}</label>
 													<div class="col-md-9">
 														<input type="text" class="form-control" id="myprofileDsp-rank" readonly="true">
 													</div>
 												</div>
 												<div class="form-group">
-													<label class="col-md-3 control-label">Branch</label>
+													<label class="col-md-3 control-label">{{'profile.branch' | translate}}</label>
 													<div class="col-md-9">
 														<input type="text" class="form-control" id="myprofileDsp-branch" readonly="true">
 													</div>
 												</div>
 												<div class="form-group">
-													<label class="col-md-3 control-label">Department</label>
+													<label class="col-md-3 control-label">{{'profile.department' | translate}}</label>
 													<div class="col-md-9">
 														<input type="text" class="form-control" id="myprofileDsp-dept" readonly="true">
 													</div>
 												</div>
 												<div class="form-group">
-													<label class="col-md-3 control-label">Language</label>
+													<label class="col-md-3 control-label">{{'profile.lang' | translate}}</label>
 													<div class="col-md-9">
 														<input type="text" class="form-control" id="myprofileDsp-lang" readonly="true">
 													</div>
@@ -115,7 +115,7 @@
                                     <div class="portlet-title">
 										<div class="caption caption-md">
 											<i class="icon-bar-chart theme-font hide"></i>
-											<span class="caption-subject font-blue-madison bold uppercase">Recent Activities</span>
+											<span class="caption-subject font-blue-madison bold uppercase">{{'profile.recentactivities' | translate}}</span>
 										</div>
 									</div>
 									<div class="portlet-body">
@@ -160,7 +160,7 @@
 						<div class="portlet-title tabbable-line">
 							<div class="caption caption-md">
 								<i class="icon-globe theme-font hide"></i>
-								<span class="caption-subject font-blue-madison bold uppercase">Profile Account</span>
+								<span class="caption-subject font-blue-madison bold uppercase">{{'profile.acc' | translate}}</span>
 							</div>
 								<ul class="nav nav-tabs">
 									<li ng-repeat="tab in tabs"	ng-class="{active:isActiveTab(tab.url)}" ng-click="onClickTab(tab)">
@@ -187,26 +187,26 @@
 							<div class="tab-pane active" id="tab_1_1">
 								<form role="form" class="edit-form">
 									<div class="form-group">
-										<label class="control-label">Name</label>
+										<label class="control-label">{{'profile.edit.name' | translate}}Name</label>
 										<input type="text" name="editname" class="form-control"> 
 									</div>
 									<div class="form-group">
-										<label class="control-label">Email</label>
+										<label class="control-label">{{'profile.edit.email' | translate}}Email</label>
 										<input type="text" name="editemail" class="form-control"> 
 									</div>	
 									<div class="form-group">
-										<label class="control-label">Language</label>
+										<label class="control-label">{{'profile.edit.lang' | translate}}</label>
 										<!-- <input type="text" name="editlang" class="form-control">  -->
 										<select id="userselLang" class="valid form-control">
-										    <option value="" selected>Select Language</option>
-										    <option value="en">English</option>
-										    <option value="my">Bahasa Malaysia</option>
+										    <option value="" selected>{{'profile.edit.selLang' | translate}}</option>
+										    <option value="en">{{'profile.edit.english' | translate}}</option>
+										    <option value="my">{{'profile.edit.malay' | translate}}Bahasa Malaysia</option>
 										</select>
 									</div>
 									
 									<div class="margin-top-10">
-										<button class="btn green" ng-click="editSaveChanges()"> Save Changes</button> 
-										<button class="btn default"> Cancel </button>
+										<button class="btn green" ng-click="editSaveChanges()">{{'profile.edit.save' | translate}} </button> 
+										<button class="btn default">{{'profile.edit.cancel' | translate}} </button>
 									</div>
 									</form>
 								</div>
@@ -240,20 +240,20 @@
 								<script type="text/ng-template" id="change.password.html">
 									<form role="form" class="PwdChangeform" id="formPwd">
 										<div class="form-group">
-											<label class="control-label">Current Password</label>
+											<label class="control-label">{{'profile.edit.currentPswd' | translate}}</label>
 											<input type="password" name="CurrentPwd" class="form-control">
 										</div>
 										<div class="form-group">
-											<label class="control-label">New Password</label>
+											<label class="control-label">{{'profile.edit.newPswd' | translate}}</label>
 											<input type="password" name="NewPwd" class="form-control"> 
 										</div>
 										<div class="form-group">
-												<label class="control-label">Re-type New Password</label>
+												<label class="control-label">{{'profile.edit.retypenewPswd' | translate}} </label>
 												<input type="password" name="ReTypePwd" class="form-control"> 
 										</div>
 										<div class="margin-top-10">
-											<button class="btn green" ng-click="OnChangePwd()"> Change Password </button>
-											<button class="btn default"> Cancel </button>
+											<button class="btn green" ng-click="OnChangePwd()"> {{'profile.edit.changePswd' | translate}} </button>
+											<button class="btn default"> {{'profile.edit.cancelPswd' | translate}} </button>
 										</div>
 									</form>
 								</script>
