@@ -294,6 +294,8 @@ MetronicApp.controller('sessionController', function($scope, Idle, Keepalive, $m
     MetronicApp.run(['Idle', function(Idle) {
       Idle.watch();
       console.log("Started From session");
+
+
     }]);
 /********************************************
  END: BREAKING CHANGE in AngularJS v1.3.x:
