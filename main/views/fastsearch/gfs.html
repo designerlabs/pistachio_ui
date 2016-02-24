@@ -6,7 +6,7 @@
   <div class="search-page search-content-4">
   <div class="search-bar bordered">
       <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-12">
               <div class="input-group">
                   <input ng-model="search.text" type="search" class="form-control" placeholder="{{'fastsearch.global.searchfor' | translate}}...">
                   <span class="input-group-btn btn-grp-padding">
@@ -55,7 +55,7 @@
                         </div>
                         <div class="arrow-down arrow-orange"></div>
                         <div class="price-table-pricing">
-                            <h3>222</h3>
+                            <h3>{{users}}</h3>
                             <p>{{'fastsearch.global.usersfound' | translate}}</p>
                         </div>
 
@@ -74,8 +74,8 @@
                         </div>
                         <div class="arrow-down arrow-red"></div>
                         <div class="price-table-pricing">
-                            <h3>222</h3>
-                            <p>{{'fastsearch.global.usersfound' | translate}}</p>
+                            <h3>{{employers}}</h3>
+                            <p>{{'fastsearch.global.employersfound' | translate}}</p>
                         </div>
 
                         <div class="arrow-down arrow-grey"></div>
@@ -93,8 +93,8 @@
                         </div>
                         <div class="arrow-down arrow-purple"></div>
                         <div class="price-table-pricing">
-                            <h3>222</h3>
-                            <p>{{'fastsearch.global.usersfound' | translate}}</p>
+                            <h3>0</h3>
+                            <p>{{'fastsearch.global.auditfound' | translate}}</p>
                         </div>
 
                         <div class="arrow-down arrow-grey"></div>
@@ -113,7 +113,7 @@
     <div class="row">
       <div class="col-md-2">
 
-        <div class="portlet light ">
+        <div class="portlet light " style="padding: 2px;">
                             <div class="portlet-title">
                                 <div class="caption" data-toggle="collapse">
                                     <span class="caption-subject font-green-sharp bold uppercase">{{'fastsearch.global.countries' | translate}} </span>
@@ -126,12 +126,12 @@
                               <ul class="list-group">
                                         <li class="list-group-item" data-ng-repeat="cnt in countries">
 
-																								<div class="md-checkbox">
-                                                  <input type="checkbox" ng-click="checkboxselected(cnt.country)" class="md-check" id={{cnt.country}}>
-                                                  <label for={{cnt.country}}>
+																								<div class="md-checkbox" style="padding: 2px;">
+                                                  <input type="checkbox" ng-click="checkboxselected(cnt.field)" class="md-check" id={{cnt.field}}>
+                                                  <label for={{cnt.field}}>
                                                       <span class="inc"></span>
                                                       <span class="check"></span>
-                                                      <span class="box"></span> {{cnt.country}}</label><span class="badge pull-right ng-binding"> {{cnt.count}} </span>
+                                                      <span class="box"></span> {{cnt.field}}</label><span class="badge pull-right ng-binding"> {{cnt.count}} </span>
                                                 </div>
                                         </li>
 
@@ -148,16 +148,16 @@
                     <tr>
 
                         <th>
-                            <a href="javascript:;">{{'fastsearch.global.date' | translate}}</a>
+                            <a href="javascript:;">Job</a>
                         </th>
                         <th>
-                            <a href="javascript:;">{{'fastsearch.global.address' | translate}}</a>
+                            <a href="javascript:;">Name</a>
                         </th>
                         <th>
                             <a href="javascript:;">{{'fastsearch.global.country' | translate}}</a>
                         </th>
                         <th style="text-align: center;">
-                            <a href="javascript:;">{{'fastsearch.global.applicationno' | translate}}</a>
+                            <a href="javascript:;">Document No</a>
                         </th>
                         <th style="text-align: left;">
                             <a href="javascript:;">{{'fastsearch.global.action' | translate}}</a>
@@ -170,14 +170,14 @@
                     <tr ng-repeat="x in items">
 
                         <td  style="width:15%;"  class="table-title">
-                            <a href="javascript:;">{{x.mad_crt_dt}}</a>
+                            <a href="javascript:;">{{x.job_en}}</a>
                         </td>
                         <td class="table-title">
-                          {{x.mad_applcnt_addr1}}
+                          {{x.mad_applcnt_nm}}
                         </td>
-                        <td style="width:5%;" class="table-desc"> {{x.mad_nat_cd}} </td>
+                        <td style="width:5%;" class="table-desc"> {{x.country}} </td>
                         <td class="table-download">
-                          {{x.mad_appl_no}}
+                          {{x.mad_doc_no}}
                         </td>
                         <td style="text-align: left; width:5%;" class="table-status">
                             <a href="javascript:;">

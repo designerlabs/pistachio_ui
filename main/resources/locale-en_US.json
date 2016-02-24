@@ -39,8 +39,10 @@
 	"fastsearch.global.applications" : "Applications",
 	"fastsearch.global.users" : "Users",
 	"fastsearch.global.view" : "View",
-	"fastsearch.global.stickers" : "Stickers",
+	"fastsearch.global.stickers" : "Employers",
 	"fastsearch.global.usersfound" : "users found",
+	"fastsearch.global.employersfound" : "employers found",
+	"fastsearch.global.auditfound" : "audit found",
 
 	"fastsearch.global.countries" : "Countries",
 	"fastsearch.global.viewprojectlist" : "click to view project list",

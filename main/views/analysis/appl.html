@@ -12,7 +12,7 @@
 	            <h4 class="block" style="padding: 0px; margin: 1px;">Top Jobs</h4>
 	            	<div class="list-group">
 
-	            			<a class="list-group-item bg-grey-steel" data-ng-repeat="cnt in jobs" ng-click="clickJobs(cnt.field)">
+	            			<a class="list-group-item bg-green-turquoise font-sm" data-ng-repeat="cnt in jobs" ng-click="clickJobs(cnt.field)">
 	                                        {{cnt.field}}
 	                                            <span class="badge badge-default"> {{cnt.count}}</span>
 	                                        
@@ -23,7 +23,7 @@
 	            <h4 class="block" style="padding: 0px; margin: 1px;">Top Employer</h4>
 	            	<div class="list-group">
 
-	            			<a class="list-group-item bg-grey-steel" data-ng-repeat="cnt in employers" ng-click="clickEmply(cnt.field)" >
+	            			<a class="list-group-item bg-green-turquoise" data-ng-repeat="cnt in employers" ng-click="clickEmply(cnt.field)" >
 	                                        {{cnt.field}}
 	                                            <span class="badge badge-default"> {{cnt.count}}</span>
 	                                        
@@ -59,6 +59,7 @@
 			  		map="mapObject"
 			  		on-click="updateActiveGeography"
 			  		plugins="mapPlugins"
+			  		
 			  		>
 				</datamap>
 				</div>

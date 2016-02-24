@@ -38,8 +38,10 @@
 	"fastsearch.global.applications" : "Aplikasi",
 	"fastsearch.global.users" : "Pengguna",
 	"fastsearch.global.view" : "Paparan",
-	"fastsearch.global.stickers" : "Pelekat",
+	"fastsearch.global.stickers" : "Majikan",
 	"fastsearch.global.usersfound" : "Pengguna menjumpai",
+	"fastsearch.global.employersfound" : "Pengguna majikan",
+	"fastsearch.global.auditfound" : "Pengguna audit",
 
 	"fastsearch.global.countries" : "Negara",
 	"fastsearch.global.viewprojectlist" : "Sila klik untuk melihat senarai projek",

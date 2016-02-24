@@ -39,7 +39,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
     // color can be whatever you wish
     var paletteScale = d3.scale.linear()
             .domain([minValue,maxValue])
-            .range(["#EFEFFF","#02386F"]); // blue color
+            .range(["#AFEFFF","#C2386F"]); // blue color
     // fill dataset in appropriate format
     //$scope.countries.forEach(function(item){ //
     //  alert("before");
@@ -60,6 +60,9 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
         height: null, 
         width: null,
         options : {legend : true},
+        fills: {
+            defaultFill: "#FBFAEA" //any hex, color name or rgb/rgba value
+        },
         geographyConfig: {
           highlighBorderColor: '#EAA9A8',
           highlighBorderWidth: 2,
@@ -182,7 +185,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
           var keys = ["field","count"];
           var query = "";
 
-          query = 'http://10.1.17.235:8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=employer';
+          query = 'http://10.23.124.243:8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=employer&facet.limit=150';
      
       $http.get(query).
        success(function(data) {
