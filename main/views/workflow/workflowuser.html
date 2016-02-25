@@ -20,15 +20,15 @@
 	            <div class="tab-pane active" id="portlet_comments_1">
 	                <!-- BEGIN: Comments -->
 	                <div class="mt-comments">
-	                    <div class="mt-comment">
+	                     <div class="mt-comment">
 	                        <div class="mt-comment-body">
 	                            <div class="mt-comment-info">
-	                                <span class="mt-comment-author">Michael Baker</span>
+	                                <span class="mt-comment-author">{{ data.reportName }}</span>
 	                                <span class="mt-comment-date">26 Feb, 10:30AM</span>
 	                            </div>
-	                            <div class="mt-comment-text"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy. </div>
+	                            <div class="mt-comment-text"> {{ data.description }} </div>
 	                            <div class="mt-comment-details">
-	                                <span class="label label-sm label-warning">Pending</span>
+	                                <span class="label label-sm label-warning">{{ data.status }}</span>
 	                                <ul class="mt-comment-actions">
 	                                    <li>
 	                                        <a href="#">Quick Edit</a>
@@ -274,7 +274,7 @@
             </div>
         </div>
         <div class="portlet-body form">
-            <form role="form">
+            <form role="form" id="frmRequest">
                 <div class="form-body">
                     
                     <div class="form-group">
@@ -291,16 +291,15 @@
                         <textarea class="form-control" id="userReqDes" rows="3"></textarea>
                     </div>
                    
-                     <div class="form-group">
+                    <!--  <div class="form-group">
                         <label>Due Date</label>
                         <div>
                             <input type="text" class="form-control" placeholder="dd/mm/yyyy"> </div>
-                    </div>
-
+                    </div> -->
 
                     <div class="form-group">
                         <label>Priority</label>
-                        <select class="form-control">
+                        <select id="userPriority" class="form-control">
                             <option selected="selected">Please Select</option>
                             <option>Urgent</option>
                             <option>Normal</option>
@@ -317,8 +316,8 @@
                    
                 </div>
                 <div class="form-actions text-right">
-                    <button type="submit" class="btn btn-success submit" data-ng-hide="started" ng-click="onClick(submit)"><i class="fa fa-check"></i> Submit</button>
-                    <button type="button" class="btn btn-success update" data-ng-show="started" ng-click="onClick(update)"><i class="fa fa-check"></i> Update</button>
+                    <button type="submit" class="btn btn-success submit" data-ng-hide="started" ng-click="onClick(opt)"><i class="fa fa-check"></i> Submit</button>
+                    <button type="button" class="btn btn-success update" data-ng-show="started" ng-click="onClick(opt)"><i class="fa fa-check"></i> Update</button>
                     <button type="button" class="btn btn-danger cancel"><i class="fa fa-times"></i> Cancel</button>
                 </div>
             </form>
