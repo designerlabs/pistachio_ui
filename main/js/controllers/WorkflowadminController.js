@@ -12,14 +12,19 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 			console.log(response);
 			$scope.names = response;
 	   });
-		$scope.go = function(data){
 
-			//console.log(data);
-			//console.log($scope.names);
+
+		$scope.go = function(data){
 			$http.get(globalURL+"workflow/request/"+data)
 			.success(function(k){
 				console.log(k);
 				$scope.details = k;
+			});
+
+			$http.get(globalURL+"workflow/request/"+data+"/comments")
+			.success(function(m){
+				console.log(m);
+				$scope.commentsDet = m;
 			});
 		};
 
