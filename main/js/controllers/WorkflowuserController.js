@@ -8,13 +8,24 @@ $scope.opt = 'submit';
 	$scope.$on('$viewContentLoaded', function() {
         Metronic.initAjax(); // initialize core components
 	});
+
+	// $scope.data = {
+ //    repeatSelect: null,
+ //    availableOptions: [
+ //      {id: '1', name: 'Normal'},
+ //      {id: '2', name: 'Urgent'},
+ //      {id: '3', name: 'Important'}
+ //    ],
+ //   };
+
 	 var getUser = localStorage.getItem("username");
 	 var getToken = localStorage.getItem("token");
 
 		$http.get(globalURL+"workflow/request?token=" + getToken)
 		.success(function(response) {
 			console.log(response);
-			$scope.names = response;
+			$scope.names = response.content;
+			$scope.newReq = response.numberOfElements;
 	   });
 
 	 
@@ -47,7 +58,7 @@ $scope.opt = 'submit';
               console.log("successfully send request form");
               $('#userReqTitle').val("");
               $('#userReqDes').val("");
-              $('#userPriority option:selected').text("Please Select");
+              $('#userPriority option:selected').text("Normal");
           }); 
       	}
 	 }
@@ -56,12 +67,21 @@ $scope.opt = 'submit';
 	 		$http.get(globalURL+"workflow/request/" + data)
 	 		.success(function(response) {
 	 			console.log(response);
-	 			$('#userReqTitle').val(response.reportName);
-	 			$('#userReqDes').val(response.description);
-	 			$('#userPriority option:selected').val(response.priority);
+	 			$scope.details = response;
+	 			// $('#userReqTitle').val(response.reportName);
+	 			// $('#userReqDes').val(response.description);
+	 			// $('#userPriority option:selected').val(response.priority);
 	 	   });
 	 		$scope.reqid = data;
 	 		console.log($scope.reqid);
+
+ 			$http.get(globalURL+"workflow/request/" + data + "/comments")
+ 			.success(function(response) {
+ 				console.log(response);
+ 				$scope.commentsDet = response;
+ 		   });
+
+
 	 }
  
 	 $scope.submitComment = function(){

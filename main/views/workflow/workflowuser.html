@@ -27,7 +27,7 @@
 	                        <div class="mt-comment-body">
 	                            <div class="mt-comment-info">
 	                                <span class="mt-comment-author">{{ data.reportName }}</span>
-	                                <span class="mt-comment-date">26 Feb, 10:30AM</span>
+	                                <span class="mt-comment-date">{{data.createdDate}}</span>
 	                            </div>
 	                            <div class="mt-comment-text"> {{ data.description | limitTo: 100 }} {{ data.description.length > 100 ? '...' : ''}} </div>
 	                            <div class="mt-comment-details">
@@ -40,7 +40,7 @@
 	                                        <a href="#" ng-click="viewReq(data.id)">View</a>
 	                                    </li>
 	                                    <li>
-	                                        <a href="#">Delete</a>
+	                                        <a href="#" ng-click="DelReq(data.id)">Delete</a>
 	                                    </li>
 	                                </ul>
 	                            </div>
@@ -98,12 +98,12 @@
                     <div class="form-group">
                         <label>Request Title</label>
                         <div>
-                            <input type="text" id="userReqTitle" class="form-control" placeholder=""> </div>
+                            <input type="text" id="userReqTitle" class="form-control" value="{{details.reportName}}"> </div>
                     </div>                 
 
                     <div class="form-group">
                         <label>Request Description</label>
-                        <textarea class="form-control" id="userReqDes" rows="3"></textarea>
+                        <textarea class="form-control" id="userReqDes" rows="3" value="{{details.description}}" ></textarea>
                     </div>
                    
                     <div class="form-group">
@@ -141,14 +141,14 @@
         </div>
         <div class="portlet-body" id="chats">
             <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 210px;"><div class="scroller" style="height: 200px; overflow: auto; width: auto;" data-always-visible="1" data-rail-visible1="1" data-initialized="1">
-                <ul class="chats" ng-repeat="data in comments">
-                    <li class="out">
-                        <img class="avatar" alt="" src="../main/assets/admin/layout2/img/jim_logo_small.png">
+                <ul class="chats">
+                    <li class="{{ comments.username == 'Admin' ? 'in' : 'out' }}"  ng-repeat="comments in commentsDet">
+                        <img class="avatar" alt="" ng-src="../main/assets/admin/layout2/img/{{ comments.username == 'Admin' ? 'jim_logo_small' : 'mimos_logo_small' }}.png">
                         <div class="message">
                             <span class="arrow"> </span>
-                            <a href="javascript:;" class="name"> Lisa Wong </a>
-                            <span class="datetime"> at 20:11 </span>
-                            <span class="body"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </span>
+                            <a href="javascript:;" class="name"> {{ comments.username }} </a>
+                            <span class="datetime"> {{ comments.createdDate }} </span>
+                            <span class="body"> {{ comments.message }} </span>
                         </div>
                     </li>
                 </ul>
