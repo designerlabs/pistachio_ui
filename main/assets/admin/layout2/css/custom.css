@@ -161,3 +161,16 @@ Rounded Portlets
 .y, .z{
     background: #9926BF;
 }
+
+.activeComment {
+    background: #DADADA;
+    color:#000;
+}
+
+.activeComment .mt-comment-text, .activeComment .mt-comment-date{
+    color: #000 !important;
+}
+
+.mt-comments .mt-comment:hover {
+    background: #EAEAEA;
+}
