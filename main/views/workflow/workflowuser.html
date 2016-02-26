@@ -92,26 +92,26 @@
             </div>
         </div>
         <div class="portlet-body form">
-            <form role="form" id="frmRequest">
+            <form role="form" id="frmRequest" name="ReqForm">
                 <div class="form-body">
                     
                     <div class="form-group">
                         <label>Request Title</label>
                         <div>
-                            <input type="text" id="userReqTitle" class="form-control" value="{{details.reportName}}"> </div>
+                            <input type="text" id="userReqTitle" class="form-control" value="{{details.reportName}}"
+                            name="ReqTitle"> </div>
                     </div>                 
 
                     <div class="form-group">
                         <label>Request Description</label>
-                        <textarea class="form-control" id="userReqDes" rows="3" value="{{details.description}}" ></textarea>
+                        <textarea class="form-control" id="userReqDes" rows="3" value="{{details.description}}" name="ReqDes"></textarea>
                     </div>
                    
                     <div class="form-group">
                         <label>Priority</label>
                         <select id="userPriority" class="form-control">
-                            <option selected="selected">Please Select</option>
-                            <option>Urgent</option>
-                            <option>Normal</option>
+                        	<option selected="selected">Normal</option>
+                            <option>Urgent</option>                            
                             <option>Important</option>
                         </select>
                     </div>
@@ -125,21 +125,25 @@
                    
                 </div>
                 <div class="form-actions text-right">
-                    <button type="submit" class="btn btn-success submit" data-ng-hide="started" ng-click="onClick(opt)"><i class="fa fa-check"></i> Submit</button>
-                    <button type="button" class="btn btn-success update" data-ng-show="started" ng-click="onClick(opt)"><i class="fa fa-check"></i> Update</button>
-                    <button type="button" class="btn btn-danger cancel"><i class="fa fa-times"></i> Cancel</button>
+                    <button type="submit" class="btn btn-success submit" data-ng-hide="started" ng-click="onReqSubmit(opt)"><i class="fa fa-check"></i> Submit</button>
+                    <button type="button" class="btn btn-success update" data-ng-show="started" ng-click="onReqSubmit(opt)"><i class="fa fa-check"></i> Update</button>
+                    <button type="button" class="btn btn-danger cancel"><i class="fa fa-times" ng-click="onRest()"></i> Reset</button>
                 </div>
             </form>
         </div>
         
-        <div class="portlet-title">
+       <!--  <div class="portlet-title">
             <div class="caption">
                 <i class="icon-bubble font-red-sunglo"></i>
                 <span class="caption-subject font-red-sunglo bold uppercase">Comments</span>
             </div>
            
-        </div>
-        <div class="portlet-body" id="chats">
+        </div> -->
+        <div class="portlet-body" id="chats" data-ng-show="Showcomments">
+        	<div class="caption">
+        	    <i class="icon-bubble font-red-sunglo"></i>
+        	    <span class="caption-subject font-red-sunglo bold uppercase">Comments</span>
+        	</div>
             <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 210px;"><div class="scroller" style="height: 200px; overflow: auto; width: auto;" data-always-visible="1" data-rail-visible1="1" data-initialized="1">
                 <ul class="chats">
                     <li class="{{ comments.username == 'Admin' ? 'out' : 'in' }}"  ng-repeat="comments in commentsDet">
@@ -155,14 +159,14 @@
             </div>
             <div class="slimScrollBar" style="display: none !important;  width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 319.38px; background: rgb(187, 187, 187);"></div><div class="slimScrollRail" style="display: none; width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; background: rgb(234, 234, 234);"></div></div>
             <div class="chat-form">
-                <div class="input-cont">
+                <div class="input-cont text-right">
                     <form id="formMessage">
-                      <input class="form-control" type="text" ng-model="myMsg" id="messageVal" placeholder="Type a message here..."> 
+                      <input class="form-control" type="text" ng-model="myMsg.text" id="messageVal" placeholder="Type a message here...">                       
 					</form>
-                   </div>
-                <div class="btn-cont" ng-click="submitComment()">
-                    <span class="arrow"> </span>
-                    <a href="" class="btn blue icn-only">
+                </div>
+                <div class="btn-cont" id="btnSendCom" ng-click="submitComment()">
+                    <span class="arrow"></span>
+                    <a href="" class="btn blue icn-only {{myMsg.text.length > 0 ? 'active' : 'disabled'}}">
                         <i class="fa fa-check icon-white"></i>
                     </a>
                 </div>
@@ -181,4 +185,6 @@ $(function(){
 	$(".nav-tabs a").click(function(e){
 		e.preventDefault();
 	});
+
+	$(".highlight").css('border','2px groove green');
 </script>
