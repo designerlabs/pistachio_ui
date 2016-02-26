@@ -96,7 +96,12 @@ $scope.opt = 'submit';
 	 					"requestId":$scope.reqid	 					
 	 	                }),
 	 	          }).done(function (data) {
-	 	              console.log("successfully send request form");
+	 	          		$http.get(globalURL+"workflow/request/" + $scope.reqid + "/comments")
+			 			.success(function(response) {
+			 				console.log(response);
+			 				$scope.commentsDet = response;
+			 		   });
+	 	          	  console.log("successfully send request form");
 	 	          }); 	 	
 	 }
 

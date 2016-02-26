@@ -38,13 +38,11 @@
 
 	<script type="text/ng-template" id="new.html" >
 			<div class="tab-pane" id="portlet_comments_1">
-			
-	                <div class="mt-comments" ng-repeat="data in names">
-
+			        <div class="mt-comments"  ng-repeat="data in names">
 	                    <div class="mt-comment">
 	                    	<div class="mt-comment-img">
 	                    	<span class="avatar_container {{ data.username | limitTo: 1 }}">{{ data.username | limitTo: 1 }}</span>
-	                    	<span class="avatar_name">{{ data.username | titleCase}}</span>
+	                    	<span class="avatar_name">{{ data.username | titleCase | limitTo: 7 }}</span>
 	                    	</div>
 	                        <div class="mt-comment-body">
 	                            <div class="mt-comment-info">
@@ -180,7 +178,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
 		                        <label>Priority</label>
-		                        <h4>Urgent</h4>
+		                        <h4>{{ details.priority }}</h4>
                     		</div>
                         </div>
 
@@ -211,21 +209,25 @@
         <div class="portlet-body" id="chats">
             <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 210px;"><div class="scroller" style="height: 200px; overflow: auto; width: auto;" data-always-visible="1" data-rail-visible1="1" data-initialized="1">
                 <ul class="chats">
-                    <li class="{{ comments.username == 'Admin' ? 'in' : 'out' }}"  ng-repeat="comments in commentsDet">
+                     <li class="{{ comments.username == 'Admin' ? 'in' : 'out' }}"  ng-repeat="comments in commentsDet">
                         <img class="avatar" alt="" ng-src="../main/assets/admin/layout2/img/{{ comments.username == 'Admin' ? 'jim_logo_small' : 'mimos_logo_small' }}.png">
                         <div class="message">
                             <span class="arrow"> </span>
                             <a href="javascript:;" class="name"> {{ comments.username }} </a>
-                            <span class="datetime"> at 20:11 </span>
-                            <span class="body"> {{ comments.message }}</span>
+                            <span class="datetime"> {{ comments.createdDate }} </span>
+                            <span class="body"> {{ comments.message }} </span>
                         </div>
                     </li>
                 </ul>
-            </div><div class="slimScrollBar" style="display: none !important;  width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 319.38px; background: rgb(187, 187, 187);"></div><div class="slimScrollRail" style="display: none; width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; background: rgb(234, 234, 234);"></div></div>
+            </div>
+            <div class="slimScrollBar" style="display: none !important;  width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 319.38px; background: rgb(187, 187, 187);"></div><div class="slimScrollRail" style="display: none; width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; background: rgb(234, 234, 234);"></div></div>
             <div class="chat-form">
                 <div class="input-cont">
-                    <input class="form-control" type="text" placeholder="Type a message here..."> </div>
-                <div class="btn-cont">
+                    <form id="formMessageAdmin">
+                      <input class="form-control" type="text" ng-model="myMsgAdmin" placeholder="Type a message here..."> 
+					</form>
+                   </div>
+                <div class="btn-cont" ng-disabled="true" ng-click="submitComment()">
                     <span class="arrow"> </span>
                     <a href="" class="btn blue icn-only">
                         <i class="fa fa-check icon-white"></i>
