@@ -93,13 +93,16 @@
         </div>
         <div class="portlet-body form">
             <form role="form" id="frmRequest" name="ReqForm">
+       			<div class="form-actions text-right" data-ng-show="NewForm">
+       				<button type="button" class="btn btn-primary" ng-click="onNewReq()"><i class="fa fa-plus"></i> New Request Form </button>
+       			</div>
                 <div class="form-body">
-                    
                     <div class="form-group">
                         <label>Request Title</label>
                         <div>
                             <input type="text" id="userReqTitle" class="form-control" value="{{details.reportName}}"
-                            name="ReqTitle"> </div>
+                            name="ReqTitle"> 
+                        </div>
                     </div>                 
 
                     <div class="form-group">
@@ -114,8 +117,7 @@
                             <option>Urgent</option>                            
                             <option>Important</option>
                         </select>
-                    </div>
-                    
+                    </div>                    
                     
                     <div class="form-group">
                         <label for="exampleInputFile1">File Upload</label>
@@ -127,7 +129,13 @@
                 <div class="form-actions text-right">
                     <button type="submit" class="btn btn-success submit" data-ng-hide="started" ng-click="onReqSubmit(opt)"><i class="fa fa-check"></i> Submit</button>
                     <button type="button" class="btn btn-success update" data-ng-show="started" ng-click="onReqSubmit(opt)"><i class="fa fa-check"></i> Update</button>
-                    <button type="button" class="btn btn-danger cancel"><i class="fa fa-times" ng-click="onRest()"></i> Reset</button>
+                    <button type="button" class="btn btn-danger cancel" data-ng-show="Showreset"><i class="fa fa-times" ng-click="onReset()"></i> Reset</button>
+                </div>
+                <div id="messageView" style="margin-top:20px">
+                	<div class="alert display-hide" id="Workflow.errorinfo">
+                	    <button class="close" data-close="alert"></button>
+                	    <span>Hello im here</span>
+                	</div>
                 </div>
             </form>
         </div>

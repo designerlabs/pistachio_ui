@@ -6,6 +6,9 @@ $scope.started = false;
 $scope.opt = 'submit';
 $scope.Showcomments = false;
 $scope.required = true;
+$scope.NewForm = false;
+$scope.Showreset = true;
+$("#messageView div").hide();
 
 	$scope.$on('$viewContentLoaded', function() {
         Metronic.initAjax(); // initialize core components
@@ -24,11 +27,11 @@ $scope.required = true;
 	 var getToken = localStorage.getItem("token");
 	 var getDispName = localStorage.getItem("firstName");
 
-		
 	 fn_LoadAllRequest();
-	 
 
-	 $scope.onReqSubmit = function (opt) {
+
+	//Create and update Request Form
+	$scope.onReqSubmit = function (opt) {
 	 	formInputValidation("#frmRequest");
 	 	var reportName = $('#userReqTitle').val();
 	 	var description = $('#userReqDes').val();
@@ -38,11 +41,12 @@ $scope.required = true;
       	}else if(opt=="update"){
       	 fn_SendRequest(reportName, description, priority, $scope.reqid, 'PUT');
       	}
-	 }
+	}
 
-	 //View Request Form
+	//View Request Form
 	$scope.viewReq = function(data){
 		$scope.started = true;
+		$scope.NewForm = true;
 		$scope.opt = 'update';
  		fn_ViewRequest(data)
  		$scope.reqid = data;
@@ -54,7 +58,6 @@ $scope.required = true;
 //Delete Request
 	$scope.DelReq = function(data){
 		fn_DeleteReq(data);	
-
 	}
  
 	$scope.submitComment = function(){
@@ -68,18 +71,25 @@ $scope.required = true;
 				"message":$scope.myMsg.text,
 				"requestId":$scope.reqid	 					
                 }),
-          }).done(function (data) {
-              console.log("successfully send request form");
+          }).success(function (data) {
+              console.log("successfully send comment form");
               fn_PostComments($scope.reqid);
           }); 	 	
 	}
 
 
 
-	$scope.onRest = function(){
-
-		alert('hello');
+	$scope.onReset = function(){
+		// alert('hello');
 		 $('#userReqTitle').val("");
+         $('#userReqDes').val("");
+         $('#userPriority option:selected').text("Normal");
+	}
+
+	$scope.onNewReq = function(){
+		$scope.NewForm = false;
+		$scope.Showcomments = false;
+		$('#userReqTitle').val("");
          $('#userReqDes').val("");
          $('#userPriority option:selected').text("Normal");
 	}
@@ -112,8 +122,11 @@ $scope.required = true;
 				"displayName": getDispName,
 				"reportName":title,
                 "priority": priority}),
-          }).done(function (data) {
+          }).success(function (data) {
               console.log("successfully send request form");
+              $("#messageView div span").html("Successfully Submitted Your Request");            
+              $("#messageView div").addClass('alert-success');
+              $("#messageView div").show();
               fn_LoadAllRequest();
               $('#userReqTitle').val("");
               $('#userReqDes').val("");
@@ -123,6 +136,7 @@ $scope.required = true;
 	}
 
 	function fn_ViewRequest(Reqid){
+		$("#messageView div").hide();
 		$http.get(globalURL+"workflow/request/" + Reqid)
 		.success(function(response) {
 			console.log(response);
@@ -137,8 +151,11 @@ $scope.required = true;
               contentType: "application/json",
               type: 'DELETE',
               dataType: "json"              
-          }).done(function (data) {
+          }).success(function (data) {
               console.log("successfully deleted request");
+              $("#messageView div span").html("Successfully Deleted the Request");            
+              $("#messageView div").addClass('alert-success');
+              $("#messageView div").show();
               fn_LoadAllRequest();
           }); 
 
