@@ -9,117 +9,140 @@
 	            <span class="caption-subject font-red bold uppercase">Request List</span>
 	        </div>
 	        <ul class="nav nav-tabs">
-	            <li class="active">
-	                <a href="#portlet_comments_3" data-toggle="tab" aria-expanded="true"> New <span class="badge badge-primary"> 10 </span></a>
+	            <li  ng-repeat = "tab in tabs" ng-class="{active:isActiveTab(tab.url)}" ng-click="onClickTab(tab)">
+	                <a data-toggle="tab" aria-expanded="true">{{tab.title}}  <span class="badge badge-success"> {{ TotalCounts }} </span></a>
+	               <!--  <a href="#portlet_comments_3" data-toggle="tab" aria-expanded="true">{{ tab.title }} <span class="badge badge-primary"> 10 </span></a> -->
 	            </li>
-
+<!-- 
 	            <li class="">
 	                <a href="#portlet_comments_1" data-toggle="tab" aria-expanded="true"> Open <span class="badge badge-success"> 3 </span></a>
 	            </li>
 	            <li class="">
 	                <a href="#portlet_comments_2" data-toggle="tab" aria-expanded="false"> closed  <span class="badge badge-danger"> 56 </span></a>
-	            </li>
+	            </li> -->
 	        </ul>
 	    </div>
+
+	    
+
 		<div class="portlet-body">
 	        <div class="tab-content">
-	            <div class="tab-pane" id="portlet_comments_1">
-	                <!-- BEGIN: Comments -->
-	                <div class="mt-comments" ng-repeat="data in names">
-	                    <div class="mt-comment">
-	                        <div class="mt-comment-body">
-	                            <div class="mt-comment-info">
-	                                <span class="mt-comment-author">{{ data.reportName }}</span>
-	                                <span class="mt-comment-date">{{ data.createdDate.dayOfMonth }} {{ data.createdDate.month | limitTo: 3 }},{{ data.createdDate.hour }}:{{ data.createdDate.minute }}</span>
-	                            </div>
-	                            <div class="mt-comment-text"> {{ data.description | limitTo: 100 }}{{ data.description.length > 100 ? '...' : ''}} </div>
-	                            <div class="mt-comment-details">
-	                                <span class="label label-sm label-warning">{{ data.status }}</span>
-	                                <ul class="mt-comment-actions">
-	                                    <li>
-	                                        <a href="#">Quick Edit</a>
-	                                    </li>
-	                                    <li>
-	                                        <a href="#" class="{{data.id}}" ng-init="$first && go(data.id);" ng-click="go(data.id); $event.stopPropagation();">View</a>
-
-	                                    </li>
-	                                    <li>
-	                                        <a href="#">Delete</a>
-	                                    </li>
-	                                </ul>
-	                            </div>
-	                        </div>
-	                    </div>
-	
+	            
+	      			 <div id="mainView">
+						<div ng-include="currentTab"></div>
 					</div>
-				<!-- END: Comments -->
-				</div>
-	            <div class="tab-pane" id="portlet_comments_2">
-	                <!-- BEGIN: Comments -->
-	                <div class="mt-comments" ng-repeat="data in names">
-	                    <div class="mt-comment">
-	                        <div class="mt-comment-body">
-	                            <div class="mt-comment-info">
-	                                <span class="mt-comment-author">{{ data.reportName }}</span>
-	                                <span class="mt-comment-date">{{ data.createdDate.dayOfMonth }} {{ data.createdDate.month | limitTo: 3 }},{{ data.createdDate.hour }}:{{ data.createdDate.minute }}</span>
-	                            </div>
-	                            <div class="mt-comment-text"> {{ data.description | limitTo: 100 }}{{ data.description.length > 100 ? '...' : ''}} </div>
-	                            <div class="mt-comment-details">
-	                                <span class="label label-sm label-warning">{{ data.status }}</span>
-	                                <ul class="mt-comment-actions">
-	                                    <li>
-	                                        <a href="#">Quick Edit</a>
-	                                    </li>
-	                                    <li>
-	                                        <a href="#" class="{{data.id}}" ng-init="$first && go(data.id);" ng-click="go(data.id); $event.stopPropagation();">View</a>
-
-	                                    </li>
-	                                    <li>
-	                                        <a href="#">Delete</a>
-	                                    </li>
-	                                </ul>
-	                            </div>
-	                        </div>
-	                    </div>
-	
-					</div>
-	                <!-- END: Comments -->
-	            </div>
-
-	            <div class="tab-pane active" id="portlet_comments_3">
-	                <!-- BEGIN: Comments -->
-	                <div class="mt-comments" ng-repeat="data in names">
-	                    <div class="mt-comment">
-	                        <div class="mt-comment-body">
-	                            <div class="mt-comment-info">
-	                                <span class="mt-comment-author">{{ data.reportName }}</span>
-	                                <span class="mt-comment-date">{{ data.createdDate.dayOfMonth }} {{ data.createdDate.month | limitTo: 3 }},{{ data.createdDate.hour }}:{{ data.createdDate.minute }}</span>
-	                            </div>
-	                            <div class="mt-comment-text"> {{ data.description | limitTo: 100 }}{{ data.description.length > 100 ? '...' : ''}} </div>
-	                            <div class="mt-comment-details">
-	                                <span class="label label-sm label-warning">{{ data.status }}</span>
-	                                <ul class="mt-comment-actions">
-	                                    <li>
-	                                        <a href="#">Quick Edit</a>
-	                                    </li>
-	                                    <li>
-	                                        <a href="#" class="{{data.id}}" ng-init="$first && go(data.id);" ng-click="go(data.id); $event.stopPropagation();">View</a>
-
-	                                    </li>
-	                                    <li>
-	                                        <a href="#">Delete</a>
-	                                    </li>
-	                                </ul>
-	                            </div>
-	                        </div>
-	                    </div>
-	
-					</div>
-	                <!-- END: Comments -->
-	            </div>
+	           
 	        </div>
 	    </div>
 	</div>
+
+	<script type="text/ng-template" id="new.html" >
+			<div class="tab-pane" id="portlet_comments_1">
+			
+	                <div class="mt-comments" ng-repeat="data in names">
+
+	                    <div class="mt-comment">
+	                    	<div class="mt-comment-img">
+	                    	<span class="avatar_container {{ data.username | limitTo: 1 }}">{{ data.username | limitTo: 1 }}</span>
+	                    	<span class="avatar_name">{{ data.username | titleCase}}</span>
+	                    	</div>
+	                        <div class="mt-comment-body">
+	                            <div class="mt-comment-info">
+	                                <span class="mt-comment-author">{{ data.reportName }}</span>
+	                                <span class="mt-comment-date">{{ data.createdDate }}</span>
+	                            </div>
+	                            <div class="mt-comment-text"> {{ data.description | limitTo: 100 }}{{ data.description.length > 100 ? '...' : ''}} </div>
+	                            <div class="mt-comment-details">
+	                                <span class="label label-sm label-warning">{{ data.status }}</span>
+	                                <span class="label label-sm label-danger">{{ data.priority }}</span>
+	                                <ul class="mt-comment-actions">
+	                           
+	                                    <li>
+	                                        <a href="#" class="{{data.id}}" ng-init="$first && go(data.id);" ng-click="go(data.id); $event.stopPropagation();">View</a>
+
+	                                    </li>
+	                                 
+	                                </ul>
+	                            </div>
+	                        </div>
+	                    </div>
+	
+					</div>
+				
+				</div>
+		</script>
+
+
+		<script type="text/ng-template" id="inprogress.html">
+			     <div class="tab-pane" id="portlet_comments_2">
+			     	
+	                <div class="mt-comments" ng-repeat="data in names">
+	                    <div class="mt-comment">
+	                        <div class="mt-comment-body">
+	                            <div class="mt-comment-info">
+	                                <span class="mt-comment-author">{{ data.reportName }}</span>
+	                                <span class="mt-comment-date">{{ data.createdDate }}</span>
+	                            </div>
+	                            <div class="mt-comment-text"> {{ data.description | limitTo: 100 }}{{ data.description.length > 100 ? '...' : ''}} </div>
+	                            <div class="mt-comment-details">
+	                                <span class="label label-sm label-warning">{{ data.status }}</span>
+
+	                                <ul class="mt-comment-actions">
+	                                    <li>
+	                                        <a href="#">Quick Edit</a>
+	                                    </li>
+	                                    <li>
+	                                        <a href="#" class="{{data.id}}" ng-init="$first && go(data.id);" ng-click="go(data.id); $event.stopPropagation();">View</a>
+
+	                                    </li>
+	                                    <li>
+	                                        <a href="#">Delete</a>
+	                                    </li>
+	                                </ul>
+	                            </div>
+	                        </div>
+	                    </div>
+	
+					</div>
+
+	            </div>
+
+		</script>
+
+
+		<script type="text/ng-template" id="close.html">
+			     <div class="tab-pane active" id="portlet_comments_3">
+		
+	                <div class="mt-comments" ng-repeat="data in names">
+	                    <div class="mt-comment">
+	                        <div class="mt-comment-body">
+	                            <div class="mt-comment-info">
+	                                <span class="mt-comment-author">{{ data.reportName }}</span>
+	                                <span class="mt-comment-date">{{ data.createdDate.dayOfMonth }} {{ data.createdDate.month | limitTo: 3 }},{{ data.createdDate.hour }}:{{ data.createdDate.minute }}</span>
+	                            </div>
+	                            <div class="mt-comment-text"> {{ data.description | limitTo: 100 }}{{ data.description.length > 100 ? '...' : ''}} </div>
+	                            <div class="mt-comment-details">
+	                                <span class="label label-sm label-warning">{{ data.status }}</span>
+	                                <ul class="mt-comment-actions">
+	                                    <li>
+	                                        <a href="#">Quick Edit</a>
+	                                    </li>
+	                                    <li>
+	                                        <a href="#" class="{{data.id}}" ng-init="$first && go(data.id);" ng-click="go(data.id); $event.stopPropagation();">View</a>
+
+	                                    </li>
+	                                    <li>
+	                                        <a href="#">Delete</a>
+	                                    </li>
+	                                </ul>
+	                            </div>
+	                        </div>
+	                    </div>
+	
+					</div>
+	            </div>
+
+		</script>
 </div>
 
 <div class="col-md-6">

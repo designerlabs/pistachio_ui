@@ -4,15 +4,25 @@
 MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$http', 'settings', 'authorities',  function($rootScope, $scope, $http, settings, authorities) {
 	$scope.$on('$viewContentLoaded', function() {   
 
+
 	    // initialize core components
 	    Metronic.initAjax();
 	    var getUser = localStorage.getItem("username");
 		$http.get(globalURL+"workflow/request/")
 		.success(function(response) {
 			console.log(response);
-			$scope.names = response;
+			$scope.names = response.content;
+			$scope.TotalCounts = response.totalElements;
+			console.log($scope.TotalCounts);
+			
+	   }).error(function(data){
+	   	alert(data);
 	   });
 
+
+
+
+		
 
 		$scope.go = function(data){
 			$http.get(globalURL+"workflow/request/"+data)
@@ -47,5 +57,42 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 	    console.log($scope);*/
 
 	});
+	$scope.currentTab = 'new.html';
+
+	$scope.onClickTab = function (tab) {
+        $scope.currentTab = tab.url;
+       /* $http.get(globalURL+"workflow/request/")
+		.success(function(response) {
+			console.log(response);
+			$scope.names = response.content;
+			console.log($scope.TotalCounts);
+			console.log(response);
+			
+	   });*/
+        
+    }
+
+    $scope.isActiveTab = function(tabUrl) {
+        return tabUrl == $scope.currentTab;
+    }
+
+
+	$scope.tabs = [{
+	        	title: 'New',
+	        	url: 'new.html',
+	        	filter : 'new',
+
+	   		},
+	   		{
+	        	title: 'In Progress',
+	            url: 'inprogress.html',
+	            filter : 'inprog'
+	    	},
+	    	{
+	          	title: 'Close',
+	            url: 'close.html',
+	            filter : 'close'
+    	}];
+
 }]);
 

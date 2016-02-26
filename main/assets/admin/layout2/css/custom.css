@@ -101,9 +101,63 @@ Rounded Portlets
     color:#fff;
 }
 
+
+
 .modal-header h4::before { 
     content: "\f00c ";
     font-family: FontAwesome;
     font-style: normal;
     font-weight: normal;
+}
+
+.avatar_container{
+    width: 50px;
+    height: 50px;
+    color: #fff;
+    font-size:19px;
+    position: absolute;
+    padding: 12px 19px;
+    border-radius: 30px !important;
+}
+
+.mt-comments .mt-comment .mt-comment-img {
+    width: 50px;
+}
+
+.mt-comment-img{
+    text-transform: capitalize;
+}
+
+.avatar_name{
+        top: 62px;
+    position: relative;
+}
+
+
+.a, .b, .c, .d{
+    background: #1485CC;
+}
+
+.e, .f, .g, .h{
+    background: #FFB235;   
+}
+
+.i, .j, .k, .l{
+    background: #B27613;
+}
+
+.m, .n, .o, .p{
+    background: #701CB2;
+}
+
+.q, .r, .s, .t{
+    background: #286A7F;
+}
+
+.u, .v, .w, .x{
+    background: #E58846;
+}
+
+.y, .z{
+    background: #9926BF;
 }
