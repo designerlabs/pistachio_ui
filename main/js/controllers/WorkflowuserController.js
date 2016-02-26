@@ -24,13 +24,8 @@ $scope.required = true;
 	 var getToken = localStorage.getItem("token");
 	 var getDispName = localStorage.getItem("firstName");
 
-		$http.get(globalURL+"workflow/request?token=" + getToken)
-		.success(function(response) {
-			console.log(response);
-			$scope.names = response.content;
-			$scope.newReq = response.numberOfElements;
-	   });
-
+		
+	 fn_LoadAllRequest();
 	 
 
 	 $scope.onReqSubmit = function (opt) {
@@ -45,6 +40,7 @@ $scope.required = true;
       	}
 	 }
 
+	 //View Request Form
 	$scope.viewReq = function(data){
 		$scope.started = true;
 		$scope.opt = 'update';
@@ -54,6 +50,12 @@ $scope.required = true;
  		fn_PostComments(data);
  		$scope.Showcomments = true;			
 	 }
+
+//Delete Request
+	$scope.DelReq = function(data){
+		fn_DeleteReq(data);	
+
+	}
  
 	$scope.submitComment = function(){
 	 	 $.ajax({
@@ -72,6 +74,8 @@ $scope.required = true;
           }); 	 	
 	}
 
+
+
 	$scope.onRest = function(){
 
 		alert('hello');
@@ -80,6 +84,14 @@ $scope.required = true;
          $('#userPriority option:selected').text("Normal");
 	}
 
+	function fn_LoadAllRequest(){
+		$http.get(globalURL+"workflow/request?token=" + getToken)
+		.success(function(response) {
+			console.log(response);
+			$scope.names = response.content;
+			$scope.newReq = response.numberOfElements;
+	   });
+	}
 
 	function fn_SendRequest(title,desc,priority,reqid,method){
 	 	 $.ajax({
@@ -102,6 +114,7 @@ $scope.required = true;
                 "priority": priority}),
           }).done(function (data) {
               console.log("successfully send request form");
+              fn_LoadAllRequest();
               $('#userReqTitle').val("");
               $('#userReqDes').val("");
               $('#userPriority option:selected').text("Normal");
@@ -116,6 +129,19 @@ $scope.required = true;
 			$scope.details = response;	 			
 			$('#userPriority option:selected').text(response.priority);
 	   });
+	}
+
+	function fn_DeleteReq(Reqid){
+		 $.ajax({
+              url: globalURL + "workflow/request/"+ Reqid,
+              contentType: "application/json",
+              type: 'DELETE',
+              dataType: "json"              
+          }).done(function (data) {
+              console.log("successfully deleted request");
+              fn_LoadAllRequest();
+          }); 
+
 	}
 
 	function fn_PostComments(Reqid){
