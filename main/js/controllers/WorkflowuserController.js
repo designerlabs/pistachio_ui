@@ -22,7 +22,7 @@ $scope.opt = 'submit';
 	 $scope.onClick = function (opt) {
 
 	 	formInputValidation("#frmRequest");
-	 	
+
 	 	var reportName = $('#userReqTitle').val();
 	 	var description = $('#userReqDes').val();
 	 	var priority = $('#userPriority option:selected').val();
@@ -53,14 +53,14 @@ $scope.opt = 'submit';
 	 }
 
 	 $scope.viewReq = function(data){
-	 		$http.get(globalURL+"workflow/request/" + data.id)
+	 		$http.get(globalURL+"workflow/request/" + data)
 	 		.success(function(response) {
 	 			console.log(response);
 	 			$('#userReqTitle').val(response.reportName);
 	 			$('#userReqDes').val(response.description);
 	 			$('#userPriority option:selected').val(response.priority);
 	 	   });
-	 		$scope.reqid = data.id;
+	 		$scope.reqid = data;
 	 		console.log($scope.reqid);
 	 }
  
@@ -71,7 +71,7 @@ $scope.opt = 'submit';
 	 	              type: 'POST',
 	 	              dataType: "json",
 	 	              data: JSON.stringify({
-	 					"username":"User",
+	 					"username":getUser,
 	 					"message":$scope.myMsg,
 	 					"requestId":$scope.reqid	 					
 	 	                }),
