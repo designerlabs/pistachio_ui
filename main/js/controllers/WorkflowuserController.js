@@ -22,6 +22,7 @@ $scope.required = true;
 
 	 var getUser = localStorage.getItem("username");
 	 var getToken = localStorage.getItem("token");
+	 var getDispName = localStorage.getItem("firstName");
 
 		$http.get(globalURL+"workflow/request?token=" + getToken)
 		.success(function(response) {
@@ -71,10 +72,12 @@ $scope.required = true;
           }); 	 	
 	}
 
-	$scope.onRest=function(){
-		$('#userReqTitle').val("");
-	 	$('#userReqDes').val("");
-	 	$('#userPriority option:selected').text("Normal");
+	$scope.onRest = function(){
+
+		alert('hello');
+		 $('#userReqTitle').val("");
+         $('#userReqDes').val("");
+         $('#userPriority option:selected').text("Normal");
 	}
 
 
@@ -94,6 +97,7 @@ $scope.required = true;
 				"createdDate":null,
 				"lastModifiedDate":null,
 				"user":getUser,
+				"displayName": getDispName,
 				"reportName":title,
                 "priority": priority}),
           }).done(function (data) {
