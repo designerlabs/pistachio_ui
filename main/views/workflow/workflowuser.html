@@ -34,10 +34,7 @@
 	                                <span class="label label-sm label-warning">{{ data.status }}</span>
 	                                <ul class="mt-comment-actions">
 	                                    <li>
-	                                        <a href="#">Quick Edit</a>
-	                                    </li>
-	                                    <li>
-	                                        <a href="#" ng-click="viewReq(data.id)">View</a>
+	                                        <a href="#" ng-click="viewReq(data.id)">Quick Edit</a>
 	                                    </li>
 	                                    <li>
 	                                        <a href="#" ng-click="DelReq(data.id)">Delete</a>
@@ -65,12 +62,7 @@
 	                                    <li>
 	                                        <a href="#">Quick Edit</a>
 	                                    </li>
-	                                    <li>
-	                                        <a href="#">View</a>
-	                                    </li>
-	                                    <li>
-	                                        <a href="#">Delete</a>
-	                                    </li>
+	                                   
 	                                </ul>
 	                            </div>
 	                        </div>
@@ -89,13 +81,16 @@
             <div class="caption font-red-sunglo">
                 <i class="icon-settings font-red-sunglo"></i>
                 <span class="caption-subject bold uppercase"> Request Form</span>
+
             </div>
+
+            <div class="form-actions text-right" data-ng-show="NewForm">
+                    <button type="button" class="btn btn-primary" ng-click="onNewReq()"><i class="fa fa-plus"></i> New Request Form </button>
+                </div>
         </div>
         <div class="portlet-body form">
             <form role="form" id="frmRequest" name="ReqForm">
-       			<div class="form-actions text-right" data-ng-show="NewForm">
-       				<button type="button" class="btn btn-primary" ng-click="onNewReq()"><i class="fa fa-plus"></i> New Request Form </button>
-       			</div>
+       			
                 <div class="form-body">
                     <div class="form-group">
                         <label>Request Title</label>
@@ -152,7 +147,7 @@
         	    <i class="icon-bubble font-red-sunglo"></i>
         	    <span class="caption-subject font-red-sunglo bold uppercase">Comments</span>
         	</div>
-            <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 210px;"><div class="scroller" style="height: 200px; overflow: auto; width: auto;" data-always-visible="1" data-rail-visible1="1" data-initialized="1">
+            <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; min-height: 20px; margin-top: 20px;"><div class="scroller" style="overflow: auto; width: auto;" data-always-visible="1" data-rail-visible1="1" data-initialized="1">
                 <ul class="chats">
                     <li class="{{ comments.username == 'Admin' ? 'out' : 'in' }}"  ng-repeat="comments in commentsDet">
                         <img class="avatar" alt="" ng-src="../main/assets/admin/layout2/img/{{ comments.username == 'Admin' ? 'jim_logo_small' : 'mimos_logo_small' }}.png">

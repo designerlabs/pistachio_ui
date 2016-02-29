@@ -41,8 +41,8 @@
 			        <div class="mt-comments"  ng-repeat="data in names">
 	                    <div class="mt-comment">
 	                    	<div class="mt-comment-img">
-	                    	<span class="avatar_container {{ data.username | limitTo: 1 }}">{{ data.username | limitTo: 1 }}</span>
-	                    	<span class="avatar_name">{{ data.username | titleCase | limitTo: 7 }}</span>
+	                    	<span class="avatar_container {{ data.displayName | limitTo: 1 }}">{{ data.displayName | limitTo: 1 }}</span>
+	                    	<span class="avatar_name">{{ data.displayName | titleCase | limitTo: 7 }}</span>
 	                    	</div>
 	                        <div class="mt-comment-body">
 	                            <div class="mt-comment-info">
@@ -167,7 +167,7 @@
 
                     <div class="form-group" >
                         <label>Request Description</label>
-                        <div style="height: 150px !important; overflow: auto;">
+                        <div style="min-height: 50px !important; max-height: 160px !important; overflow: auto;">
                         	<h4 style="line-height: 30px;">{{ details.description }}</h4>
                         </div>
                     </div>
@@ -207,7 +207,7 @@
         </div>
         <!-- Comment script start here -->
         <div class="portlet-body" id="chats">
-            <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 210px;"><div class="scroller" style="height: 200px; overflow: auto; width: auto;" data-always-visible="1" data-rail-visible1="1" data-initialized="1">
+            <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; min-height: 20px; margin-top: 20px;"><div class="scroller" style="overflow: auto; width: auto;" data-always-visible="1" data-rail-visible1="1" data-initialized="1">
                 <ul class="chats">
                      <li class="{{ comments.username == 'Admin' ? 'in' : 'out' }}"  ng-repeat="comments in commentsDet">
                         <img class="avatar" alt="" ng-src="../main/assets/admin/layout2/img/{{ comments.username == 'Admin' ? 'jim_logo_small' : 'mimos_logo_small' }}.png">

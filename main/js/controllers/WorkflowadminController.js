@@ -38,6 +38,8 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 			.success(function(k){
 				console.log(k);
 				$scope.details = k;
+				$('.mt-comment').removeClass('activeComment');
+				$('.'+currentId).closest('.mt-comment').addClass('activeComment');
 			});
 
 
@@ -50,11 +52,10 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 
 			$scope.reqid = data;
 
-			$('.mt-comment').removeClass('activeComment');
-			$('.'+currentId).closest('.mt-comment').addClass('activeComment');
+			
 			
 			//Mouse Active
-			$(data.target).addClass('activeComment');
+			//$(data.target).addClass('activeComment');
 		};
 
 		/*$scope.go = function(data){

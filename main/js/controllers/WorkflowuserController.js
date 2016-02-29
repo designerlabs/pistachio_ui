@@ -87,6 +87,7 @@ $("#messageView div").hide();
 	}
 
 	$scope.onNewReq = function(){
+		$scope.started = false;
 		$scope.NewForm = false;
 		$scope.Showcomments = false;
 		$('#userReqTitle').val("");
