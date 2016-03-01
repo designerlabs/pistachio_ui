@@ -167,6 +167,8 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
        }
 
        $scope.cleanQuery = function(data) {
+        data = data.replace(/\(/g,"\\\(");
+        data = data.replace(/\)/g,"\\\)");
           data = data.replace(/ /g,"*");
           return(data);
        }
@@ -243,14 +245,14 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
           var keys1 = ["name","y"];
           var query = "";
           $scope.filters = false;
-          query = 'http://localhost:8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.limit=150&'+$scope.filterQuery();
+          query = 'http://'+solrHost+':8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.limit=150&'+$scope.filterQuery();
      
       $http.get(query).
        success(function(data) {
            if(selected_countries == 0) {
              $scope.countries = $scope.decopule(data.facet_counts.facet_fields.mad_nat_cd,0,keys);
-             $scope.jobs = $scope.decopule(data.facet_counts.facet_fields.job_en,10,keys);
-             $scope.employers = $scope.decopule(data.facet_counts.facet_fields.employer,10,keys);
+             $scope.jobs = $scope.decopule(data.facet_counts.facet_fields.job_en,20,keys);
+             $scope.employers = $scope.decopule(data.facet_counts.facet_fields.employer,20,keys);
              $scope.sex = $scope.decopule(data.facet_counts.facet_fields.sex,data.facet_counts.facet_fields.sex.length,keys1);
              $scope.state = $scope.decopule(data.facet_counts.facet_fields.mad_job_state_cd,data.facet_counts.facet_fields.mad_job_state_cd.length,keys1);
              //alert(data.facet_counts.facet_fields.sex.length);

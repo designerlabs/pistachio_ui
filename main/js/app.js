@@ -150,6 +150,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 
 //var globalURL = "http://10.23.124.243:8080/";
 var globalURL = "http://pistachio_server:8080/";
+var solrHost = "localhost";
 var queryString = "query";
 var categoryName = "cat";
 
@@ -456,7 +457,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
 
     // Redirect any unmatched url
     //if (currentUserName == jimUserId || currentUserName == mimosUserId) {
-    $urlRouterProvider.otherwise("/myprofile.html");
+    $urlRouterProvider
+    //.when("/search/user/:doc_no"), {
+    //    templateUrl: 'partials/page.html', // I made this up
+    //    controller: 'StoreController'
+    //})
+    .otherwise("/myprofile.html");
     //}else{
     //  $urlRouterProvider.otherwise("/dashboard.html");
     //}

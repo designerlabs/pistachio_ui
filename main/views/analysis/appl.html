@@ -44,6 +44,18 @@
 	              
 	            	
 	            </div>
+	            <h4 class="block" style="padding: 0px; margin: 1px;">Visa Types</h4>
+	            	<div class="list-group">
+
+	            			<a class="list-group-item bg-green-turquoise" data-ng-repeat="cnt in visas" ng-click="clickVisa(cnt.field)" style="padding:5px;" >
+	                                        {{cnt.field}}
+	                                            <span class="badge badge-danger"> {{cnt.count}}</span>
+	                                        
+	                        </a>
+	                </div>
+	              
+	            	
+	            </div>
 	        </div>
 		</div>
 	</div>

@@ -1,13 +1,14 @@
 'use strict';
 var selected_countries = [];
 var filter_query = "";
+var solrHost = "localhost";
 MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $http, $timeout, $sce) {
     $scope.$on('$viewContentLoaded', function() {
 
         // initialize core components
         Metronic.initAjax();
         var getUser = localStorage.getItem("username");
-        $http.get('http://10.23.124.243:8983/solr/immigration1/select?q=*:*&wt=json&start=0&rows=0&json.facet={users:\'hll(mad_doc_no)\',employers:\'hll(employer)\'}').
+        $http.get('http://'+solrHost+':8983/solr/immigration1/select?q=*:*&wt=json&start=0&rows=0&json.facet={users:\'hll(mad_doc_no)\',employers:\'hll(employer)\'}').
          success(function(data) {
              console.log(data);
              $scope.items = data.response.docs;
@@ -90,7 +91,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
         $scope.showApplications();
       }
       else {
-        $http.get('http://10.23.124.243:8983/solr/immigration1/select?q=combinedSearch:'+text+'&wt=json&start=0&rows=0').
+        $http.get('http://'+solrHost+':8983/solr/immigration1/select?q=combinedSearch:'+text+'&wt=json&start=0&rows=0').
          success(function(data) {
              $scope.applicationsFound = data.response.numFound;
              $scope.qtime = data.responseHeader.QTime;
@@ -107,7 +108,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
       }
         $scope.reset = function() {
           selected_countries = [];
-          $http.get('http://10.23.124.243:8983/solr/immigration1/select?q=*:*&wt=json&start=0&rows=0').
+          $http.get('http://'+solrHost+':8983/solr/immigration1/select?q=*:*&wt=json&start=0&rows=0').
            success(function(data) {
                $scope.applicationsFound = data.response.numFound;
                $scope.qtime = data.responseHeader.QTime;
@@ -184,10 +185,10 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
       var query = "";
 
       if($scope.text.length > 0) {
-        query = 'http://10.23.124.243:8983/solr/immigration1/select?sort=mad_crt_dt desc&q=combinedSearch:'+$scope.text+'&wt=json&start='+$scope.start+'&rows=10&facet=true&facet.field=mad_nat_cd&facet.limit=10&json.facet={users:\'hll(mad_doc_no)\',employers:\'hll(employer)\'}'+filter_query;
+        query = 'http://'+solrHost+':8983/solr/immigration1/select?sort=mad_crt_dt desc&q=combinedSearch:'+$scope.text+'&wt=json&start='+$scope.start+'&rows=10&facet=true&facet.field=mad_nat_cd&facet.limit=10&json.facet={users:\'hll(mad_doc_no)\',employers:\'hll(employer)\'}'+filter_query;
       }
       else {
-        query = 'http://10.23.124.243:8983/solr/immigration1/select?sort=mad_crt_dt desc&q=*:*&wt=json&start='+$scope.start+'&rows=10&facet=true&facet.offset=1&facet.field=mad_nat_cd&facet.limit=10&json.facet={users:\'hll(mad_doc_no)\',employers:\'hll(employer)\'}'+filter_query;
+        query = 'http://'+solrHost+':8983/solr/immigration1/select?sort=mad_crt_dt desc&q=*:*&wt=json&start='+$scope.start+'&rows=10&facet=true&facet.offset=1&facet.field=mad_nat_cd&facet.limit=10&json.facet={users:\'hll(mad_doc_no)\',employers:\'hll(employer)\'}'+filter_query;
       }
       $http.get(query).
        success(function(data) {
