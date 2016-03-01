@@ -53,7 +53,12 @@ $("#messageView div").hide();
  		console.log($scope.reqid);
  		fn_PostComments(data);
  		$scope.Showcomments = true;			
-	 }
+	}
+
+
+	 $scope.showApplications = function() {
+
+	 };
 
 //Delete Request
 	$scope.DelReq = function(data){
@@ -69,7 +74,8 @@ $("#messageView div").hide();
               data: JSON.stringify({
 				"username":getUser,
 				"message":$scope.myMsg.text,
-				"requestId":$scope.reqid	 					
+				"requestId":$scope.reqid,
+				"displayName": getDispName	 					
                 }),
           }).success(function (data) {
               console.log("successfully send comment form");
