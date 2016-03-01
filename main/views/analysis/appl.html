@@ -5,23 +5,28 @@
 			<div class="custom-alerts alert alert-success fade in" style="margin:0;padding:5px"><button aria-hidden="true" data-dismiss="alert" class="close" type="button" style="padding-top: 5px; margin-top: 4px; margin-left: 5px;" ng-click="updateFilter(filter.id,true)"></button> {{filter.value}}</div>
         </li>
     </ul>
+    <ul class="page-breadcrumb" >
+        <li>
+    		<div ng-click="reset()" class="btn btn-primary previousBtn" style="padding: 5px;" ><i class="fa fa-refresh"></i> Reset </div>
+    	</li>
+    </ul>
 </div>
 <div class="row">
 	<div class="col-md-3">
 		<div class = "row">
 			<div class="portlet light bordered " style="padding: 5px; min-height: 25px;">
-                <div class="portlet-title" style="padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
+                <!--<div class="portlet-title" style="padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
                 <i class="icon-settings font-green"></i>
                         <span class="caption-subject font-green bold uppercase">FILTERS</span>
                  </div>
-            
+                -->
 	            <div class="portlet-body" style="padding: 5px;">
 	            <h4 class="block" style="padding: 0px; margin: 1px;">Top Jobs</h4>
 	            	<div class="list-group">
 
-	            			<a class="list-group-item bg-green-turquoise font-sm" data-ng-repeat="cnt in jobs" ng-click="clickJobs(cnt.field)">
+	            			<a class="list-group-item bg-green-turquoise font-sm" data-ng-repeat="cnt in jobs" ng-click="clickJobs(cnt.field)" style="padding:5px;">
 	                                        {{cnt.field}}
-	                                            <span class="badge badge-default"> {{cnt.count}}</span>
+	                                            <span class="badge badge-danger"> {{cnt.count}}</span>
 	                                        
 	                        </a>
 	                </div>
@@ -30,13 +35,13 @@
 	            <h4 class="block" style="padding: 0px; margin: 1px;">Top Employer</h4>
 	            	<div class="list-group">
 
-	            			<a class="list-group-item bg-green-turquoise" data-ng-repeat="cnt in employers" ng-click="clickEmply(cnt.field)" >
+	            			<a class="list-group-item bg-green-turquoise" data-ng-repeat="cnt in employers" ng-click="clickEmply(cnt.field)" style="padding:5px;" >
 	                                        {{cnt.field}}
-	                                            <span class="badge badge-default"> {{cnt.count}}</span>
+	                                            <span class="badge badge-danger"> {{cnt.count}}</span>
 	                                        
 	                        </a>
 	                </div>
-	              <button ng-click="reset()" class="btn btn-primary previousBtn" ><i class="fa fa-reset"></i> Reset </button>
+	              
 	            	
 	            </div>
 	        </div>
