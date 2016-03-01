@@ -13,7 +13,8 @@ var MetronicApp = angular
     "ngTable",
     "pascalprecht.translate",
     'tmh.dynamicLocale',
-    "datamaps"
+    "datamaps",
+    "chart.js"
 ])
 
 // /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -537,7 +538,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
-                    
+                    'assets/pages/scripts/angular-chart/angular-chart.css',
                     'assets/pages/scripts/datamaps/datamaps.world.js',
                     'assets/pages/css/search.css',
                     'assets/pages/css/pricing.min.css',
