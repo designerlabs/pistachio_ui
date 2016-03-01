@@ -39,10 +39,10 @@
 	<script type="text/ng-template" id="new.html" >
 			<div class="tab-pane" id="portlet_comments_1">
 			        <div class="mt-comments"  ng-repeat="data in names">
-	                    <div class="mt-comment">
+	                    <div class="mt-comment {{data.id}}" style="cursor:pointer;" ng-init="$first && go(data.id);"  ng-click="go(data.id); $event.stopPropagation();">
 	                    	<div class="mt-comment-img">
-	                    	<span class="avatar_container {{ data.username | limitTo: 1 }}">{{ data.username | limitTo: 1 }}</span>
-	                    	<span class="avatar_name">{{ data.username | titleCase | limitTo: 7 }}</span>
+	                    	<span class="avatar_container {{ data.displayName | limitTo: 1 }}">{{ data.displayName | limitTo: 1 }}</span>
+	                    	<span class="avatar_name">{{ data.displayName | titleCase | limitTo: 7 }}</span>
 	                    	</div>
 	                        <div class="mt-comment-body">
 	                            <div class="mt-comment-info">
@@ -53,21 +53,29 @@
 	                            <div class="mt-comment-details">
 	                                <span class="label label-sm label-warning">{{ data.status }}</span>
 	                                <span class="label label-sm label-danger">{{ data.priority }}</span>
-	                                <ul class="mt-comment-actions">
-	                           
-	                                    <li>
-	                                        <a href="#" class="{{data.id}}" ng-init="$first && go(data.id);" ng-click="go(data.id); $event.stopPropagation();">View</a>
-
-	                                    </li>
-	                                 
-	                                </ul>
+	                                
 	                            </div>
 	                        </div>
 	                    </div>
 	
 					</div>
+
+					<div class="search-pagination">
+			            <ul class="pagination">
+			                <li >
+			                    <button ng-click="previous()" class="btn btn-primary previousBtn" disabled><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+			                </li>
+			                <li class="page-active">
+			                    <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+			                </li>
+
+			            </ul>
+			        </div>
 				
 				</div>
+
+
+
 		</script>
 
 
@@ -167,7 +175,7 @@
 
                     <div class="form-group" >
                         <label>Request Description</label>
-                        <div style="height: 150px !important; overflow: auto;">
+                        <div style="min-height: 50px !important; max-height: 160px !important; overflow: auto;">
                         	<h4 style="line-height: 30px;">{{ details.description }}</h4>
                         </div>
                     </div>
@@ -207,9 +215,10 @@
         </div>
         <!-- Comment script start here -->
         <div class="portlet-body" id="chats">
-            <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 210px;"><div class="scroller" style="height: 200px; overflow: auto; width: auto;" data-always-visible="1" data-rail-visible1="1" data-initialized="1">
+            <div class="slimScrollDiv" style="position: relative; overflow: auto; width: auto; min-height: 20px; max-height: 226px; margin-top: 20px;"><div class="scroller" style="overflow: auto; width: auto;" data-always-visible="1" data-rail-visible1="1" data-initialized="1">
                 <ul class="chats">
-                     <li class="{{ comments.username == 'Admin' ? 'in' : 'out' }}"  ng-repeat="comments in commentsDet">
+                	<li ng-if="commentsDetFalse">No Comments</li>
+                     <li ng-if="!commentDet" class="{{ comments.username == 'Admin' ? 'in' : 'out' }}"  ng-repeat="comments in commentsDet">
                         <img class="avatar" alt="" ng-src="../main/assets/admin/layout2/img/{{ comments.username == 'Admin' ? 'jim_logo_small' : 'mimos_logo_small' }}.png">
                         <div class="message">
                             <span class="arrow"> </span>
@@ -224,12 +233,12 @@
             <div class="chat-form">
                 <div class="input-cont">
                     <form id="formMessageAdmin">
-                      <input class="form-control" type="text" ng-model="myMsgAdmin" placeholder="Type a message here..."> 
+                      <input class="form-control" type="text" ng-model="myMsgAdmin.text" placeholder="Type a message here..."> 
 					</form>
                    </div>
-                <div class="btn-cont" ng-disabled="true" ng-click="submitComment()">
+                <div class="btn-cont" ng-click="submitComment()">
                     <span class="arrow"> </span>
-                    <a href="" class="btn blue icn-only">
+                    <a href="" class="btn blue icn-only {{myMsgAdmin.text.length > 0 ? 'active' : 'disabled'}}">
                         <i class="fa fa-check icon-white"></i>
                     </a>
                 </div>
