@@ -191,6 +191,11 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
        $scope.clickJobs = function(data) {
         $scope.addFilter("job","Job : "+data,"job_en:"+$scope.cleanQuery(data));
         $scope.querySolr();
+       };
+
+       $scope.clickVisa = function(data) {
+        $scope.addFilter("vis","Visa Type : "+data,"mad_pas_typ_cd:"+$scope.cleanQuery(data));
+        $scope.querySolr();
        }
 
        $scope.updateActiveGeography = function(geography) {
@@ -245,7 +250,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
           var keys1 = ["name","y"];
           var query = "";
           $scope.filters = false;
-          query = 'http://'+solrHost+':8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.limit=150&'+$scope.filterQuery();
+          query = 'http://'+solrHost+':8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.field=mad_pas_typ_cd&facet.limit=150&'+$scope.filterQuery();
      
       $http.get(query).
        success(function(data) {
@@ -253,6 +258,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
              $scope.countries = $scope.decopule(data.facet_counts.facet_fields.mad_nat_cd,0,keys);
              $scope.jobs = $scope.decopule(data.facet_counts.facet_fields.job_en,20,keys);
              $scope.employers = $scope.decopule(data.facet_counts.facet_fields.employer,20,keys);
+             $scope.visas = $scope.decopule(data.facet_counts.facet_fields.mad_pas_typ_cd,20,keys);
              $scope.sex = $scope.decopule(data.facet_counts.facet_fields.sex,data.facet_counts.facet_fields.sex.length,keys1);
              $scope.state = $scope.decopule(data.facet_counts.facet_fields.mad_job_state_cd,data.facet_counts.facet_fields.mad_job_state_cd.length,keys1);
              //alert(data.facet_counts.facet_fields.sex.length);
