@@ -80,7 +80,9 @@ $("#messageView div").hide();
 
 
 	$scope.onReset = function(){
-		// alert('hello');
+		 $scope.NewForm = false;
+		 $scope.Showcomments = false;
+		 $scope.started = true;
 		 $('#userReqTitle').val("");
          $('#userReqDes').val("");
          $('#userPriority option:selected').text("Normal");
@@ -89,9 +91,10 @@ $("#messageView div").hide();
 	$scope.onNewReq = function(){
 		$scope.NewForm = false;
 		$scope.Showcomments = false;
+		$scope.started = true;
 		$('#userReqTitle').val("");
-         $('#userReqDes').val("");
-         $('#userPriority option:selected').text("Normal");
+        $('#userReqDes').val("");
+        $('#userPriority option:selected').text("Normal");
 	}
 
 	function fn_LoadAllRequest(){
