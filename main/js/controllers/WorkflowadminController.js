@@ -8,7 +8,7 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 	    // initialize core components
 	    Metronic.initAjax();
 	    var getUser = localStorage.getItem("username");
-		$http.get(globalURL+"workflow/request/?start=0&rows=2")
+		$http.get(globalURL+"workflow/request/?start=0&rows=5")
 		.success(function(response) {
 			console.log(response);
 			$scope.names = response.content;
@@ -16,52 +16,53 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 			console.log($scope.TotalCounts);
 	   });
 
-		$scope.start=0;
-
-
-		$scope.showComments = function(data) {
-
-			$http.get(globalURL+"workflow/request/"+data+"/comments")
-			.success(function(m){
-				if(m.length === 0){
-					//$scope.commentsDet;
-					$scope.commentsDet = false;	
-					$scope.commentsDetFalse = true;
-				}else{
-					$scope.commentsDet = true;
-					$scope.commentsDetFalse = false;
-					$scope.commentsDet = m;	
-					console.log( "comments" +m);
-				}
-				
-				
-			});
-		}
-
 		
-		$scope.selectedList = {};
-
-		$scope.go = function(data){
-			
-		var currentId = this.data.id;
-
-			$http.get(globalURL+"workflow/request/"+data)
-			.success(function(k){
-				console.log(k);
-				$scope.details = k;
-				$('.mt-comment').removeClass('activeComment');
-				$('.'+currentId).addClass('activeComment');
-			});
-
-
-			$scope.showComments(data);
-			
-
-			$scope.reqid = data;
-
-	};
 
 	});
+
+	$scope.start=0;
+
+
+	$scope.showComments = function(data) {
+
+		$http.get(globalURL+"workflow/request/"+data+"/comments")
+		.success(function(m){
+			if(m.length === 0){
+				//$scope.commentsDet;
+				$scope.commentsDet = false;	
+				$scope.commentsDetFalse = true;
+			}else{
+				$scope.commentsDet = true;
+				$scope.commentsDetFalse = false;
+				$scope.commentsDet = m;	
+				console.log( "comments" +m);
+			}
+			
+			
+		});
+	}
+
+	
+	$scope.selectedList = {};
+
+	$scope.go = function(data){
+		
+		    var currentId = this.data;
+			fn_ViewRequestAdmin(data);
+			// $scope.showComments(data);				
+			$scope.reqid = data;
+			fn_PostComments(data);
+	};
+
+	function fn_ViewRequestAdmin(Reqid){
+		$http.get(globalURL+"workflow/request/"+Reqid)
+				.success(function(k){
+					console.log(k);
+					$scope.details = k;
+					$('.mt-comment').removeClass('activeComment');
+					$('.'+Reqid).addClass('activeComment');
+				});		
+	}
 	$scope.currentTab = 'new.html';
 
 	$scope.onClickTab = function (tab) {
@@ -107,7 +108,7 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 
     $scope.showApplications = function() {
     	var query = "";
-	 	query = globalURL+"workflow/request/?start="+$scope.start+"&rows=2";
+	 	query = globalURL+"workflow/request/?start="+$scope.start+"&rows=5";
 	 	$http.get(query)
 		.success(function(response) {
 			//debugger;
@@ -115,8 +116,9 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 			console.log(response);
 			$scope.names = response.content;
 			$scope.TotalCounts = response.totalElements;
-			console.log($scope.TotalCounts);
-			if($scope.applicationsFound <= 1){
+			var start_row = ($scope.start + 1) * 5;
+			var remain = $scope.TotalCounts - start_row;
+			if(remain <= 0){
 				$scope.newCount = $scope.applicationsFound;
 		  		$(".nextBtn").prop("disabled", true);
 			}else{
@@ -139,16 +141,35 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 				"requestId":$scope.reqid,
 				"displayName":"Admin" 					
 	            }),
-	      }).done(function (data) {
+	      }).success(function (data) {
 	      		$scope.commentsDetFalse = false;
 	      		$http.get(globalURL+"workflow/request/" + $scope.reqid + "/comments")
 					.success(function(response) {
 						console.log(response);
 						$scope.commentsDet = response;
 						//$scope.go(response);
+						$scope.myMsgAdmin.text = "";
 			   		});
 	      	  console.log("successfully send request form");
 	      }); 	 	
+	}
+
+	function fn_PostComments(Reqid){
+		$http.get(globalURL+"workflow/request/" + Reqid + "/comments")
+			.success(function(response) {
+				if(response.length === 0){
+					//$scope.commentsDet;
+					$scope.commentsDet = false;	
+					$scope.commentsDetFalse = true;
+				}else{
+					$scope.commentsDet = true;
+					$scope.commentsDetFalse = false;
+			
+					$scope.commentsDet = response;
+					$('#messageVal').val("");
+				}
+				
+		   });
 	}
 
     $scope.isActiveTab = function(tabUrl) {

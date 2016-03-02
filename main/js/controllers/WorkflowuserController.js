@@ -9,9 +9,19 @@ $scope.required = true;
 $scope.NewForm = false;
 $scope.Showreset = true;
 $("#messageView div").hide();
+$scope.start=0;
 
 	$scope.$on('$viewContentLoaded', function() {
         Metronic.initAjax(); // initialize core components
+  //       $http.get(globalURL+"workflow/request/?start=0&rows=2")
+		// .success(function(response) {
+		// 	console.log(response);
+		// 	$scope.names = response.content;
+		// 	$scope.TotalCounts = response.totalElements;
+		// 	console.log($scope.TotalCounts);
+	 //   });
+		fn_LoadAllRequest();
+		
 	});
 
 	// $scope.data = {
@@ -22,12 +32,12 @@ $("#messageView div").hide();
  //      {id: '3', name: 'Important'}
  //    ],
  //   };
+ 	$scope.currentTab = 'new.html';
+	var getUser = localStorage.getItem("username");
+	var getToken = localStorage.getItem("token");
+	var getDispName = localStorage.getItem("firstName");
 
-	 var getUser = localStorage.getItem("username");
-	 var getToken = localStorage.getItem("token");
-	 var getDispName = localStorage.getItem("firstName");
-
-	 fn_LoadAllRequest();
+	// fn_LoadAllRequest();
 
 
 	//Create and update Request Form
@@ -45,6 +55,7 @@ $("#messageView div").hide();
 
 	//View Request Form
 	$scope.viewReq = function(data){
+		var currentId = this.data;
 		$scope.started = true;
 		$scope.NewForm = true;
 		$scope.opt = 'update';
@@ -56,11 +67,7 @@ $("#messageView div").hide();
 	}
 
 
-	 $scope.showApplications = function() {
-
-	 };
-
-//Delete Request
+    //Delete Request
 	$scope.DelReq = function(data){
 		fn_DeleteReq(data);	
 	}
@@ -78,6 +85,7 @@ $("#messageView div").hide();
 				"displayName": getDispName	 					
                 }),
           }).success(function (data) {
+          	$scope.commentsDetFalse = false;
               console.log("successfully send comment form");
               fn_PostComments($scope.reqid);
           }); 	 	
@@ -97,19 +105,93 @@ $("#messageView div").hide();
 	$scope.onNewReq = function(){
 		$scope.started = false;
 		$scope.NewForm = false;
-		$scope.Showcomments = false;
-		$scope.started = true;
+		$scope.Showcomments = false;		
 		$('#userReqTitle').val("");
         $('#userReqDes').val("");
         $('#userPriority option:selected').text("Normal");
 	}
 
+	$scope.isActiveTab = function(tabUrl) {
+        return tabUrl == $scope.currentTab;
+    }
+
+		$scope.tabs = [{
+		        	title: 'New',
+		        	url: 'new.html',
+		        	filter : 'new'
+		   		},
+		   		{
+		        	title: 'In Progress',
+		            url: 'inprogress.html',
+		            filter : 'inprog'
+		    	},
+		    	{
+		          	title: 'Close',
+		            url: 'close.html',
+		            filter : 'close'
+	    	}];
+
+	$scope.onClickTab = function (tab) {
+        $scope.currentTab = tab.url;
+    }
+
+    var clicks = 2;
+    $scope.newCount = clicks;
+
+    $scope.next = function() {
+      $(".previousBtn").prop( "disabled", false);
+       clicks += 2;
+      $scope.start = $scope.start + 1;
+      $scope.showApplications();
+      $scope.newCount = clicks;
+      var listCount = 2;
+
+    }
+
+    $scope.previous = function() {
+      clicks -= 2;
+      $scope.start = $scope.start - 1;
+      if(clicks == 2){
+        $(".previousBtn").prop( "disabled", true);
+      }else{
+         $(".previousBtn").prop( "disabled", false);
+      }
+      if($scope.start < 0)
+        $scope.start = 0;
+        $scope.newCount = clicks;
+        $scope.showApplications();
+    }
+
+    $scope.showApplications = function() {
+    	var query = "";
+	 	query = globalURL+"workflow/request/?token=" + getToken + "&start="+ $scope.start +"&rows=5";
+	 	$http.get(query)
+		.success(function(response) {
+			//debugger;
+			$scope.applicationsFound = response.numberOfElements;
+			console.log(response);
+			$scope.names = response.content;
+			$scope.TotalCounts = response.totalElements;
+			var start_row = ($scope.start + 1) * 5;
+			var remain = $scope.TotalCounts - start_row;
+			if(remain <= 0){
+				$scope.newCount = $scope.applicationsFound;
+		  		$(".nextBtn").prop("disabled", true);
+			}else{
+		  		$scope.newCount = clicks;
+		  		$(".nextBtn").prop("disabled", false);
+			}
+	   });
+	};    	
+
 	function fn_LoadAllRequest(){
-		$http.get(globalURL+"workflow/request?token=" + getToken)
+		$http.get(globalURL+"workflow/request/?token=" + getToken + "&start="+ $scope.start +"&rows=5")
 		.success(function(response) {
 			console.log(response);
 			$scope.names = response.content;
 			$scope.newReq = response.numberOfElements;
+		 	$scope.TotalCounts = response.totalElements;
+		 	console.log($scope.TotalCounts);
 	   });
 	}
 
@@ -150,7 +232,9 @@ $("#messageView div").hide();
 		$http.get(globalURL+"workflow/request/" + Reqid)
 		.success(function(response) {
 			console.log(response);
-			$scope.details = response;	 			
+			$scope.details = response;	 	
+			$('.mt-comment').removeClass('activeComment');
+			$('.'+Reqid).addClass('activeComment');		
 			$('#userPriority option:selected').text(response.priority);
 	   });
 	}
@@ -174,9 +258,18 @@ $("#messageView div").hide();
 	function fn_PostComments(Reqid){
 		$http.get(globalURL+"workflow/request/" + Reqid + "/comments")
 			.success(function(response) {
-				console.log(response);
-				$scope.commentsDet = response;
-				$('#messageVal').val("");
+				if(response.length === 0){
+					//$scope.commentsDet;
+					$scope.commentsDet = false;	
+					$scope.commentsDetFalse = true;
+				}else{
+					$scope.commentsDet = true;
+					$scope.commentsDetFalse = false;
+			
+					$scope.commentsDet = response;
+					$('#messageVal').val("");
+				}
+				
 		   });
 	}
 

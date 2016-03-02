@@ -151,103 +151,103 @@
 		</script>
 </div>
 
-<div class="col-md-6">
-	<div class="portlet light ">
-        <div class="portlet-title">
-            <div class="caption font-red-sunglo">
-                <i class="icon-settings font-red-sunglo"></i>
-                <span class="caption-subject bold uppercase"> Request Details</span>
-            </div>
-        </div>
-        <div class="portlet-body form">
-            <form role="form">
-                <div class="form-body">
-                    
-                    <div class="form-group">
-                        <label>Request Title</label>
-                        <div>
-                        	<h4>{{ details.reportName }}</h4>
-                        </div>
-                    </div>
+	<div class="col-md-6">
+		<div class="portlet light ">
+	        <div class="portlet-title">
+	            <div class="caption font-red-sunglo">
+	                <i class="icon-settings font-red-sunglo"></i>
+	                <span class="caption-subject bold uppercase"> Request Details</span>
+	            </div>
+	        </div>
+	        <div class="portlet-body form">
+	            <form role="form">
+	                <div class="form-body">
+	                    
+	                    <div class="form-group">
+	                        <label>Request Title</label>
+	                        <div>
+	                        	<h4>{{ details.reportName }}</h4>
+	                        </div>
+	                    </div>
 
 
-                  
+	                  
 
-                    <div class="form-group" >
-                        <label>Request Description</label>
-                        <div style="min-height: 50px !important; max-height: 160px !important; overflow: auto;">
-                        	<h4 style="line-height: 30px;">{{ details.description }}</h4>
-                        </div>
-                    </div>
-                   
-                     
-                    <div class="row">
-        
-                        <div class="col-md-4">
-                            <div class="form-group">
-		                        <label>Priority</label>
-		                        <h4>{{ details.priority }}</h4>
-                    		</div>
-                        </div>
+	                    <div class="form-group" >
+	                        <label>Request Description</label>
+	                        <div style="min-height: 50px !important; max-height: 160px !important; overflow: auto;">
+	                        	<h4 style="line-height: 30px;">{{ details.description }}</h4>
+	                        </div>
+	                    </div>
+	                   
+	                     
+	                    <div class="row">
+	        
+	                        <div class="col-md-4">
+	                            <div class="form-group">
+			                        <label>Priority</label>
+			                        <h4>{{ details.priority }}</h4>
+	                    		</div>
+	                        </div>
 
-                        <div class="col-md-4">
-                            <div class="form-group">
-		                        <label>Download</label>
-		                        <h4><a href="#">File to Download.doc</a></h4>
-                    		</div>
-                        </div>
-                    </div>
+	                        <div class="col-md-4">
+	                            <div class="form-group">
+			                        <label>Download</label>
+			                        <h4><a href="#">File to Download.doc</a></h4>
+	                    		</div>
+	                        </div>
+	                    </div>
 
-                </div>
-                <div class="form-actions text-right">
-                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Claim</button>
-                    <button type="button" class="btn btn-danger"><i class="fa fa-times"></i> Reject</button>
-                </div>
-            </form>
-        </div>
-        
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="icon-bubble font-red-sunglo"></i>
-                <span class="caption-subject font-red-sunglo bold uppercase">Comments</span>
-            </div>
-           
-        </div>
-        <!-- Comment script start here -->
-        <div class="portlet-body" id="chats">
-            <div class="slimScrollDiv" style="position: relative; overflow: auto; width: auto; min-height: 20px; max-height: 226px; margin-top: 20px;"><div class="scroller" style="overflow: auto; width: auto;" data-always-visible="1" data-rail-visible1="1" data-initialized="1">
-                <ul class="chats">
-                	<li ng-if="commentsDetFalse">No Comments</li>
-                     <li ng-if="!commentDet" class="{{ comments.username == 'Admin' ? 'in' : 'out' }}"  ng-repeat="comments in commentsDet">
-                        <img class="avatar" alt="" ng-src="../main/assets/admin/layout2/img/{{ comments.username == 'Admin' ? 'jim_logo_small' : 'mimos_logo_small' }}.png">
-                        <div class="message">
-                            <span class="arrow"> </span>
-                            <a href="javascript:;" class="name"> {{ comments.username }} </a>
-                            <span class="datetime"> {{ comments.createdDate }} </span>
-                            <span class="body"> {{ comments.message }} </span>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="slimScrollBar" style="display: none !important;  width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 319.38px; background: rgb(187, 187, 187);"></div><div class="slimScrollRail" style="display: none; width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; background: rgb(234, 234, 234);"></div></div>
-            <div class="chat-form">
-                <div class="input-cont">
-                    <form id="formMessageAdmin">
-                      <input class="form-control" type="text" ng-model="myMsgAdmin.text" placeholder="Type a message here..."> 
-					</form>
-                   </div>
-                <div class="btn-cont" ng-click="submitComment()">
-                    <span class="arrow"> </span>
-                    <a href="" class="btn blue icn-only {{myMsgAdmin.text.length > 0 ? 'active' : 'disabled'}}">
-                        <i class="fa fa-check icon-white"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        
-    </div>
+	                </div>
+	                <div class="form-actions text-right">
+	                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Claim</button>
+	                    <button type="button" class="btn btn-danger"><i class="fa fa-times"></i> Reject</button>
+	                </div>
+	            </form>
+	        </div>
+	        
+	        <div class="portlet-title">
+	            <div class="caption">
+	                <i class="icon-bubble font-red-sunglo"></i>
+	                <span class="caption-subject font-red-sunglo bold uppercase">Comments</span>
+	            </div>
+	           
+	        </div>
+	        <!-- Comment script start here -->
+	        <div class="portlet-body" id="chats">
+	            <div class="slimScrollDiv" style="position: relative; overflow: auto; width: auto; min-height: 20px; max-height: 226px; margin-top: 20px;"><div class="scroller" style="overflow: auto; width: auto;" data-always-visible="1" data-rail-visible1="1" data-initialized="1">
+	                <ul class="chats">
+	                	<li ng-if="commentsDetFalse">No Comments</li>
+	                     <li ng-if="!commentDet" class="{{ comments.username == 'Admin' ? 'in' : 'out' }}"  ng-repeat="comments in commentsDet">
+	                        <img class="avatar" alt="" ng-src="../main/assets/admin/layout2/img/{{ comments.username == 'Admin' ? 'jim_logo_small' : 'mimos_logo_small' }}.png">
+	                        <div class="message">
+	                            <span class="arrow"> </span>
+	                            <a href="javascript:;" class="name"> {{ comments.username }} </a>
+	                            <span class="datetime"> {{ comments.createdDate }} </span>
+	                            <span class="body"> {{ comments.message }} </span>
+	                        </div>
+	                    </li>
+	                </ul>
+	            </div>
+	            <div class="slimScrollBar" style="display: none !important;  width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 319.38px; background: rgb(187, 187, 187);"></div><div class="slimScrollRail" style="display: none; width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; background: rgb(234, 234, 234);"></div></div>
+	            <div class="chat-form">
+	                <div class="input-cont">
+	                    <form id="formMessageAdmin">
+	                      <input class="form-control" type="text" ng-model="myMsgAdmin.text" id="messageVal" placeholder="Type a message here..."> 
+						</form>
+	                   </div>
+	                <div class="btn-cont" ng-click="submitComment()">
+	                    <span class="arrow"> </span>
+	                    <a href="" class="btn blue icn-only {{myMsgAdmin.text.length > 0 ? 'active' : 'disabled'}}">
+	                        <i class="fa fa-check icon-white"></i>
+	                    </a>
+	                </div>
+	            </div>
+	        </div>
+	        
+	    </div>
 
-</div>
+	</div>
 </div>
 <script>
 $(function(){

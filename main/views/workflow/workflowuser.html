@@ -7,7 +7,10 @@
 	            <span class="caption-subject font-red bold uppercase">Request History</span>
 	        </div>
 	        <ul class="nav nav-tabs">
-	            <li class="active">
+	        <li  ng-repeat = "tab in tabs" ng-class="{active:isActiveTab(tab.url)}" ng-click="onClickTab(tab)">
+	                <a data-toggle="tab" aria-expanded="true">{{tab.title}}  <span class="badge badge-success"> {{ TotalCounts }} </span></a>
+	            </li>
+	            <!-- <li class="active">
 	                <a href="#portlet_comments_1" data-toggle="tab" aria-expanded="true"> New <span class="badge badge-primary"> 3 </span></a>
 	            </li>
 	            <li class="">
@@ -15,37 +18,66 @@
 	            </li>
 	            <li class="">
 	                <a href="#portlet_comments_2" data-toggle="tab" aria-expanded="false"> Closed  <span class="badge badge-success"> 20 </span></a>
-	            </li>
+	            </li> -->
 	        </ul>
 	    </div>
-		<div class="portlet-body">
+	    <div class="portlet-body">
 	        <div class="tab-content">
-	            <div class="tab-pane active" id="portlet_comments_1">
+	            
+	      			 <div id="mainView">
+						<div ng-include="currentTab"></div>
+					</div>
+	           
+	        </div>
+	    </div>
+	</div>
+
+		<!-- <div class="portlet-body"> -->
+	        <!-- <div class="tab-content"> -->
+	        <script type="text/ng-template" id="new.html" >
+	            <div class="tab-pane" id="portlet_comments_1">
 	                <!-- BEGIN: Comments -->
 	                <div class="mt-comments" ng-repeat="data in names">
-	                     <div class="mt-comment">
+	                     <div class="mt-comment {{data.id}}" style="cursor:pointer;"  ng-click="viewReq(data.id); $event.stopPropagation();">
+                         	<div class="mt-comment-img">
+     	                    	<span class="avatar_container {{ data.displayName | limitTo: 1 }}">{{ data.displayName | limitTo: 1 }}</span>
+     	                    	<span class="avatar_name">{{ data.displayName | titleCase | limitTo: 7 }}</span>
+                         	</div>
 	                        <div class="mt-comment-body">
 	                            <div class="mt-comment-info">
 	                                <span class="mt-comment-author">{{ data.reportName }}</span>
-	                                <span class="mt-comment-date">{{data.createdDate}}</span>
+	                                <span class="mt-comment-date">{{data.createdDate == null ? data.lastModifiedDate : data.createdDate }}</span>
 	                            </div>
 	                            <div class="mt-comment-text"> {{ data.description | limitTo: 100 }} {{ data.description.length > 100 ? '...' : ''}} </div>
 	                            <div class="mt-comment-details">
 	                                <span class="label label-sm label-warning">{{ data.status }}</span>
-	                                <ul class="mt-comment-actions">
+	                                <!-- <ul class="mt-comment-actions">
 	                                    <li>
 	                                        <a href="#" ng-click="viewReq(data.id)">Quick Edit</a>
 	                                    </li>
 	                                    <li>
 	                                        <a href="#" ng-click="DelReq(data.id)">Delete</a>
 	                                    </li>
-	                                </ul>
-	                            </div>
+	                                </ul> -->
+	                            </div>                        		
 	                        </div>
 	                    </div>
 					</div>
+					<div class="search-pagination">
+			            <ul class="pagination">
+			                <li >
+			                    <button ng-click="previous()" class="btn btn-primary previousBtn" disabled><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+			                </li>
+			                <li class="page-active">
+			                    <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+			                </li>
+
+			            </ul>
+			        </div>
 				<!-- END: Comments -->
 				</div>
+			</script>
+			<script type="text/ng-template" id="inprogress.html" >
 	            <div class="tab-pane" id="portlet_comments_2">
 	                <!-- BEGIN: Comments -->
 	                <div class="mt-comments">
@@ -70,10 +102,37 @@
 	                </div>
 	                <!-- END: Comments -->
 	            </div>
-	        </div>
-	    </div>
-	</div>
+	        </script>
+	        <script type="text/ng-template" id="close.html" >
+	            <div class="tab-pane" id="portlet_comments_2">
+	                <!-- BEGIN: Comments -->
+	                <div class="mt-comments">
+	                    <div class="mt-comment">
+	                        <div class="mt-comment-body">
+	                            <div class="mt-comment-info">
+	                                <span class="mt-comment-author">Michael Baker</span>
+	                                <span class="mt-comment-date">26 Feb, 10:30AM</span>
+	                            </div>
+	                            <div class="mt-comment-text"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy. </div>
+	                            <div class="mt-comment-details">
+	                                <span class="label label-sm label-success">Approved</span>
+	                                <ul class="mt-comment-actions">
+	                                    <li>
+	                                        <a href="#">Quick Edit</a>
+	                                    </li>
+	                                   
+	                                </ul>
+	                            </div>
+	                        </div>
+	                    </div>	                    
+	                </div>
+	                <!-- END: Comments -->
+	            </div>
+	        </script>
+	        <!-- </div> -->
+	    <!-- </div> -->
 </div>
+<!-- </div> -->
 
 <div class="col-md-6">
 	<div class="portlet light ">
@@ -147,9 +206,10 @@
         	    <i class="icon-bubble font-red-sunglo"></i>
         	    <span class="caption-subject font-red-sunglo bold uppercase">Comments</span>
         	</div>
-            <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; min-height: 20px; margin-top: 20px;"><div class="scroller" style="overflow: auto; width: auto;" data-always-visible="1" data-rail-visible1="1" data-initialized="1">
+            <div class="slimScrollDiv" style="position: relative; overflow: auto; width: auto; min-height: 20px; max-height: 226px; margin-top: 20px;"><div class="scroller" style="overflow: auto; width: auto;" data-always-visible="1" data-rail-visible1="1" data-initialized="1">
                 <ul class="chats">
-                    <li class="{{ comments.username == 'Admin' ? 'out' : 'in' }}"  ng-repeat="comments in commentsDet">
+                	<li ng-if="commentsDetFalse">No Comments</li>
+                    <li ng-if="!commentDet" class="{{ comments.username == 'Admin' ? 'out' : 'in' }}"  ng-repeat="comments in commentsDet">
                         <img class="avatar" alt="" ng-src="../main/assets/admin/layout2/img/{{ comments.username == 'Admin' ? 'jim_logo_small' : 'mimos_logo_small' }}.png">
                         <div class="message">
                             <span class="arrow"> </span>
