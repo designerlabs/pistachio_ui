@@ -6,7 +6,7 @@ $scope.started = false; // boolean for submit and update button
 $scope.opt = 'submit'; // for submit button
 $scope.Showcomments = false; 
 $scope.required = true;
-$scope.NewForm = false;
+$scope.NewForm = false; // boolean for New Request buttom
 $scope.Showreset = true;
 
 $("#messageView div").hide();
@@ -95,22 +95,11 @@ $scope.start=0;
 
 
 	$scope.onReset = function(){
-		 $scope.NewForm = false;
-		 $scope.Showcomments = false;
-		 $scope.started = true;
-		 $('#userReqTitle').val("");
-         $('#userReqDes').val("");
-         $('#userPriority option:selected').text("Normal");
+		fn_Reset();
 	}
 
 	$scope.onNewReq = function(){
-		$scope.started = false;
-		$scope.opt = 'submit';
-		$scope.NewForm = false;
-		$scope.Showcomments = false;		
-		$('#userReqTitle').val("");
-        $('#userReqDes').val("");
-        $('#userPriority option:selected').text("Normal");
+		fn_Reset();
 	}
 
 	$scope.isActiveTab = function(tabUrl) {
@@ -241,6 +230,23 @@ $scope.start=0;
 	   });
 	}
 
+	function fn_DeleteCommends(Reqid){
+		 $.ajax({
+              url: globalURL + "workflow/request/"+ Reqid,
+              contentType: "application/json",
+              type: 'DELETE',
+              dataType: "json"              
+          }).success(function (data) {
+              console.log("successfully deleted request");
+              $("#messageView div span").html("Successfully Deleted the Request");            
+              $("#messageView div").addClass('alert-success');
+              $("#messageView div").show();
+              fn_LoadAllRequest();
+              fn_Reset();
+          }); 
+
+	}
+
 	function fn_DeleteReq(Reqid){
 		 $.ajax({
               url: globalURL + "workflow/request/"+ Reqid,
@@ -253,6 +259,7 @@ $scope.start=0;
               $("#messageView div").addClass('alert-success');
               $("#messageView div").show();
               fn_LoadAllRequest();
+              fn_Reset();
           }); 
 
 	}
@@ -299,6 +306,16 @@ $scope.start=0;
        
             }
         });
+
+	function fn_Reset(){
+		 $scope.NewForm = false;
+		 $scope.Showcomments = false;
+		 $scope.started = false;
+		 $scope.opt = 'submit';
+		 $('#userReqTitle').val("");
+         $('#userReqDes').val("");
+         $('#userPriority option:selected').text("Normal");
+	 }
 
 
 
