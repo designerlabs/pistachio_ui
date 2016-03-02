@@ -41,7 +41,7 @@ $scope.start=0;
 	// fn_LoadAllRequest();
 
 
-	//Create and update Request Form
+	//Add and update Request Form submission
 	$scope.onReqSubmit = function (opt) {
 	 	formInputValidation("#frmRequest");
 	 	var reportName = $('#userReqTitle').val();
