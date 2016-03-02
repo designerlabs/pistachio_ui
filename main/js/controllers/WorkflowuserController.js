@@ -2,12 +2,13 @@
 
 MetronicApp.controller('WorkflowuserController', function($rootScope, $scope, $http, settings, authorities) {
 
-$scope.started = false;
-$scope.opt = 'submit';
-$scope.Showcomments = false;
+$scope.started = false; // boolean for submit and update button
+$scope.opt = 'submit'; // for submit button
+$scope.Showcomments = false; 
 $scope.required = true;
 $scope.NewForm = false;
 $scope.Showreset = true;
+
 $("#messageView div").hide();
 $scope.start=0;
 
@@ -104,6 +105,7 @@ $scope.start=0;
 
 	$scope.onNewReq = function(){
 		$scope.started = false;
+		$scope.opt = 'submit';
 		$scope.NewForm = false;
 		$scope.Showcomments = false;		
 		$('#userReqTitle').val("");
