@@ -4,10 +4,11 @@
 MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$http', 'settings', 'authorities',  function($rootScope, $scope, $http, settings, authorities) {
 	$scope.$on('$viewContentLoaded', function() {   
 
+		
 
 	    // initialize core components
 	    Metronic.initAjax();
-	    var getUser = localStorage.getItem("username");
+	    //var getUser = localStorage.getItem("username");
 		$http.get(globalURL+"workflow/request/?start=0&rows=5")
 		.success(function(response) {
 			console.log(response);
@@ -15,16 +16,13 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 			$scope.TotalCounts = response.totalElements;
 			console.log($scope.TotalCounts);
 	   });
-
-		
-
 	});
 
+	$scope.opt = 'INPROGRESS'; // for submit button
+	var getToken = localStorage.getItem("token");
 	$scope.start=0;
 
-
 	$scope.showComments = function(data) {
-
 		$http.get(globalURL+"workflow/request/"+data+"/comments")
 		.success(function(m){
 			if(m.length === 0){
@@ -37,9 +35,72 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 				$scope.commentsDet = m;	
 				console.log( "comments" +m);
 			}
-			
-			
 		});
+	};
+
+
+
+	//Add and update Request Form submission
+	$scope.onReqSubmit = function (opt) {
+		console.log($scope.details);
+	 	formInputValidation("#frmRequest");
+	 	var reportName = $('#userReqTitle').val();
+	 	var description = $('#userReqDes').val();
+	 	var priority = $('#userPriority option:selected').val();
+	 	if(opt == "NEW"){
+	 	 fn_SendRequest($scope.details.reportName, $scope.details.description, $scope.details.priority, $scope.details.id, 'INPROGRESS', $scope.details.username, $scope.details.displayName);
+      	}else if(opt=="INPROGRESS"){
+      	 fn_SendRequest($scope.details.reportName, $scope.details.description, $scope.details.priority, $scope.details.id, 'COMPLETED', $scope.details.username, $scope.details.displayName);
+      	}else if(opt=="COMPLETED"){
+      	 fn_SendRequest($scope.details.reportName, $scope.details.description, $scope.details.priority, $scope.details.id, 'SUCCESS', $scope.details.username, $scope.details.displayName);
+      	}else if(opt=="FAILED"){
+      	 fn_SendRequest($scope.details.reportName, $scope.details.description, $scope.details.priority, $scope.details.id, 'FAILED', $scope.details.username, $scope.details.displayName);
+      	}
+	}
+
+
+	function fn_LoadAllRequest(){
+		$http.get(globalURL+"workflow/request/?token=" + getToken + "&start="+ $scope.start +"&rows=5")
+		.success(function(response) {
+			console.log(response);
+			$scope.names = response.content;
+			$scope.newReq = response.numberOfElements;
+		 	$scope.TotalCounts = response.totalElements;
+		 	console.log($scope.TotalCounts);
+	   });
+	}
+
+
+	function fn_SendRequest(title,desc,priority,reqid, status, userName, dspName){
+	 	 $.ajax({
+              url: globalURL + 'workflow/request/',
+              contentType: "application/json",
+              type: "POST",
+              dataType: "json",
+              data: JSON.stringify({
+              	"id": reqid,
+				"description":desc,
+				"email":"",
+				"status":status,
+				"admin":"NA",
+				"adminEmail":"NA",
+				"createdDate":null,
+				"lastModifiedDate":null,
+				"user":userName,
+				"displayName": dspName,
+				"reportName":title,
+                "priority": priority}),
+          }).success(function (data) {
+              console.log("successfully send request form");
+              $("#messageView div span").html("Successfully Submitted Your Request");            
+              $("#messageView div").addClass('alert-success');
+              $("#messageView div").show();
+              fn_LoadAllRequest();
+              $('#userReqTitle').val("");
+              $('#userReqDes').val("");
+              $('#userPriority option:selected').text("Normal");
+          }); 
+
 	}
 
 	
@@ -63,19 +124,19 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 					$('.'+Reqid).addClass('activeComment');
 				});		
 	}
+
 	$scope.currentTab = 'new.html';
 
 	$scope.onClickTab = function (tab) {
-        $scope.currentTab = tab.url;
-       /* $http.get(globalURL+"workflow/request/")
+        //$scope.currentTab = tab.url;
+        $http.get(globalURL+"workflow/request/?filter="+tab.filter)
 		.success(function(response) {
 			console.log(response);
 			$scope.names = response.content;
 			console.log($scope.TotalCounts);
 			console.log(response);
 			
-	   });*/
-        
+	   });
     }
 
     var clicks = 2;
@@ -169,7 +230,7 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 					$('#messageVal').val("");
 				}
 				
-		   });
+		   	});
 	}
 
     $scope.isActiveTab = function(tabUrl) {
