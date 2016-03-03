@@ -8,6 +8,7 @@ $scope.Showcomments = false;
 $scope.required = true;
 $scope.NewForm = false; // boolean for New Request buttom
 $scope.Showreset = true;
+$scope.AsHeader = false;
 
 $("#messageView div").hide();
 $scope.start=0;
@@ -56,6 +57,8 @@ $scope.start=0;
 
 	//View Request Form
 	$scope.viewReq = function(data){
+		$scope.Editor = true;
+		$scope.AsHeader = true;
 		var currentId = this.data;
 		$scope.started = true;
 		$scope.NewForm = true;
@@ -99,7 +102,9 @@ $scope.start=0;
 	}
 
 	$scope.onNewReq = function(){
+
 		fn_Reset();
+
 	}
 
 	$scope.isActiveTab = function(tabUrl) {
@@ -130,26 +135,26 @@ $scope.start=0;
     $scope.newCount = clicks;
 
     $scope.next = function() {
-      $(".previousBtn").prop( "disabled", false);
-       clicks += 2;
+      // $(".previousBtn").prop( "disabled", false);
+      //  clicks += 2;
       $scope.start = $scope.start + 1;
       $scope.showApplications();
-      $scope.newCount = clicks;
+      // $scope.newCount = clicks;
       var listCount = 2;
 
     }
 
     $scope.previous = function() {
-      clicks -= 2;
+      // clicks -= 2;
       $scope.start = $scope.start - 1;
-      if(clicks == 2){
-        $(".previousBtn").prop( "disabled", true);
-      }else{
-         $(".previousBtn").prop( "disabled", false);
-      }
+      // if(clicks == 2){
+      //   $(".previousBtn").prop( "disabled", true);
+      // }else{
+      //    $(".previousBtn").prop( "disabled", false);
+      // }
       if($scope.start < 0)
         $scope.start = 0;
-        $scope.newCount = clicks;
+        // $scope.newCount = clicks;
         $scope.showApplications();
     }
 
@@ -163,15 +168,17 @@ $scope.start=0;
 			console.log(response);
 			$scope.names = response.content;
 			$scope.TotalCounts = response.totalElements;
-			var start_row = ($scope.start + 1) * 5;
-			var remain = $scope.TotalCounts - start_row;
-			if(remain <= 0){
-				$scope.newCount = $scope.applicationsFound;
-		  		$(".nextBtn").prop("disabled", true);
-			}else{
-		  		$scope.newCount = clicks;
-		  		$(".nextBtn").prop("disabled", false);
-			}
+			$scope.first = response.first; //Show or hide previous 
+		 	$scope.last = response.last; //Show or hide next 
+			// var start_row = ($scope.start + 1) * 5;
+			// var remain = $scope.TotalCounts - start_row;
+			// if(remain <= 0){
+			// 	$scope.newCount = $scope.applicationsFound;
+		 //  		$(".nextBtn").prop("disabled", true);
+			// }else{
+		 //  		$scope.newCount = clicks;
+		 //  		$(".nextBtn").prop("disabled", false);
+			// }
 	   });
 	};    	
 
@@ -182,6 +189,7 @@ $scope.start=0;
 			$scope.names = response.content;
 			$scope.newReq = response.numberOfElements;
 		 	$scope.TotalCounts = response.totalElements;
+		 	$scope.first = response.first;
 		 	console.log($scope.TotalCounts);
 	   });
 	}
@@ -308,15 +316,19 @@ $scope.start=0;
         });
 
 	function fn_Reset(){
+		 $scope.AsHeader = false;
 		 $scope.NewForm = false;
 		 $scope.Showcomments = false;
 		 $scope.started = false;
 		 $scope.opt = 'submit';
-		 $('#userReqTitle').val("");
+		
+         $("#frmRequest h4").each(function(e){
+         		this.textContent = "";
+         });
+
+         $('#userReqTitle').val("");
          $('#userReqDes').val("");
          $('#userPriority option:selected').text("Normal");
 	 }
-
-
 
 });

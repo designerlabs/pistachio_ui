@@ -64,12 +64,13 @@
 	                    </div>
 					</div>
 					<div class="search-pagination">
+					<span></span>
 			            <ul class="pagination">
 			                <li >
-			                    <button ng-click="previous()" class="btn btn-primary previousBtn" disabled><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+			                    <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="first"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
 			                </li>
 			                <li class="page-active">
-			                    <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+			                    <button ng-click="next()" class="btn btn-primary nextBtn" ng-disabled="last">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
 			                </li>
 
 			            </ul>
@@ -80,52 +81,86 @@
 			<script type="text/ng-template" id="inprogress.html" >
 	            <div class="tab-pane" id="portlet_comments_2">
 	                <!-- BEGIN: Comments -->
-	                <div class="mt-comments">
-	                    <div class="mt-comment">
+	                <div class="mt-comments" ng-repeat="data in names">
+	                     <div class="mt-comment {{data.id}}" style="cursor:pointer;"  ng-click="viewReq(data.id); $event.stopPropagation();">
+                         	<div class="mt-comment-img">
+     	                    	<span class="avatar_container {{ data.displayName | limitTo: 1 }}">{{ data.displayName | limitTo: 1 }}</span>
+     	                    	<span class="avatar_name">{{ data.displayName | titleCase | limitTo: 7 }}</span>
+                         	</div>
 	                        <div class="mt-comment-body">
 	                            <div class="mt-comment-info">
-	                                <span class="mt-comment-author">Michael Baker</span>
-	                                <span class="mt-comment-date">26 Feb, 10:30AM</span>
+	                                <span class="mt-comment-author">{{ data.reportName }}</span>
+	                                <span class="mt-comment-date">{{data.createdDate == null ? data.lastModifiedDate : data.createdDate }}</span>
 	                            </div>
-	                            <div class="mt-comment-text"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy. </div>
+	                            <div class="mt-comment-text"> {{ data.description | limitTo: 100 }} {{ data.description.length > 100 ? '...' : ''}} </div>
 	                            <div class="mt-comment-details">
-	                                <span class="label label-sm label-success">Approved</span>
-	                                <ul class="mt-comment-actions">
+	                                <span class="label label-sm label-warning">{{ data.status }}</span>
+	                               <!--  <ul class="mt-comment-actions">
 	                                    <li>
-	                                        <a href="#">Quick Edit</a>
+	                                        <a href="#" ng-click="viewReq(data.id)">Quick Edit</a>
 	                                    </li>
-	                                   
-	                                </ul>
-	                            </div>
+	                                    <li>
+	                                        <a href="#" ng-click="DelReq(data.id)">Delete</a>
+	                                    </li>
+	                                </ul> -->
+	                            </div>                        		
 	                        </div>
-	                    </div>	                    
-	                </div>
+	                    </div>
+					</div>
+					<div class="search-pagination">
+			            <ul class="pagination">
+			                <li >
+			                    <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="false"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+			                </li>
+			                <li class="page-active">
+			                    <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+			                </li>
+
+			            </ul>
+			        </div>
 	                <!-- END: Comments -->
 	            </div>
 	        </script>
 	        <script type="text/ng-template" id="close.html" >
-	            <div class="tab-pane" id="portlet_comments_2">
+	            <div class="tab-pane" id="portlet_comments_3">
 	                <!-- BEGIN: Comments -->
-	                <div class="mt-comments">
-	                    <div class="mt-comment">
+	                <div class="mt-comments" ng-repeat="data in names">
+	                     <div class="mt-comment {{data.id}}" style="cursor:pointer;"  ng-click="viewReq(data.id); $event.stopPropagation();">
+                         	<div class="mt-comment-img">
+     	                    	<span class="avatar_container {{ data.displayName | limitTo: 1 }}">{{ data.displayName | limitTo: 1 }}</span>
+     	                    	<span class="avatar_name">{{ data.displayName | titleCase | limitTo: 7 }}</span>
+                         	</div>
 	                        <div class="mt-comment-body">
 	                            <div class="mt-comment-info">
-	                                <span class="mt-comment-author">Michael Baker</span>
-	                                <span class="mt-comment-date">26 Feb, 10:30AM</span>
+	                                <span class="mt-comment-author">{{ data.reportName }}</span>
+	                                <span class="mt-comment-date">{{data.createdDate == null ? data.lastModifiedDate : data.createdDate }}</span>
 	                            </div>
-	                            <div class="mt-comment-text"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy. </div>
+	                            <div class="mt-comment-text"> {{ data.description | limitTo: 100 }} {{ data.description.length > 100 ? '...' : ''}} </div>
 	                            <div class="mt-comment-details">
-	                                <span class="label label-sm label-success">Approved</span>
-	                                <ul class="mt-comment-actions">
+	                                <span class="label label-sm label-warning">{{ data.status }}</span>
+	                               <!--  <ul class="mt-comment-actions">
 	                                    <li>
-	                                        <a href="#">Quick Edit</a>
+	                                        <a href="#" ng-click="viewReq(data.id)">Quick Edit</a>
 	                                    </li>
-	                                   
-	                                </ul>
-	                            </div>
+	                                    <li>
+	                                        <a href="#" ng-click="DelReq(data.id)">Delete</a>
+	                                    </li>
+	                                </ul> -->
+	                            </div>                        		
 	                        </div>
-	                    </div>	                    
-	                </div>
+	                    </div>
+					</div>
+					<div class="search-pagination">
+			            <ul class="pagination">
+			                <li >
+			                    <button ng-click="previous()" class="btn btn-primary previousBtn" disabled><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+			                </li>
+			                <li class="page-active">
+			                    <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+			                </li>
+
+			            </ul>
+			        </div>
 	                <!-- END: Comments -->
 	            </div>
 	        </script>
@@ -145,6 +180,7 @@
 
             <div class="form-actions text-right" data-ng-show="NewForm">
                     <button type="button" class="btn btn-primary" ng-click="onNewReq()"><i class="fa fa-plus"></i> New Request Form </button>
+                    <button type="button" class="btn btn-primary" ng-click="onEdit()" ng-if="Editor"><i class="fa fa-pencil"></i> Edit </button>
                 </div>
         </div>
         <div class="portlet-body form">
@@ -152,23 +188,23 @@
                 <div class="form-body">
                     <div class="form-group">
                         <label>Request Title</label>
-                        <div>
-                            <h4>{{ details.reportName }}</h4>
-                            <input type="text" id="userReqTitle" class="form-control" value="{{details.reportName}}"
+                        <div>                       
+                            <h4 ng-if="AsHeader" class="bold">{{ details.reportName }}</h4>
+                            <input ng-if="!AsHeader" type="text" id="userReqTitle" class="form-control" value="{{details.reportName}}"
                             name="ReqTitle"> 
                         </div>
                     </div>                 
 
                     <div class="form-group">
                         <label>Request Description</label>
-                        <h4>{{details.description}}</h4>
-                        <textarea class="form-control" id="userReqDes" rows="3" value="{{details.description}}" name="ReqDes"></textarea>
+                        <h4 ng-if="AsHeader" class="bold">{{details.description}}</h4>
+                        <textarea ng-if="!AsHeader" class="form-control" id="userReqDes" rows="3" value="{{details.description}}" name="ReqDes"></textarea>
                     </div>
                    
                     <div class="form-group">
                         <label>Priority</label>
-                        <h4>{{details.priority}}</h4>
-                        <select id="userPriority" class="form-control">
+                        <h4 ng-if="AsHeader" class="bold">{{details.priority}}</h4>
+                        <select ng-if="!AsHeader" id="userPriority" class="form-control">
                         	<option selected="selected">Normal</option>
                             <option>Urgent</option>                            
                             <option>Important</option>
