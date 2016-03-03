@@ -61,6 +61,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     }
 
                 }*/
+        $scope.reporttitle = localStorage.getItem("selSystemDisplayName"); //Display parent name in e-reporting.html
         $('#lblReportTitle').text(localStorage.getItem('reportCategoryTitle'));
 
         function databaseDataFunc() {
