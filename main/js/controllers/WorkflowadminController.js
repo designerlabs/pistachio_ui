@@ -128,15 +128,15 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 	$scope.currentTab = 'new.html';
 
 	$scope.onClickTab = function (tab) {
-        //$scope.currentTab = tab.url;
-        $http.get(globalURL+"workflow/request/?filter="+tab.filter)
+        $scope.currentTab = tab.url;
+        /*$http.get(globalURL+"workflow/request/?filter="+tab.filter)
 		.success(function(response) {
 			console.log(response);
 			$scope.names = response.content;
 			console.log($scope.TotalCounts);
 			console.log(response);
 			
-	   });
+	   });*/
     }
 
     var clicks = 2;
