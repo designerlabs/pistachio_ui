@@ -8,15 +8,44 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 
 	    // initialize core components
 	    Metronic.initAjax();
+
+	    $scope.getCounts();
+
+
 	    //var getUser = localStorage.getItem("username");
-		$http.get(globalURL+"workflow/request/?start=0&rows=5")
+		$http.get(globalURL+"workflow/request/?start=0&rows=5&filter=new")
 		.success(function(response) {
 			console.log(response);
 			$scope.names = response.content;
-			$scope.TotalCounts = response.totalElements;
-			console.log($scope.TotalCounts);
+			//$scope.TotalCounts = response.totalElements;
+			$scope.first = response.first;
+			$scope.last = response.last;
+			console.log(response);
 	   });
 	});
+
+
+	$scope.getCounts = function(){
+		$scope.getCountNew = "";
+	    $scope.getCountProg = "";
+	    $scope.getCountFailed = "";
+	    $scope.getCountCompleted = "";
+
+    	$http.get(globalURL+"workflow/request/?filter=new").success(function(response) {
+    		$scope.getCountNew = response.totalElements;
+        });
+
+    	$http.get(globalURL+"workflow/request/?filter=prog").success(function(response) {
+    		$scope.getCountProg = response.totalElements;
+        });
+
+    	$http.get(globalURL+"workflow/request/?filter=failed").success(function(response) {
+    		$scope.getCountFailed = response.totalElements;
+        });
+        $http.get(globalURL+"workflow/request/?filter=completed").success(function(response) {
+    		$scope.getCountCompleted = response.totalElements;
+        });
+	};
 
 	$scope.opt = 'INPROGRESS'; // for submit button
 	var getToken = localStorage.getItem("token");
@@ -60,13 +89,15 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 
 
 	function fn_LoadAllRequest(){
-		$http.get(globalURL+"workflow/request/?token=" + getToken + "&start="+ $scope.start +"&rows=5")
+		$http.get(globalURL+"workflow/request/?token=" + getToken + "&start="+ $scope.start +"&rows=5&filter="+$scope.currentTabName)
 		.success(function(response) {
 			console.log(response);
+			$scope.getCounts();
 			$scope.names = response.content;
 			$scope.newReq = response.numberOfElements;
-		 	$scope.TotalCounts = response.totalElements;
-		 	console.log($scope.TotalCounts);
+		 	//$scope.TotalCounts = response.totalElements;
+		 	$scope.first = response.first;
+		 	$scope.last = response.last;
 	   });
 	}
 
@@ -126,66 +157,49 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 	}
 
 	$scope.currentTab = 'new.html';
-
+	$scope.currentTabName = 'new';
 	$scope.onClickTab = function (tab) {
-        $scope.currentTab = tab.url;
-        /*$http.get(globalURL+"workflow/request/?filter="+tab.filter)
+	   $scope.start = 0;
+       $scope.currentTabName = tab.filter;
+        $http.get(globalURL+"workflow/request/?start="+$scope.start+"&rows=5&filter="+tab.filter)
 		.success(function(response) {
 			console.log(response);
 			$scope.names = response.content;
-			console.log($scope.TotalCounts);
+			$scope.newReq = response.numberOfElements;
+		 	$scope.first = response.first;
+		 	$scope.last = response.last;
 			console.log(response);
 			
-	   });*/
+	   });
     }
 
-    var clicks = 2;
-    $scope.newCount = clicks;
-
     $scope.next = function() {
-      $(".previousBtn").prop( "disabled", false);
-       clicks += 2;
       $scope.start = $scope.start + 1;
       $scope.showApplications();
-      $scope.newCount = clicks;
-      var listCount = 2;
-
     }
 
     $scope.previous = function() {
-      clicks -= 2;
       $scope.start = $scope.start - 1;
-      if(clicks == 2){
-        $(".previousBtn").prop( "disabled", true);
-      }else{
-         $(".previousBtn").prop( "disabled", false);
-      }
       if($scope.start < 0)
         $scope.start = 0;
-        $scope.newCount = clicks;
-        $scope.showApplications();
+    	$scope.showApplications();
     }
 
 
     $scope.showApplications = function() {
+
+    	
     	var query = "";
-	 	query = globalURL+"workflow/request/?start="+$scope.start+"&rows=5";
+    	query = globalURL+"workflow/request/?start="+$scope.start+"&rows=5&filter="+$scope.currentTabName;
 	 	$http.get(query)
 		.success(function(response) {
 			//debugger;
 			$scope.applicationsFound = response.numberOfElements;
 			console.log(response);
 			$scope.names = response.content;
-			$scope.TotalCounts = response.totalElements;
-			var start_row = ($scope.start + 1) * 5;
-			var remain = $scope.TotalCounts - start_row;
-			if(remain <= 0){
-				$scope.newCount = $scope.applicationsFound;
-		  		$(".nextBtn").prop("disabled", true);
-			}else{
-		  		$scope.newCount = clicks;
-		  		$(".nextBtn").prop("disabled", false);
-			}
+			$scope.first = response.first; //Show or hide previous 
+		 	$scope.last = response.last; //Show or hide next 
+			
 	   });
 	};
 
@@ -247,12 +261,17 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 	   		{
 	        	title: 'In Progress',
 	            url: 'inprogress.html',
-	            filter : 'inprog'
+	            filter : 'prog'
 	    	},
 	    	{
-	          	title: 'Close',
+	        	title: 'Completed',
+	            url: 'completed.html',
+	            filter : 'completed'
+	    	},
+	    	{
+	          	title: 'Failed',
 	            url: 'close.html',
-	            filter : 'close'
+	            filter : 'failed'
     	}];
 
 }]);

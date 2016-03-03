@@ -1,5 +1,5 @@
 
-<h3 class="page-title">Workflow Management</h3>
+<h3 class="page-title">Request Management</h3>
 <div ng-controller="WorkflowadminController">
 <div class="col-md-6">
 	<div class="portlet light ">
@@ -10,16 +10,8 @@
 	        </div>
 	        <ul class="nav nav-tabs">
 	            <li  ng-repeat = "tab in tabs" ng-class="{active:isActiveTab(tab.url)}" ng-click="onClickTab(tab)">
-	                <a data-toggle="tab" aria-expanded="true">{{tab.title}}  <span class="badge badge-success"> {{ TotalCounts }} </span></a>
-	               <!--  <a href="#portlet_comments_3" data-toggle="tab" aria-expanded="true">{{ tab.title }} <span class="badge badge-primary"> 10 </span></a> -->
+	                <a data-toggle="tab" aria-expanded="true">{{tab.title}}  <span class="badge badge-{{ tab.title == 'New' ? 'warning' : (tab.title == 'Failed' ? 'danger' : (tab.title == 'In Progress' ? 'info' : 'success'))}}"> {{ tab.title == 'New' ? getCountNew : (tab.title == 'Failed' ? getCountFailed : (tab.title == 'In Progress' ? getCountProg : (tab.title == 'Completed' ? getCountCompleted : '')))}} </span></a>
 	            </li>
-<!-- 
-	            <li class="">
-	                <a href="#portlet_comments_1" data-toggle="tab" aria-expanded="true"> Open <span class="badge badge-success"> 3 </span></a>
-	            </li>
-	            <li class="">
-	                <a href="#portlet_comments_2" data-toggle="tab" aria-expanded="false"> closed  <span class="badge badge-danger"> 56 </span></a>
-	            </li> -->
 	        </ul>
 	    </div>
 
@@ -61,14 +53,13 @@
 					</div>
 
 					<div class="search-pagination">
-			            <ul class="pagination">
+					    <ul class="pagination">
 			                <li >
-			                    <button ng-click="previous()" class="btn btn-primary previousBtn" disabled><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+			                    <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="first"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
 			                </li>
 			                <li class="page-active">
-			                    <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+			                    <button ng-click="next()" class="btn btn-primary nextBtn" ng-disabled="last">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
 			                </li>
-
 			            </ul>
 			        </div>
 				
@@ -114,10 +105,10 @@
 					<div class="search-pagination">
 			            <ul class="pagination">
 			                <li >
-			                    <button ng-click="previous()" class="btn btn-primary previousBtn" disabled><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+			                    <button ng-click="previous1()" class="btn btn-primary previousBtn" disabled><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
 			                </li>
 			                <li class="page-active">
-			                    <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+			                    <button ng-click="next1()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
 			                </li>
 
 			            </ul>
@@ -162,10 +153,10 @@
 					<div class="search-pagination">
 			            <ul class="pagination">
 			                <li >
-			                    <button ng-click="previous()" class="btn btn-primary previousBtn" disabled><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+			                    <button ng-click="previous2()" class="btn btn-primary previousBtn" disabled><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
 			                </li>
 			                <li class="page-active">
-			                    <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+			                    <button ng-click="next2()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
 			                </li>
 
 			            </ul>

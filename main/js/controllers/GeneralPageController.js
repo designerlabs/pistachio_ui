@@ -249,8 +249,8 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     $("#configAddForm").modal('hide');
                     //selectedQueryId = null;
                 })
-                .fail(function () {
-                    alert('Failed!');
+                .fail(function (e) {
+                    console.log(e);
                 });
         });
 
@@ -715,8 +715,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert("Status: " + textStatus);
-                    alert("Error: " + errorThrown);
+                    console.log(XMLHttpRequest, textStatus, errorThrown);
                 }
             }).done(function () {
                 // alert("Post done successfully");
@@ -935,16 +934,15 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        alert("Status: " + textStatus);
-                        alert("Error: " + errorThrown);
+                        console.log(XMLHttpRequest, textStatus, errorThrown);
                     }
                 })
                 .done(function () {
                     queryData.destroy();
                     queryDataFunc();
                 })
-                .fail(function () {
-                    alert('Failed!');
+                .fail(function (e) {
+                    console.log(e);
                 });
         });
 
@@ -1019,7 +1017,8 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        alert("Execution falied, Please re-try after some time!");
+                        console.log(XMLHttpRequest, textStatus, errorThrown);
+                        //alert("Execution falied, Please re-try after some time!");
                         //alert("Error: " + errorThrown);
                     }
                 })
@@ -1054,8 +1053,9 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     queryDataFunc();
                     //selectedQueryId = null;
                 })
-                .fail(function () {
-                    alert('Failed!');
+                .fail(function (e) {
+                    console.log(e);
+                    //alert('Failed!');
                 });
         });
 
@@ -1110,8 +1110,8 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     databaseDataFunc();
                     //selectedQueryId = null;
                 })
-                .fail(function () {
-                    alert('Failed!');
+                .fail(function (e) {
+                    console.log(e);
                 });
         });
 
@@ -1211,11 +1211,10 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         tableFunc();
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        alert("Status: " + textStatus);
-                        alert("Error: " + errorThrown);
+                        console.log(XMLHttpRequest, textStatus, errorThrown);
                     }
-                }).error(function () {
-                    alert('not working');
+                }).error(function (e) {
+                    console.log(e);
                 });
 
             });
@@ -1253,8 +1252,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     jobsDataFunc();
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert("Status: " + textStatus);
-                    alert("Error: " + errorThrown);
+                    console.log(XMLHttpRequest, textStatus, errorThrown);
                 }
             });
         });
@@ -1262,7 +1260,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
 
         $('#jobsContainer').on('click', 'button.btn3', function () {
-            alert('Schedule');
+            
             var jobData = jobsData.row($(this).parents('tr')).data();
 
             $.ajax({
@@ -1275,8 +1273,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     jobsDataFunc();
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert("Status: " + textStatus);
-                    alert("Error: " + errorThrown);
+                    console.log(XMLHttpRequest, textStatus, errorThrown);
                 }
             });
         });
@@ -1387,15 +1384,14 @@ MetronicApp.controller('GeneralPageController', function($scope, Idle, Keepalive
       });
 
       $rootScope.start = function() {
-        alert('start');
+        
         closeModals();
         Idle.watch();
-        alert('session time out');
+        
         $scope.started = true;
       };
 
       $scope.stop = function() {
-        alert('stop');
         closeModals();
         Idle.unwatch();
         $scope.started = false;

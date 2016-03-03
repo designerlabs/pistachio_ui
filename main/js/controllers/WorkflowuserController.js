@@ -135,26 +135,16 @@ $scope.start=0;
     $scope.newCount = clicks;
 
     $scope.next = function() {
-      // $(".previousBtn").prop( "disabled", false);
-      //  clicks += 2;
       $scope.start = $scope.start + 1;
       $scope.showApplications();
-      // $scope.newCount = clicks;
       var listCount = 2;
 
     }
 
     $scope.previous = function() {
-      // clicks -= 2;
       $scope.start = $scope.start - 1;
-      // if(clicks == 2){
-      //   $(".previousBtn").prop( "disabled", true);
-      // }else{
-      //    $(".previousBtn").prop( "disabled", false);
-      // }
       if($scope.start < 0)
         $scope.start = 0;
-        // $scope.newCount = clicks;
         $scope.showApplications();
     }
 
@@ -170,15 +160,6 @@ $scope.start=0;
 			$scope.TotalCounts = response.totalElements;
 			$scope.first = response.first; //Show or hide previous 
 		 	$scope.last = response.last; //Show or hide next 
-			// var start_row = ($scope.start + 1) * 5;
-			// var remain = $scope.TotalCounts - start_row;
-			// if(remain <= 0){
-			// 	$scope.newCount = $scope.applicationsFound;
-		 //  		$(".nextBtn").prop("disabled", true);
-			// }else{
-		 //  		$scope.newCount = clicks;
-		 //  		$(".nextBtn").prop("disabled", false);
-			// }
 	   });
 	};    	
 
