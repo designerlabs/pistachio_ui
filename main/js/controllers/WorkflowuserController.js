@@ -87,10 +87,9 @@ $scope.start=0;
 
 	//View Request Form
 	$scope.viewReq = function(data){
-		$scope.Editor = true;
+		
 		$scope.AsHeader = true;
 		var currentId = this.data;
-	
 		$scope.opt = 'update';
  		fn_ViewRequest(data);
  		$scope.started = true;
@@ -99,6 +98,11 @@ $scope.start=0;
 		$scope.addForm = false;
 		$scope.resetBtn = false;
 		$scope.viewForm = true;
+		if($scope.currentTabName == 'new'){
+			$scope.Editor = true;
+		}else{
+			$scope.Editor = false;
+		}
  		$scope.reqid = data;
  		console.log($scope.reqid);
  		fn_PostComments(data);
