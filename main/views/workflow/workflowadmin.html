@@ -217,7 +217,7 @@
 	                <div class="form-actions text-right">
 	                	<h4 ng-if="details.status == 'COMPLETED'"><span class="label label-success"><i class="fa fa-thumbs-up"></i> Closed Successfully</span></h4>
 	                	<h4 ng-if="details.status == 'FAILED'"><span class="label label-danger"><i class="fa fa-thumbs-down"></i> Declined</span></h4>
-	                	<button ng-if="details.status == 'NEW' || details.status == 'INPROGRESS'" type="submit" class="btn btn-success" ng-click="onReqSubmit(details.status)"><i class="fa fa-check"></i>{{ details.status == "INPROGRESS" ? " Completed " : "Claim"}}</button>
+	                	<button ng-if="details.status == 'NEW' || details.status == 'INPROGRESS'" type="submit" class="btn btn-success" ng-click="onReqSubmit(details.status)"><i class="fa fa-check"></i>{{ details.status == "INPROGRESS" ? " Complete " : "Claim"}}</button>
 	                    <button ng-if="details.status == 'NEW'" type="button" class="btn btn-danger" ng-click="onReqSubmit('FAILED')"><i class="fa fa-times"></i> Decline</button>
 	                </div>
 	            </form>

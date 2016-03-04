@@ -8,8 +8,8 @@
 	        </div>
 	        <ul class="nav nav-tabs">
 	        <li  ng-repeat = "tab in tabs" ng-class="{active:isActiveTab(tab.url)}" ng-click="onClickTab(tab)">
-	                <a data-toggle="tab" aria-expanded="true">{{tab.title}}  <span class="badge badge-success"> {{ TotalCounts }} </span></a>
-	            </li>
+                    <a data-toggle="tab" aria-expanded="true">{{tab.title}}  <span class="badge badge-{{ tab.title == 'New' ? 'warning' : (tab.title == 'Failed' ? 'danger' : (tab.title == 'In Progress' ? 'info' : 'success'))}}"> {{ tab.title == 'New' ? getCountNew : (tab.title == 'Failed' ? getCountFailed : (tab.title == 'In Progress' ? getCountProg : (tab.title == 'Completed' ? getCountCompleted : '')))}} </span></a>
+                </li>
 	            <!-- <li class="active">
 	                <a href="#portlet_comments_1" data-toggle="tab" aria-expanded="true"> New <span class="badge badge-primary"> 3 </span></a>
 	            </li>
@@ -38,7 +38,7 @@
 	            <div class="tab-pane" id="portlet_comments_1">
 	                <!-- BEGIN: Comments -->
 	                <div class="mt-comments" ng-repeat="data in names">
-	                     <div class="mt-comment {{data.id}}" style="cursor:pointer;"  ng-click="viewReq(data.id); $event.stopPropagation();">
+	                     <div class="mt-comment {{data.id}}" style="cursor:pointer;" ng-click="viewReq(data.id); $event.stopPropagation();">
                          	<div class="mt-comment-img">
      	                    	<span class="avatar_container {{ data.displayName | limitTo: 1 }}">{{ data.displayName | limitTo: 1 }}</span>
      	                    	<span class="avatar_name">{{ data.displayName | titleCase | limitTo: 7 }}</span>
@@ -76,92 +76,7 @@
 				<!-- END: Comments -->
 				</div>
 			</script>
-			<script type="text/ng-template" id="inprogress.html" >
-	            <div class="tab-pane" id="portlet_comments_2">
-	                <!-- BEGIN: Comments -->
-	                <div class="mt-comments" ng-repeat="data in names">
-	                     <div class="mt-comment {{data.id}}" style="cursor:pointer;"  ng-click="viewReq(data.id); $event.stopPropagation();">
-                         	<div class="mt-comment-img">
-     	                    	<span class="avatar_container {{ data.displayName | limitTo: 1 }}">{{ data.displayName | limitTo: 1 }}</span>
-     	                    	<span class="avatar_name">{{ data.displayName | titleCase | limitTo: 7 }}</span>
-                         	</div>
-	                        <div class="mt-comment-body">
-	                            <div class="mt-comment-info">
-	                                <span class="mt-comment-author">{{ data.reportName }}</span>
-	                                <span class="mt-comment-date">{{data.createdDate == null ? data.lastModifiedDate : data.createdDate }}</span>
-	                            </div>
-	                            <div class="mt-comment-text"> {{ data.description | limitTo: 100 }} {{ data.description.length > 100 ? '...' : ''}} </div>
-	                            <div class="mt-comment-details">
-	                                <span class="label label-sm label-warning">{{ data.status }}</span>
-	                               <!--  <ul class="mt-comment-actions">
-	                                    <li>
-	                                        <a href="#" ng-click="viewReq(data.id)">Quick Edit</a>
-	                                    </li>
-	                                    <li>
-	                                        <a href="#" ng-click="DelReq(data.id)">Delete</a>
-	                                    </li>
-	                                </ul> -->
-	                            </div>                        		
-	                        </div>
-	                    </div>
-					</div>
-					<div class="search-pagination">
-			            <ul class="pagination">
-			                <li >
-			                    <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="false"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
-			                </li>
-			                <li class="page-active">
-			                    <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
-			                </li>
 
-			            </ul>
-			        </div>
-	                <!-- END: Comments -->
-	            </div>
-	        </script>
-	        <script type="text/ng-template" id="close.html" >
-	            <div class="tab-pane" id="portlet_comments_3">
-	                <!-- BEGIN: Comments -->
-	                <div class="mt-comments" ng-repeat="data in names">
-	                     <div class="mt-comment {{data.id}}" style="cursor:pointer;"  ng-click="viewReq(data.id); $event.stopPropagation();">
-                         	<div class="mt-comment-img">
-     	                    	<span class="avatar_container {{ data.displayName | limitTo: 1 }}">{{ data.displayName | limitTo: 1 }}</span>
-     	                    	<span class="avatar_name">{{ data.displayName | titleCase | limitTo: 7 }}</span>
-                         	</div>
-	                        <div class="mt-comment-body">
-	                            <div class="mt-comment-info">
-	                                <span class="mt-comment-author">{{ data.reportName }}</span>
-	                                <span class="mt-comment-date">{{data.createdDate == null ? data.lastModifiedDate : data.createdDate }}</span>
-	                            </div>
-	                            <div class="mt-comment-text"> {{ data.description | limitTo: 100 }} {{ data.description.length > 100 ? '...' : ''}} </div>
-	                            <div class="mt-comment-details">
-	                                <span class="label label-sm label-warning">{{ data.status }}</span>
-	                               <!--  <ul class="mt-comment-actions">
-	                                    <li>
-	                                        <a href="#" ng-click="viewReq(data.id)">Quick Edit</a>
-	                                    </li>
-	                                    <li>
-	                                        <a href="#" ng-click="DelReq(data.id)">Delete</a>
-	                                    </li>
-	                                </ul> -->
-	                            </div>                        		
-	                        </div>
-	                    </div>
-					</div>
-					<div class="search-pagination">
-			            <ul class="pagination">
-			                <li >
-			                    <button ng-click="previous()" class="btn btn-primary previousBtn" disabled><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
-			                </li>
-			                <li class="page-active">
-			                    <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
-			                </li>
-
-			            </ul>
-			        </div>
-	                <!-- END: Comments -->
-	            </div>
-	        </script>
 	        <!-- </div> -->
 	    <!-- </div> -->
 </div>
@@ -187,23 +102,23 @@
                     <div class="form-group">
                         <label>Request Title</label>
                         <div>                       
-                            <h4 ng-if="AsHeader" class="bold">{{ details.reportName }}</h4>
-                            <input ng-if="!AsHeader" type="text" id="userReqTitle" class="form-control" value="{{details.reportName}}"
+                            <h4 ng-if="viewForm" class="bold">{{ details.reportName }}</h4>
+                            <input ng-if="updateForm || addForm" type="text" id="userReqTitle" class="form-control" ng-value="updateForm == true ? '{{details.reportName}}' : ''"
                             name="ReqTitle"> 
                         </div>
                     </div>                 
 
                     <div class="form-group">
                         <label>Request Description</label>
-                        <h4 ng-if="AsHeader" class="bold">{{details.description}}</h4>
-                        <textarea ng-if="!AsHeader" class="form-control" id="userReqDes" rows="3" value="{{details.description}}" name="ReqDes"></textarea>
+                        <h4 ng-if="viewForm"  class="bold">{{details.description}}</h4>
+                        <textarea ng-if="updateForm || addForm" class="form-control" id="userReqDes" rows="3" ng-value="updateForm == true ? '{{details.description}}' : ''" name="ReqDes"></textarea>
                     </div>
                    
                     <div class="form-group">
                         <label>Priority</label>
-                        <h4 ng-if="AsHeader" class="bold">{{details.priority}}</h4>
-                        <select ng-if="!AsHeader" id="userPriority" class="form-control">
-                        	<option selected="selected">Normal</option>
+                        <h4 ng-if="viewForm" class="bold">{{details.priority}}</h4>
+                        <select ng-if="updateForm || addForm" class="form-control" id="userPriority" ng-value="updateForm == true ? '{{details.priority}}' : 'Normal'">
+                        	<option>Normal</option>
                             <option>Urgent</option>                            
                             <option>Important</option>
                         </select>
@@ -218,8 +133,8 @@
                 </div>
                 <div class="form-actions text-right">
                     <button type="submit" class="btn btn-success submit" data-ng-hide="started" ng-click="onReqSubmit(opt)"><i class="fa fa-check"></i> Submit</button>
-                    <button type="button" class="btn btn-success update" data-ng-show="started" ng-click="onReqSubmit(opt)"><i class="fa fa-check"></i> Update</button>
-                    <button type="button" class="btn btn-danger cancel" data-ng-show="Showreset"><i class="fa fa-times" ng-click="onReset()"></i> Reset</button>
+                    <button type="button" class="btn btn-success update" data-ng-show="started" ng-if="updateForm" ng-click="onReqSubmit(opt)"><i class="fa fa-check"></i> Update</button>
+                    <button type="button" class="btn btn-danger cancel" data-ng-show="Showreset" ng-if="resetBtn"><i class="fa fa-times" ng-click="onReset()"></i> Reset</button>
                 </div>
                 <div id="messageView" style="margin-top:20px">
                 	<div class="alert display-hide" id="Workflow.errorinfo">

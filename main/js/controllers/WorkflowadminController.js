@@ -9,19 +9,7 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 	    // initialize core components
 	    Metronic.initAjax();
 
-	    $scope.getCounts();
-
-
-	    //var getUser = localStorage.getItem("username");
-		$http.get(globalURL+"workflow/request/?start=0&rows=5&filter=new")
-		.success(function(response) {
-			console.log(response);
-			$scope.names = response.content;
-			//$scope.TotalCounts = response.totalElements;
-			$scope.first = response.first;
-			$scope.last = response.last;
-			console.log(response);
-	   });
+	 	fn_LoadAllRequest();
 	});
 
 

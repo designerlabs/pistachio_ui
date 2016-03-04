@@ -9,6 +9,10 @@ $scope.required = true;
 $scope.NewForm = false; // boolean for New Request buttom
 $scope.Showreset = true;
 $scope.AsHeader = false;
+$scope.updateForm = false;
+$scope.addForm = true;
+$scope.resetBtn = true;
+$scope.viewForm = false;
 
 $("#messageView div").hide();
 $scope.start=0;
@@ -22,6 +26,7 @@ $scope.start=0;
 		// 	$scope.TotalCounts = response.totalElements;
 		// 	console.log($scope.TotalCounts);
 	 //   });
+
 		fn_LoadAllRequest();
 		
 	});
@@ -41,29 +46,59 @@ $scope.start=0;
 
 	// fn_LoadAllRequest();
 
-
 	//Add and update Request Form submission
+	formInputValidation("#frmRequest");
 	$scope.onReqSubmit = function (opt) {
-	 	formInputValidation("#frmRequest");
+	 	
 	 	var reportName = $('#userReqTitle').val();
 	 	var description = $('#userReqDes').val();
 	 	var priority = $('#userPriority option:selected').val();
-	 	if(opt == "submit"){
-	 	 fn_SendRequest(reportName, description, priority, null, 'POST');
+	 	inputValidation("#frmRequest", fn_SendRequest(reportName, description, priority, null, 'POST'));
+	 	/*if(opt == "submit"){
+	 		inputValidation("#frmRequest", fn_SendRequest(reportName, description, priority, null, 'POST'));
+	 	 
       	}else if(opt=="update"){
-      	 fn_SendRequest(reportName, description, priority, $scope.reqid, 'PUT');
-      	}
+      		inputValidation("#frmRequest", fn_SendRequest(reportName, description, priority, $scope.reqid, 'PUT'));
+      	
+      	}*/
 	}
+
+	$scope.getCounts = function(){
+		$scope.getCountNew = "";
+	    $scope.getCountProg = "";
+	    $scope.getCountFailed = "";
+	    $scope.getCountCompleted = "";
+
+    	$http.get(globalURL+"workflow/request/?filter=new").success(function(response) {
+    		$scope.getCountNew = response.totalElements;
+        });
+
+    	$http.get(globalURL+"workflow/request/?filter=prog").success(function(response) {
+    		$scope.getCountProg = response.totalElements;
+        });
+
+    	$http.get(globalURL+"workflow/request/?filter=failed").success(function(response) {
+    		$scope.getCountFailed = response.totalElements;
+        });
+        $http.get(globalURL+"workflow/request/?filter=completed").success(function(response) {
+    		$scope.getCountCompleted = response.totalElements;
+        });
+	};
 
 	//View Request Form
 	$scope.viewReq = function(data){
 		$scope.Editor = true;
 		$scope.AsHeader = true;
 		var currentId = this.data;
-		$scope.started = true;
-		$scope.NewForm = true;
+	
 		$scope.opt = 'update';
- 		fn_ViewRequest(data)
+ 		fn_ViewRequest(data);
+ 		$scope.started = true;
+		$scope.NewForm = true;
+		$scope.updateForm = false;
+		$scope.addForm = false;
+		$scope.resetBtn = false;
+		$scope.viewForm = true;
  		$scope.reqid = data;
  		console.log($scope.reqid);
  		fn_PostComments(data);
@@ -102,33 +137,78 @@ $scope.start=0;
 	}
 
 	$scope.onNewReq = function(){
+		$scope.opt = "submit";
+		$scope.started = false;
+		$scope.NewForm = false;
+		$scope.Editor = false;
+		$scope.updateForm = false;
+		$scope.addForm = true;
+		$scope.resetBtn = true;	
+		$scope.viewForm = false;
+		$scope.Showcomments = false; 
+		 $("#frmRequest input, #frmRequest textarea").val('');
+         $('#userPriority option:selected').text("Normal");
+		//fn_Reset();
+	}
 
-		fn_Reset();
-
+	$scope.onEdit = function(){
+		$scope.opt = "update";
+		$scope.updateForm = true;
+		$scope.addForm = false;
+		$scope.resetBtn = true;	
+		$scope.viewForm = false;
+	
 	}
 
 	$scope.isActiveTab = function(tabUrl) {
         return tabUrl == $scope.currentTab;
     }
 
-		$scope.tabs = [{
-		        	title: 'New',
-		        	url: 'new.html',
-		        	filter : 'new'
-		   		},
-		   		{
-		        	title: 'In Progress',
-		            url: 'inprogress.html',
-		            filter : 'inprog'
-		    	},
-		    	{
-		          	title: 'Close',
-		            url: 'close.html',
-		            filter : 'close'
-	    	}];
+	$scope.tabs = [{
+	        	title: 'New',
+	        	url: 'new.html',
+	        	filter : 'new',
 
+	   		},
+	   		{
+	        	title: 'In Progress',
+	            url: 'inprogress.html',
+	            filter : 'prog'
+	    	},
+	    	{
+	        	title: 'Completed',
+	            url: 'completed.html',
+	            filter : 'completed'
+	    	},
+	    	{
+	          	title: 'Failed',
+	            url: 'close.html',
+	            filter : 'failed'
+    	}];
+
+	$scope.currentTab = 'new.html';
+	$scope.currentTabName = 'new';
 	$scope.onClickTab = function (tab) {
-        $scope.currentTab = tab.url;
+	   $scope.start = 0;
+       $scope.currentTabName = tab.filter;
+       $scope.started = false;
+       $scope.NewForm = false;
+       $scope.Editor = false;
+       $scope.updateForm = false;
+       $scope.addForm = true;
+       $scope.resetBtn = true;	
+       $scope.viewForm = false;
+       $scope.Showcomments = false; 
+        $http.get(globalURL+"workflow/request/?start="+$scope.start+"&rows=5&filter="+tab.filter)
+		.success(function(response) {
+			console.log(response);
+			$scope.names = response.content;
+			$scope.newReq = response.numberOfElements;
+		 	$scope.first = response.first;
+		 	$scope.last = response.last;
+			console.log(response);
+			
+	   });
     }
 
     var clicks = 2;
@@ -150,12 +230,12 @@ $scope.start=0;
 
     $scope.showApplications = function() {
     	var query = "";
-	 	query = globalURL+"workflow/request/?token=" + getToken + "&start="+ $scope.start +"&rows=5";
+	 	query = globalURL+"workflow/request/?token=" + getToken + "&start="+ $scope.start +"&rows=5&filter="+$scope.currentTabName;
 	 	$http.get(query)
 		.success(function(response) {
 			//debugger;
 			$scope.applicationsFound = response.numberOfElements;
-			console.log(response);
+			console.log(response + " showApplications");
 			$scope.names = response.content;
 			$scope.TotalCounts = response.totalElements;
 			$scope.first = response.first; //Show or hide previous 
@@ -164,13 +244,14 @@ $scope.start=0;
 	};    	
 
 	function fn_LoadAllRequest(){
-		$http.get(globalURL+"workflow/request/?token=" + getToken + "&start="+ $scope.start +"&rows=5")
+		$http.get(globalURL+"workflow/request/?token=" + getToken + "&start="+ $scope.start +"&rows=5&filter="+$scope.currentTabName)
 		.success(function(response) {
-			console.log(response);
+			console.log(response + "fn_LoadAllRequest");
 			$scope.names = response.content;
 			$scope.newReq = response.numberOfElements;
 		 	$scope.TotalCounts = response.totalElements;
 		 	$scope.first = response.first;
+		 	$scope.getCounts();
 		 	console.log($scope.TotalCounts);
 	   });
 	}
@@ -202,6 +283,14 @@ $scope.start=0;
               fn_LoadAllRequest();
               $('#userReqTitle').val("");
               $('#userReqDes').val("");
+              $scope.started = false;
+              $scope.NewForm = false;
+              $scope.Editor = false;
+              $scope.updateForm = false;
+              $scope.addForm = true;
+              $scope.resetBtn = true;	
+              $scope.viewForm = false;
+              $scope.Showcomments = false; 
               $('#userPriority option:selected').text("Normal");
           }); 
 
@@ -211,12 +300,16 @@ $scope.start=0;
 		$("#messageView div").hide();
 		$http.get(globalURL+"workflow/request/" + Reqid)
 		.success(function(response) {
-			console.log(response);
+			$scope.viewForm = true;
+			$scope.updateForm = false;
+			//$scope.addForm = true;
+			console.log(response + " fn_ViewRequest");
 			$scope.details = response;	 	
 			$('.mt-comment').removeClass('activeComment');
 			$('.'+Reqid).addClass('activeComment');		
 			$('#userPriority option:selected').text(response.priority);
 	   });
+
 	}
 
 	function fn_DeleteCommends(Reqid){
@@ -297,6 +390,7 @@ $scope.start=0;
         });
 
 	function fn_Reset(){
+
 		 $scope.AsHeader = false;
 		 $scope.NewForm = false;
 		 $scope.Showcomments = false;
@@ -310,6 +404,7 @@ $scope.start=0;
          $('#userReqTitle').val("");
          $('#userReqDes').val("");
          $('#userPriority option:selected').text("Normal");
+        $scope.resetBtn = true;
 	 }
 
 });
