@@ -39,7 +39,7 @@
 	                        <div class="mt-comment-body">
 	                            <div class="mt-comment-info">
 	                                <span class="mt-comment-author">{{ data.reportName }}</span>
-	                                <span class="mt-comment-date">{{ data.createdDate }}</span>
+	                                <span class="mt-comment-date">{{data.createdDate == null ? data.lastModifiedDate : data.createdDate }}</span>
 	                            </div>
 	                            <div class="mt-comment-text"> {{ data.description | limitTo: 100 }}{{ data.description.length > 100 ? '...' : ''}} </div>
 	                            <div class="mt-comment-details">
