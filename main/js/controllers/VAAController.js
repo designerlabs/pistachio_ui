@@ -17,13 +17,38 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
           $scope.cState = "";
           $scope.filters = false;
           $scope.filterButtons = [];
-          $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
-  $scope.data = [300, 500, 100];
+           $scope.analysiType = 'overall';
+           $scope.loadTimeline = true;
+          
         $scope.querySolr();
         
            
 
     });
+
+    $scope.queryType = 'active';
+    $scope.changeQueryType = function () {
+       // $scope.querySolr();
+    };
+
+   
+    $scope.changeAnalysis = function (data) {
+        if(data == $scope.analysiType)
+          return;
+        else
+          $scope.analysiType = data;
+       if(data == 'overall')
+       {
+
+       }
+       else if(data == 'timeline' && $scope.loadTimeline)
+       {
+          $scope.timelineChart();
+       }
+      // $scope.querySolr();
+    };
+
+    
 
     $scope.reset = function(){
         $scope.cntName = "";
@@ -34,6 +59,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
         $scope.cState = "";
         $scope.filters = false;
         $scope.filterButtons = [];
+         //$scope.analysiType = 'overall';
         $scope.querySolr();
     }
 
@@ -242,7 +268,17 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
         return query;
        }
 
-       
+       $scope.analysisSolr = function() {
+          if($scope.analysiType == 'overall')
+              $scope.querySolr();
+            else if ($scope.analysiType == 'timeline')  {
+              query = 'http://'+solrHost+':8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.field=mad_pas_typ_cd&facet.limit=150&'+$scope.filterQuery();
+            }
+            
+          else if ($scope.analysiType == 'age')
+            query = 'http://'+solrHost+':8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.field=mad_pas_typ_cd&facet.limit=150&'+$scope.filterQuery();
+          
+       }
 
        $scope.querySolr = function() {
 
@@ -250,8 +286,17 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
           var keys1 = ["name","y"];
           var query = "";
           $scope.filters = false;
-          query = 'http://'+solrHost+':8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.field=mad_pas_typ_cd&facet.limit=150&'+$scope.filterQuery();
-     
+          if($scope.analysiType == 'overall')
+              query = 'http://'+solrHost+':8983/solr/immigration1/select?q='+$scope.formQuery()+
+            '&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.field=mad_pas_typ_cd&facet.limit=150&'+$scope.filterQuery();
+            else if ($scope.analysiType == 'timeline')  
+            query = 'http://'+solrHost+':8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.field=mad_pas_typ_cd&facet.limit=150&'+$scope.filterQuery();
+          else if ($scope.analysiType == 'age')
+            query = 'http://'+solrHost+':8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.field=mad_pas_typ_cd&facet.limit=150&'+$scope.filterQuery();
+          
+          
+          
+          
       $http.get(query).
        success(function(data) {
            if(selected_countries == 0) {
@@ -359,6 +404,84 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
           }          
         }]
           });
+    };
+
+
+    $scope.timelineChart = function() {
+
+      $scope.loadTimeline =false;
+     var data = [
+[Date.UTC(2013,5,2),0.7695],
+[Date.UTC(2013,5,3),0.7648],
+[Date.UTC(2013,5,4),0.7645],
+[Date.UTC(2013,5,5),0.7638],
+[Date.UTC(2013,5,6),0.7549]];
+      Highcharts.chart('highchart_timeline',{
+            chart: {
+                zoomType: 'x',
+                events: {
+                selection: function (event) {
+                    alert('sdf')
+                    if (event.xAxis) {
+                        alert('Last selection:<br/>min: ' + Highcharts.dateFormat('%Y-%m-%d', event.xAxis[0].min) +
+                            ', max: ' + Highcharts.dateFormat('%Y-%m-%d', event.xAxis[0].max));
+                    } else {
+                        alert('Selection reset');
+                    }
+                  }
+                }
+            },
+            title: {
+                text: 'Visa Application over time'
+            },
+            subtitle: {
+                text: document.ontouchstart === undefined ?
+                        'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+            },
+            xAxis: {
+                type: 'datetime'
+            },
+            yAxis: {
+                title: {
+                    text: 'Exchange rate'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: {
+                            x1: 0,
+                            y1: 0,
+                            x2: 0,
+                            y2: 1
+                        },
+                        stops: [
+                            [0, Highcharts.getOptions().colors[0]],
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                        ]
+                    },
+                    marker: {
+                        radius: 2
+                    },
+                    lineWidth: 1,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                }
+            },
+
+            series: [{
+                type: 'area',
+                name: 'USD to EUR',
+                data: data
+            }]
+        });
     };
 
     
