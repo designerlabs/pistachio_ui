@@ -481,11 +481,44 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 tr.addClass('shown');
                 // $('#reportrange').daterangepicker();
 
-
-
                  createCalenderCtrl();
+
+                  $.getJSON(globalURL + "api/user/reference/state", function (json) {
+                     $.each(json, function(k, v){
+                        $("#temp-state").append('<option value='+k+'>'+v+'</option>');
+                     });
+                 });
+                 
+                 
+                $.getJSON(globalURL + "api/user/reference/nationality", function (json) {
+                     $.each(json, function(k, v){
+                         $("#temp-nationality").append('<option value='+k+'>'+v+'</option>');
+                     });
+                 });
+                 
+                 $.getJSON(globalURL + "api/user/reference/pastype", function (json) {
+                     $.each(json, function(k, v){
+                         $("#temp-pastype").append('<option value='+k+'>'+v+'</option>');
+                     });
+                 });
+                 
+                 
+                 
+                 $.getJSON(globalURL + "api/user/reference/branch", function (json) {
+                     $.each(json, function(k, v){
+                         $("#temp-branch").append('<option value='+k+'>'+v+'</option>');
+                     });
+                 });
+                 
+                 $.getJSON(globalURL + "api/user/reference/dept", function (json) {
+                     $.each(json, function(k, v){
+                         $("#temp-dept").append('<option value='+k+'>'+v+'</option>');
+                     });
+                 });
+
+
             }
-        } );
+        });
 
         /* Formatting function for row details - modify as you need */
         function format(d) {
@@ -554,41 +587,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         }
 
 
-        $.getJSON(globalURL + "api/user/reference/dept", function (json) {
-            $(".department").select2({
-                data: json,
-                minimumInputLength: 2
-            });
-        });
-
-
-        $.getJSON(globalURL + "api/user/reference/rank", function (json) {
-            $(".rank").select2({
-                data: json,
-                minimumInputLength: 2
-            });
-        });
-
-        $.getJSON(globalURL + "api/user/reference/unit", function (json) {
-            $(".unit").select2({
-                data: json,
-                minimumInputLength: 2
-            });
-        });
-
-        $.getJSON(globalURL + "api/user/reference/branch", function (json) {
-            $(".branch").select2({
-                data: json,
-                minimumInputLength: 2
-            });
-        });
-
-        $.getJSON(globalURL + "api/user/reference/state", function (json) {
-            $(".state").select2({
-                data: json,
-                minimumInputLength: 2
-            });
-        });
+        
 
         var reportPermitMasukData;
         queryMasukFunc = function () {
