@@ -443,7 +443,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
             },
             yAxis: {
                 title: {
-                    text: 'Exchange rate'
+                    text: 'No of Applications'
                 }
             },
             legend: {
