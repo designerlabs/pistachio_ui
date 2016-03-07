@@ -179,7 +179,9 @@
 	                <div class="form-body">
 	                    
 	                    <div class="form-group">
-	                        <label>Request Title</label>
+
+	                        <label style="text-decoration: underline;">Request Title</label>
+
 	                        <div>
 	                        	<h4>{{ details.reportName }}</h4>
 	                        </div>
@@ -189,7 +191,9 @@
 	                  
 
 	                    <div class="form-group" >
-	                        <label>Request Description</label>
+
+	                        <label style="text-decoration: underline;">Request Description</label>
+
 	                        <div style="min-height: 50px !important; max-height: 160px !important; overflow: auto;">
 	                        	<h4 style="line-height: 30px;">{{ details.description }}</h4>
 	                        </div>
@@ -200,17 +204,27 @@
 	        
 	                        <div class="col-md-4">
 	                            <div class="form-group">
-			                        <label>Priority</label>
+
+			                        <label style="text-decoration: underline;">Priority</label>
+
 			                        <h4>{{ details.priority }}</h4>
 	                    		</div>
 	                        </div>
 
 	                        <div class="col-md-4">
 	                            <div class="form-group">
+			                        <label style="text-decoration: underline;">Status</label>
+			                        <span class="label label-sm label-warning">{{ data.status }}</span>
+	                    		</div>
+	                        </div>
+
+	                       <!--  <div class="col-md-4">
+	                            <div class="form-group">
 			                        <label>Download</label>
 			                        <h4><a href="#">File to Download.doc</a></h4>
 	                    		</div>
-	                        </div>
+	                        </div> -->
+
 	                    </div>
 
 	                </div>

@@ -64,11 +64,8 @@ $scope.start=0;
 	}
 
 	$scope.getCounts = function(){
-		$scope.getCountNew = "";
-	    $scope.getCountProg = "";
-	    $scope.getCountFailed = "";
-	    $scope.getCountCompleted = "";
 
+		
     	$http.get(globalURL+"workflow/request/?filter=new").success(function(response) {
     		$scope.getCountNew = response.totalElements;
         });
@@ -193,6 +190,9 @@ $scope.start=0;
 	$scope.currentTab = 'new.html';
 	$scope.currentTabName = 'new';
 	$scope.onClickTab = function (tab) {
+
+	   $scope.getCounts();
+
 	   $scope.start = 0;
        $scope.currentTabName = tab.filter;
        $scope.started = false;

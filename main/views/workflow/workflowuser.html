@@ -100,23 +100,29 @@
             <form role="form" id="frmRequest" name="ReqForm">
                 <div class="form-body">
                     <div class="form-group">
-                        <label>Request Title</label>
+
+                        <label style="text-decoration: underline;">Request Title</label>
                         <div>                       
-                            <h4 ng-if="viewForm" class="bold">{{ details.reportName }}</h4>
+                            <h4 ng-if="viewForm" >{{ details.reportName }}</h4>
+
                             <input ng-if="updateForm || addForm" type="text" id="userReqTitle" class="form-control" ng-value="updateForm == true ? '{{details.reportName}}' : ''"
                             name="ReqTitle"> 
                         </div>
                     </div>                 
 
                     <div class="form-group">
-                        <label>Request Description</label>
-                        <h4 ng-if="viewForm"  class="bold">{{details.description}}</h4>
+
+                        <label style="text-decoration: underline;">Request Description</label>
+                        <h4 ng-if="viewForm">{{details.description}}</h4>
+
                         <textarea ng-if="updateForm || addForm" class="form-control" id="userReqDes" rows="3" ng-value="updateForm == true ? '{{details.description}}' : ''" name="ReqDes"></textarea>
                     </div>
                    
                     <div class="form-group">
-                        <label>Priority</label>
-                        <h4 ng-if="viewForm" class="bold">{{details.priority}}</h4>
+
+                        <label style="text-decoration: underline;">Priority</label>
+                        <h4 ng-if="viewForm">{{details.priority}}</h4>
+
                         <select ng-if="updateForm || addForm" class="form-control" id="userPriority" ng-value="updateForm == true ? '{{details.priority}}' : 'Normal'">
                         	<option>Normal</option>
                             <option>Urgent</option>                            
@@ -124,11 +130,13 @@
                         </select>
                     </div>                    
                     
-                    <div class="form-group">
+
+                    <!-- <div class="form-group">
                         <label for="exampleInputFile1">File Upload</label>
-                        <!-- <input type="file" id="exampleInputFile1">
-                        <p class="help-block"> some help text here. </p> -->
-                    </div>
+                        <input type="file" id="exampleInputFile1">
+                        <p class="help-block"> some help text here. </p>
+                    </div> -->
+
                    
                 </div>
                 <div class="form-actions text-right">

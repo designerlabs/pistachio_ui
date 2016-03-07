@@ -449,7 +449,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 $(this).addClass('btn-success');*/
                 //$(this).html('<i class="fa fa-plus-circle"></i> Expand');
                 // This row is already open - close it
-                row.child.hide();
+                row.child.remove();
                 // $('#childRow').parent().parent().remove();
                 tr.removeClass('shown');
                
