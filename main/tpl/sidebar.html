@@ -40,6 +40,14 @@
             </a>
         </li>
 
+        <li class="start" id="workflowMgt"  ng-if="!chkRole('ROLE_ADMIN')">
+            <a href="#/workflowuser.html">
+                <i class="icon-magnifier"></i>
+                <span class="title">Request Management</span>
+            </a>
+        </li>
+
+
 
         <li class="start" id="afpr">
 
@@ -50,7 +58,7 @@
             </a>
             <ul class="sub-menu">
                 <li ng-repeat="x in displayNames">
-                    <a ng-click='goes(x.name)'>
+                    <a ng-click='goes(x.name,x.display)'>
                         <i class="icon-docs"></i> {{x.display}}
                     </a>
                 </li>
@@ -74,6 +82,12 @@
                         <i class="icon-docs"></i> {{'sidebar.reportmanagement' | translate}}
                     </a>
                 </li>
+                <li>
+                    <a href="#/workflowadmin.html">
+                        <i class="icon-docs"></i> Request Management
+                    </a>
+                </li>
+
                 <li>
                     <a href="#/audit.html">
                         <i class="icon-docs"></i> {{'sidebar.audit' | translate}}

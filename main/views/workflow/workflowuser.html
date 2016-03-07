@@ -1,0 +1,204 @@
+<h3 class="page-title">Request Management</h3>
+<div class="col-md-6">
+	<div class="portlet light ">
+		<div class="portlet-title tabbable-line">
+	        <div class="caption">
+	            <i class="icon-bubbles font-red"></i>
+	            <span class="caption-subject font-red bold uppercase">Request History</span>
+	        </div>
+	        <ul class="nav nav-tabs">
+	        <li  ng-repeat = "tab in tabs" ng-class="{active:isActiveTab(tab.url)}" ng-click="onClickTab(tab)">
+                    <a data-toggle="tab" aria-expanded="true">{{tab.title}}  <span class="badge badge-{{ tab.title == 'New' ? 'warning' : (tab.title == 'Failed' ? 'danger' : (tab.title == 'In Progress' ? 'info' : 'success'))}}"> {{ tab.title == 'New' ? getCountNew : (tab.title == 'Failed' ? getCountFailed : (tab.title == 'In Progress' ? getCountProg : (tab.title == 'Completed' ? getCountCompleted : '')))}} </span></a>
+                </li>
+	            <!-- <li class="active">
+	                <a href="#portlet_comments_1" data-toggle="tab" aria-expanded="true"> New <span class="badge badge-primary"> 3 </span></a>
+	            </li>
+	            <li class="">
+	                <a href="#portlet_comments_2" data-toggle="tab" aria-expanded="false"> In Progress  <span class="badge badge-success"> 56 </span></a>
+	            </li>
+	            <li class="">
+	                <a href="#portlet_comments_2" data-toggle="tab" aria-expanded="false"> Closed  <span class="badge badge-success"> 20 </span></a>
+	            </li> -->
+	        </ul>
+	    </div>
+	    <div class="portlet-body">
+	        <div class="tab-content">
+	            
+	      			 <div id="mainView">
+						<div ng-include="currentTab"></div>
+					</div>
+	           
+	        </div>
+	    </div>
+	</div>
+
+		<!-- <div class="portlet-body"> -->
+	        <!-- <div class="tab-content"> -->
+	        <script type="text/ng-template" id="new.html" >
+	            <div class="tab-pane" id="portlet_comments_1">
+	                <!-- BEGIN: Comments -->
+	                <div class="mt-comments" ng-repeat="data in names">
+	                     <div class="mt-comment {{data.id}}" style="cursor:pointer;" ng-click="viewReq(data.id); $event.stopPropagation();">
+                         	<div class="mt-comment-img">
+     	                    	<span class="avatar_container {{ data.displayName | limitTo: 1 }}">{{ data.displayName | limitTo: 1 }}</span>
+     	                    	<span class="avatar_name">{{ data.displayName | titleCase | limitTo: 7 }}</span>
+                         	</div>
+	                        <div class="mt-comment-body">
+	                            <div class="mt-comment-info">
+	                                <span class="mt-comment-author">{{ data.reportName }}</span>
+	                                <span class="mt-comment-date">{{data.createdDate == null ? data.lastModifiedDate : data.createdDate }}</span>
+	                            </div>
+	                            <div class="mt-comment-text"> {{ data.description | limitTo: 100 }} {{ data.description.length > 100 ? '...' : ''}} </div>
+	                            <div class="mt-comment-details">
+	                                <span class="label label-sm label-warning">{{ data.status }}</span>
+	                               <!--  <ul class="mt-comment-actions">
+	                                    <li>
+	                                        <a href="#" ng-click="viewReq(data.id)">Quick Edit</a>
+	                                    </li>
+	                                    <li>
+	                                        <a href="#" ng-click="DelReq(data.id)">Delete</a>
+	                                    </li>
+	                                </ul> -->
+	                            </div>                        		
+	                        </div>
+	                    </div>
+					</div>
+					<div class="search-pagination">
+					    <ul class="pagination">
+			                <li >
+			                    <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="first"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+			                </li>
+			                <li class="page-active">
+			                    <button ng-click="next()" class="btn btn-primary nextBtn" ng-disabled="last">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+			                </li>
+			            </ul>
+			        </div>
+				<!-- END: Comments -->
+				</div>
+			</script>
+
+	        <!-- </div> -->
+	    <!-- </div> -->
+</div>
+<!-- </div> -->
+
+<div class="col-md-6">
+	<div class="portlet light ">
+        <div class="portlet-title">
+            <div class="caption font-red-sunglo">
+                <i class="icon-settings font-red-sunglo"></i>
+                <span class="caption-subject bold uppercase"> Request Form</span>
+
+            </div>
+
+            <div class="form-actions text-right" data-ng-show="NewForm">
+                    <button type="button" class="btn btn-primary" ng-click="onNewReq()"><i class="fa fa-plus"></i> New Request Form </button>
+                    <button type="button" class="btn btn-primary" ng-click="onEdit()" ng-if="Editor"><i class="fa fa-pencil"></i> Edit </button>
+                </div>
+        </div>
+        <div class="portlet-body form">
+            <form role="form" id="frmRequest" name="ReqForm">
+                <div class="form-body">
+                    <div class="form-group">
+                        <label>Request Title</label>
+                        <div>                       
+                            <h4 ng-if="viewForm" class="bold">{{ details.reportName }}</h4>
+                            <input ng-if="updateForm || addForm" type="text" id="userReqTitle" class="form-control" ng-value="updateForm == true ? '{{details.reportName}}' : ''"
+                            name="ReqTitle"> 
+                        </div>
+                    </div>                 
+
+                    <div class="form-group">
+                        <label>Request Description</label>
+                        <h4 ng-if="viewForm"  class="bold">{{details.description}}</h4>
+                        <textarea ng-if="updateForm || addForm" class="form-control" id="userReqDes" rows="3" ng-value="updateForm == true ? '{{details.description}}' : ''" name="ReqDes"></textarea>
+                    </div>
+                   
+                    <div class="form-group">
+                        <label>Priority</label>
+                        <h4 ng-if="viewForm" class="bold">{{details.priority}}</h4>
+                        <select ng-if="updateForm || addForm" class="form-control" id="userPriority" ng-value="updateForm == true ? '{{details.priority}}' : 'Normal'">
+                        	<option>Normal</option>
+                            <option>Urgent</option>                            
+                            <option>Important</option>
+                        </select>
+                    </div>                    
+                    
+                    <div class="form-group">
+                        <label for="exampleInputFile1">File Upload</label>
+                        <!-- <input type="file" id="exampleInputFile1">
+                        <p class="help-block"> some help text here. </p> -->
+                    </div>
+                   
+                </div>
+                <div class="form-actions text-right">
+                    <button type="submit" class="btn btn-success submit" data-ng-hide="started" ng-click="onReqSubmit(opt)"><i class="fa fa-check"></i> Submit</button>
+                    <button type="button" class="btn btn-success update" data-ng-show="started" ng-if="updateForm" ng-click="onReqSubmit(opt)"><i class="fa fa-check"></i> Update</button>
+                    <button type="button" class="btn btn-danger cancel" data-ng-show="Showreset" ng-if="resetBtn"><i class="fa fa-times" ng-click="onReset()"></i> Reset</button>
+                </div>
+                <div id="messageView" style="margin-top:20px">
+                	<div class="alert display-hide" id="Workflow.errorinfo">
+                	    <button class="close" data-close="alert"></button>
+                	    <span>Hello im here</span>
+                	</div>
+                </div>
+            </form>
+        </div>
+        
+       <!--  <div class="portlet-title">
+            <div class="caption">
+                <i class="icon-bubble font-red-sunglo"></i>
+                <span class="caption-subject font-red-sunglo bold uppercase">Comments</span>
+            </div>
+           
+        </div> -->
+        <div class="portlet-body" id="chats" data-ng-show="Showcomments">
+        	<div class="caption">
+        	    <i class="icon-bubble font-red-sunglo"></i>
+        	    <span class="caption-subject font-red-sunglo bold uppercase">Comments</span>
+        	</div>
+            <div class="slimScrollDiv" style="position: relative; overflow: auto; width: auto; min-height: 20px; max-height: 226px; margin-top: 20px;"><div class="scroller" style="overflow: auto; width: auto;" data-always-visible="1" data-rail-visible1="1" data-initialized="1">
+                <ul class="chats">
+                	<li ng-if="commentsDetFalse">No Comments</li>
+                    <li ng-if="!commentDet" class="{{ comments.username == 'Admin' ? 'out' : 'in' }}"  ng-repeat="comments in commentsDet">
+                        <img class="avatar" alt="" ng-src="../main/assets/admin/layout2/img/{{ comments.username == 'Admin' ? 'jim_logo_small' : 'mimos_logo_small' }}.png">
+                        <div class="message">
+                            <span class="arrow"> </span>
+                            <a href="javascript:;" class="name"> {{ comments.username }} </a>
+                            <span class="datetime"> {{ comments.createdDate }} </span>
+                            <span class="body"> {{ comments.message }} </span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="slimScrollBar" style="display: none !important;  width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 319.38px; background: rgb(187, 187, 187);"></div><div class="slimScrollRail" style="display: none; width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; background: rgb(234, 234, 234);"></div></div>
+            <div class="chat-form">
+                <div class="input-cont text-right">
+                    <form id="formMessage">
+                      <input class="form-control" type="text" ng-model="myMsg.text" id="messageVal" placeholder="Type a message here...">                       
+					</form>
+                </div>
+                <div class="btn-cont" id="btnSendCom" ng-click="submitComment()">
+                    <span class="arrow"></span>
+                    <a href="" class="btn blue icn-only {{myMsg.text.length > 0 ? 'active' : 'disabled'}}">
+                        <i class="fa fa-check icon-white"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+</div>
+
+<script>
+$(function(){
+	$(".page-content").css('min-height', '1120px');
+});
+
+	$(".nav-tabs a").click(function(e){
+		e.preventDefault();
+	});
+
+	$(".highlight").css('border','2px groove green');
+</script>

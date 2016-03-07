@@ -210,8 +210,9 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
                         userMgtDataFunc();
                          $("#userMgtAddForm").modal('hide');
                    })
-                   .fail(function() {
-                       alert('Failed!');
+                   .fail(function(e) {
+                        console.log(e);
+                       //alert('Failed!');
                    });
                 
             }

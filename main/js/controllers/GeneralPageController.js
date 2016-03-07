@@ -71,6 +71,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     }
 
                 }*/
+        $scope.reporttitle = localStorage.getItem("selSystemDisplayName"); //Display parent name in e-reporting.html
         $('#lblReportTitle').text(localStorage.getItem('reportCategoryTitle'));
 
         function databaseDataFunc() {
@@ -259,8 +260,8 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     $("#configAddForm").modal('hide');
                     //selectedQueryId = null;
                 })
-                .fail(function () {
-                    alert('Failed!');
+                .fail(function (e) {
+                    console.log(e);
                 });
         });
 
@@ -479,45 +480,12 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 
                 tr.addClass('shown');
                 // $('#reportrange').daterangepicker();
-                createCalenderCtrl();
-                
-                
-                
-                $.getJSON(globalURL + "api/user/reference/state", function (json) {
-                    $.each(json, function(k, v){
-                        $("#temp-state").append('<option value='+k+'>'+v+'</option>');
-                    });
-                });
-                
-                
-                $.getJSON(globalURL + "api/user/reference/nationality", function (json) {
-                    $.each(json, function(k, v){
-                        $("#temp-nationality").append('<option value='+k+'>'+v+'</option>');
-                    });
-                });
-                
-                $.getJSON(globalURL + "api/user/reference/pastype", function (json) {
-                    $.each(json, function(k, v){
-                        $("#temp-pastype").append('<option value='+k+'>'+v+'</option>');
-                    });
-                });
-                
-                
-                
-                $.getJSON(globalURL + "api/user/reference/branch", function (json) {
-                    $.each(json, function(k, v){
-                        $("#temp-branch").append('<option value='+k+'>'+v+'</option>');
-                    });
-                });
-                
-                $.getJSON(globalURL + "api/user/reference/dept", function (json) {
-                    $.each(json, function(k, v){
-                        $("#temp-dept").append('<option value='+k+'>'+v+'</option>');
-                    });
-                });
 
+
+
+                 createCalenderCtrl();
             }
-        });
+        } );
 
         /* Formatting function for row details - modify as you need */
         function format(d) {
@@ -804,8 +772,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert("Status: " + textStatus);
-                    alert("Error: " + errorThrown);
+                    console.log(XMLHttpRequest, textStatus, errorThrown);
                 }
             }).done(function () {
                 // alert("Post done successfully");
@@ -1144,16 +1111,15 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        alert("Status: " + textStatus);
-                        alert("Error: " + errorThrown);
+                        console.log(XMLHttpRequest, textStatus, errorThrown);
                     }
                 })
                 .done(function () {
                     queryData.destroy();
                     queryDataFunc();
                 })
-                .fail(function () {
-                    alert('Failed!');
+                .fail(function (e) {
+                    console.log(e);
                 });
         });
 
@@ -1228,7 +1194,8 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        alert("Execution falied, Please re-try after some time!");
+                        console.log(XMLHttpRequest, textStatus, errorThrown);
+                        //alert("Execution falied, Please re-try after some time!");
                         //alert("Error: " + errorThrown);
                     }
                 })
@@ -1267,8 +1234,9 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     queryDataFunc();
                     //selectedQueryId = null;
                 })
-                .fail(function () {
-                    alert('Failed!');
+                .fail(function (e) {
+                    console.log(e);
+                    //alert('Failed!');
                 });
         });
 
@@ -1323,8 +1291,8 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     databaseDataFunc();
                     //selectedQueryId = null;
                 })
-                .fail(function () {
-                    alert('Failed!');
+                .fail(function (e) {
+                    console.log(e);
                 });
         });
 
@@ -1424,11 +1392,10 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         tableFunc();
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        alert("Status: " + textStatus);
-                        alert("Error: " + errorThrown);
+                        console.log(XMLHttpRequest, textStatus, errorThrown);
                     }
-                }).error(function () {
-                    alert('not working');
+                }).error(function (e) {
+                    console.log(e);
                 });
 
             });
@@ -1466,8 +1433,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     jobsDataFunc();
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert("Status: " + textStatus);
-                    alert("Error: " + errorThrown);
+                    console.log(XMLHttpRequest, textStatus, errorThrown);
                 }
             });
         });
@@ -1475,7 +1441,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
 
         $('#jobsContainer').on('click', 'button.btn3', function () {
-            alert('Schedule');
+            
             var jobData = jobsData.row($(this).parents('tr')).data();
 
             $.ajax({
@@ -1488,8 +1454,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     jobsDataFunc();
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert("Status: " + textStatus);
-                    alert("Error: " + errorThrown);
+                    console.log(XMLHttpRequest, textStatus, errorThrown);
                 }
             });
         });
@@ -1562,3 +1527,55 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
     });
 }]);
+
+MetronicApp.controller('GeneralPageController', function($scope, Idle, Keepalive, $modal, $rootScope){
+      $scope.started = false;
+      console.log($scope.started );
+      function closeModals() {
+        if ($scope.warning) {
+          $scope.warning.close();
+          $scope.warning = null;
+        }
+
+        if ($scope.timedout) {
+          $scope.timedout.close();
+          $scope.timedout = null;
+        }
+      }
+
+      $scope.$on('IdleStart', function() {
+        closeModals();
+
+        $scope.warning = $modal.open({
+          templateUrl: 'warning-dialog.html',
+          windowClass: 'modal-danger'
+        });
+      });
+
+      $scope.$on('IdleEnd', function() {
+        closeModals();
+      });
+
+      $scope.$on('IdleTimeout', function() {
+        closeModals();
+        $scope.timedout = $modal.open({
+          templateUrl: 'timedout-dialog.html',
+          windowClass: 'modal-danger'
+        });
+      });
+
+      $rootScope.start = function() {
+        
+        closeModals();
+        Idle.watch();
+        
+        $scope.started = true;
+      };
+
+      $scope.stop = function() {
+        closeModals();
+        Idle.unwatch();
+        $scope.started = false;
+
+      };
+    });

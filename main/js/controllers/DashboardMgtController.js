@@ -233,8 +233,8 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
                     dashboardDataFunc();
                     //selectedQueryId = null;
                 })
-                .fail(function() {
-                    alert('Failed!');
+                .fail(function(e) {
+                    console.log(e);
                 });
 
             }

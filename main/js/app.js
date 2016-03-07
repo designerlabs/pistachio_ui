@@ -14,7 +14,8 @@ var MetronicApp = angular
     "pascalprecht.translate",
     'tmh.dynamicLocale',
     "datamaps",
-    "chart.js"
+    "chart.js",
+    'ngIdle'    
 ])
 
 // /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -37,6 +38,7 @@ var MetronicApp = angular
 
 //     $translateProvider.preferredLanguage('en_EN');
 // }]);
+
 .constant('DEBUG_MODE', /*DEBUG_MODE*/ true /*DEBUG_MODE*/ )
     .constant('VERSION_TAG', /*VERSION_TAG_START*/ new Date().getTime() /*VERSION_TAG_END*/ )
     .constant('LOCALES', {
@@ -47,6 +49,15 @@ var MetronicApp = angular
         'preferredLocale': 'ms_my'
     })
 
+
+
+  .filter('titleCase', function() {
+    return function(input) {
+      input = input || '';
+      return input.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    };
+  })
+
 // Angular Translate
 
 .config(function ($translateProvider, DEBUG_MODE, LOCALES) {
@@ -55,6 +66,7 @@ var MetronicApp = angular
     }
 
     $translateProvider.useStaticFilesLoader({
+
         prefix: 'resources/locale-',
         suffix: '.json'
     });
@@ -74,6 +86,7 @@ var MetronicApp = angular
         });
 
     });
+
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
 // MetronicApp.config(['$ocLazyLoadProvider', '$translateProvider', function($ocLazyLoadProvider, $translateProvider) {
@@ -154,7 +167,6 @@ var globalURL = "http://pistachio_server:8080/";
 var solrHost = "localhost";
 var queryString = "query";
 var categoryName = "cat";
-
 
 //validation on keyup
 function formInputValidation(id) {
@@ -237,7 +249,71 @@ MetronicApp.config(['$controllerProvider', function ($controllerProvider) {
 
 }]);
 
+MetronicApp.controller('sessionController', function($scope, Idle, Keepalive, $modal){
+      // $scope.started = false;
+        // start();
 
+
+      function closeModals() {
+        if ($scope.warning) {
+          $scope.warning.close();
+          $scope.warning = null;
+        }
+
+        if ($scope.timedout) {
+          $scope.timedout.close();
+          $scope.timedout = null;
+        }
+      }
+
+      $scope.$on('IdleStart', function() {
+        closeModals();
+        // window.getAttention();
+        $scope.warning = $modal.open({
+          templateUrl: 'warning-dialog.html',
+          windowClass: 'modal-danger'
+        });       
+      });
+
+      $scope.$on('IdleEnd', function() {
+        closeModals();
+      });
+
+      $scope.$on('IdleTimeout', function() {
+        closeModals();
+        $scope.timedout = $modal.open({
+          templateUrl: 'timedout-dialog.html',
+          windowClass: 'modal-danger'
+        });
+        localStorage.setItem("token","");
+        window.location = "login.html";
+      });
+
+   // function start() {
+   //      closeModals();
+   //      Idle.watch();
+   //      $scope.started = true;
+   //    };
+
+      // $scope.stop = function() {
+      //   closeModals();
+      //   Idle.unwatch();
+      //   $scope.started = false;
+
+      // };
+    })
+    .config(function(IdleProvider, KeepaliveProvider) {
+      IdleProvider.idle(300);
+      IdleProvider.timeout(30);
+      // KeepaliveProvider.interval(15);     
+    });
+
+    MetronicApp.run(['Idle', function(Idle) {
+      Idle.watch();
+      console.log("Started From session");
+
+
+    }]);
 /********************************************
  END: BREAKING CHANGE in AngularJS v1.3.x:
 *********************************************/
@@ -366,8 +442,10 @@ MetronicApp.controller('SidebarController', ['$scope', '$http', 'authorities', f
         var authoritiesValue;
         $scope.chkRole = authorities.checkRole;
         $.ajax({
+
                 url: globalURL + 'auth/token?token=' + getToken,
-                type: 'GET',
+
+                type: 'GET'
             })
             .done(function (data) {
                 $scope.displayNames = data.reports;
@@ -554,6 +632,66 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                   ]
                 });
           }]
+        }
+    })
+
+    .state('workflowuser', {
+        url: "/workflowuser.html",
+        templateUrl: "views/workflow/workflowuser.html",
+        data: {
+            pageTitle: 'Workflow User'
+        },
+        controller: "WorkflowuserController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/global/plugins/morris/morris.css',
+                        'assets/admin/pages/css/tasks.css',
+
+                        'assets/global/plugins/morris/morris.min.js',
+                        'assets/global/plugins/morris/raphael-min.js',
+                        'assets/global/plugins/jquery.sparkline.min.js',
+
+                        'assets/admin/pages/scripts/index.js',
+                        'assets/admin/pages/scripts/tasks.js',
+
+                        'js/controllers/WorkflowuserController.js'
+                    ]
+                });
+            }]
+        }
+    })
+
+    .state('workflowadmin', {
+        url: "/workflowadmin.html",
+        templateUrl: "views/workflow/workflowadmin.html",
+        data: {
+            pageTitle: 'Workflow Admin'
+        },
+        controller: "WorkflowadminController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/global/plugins/morris/morris.css',
+                        'assets/admin/pages/css/tasks.css',
+
+                        'assets/global/plugins/morris/morris.min.js',
+                        'assets/global/plugins/morris/raphael-min.js',
+                        'assets/global/plugins/jquery.sparkline.min.js',
+
+                        'assets/admin/pages/scripts/index.js',
+                        'assets/admin/pages/scripts/tasks.js',
+
+                        'js/controllers/WorkflowadminController.js'
+                    ]
+                });
+            }]
         }
     })
 
@@ -1339,14 +1477,15 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
                         'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
                         'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
+
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
-                       
+
                         'assets/global/plugins/select2/select2.min.js',
 
                         'assets/global/plugins/datatables/all.min.js',
+
                         'js/scripts/table-advanced.js',                        
-                        
-                        
+
 
                         'js/controllers/GeneralPageController.js'
                     ]

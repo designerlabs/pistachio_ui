@@ -1,0 +1,277 @@
+
+<h3 class="page-title">Request Management</h3>
+<div ng-controller="WorkflowadminController">
+<div class="col-md-6">
+	<div class="portlet light ">
+		<div class="portlet-title tabbable-line">
+	        <div class="caption">
+	            <i class="icon-bubbles font-red"></i>
+	            <span class="caption-subject font-red bold uppercase">Request List</span>
+	        </div>
+	        <ul class="nav nav-tabs">
+	            <li  ng-repeat = "tab in tabs" ng-class="{active:isActiveTab(tab.url)}" ng-click="onClickTab(tab)">
+	                <a data-toggle="tab" aria-expanded="true">{{tab.title}}  <span class="badge badge-{{ tab.title == 'New' ? 'warning' : (tab.title == 'Failed' ? 'danger' : (tab.title == 'In Progress' ? 'info' : 'success'))}}"> {{ tab.title == 'New' ? getCountNew : (tab.title == 'Failed' ? getCountFailed : (tab.title == 'In Progress' ? getCountProg : (tab.title == 'Completed' ? getCountCompleted : '')))}} </span></a>
+	            </li>
+	        </ul>
+	    </div>
+
+	    
+
+		<div class="portlet-body">
+	        <div class="tab-content">
+	            
+	      			 <div id="mainView">
+						<div ng-include="currentTab"></div>
+					</div>
+	           
+	        </div>
+	    </div>
+	</div>
+
+	<script type="text/ng-template" id="new.html" >
+			<div class="tab-pane" id="portlet_comments_1">
+			        <div class="mt-comments"  ng-repeat="data in names">
+			            <div class="mt-comment {{data.id}}" style="cursor:pointer;" ng-init="$first && go(data.id);"  ng-click="go(data.id); $event.stopPropagation();">
+	                    	<div class="mt-comment-img">
+	                    	<span class="avatar_container {{ data.displayName | limitTo: 1 }}">{{ data.displayName | limitTo: 1 }}</span>
+	                    	<span class="avatar_name">{{ data.displayName | titleCase | limitTo: 7 }}</span>
+	                    	</div>
+	                        <div class="mt-comment-body">
+	                            <div class="mt-comment-info">
+	                                <span class="mt-comment-author">{{ data.reportName }}</span>
+	                                <span class="mt-comment-date">{{data.createdDate == null ? data.lastModifiedDate : data.createdDate }}</span>
+	                            </div>
+	                            <div class="mt-comment-text"> {{ data.description | limitTo: 100 }}{{ data.description.length > 100 ? '...' : ''}} </div>
+	                            <div class="mt-comment-details">
+	                                <span class="label label-sm label-warning">{{ data.status }}</span>
+	                                <span class="label label-sm label-danger">{{ data.priority }}</span>
+	                                
+	                            </div>
+	                        </div>
+	                    </div>
+	
+					</div>
+
+					<div class="search-pagination">
+					    <ul class="pagination">
+			                <li >
+			                    <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="first"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+			                </li>
+			                <li class="page-active">
+			                    <button ng-click="next()" class="btn btn-primary nextBtn" ng-disabled="last">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+			                </li>
+			            </ul>
+			        </div>
+				
+				</div>
+
+
+
+		</script>
+
+
+		<script type="text/ng-template" id="inprogress.html">
+			     <div class="tab-pane" id="portlet_comments_2">
+			     	
+	                <div class="mt-comments" ng-repeat="data in names">
+	                    <div class="mt-comment">
+	                        <div class="mt-comment-body">
+	                            <div class="mt-comment-info">
+	                                <span class="mt-comment-author">{{ data.reportName }}</span>
+	                                <span class="mt-comment-date">{{ data.createdDate }}</span>
+	                            </div>
+	                            <div class="mt-comment-text"> {{ data.description | limitTo: 100 }}{{ data.description.length > 100 ? '...' : ''}} </div>
+	                            <div class="mt-comment-details">
+	                                <span class="label label-sm label-warning">{{ data.status }}</span>
+
+	                                <ul class="mt-comment-actions">
+	                                    <li>
+	                                        <a href="#">Quick Edit</a>
+	                                    </li>
+	                                    <li>
+	                                        <a href="#" class="{{data.id}}" ng-init="$first && go(data.id);" ng-click="go(data.id); $event.stopPropagation();">View</a>
+
+	                                    </li>
+	                                    <li>
+	                                        <a href="#">Delete</a>
+	                                    </li>
+	                                </ul>
+	                            </div>
+	                        </div>
+	                    </div>
+	
+					</div>
+
+					<div class="search-pagination">
+			            <ul class="pagination">
+			                <li >
+			                    <button ng-click="previous1()" class="btn btn-primary previousBtn" disabled><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+			                </li>
+			                <li class="page-active">
+			                    <button ng-click="next1()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+			                </li>
+
+			            </ul>
+			        </div>
+
+	            </div>
+
+		</script>
+
+
+		<script type="text/ng-template" id="close.html">
+			     <div class="tab-pane active" id="portlet_comments_3">
+		
+	                <div class="mt-comments" ng-repeat="data in names">
+	                    <div class="mt-comment">
+	                        <div class="mt-comment-body">
+	                            <div class="mt-comment-info">
+	                                <span class="mt-comment-author">{{ data.reportName }}</span>
+	                                <span class="mt-comment-date">{{ data.createdDate.dayOfMonth }} {{ data.createdDate.month | limitTo: 3 }},{{ data.createdDate.hour }}:{{ data.createdDate.minute }}</span>
+	                            </div>
+	                            <div class="mt-comment-text"> {{ data.description | limitTo: 100 }}{{ data.description.length > 100 ? '...' : ''}} </div>
+	                            <div class="mt-comment-details">
+	                                <span class="label label-sm label-warning">{{ data.status }}</span>
+	                                <ul class="mt-comment-actions">
+	                                    <li>
+	                                        <a href="#">Quick Edit</a>
+	                                    </li>
+	                                    <li>
+	                                        <a href="#" class="{{data.id}}" ng-init="$first && go(data.id);" ng-click="go(data.id); $event.stopPropagation();">View</a>
+
+	                                    </li>
+	                                    <li>
+	                                        <a href="#">Delete</a>
+	                                    </li>
+	                                </ul>
+	                            </div>
+	                        </div>
+	                    </div>
+	
+					</div>
+
+					<div class="search-pagination">
+			            <ul class="pagination">
+			                <li >
+			                    <button ng-click="previous2()" class="btn btn-primary previousBtn" disabled><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+			                </li>
+			                <li class="page-active">
+			                    <button ng-click="next2()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+			                </li>
+
+			            </ul>
+			        </div>
+	            </div>
+
+		</script>
+</div>
+
+	<div class="col-md-6">
+		<div class="portlet light ">
+	        <div class="portlet-title">
+	            <div class="caption font-red-sunglo">
+	                <i class="icon-settings font-red-sunglo"></i>
+	                <span class="caption-subject bold uppercase"> Request Details</span>
+	            </div>
+	        </div>
+	        <div class="portlet-body form">
+	            <form role="form">
+	                <div class="form-body">
+	                    
+	                    <div class="form-group">
+	                        <label>Request Title</label>
+	                        <div>
+	                        	<h4>{{ details.reportName }}</h4>
+	                        </div>
+	                    </div>
+
+
+	                  
+
+	                    <div class="form-group" >
+	                        <label>Request Description</label>
+	                        <div style="min-height: 50px !important; max-height: 160px !important; overflow: auto;">
+	                        	<h4 style="line-height: 30px;">{{ details.description }}</h4>
+	                        </div>
+	                    </div>
+	                   
+	                     
+	                    <div class="row">
+	        
+	                        <div class="col-md-4">
+	                            <div class="form-group">
+			                        <label>Priority</label>
+			                        <h4>{{ details.priority }}</h4>
+	                    		</div>
+	                        </div>
+
+	                        <div class="col-md-4">
+	                            <div class="form-group">
+			                        <label>Download</label>
+			                        <h4><a href="#">File to Download.doc</a></h4>
+	                    		</div>
+	                        </div>
+	                    </div>
+
+	                </div>
+	                <div class="form-actions text-right">
+	                	<h4 ng-if="details.status == 'COMPLETED'"><span class="label label-success"><i class="fa fa-thumbs-up"></i> Closed Successfully</span></h4>
+	                	<h4 ng-if="details.status == 'FAILED'"><span class="label label-danger"><i class="fa fa-thumbs-down"></i> Declined</span></h4>
+	                	<button ng-if="details.status == 'NEW' || details.status == 'INPROGRESS'" type="submit" class="btn btn-success" ng-click="onReqSubmit(details.status)"><i class="fa fa-check"></i>{{ details.status == "INPROGRESS" ? " Complete " : "Claim"}}</button>
+	                    <button ng-if="details.status == 'NEW'" type="button" class="btn btn-danger" ng-click="onReqSubmit('FAILED')"><i class="fa fa-times"></i> Decline</button>
+	                </div>
+	            </form>
+	        </div>
+	        
+	        <div class="portlet-title">
+	            <div class="caption">
+	                <i class="icon-bubble font-red-sunglo"></i>
+	                <span class="caption-subject font-red-sunglo bold uppercase">Comments</span>
+	            </div>
+	           
+	        </div>
+	        <!-- Comment script start here -->
+	        <div class="portlet-body" id="chats">
+	            <div class="slimScrollDiv" style="position: relative; overflow: auto; width: auto; min-height: 20px; max-height: 226px; margin-top: 20px;"><div class="scroller" style="overflow: auto; width: auto;" data-always-visible="1" data-rail-visible1="1" data-initialized="1">
+	                <ul class="chats">
+	                	<li ng-if="commentsDetFalse">No Comments</li>
+	                     <li ng-if="!commentDet" class="{{ comments.username == 'Admin' ? 'in' : 'out' }}"  ng-repeat="comments in commentsDet">
+	                        <img class="avatar" alt="" ng-src="../main/assets/admin/layout2/img/{{ comments.username == 'Admin' ? 'jim_logo_small' : 'mimos_logo_small' }}.png">
+	                        <div class="message">
+	                            <span class="arrow"> </span>
+	                            <a href="javascript:;" class="name"> {{ comments.username }} </a>
+	                            <span class="datetime"> {{ comments.createdDate }} </span>
+	                            <span class="body"> {{ comments.message }} </span>
+	                        </div>
+	                    </li>
+	                </ul>
+	            </div>
+	            <div class="slimScrollBar" style="display: none !important;  width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 319.38px; background: rgb(187, 187, 187);"></div><div class="slimScrollRail" style="display: none; width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; background: rgb(234, 234, 234);"></div></div>
+	            <div class="chat-form">
+	                <div class="input-cont">
+	                    <form id="formMessageAdmin">
+	                      <input class="form-control" type="text" ng-model="myMsgAdmin.text" id="messageVal" placeholder="Type a message here..."> 
+						</form>
+	                   </div>
+	                <div class="btn-cont" ng-click="submitComment()">
+	                    <span class="arrow"> </span>
+	                    <a href="" class="btn blue icn-only {{myMsgAdmin.text.length > 0 ? 'active' : 'disabled'}}">
+	                        <i class="fa fa-check icon-white"></i>
+	                    </a>
+	                </div>
+	            </div>
+	        </div>
+	        
+	    </div>
+
+	</div>
+</div>
+<script>
+$(function(){
+	$(".page-content").css('min-height', '1120px');
+});
+
+	$(".nav-tabs a").click(function(e){
+		e.preventDefault();
+	});
+</script>

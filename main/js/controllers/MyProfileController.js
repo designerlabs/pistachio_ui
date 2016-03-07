@@ -14,7 +14,7 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
        $scope.firstName_1 = response.firstName;
        $scope.rank = response.rank;
        $scope.email = response.email;
-        $http.get(globalURL+"api/pistachio/audit/"+response.login+"?start=0&rows=9")
+        $http.get(globalURL+"api/pistachio/audit/"+response.login+"?start=0&rows=5")
          .success(function(response) {
            $scope.contents = response.content;
           });

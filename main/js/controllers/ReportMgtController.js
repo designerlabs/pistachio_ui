@@ -203,8 +203,8 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
 		                        //alert('Failed!');
 		                    });
                 })
-                .fail(function() {
-                    alert('Failed!');
+                .fail(function(e) {
+                    console.log(e);
                 });
         });
 
