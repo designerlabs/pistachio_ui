@@ -19,9 +19,12 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
           $scope.filterButtons = [];
            $scope.analysiType = 'overall';
            $scope.loadTimeline = true;
+           $scope.time_filtered_max = "";
+           $scope.time_filtered_min = "";
 
         $scope.querySolr();
         $scope.getDateLimits();
+        $scope.formStates();
 
 
     });
@@ -37,16 +40,19 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
           return;
         else
           $scope.analysiType = data;
+       if($scope.needRefresh ==  false)
+        return;
        if(data == 'overall')
        {
-         $scope.querySolr();
+          $scope.querySolr();
        }
-       else if(data == 'timeline' && $scope.loadTimeline)
+       else if(data == 'timeline')
        {
           //$scope.timelineChart();
           $scope.date_query();
        }
       // $scope.querySolr();
+      $scope.needRefresh =  false;
     };
 
 
@@ -60,6 +66,9 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
         $scope.cState = "";
         $scope.filters = false;
         $scope.filterButtons = [];
+        $scope.time_filtered_max = "";
+        $scope.time_filtered_min = "";
+        $scope.needRefresh = false;
          //$scope.analysiType = 'overall';
         $scope.querySolr();
     }
@@ -239,14 +248,24 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
           obj['value'] = data;
           obj['query'] = query;
           $scope.filterButtons.push(obj);
+          $scope.needRefresh = true;
        }
 
        $scope.updateFilter = function (data,refresh){
           var i = $scope.filterButtons.length
             while (i--) {
                 if($scope.filterButtons[i]["id"] == data)
+                {
                   $scope.filterButtons.splice(i, 1);
+                  if(refresh){
+                    $scope.time_filtered_max = "";
+                    $scope.time_filtered_min = "";
+                  }
+
+                }
+
             }
+
           if(refresh)
             $scope.querySolr();
        }
@@ -374,7 +393,47 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
       $scope.data = $scope.sex.count;
     };
 
+    $scope.formStates = function() {
+      var obj = {};
+      obj["001"]   ="Johor";
+      obj["01"]   ="Johor";
+      obj["002"]   ="Kedah";
+      obj["003"]   ="Kelantan";
+      obj["004"]   ="Melaka";
+      obj["005"]   ="Negeri Sembilan";
+      obj["006 "]  ="Pahang";
+      obj["008"]   ="Perak";
+      obj["009"]   ="Perlis";
+      obj["007"]   ="Pulau Pinang";
+      obj["012"]   ="Sabah";
+      obj["013"]   ="Sarawak";
+      obj["010"]  ="Selangor";
+      obj["10"]  ="Selangor";
+      obj["011"]  ="Terengganu";
+      obj["14"]  ="Kuala Lumpur";
+      obj["099"]  ="Kuala Lumpur";
+      obj["15"]  ="Labuan";
+
+      $scope.stateObject = obj;
+    }
+
     $scope.column = function() {
+
+
+       var _state = $scope.state;
+       console.log($scope.stateObject);
+       console.log(_state);
+    //  for (var i =0,l=_state.length; i < l; i++) {
+    //        _state[i].name = $scope.stateObject[_state[i].name];
+    //        alert(_state[i].name);
+
+
+    //    }
+    //    console.log(_state);
+
+    //    console.log("--------")
+
+
       Highcharts.chart('highchart_col',{
         chart : {
             type : 'column',
@@ -397,7 +456,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
             series: [{
             name: 'negeri',
             colorByPoint: true,
-            data: $scope.state,
+            data: _state,
           point:{
               events:{
                   click: function (event) {
@@ -467,8 +526,16 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
 
       json.facet.date_range.type   = "range";
       json.facet.date_range.field  =  "mad_crt_dt";
-      json.facet.date_range.start  = $scope.dateRange.min;
-      json.facet.date_range.end    = $scope.dateRange.max;
+      if($scope.time_filtered_max.length > 0)
+      {
+        json.facet.date_range.start  = $scope.time_filtered_min;
+        json.facet.date_range.end    = $scope.time_filtered_max;
+      }
+      else {
+        json.facet.date_range.start  = $scope.dateRange.min;
+        json.facet.date_range.end    = $scope.dateRange.max;
+      }
+
       json.facet.date_range.gap    = "%2B1MONTH";
 
 
@@ -502,23 +569,24 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
        }
 
         console.log(data);
-//     var data = [
-//[Date.UTC(2013,5,2),0.7695],
-//[Date.UTC(2013,5,3),0.7648],
-//[Date.UTC(2013,5,4),0.7645],
-//[Date.UTC(2013,5,5),0.7638],
-//[Date.UTC(2013,5,6),0.7549]];
+
       Highcharts.chart('highchart_timeline',{
             chart: {
                 zoomType: 'x',
                 events: {
                 selection: function (event) {
-                    alert('sdf')
                     if (event.xAxis) {
-                        alert('Last selection:<br/>min: ' + Highcharts.dateFormat('%Y-%m-%d', event.xAxis[0].min) +
-                            ', max: ' + Highcharts.dateFormat('%Y-%m-%d', event.xAxis[0].max));
+                        var range = "[ "+ Highcharts.dateFormat('%Y-%m-%dT00:00:00Z', event.xAxis[0].min) +" TO "+ Highcharts.dateFormat('%Y-%m-%dT00:00:00Z', event.xAxis[0].max)+" ]";
+                        var display = "[ "+ Highcharts.dateFormat('%Y-%m-%d', event.xAxis[0].min) +" TO "+ Highcharts.dateFormat('%Y-%m-%d', event.xAxis[0].max)+" ]";
+                        $scope.time_filtered_max = Highcharts.dateFormat('%Y-%m-%dT00:00:00Z', event.xAxis[0].max);
+                        $scope.time_filtered_min = Highcharts.dateFormat('%Y-%m-%dT00:00:00Z', event.xAxis[0].min);
+                            $scope.addFilter("tim","Time :"+display,"mad_crt_dt:"+range);
+                            $scope.querySolr();
                     } else {
                         alert('Selection reset');
+                        $scope.time_filtered_max = "";
+                        $scope.time_filtered_min = "";
+                        $scope.updateFilter("tim",true);
                     }
                   }
                 }
@@ -541,6 +609,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
             legend: {
                 enabled: false
             },
+            exporting: { enabled: false },
             plotOptions: {
                 area: {
                     fillColor: {
