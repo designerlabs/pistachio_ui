@@ -448,7 +448,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
        return;
 
       var query = ""
-      var sq = "http://localhost:8983/solr/immigration1_shard1_replica1/query?json=";
+      var sq = "http://"+solrHost+":8983/solr/immigration1_shard1_replica1/query?json=";
 
       var json = {};
       json.query = "*:*"
