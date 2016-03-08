@@ -31,60 +31,48 @@ $scope.start=0;
 		
 	});
 
-	// $scope.data = {
- //    repeatSelect: null,
- //    availableOptions: [
- //      {id: '1', name: 'Normal'},
- //      {id: '2', name: 'Urgent'},
- //      {id: '3', name: 'Important'}
- //    ],
- //   };
  	$scope.currentTab = 'new.html';
 	var getUser = localStorage.getItem("username");
 	var getToken = localStorage.getItem("token");
 	var getDispName = localStorage.getItem("firstName");
 
-	// fn_LoadAllRequest();
-
 	//Add and update Request Form submission
-	formInputValidation("#frmRequest");
 	$scope.onReqSubmit = function (opt) {
-	 	
 	 	var reportName = $('#userReqTitle').val();
 	 	var description = $('#userReqDes').val();
 	 	var priority = $('#userPriority option:selected').val();
-	 	inputValidation("#frmRequest", fn_SendRequest(reportName, description, priority, null, 'POST'));
-	 	/*if(opt == "submit"){
-	 		inputValidation("#frmRequest", fn_SendRequest(reportName, description, priority, null, 'POST'));
-	 	 
-      	}else if(opt=="update"){
-      		inputValidation("#frmRequest", fn_SendRequest(reportName, description, priority, $scope.reqid, 'PUT'));
-      	
-      	}*/
+	 	if(!reportName || !description){
+	 		return false;
+	 	}else{
+		 	if(opt == "submit"){
+		 	fn_SendRequest(reportName, description, priority, null, 'POST');
+		 	 
+	      	}else if(opt=="update"){
+	      	fn_SendRequest(reportName, description, priority, $scope.reqid, 'PUT');
+	      	}
+	 	}
 	}
 
 	$scope.getCounts = function(){
-
 		
-    	$http.get(globalURL+"workflow/request/?filter=new").success(function(response) {
+    	$http.get(globalURL+"workflow/request?token=" + getToken + "&filter=new").success(function(response) {
     		$scope.getCountNew = response.totalElements;
         });
 
-    	$http.get(globalURL+"workflow/request/?filter=prog").success(function(response) {
+    	$http.get(globalURL+"workflow/request?token=" + getToken + "&filter=prog").success(function(response) {
     		$scope.getCountProg = response.totalElements;
         });
 
-    	$http.get(globalURL+"workflow/request/?filter=failed").success(function(response) {
+    	$http.get(globalURL+"workflow/request?token=" + getToken + "&filter=failed").success(function(response) {
     		$scope.getCountFailed = response.totalElements;
         });
-        $http.get(globalURL+"workflow/request/?filter=completed").success(function(response) {
+        $http.get(globalURL+"workflow/request?token=" + getToken + "&filter=completed").success(function(response) {
     		$scope.getCountCompleted = response.totalElements;
         });
 	};
 
 	//View Request Form
 	$scope.viewReq = function(data){
-		
 		$scope.AsHeader = true;
 		var currentId = this.data;
 		$scope.opt = 'update';
@@ -106,12 +94,11 @@ $scope.start=0;
  		$scope.Showcomments = true;			
 	}
 
-
     //Delete Request
 	$scope.DelReq = function(data){
 		fn_DeleteReq(data);	
 	}
- 
+ 	//Send comments or chat session...
 	$scope.submitComment = function(){
 	 	 $.ajax({
               url: globalURL + "workflow/request/"+ $scope.reqid +"/comments",
@@ -130,8 +117,6 @@ $scope.start=0;
               fn_PostComments($scope.reqid);
           }); 	 	
 	}
-
-
 
 	$scope.onReset = function(){
 		fn_Reset();
@@ -203,7 +188,7 @@ $scope.start=0;
        $scope.resetBtn = true;	
        $scope.viewForm = false;
        $scope.Showcomments = false; 
-        $http.get(globalURL+"workflow/request/?start="+$scope.start+"&rows=5&filter="+tab.filter)
+        $http.get(globalURL+"workflow/request?token=" + getToken + "&start="+$scope.start+"&rows=5&filter="+tab.filter)
 		.success(function(response) {
 			console.log(response);
 			$scope.names = response.content;
@@ -234,7 +219,7 @@ $scope.start=0;
 
     $scope.showApplications = function() {
     	var query = "";
-	 	query = globalURL+"workflow/request/?token=" + getToken + "&start="+ $scope.start +"&rows=5&filter="+$scope.currentTabName;
+	 	query = globalURL+"workflow/request?token=" + getToken + "&start="+ $scope.start +"&rows=5&filter="+$scope.currentTabName;
 	 	$http.get(query)
 		.success(function(response) {
 			//debugger;
@@ -248,7 +233,7 @@ $scope.start=0;
 	};    	
 
 	function fn_LoadAllRequest(){
-		$http.get(globalURL+"workflow/request/?token=" + getToken + "&start="+ $scope.start +"&rows=5&filter="+$scope.currentTabName)
+		$http.get(globalURL+"workflow/request?token=" + getToken + "&start="+ $scope.start +"&rows=5&filter="+$scope.currentTabName)
 		.success(function(response) {
 			console.log(response + "fn_LoadAllRequest");
 			$scope.names = response.content;
