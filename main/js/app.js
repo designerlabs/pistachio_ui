@@ -164,7 +164,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 //var globalURL = "http://10.23.124.243:8080/";
 var globalURL = "http://pistachio_server:8080/";
 //var solrHost = "10.23.124.243";
-var solrHost = "localhost";
+var solrHost = "pistachio_server";
 var queryString = "query";
 var categoryName = "cat";
 
@@ -466,8 +466,9 @@ MetronicApp.controller('SidebarController', ['$scope', '$http', 'authorities', f
         console.log(authoritiesArray);
 
         var flag = true;
-        $scope.goes = function (data) {
+        $scope.goes = function (data, displayName) {
             localStorage.setItem('sideMenuValue', data);
+            localStorage.setItem('selSystemDisplayName', displayName);
             $.ajax({
                     //url: globalURL+'query/report/'+data,
                     url: globalURL + 'auth/subreports?token=' + getToken + '&parent=' + data,
