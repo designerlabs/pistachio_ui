@@ -160,7 +160,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
             $('#mySubParentSel').multiSelect('refresh');
 
             $.get( globalURL + "reportcat/", function( data ) {
-              debugger;
+              // debugger;
               $.each(data, function (key, value) {
                   $('#myParentSel').append(
                       $("<option></option>")
