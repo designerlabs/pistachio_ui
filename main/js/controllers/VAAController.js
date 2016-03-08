@@ -8,7 +8,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
         Metronic.initAjax();
         //alert("HI");
         var getUser = localStorage.getItem("username");
-        
+
         $scope.cntName = "";
         $scope.cntCode = "";
         $scope.cJobs = "";
@@ -19,10 +19,10 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
           $scope.filterButtons = [];
            $scope.analysiType = 'overall';
            $scope.loadTimeline = true;
-          
+
         $scope.querySolr();
-        
-           
+        $scope.getDateLimits();
+
 
     });
 
@@ -31,7 +31,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
        // $scope.querySolr();
     };
 
-   
+
     $scope.changeAnalysis = function (data) {
         if(data == $scope.analysiType)
           return;
@@ -39,16 +39,17 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
           $scope.analysiType = data;
        if(data == 'overall')
        {
-
+         $scope.querySolr();
        }
        else if(data == 'timeline' && $scope.loadTimeline)
        {
-          $scope.timelineChart();
+          //$scope.timelineChart();
+          $scope.date_query();
        }
       // $scope.querySolr();
     };
 
-    
+
 
     $scope.reset = function(){
         $scope.cntName = "";
@@ -64,7 +65,8 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
     }
 
     $scope.loadMap = function(){
-     
+     if($scope.analysiType != 'overall')
+      return;
         var dataset = {};
     // We need to colorize every country based on "numberOfWhatever"
     // colors should be uniq for every value.
@@ -89,12 +91,12 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
         dataset[iso] = { numberOfThings: value, fillColor: paletteScale(value) };
         //console.log(dataset[iso]);
       };
-      
+
         $scope.mapObject = {
         scope: 'world',
         responsive: true,
        // projection : 'mercator',
-        height: null, 
+        height: null,
         width: null,
         options : {legend : true},
         fills: {
@@ -120,9 +122,9 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
             // only change border
             highlightBorderColor: '#C7C7B7'
             // show desired information in tooltip
-           
 
-  
+
+
         }
         $scope.mapPlugins = {
   bubbles: null,
@@ -152,17 +154,17 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
           var field = [];
           var count = [];
           for (var j = 0; j < index/2; j++) {
-                 
+
                  var i = j*2;
                  if(data[i+1] == 0) break;
-                 if(data[i].length == 0) 
+                 if(data[i].length == 0)
                     field.push("NA");
                  else
                   field.push(data[i]);
                  if(data[i+1] == 0) continue;
-                 
+
                  count.push(data[i+1]);
-                
+
 
                }
                decopuledObj[keys[0]] = field;
@@ -173,18 +175,18 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
        $scope.decopule = function(data,index,keys) {
           if(index == 0)
             index = data.length;
-          
+
           var objList= [];
           for (var j = 0; j < index/2; j++) {
                  var country= {};
                  var i = j*2;
                  if(data[i+1] == 0) break;
-                 if(data[i].length == 0) 
+                 if(data[i].length == 0)
                    country[keys[0]]="NA";
                  else
                   country[keys[0]]=data[i];
                  if(data[i+1] == 0) continue;
-                 
+
                  country[keys[1]]=data[i+1];
                  objList.push(country);
 
@@ -264,7 +266,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
           for (var i = 1; i < $scope.filterButtons.length; i++) {
               query = query+"&fq="+$scope.filterButtons[i]["query"];
           }
-          
+
         return query;
        }
 
@@ -274,10 +276,10 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
             else if ($scope.analysiType == 'timeline')  {
               query = 'http://'+solrHost+':8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.field=mad_pas_typ_cd&facet.limit=150&'+$scope.filterQuery();
             }
-            
+
           else if ($scope.analysiType == 'age')
             query = 'http://'+solrHost+':8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.field=mad_pas_typ_cd&facet.limit=150&'+$scope.filterQuery();
-          
+
        }
 
        $scope.querySolr = function() {
@@ -289,14 +291,14 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
           if($scope.analysiType == 'overall')
               query = 'http://'+solrHost+':8983/solr/immigration1/select?q='+$scope.formQuery()+
             '&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.field=mad_pas_typ_cd&facet.limit=150&'+$scope.filterQuery();
-            else if ($scope.analysiType == 'timeline')  
+            else if ($scope.analysiType == 'timeline')
             query = 'http://'+solrHost+':8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.field=mad_pas_typ_cd&facet.limit=150&'+$scope.filterQuery();
           else if ($scope.analysiType == 'age')
             query = 'http://'+solrHost+':8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.field=mad_pas_typ_cd&facet.limit=150&'+$scope.filterQuery();
-          
-          
-          
-          
+
+
+
+
       $http.get(query).
        success(function(data) {
            if(selected_countries == 0) {
@@ -311,6 +313,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
              $scope.loadMap();
              $scope.pie();
              $scope.column();
+             $scope.date_query();
              //$scope.chartjs();
            }
 
@@ -361,7 +364,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
                       $scope.clickSex(this.name);
                   }
               }
-          }          
+          }
         }]
           });
 
@@ -401,21 +404,110 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
                       $scope.clickState(this.name);
                   }
               }
-          }          
+          }
         }]
           });
     };
 
+    $scope.yyyymmdd = function(date) {
+      var yyyy = date.getFullYear().toString();
+    var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
+    var dd  = date.getDate().toString();
+    return yyyy +"-" + (mm[1]?mm:"0"+mm[0]) +"-" + (dd[1]?dd:"0"+dd[0]) +"T00:00:00Z"; // padding
+    };
 
-    $scope.timelineChart = function() {
+    $scope.jsonFilterQuery = function () {
+     var query = [];
+     if($scope.filterButtons.length == 0)
+       return query;
+     for (var i =0,l=$scope.filterButtons.length; i < l; i++) {
+           query.push($scope.filterButtons[i]["query"]);
+       }
+       alert(query.length);
+     return query;
+    }
+
+
+
+    $scope.getDateLimits = function () {
+      var query = "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
+      var sq = "http://localhost:8983/solr/immigration1_shard1_replica1/query?"
+      $http.get(sq+query).
+       success(function(data) {
+         var y = {};
+         y.min = $scope.yyyymmdd(new Date(data.facets.min_date));
+         y.max = $scope.yyyymmdd(new Date(data.facets.max_date));
+         console.log(y);
+         $scope.dateRange = y;
+       })
+    }
+
+    $scope.date_query = function () {
+
+      if($scope.analysiType != 'timeline')
+       return;
+
+      var query = ""
+      var sq = "http://localhost:8983/solr/immigration1_shard1_replica1/query?json=";
+
+      var json = {};
+      json.query = "*:*"
+      json.limit = 0;
+
+      var filter = $scope.jsonFilterQuery();
+      console.log(filter);
+      alert(filter.length);
+      if(filter.length>0)
+      {
+        json.filter = filter;
+      }
+
+      json.facet = {};
+      json.facet.date_range = {};
+
+      json.facet.date_range.type   = "range";
+      json.facet.date_range.field  =  "mad_crt_dt";
+      json.facet.date_range.start  = $scope.dateRange.min;
+      json.facet.date_range.end    = $scope.dateRange.max;
+      json.facet.date_range.gap    = "%2B1MONTH";
+
+
+
+      $http.get(sq+JSON.stringify(json)).
+       success(function(data) {
+         console.log(data);
+         $scope.timelineChart(data);
+         //return data;
+       })
+    }
+
+
+
+
+    $scope.timelineChart = function(data_range) {
 
       $scope.loadTimeline =false;
-     var data = [
-[Date.UTC(2013,5,2),0.7695],
-[Date.UTC(2013,5,3),0.7648],
-[Date.UTC(2013,5,4),0.7645],
-[Date.UTC(2013,5,5),0.7638],
-[Date.UTC(2013,5,6),0.7549]];
+    //  var data_range = $scope.getDate();
+      console.log(data_range);
+      //alert(data_range.facets.date_range.buckets[0]);
+      //alert(data_range[1][0]);
+      console.log(data_range.facets.date_range.buckets);
+      var data = [];
+       for( var i=0,l = data_range.facets.date_range.buckets.length;i<l; i++){
+         var obj = data_range.facets.date_range.buckets[i];
+         var element =[];
+         element.push(new Date(obj.val).getTime());
+         element.push(obj.count);
+         data.push(element);
+       }
+
+        console.log(data);
+//     var data = [
+//[Date.UTC(2013,5,2),0.7695],
+//[Date.UTC(2013,5,3),0.7648],
+//[Date.UTC(2013,5,4),0.7645],
+//[Date.UTC(2013,5,5),0.7638],
+//[Date.UTC(2013,5,6),0.7549]];
       Highcharts.chart('highchart_timeline',{
             chart: {
                 zoomType: 'x',
@@ -484,9 +576,9 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
         });
     };
 
-    
 
-   
+
+
 
 
     // set sidebar closed and body solid layout mode
