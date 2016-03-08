@@ -179,21 +179,15 @@
 	                <div class="form-body">
 	                    
 	                    <div class="form-group">
-
 	                        <label style="text-decoration: underline;">Request Title</label>
-
 	                        <div>
 	                        	<h4>{{ details.reportName }}</h4>
 	                        </div>
 	                    </div>
 
 
-	                  
-
 	                    <div class="form-group" >
-
 	                        <label style="text-decoration: underline;">Request Description</label>
-
 	                        <div style="min-height: 50px !important; max-height: 160px !important; overflow: auto;">
 	                        	<h4 style="line-height: 30px;">{{ details.description }}</h4>
 	                        </div>
@@ -201,12 +195,9 @@
 	                   
 	                     
 	                    <div class="row">
-	        
 	                        <div class="col-md-4">
 	                            <div class="form-group">
-
 			                        <label style="text-decoration: underline;">Priority</label>
-
 			                        <h4>{{ details.priority }}</h4>
 	                    		</div>
 	                        </div>
@@ -214,9 +205,18 @@
 	                        <div class="col-md-4">
 	                            <div class="form-group">
 			                        <label style="text-decoration: underline;">Status</label>
-			                        <span class="label label-sm label-warning">{{ data.status }}</span>
+			                        <h4 ng-class="details.status != 'FAILED' ? 'text-success' : 'text-danger'">{{ details.status }}</h4>
 	                    		</div>
 	                        </div>
+
+	                        <div ng-if="details.status == 'INPROGRESS'" class="col-md-4">
+	                            <div class="form-group">
+									<label style="text-decoration: underline;" for="request_report_id">Report Id:</label>
+									<input class="form-control" id="request_report_id" />
+								</div>
+	                        </div>
+
+	                        
 
 	                       <!--  <div class="col-md-4">
 	                            <div class="form-group">
@@ -225,6 +225,24 @@
 	                    		</div>
 	                        </div> -->
 
+	                    </div>
+
+	                    <div ng-if="details.status == 'NEW'" class="row">
+	                    	 <div class="col-md-12">
+	                            <div class="form-group">
+									<label style="text-decoration: underline;" for="reason_comment">Reason for Declined:</label>
+									<textarea class="form-control" rows="5" id="reason_comment"></textarea>
+								</div>
+	                        </div>
+	                    </div>
+
+	                    <div ng-if="details.status == 'FAILED'" class="row">
+	                    	 <div class="col-md-12">
+	                            <div class="form-group">
+									<label style="text-decoration: underline;" for="reason_comment">Reason for Declined:</label>
+									<h4>{{ details.reason }}</h4>
+								</div>
+	                        </div>
 	                    </div>
 
 	                </div>

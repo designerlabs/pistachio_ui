@@ -12,28 +12,29 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 	 	fn_LoadAllRequest();
 	});
 
-
+	var getToken = localStorage.getItem("token");
+	var getUserName = localStorage.getItem("username");
 	$scope.getCounts = function(){
 
 
-    	$http.get(globalURL+"workflow/request/?filter=new").success(function(response) {
+    	$http.get(globalURL+"workflow/request/?token="+getToken+"&filter=new").success(function(response) {
     		$scope.getCountNew = response.totalElements;
         });
 
-    	$http.get(globalURL+"workflow/request/?filter=prog").success(function(response) {
+    	$http.get(globalURL+"workflow/request/?token="+getToken+"&filter=prog").success(function(response) {
     		$scope.getCountProg = response.totalElements;
         });
 
-    	$http.get(globalURL+"workflow/request/?filter=failed").success(function(response) {
+    	$http.get(globalURL+"workflow/request/?token="+getToken+"&filter=failed").success(function(response) {
     		$scope.getCountFailed = response.totalElements;
         });
-        $http.get(globalURL+"workflow/request/?filter=completed").success(function(response) {
+        $http.get(globalURL+"workflow/request/?token="+getToken+"&filter=completed").success(function(response) {
     		$scope.getCountCompleted = response.totalElements;
         });
 	};
 
 	$scope.opt = 'INPROGRESS'; // for submit button
-	var getToken = localStorage.getItem("token");
+	
 	$scope.start=0;
 
 	$scope.showComments = function(data) {
@@ -68,13 +69,21 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
       	}else if(opt=="COMPLETED"){
       	 fn_SendRequest($scope.details.reportName, $scope.details.description, $scope.details.priority, $scope.details.id, 'SUCCESS', $scope.details.username, $scope.details.displayName);
       	}else if(opt=="FAILED"){
-      	 fn_SendRequest($scope.details.reportName, $scope.details.description, $scope.details.priority, $scope.details.id, 'FAILED', $scope.details.username, $scope.details.displayName);
+      		if(!$("#reason_comment").val()){
+      			$("#reason_comment").parent('div').addClass('has-error');
+      		}
+      		else{
+      			$("#reason_comment").parent('div').removeClass('has-error');
+      			fn_SendRequest($scope.details.reportName, $scope.details.description, $scope.details.priority, $scope.details.id, 'FAILED', $scope.details.username, $scope.details.displayName);
+      		}
+      	 
       	}
 	}
 
 
 	function fn_LoadAllRequest(){
-		$http.get(globalURL+"workflow/request/?token=" + getToken + "&start="+ $scope.start +"&rows=5&filter="+$scope.currentTabName)
+		//$http.get(globalURL+"workflow/request?token=" + getToken + "&start="+ $scope.start +"&rows=5&filter="+$scope.currentTabName)
+		$http.get(globalURL+"workflow/request/?token="+getToken+"&start="+ $scope.start +"&rows=5&filter="+$scope.currentTabName)
 		.success(function(response) {
 			console.log(response);
 			$scope.getCounts();
@@ -114,6 +123,7 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
               fn_LoadAllRequest();
               $('#userReqTitle').val("");
               $('#userReqDes').val("");
+              $('#reason_comment').val("");
               $('#userPriority option:selected').text("Normal");
           }); 
 
@@ -132,6 +142,7 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 	};
 
 	function fn_ViewRequestAdmin(Reqid){
+		$("#reason_comment").parent('div').removeClass('has-error');
 		$http.get(globalURL+"workflow/request/"+Reqid)
 				.success(function(k){
 					console.log(k);
@@ -149,7 +160,7 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 
 	   $scope.start = 0;
        $scope.currentTabName = tab.filter;
-        $http.get(globalURL+"workflow/request/?start="+$scope.start+"&rows=5&filter="+tab.filter)
+        $http.get(globalURL+"workflow/request/?token="+getToken+"&start="+$scope.start+"&rows=5&filter="+tab.filter)
 		.success(function(response) {
 			console.log(response);
 			$scope.names = response.content;
@@ -178,7 +189,7 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 
     	
     	var query = "";
-    	query = globalURL+"workflow/request/?start="+$scope.start+"&rows=5&filter="+$scope.currentTabName;
+    	query = globalURL+"workflow/request/?token="+getToken+"&start="+$scope.start+"&rows=5&filter="+$scope.currentTabName;
 	 	$http.get(query)
 		.success(function(response) {
 			//debugger;
@@ -199,7 +210,7 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 	          type: 'POST',
 	          dataType: "json",
 	          data: JSON.stringify({
-				"username":"Admin",
+				"username":getUserName,
 				"message":$scope.myMsgAdmin.text,
 				"requestId":$scope.reqid,
 				"displayName":"Admin" 					
