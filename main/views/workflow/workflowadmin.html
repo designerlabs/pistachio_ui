@@ -209,6 +209,15 @@
 	                    		</div>
 	                        </div>
 
+
+	                        <div ng-if="details.status == 'COMPLETED'" class="col-md-4">
+	                            <div class="form-group">
+			                        <label style="text-decoration: underline;">Ref. Request ID</label>
+			                        <h4 ng-class="details.status != 'FAILED' ? 'text-success' : 'text-danger'">{{ details.reportId }}</h4>
+	                    		</div>
+	                        </div>
+
+
 	                        <div ng-if="details.status == 'INPROGRESS'" class="col-md-4">
 	                            <div class="form-group">
 									<label style="text-decoration: underline;" for="request_report_id">Report Id:</label>
@@ -240,7 +249,7 @@
 	                    	 <div class="col-md-12">
 	                            <div class="form-group">
 									<label style="text-decoration: underline;" for="reason_comment">Reason for Declined:</label>
-									<h4>{{ details.reason }}</h4>
+									<h4>{{ details.rejectReason }}</h4>
 								</div>
 	                        </div>
 	                    </div>
@@ -267,8 +276,8 @@
 	            <div class="slimScrollDiv" style="position: relative; overflow: auto; width: auto; min-height: 20px; max-height: 226px; margin-top: 20px;"><div class="scroller" style="overflow: auto; width: auto;" data-always-visible="1" data-rail-visible1="1" data-initialized="1">
 	                <ul class="chats">
 	                	<li ng-if="commentsDetFalse">No Comments</li>
-	                     <li ng-if="!commentDet" class="{{ comments.username == 'Admin' ? 'in' : 'out' }}"  ng-repeat="comments in commentsDet">
-	                        <img class="avatar" alt="" ng-src="../main/assets/admin/layout2/img/{{ comments.username == 'Admin' ? 'jim_logo_small' : 'mimos_logo_small' }}.png">
+	                     <li ng-if="!commentDet" class="{{ comments.displayName == 'Admin' ? 'in' : 'out' }}"  ng-repeat="comments in commentsDet">
+	                        <img class="avatar" alt="" ng-src="../main/assets/admin/layout2/img/{{ comments.displayName == 'Admin' ? 'jim_logo_small' : 'mimos_logo_small' }}.png">
 	                        <div class="message">
 	                            <span class="arrow"> </span>
 	                            <a href="javascript:;" class="name"> {{ comments.username }} </a>
