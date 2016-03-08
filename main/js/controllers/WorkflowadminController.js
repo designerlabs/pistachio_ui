@@ -63,9 +63,9 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 	 	var description = $('#userReqDes').val();
 	 	var priority = $('#userPriority option:selected').val();
 	 	if(opt == "NEW"){
-	 	 fn_SendRequest($scope.details.reportName, $scope.details.description, $scope.details.priority, $scope.details.id, 'INPROGRESS', $scope.details.username, $scope.details.displayName);
+	 	 fn_SendRequest($scope.details.reportName, $scope.details.description, $scope.details.priority, $scope.details.id, 'INPROGRESS', $scope.details.username, $scope.details.displayName, 0, null);
       	}else if(opt=="INPROGRESS"){
-      	 fn_SendRequest($scope.details.reportName, $scope.details.description, $scope.details.priority, $scope.details.id, 'COMPLETED', $scope.details.username, $scope.details.displayName);
+      	 fn_SendRequest($scope.details.reportName, $scope.details.description, $scope.details.priority, $scope.details.id, 'COMPLETED', $scope.details.username, $scope.details.displayName, $('#request_report_id').val(), null);
       	}else if(opt=="COMPLETED"){
       	 fn_SendRequest($scope.details.reportName, $scope.details.description, $scope.details.priority, $scope.details.id, 'SUCCESS', $scope.details.username, $scope.details.displayName);
       	}else if(opt=="FAILED"){
@@ -74,7 +74,7 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
       		}
       		else{
       			$("#reason_comment").parent('div').removeClass('has-error');
-      			fn_SendRequest($scope.details.reportName, $scope.details.description, $scope.details.priority, $scope.details.id, 'FAILED', $scope.details.username, $scope.details.displayName);
+      			fn_SendRequest($scope.details.reportName, $scope.details.description, $scope.details.priority, $scope.details.id, 'FAILED', $scope.details.username, $scope.details.displayName, 0, $('#reason_comment').val());
       		}
       	 
       	}
@@ -96,7 +96,7 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 	}
 
 
-	function fn_SendRequest(title,desc,priority,reqid, status, userName, dspName){
+	function fn_SendRequest(title,desc,priority,reqid, status, userName, dspName, reportId, reason){
 	 	 $.ajax({
               url: globalURL + 'workflow/request/',
               contentType: "application/json",
@@ -107,13 +107,15 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 				"description":desc,
 				"email":"",
 				"status":status,
-				"admin":"NA",
+				"admin":getUserName,
 				"adminEmail":"NA",
 				"createdDate":null,
 				"lastModifiedDate":null,
 				"user":userName,
 				"displayName": dspName,
 				"reportName":title,
+				"reportId":reportId,
+				"rejectReason":reason,
                 "priority": priority}),
           }).success(function (data) {
               console.log("successfully send request form");
