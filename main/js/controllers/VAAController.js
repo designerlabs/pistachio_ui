@@ -431,7 +431,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
 
     $scope.getDateLimits = function () {
       var query = "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
-      var sq = "http://localhost:8983/solr/immigration1_shard1_replica1/query?"
+      var sq = "http://"+solrHost+":8983/solr/immigration1_shard1_replica1/query?"
       $http.get(sq+query).
        success(function(data) {
          var y = {};
