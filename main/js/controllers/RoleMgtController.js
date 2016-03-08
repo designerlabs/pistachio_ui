@@ -160,11 +160,12 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
             $('#mySubParentSel').multiSelect('refresh');
 
             $.get( globalURL + "reportcat/", function( data ) {
+              debugger;
               $.each(data, function (key, value) {
                   $('#myParentSel').append(
                       $("<option></option>")
                         .attr("value", value.name)
-                        // .attr("SelName",value.name)
+                        .attr("key",key)
                         .text(value.display)
                   );
               });
@@ -389,6 +390,7 @@ function UpdateSubReportsCrud(RoleName){
 
         $('#myParentSel').multiSelect({
           afterSelect: function (value) {
+            // var value = key;
                var optgrp = $("<optgroup></optgroup>");
                optgrp[0].label = $("#myParentSel option[value =" + value + "]").text();
                

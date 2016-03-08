@@ -49,6 +49,7 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
         }
         
         formInputValidation("#reportMgtForm");
+
         
         $("#reportMgtUISubmit").click(function(event) {
         	

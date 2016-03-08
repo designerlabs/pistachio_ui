@@ -252,22 +252,18 @@ $(function() {
      });
 
      $('#inpParent').on('keyup',function(){
-        $('#inpHiddenParentName').val($('#inpParent').val()); // display name
-        $('#inpHiddenParent').val($('#inpParent').val().replace(/ /g,'').toLowerCase()); //value
+        $('#inpHiddenParentName').val($('#inpParent').val());
+        var Regx = new RegExp(/([;&,\.\+\*\~':"\!\^#$?%@\[\]\(\)=<>\|])/);
+        var noSpace = $('#inpParent').val().replace(/ /g,'').toLowerCase();
+        if(Regx.test(noSpace)){
+
+          $('#inpHiddenParent').val(noSpace.replace(/([;&,\.\+\*\~':"\!\^#$?%@\[\]\(\)=<>\|])/g, '_')); //value
+        }else{
+         $('#inpHiddenParent').val(noSpace);
+       }
      });
+   
 
-        // function getInpParent(){
-        //     debugger;
-        //          var x = document.getElementById("inpParent").value;
-        //        $('#inpHiddenParent').val(x);
-        //        $('#inpHiddenParentName').val(x.replace(/ /g,'').toLowerCase());
-        // }
-    
-});
-
-$(document).ready(function() {
-  //$(".defaultSelect2").select2();
-  
 });
 
 $("#loader").hide();
