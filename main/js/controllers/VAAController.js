@@ -423,7 +423,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
      for (var i =0,l=$scope.filterButtons.length; i < l; i++) {
            query.push($scope.filterButtons[i]["query"]);
        }
-       alert(query.length);
+       //alert(query.length);
      return query;
     }
 
@@ -456,7 +456,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
 
       var filter = $scope.jsonFilterQuery();
       console.log(filter);
-      alert(filter.length);
+      //alert(filter.length);
       if(filter.length>0)
       {
         json.filter = filter;
