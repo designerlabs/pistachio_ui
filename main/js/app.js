@@ -253,7 +253,7 @@ MetronicApp.controller('sessionController', function($scope, Idle, Keepalive, $m
       // $scope.started = false;
         // start();
 
-
+var currentToken = localStorage.getItem("token");
       function closeModals() {
         if ($scope.warning) {
           $scope.warning.close();
@@ -277,6 +277,16 @@ MetronicApp.controller('sessionController', function($scope, Idle, Keepalive, $m
 
       $scope.$on('IdleEnd', function() {
         closeModals();
+       
+            $.get(globalURL + "auth/refresh?token=" + currentToken, function() {
+              console.log("User can continue the current session");
+            })
+            .success(function(data){
+                console.log(data);
+            })
+            .error(function(data){
+                console.log(data);
+            });
       });
 
       $scope.$on('IdleTimeout', function() {
@@ -285,22 +295,22 @@ MetronicApp.controller('sessionController', function($scope, Idle, Keepalive, $m
           templateUrl: 'timedout-dialog.html',
           windowClass: 'modal-danger'
         });
-        localStorage.setItem("token","");
-        window.location = "login.html";
+
+        $.get(globalURL + "auth/logout?token=" + currentToken, function() {
+              console.log("Session expired");
+            })
+            .success(function(data){
+                localStorage.setItem("token","");
+                window.location = "login.html";
+                console.log(data);
+            })
+            .error(function(data){
+                console.log(data);
+            });
+
+        
       });
-
-   // function start() {
-   //      closeModals();
-   //      Idle.watch();
-   //      $scope.started = true;
-   //    };
-
-      // $scope.stop = function() {
-      //   closeModals();
-      //   Idle.unwatch();
-      //   $scope.started = false;
-
-      // };
+  
     })
     .config(function(IdleProvider, KeepaliveProvider) {
       IdleProvider.idle(300);
@@ -311,8 +321,6 @@ MetronicApp.controller('sessionController', function($scope, Idle, Keepalive, $m
     MetronicApp.run(['Idle', function(Idle) {
       Idle.watch();
       console.log("Started From session");
-
-
     }]);
 /********************************************
  END: BREAKING CHANGE in AngularJS v1.3.x:
