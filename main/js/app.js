@@ -1138,6 +1138,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/select2/select2.min.js',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
+                        'js/scripts/datatable_config.js',
 
                         'js/controllers/GeneralPageController.js'
                     ]
@@ -1168,6 +1169,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                             'assets/global/plugins/select2/select2.min.js',
                             'assets/global/plugins/datatables/all.min.js',
                             'js/scripts/table-advanced.js',
+                            'js/scripts/datatable_config.js',
 
                             'js/controllers/GeneralPageController.js'
                         ]
@@ -1197,6 +1199,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                             'assets/global/plugins/select2/select2.min.js',
                             'assets/global/plugins/datatables/all.min.js',
                             'js/scripts/table-advanced.js',
+                            'js/scripts/datatable_config.js',
 
                             'js/controllers/GeneralPageController.js'
                         ]
@@ -1225,6 +1228,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                             'assets/global/plugins/select2/select2.min.js',
                             'assets/global/plugins/datatables/all.min.js',
                             'js/scripts/table-advanced.js',
+                            'js/scripts/datatable_config.js',
 
                             'js/controllers/GeneralPageController.js'
                         ]
@@ -1254,6 +1258,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/select2/select2.min.js',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
+                        'js/scripts/datatable_config.js',
 
                         'js/controllers/GeneralPageController.js'
                     ]
@@ -1283,6 +1288,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/select2/select2.min.js',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
+                        'js/scripts/datatable_config.js',
 
                         'js/controllers/GeneralPageController.js'
                     ]
@@ -1312,6 +1318,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/select2/select2.min.js',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
+                        'js/scripts/datatable_config.js',
 
                         'js/controllers/GeneralPageController.js'
                     ]
@@ -1342,6 +1349,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/select2/select2.min.js',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
+                        'js/scripts/datatable_config.js',
 
                         'js/controllers/GeneralPageController.js'
                     ]
@@ -1371,6 +1379,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/select2/select2.min.js',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
+                        'js/scripts/datatable_config.js',
 
                         'js/controllers/GeneralPageController.js'
                     ]
@@ -1400,6 +1409,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/select2/select2.min.js',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
+                        'js/scripts/datatable_config.js',
 
                         'js/controllers/GeneralPageController.js'
                     ]
@@ -1429,6 +1439,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/select2/select2.min.js',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
+                        'js/scripts/datatable_config.js',
 
                         'js/controllers/GeneralPageController.js'
                     ]
@@ -1458,6 +1469,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/select2/select2.min.js',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
+                        'js/scripts/datatable_config.js',
 
                         'js/controllers/GeneralPageController.js'
                     ]
@@ -1493,7 +1505,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
 
                         'assets/global/plugins/datatables/all.min.js',
 
-                        'js/scripts/table-advanced.js',                        
+                        'js/scripts/table-advanced.js',
+                        'js/scripts/datatable_config.js',                        
 
 
                         'js/controllers/GeneralPageController.js'
@@ -1525,6 +1538,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/select2/select2.min.js',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
+                        'js/scripts/datatable_config.js',
 
                         'js/controllers/GeneralPageController.js'
                     ]
@@ -1554,6 +1568,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/select2/select2.min.js',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
+                        'js/scripts/datatable_config.js',
 
                         'js/controllers/GeneralPageController.js'
                     ]
@@ -1583,6 +1598,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/select2/select2.min.js',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
+                        'js/scripts/datatable_config.js',
 
                         'js/controllers/GeneralPageController.js'
                     ]
@@ -1612,6 +1628,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/select2/select2.min.js',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
+                        'js/scripts/datatable_config.js',
 
                         'js/controllers/GeneralPageController.js'
                     ]
@@ -1641,6 +1658,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                             'assets/global/plugins/select2/select2.min.js',
                             'assets/global/plugins/datatables/all.min.js',
                             'js/scripts/table-advanced.js',
+                            'js/scripts/datatable_config.js',
 
                             'js/controllers/GeneralPageController.js'
                         ]
@@ -1672,6 +1690,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                             'assets/global/plugins/select2/select2.min.js',
                             'assets/global/plugins/datatables/all.min.js',
                             'js/scripts/table-advanced.js',
+                            'js/scripts/datatable_config.js',
 
                             'js/controllers/GeneralPageController.js'
                         ]
@@ -1701,6 +1720,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                             'assets/global/plugins/select2/select2.min.js',
                             'assets/global/plugins/datatables/all.min.js',
                             'js/scripts/table-advanced.js',
+                            'js/scripts/datatable_config.js',
 
                             'js/controllers/ReportCategoryController.js'
                         ]
@@ -1731,6 +1751,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/select2/select2.min.js',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
+                        'js/scripts/datatable_config.js',
 
                         'js/controllers/GeneralPageController.js'
                     ]
@@ -1795,6 +1816,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/select2/select2.min.js',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
+                        'js/scripts/datatable_config.js',
 
                         'js/controllers/DashboardMgtController.js'
 
@@ -1829,6 +1851,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
+                        'js/scripts/datatable_config.js',
                         'js/controllers/ReportMgtController.js'
                     ]
                 });
@@ -1859,6 +1882,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
+                        'js/scripts/datatable_config.js',
                         'js/controllers/UserMgtController.js'
                     ]
                 });
@@ -1889,6 +1913,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/jquery-multi-select/css/multi-select.css',
                         'assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js',
                         'js/scripts/table-advanced.js',
+                        'js/scripts/datatable_config.js',
                         'js/controllers/RoleMgtController.js'
                     ]
                 });
