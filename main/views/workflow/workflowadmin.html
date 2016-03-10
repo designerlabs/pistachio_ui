@@ -212,8 +212,8 @@
 
 	                        <div ng-if="details.status == 'COMPLETED'" class="col-md-4">
 	                            <div class="form-group">
-			                        <label style="text-decoration: underline;">Ref. Request ID</label>
-			                        <h4 ng-class="details.status != 'FAILED' ? 'text-success' : 'text-danger'">{{ details.reportId }}</h4>
+			                        <label style="text-decoration: underline;">Ref. Report ID</label>
+			                        <h4>{{ details.reportId }}</h4>
 	                    		</div>
 	                        </div>
 
@@ -256,8 +256,8 @@
 
 	                </div>
 	                <div class="form-actions text-right">
-	                	<h4 ng-if="details.status == 'COMPLETED'"><span class="label label-success"><i class="fa fa-thumbs-up"></i> Closed Successfully</span></h4>
-	                	<h4 ng-if="details.status == 'FAILED'"><span class="label label-danger"><i class="fa fa-thumbs-down"></i> Declined</span></h4>
+	                	<!-- <h4 ng-if="details.status == 'COMPLETED'"><span class="label label-success"><i class="fa fa-thumbs-up"></i> Closed Successfully</span></h4>
+	                	<h4 ng-if="details.status == 'FAILED'"><span class="label label-danger"><i class="fa fa-thumbs-down"></i> Declined</span></h4> -->
 	                	<button ng-if="details.status == 'NEW' || details.status == 'INPROGRESS'" type="submit" class="btn btn-success" ng-click="onReqSubmit(details.status)"><i class="fa fa-check"></i>{{ details.status == "INPROGRESS" ? " Complete " : "Claim"}}</button>
 	                    <button ng-if="details.status == 'NEW'" type="button" class="btn btn-danger" ng-click="onReqSubmit('FAILED')"><i class="fa fa-times"></i> Decline</button>
 	                </div>
