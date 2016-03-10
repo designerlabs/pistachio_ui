@@ -353,6 +353,17 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
         jobsDataFunc();
 
+        $('#btnProduction').click(function(){
+            $.get(globalURL+'etl/jobs/prod');
+            alert('Prod');
+
+        });
+
+        $('#btnStage').click(function(){
+            $.get(globalURL+'etl/jobs/stage');
+            alert('Stage');
+        });
+
         var reportCategoryID = localStorage.getItem("reportCategoryID");
 
         var queryData;
@@ -477,34 +488,40 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 $(".deptGroup").toggle(row.data().dept);
                 $(".nationalityGroup").toggle(row.data().nationality);
                 $(".pastypeGroup").toggle(row.data().pastype);
+                $(".applicantGroup").toggle(row.data().applicant);
+                $(".applicationStatusGroup").toggle(row.data().applicationStatus);
+                $(".applicationStepGroup").toggle(row.data().applicationStep);
+                $(".applicationTypeGroup").toggle(row.data().applicationType);
+                $(".cityGroup").toggle(row.data().city);
+                $(".sectorGroup").toggle(row.data().sector);
+                $(".sexGroup").toggle(row.data().sex);
+
                 
                 tr.addClass('shown');
                 // $('#reportrange').daterangepicker();
 
                  createCalenderCtrl();
 
-                  $.getJSON(globalURL + "api/user/reference/state", function (json) {
+                  $.getJSON(globalURL + "api/report/reference/state", function (json) { //api/user/reference/
                      $.each(json, function(k, v){
                         $("#temp-state").append('<option value='+k+'>'+v+'</option>');
                      });
                  });
                  
                  
-                $.getJSON(globalURL + "api/user/reference/nationality", function (json) {
+                $.getJSON(globalURL + "api/report/reference/nationality", function (json) {
                      $.each(json, function(k, v){
                          $("#temp-nationality").append('<option value='+k+'>'+v+'</option>');
                      });
                  });
                  
-                 $.getJSON(globalURL + "api/user/reference/pastype", function (json) {
+                 $.getJSON(globalURL + "api/report/reference/pastype", function (json) {
                      $.each(json, function(k, v){
                          $("#temp-pastype").append('<option value='+k+'>'+v+'</option>');
                      });
                  });
                  
-                 
-                 
-                 $.getJSON(globalURL + "api/user/reference/branch", function (json) {
+                 $.getJSON(globalURL + "api/report/reference/branch", function (json) {
                      $.each(json, function(k, v){
                          $("#temp-branch").append('<option value='+k+'>'+v+'</option>');
                      });
@@ -516,6 +533,48 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                      });
                  });
 
+                 $.getJSON(globalURL + "api/report/reference/applicant", function (json) {
+                     $.each(json, function(k, v){
+                         $("#temp-applicant").append('<option value='+k+'>'+v+'</option>');
+                     });
+                 });
+
+                 $.getJSON(globalURL + "api/report/reference/applicationstatus", function (json) {
+                     $.each(json, function(k, v){
+                         $("#temp-applicationStatus").append('<option value='+k+'>'+v+'</option>');
+                     });
+                 });
+
+                 $.getJSON(globalURL + "api/report/reference/applicationstep", function (json) {
+                     $.each(json, function(k, v){
+                         $("#temp-applicationStep").append('<option value='+k+'>'+v+'</option>');
+                     });
+                 });
+
+                 $.getJSON(globalURL + "api/report/reference/applicationtype", function (json) {
+                     $.each(json, function(k, v){
+                         $("#temp-applicationType").append('<option value='+k+'>'+v+'</option>');
+                     });
+                 });
+
+                 $.getJSON(globalURL + "api/report/reference/city", function (json) {
+                     $.each(json, function(k, v){
+                         $("#temp-city").append('<option value='+k+'>'+v+'</option>');
+                     });
+                 });
+
+                  $.getJSON(globalURL + "api/report/reference/sector", function (json) {
+                     $.each(json, function(k, v){
+                         $("#temp-sector").append('<option value='+k+'>'+v+'</option>');
+                     });
+                 });
+
+                    $.getJSON(globalURL + "api/report/reference/sex", function (json) {
+                     $.each(json, function(k, v){
+                         $("#temp-sex").append('<option value='+k+'>'+v+'</option>');
+                     });
+                 });
+
 
             }
         });
@@ -524,63 +583,133 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         function format(d) {
             // `d` is the original data object for the row             
 
-            return '<form id="childRow" class="form-horizontal form-bordered col-xs-21 col-lg-11 col-sm-11 col-md-11" action="#">' +
+            return '<form id="childRow" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" action="#">' +
                 '<div class="form-body">' +
-                '<div class="form-group">' +
-                '<label class="control-label col-md-3">Selected Template Name </label>' +
-                '<div class="col-md-4" style="padding-top: 8px;">' +
-                '<Strong> ' + d.reportFileName + ' </Strong>' +
+                //Report Title
+                '<div class="form-group col-md-12">' +
+                '<label class="control-label">Selected Template Name </label>' +
+                '<div class="">' +
+                '<h4> ' + d.reportFileName + ' </h4>' +
                 '<input id="temp-reportid" type="hidden" value=' + d.id + '>' +
                 '</div>' +
                 '</div>' +
-                '<div class="form-group dtRangeGroup">' +
-                '<label class="control-label col-md-3">Choose date </label>' +
-                '<div class="col-md-4">' +
+                //Report title end
+                //Datepicker
+                '<div class="col-md-4 col-sm-6 col-xs-12 dtRangeGroup">'+
+                '<div class="form-group">' +
+                '<label class="control-label">Choose date </label>' +
                 '<div class="btn default form-control" id="reportrange">' +
                 '<i class="fa fa-calendar"></i> &nbsp;' +
                 '<span>From and To </span>' +
                 '<b class="fa fa-angle-down"></b>' +
                 '</div>' +
-                '</div>' +
-                '</div>' +
-
-                '<div class="form-group stateGroup" >' +
-                '<label class="control-label col-md-3">State </label>' +
-                '<div class="col-md-4">' +
+                '</div></div>' +
+                //Datepicker end
+                
+                //State dropdown
+                '<div class=" col-md-4 col-sm-6 col-xs-12 stateGroup">'+
+                '<div class="form-group" >' +
+                '<label class="control-label">State </label>' +
                 '<select id="temp-state" class="form-control"></select>' +
-                '</div>' +
-                '</div>' +
-                '<div class="form-group branchGroup">' +
-                '<label class="control-label col-md-3">Branch </label>' +
-                '<div class="col-md-4">' +
+                '</div></div>' +
+                //State dropdown end
+
+                //Branch dropdown
+                '<div class=" col-md-4 col-sm-6 col-xs-12 branchGroup">'+
+                '<div class="form-group">' +
+                '<label class="control-label">Branch </label>' +
                 '<select id="temp-branch" class="form-control"></select>' +
-                '</div>' +
-                '</div>' +
-                '<div class="form-group deptGroup">' +
-                '<label class="control-label col-md-3">Department </label>' +
-                '<div class="col-md-4">' +
+                '</div></div>' +
+                //Branch dropdown end
+
+                //Department dropdown
+                '<div class="col-md-4 col-sm-6 col-xs-12 deptGroup">'+
+                '<div class="form-group">' +
+                '<label class="control-label ">Department </label>' +
                 '<select id="temp-dept" class="form-control department"></select>' +
-                '</div>' +
-                '</div>' +
-                '<div class="form-group nationalityGroup">' +
-                '<label class="control-label col-md-3">Nationality </label>' +
-                '<div class="col-md-4">' +
+                '</div></div>' +
+                //Department dropdown end
+
+                //Nationality dropdown
+                '<div class="col-md-4 col-sm-6 col-xs-12 nationalityGroup">'+
+                '<div class="form-group">'  +
+                '<label class="control-label ">Nationality </label>' +
                 '<select id="temp-nationality" class="form-control nationality"></select>' +
-                '</div>' +
-                '</div>' +
-                '<div class="form-group pastypeGroup">' +
-                '<label class="control-label col-md-3">Pas type </label>' +
-                '<div class="col-md-4">' +
+                '</div></div>' +
+                //Nationality dropdown end
+
+                //Pass Type dropdown
+                '<div class="col-md-4 col-sm-6 col-xs-12 pastypeGroup">'+
+                '<div class="form-group">' +
+                '<label class="control-label">Pas type </label>' +
                 '<select id="temp-pastype" class="form-control pastype"></select>' +
+                '</div></div>' +
+                //Pass Type dropdown end
+
+                //Applicant dropdown
+                '<div class="col-md-4 col-sm-6 col-xs-12 applicantGroup">'+
+                '<div class="form-group">' +
+                '<label class="control-label">Applicant </label>' +
+                '<select id="temp-applicant" class="form-control applicant"></select>' +
+                '</div></div>' +
+                //Applicant dropdown end
+
+
+                //Application Status dropdown
+                '<div class="col-md-4 col-sm-6 col-xs-12 applicationStatusGroup">'+
+                '<div class="form-group">' +
+                '<label class="control-label">Application Status </label>' +
+                '<select id="temp-applicationStatus" class="form-control applicationStatus"></select>' +
+                '</div></div>' +
+                //Application Status dropdown end
+
+                //Application Step dropdown
+                '<div class="col-md-4 col-sm-6 col-xs-12 applicationStepGroup">'+
+                '<div class="form-group">' +
+                '<label class="control-label">Application Step</label>' +
+                '<select id="temp-applicationStep" class="form-control applicationStep"></select>' +
+                '</div></div>' +
+                //Pass Type dropdown end
+
+                //Application Type dropdown
+                '<div class="col-md-4 col-sm-6 col-xs-12 applicationTypeGroup">'+
+                '<div class="form-group">' +
+                '<label class="control-label">Application Type</label>' +
+                '<select id="temp-applicationType" class="form-control applicationType"></select>' +
+                '</div></div>' +
+                //Application Type dropdown end
+
+                //City dropdown
+                '<div class="col-md-4 col-sm-6 col-xs-12 cityGroup">'+
+                '<div class="form-group">' +
+                '<label class="control-label">City </label>' +
+                '<select id="temp-city" class="form-control city"></select>' +
+                '</div></div>' +
+                //City dropdown end
+
+                //Sector dropdown
+                '<div class="col-md-4 col-sm-6 col-xs-12 sectorGroup">'+
+                '<div class="form-group">' +
+                '<label class="control-label">Sector </label>' +
+                '<select id="temp-sector" class="form-control sector"></select>' +
+                '</div></div>' +
+                //Sector dropdown end
+
+                //Sex dropdown
+                '<div class="col-md-4 col-sm-6 col-xs-12 sexGroup">'+
+                '<div class="form-group">' +
+                '<label class="control-label">Sex</label>' +
+                '<select id="temp-sex" class="form-control sex"></select>' +
+                '</div></div>' +
+                //Sex dropdown end
+
+
+                '<div class="row">&nbsp;</div>' +
                 '</div>' +
-                '</div>' +
-                '</div>' +
-                '<div class="form-actions">' +
-                ' <div class="row">' +
-                '<div class="col-md-offset-3 col-md-9">' +
-                '<a href="#/queryExe.html"  class="btn btn-success btn-sm btnRunTemp"><i class="fa fa-eye"></i> View </a>' +
-                ' <a href="#" class="btn btn-sm btn-warning" id="btnReset"><i class="fa fa-refresh"></i> Reset</a>' +
-                '</div>' +
+                '<div class="form-actions col-md-12">' +
+                '<div class="text-right">' +
+                '<a href="#/queryExe.html"  class="btn btn-success btn-md btnRunTemp"><i class="fa fa-eye"></i> View </a>' +
+                ' <a href="#" class="btn btn-md btn-warning" id="btnReset"><i class="fa fa-refresh"></i> Reset</a>' +
                 '</div>' +
                 '</div>' +
                 '</form>';
@@ -1338,6 +1467,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
         $('#databaseData tbody').on('click', '.tableView', function () {
             var data = databases.row($(this).parents('tr')).data();
+            $scope.SelectedViewID = data.id;
             var tables;
             $("#databaseList").hide();
             $("#tableList").show();
@@ -1512,6 +1642,9 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         $("#backBtn").click(function (event) {
             $("#databaseList").show();
             $("#tableList").hide();
+        });
+        $('#btnRefresh').click(function(event){
+            $.get(globalURL+'etl/databases/'+ $scope.SelectedViewID +'/refresh');
         });
 
 

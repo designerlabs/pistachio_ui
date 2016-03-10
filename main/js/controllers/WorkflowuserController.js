@@ -240,6 +240,7 @@ $scope.start=0;
 			$scope.newReq = response.numberOfElements;
 		 	$scope.TotalCounts = response.totalElements;
 		 	$scope.first = response.first;
+		 	$scope.last = response.last; //Show or hide next 
 		 	$scope.getCounts();
 		 	console.log($scope.TotalCounts);
 	   });

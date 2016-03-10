@@ -101,7 +101,7 @@
                 <div class="form-body">
                     <div class="form-group">
 
-                        <label style="text-decoration: underline;">Request Title</label>
+                        <label>Request Title</label>
                         <div>                       
                             <h4 ng-if="viewForm" >{{ details.reportName }}</h4>
 
@@ -112,7 +112,7 @@
 
                     <div class="form-group">
 
-                        <label style="text-decoration: underline;">Request Description</label>
+                        <label>Request Description</label>
                         <h4 ng-if="viewForm">{{details.description}}</h4>
 
                         <textarea ng-if="updateForm || addForm" class="form-control" id="userReqDes" rows="3" ng-value="updateForm == true ? '{{details.description}}' : ''" name="ReqDes" required ></textarea>
@@ -120,7 +120,7 @@
                    
                     <div class="form-group">
 
-                        <label style="text-decoration: underline;">Priority</label>
+                        <label>Priority</label>
                         <h4 ng-if="viewForm">{{details.priority}}</h4>
 
                         <select ng-if="updateForm || addForm" class="form-control" id="userPriority" ng-value="updateForm == true ? '{{details.priority}}' : 'Normal'" >
@@ -128,8 +128,30 @@
                             <option>Urgent</option>                            
                             <option>Important</option>
                         </select>
-                    </div>                    
-                    
+                    </div>
+
+
+                    <div class="form-group" ng-if="viewForm">
+
+                        <label>Status</label>
+                        <h4 ng-class="details.status != 'FAILED' ? 'text-success' : 'text-danger'">{{details.status}}</h4>
+
+                    </div> 
+
+                    <div class="form-group" ng-if="viewForm && details.status == 'COMPLETED'">
+
+                        <label>Ref. Report ID</label>
+                        <h4 >{{details.reportId}}</h4>
+
+                    </div> 
+
+                    <div class="form-group" ng-if="viewForm && details.status == 'FAILED'">
+
+                        <label>Reason</label>
+                        <h4 >{{details.rejectReason}}</h4>
+
+                    </div> 
+                 
 
                     <!-- <div class="form-group">
                         <label for="exampleInputFile1">File Upload</label>
@@ -168,8 +190,8 @@
             <div class="slimScrollDiv" style="position: relative; overflow: auto; width: auto; min-height: 20px; max-height: 226px; margin-top: 20px;"><div class="scroller" style="overflow: auto; width: auto;" data-always-visible="1" data-rail-visible1="1" data-initialized="1">
                 <ul class="chats">
                 	<li ng-if="commentsDetFalse">No Comments</li>
-                    <li ng-if="!commentDet" class="{{ comments.username == 'Admin' ? 'out' : 'in' }}"  ng-repeat="comments in commentsDet">
-                        <img class="avatar" alt="" ng-src="../main/assets/admin/layout2/img/{{ comments.username == 'Admin' ? 'jim_logo_small' : 'mimos_logo_small' }}.png">
+                    <li ng-if="!commentDet" class="{{ comments.displayName == 'Admin' ? 'out' : 'in' }}"  ng-repeat="comments in commentsDet">
+                        <img class="avatar" alt="" ng-src="../main/assets/admin/layout2/img/{{ comments.displayName == 'Admin' ? 'jim_logo_small' : 'mimos_logo_small' }}.png">
                         <div class="message">
                             <span class="arrow"> </span>
                             <a href="javascript:;" class="name"> {{ comments.username }} </a>
