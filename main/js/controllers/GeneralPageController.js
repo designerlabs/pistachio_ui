@@ -37,7 +37,24 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         var uploadUrl = globalURL + "api/pistachio/upload?user=sridhar";
         fileUpload.uploadFileToUrl(file, uploadUrl);
     };
-    
+    var dataSrcJson={"data":[{
+                                "dbsource" : "SQL SERVER",
+                                "driver" : "JDBC-Driver"                    
+                            },{
+                                "dbsource" : "ORACLE",
+                                "driver" : "ORACLEBC-Driver"
+                            },{
+                                "dbsource" : "Test DB",
+                                "driver" : "Test-Driver"
+                            }]};
+
+    $.each(dataSrcJson.data, function(k, v){
+        $("#database-name").append('<option value='+v.driver+'>'+v.dbsource+'</option>');
+    });               
+
+    $("#database-name").change(function () {       
+        $('#database-driver').val($("#database-name option:selected").val());
+    });
     
     $scope.$on('$viewContentLoaded', function () {
         $("#databaseList").show();
@@ -103,14 +120,14 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             });
         }
 
-
-
+       
 
         formInputValidation("#databaseForm");
         $("#databaseUISubmit").click(function (event) {
             var databaseNameVal = $("#databaseForm #database-name").val();
             var databaseTypeVal = $("#databaseForm #database-type").val();
             var databaseURLVal = $("#databaseForm #database-url").val();
+            var databaseSchemaVal = $("#databaseForm #database-schema").val();
             var databaseUserVal = $("#databaseForm #database-uname").val();
             var databasePwdVal = $("#databaseForm #database-pwd").val();
             var databaseDriverVal = $("#databaseForm #database-driver").val();
@@ -126,6 +143,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                             dbName: databaseNameVal,
                             dbType: databaseTypeVal,
                             dbUrl: databaseURLVal,
+                            dbSchemaName: databaseSchemaVal,
                             dbUsername: databaseUserVal,
                             dbPassword: databasePwdVal,
                             dbDriver: databaseDriverVal,
@@ -1379,6 +1397,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             $("#databaseForm #database-name").val(selectedDatabase.dbName);
             $("#databaseForm #database-type").val(selectedDatabase.dbType);
             $("#databaseForm #database-url").val(selectedDatabase.dbUrl);
+            $("#databaseForm #database-schema").val(selectedDatabase.dbSchemaName);
             $("#databaseForm #database-uname").val(selectedDatabase.dbUsername);
             $("#databaseForm #database-pwd").val(selectedDatabase.dbPassword);
             $("#databaseForm #database-driver").val(selectedDatabase.dbDriver);
@@ -1393,6 +1412,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             var databaseUpdateNameVal = $("#databaseForm #database-name").val();
             var databaseUpdateTypeVal = $("#databaseForm #database-type").val();
             var databaseUpdateURLVal = $("#databaseForm #database-url").val();
+            var databaseSchemaVal = $("#databaseForm #database-schema").val();
             var databaseUpdateUserVal = $("#databaseForm #database-uname").val();
             var databaseUpdatePwdVal = $("#databaseForm #database-pwd").val();
             var databaseUpdateDriverVal = $("#databaseForm #database-driver").val();
@@ -1407,6 +1427,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         dbName: databaseUpdateNameVal,
                         dbType: databaseUpdateTypeVal,
                         dbUrl: databaseUpdateURLVal,
+                        dbSchemaName: databaseSchemaVal,
                         dbUsername: databaseUpdateUserVal,
                         dbPassword: databaseUpdatePwdVal,
                         dbDriver: databaseUpdateDriverVal,
