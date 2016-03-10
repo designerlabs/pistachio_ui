@@ -91,6 +91,7 @@ var Login = function () {
                                 localStorage.setItem("authorities", data.roles);
                                 localStorage.setItem("lang", data.lang);
                                 localStorage.setItem("langDB", data.lang);
+                                localStorage.setItem("firstName", data.firstName);
                                 /*for(var i=0; i<authoritiesValue.length;i++){
                                     console.log(authoritiesValue[i].name);
                                     authoritiesArray.push(authoritiesValue[i].name);
