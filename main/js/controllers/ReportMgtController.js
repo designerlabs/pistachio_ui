@@ -12,7 +12,6 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
 
         function reportMgtDataFunc() {
             reportMgts = $('#reportMgtdata').DataTable({
-
                 "ajax": {
                     "processing": true,
                     "serverSide": true,
