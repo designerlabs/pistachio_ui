@@ -178,3 +178,23 @@ Rounded Portlets
 #frmRequest label{
     text-decoration: underline !important;
 }
+
+
+.iconBg{
+    background: #26a69a;
+    width: 70px;
+    box-shadow: #000 0px 6px 10px -5px;
+    height: 70px;
+    display: inline-block;
+    border-radius: 50px !important;
+    margin: 5px;
+    padding: 9px 4px;
+}
+
+#loadIcon{
+    width: 530px;
+    background: #fff;
+    overflow: auto;
+    margin: 20px 20px;
+    height: 250px;
+}

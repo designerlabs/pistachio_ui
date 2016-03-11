@@ -859,6 +859,14 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             var _branch = $('#temp-branch option:selected').text();
             var _nationality = $('#temp-nationality option:selected').text();
             var _pastype = $('#temp-pastype option:selected').text();
+            var _applicant = $('#temp-applicant option:selected').text();
+            var _applicationStatus = $('#temp-applicationStatus option:selected').text();
+            var _applicationStep = $('#temp-applicationStep option:selected').text();
+            var _applicationType = $('#temp-applicationType option:selected').text();
+            var _city = $('#temp-city option:selected').text();
+            var _sector = $("#temp-sector option:selected").text();
+            var _sex = $("temp-sex option:selected").text();
+
             // console.log( globalURL+ 'jasperreport/' + fileformat + '/' + reportid);
             var selTemplateVal = JSON.stringify({
                 fromDt: fromDate,
@@ -867,7 +875,14 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 dept: _dept,
                 branch: _branch,
                 nationality: _nationality,
-                pastype: _pastype
+                pastype: _pastype,
+                applicant: _applicant,
+                applicationstatus: _applicationStatus,
+                applicationstep: _applicationStep,
+                applicationtype: _applicationType,
+                city: _city,
+                sector: _sector,
+                sex: _sex
             });
             localStorage.setItem("selTemplateVal", selTemplateVal);
 
