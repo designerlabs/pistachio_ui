@@ -50,6 +50,65 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
         
         formInputValidation("#reportMgtForm");
 
+             //Icon files
+        var fileExt = {};
+            fileExt[0]=".png";
+            fileExt[1]=".jpg";
+            fileExt[2]=".gif";
+        $.ajax({
+            //This will retrieve the contents of the folder if the folder is configured as 'browsable'
+            url: '../main/assets/pistachio/report',
+            success: function (data) {
+                 $("#reportMgtForm #reportMgt-icon").html('<option value="">please select</option>');
+               //List all png or jpg or gif file names in the page
+               $(data).find('a:contains('+ fileExt[0] + '),a:contains(' + fileExt[1] + '),a:contains(' + fileExt[2] + ')').each(function () {
+                   //console.log(this);
+                   var filename = this.href.replace(window.location.host, "").replace("http:///projects/2016/pistachio_ui/main/", "").replace(".png", "");
+                  
+                   $("#reportMgtForm #reportMgt-icon").append('<option value="'+filename+'">'+filename+'</option>');
+               });
+             }     
+          });
+
+
+
+        var onlyname = undefined;
+        $("#selectIconBtn").click(function(event){
+            var fileExt = {};
+            fileExt[0]=".png";
+            fileExt[1]=".jpg";
+            fileExt[2]=".gif";
+        $.ajax({
+            //This will retrieve the contents of the folder if the folder is configured as 'browsable'
+            url: '../main/assets/pistachio/report',
+            success: function (data) {
+               //List all png or jpg or gif file names in the page
+               $(data).find('a:contains('+ fileExt[0] + '),a:contains(' + fileExt[1] + '),a:contains(' + fileExt[2] + ')').each(function () {
+                   //console.log(this);
+                   var filename = this.href.replace(window.location.host, "").replace("http:///projects/2016/pistachio_ui/main/", "");
+                   onlyname = filename.replace(".png", "");
+                    
+                   $("#loadIcon").append('<span data-value="'+filename+'" class="iconBg '+onlyname+'"><img src="http://localhost:8281/projects/2016/pistachio_ui/main/assets/pistachio/report/'+filename+'" width="60px"></span>');
+                   $("#loadIcon").show();
+
+                   $("span ."+onlyname).click(function(){
+                        alert(this);
+                    });
+                   
+               });
+
+               
+             }
+          });
+
+             
+
+
+        });
+
+        
+
+
         
         $("#reportMgtUISubmit").click(function(event) {
         	
@@ -64,6 +123,8 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
             
             inputValidation("#reportMgtForm", reportMgtAjax);
 
+
+        
             function reportMgtAjax() {
                 $.ajax({
                         url: globalURL+"query/cato",
