@@ -37,23 +37,42 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         var uploadUrl = globalURL + "api/pistachio/upload?user=sridhar";
         fileUpload.uploadFileToUrl(file, uploadUrl);
     };
-    var dataSrcJson={"data":[{
-                                "dbsource" : "SQL SERVER",
+    var dataSrcJson={"data":[
+                            // {
+                            //     "dbtype" : "Select DB Type",
+                            //     "driver" : ""                    
+                            // },
+                            {
+                                "dbtype" : "POSTGRES",
                                 "driver" : "JDBC-Driver"                    
                             },{
-                                "dbsource" : "ORACLE",
+                                "dbtype" : "DB2",
                                 "driver" : "ORACLEBC-Driver"
                             },{
-                                "dbsource" : "Test DB",
+                                "dbtype" : "MYSQL",
                                 "driver" : "Test-Driver"
-                            }]};
+                            },
+                            {
+                                "dbtype" : "ORACLE",
+                                "driver" : "Test-Driver1"
+                            }]
+                        };
 
-    $.each(dataSrcJson.data, function(k, v){
-        $("#database-name").append('<option value='+v.driver+'>'+v.dbsource+'</option>');
-    });               
+    $.getJSON("js/scripts/databaselist.json",function(json){
+     $.each(json, function(k, v){
+            // $("#database-type").empty();
+            $("#database-type").append('<option value='+v.driver+'>'+v.dbtype+'</option>');
+        });
+    });
+                  
 
-    $("#database-name").change(function () {       
-        $('#database-driver').val($("#database-name option:selected").val());
+    $("#database-type").change(function () {       
+        $('#database-driver').val($("#database-type option:selected").val());
+    });
+    
+
+    $.extend( true, $.fn.dataTable.defaults, {
+     stateSave: true
     });
     
     $scope.$on('$viewContentLoaded', function () {
@@ -1390,12 +1409,13 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
         var selectedDatabaseId = undefined;
         $('#databaseData').on('click', 'button.updateBtn', function () {
+            // debugger;
             var selectedDatabase = databases.row($(this).parents('tr')).data();
             selectedDatabaseId = selectedDatabase.id;
             $("#databaseAddForm #databaseUISubmit").addClass('hide');
             $("#databaseAddForm #databaseUIUpdate").removeClass('hide');
             $("#databaseForm #database-name").val(selectedDatabase.dbName);
-            $("#databaseForm #database-type").val(selectedDatabase.dbType);
+            $("#databaseForm #database-type option:selected").text(selectedDatabase.dbType);
             $("#databaseForm #database-url").val(selectedDatabase.dbUrl);
             $("#databaseForm #database-schema").val(selectedDatabase.dbSchemaName);
             $("#databaseForm #database-uname").val(selectedDatabase.dbUsername);
