@@ -1,0 +1,15 @@
+[      
+    {
+        "dbtype" : "POSTGRES",
+        "driver" : "JDBC-Driver"                   
+    },{
+        "dbtype" : "DB2",
+        "driver" : "ORACLEBC-Driver"
+    },{
+        "dbtype" : "MYSQL",
+        "driver" : "Test-Driver"
+    },
+    {
+        "dbtype" : "ORACLE",
+        "driver" : "Test-Driver1"
+    }]

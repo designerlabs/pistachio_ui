@@ -90,8 +90,8 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
                    $("#loadIcon").append('<span data-value="'+filename+'" class="iconBg '+onlyname+'"><img src="http://localhost:8281/projects/2016/pistachio_ui/main/assets/pistachio/report/'+filename+'" width="60px"></span>');
                    $("#loadIcon").show();
 
-                   $("span ."+onlyname).click(function(){
-                        alert(this);
+                   $("."+onlyname).click(function(){
+                        alert("this");
                     });
                    
                });
