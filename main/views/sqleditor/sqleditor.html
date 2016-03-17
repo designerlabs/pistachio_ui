@@ -1,0 +1,117 @@
+<h3 class="page-title">
+	SQL Editor
+</h3>
+
+
+<div class="col-md-12">
+
+  <div class="col-md-2 sidebar_menu">
+  <h3>Navigation</h3>
+    <div class="col-md-10">
+      <div class="form-group" >
+        <label class="control-label">Data Base </label>
+        <select id="lstDB" class="form-control"></select>
+      </div>
+    </div>
+
+    <div class="col-md-10">
+      <div class="form-group" >
+        <label class="control-label">Data Table </label>
+        <select id="lstDBtbl" class="form-control"></select>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-md-10">
+    
+    <div class="col-md-12 sql_editor">
+    <h3> SQL Editor</h3>
+      <section>  
+        <div ui-ace="{
+          onLoad: aceLoaded,
+          onChange: aceChanged
+        }"></div>
+      </section>
+      <div class="action" style="float:right;">
+        <button class="btn btn-sm btn-success exec"> Execute </button> 
+        <button class="btn btn-sm btn-warning saveas"> Save As </button> 
+        <button class="btn btn-sm btn-info newqry"> New Query </button>
+      </div>    
+    </div>
+    <div class="col-md-12 result_container">
+     
+      <div class="profile-content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="portlet light ">
+            <div class="portlet-title tabbable-line">              
+                <ul class="nav nav-tabs">
+                  <li ng-repeat="tab in tabs" ng-class="{active:isActiveTab(tab.url)}" ng-click="onClickTab(tab)">
+                    <a data-toggle="tab" aria-expanded="true">{{tab.title}}</a>
+                  </li>
+                </ul>
+            </div>
+            <div class="portlet-body">
+              <div class="tab-content">
+                <!-- PERSONAL INFO TAB -->
+                <div id="mainView">
+                  <div ng-include="currentTab"></div>
+                </div>
+                <div id="messageView" style="margin-top:20px">
+                  <div class="alert display-hide" id="result.errorinfo">
+                      <button class="close" data-close="alert"></button>
+                      <span>Hello im here</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+            <script type="text/ng-template" id="result.sql.html">
+              <div class="tab-pane active" id="tab_1_1">
+                <form role="form" class="result-form">
+                 <table id="tblResult" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">                    
+                </table>                
+                </form>
+              </div>
+            </script>
+            
+            <script type="text/ng-template" id="history.sql.html">
+              <form role="form">
+                
+              </form>
+            </script>
+            <script type="text/ng-template" id="savedqry.sql.html">
+              <form role="form" >
+                
+              </form>
+            </script>
+              </div>
+            </div>
+                  <!-- END PROFILE CONTENT -->
+          </div>
+
+
+      <!-- <h3> Results</h3>     
+      <table class="table">
+        <tr>
+          <td>1</td>
+          <td>2</td>
+          <td>3</td>
+          <td>4</td>
+        </tr>
+
+        <tr>
+          <td>Table 1</td>
+          <td>Table 2</td>
+          <td>Table 3</td>
+          <td>Table 4</td>
+        </tr>
+
+      </table> -->
+    </div>
+  </div>
+
+</div>
+
+
+                    

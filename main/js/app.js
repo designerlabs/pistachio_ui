@@ -4,10 +4,11 @@ Metronic AngularJS App Main Script
 
 /* Metronic App */
 var MetronicApp = angular
-    .module("MetronicApp", [
+    .module("MetronicApp", [ 
+         
     "ui.router",
-    "ui.bootstrap",
     "oc.lazyLoad",
+    "ui.ace",
     "ngSanitize",
     "ngResource",
     "ngTable",
@@ -15,7 +16,11 @@ var MetronicApp = angular
     'tmh.dynamicLocale',
     "datamaps",
     "chart.js",
-    'ngIdle'    
+    "ngIdle",
+   // "ngRoute", 
+    //"ui.ace",
+    "ui.bootstrap"
+     
 ])
 
 // /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -1855,6 +1860,42 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'js/scripts/table-advanced.js',
                         
                         'js/controllers/ReportMgtController.js'
+                    ]
+                });
+            }]
+        }
+    })
+
+    // SQL Editor
+    .state("sqleditorMgt", {
+        url: "/sqleditor/sqleditor.html",
+        templateUrl: "views/sqleditor/sqleditor.html",
+        data: {
+            pageTitle: 'SQL Editor'
+        },
+        controller: "SQLEditorMgtController",
+        resolve: {
+            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                    files: [                        
+                        // 'assets/global/plugins/angularjs/angular.min.js',
+                        'js/scripts/Common.js',
+                        'js/scripts/resizer.js',
+                        // 'bower_components/ace-builds/src-min-noconflict/ext-language_tools.js',
+                        // 'assets/global/plugins/ace.js',
+                        // 'assets/global/plugins/ui-ace.js',
+                        'assets/global/plugins/select2/select2.css',
+                        'assets/global/plugins/select2/select2.min.js',
+                        'js/scripts/table-advanced.js',
+                        'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
+                        'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
+                        'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
+                        'assets/global/plugins/datatables/all.min.js',
+                        
+                        
+                        'js/controllers/SQLEditorMgtController.js'
                     ]
                 });
             }]

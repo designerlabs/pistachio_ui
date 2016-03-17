@@ -198,3 +198,7 @@ Rounded Portlets
     margin: 20px 20px;
     height: 250px;
 }
+
+.ace_editor{
+	height: 200px;
+}
