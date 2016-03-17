@@ -23,7 +23,9 @@ fn_LoadDb();
                  
 $("#lstDB").change(function(){
 	var Seldb = $('#lstDB option:selected').text();
-	fn_LoadDt(Seldb)
+	fn_LoadDt(Seldb);
+	// fn_LoadDt();
+
 });
     
 $scope.tabs = [{
@@ -43,6 +45,11 @@ $scope.tabs = [{
     $scope.onClickTab = function (tab) {
         $scope.currentTab = tab.url;
         if(tab.title == 'Result'){
+        	$('#tblResult').DataTable( {
+        	    language: {
+        	        infoEmpty: "No records available - Got it?",
+        	    }
+        	});
           //  $http.get(globalURL+'auth/user?token=' + getToken)
           // .success(function(response) {
           //   $('.edit-form [name=editname]').val(response.firstName);    
@@ -80,12 +87,8 @@ $scope.tabs = [{
       	  $scope.aceDocumentValue = $scope.aceSession.getDocument().getValue();
           // console.log('secound '+$scope.aceSession.getDocument().getValue());
     };
-    
-   $('#tblResult').DataTable( {
-    language: {
-        infoEmpty: "No records available - Got it?",
-    }
-});
+
+   
 //create JSON array for aoColumnDefs
 var dataSet;
 var aryJSONColTable = [];
@@ -170,15 +173,21 @@ function fn_LoadDb(){
          });
      }).done(function(){
      	var Seldb = $('#lstDB option:selected').text();
-		fn_LoadDt(Seldb)
+		fn_LoadDt(Seldb);
+		//fn_LoadDt();
+
      });
 }
 
-function fn_LoadDt(seldb){	
-	$("#lstDBtbl").empty();
-	 $.getJSON(globalURL + "api/pistachio/secured/hadoop/tables?db=" + seldb , function (json) { //api/pistachio/secured/hadoop/db
- 	         $.each(json, function(k, v){									
+function fn_LoadDt(seldb){	//seldb
+	//$("#lstDBtbl ").empty();
+	$.getJSON(globalURL + "api/pistachio/secured/hadoop/tables?db=" + seldb , function (json) { //"api/report/reference/state
+ 	        $.each(json, function(k, v){									
             $("#lstDBtbl").append('<option value='+k+'>'+v+'</option>');
+			// $("#lstDBtbl ul").append('<li class="mt-list-item">'+
+	  //               '<div class="list-item-content">'+
+	  //                   '<h5>'+ v +'</h5>'+
+	  //               '</div></li>');
          });
      });
 }

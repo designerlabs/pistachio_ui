@@ -202,3 +202,25 @@ Rounded Portlets
 .ace_editor{
 	height: 200px;
 }
+.selectedIconImage{
+        width: 75px;
+    /* float: left; */
+    /* display: block; */
+    background: #26A69A;
+    border-radius: 79px !important;
+}
+
+.default_icon{
+    width:70px;
+    height:70px;
+    border-radius:50px;
+    display:block;
+    border-radius: 50px !important;
+    padding: 26px 14px;
+    background: #C7C7C7
+}
+
+.default_icon i{
+    font-size: 40px !important;
+    color: #fff;
+}

@@ -1,7 +1,8 @@
-[       
+
+[      
     {
         "dbtype" : "POSTGRES",
-        "driver" : "JDBC-Driver"                    
+        "driver" : "JDBC-Driver"                   
     },{
         "dbtype" : "DB2",
         "driver" : "ORACLEBC-Driver"
@@ -12,5 +13,6 @@
     {
         "dbtype" : "ORACLE",
         "driver" : "Test-Driver1"
-    }]
+    }
+]
    

@@ -15,6 +15,10 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, 
 
 
         var roleMgts;
+        
+        $.extend( true, $.fn.dataTable.defaults, {
+         stateSave: true
+        });
 
         function roleMgtDataFunc() {
             roleMgts = $('#roleMgtdata').DataTable({

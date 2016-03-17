@@ -37,37 +37,18 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         var uploadUrl = globalURL + "api/pistachio/upload?user=sridhar";
         fileUpload.uploadFileToUrl(file, uploadUrl);
     };
-    var dataSrcJson={"data":[
-                            // {
-                            //     "dbtype" : "Select DB Type",
-                            //     "driver" : ""                    
-                            // },
-                            {
-                                "dbtype" : "POSTGRES",
-                                "driver" : "JDBC-Driver"                    
-                            },{
-                                "dbtype" : "DB2",
-                                "driver" : "ORACLEBC-Driver"
-                            },{
-                                "dbtype" : "MYSQL",
-                                "driver" : "Test-Driver"
-                            },
-                            {
-                                "dbtype" : "ORACLE",
-                                "driver" : "Test-Driver1"
-                            }]
-                        };
+
 
     $.getJSON("js/scripts/databaselist.json",function(json){
      $.each(json, function(k, v){
             // $("#database-type").empty();
-            $("#database-type").append('<option value='+v.driver+'>'+v.dbtype+'</option>');
+            $("#database-type").append('<option data-driver='+v.driver+' value='+v.dbtype+'>'+v.dbtype+'</option>');
         });
     });
                   
 
     $("#database-type").change(function () {       
-        $('#database-driver').val($("#database-type option:selected").val());
+        $('#database-driver').val($("#database-type option:selected").attr('data-driver'));
     });
     
 
@@ -1430,7 +1411,9 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             $("#databaseAddForm #databaseUISubmit").addClass('hide');
             $("#databaseAddForm #databaseUIUpdate").removeClass('hide');
             $("#databaseForm #database-name").val(selectedDatabase.dbName);
-            $("#databaseForm #database-type option:selected").text(selectedDatabase.dbType);
+            //$("#databaseForm #database-type option:selected").text(selectedDatabase.dbType);
+            console.log(selectedDatabase.dbType);
+            $("#databaseForm #database-type").val(selectedDatabase.dbType);
             $("#databaseForm #database-url").val(selectedDatabase.dbUrl);
             $("#databaseForm #database-schema").val(selectedDatabase.dbSchemaName);
             $("#databaseForm #database-uname").val(selectedDatabase.dbUsername);

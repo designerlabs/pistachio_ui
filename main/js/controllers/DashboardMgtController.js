@@ -13,6 +13,10 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
         var dashboards;
 
 
+
+        $.extend( true, $.fn.dataTable.defaults, {
+         stateSave: true
+        });
         
 
         function dashboardDataFunc() {
