@@ -12,6 +12,9 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
 
         var userMgts;
 
+        $.extend( true, $.fn.dataTable.defaults, {
+         stateSave: true
+        });
 
         function userMgtDataFunc() {
             userMgts = $('#userMgtdata').DataTable({

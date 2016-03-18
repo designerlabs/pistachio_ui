@@ -9,7 +9,9 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
         Metronic.initAjax();
 
         var reportMgts;
-
+        $.extend( true, $.fn.dataTable.defaults, {
+         stateSave: true
+        });
         function reportMgtDataFunc() {
             reportMgts = $('#reportMgtdata').DataTable({
                 "ajax": {
@@ -45,34 +47,21 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
                     }
                 ]
             });
+
+           
         }
         
         formInputValidation("#reportMgtForm");
 
-             //Icon files
-        var fileExt = {};
-            fileExt[0]=".png";
-            fileExt[1]=".jpg";
-            fileExt[2]=".gif";
-        $.ajax({
-            //This will retrieve the contents of the folder if the folder is configured as 'browsable'
-            url: '../main/assets/pistachio/report',
-            success: function (data) {
-                 $("#reportMgtForm #reportMgt-icon").html('<option value="">please select</option>');
-               //List all png or jpg or gif file names in the page
-               $(data).find('a:contains('+ fileExt[0] + '),a:contains(' + fileExt[1] + '),a:contains(' + fileExt[2] + ')').each(function () {
-                   //console.log(this);
-                   var filename = this.href.replace(window.location.host, "").replace("http:///projects/2016/pistachio_ui/main/", "").replace(".png", "");
-                  
-                   $("#reportMgtForm #reportMgt-icon").append('<option value="'+filename+'">'+filename+'</option>');
-               });
-             }     
-          });
-
-
 
         var onlyname = undefined;
+        $scope.close = false;
+        $scope.open = true;
         $("#selectIconBtn").click(function(event){
+            $scope.close = true;
+            $scope.open = false;
+            $("#selectIconBtn").addClass('ng-hide');
+            $("#closeIconBtn").removeClass('ng-hide');
             var fileExt = {};
             fileExt[0]=".png";
             fileExt[1]=".jpg";
@@ -91,18 +80,33 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
                    $("#loadIcon").show();
 
                    $("."+onlyname).click(function(){
-                        alert("this");
+                        var without_png = this.dataset.value.replace(".png", "");
+                        $("#reportMgt-icon").val(without_png);
+                        $("#reportMgtIconDiv").html(without_png);
+                        $('.reportMgt-icon').html('Selected Icon');
+                        $(".selectedIcon").html('<img class="selectedIconImage" src="http://localhost:8281/projects/2016/pistachio_ui/main/assets/pistachio/report/'+without_png+'.png">');
                     });
                    
                });
-
-               
              }
           });
 
-             
+        });
 
+        $("#closeIconBtn").click(function(event){
+            $scope.close = false;
+            $scope.open = true;
+            $("#loadIcon").hide();
+            $("#loadIcon").html('');
+        });
 
+        $('#reportMgtAddForm').on('hidden.bs.modal', function () {
+
+            $("#selectIconBtn").removeClass('ng-hide');
+            $("#closeIconBtn").addClass('ng-hide');
+            $("#loadIcon").hide();
+            $("#reportMgtIconDiv").html('');
+            $("#loadIcon").html('');
         });
 
         
@@ -187,6 +191,7 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
         var selectedreportMgtId = undefined;
         $('#reportMgtdata').on('click', 'button.updateBtn', function() {
         	//$('#reportMgt-paren').removeClass('hide');
+            $(".selectedIcon").show();
         	$('#chkExistingParent').prop('checked', true); 
         	$('#chkExistingParent').parent().addClass('checked');
         	$('#reportMgt-parent').removeClass('hide');
@@ -203,6 +208,9 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
             // $("#reportMgtForm #reportMgt-role").val(selectedreportMgt.role);
             // $("#reportMgtForm #reportMgt-activated").val(selectedreportMgt.activated.toString());
             $("#reportMgtForm #reportMgt-icon").val(selectedreportMgt.icon);
+            $("#reportMgtIconDiv").html(selectedreportMgt.icon);
+
+            $(".selectedIcon").html('<img class="selectedIconImage" src="../main/assets/pistachio/report/'+selectedreportMgt.icon+'.png">');
             $("#reportMgtAddFormHeader").html("Update Report");            
             $("#reportMgtAddForm").modal('show');
             $('#inpHiddenParent').val($('#reportMgt-parent').val()); 

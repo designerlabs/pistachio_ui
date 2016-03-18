@@ -127,29 +127,27 @@
                         
                     </div>
                     <div class="form-group">
-                        <label for="reportMgt-icon" class="control-label">Icon:</label>
-                        <!-- <input type="text" class="form-control" id="reportMgt-icon"> -->
-                        <button class="btn btn-md btn-success" id="selectIconBtn">Select Icon</button>
+                     
+                        <label for="reportMgt-icon" class="control-label reportMgt-icon">Icon:</label>
+                        
+                      <div class="row">
+                        <div class="col-md-12">
+                              <div class="selectedIcon"><span class="default_icon"><i class="fa fa-picture-o"></i></span></div>
+                        </div>
+
+                         <div class="col-md-3" style="margin-top:10px;">
+                            <button ng-show="open" class="btn btn-xs btn-success" id="selectIconBtn"><i class="fa fa-check"></i> Select Icon</button>
+                            <button ng-show="close" class="btn btn-xs btn-danger" id="closeIconBtn"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                        <div class="col-md-6">
+                          <input type="hidden" class="form-control" id="reportMgt-icon">
+                          <h4 id="reportMgtIconDiv"></h4>
+                        </div>
+                      </div>
+                      
+                        <div class="row"></div>
+                        
                         <div id="loadIcon" style="display:none;"></div>
-                        <select id="reportMgt-icon" class="defaultSelect2 form-control">
-                         <!--  <option value="">Please select</option>
-                          <option value="Ad hoc-01">Ad hoc-01</option>
-                          <option value="Depoh-01">Depoh-01</option>
-                          <option value="MM2H-01">MM2H-01</option>
-                          <option value="Pas Khas 2-01">Pas Khas 2-01</option>
-                          <option value="Pas Tangungan-01">Pas Tangungan-01</option>
-                          <option value="Pas pelajar-01">Pas pelajar-01</option>
-                          <option value="Pas pengecualian-01">Pas pengecualian-01</option>
-                          <option value="Permit Masuk-01">Permit Masuk-01</option>
-                          <option value="Visa-01">Visa-01</option>
-                          <option value="Visa Atase-01">Visa Atase-01</option>
-                          <option value="ereport">ereport</option>
-                          <option value="kerja">kerja</option>
-                          <option value="pkls">pkls</option>
-                          <option value="plik">plik</option>
-                          <option value="pls">pls</option>
-                          <option value="tanggungan">tanggungan</option> -->
-                        </select> 
                     </div>
                     <!-- <div class="form-group">
                         <label for="reportMgt-role" class="control-label">Role:</label>
@@ -208,6 +206,7 @@
 <script>
 $(function() {
     $("#reportMgtAddBtn").click(function(event) {
+        $(".selectedIcon").html('<span class="default_icon"><i class="fa fa-picture-o"></i></span>');
         $("#reportMgtAddForm #reportMgtUISubmit").removeClass('hide');
         $("#reportMgtAddForm #reportMgtUIUpdate").addClass('hide');
         $("#reportMgtAddFormHeader").html("Add Report"); //Change
