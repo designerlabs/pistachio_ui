@@ -1,12 +1,19 @@
-<h3 class="page-title">
-	SQL Editor
-</h3>
+<div class="col-md-12">
+  <h3 class="page-title col-md-2">
+    <span class="col-md-12">Database List</span>
+  </h3>  
+
+  <h3 class="page-title col-md-10">
+    <span class="col-md-12">SQL Editor</span>
+  </h3>  
+</div>
+
 
 
 <div class="col-md-12">
 
-  <div class="col-md-2 sidebar_menu">  
-    <div class="col-md-10">
+  <div class="col-md-2 sidebar_menu databaselist_container">  
+    <div class="col-md-12">
       <div class="form-group" >
         <!-- <label class="control-label">Data Base </label> -->
         <div class="portlet-title">
@@ -19,7 +26,7 @@
       </div>
     </div>
 
-    <div class="col-md-10">
+    <div class="col-md-12">
       <div class="form-group" >
         <!-- <label class="control-label">Data Table </label> -->
         
@@ -43,20 +50,19 @@
     </div>
 
   </div>
-  <div class="col-md-10">
+  <div class="col-md-10"  style="padding: 0;">
     
     <div class="col-md-12 sql_editor">
-    <h3> SQL Editor</h3>
       <section>  
         <div ui-ace="{
           onLoad: aceLoaded,
           onChange: aceChanged
         }"></div>
       </section>
-      <div class="action" style="float:right;">
+      <div class="action" style="float:right; margin:20px 0px;">
         <button class="btn btn-sm btn-success exec"> Execute </button> 
-        <button class="btn btn-sm btn-warning saveas"> Save As </button> 
-        <button class="btn btn-sm btn-info newqry"> New Query </button>
+        <button class="btn btn-sm btn-primary saveas"> Save As </button> 
+        <button class="btn btn-sm btn-default newqry"> New Query </button>
       </div>    
     </div>
     <div class="col-md-12 result_container">

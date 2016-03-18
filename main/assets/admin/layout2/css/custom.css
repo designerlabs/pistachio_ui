@@ -224,3 +224,11 @@ Rounded Portlets
     font-size: 40px !important;
     color: #fff;
 }
+
+.databaselist_container{
+        padding: 0;
+    max-height: 1000px;
+    background: #E2E4E4;
+    display: inline-block;
+    min-height: 500px;
+}
