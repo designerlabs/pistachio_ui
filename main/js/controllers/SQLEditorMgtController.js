@@ -95,7 +95,7 @@ var aryJSONColTable = [];
 // var myArrayRow = [];
 
 function fn_ExecQuery(qry){	 
-
+if(qry != null && qry.length > 0){
 	$.ajax({
 	    url: globalURL + "api/pistachio/secured/runSQL",
 	    type: "POST",
@@ -103,7 +103,7 @@ function fn_ExecQuery(qry){
 	    contentType: "application/json; charset=utf-8",
 	    data: qry.trim(),
 	    success: function (result) {			
-			if (result != null && result.length > 0) {
+			if (result != null) {
 				var	resultOutputCol = jQuery.parseJSON(result.columns);
 				var	resultOutput = jQuery.parseJSON(result.results);
 			    var myArrayColumn = [];
@@ -132,11 +132,12 @@ function fn_ExecQuery(qry){
 			        i++;
 			    });
 			    queryResultFunc(myArrayRow,myArrayColumn);
-		    }
-		    $("#messageView div span").html('No Data to Show...');          
-	    	$("#messageView div").removeClass("alert-success");          
-	    	$("#messageView div").addClass('alert-danger');
-	    	$("#messageView div").show().delay(5000).fadeOut();
+		    }else{
+			    $("#messageView div span").html('No Data to Show...');          
+		    	$("#messageView div").removeClass("alert-success");          
+		    	$("#messageView div").addClass('alert-danger');
+		    	$("#messageView div").show().delay(5000).fadeOut();
+	    	}
 		},
 	    error: function(data){
 	    	$("#messageView div span").html(data.responseJSON.error);          
@@ -145,6 +146,13 @@ function fn_ExecQuery(qry){
 	    	$("#messageView div").show().delay(5000).fadeOut();
 	    }
 	});
+}else{
+	$("#messageView div span").html("No Query found...");          
+	$("#messageView div").removeClass("alert-success");          
+	$("#messageView div").addClass('alert-danger');
+	$("#messageView div").show().delay(5000).fadeOut();
+
+}
 
 }
 
