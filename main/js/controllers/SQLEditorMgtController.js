@@ -1,7 +1,7 @@
 'use strict';
 
 MetronicApp.controller('SQLEditorMgtController', function($scope) {
-   
+
    // $scope.aceLoaded = function(_editor) {
    //    $scope.aceSession = _editor.getSession();
    //    console.log('first '+ _editor.getSession());
@@ -13,24 +13,25 @@ MetronicApp.controller('SQLEditorMgtController', function($scope) {
 
 
 $scope.$on('$viewContentLoaded', function() {
-        Metronic.initAjax(); // initialize core components 	
+        Metronic.initAjax(); // initialize core components
+        $scope.database = "default"
 	});
 
 fn_LoadDb();
 
 
 
-                 
+
 $("#lstDB").change(function(){
 	var Seldb = $('#lstDB option:selected').text();
 	fn_LoadDt(Seldb);
 	// fn_LoadDt();
 
 });
-    
+
 $scope.tabs = [{
             title: 'Result',
-            url: 'result.sql.html'        
+            url: 'result.sql.html'
 	        }, {
 	            title: 'History',
 	            url: 'history.sql.html'
@@ -52,12 +53,12 @@ $scope.tabs = [{
         	});
           //  $http.get(globalURL+'auth/user?token=' + getToken)
           // .success(function(response) {
-          //   $('.edit-form [name=editname]').val(response.firstName);    
+          //   $('.edit-form [name=editname]').val(response.firstName);
           //   $('.edit-form [name=editemail]').val(response.email);
           //   $('.edit-form #userselLang').val((response.lang == "en") ? "en" : "my");
           //  });
         }
-        
+
         $("#messageView div").hide();
     }
 
@@ -72,15 +73,15 @@ $scope.tabs = [{
     			table.clear()
               		 .draw();
     	}
- 
+
     	var qry = $scope.aceDocumentValue;
-		fn_ExecQuery(qry);  
+		fn_ExecQuery(qry);
 
     });
 
 	$scope.aceLoaded = function(_editor) {
 	      $scope.aceSession = _editor.getSession();
-	   
+
 	      // console.log('first '+ _editor.getSession());
 	       // _editor.setReadOnly(true);
 	};
@@ -89,13 +90,13 @@ $scope.tabs = [{
           // console.log('secound '+$scope.aceSession.getDocument().getValue());
     };
 
-   
+
 //create JSON array for aoColumnDefs
 var dataSet;
 var aryJSONColTable = [];
 // var myArrayRow = [];
 
-function fn_ExecQuery(qry){	 
+function fn_ExecQuery(qry){
 if(qry != null && qry.length > 0){
 	$.ajax({
 	    url: globalURL + "api/pistachio/secured/runSQL",
@@ -103,7 +104,7 @@ if(qry != null && qry.length > 0){
 	    dataType: 'json',
 	    contentType: "application/json; charset=utf-8",
 	    data: qry.trim(),
-	    success: function (result) {			
+	    success: function (result) {
 			if (result != null) {
 				var	resultOutputCol = jQuery.parseJSON(result.columns);
 				var	resultOutput = jQuery.parseJSON(result.results);
@@ -134,22 +135,22 @@ if(qry != null && qry.length > 0){
 			    });
 			    queryResultFunc(myArrayRow,myArrayColumn);
 		    }else{
-			    $("#messageView div span").html('No Data to Show...');          
-		    	$("#messageView div").removeClass("alert-success");          
+			    $("#messageView div span").html('No Data to Show...');
+		    	$("#messageView div").removeClass("alert-success");
 		    	$("#messageView div").addClass('alert-danger');
 		    	$("#messageView div").show().delay(5000).fadeOut();
 	    	}
 		},
 	    error: function(data){
-	    	$("#messageView div span").html(data.responseJSON.error);          
-	    	$("#messageView div").removeClass("alert-success");          
+	    	$("#messageView div span").html(data.responseJSON.error);
+	    	$("#messageView div").removeClass("alert-success");
 	    	$("#messageView div").addClass('alert-danger');
 	    	$("#messageView div").show().delay(5000).fadeOut();
 	    }
 	});
 }else{
-	$("#messageView div span").html("No Query found...");          
-	$("#messageView div").removeClass("alert-success");          
+	$("#messageView div span").html("No Query found...");
+	$("#messageView div").removeClass("alert-success");
 	$("#messageView div").addClass('alert-danger');
 	$("#messageView div").show().delay(5000).fadeOut();
 
@@ -177,7 +178,7 @@ function queryResultFunc(rw,col) {
 
 function fn_LoadDb(){
 	$.getJSON(globalURL + "api/pistachio/secured/hadoop/db", function (json) { //api/pistachio/secured/hadoop/db
- 	         $.each(json, function(k, v){									
+ 	         $.each(json, function(k, v){
             $("#lstDB").append('<option value='+k+'>'+v+'</option>');
          });
      }).done(function(){
@@ -191,7 +192,7 @@ function fn_LoadDb(){
 function fn_LoadDt(seldb){	//seldb
 	//$("#lstDBtbl ").empty();
 	$.getJSON(globalURL + "api/pistachio/secured/hadoop/tables?db=" + seldb , function (json) { //"api/report/reference/state
- 	        $.each(json, function(k, v){									
+ 	        $.each(json, function(k, v){
             $("#lstDBtbl").append('<option value='+k+'>'+v+'</option>');
 			// $("#lstDBtbl ul").append('<li class="mt-list-item">'+
 	  //               '<div class="list-item-content">'+
@@ -200,5 +201,5 @@ function fn_LoadDt(seldb){	//seldb
          });
      });
 }
-   
+
 });
