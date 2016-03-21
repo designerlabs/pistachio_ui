@@ -232,3 +232,7 @@ Rounded Portlets
     display: inline-block;
     min-height: 500px;
 }
+
+.portlet.box.red-intense > .portlet-title {
+    background-color: #7CB1B9 !important;
+}

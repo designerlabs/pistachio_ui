@@ -73,10 +73,10 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
                //List all png or jpg or gif file names in the page
                $(data).find('a:contains('+ fileExt[0] + '),a:contains(' + fileExt[1] + '),a:contains(' + fileExt[2] + ')').each(function () {
                    //console.log(this);
-                   var filename = this.href.replace(window.location.host, "").replace("http:///projects/2016/pistachio_ui/main/", "");
+                   var filename = this.href.replace(window.location.host, "").replace("http:///main/", "");
                    onlyname = filename.replace(".png", "");
                     
-                   $("#loadIcon").append('<span data-value="'+filename+'" class="iconBg '+onlyname+'"><img src="http://localhost:8281/projects/2016/pistachio_ui/main/assets/pistachio/report/'+filename+'" width="60px"></span>');
+                   $("#loadIcon").append('<span data-value="'+filename+'" class="iconBg '+onlyname+'"><img src="assets/pistachio/report/'+filename+'" width="60px"></span>');
                    $("#loadIcon").show();
 
                    $("."+onlyname).click(function(){
@@ -84,7 +84,7 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
                         $("#reportMgt-icon").val(without_png);
                         $("#reportMgtIconDiv").html(without_png);
                         $('.reportMgt-icon').html('Selected Icon');
-                        $(".selectedIcon").html('<img class="selectedIconImage" src="http://localhost:8281/projects/2016/pistachio_ui/main/assets/pistachio/report/'+without_png+'.png">');
+                        $(".selectedIcon").html('<img class="selectedIconImage" src="assets/pistachio/report/'+without_png+'.png">');
                     });
                    
                });
