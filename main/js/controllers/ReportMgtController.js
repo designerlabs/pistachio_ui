@@ -72,10 +72,12 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
             success: function (data) {
                //List all png or jpg or gif file names in the page
                $(data).find('a:contains('+ fileExt[0] + '),a:contains(' + fileExt[1] + '),a:contains(' + fileExt[2] + ')').each(function () {
+              
                    //console.log(this);
-                   var filename = this.href.replace(window.location.host, "").replace("http:///main/", "");
-                   onlyname = filename.replace(".png", "");
-                    
+                   var filename = this.firstChild.textContent;
+                   //onlyname = filename.replace(".png", "");
+                   onlyname = (filename).replace('.png', '');
+                    console.log(filename);
                    $("#loadIcon").append('<span data-value="'+filename+'" class="iconBg '+onlyname+'"><img src="assets/pistachio/report/'+filename+'" width="60px"></span>');
                    $("#loadIcon").show();
 
