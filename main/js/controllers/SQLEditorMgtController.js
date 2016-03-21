@@ -28,45 +28,76 @@ $("#lstDB").change(function(){
 
 });
     
-$scope.tabs = [{
-            title: 'Result',
-            url: 'result.sql.html'        
-	        }, {
-	            title: 'History',
-	            url: 'history.sql.html'
-	    	}, {
-	            title: 'Saved Query',
-	            url: 'savedqry.sql.html'
-	    	}];
+// $scope.tabs = [{
+//             title: 'Result',
+//             url: 'result.sql.html',
+//             href: '#tab_Result'        
+// 	        }, {
+// 	            title: 'History',
+// 	            url: 'history.sql.html',
+// 	            href: '#tab_History' 
+// 	    	}, {
+// 	            title: 'Saved Query',
+// 	            url: 'savedqry.sql.html',
+// 	            href: '#tab_Saved' 
+// 	    	}];
 
 
- $scope.currentTab = 'result.sql.html';
+  // $scope.currentTab = 'result.sql.html';
+  // $scope.currentTab = 'tab_Result';
 
-    $scope.onClickTab = function (tab) {
-        $scope.currentTab = tab.url;
-        // if(tab.title == 'Result'){
-        // 	// $('#tblResult').DataTable( {
-        // 	//     language: {
-        // 	//         infoEmpty: "No records available - Got it?",
-        // 	//     }
-        // 	// });          
-        // }
+    // $scope.onClickTab = function (tab) {
+    //     // $scope.currentTab = tab.url;
+    //     // $scope.currentTab = tab.href;
+    //     if(tab.title == 'Result'){
+    //     	// $('#tblResult').DataTable( {
+    //     	//     language: {
+    //     	//         infoEmpty: "No records available - Got it?",
+    //     	//     }
+    //     	// });          
+    //     }
         
-        // $("#messageView div").hide();
-    }
+    //     $("#messageView div").hide();
+    // }
 
-    $scope.isActiveTab = function(tabUrl) {
-        return tabUrl == $scope.currentTab;
-    }
+    // $scope.isActiveTab = function(tabUrl) {
+    //     return tabUrl == $scope.currentTab;
+    // }
+     
+//      function onClickTab(){
+// alert("hello");
+//      }
+
+$('.tab').click(function(){
+	$(this).siblings().removeClass('active');
+	$(this).addClass('active');
+	if(this.id == "tabResult"){
+		$(".tab-content").children().removeClass('active in');
+		$('.tab_Result').addClass('active in');
+	}else if(this.id=="tabHistory"){
+		$(".tab-content").children().removeClass('active in');
+		$('.tab_History').addClass('active in');
+	}else if(this.id=="tabSavedQuery"){
+		$(".tab-content").children().removeClass('active in');
+		$('.tab_Saved_Query').addClass('active in');
+	}
+
+// var seltab = "#" + $(this).attr('data');
+// $(this).parent().siblings().removeClass('active in');
+// $(seltab).addClass('active in');
+
+	return false;
+});
+
 
     $('.exec').click(function(){
-    	 $scope.currentTab = 'result.sql.html';
 
     	if($('#tblResult').dataTableSettings.length > 0){
     			var table = $('#tblResult').DataTable();
     			table.clear()
               		 .draw();
-    	} 
+    	}
+ 
     	var qry = $scope.aceDocumentValue;
 		fn_ExecQuery(qry);  
 
@@ -74,7 +105,6 @@ $scope.tabs = [{
 
 	$scope.aceLoaded = function(_editor) {
 	      $scope.aceSession = _editor.getSession();
-	   
 	      // console.log('first '+ _editor.getSession());
 	       // _editor.setReadOnly(true);
 	};
