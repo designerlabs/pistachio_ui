@@ -74,6 +74,7 @@ $scope.tabs = [{
 
 	$scope.aceLoaded = function(_editor) {
 	      $scope.aceSession = _editor.getSession();
+	   
 	      // console.log('first '+ _editor.getSession());
 	       // _editor.setReadOnly(true);
 	};
