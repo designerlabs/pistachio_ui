@@ -44,21 +44,15 @@ $scope.tabs = [{
 
     $scope.onClickTab = function (tab) {
         $scope.currentTab = tab.url;
-        if(tab.title == 'Result'){
-        	$('#tblResult').DataTable( {
-        	    language: {
-        	        infoEmpty: "No records available - Got it?",
-        	    }
-        	});
-          //  $http.get(globalURL+'auth/user?token=' + getToken)
-          // .success(function(response) {
-          //   $('.edit-form [name=editname]').val(response.firstName);    
-          //   $('.edit-form [name=editemail]').val(response.email);
-          //   $('.edit-form #userselLang').val((response.lang == "en") ? "en" : "my");
-          //  });
-        }
+        // if(tab.title == 'Result'){
+        // 	// $('#tblResult').DataTable( {
+        // 	//     language: {
+        // 	//         infoEmpty: "No records available - Got it?",
+        // 	//     }
+        // 	// });          
+        // }
         
-        $("#messageView div").hide();
+        // $("#messageView div").hide();
     }
 
     $scope.isActiveTab = function(tabUrl) {
@@ -66,13 +60,13 @@ $scope.tabs = [{
     }
 
     $('.exec').click(function(){
+    	 $scope.currentTab = 'result.sql.html';
 
     	if($('#tblResult').dataTableSettings.length > 0){
     			var table = $('#tblResult').DataTable();
     			table.clear()
               		 .draw();
-    	}
- 
+    	} 
     	var qry = $scope.aceDocumentValue;
 		fn_ExecQuery(qry);  
 
