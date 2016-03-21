@@ -24,49 +24,9 @@ fn_LoadDb();
 $("#lstDB").change(function(){
 	var Seldb = $('#lstDB option:selected').text();
 	fn_LoadDt(Seldb);
-	// fn_LoadDt();
 
-});
-    
-// $scope.tabs = [{
-//             title: 'Result',
-//             url: 'result.sql.html',
-//             href: '#tab_Result'        
-// 	        }, {
-// 	            title: 'History',
-// 	            url: 'history.sql.html',
-// 	            href: '#tab_History' 
-// 	    	}, {
-// 	            title: 'Saved Query',
-// 	            url: 'savedqry.sql.html',
-// 	            href: '#tab_Saved' 
-// 	    	}];
+});    
 
-
-  // $scope.currentTab = 'result.sql.html';
-  // $scope.currentTab = 'tab_Result';
-
-    // $scope.onClickTab = function (tab) {
-    //     // $scope.currentTab = tab.url;
-    //     // $scope.currentTab = tab.href;
-    //     if(tab.title == 'Result'){
-    //     	// $('#tblResult').DataTable( {
-    //     	//     language: {
-    //     	//         infoEmpty: "No records available - Got it?",
-    //     	//     }
-    //     	// });          
-    //     }
-        
-    //     $("#messageView div").hide();
-    // }
-
-    // $scope.isActiveTab = function(tabUrl) {
-    //     return tabUrl == $scope.currentTab;
-    // }
-     
-//      function onClickTab(){
-// alert("hello");
-//      }
 
 $('.tab').click(function(){
 	$(this).siblings().removeClass('active');
@@ -216,7 +176,7 @@ function fn_LoadDt(seldb){	//seldb
 	//$("#lstDBtbl ").empty();
 	$.getJSON(globalURL + "api/pistachio/secured/hadoop/tables?db=" + seldb , function (json) { //"api/report/reference/state
  	        $.each(json, function(k, v){									
-            $("#lstDBtbl").append('<option value='+k+'>'+v+'</option>');
+            $("#lstDBtbl ul").append('<li data-value='+k+'>'+v+'</li>');
 			// $("#lstDBtbl ul").append('<li class="mt-list-item">'+
 	  //               '<div class="list-item-content">'+
 	  //                   '<h5>'+ v +'</h5>'+
