@@ -350,6 +350,31 @@ MetronicApp.factory('settings', ['$rootScope', function ($rootScope) {
 
 
 
+/* interceptors store token in header */
+
+MetronicApp.factory('httpRequestInterceptor', function () {
+  return {
+    request: function (config) {
+        var storeToken = localStorage.getItem("token");
+      // use this to destroying other existing headers
+      config.headers = {'token':storeToken}
+
+      // use this to prevent destroying other existing headers
+      // config.headers['Authorization'] = 'authentication';
+
+      return config;
+    }
+  };
+});
+
+MetronicApp.config(function ($httpProvider) {
+  $httpProvider.interceptors.push('httpRequestInterceptor');
+});
+
+
+/* interceptors store token in header end */
+
+
 /* Setup global Authorities */
 MetronicApp.factory('authorities', function () {
 
