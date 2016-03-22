@@ -368,7 +368,7 @@ MetronicApp.factory('httpRequestInterceptor', function () {
 });
 
 MetronicApp.config(function ($httpProvider) {
-  $httpProvider.interceptors.push('httpRequestInterceptor');
+  // $httpProvider.interceptors.push('httpRequestInterceptor');
 });
 
 

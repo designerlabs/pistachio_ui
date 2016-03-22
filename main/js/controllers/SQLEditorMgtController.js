@@ -1,40 +1,26 @@
 'use strict';
 
-MetronicApp.controller('SQLEditorMgtController', function($scope) {
-
-   // $scope.aceLoaded = function(_editor) {
-   //    $scope.aceSession = _editor.getSession();
-   //    console.log('first '+ _editor.getSession());
-   //  };
-   //  $scope.aceChanged = function () {
-   //    $scope.aceDocumentValue = $scope.aceSession.getDocument().getValue();
-   //     console.log('secound '+$scope.aceSession.getDocument().getValue());
-   //  };
-
+MetronicApp.controller('SQLEditorMgtController', function($scope,$http) {
 
 $scope.$on('$viewContentLoaded', function() {
         Metronic.initAjax(); // initialize core components
-        $scope.database = "default"
+        $scope.database = "default";
 	});
 
 fn_LoadDb();
 
-
-
-
-$("#lstDB").change(function(){
-	var Seldb = $('#lstDB option:selected').text();
-	fn_LoadDt(Seldb);
-
-});    
-
+$scope.database;
+$scope.OnDBClick = function(sel){
+	$scope.database = sel;
+	fn_LoadDt(sel);
+}
 
 $('.tab').click(function(){
-	$(this).siblings().removeClass('active');
-	$(this).addClass('active');
+	$(this).siblings().removeClass('active'); //remove opened tab
+	$(this).addClass('active'); //activate clicked tab
 	if(this.id == "tabResult"){
-		$(".tab-content").children().removeClass('active in');
-		$('.tab_Result').addClass('active in');
+		$(".tab-content").children().removeClass('active in'); //hide other tab contents
+		$('.tab_Result').addClass('active in'); //show relevant tab contents
 	}else if(this.id=="tabHistory"){
 		$(".tab-content").children().removeClass('active in');
 		$('.tab_History').addClass('active in');
@@ -50,78 +36,38 @@ $('.tab').click(function(){
 	return false;
 });
 
-// <<<<<<< HEAD
-// =======
-// $scope.tabs = [{
-//             title: 'Result',
-//             url: 'result.sql.html'
-// 	        }, {
-// 	            title: 'History',
-// 	            url: 'history.sql.html'
-// 	    	}, {
-// 	            title: 'Saved Query',
-// 	            url: 'savedqry.sql.html'
-// 	    	}];
-
-
-//  $scope.currentTab = 'result.sql.html';
-
-//     $scope.onClickTab = function (tab) {
-//         $scope.currentTab = tab.url;
-//         if(tab.title == 'Result'){
-//         	$('#tblResult').DataTable( {
-//         	    language: {
-//         	        infoEmpty: "No records available - Got it?",
-//         	    }
-//         	});
-//           //  $http.get(globalURL+'auth/user?token=' + getToken)
-//           // .success(function(response) {
-//           //   $('.edit-form [name=editname]').val(response.firstName);
-//           //   $('.edit-form [name=editemail]').val(response.email);
-//           //   $('.edit-form #userselLang').val((response.lang == "en") ? "en" : "my");
-//           //  });
-//         }
-
-//         $("#messageView div").hide();
-//     }
-
-//     $scope.isActiveTab = function(tabUrl) {
-//         return tabUrl == $scope.currentTab;
-//     }
-// >>>>>>> 37df6e8c33fdb5177282c1a470b2b243d227baa7
-
     $('.exec').click(function(){
+		$('.nav-tabs').children().removeClass('active')
+		$('#tabResult').addClass('active');
+		$(".tab-content").children().removeClass('active in'); //hide other tab contents
+		$('.tab_Result').addClass('active in'); //show relevant tab contents
 
-    	if($('#tblResult').dataTableSettings.length > 0){
-    			var table = $('#tblResult').DataTable();
-    			table.clear()
-              		 .draw();
-    	}
+	    	if($('#tblResult').dataTableSettings.length > 0){
+	    			var table = $('#tblResult').DataTable();
+	    			table.clear()
+	              		 .draw();
+	    	}
 
-    	var qry = $scope.aceDocumentValue;
-		fn_ExecQuery(qry);
+	    	var qry = $scope.aceDocumentValue;
+			fn_ExecQuery(qry);
+    });
 
+    $('.newqry').click(function(){
+    	var editor = ace.edit("qryeditor");
+    	editor.$blockScrolling = Infinity
+    	editor.session.setValue('');
     });
 
 	$scope.aceLoaded = function(_editor) {
-	      $scope.aceSession = _editor.getSession();
-// <<<<<<< HEAD
-// =======
-
-// >>>>>>> 37df6e8c33fdb5177282c1a470b2b243d227baa7
-	      // console.log('first '+ _editor.getSession());
-	       // _editor.setReadOnly(true);
+		$scope.aceSession = _editor.getSession();
 	};
+	
     $scope.aceChanged = function () {
       	  $scope.aceDocumentValue = $scope.aceSession.getDocument().getValue();
-          // console.log('secound '+$scope.aceSession.getDocument().getValue());
     };
 
-
-//create JSON array for aoColumnDefs
 var dataSet;
 var aryJSONColTable = [];
-// var myArrayRow = [];
 
 function fn_ExecQuery(qry){
 if(qry != null && qry.length > 0){
@@ -204,6 +150,16 @@ function queryResultFunc(rw,col) {
 }
 
 function fn_LoadDb(){
+
+	$http.get(globalURL + "api/pistachio/secured/hadoop/db")
+	    .then(function(response) {
+	    	$scope.databaseList = response.data;
+	    	// $scope.database = response.data[0];
+	    	console.log("dblist" + response.data[0]);
+
+	    	fn_LoadDt(response.data[0]);
+	});
+
 	// $.getJSON(globalURL + "api/pistachio/secured/hadoop/db", function (json) { //api/pistachio/secured/hadoop/db
  // 	         $.each(json, function(k, v){
  //            $("#lstDB").append('<option value='+k+'>'+v+'</option>');
@@ -222,5 +178,15 @@ function fn_LoadDt(seldb){	//seldb
  //            	$("#lstDBtbl ul").append('<li data-value='+k+'>'+v+'</li>'); 	 
  //     		});
 	// });
+
+	$http.get(globalURL + "api/pistachio/secured/hadoop/tables?db=" + seldb)
+	    .then(function(response) {
+	    	$scope.datatableList = response.data;
+	    	// $scope.database = response.data[0];
+	    	console.log("dtlist" + response.data[0]);
+
+	    	
+	});
+
 }
 });
