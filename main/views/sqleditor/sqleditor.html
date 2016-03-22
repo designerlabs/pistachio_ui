@@ -2,13 +2,24 @@
 	SQL Editor
 </h3>
 
+<!-- <div class="col-md-12" style="padding-left: 5px;">
+>>>>>>> 37df6e8c33fdb5177282c1a470b2b243d227baa7 -->
 
+  <div class="col-md-2 portlet light portlet-fit bordered" style="padding: 5px;">
+    <div class="mt-element-list">
+      <div class="mt-list-head list-simple ext-1 font-white bg-blue-chambray">
+          <div class="list-head-title-container">
+                <a href="javascript:;" class="font-white pull-right">
+                    <i class="fa fa-refresh"></i>
+                </a>
+
+<!-- <<<<<<< HEAD
 <div class="col-md-12">
 
   <div class="col-md-2 sidebar_menu">  
     <div class="col-md-10">
       <div class="form-group" >
-        <!-- <label class="control-label">Data Base </label> -->
+       
         <div class="portlet-title">
           <div class="caption">
             <i class="fa fa-database"></i>
@@ -21,7 +32,7 @@
 
     <div class="col-md-10">
       <div class="form-group" >
-        <!-- <label class="control-label">Data Table </label> -->
+        
         
         <div class="portlet-title">
           <div class="caption">
@@ -30,10 +41,10 @@
           </div>
         </div>
         <div class="portlet-body">
-        <!-- <select id="lstDBtbl" class="form-control"></select> -->
+        
           <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 51px;">
           <div style="height: 51px; overflow: hidden; width: auto;" class="full-height-content-body" >
-            <div id="lstDBtbl" > <!-- class="mt-list-container list-simple" -->
+            <div id="lstDBtbl" > 
               <ul></ul>
             </div>
             </div>
@@ -41,50 +52,87 @@
         </div>          
       </div>
     </div>
+-->
+                                                    <h3 class="list-title">Database</h3>
+                                                </div>
+                                            </div>
+                                            <div class="mt-list-container list-simple ext-1 group">
+                                                <a class="list-toggle-container collapsed" data-toggle="collapse" data-target="#completed-simple" aria-expanded="false">
+                                                    <div class="list-toggle done">{{database}}
+                                                        <span class="badge badge-default pull-right bg-white font-green bold">2</span>
+                                                    </div>
+                                                </a>
+                                                <div style="height: 0px;" aria-expanded="false" class="panel-collapse collapsed collapse" id="completed-simple">
+                                                  <!-- <select id="lstDB" class="form-control"></select> -->
+                                                    <ul>
+                                                        <li class="mt-list-item done">
+                                                          <div class="mt-list-title uppercase">default
 
+                                                          </div>
+                                                        </li>
+                                                        <li class="mt-list-item">
+                                                          <div class="mt-list-title uppercase">waze
+<!-- >>>>>>> 37df6e8c33fdb5177282c1a470b2b243d227baa7 -->
+
+                                                          </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <a class="list-toggle-container" data-toggle="collapse" data-target="#pending-simple" aria-expanded="true">
+                                                    <div class="list-toggle uppercase"> Tables
+                                                      <span class="badge badge-default pull-right bg-white font-green bold">2</span>
+                                                    </div>
+                                                </a>
+                                                <div style="" aria-expanded="true" class="panel-collapse collapse in" id="pending-simple">
+                                                 <!--  <select id="lstDBtbl" class="form-control"></select> -->
+                                                    <ul>
+                                                        <li class="mt-list-item">
+                                                          <div class="mt-list-title uppercase">Table list
+                                                              <span class="badge badge-default pull-right bg-hover-green-jungle">
+                                                                  <a href="javascript:;" class="font-white">
+                                                                      <i class="fa fa-plus"></i>
+                                                                  </a>
+                                                              </span>
+                                                          </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
   </div>
+<!-- <<<<<<< HEAD
   <div class="col-md-10">
     
     <div class="col-md-12 sql_editor">
     <h3> SQL Editor</h3>
       <section>  
+======= -->
+  <div class="col-md-10"  style="padding: 0;">
+
+    <div class="col-md-12 sql_editor">
+      <section>
+<!-- >>>>>>> 37df6e8c33fdb5177282c1a470b2b243d227baa7 -->
         <div ui-ace="{
+          mode : 'sql',
+          theme:'clouds',
           onLoad: aceLoaded,
           onChange: aceChanged
         }"></div>
       </section>
+<!-- <<<<<<< HEAD -->
       <div class="action" style="float:right;">
         <button class="btn btn-sm btn-success exec"> Execute </button> 
         <button class="btn btn-sm btn-warning saveas"> Save As </button> 
         <button class="btn btn-sm btn-info newqry"> New Query </button>
-      </div>    
+      </div>   
+
     </div>
     <div class="col-md-12 result_container">
-     
+
       <div class="profile-content">
       <div class="row">
         <div class="col-md-12">
           <div class="portlet light ">
-            <!-- <div class="portlet-title tabbable-line">              
-                <ul class="nav nav-tabs">
-                  <li ng-repeat="tab in tabs" ng-class="{active:isActiveTab(tab.url)}" ng-click="onClickTab(tab)">
-                    <a data-toggle="tab" aria-expanded="true">{{tab.title}}</a>
-                  </li>
-                </ul>
-            </div> -->
-            <!-- <div class="portlet-body">
-              <div class="tab-content">
-                <div id="mainView">
-                  <div ng-include="currentTab"></div>
-                </div>
-                <div id="messageView" style="margin-top:20px">
-                  <div class="alert display-hide" id="result.errorinfo">
-                      <button class="close" data-close="alert"></button>
-                      <span>Hello im here</span>
-                  </div>
-                </div>
-              </div>
-            </div> -->
               <div class="portlet-body">
                 <ul class="nav nav-tabs">
                     <li class="tab active" id='tabResult' data="tab_Result">
@@ -128,20 +176,20 @@
            <!--  <script type="text/ng-template" id="result.sql.html">
               <div class="tab-pane active" id="tab_1_1">
                 <form role="form" class="result-form">
-                 <table id="tblResult" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">                    
-                </table>                
+                 <table id="tblResult" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                </table>
                 </form>
               </div>
             </script>
-            
+
             <script type="text/ng-template" id="history.sql.html">
               <form role="form">
-                
+
               </form>
             </script>
             <script type="text/ng-template" id="savedqry.sql.html">
               <form role="form" >
-                
+
               </form>
             </script> -->
               </div>
@@ -150,7 +198,7 @@
           </div>
 
 
-      <!-- <h3> Results</h3>     
+      <!-- <h3> Results</h3>
       <table class="table">
         <tr>
           <td>1</td>
@@ -170,7 +218,4 @@
     </div>
   </div>
 
-</div>
-
-
-                    
+<!-- </div> -->
