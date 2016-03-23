@@ -666,7 +666,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                     'assets/pages/scripts/datamaps/datamaps.world.js',
                     'assets/pages/css/search.css',
                     'assets/pages/css/pricing.min.css',
-
+                    '//code.highcharts.com/stock/highstock.js',
                     'js/controllers/VAAController.js'
                   ]
                 });
@@ -1945,9 +1945,11 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                     'assets/pages/scripts/angular-chart/angular-chart.css',
                     'assets/pages/scripts/datamaps/datamaps.world.js',
                     'assets/pages/css/search.css',
-                    'assets/pages/css/pricing.min.css',
-                    '//d3js.org/d3.v3.min.js',
-                   
+
+                    'assets/pages/css/pricing.min.css', 
+                    '//code.highcharts.com/stock/highstock.js',
+                    '//code.highcharts.com/stock/modules/exporting.js',    
+
                     'js/controllers/d2dTrackingController.js'
                   ]
                 });
