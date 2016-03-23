@@ -4,108 +4,223 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
     $scope.$on('$viewContentLoaded', function() {   
         // initialize core components
         Metronic.initAjax();
-        var margin = {top: 10, right: 10, bottom: 100, left: 40},
-            margin2 = {top: 430, right: 10, bottom: 40, left: 40},
-            width = 960 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom,
-            height2 = 500 - margin2.top - margin2.bottom;
+        var seriesOptions = [],
+               seriesCounter = 0,
+               names = ['MSFT', 'AAPL', 'GOOG'];
 
-        var parseDate = d3.time.format("%b %Y").parse;
+           /**
+            * Create the chart when all data is loaded
+            * @returns {undefined}
+            */
+           $scope.createChart =function() {
 
-        var x = d3.time.scale().range([0, width]),
-            x2 = d3.time.scale().range([0, width]),
-            y = d3.scale.linear().range([height, 0]),
-            y2 = d3.scale.linear().range([height2, 0]);
+               $('#container').highcharts('StockChart', {
 
-        var xAxis = d3.svg.axis().scale(x).orient("bottom"),
-            xAxis2 = d3.svg.axis().scale(x2).orient("bottom"),
-            yAxis = d3.svg.axis().scale(y).orient("left");
+                   rangeSelector: {
+                       selected: 4
+                   },
 
-        var brush = d3.svg.brush()
-            .x(x2)
-            .on("brush", brushed);
+                   yAxis: {
+                       labels: {
+                           formatter: function () {
+                               return (this.value > 0 ? ' + ' : '') + this.value + '%';
+                           }
+                       },
+                       plotLines: [{
+                           value: 0,
+                           width: 2,
+                           color: 'silver'
+                       }]
+                   },
 
-        var area = d3.svg.area()
-            .interpolate("monotone")
-            .x(function(d) { return x(d.date); })
-            .y0(height)
-            .y1(function(d) { return y(d.price); });
+                   plotOptions: {
+                       series: {
+                           compare: 'percent'
+                       }
+                   },
 
-        var area2 = d3.svg.area()
-            .interpolate("monotone")
-            .x(function(d) { return x2(d.date); })
-            .y0(height2)
-            .y1(function(d) { return y2(d.price); });
+                   tooltip: {
+                       pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+                       valueDecimals: 2
+                   },
 
-        var svg = d3.select("#svgContainer").append("svg:svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                   series: seriesOptions
+               });
+           }
 
-        svg.append("defs").append("clipPath")
-            .attr("id", "clip")
-          .append("rect")
-            .attr("width", width)
-            .attr("height", height);
+           $.each(names, function (i, name) {
 
-        var focus = svg.append("g")
-            .attr("class", "focus")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+               $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=' + name.toLowerCase() + '-c.json&callback=?',    function (data) {
 
-        var context = svg.append("g")
-            .attr("class", "context")
-            .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+                   seriesOptions[i] = {
+                       name: name,
+                       data: data,
+                        type: 'area',
+                        gapSize: 5
+                   };
 
-        d3.csv("../main/assets/pistachio/sp500.csv", type, function(error, data) {
-          x.domain(d3.extent(data.map(function(d) { return d.date; })));
-          y.domain([0, d3.max(data.map(function(d) { return d.price; }))]);
-          x2.domain(x.domain());
-          y2.domain(y.domain());
+                   // As we're loading the data asynchronously, we don't know what order it will arrive. So
+                   // we keep a counter and create the chart when all the data is loaded.
+                   seriesCounter += 1;
 
-          focus.append("path")
-              .datum(data)
-              .attr("class", "area")
-              .attr("d", area);
+                   if (seriesCounter === names.length) {
+                       $scope.createChart();
+                   }
+               });
+           });
 
-          focus.append("g")
-              .attr("class", "x axis")
-              .attr("transform", "translate(0," + height + ")")
-              .call(xAxis);
 
-          focus.append("g")
-              .attr("class", "y axis")
-              .call(yAxis);
 
-          context.append("path")
-              .datum(data)
-              .attr("class", "area")
-              .attr("d", area2);
+           Highcharts.SparkLine = function (a, b, c) {
+                 var hasRenderToArg = typeof a === 'string' || a.nodeName,
+                     options = arguments[hasRenderToArg ? 1 : 0],
+                     defaultOptions = {
+                         chart: {
+                             renderTo: (options.chart && options.chart.renderTo) || this,
+                             backgroundColor: null,
+                             borderWidth: 0,
+                             type: 'area',
+                             margin: [2, 0, 2, 0],
+                             width: 120,
+                             height: 20,
+                             style: {
+                                 overflow: 'visible'
+                             },
+                             skipClone: true
+                         },
+                         title: {
+                             text: ''
+                         },
+                         credits: {
+                             enabled: false
+                         },
+                         xAxis: {
+                             labels: {
+                                 enabled: false
+                             },
+                             title: {
+                                 text: null
+                             },
+                             startOnTick: false,
+                             endOnTick: false,
+                             tickPositions: []
+                         },
+                         yAxis: {
+                             endOnTick: false,
+                             startOnTick: false,
+                             labels: {
+                                 enabled: false
+                             },
+                             title: {
+                                 text: null
+                             },
+                             tickPositions: [0]
+                         },
+                         legend: {
+                             enabled: false
+                         },
+                         tooltip: {
+                             backgroundColor: null,
+                             borderWidth: 0,
+                             shadow: false,
+                             useHTML: true,
+                             hideDelay: 0,
+                             shared: true,
+                             padding: 0,
+                             positioner: function (w, h, point) {
+                                 return { x: point.plotX - w / 2, y: point.plotY - h };
+                             }
+                         },
+                         plotOptions: {
+                             series: {
+                                 animation: false,
+                                 lineWidth: 1,
+                                 shadow: false,
+                                 states: {
+                                     hover: {
+                                         lineWidth: 1
+                                     }
+                                 },
+                                 marker: {
+                                     radius: 1,
+                                     states: {
+                                         hover: {
+                                             radius: 2
+                                         }
+                                     }
+                                 },
+                                 fillOpacity: 0.25
+                             },
+                             column: {
+                                 negativeColor: '#910000',
+                                 borderColor: 'silver'
+                             }
+                         }
+                     };
 
-          context.append("g")
-              .attr("class", "x axis")
-              .attr("transform", "translate(0," + height2 + ")")
-              .call(xAxis2);
+                 options = Highcharts.merge(defaultOptions, options);
 
-          context.append("g")
-              .attr("class", "x brush")
-              .call(brush)
-            .selectAll("rect")
-              .attr("y", -6)
-              .attr("height", height2 + 7);
-        });
+                 return hasRenderToArg ?
+                     new Highcharts.Chart(a, options, c) :
+                     new Highcharts.Chart(options, b);
+             };
 
-        function brushed() {
-          x.domain(brush.empty() ? x2.domain() : brush.extent());
-          focus.select(".area").attr("d", area);
-          focus.select(".x.axis").call(xAxis);
-        }
+             var start = +new Date(),
+                 $tds = $('td[data-sparkline]'),
+                 fullLen = $tds.length,
+                 n = 0;
 
-        function type(d) {
-          d.date = parseDate(d.date);
-          d.price = +d.price;
-          return d;
-        }
+             // Creating 153 sparkline charts is quite fast in modern browsers, but IE8 and mobile
+             // can take some seconds, so we split the input into chunks and apply them in timeouts
+             // in order avoid locking up the browser process and allow interaction.
+             function doChunk() {
+                 var time = +new Date(),
+                     i,
+                     len = $tds.length,
+                     $td,
+                     stringdata,
+                     arr,
+                     data,
+                     chart;
+
+                 for (i = 0; i < len; i += 1) {
+                     $td = $($tds[i]);
+                     stringdata = $td.data('sparkline');
+                     arr = stringdata.split('; ');
+                     data = $.map(arr[0].split(', '), parseFloat);
+                     chart = {};
+
+                     if (arr[1]) {
+                         chart.type = arr[1];
+                     }
+                     $td.highcharts('SparkLine', {
+                         series: [{
+                             data: data,
+                             pointStart: 1
+                         }],
+                         tooltip: {
+                             headerFormat: '<span style="font-size: 10px">' + $td.parent().find('th').html() + ', Q{point.x}:</span><br/>',
+                             pointFormat: '<b>{point.y}.000</b> USD'
+                         },
+                         chart: chart
+                     });
+
+                     n += 1;
+
+                     // If the process takes too much time, run a timeout to allow interaction with the browser
+                     if (new Date() - time > 500) {
+                         $tds.splice(0, i + 1);
+                         setTimeout(doChunk, 0);
+                         break;
+                     }
+
+                     // Print a feedback on the performance
+                     if (n === fullLen) {
+                         $('#result').html('Generated ' + fullLen + ' sparklines in ' + (new Date() - start) + ' ms');
+                     }
+                 }
+             }
+             doChunk();
     });
 
     // set sidebar closed and body solid layout mode
