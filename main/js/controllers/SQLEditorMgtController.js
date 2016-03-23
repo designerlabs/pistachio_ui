@@ -8,7 +8,7 @@ $scope.$on('$viewContentLoaded', function() {
 	});
 
 fn_LoadDb();
-
+// alert('hello'+$scope.aceDocumentValue)
 $scope.database;
 $scope.OnDBClick = function(sel){
 	$scope.database = sel;
@@ -81,10 +81,10 @@ if(qry != null && qry.length > 0){
 	// 	data: qry.trim()
 	// }
 
-	$http.post({
-		url: globalURL + "api/pistachio/secured/runSQL",
-		data: qry.trim()
-	}).then(function(result){
+	$http.post(
+		 globalURL + "api/pistachio/secured/runSQL",
+		 qry.trim()
+	).then(function(result){
 		if (result != null) {
 			var	resultOutputCol = jQuery.parseJSON(result.columns);
 			var	resultOutput = jQuery.parseJSON(result.results);
