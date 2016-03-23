@@ -34,7 +34,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                        selected: 2
                    },
 
-                   yAxis: {
+                  /* yAxis: {
                        labels: {
                            formatter: function () {
                                return (this.value > 0 ? ' + ' : '') + this.value + '%';
@@ -45,12 +45,10 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                            width: 2,
                            color: 'silver'
                        }]
-                   },
+                   },*/
 
                    plotOptions: {
-                       series: {
-                           compare: 'percent'
-                       }
+                       
                    },
 
                    tooltip: {
@@ -87,8 +85,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                   seriesOptions[j] = {
                       name: name,
                       data: storeData,
-                       type: 'area',
-                       gapSize: 5
+                       type : 'areaspline',
+                       threshold : null
                   };
 
                   // As we're loading the data asynchronously, we don't know what order it will arrive. So
