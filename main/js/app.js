@@ -666,7 +666,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                     'assets/pages/scripts/datamaps/datamaps.world.js',
                     'assets/pages/css/search.css',
                     'assets/pages/css/pricing.min.css',
-
+                    '//code.highcharts.com/stock/highstock.js',
                     'js/controllers/VAAController.js'
                   ]
                 });
@@ -674,6 +674,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
         }
     })
 
+  
     .state('workflowuser', {
         url: "/workflowuser.html",
         templateUrl: "views/workflow/workflowuser.html",
@@ -1924,6 +1925,33 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                     ]
                 });
             }]
+        }
+    })
+
+    //Tracking
+    .state('d2dTracking', {
+        url: "/d2dTracking/d2dTracking.html",
+        templateUrl: "views/d2dTracking/d2dTracking.html",
+        data: {
+            pageTitle: 'Tracking'
+        },
+        controller: "d2dTrackingController",
+        resolve: {
+            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                    'assets/pages/scripts/angular-chart/angular-chart.css',
+                    'assets/pages/scripts/datamaps/datamaps.world.js',
+                    'assets/pages/css/search.css',
+                    'assets/pages/css/pricing.min.css', 
+                    '//code.highcharts.com/stock/highstock.js',
+                    '//code.highcharts.com/stock/modules/exporting.js',    
+                    'js/controllers/d2dTrackingController.js'
+                  ]
+                });
+          }]
         }
     })
 
