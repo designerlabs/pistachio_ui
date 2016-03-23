@@ -14,7 +14,7 @@
             <div class="mt-list-container list-simple ext-1 group">
                 <a class="list-toggle-container collapsed" data-toggle="collapse" data-target="#lstDB" aria-expanded="false">
                     <div class="list-toggle done">{{database}}
-                        <span class="badge badge-default pull-right bg-white font-green bold">2</span>
+                        <span class="badge badge-default pull-right bg-white font-green bold">{{databaseLength}}</span>
                     </div>
                 </a>
                 <div style="" aria-expanded="false" class="panel-collapse collapsed collapse" id="lstDB">
@@ -26,7 +26,7 @@
                 </div>
                 <a class="list-toggle-container" data-toggle="collapse" data-target="#lstDBtbl" aria-expanded="true">
                     <div class="list-toggle"> Tables
-                      <span class="badge badge-default pull-right bg-white font-green bold">2</span>
+                      <span class="badge badge-default pull-right bg-white font-green bold">{{datatableLength}}</span>
                     </div>
                 </a>
                 <div style="overflow: auto; max-height: 300px" aria-expanded="true" class="panel-collapse collapse in" id="lstDBtbl">
@@ -55,10 +55,10 @@
           onChange: aceChanged
         }"></div>
       </section>
-      <div class="action" style="float:right;">
+      <div class="action" style="float:right; margin:10px 0px;">
         <button class="btn btn-sm btn-success exec"> Execute </button> 
-        <button class="btn btn-sm btn-warning saveas"> Save As </button> 
-        <button class="btn btn-sm btn-info newqry"> New Query </button>
+        <button class="btn btn-sm btn-primary saveas"> Save As </button> 
+        <button class="btn btn-sm btn-default newqry"> New Query </button>
       </div>   
     </div>
     <div class="col-md-12 result_container">
