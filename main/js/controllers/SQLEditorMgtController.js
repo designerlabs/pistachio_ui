@@ -71,58 +71,79 @@ var aryJSONColTable = [];
 
 function fn_ExecQuery(qry){
 if(qry != null && qry.length > 0){
-	$.ajax({
-	    url: globalURL + "api/pistachio/secured/runSQL",
-	    type: "POST",
-	    dataType: 'json',
-	    contentType: "application/json; charset=utf-8",
-	    data: qry.trim(),
-	    success: function (result) {
-			if (result != null) {
-				var	resultOutputCol = jQuery.parseJSON(result.columns);
-				var	resultOutput = jQuery.parseJSON(result.results);
-			    var myArrayColumn = [];
-			    var i = 0;
 
-			    $.each(resultOutputCol, function (index, val) {
-			        var obj = {
-			            sTitle: val
-			        };
-			        myArrayColumn[i] = obj;
-			        i++;
-			    });
+	// var req = {
+	// 	method: 'POST',
+	// 	url: globalURL + "api/pistachio/secured/runSQL",
+	// 	headers: {
+	// 	   'Content-Type': "application/json; charset=utf-8",
+	// 	},
+	// 	data: qry.trim()
+	// }
 
-			    var myArrayRow = [];
-			    var i = 0;
+	$http.post({
+		url: globalURL + "api/pistachio/secured/runSQL",
+		data: qry.trim()
+	}).then(function(result){
+		if (result != null) {
+			var	resultOutputCol = jQuery.parseJSON(result.columns);
+			var	resultOutput = jQuery.parseJSON(result.results);
+		    var myArrayColumn = [];
+		    var i = 0;
 
-			    $.each(resultOutput, function (index, val) {
-			        var rowData = [];
-			        var j = 0;
-			        $.each(resultOutput[i], function (index, val) {
-			            rowData[j] = val;
-			            j++;
-			        });
+		    $.each(resultOutputCol, function (index, val) {
+		        var obj = {
+		            sTitle: val
+		        };
+		        myArrayColumn[i] = obj;
+		        i++;
+		    });
 
-			        myArrayRow[i] = rowData;
-			        i++;
-			    });
-			    queryResultFunc(myArrayRow,myArrayColumn);
-			    $(".page-content").height($(".profile-content").height()+400);
-		    }else{
-			    $("#messageView div span").html('No Data to Show...');
-		    	$("#messageView div").removeClass("alert-success");
-		    	$("#messageView div").addClass('alert-danger');
-		    	$("#messageView div").show().delay(5000).fadeOut();
-		    	$(".page-content").height($(".profile-content").height()+400);
-	    	}
-		},
-	    error: function(data){
-	    	$("#messageView div span").html(data.responseJSON.error);
+		    var myArrayRow = [];
+		    var i = 0;
+
+		    $.each(resultOutput, function (index, val) {
+		        var rowData = [];
+		        var j = 0;
+		        $.each(resultOutput[i], function (index, val) {
+		            rowData[j] = val;
+		            j++;
+		        });
+
+		        myArrayRow[i] = rowData;
+		        i++;
+		    });
+		    queryResultFunc(myArrayRow,myArrayColumn);
+		    $(".page-content").height($(".profile-content").height()+400);
+	    }else{
+		    $("#messageView div span").html('No Data to Show...');
 	    	$("#messageView div").removeClass("alert-success");
 	    	$("#messageView div").addClass('alert-danger');
 	    	$("#messageView div").show().delay(5000).fadeOut();
-	    }
-	});
+	    	$(".page-content").height($(".profile-content").height()+400);
+		}
+	}, 
+		function(data){
+			$("#messageView div span").html(data.responseJSON.error);
+	    	$("#messageView div").removeClass("alert-success");
+	    	$("#messageView div").addClass('alert-danger');
+	    	$("#messageView div").show().delay(5000).fadeOut();
+		});
+
+
+	// $.ajax({
+	//     url: globalURL + "api/pistachio/secured/runSQL",
+	//     type: "POST",
+	//     dataType: 'json',
+	//     contentType: "application/json; charset=utf-8",
+	//     data: qry.trim(),
+	//     success: function (result) {
+			
+	// 	},
+	//     error: function(data){
+	    	
+	//     }
+	// });
 }else{
 	$("#messageView div span").html("No Query found...");
 	$("#messageView div").removeClass("alert-success");
