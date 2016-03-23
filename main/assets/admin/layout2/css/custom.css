@@ -236,3 +236,21 @@ Rounded Portlets
 .portlet.box.red-intense > .portlet-title {
     background-color: #7CB1B9 !important;
 }
+
+#table-sparkline{
+    font-family: "Open Sans",sans-serif !important;
+}
+
+#table-sparkline thead th{
+    font-weight: 400;
+}
+
+#table-sparkline th{
+    font-size:20px;
+    font-weight: 200;
+
+}
+
+#table-sparkline tr{
+       line-height: 50px;
+}
