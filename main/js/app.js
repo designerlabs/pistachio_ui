@@ -357,7 +357,7 @@ MetronicApp.factory('httpRequestInterceptor', function () {
     request: function (config) {
         var storeToken = localStorage.getItem("token");
       // use this to destroying other existing headers
-      config.headers = {'token':storeToken}
+      config.headers = {'token':storeToken, 'Content-Type': 'application/json'};
 
       // use this to prevent destroying other existing headers
       // config.headers['Authorization'] = 'authentication';
