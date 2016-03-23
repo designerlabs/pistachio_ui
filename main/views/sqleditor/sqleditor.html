@@ -32,12 +32,7 @@
                 <div style="overflow: auto; max-height: 300px" aria-expanded="true" class="panel-collapse collapse in" id="lstDBtbl">
                     <ul>
                         <li class="mt-list-item" ng-repeat="dbtbllist in datatableList">
-                          <div class="mt-list-title">{{dbtbllist}}
-                              <!-- <span class="badge badge-default pull-right bg-hover-green-jungle">
-                                  <a href="javascript:;" class="font-white">
-                                      <i class="fa fa-plus"></i>
-                                  </a>
-                              </span> -->
+                          <div class="mt-list-title">{{dbtbllist}}                              
                           </div>
                         </li>
                     </ul>
@@ -48,7 +43,7 @@
   <div class="col-md-10"  style="padding: 0;">
     <div class="col-md-12 sql_editor">
       <section>
-        <div id="qryeditor" ui-ace="{
+        <div id="qryeditor" ng-model='editorarea' ui-ace="{
           mode : 'sql',
           theme:'chrome',
           onLoad: aceLoaded,
@@ -56,9 +51,9 @@
         }"></div>
       </section>
       <div class="action" style="float:right; margin:10px 0px;">
-        <button class="btn btn-sm btn-success exec"> Execute </button> 
-        <button class="btn btn-sm btn-primary saveas"> Save As </button> 
         <button class="btn btn-sm btn-default newqry"> New Query </button>
+        <button class="btn btn-sm btn-success exec {{editorarea.length > 0 ? '' : 'disabled'}}"> Execute </button> 
+        <button class="btn btn-sm btn-primary saveas {{editorarea.length > 0 ? '' : 'disabled'}}"> Save As </button>         
       </div>   
     </div>
     <div class="col-md-12 result_container">
@@ -84,9 +79,15 @@
                         </table>                           
                     </div>
                     <div class="tab-pane fade tab_History">
-                        <table id="tblHistory" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">                    
-                        </table>
-                        <p> This is History Tab   </p>
+                        <table id="tblHistory" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Name</th>
+                                    <th>Query</th>                                    
+                                </tr>
+                            </thead>
+                        </table>                        
                     </div>
                     <div class="tab-pane fade tab_Saved_Query">
                         <p> This is Saved Query Tab   </p>

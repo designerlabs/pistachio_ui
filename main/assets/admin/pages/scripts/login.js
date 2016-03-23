@@ -73,9 +73,9 @@ var Login = function () {
                     }).done(function (data) {
                         console.log("success");
                         token = data.value;
-
                         localStorage.setItem("username", usernameValue);
                         localStorage.setItem("token", token);
+                        localStorage.setItem("expireTime", data.expireTime);
 
                         //var getToken = localStorage.getItem("token");
                         var authoritiesArray = [];
