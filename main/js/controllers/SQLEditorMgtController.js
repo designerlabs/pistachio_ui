@@ -41,8 +41,7 @@ $('.tab').click(function(){
 		$('#tabResult').addClass('active');
 		$(".tab-content").children().removeClass('active in'); //hide other tab contents
 		$('.tab_Result').addClass('active in'); //show relevant tab contents
-
-	    	if($('#tblResult').dataTableSettings.length > 0){
+			if($('#tblResult').dataTableSettings.length > 0){
 	    			var table = $('#tblResult').DataTable();
 	    			table.clear()
 	              		 .draw();
@@ -50,6 +49,7 @@ $('.tab').click(function(){
 
 	    	var qry = $scope.aceDocumentValue;
 			fn_ExecQuery(qry);
+
     });
 
     $('.newqry').click(function(){
@@ -107,11 +107,13 @@ if(qry != null && qry.length > 0){
 			        i++;
 			    });
 			    queryResultFunc(myArrayRow,myArrayColumn);
+			    $(".page-content").height($(".profile-content").height()+400);
 		    }else{
 			    $("#messageView div span").html('No Data to Show...');
 		    	$("#messageView div").removeClass("alert-success");
 		    	$("#messageView div").addClass('alert-danger');
 		    	$("#messageView div").show().delay(5000).fadeOut();
+		    	$(".page-content").height($(".profile-content").height()+400);
 	    	}
 		},
 	    error: function(data){
@@ -153,6 +155,7 @@ function fn_LoadDb(){
 
 	$http.get(globalURL + "api/pistachio/secured/hadoop/db")
 	    .then(function(response) {
+	    	$scope.databaseLength = response.data.length;
 	    	$scope.databaseList = response.data;
 	    	// $scope.database = response.data[0];
 	    	console.log("dblist" + response.data[0]);
@@ -181,6 +184,7 @@ function fn_LoadDt(seldb){	//seldb
 
 	$http.get(globalURL + "api/pistachio/secured/hadoop/tables?db=" + seldb)
 	    .then(function(response) {
+	    	$scope.datatableLength = response.data.length;
 	    	$scope.datatableList = response.data;
 	    	// $scope.database = response.data[0];
 	    	console.log("dtlist" + response.data[0]);
