@@ -72,17 +72,17 @@ var aryJSONColTable = [];
 function fn_ExecQuery(qry){
 if(qry != null && qry.length > 0){
 
-	var req = {
-		method: 'POST',
-		url: globalURL + "api/pistachio/secured/runSQL",
-		// headers: {'Content-Type': "application/json;charset=utf-8"},
-		data: qry.trim()
-	}
+	// var req = {
+	// 	method: 'POST',
+	// 	url: globalURL + "api/pistachio/secured/runSQL",
+	// 	headers: {'Content-Type': "application/json;charset=utf-8"},
+	// 	data: qry.trim()
+	// }
 
-	$http(req).then(function(result){
+	$http.post(globalURL + "api/pistachio/secured/runSQL",qry.trim()).then(function(result){
 		if (result != null) {
-			var	resultOutputCol = jQuery.parseJSON(result.columns);
-			var	resultOutput = jQuery.parseJSON(result.results);
+			var	resultOutputCol = jQuery.parseJSON(result.data.columns);
+			var	resultOutput = jQuery.parseJSON(result.data.results);
 		    var myArrayColumn = [];
 		    var i = 0;
 
