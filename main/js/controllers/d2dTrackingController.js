@@ -7,39 +7,11 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
 
 
-        $scope.getOutData = function () {
-          
-          var query ='q=dy_action_ind:2&rows=1&json.facet={in_outs:{type : range,field : xit_date,start : "2015-01-01T00:00:00Z",end :"2015-12-31T00:00:00Z",gap:"%2B1HOUR"}}'// "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
-          var sq = "http://"+solrHost+":8983/solr/his/query?"
-          $http.get(sq+query).
-           success(function(data) {
-            //console.log(data);
-            
-
-            $scope.timelineChart(data);
-
-             //var y = {};
-             //y.min = $scope.yyyymmdd(new Date(data.facets.min_date));
-             //y.max = $scope.yyyymmdd(new Date(data.facets.max_date));
-             //console.log(y);
-             //$scope.dateRange = y;
-           })
-        };
 
 
-         $scope.getOutData();
+        $scope.timelineChart = function(){
 
 
-        $scope.timelineChart = function(data_range){
-
-           var data = [];
-        for( var i=0,l = data_range.facets.in_outs.buckets.length;i<l; i++){
-         var obj = data_range.facets.in_outs.buckets[i];
-         var element =[];
-         element.push(new Date(obj.val).getTime());
-         element.push(obj.count);
-         data.push(element);
-       }
 
        // console.log(data);
 
@@ -48,6 +20,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
           var seriesOptions = [],
                seriesCounter = 0,
                names = ['1', '2'];
+
 
            /**
             * Create the chart when all data is loaded
@@ -58,7 +31,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                $('#container').highcharts('StockChart', {
 
                    rangeSelector: {
-                       selected: 4
+                       selected: 2
                    },
 
                    yAxis: {
@@ -93,7 +66,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
 
 
-                var query ='q=dy_action_ind:'+name+'&rows=1&json.facet={in_outs:{type : range,field : xit_date,start : "2015-01-01T00:00:00Z",end :"2015-12-31T00:00:00Z",gap:"%2B1DAY"}}'// "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
+                var query ='q=dy_action_ind:'+name+'&rows=1&json.facet={in_outs:{type : range,field : xit_date,start : "2015-01-01T00:00:00Z",end :"2016-01-23T00:00:00Z",gap:"%2B1DAY"}}'// "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
                 var sq = "http://"+solrHost+":8983/solr/his/query?"
                 $http.get(sq+query).
                  success(function(data) {
@@ -158,7 +131,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
            });
          };
 
-         
+          $scope.timelineChart();
         
 
 
