@@ -280,7 +280,7 @@ var currentToken = localStorage.getItem("token");
         });       
       });
 
-      $scope.$on('IdleEnd', function() {
+      $scope.$on('IdleEnd', function() { //user wants to refresh session
         closeModals();
        
             $.get(globalURL + "auth/refresh?token=" + currentToken, function() {
@@ -294,7 +294,7 @@ var currentToken = localStorage.getItem("token");
             });
       });
 
-      $scope.$on('IdleTimeout', function() {
+      $scope.$on('IdleTimeout', function() { //user session expirered
         closeModals();
         $scope.timedout = $modal.open({
           templateUrl: 'timedout-dialog.html',
@@ -318,8 +318,11 @@ var currentToken = localStorage.getItem("token");
   
     })
     .config(function(IdleProvider, KeepaliveProvider) {
-      IdleProvider.idle(300);
-      IdleProvider.timeout(30);
+
+      var dt = new Date(localStorage.getItem("expireTime"));
+      var sec = dt.getSeconds()
+      IdleProvider.idle(300); //idle time dueration 
+      IdleProvider.timeout(30); // waiting time to refresh 
       // KeepaliveProvider.interval(15);     
     });
 

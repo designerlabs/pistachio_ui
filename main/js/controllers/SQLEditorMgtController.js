@@ -10,6 +10,7 @@ $scope.$on('$viewContentLoaded', function() {
 fn_LoadDb();
 // alert('hello'+$scope.aceDocumentValue)
 $scope.database;
+$scope.started = true;
 $scope.OnDBClick = function(sel){
 	$scope.database = sel;
 	fn_LoadDt(sel);
@@ -24,6 +25,7 @@ $('.tab').click(function(){
 	}else if(this.id=="tabHistory"){
 		$(".tab-content").children().removeClass('active in');
 		$('.tab_History').addClass('active in');
+		fn_showHistory();
 	}else if(this.id=="tabSavedQuery"){
 		$(".tab-content").children().removeClass('active in');
 		$('.tab_Saved_Query').addClass('active in');
@@ -41,11 +43,11 @@ $('.tab').click(function(){
 		$('#tabResult').addClass('active');
 		$(".tab-content").children().removeClass('active in'); //hide other tab contents
 		$('.tab_Result').addClass('active in'); //show relevant tab contents
-			if($('#tblResult').dataTableSettings.length > 0){
-	    			var table = $('#tblResult').DataTable();
-	    			table.clear()
-	              		 .draw();
-	    	}
+		// if($('#tblResult').dataTableSettings.length > 0){
+  //   			var table = $('#tblResult').DataTable();
+  //   			table.clear()
+  //             		 .draw();
+  //   	}
 
 	    	var qry = $scope.aceDocumentValue;
 			fn_ExecQuery(qry);
@@ -70,16 +72,8 @@ var dataSet;
 var aryJSONColTable = [];
 
 function fn_ExecQuery(qry){
-if(qry != null && qry.length > 0){
-
-	// var req = {
-	// 	method: 'POST',
-	// 	url: globalURL + "api/pistachio/secured/runSQL",
-	// 	headers: {'Content-Type': "application/json;charset=utf-8"},
-	// 	data: qry.trim()
-	// }
-
-	$http.post(globalURL + "api/pistachio/secured/runSQL",qry.trim()).then(function(result){
+	if(qry != null && qry.length > 0){	
+		$http.post(globalURL + "api/pistachio/secured/runSQL",qry.trim()).then(function(result){
 		if (result != null) {
 			var	resultOutputCol = jQuery.parseJSON(result.data.columns);
 			var	resultOutput = jQuery.parseJSON(result.data.results);
@@ -118,53 +112,38 @@ if(qry != null && qry.length > 0){
 	    	$(".page-content").height($(".profile-content").height()+400);
 		}
 	}, 
-		function(data){
-			$("#messageView div span").html(data.responseJSON.error);
-	    	$("#messageView div").removeClass("alert-success");
-	    	$("#messageView div").addClass('alert-danger');
-	    	$("#messageView div").show().delay(5000).fadeOut();
-		});
-
-
-	// $.ajax({
-	//     url: globalURL + "api/pistachio/secured/runSQL",
-	//     type: "POST",
-	//     dataType: 'json',
-	//     contentType: "application/json; charset=utf-8",
-	//     data: qry.trim(),
-	//     success: function (result) {
-			
-	// 	},
-	//     error: function(data){
-	    	
-	//     }
-	// });
+	function(data){
+		$("#messageView div span").html(data.responseJSON.error);
+		$("#messageView div").removeClass("alert-success");
+		$("#messageView div").addClass('alert-danger');
+		$("#messageView div").show().delay(5000).fadeOut();
+	});
+		
 }else{
-	$("#messageView div span").html("No Query found...");
-	$("#messageView div").removeClass("alert-success");
-	$("#messageView div").addClass('alert-danger');
-	$("#messageView div").show().delay(5000).fadeOut();
+		$("#messageView div span").html("No Query found...");
+		$("#messageView div").removeClass("alert-success");
+		$("#messageView div").addClass('alert-danger');
+		$("#messageView div").show().delay(5000).fadeOut();
 
-}
+	}
 
 }
 
 
 function queryResultFunc(rw,col) {
-
-			    	var oTable = $('#tblResult').DataTable({
-					"bDestroy": true,
-			        "bScrollCollapse": true,
-			        "bJQueryUI": true,
-			        "bScrollCollapse": true,
-			        "bInfo": true,
-			        "bFilter": true,
-			        "bSort": true,
-			        "aaData": rw,
-			        "aoColumns": col,
-			        "scrollCollapse": true,
-			        "paging": true
-					});
+	var oTable = $('#tblResult').DataTable({
+	"bDestroy": true,
+    "bScrollCollapse": true,
+    "bJQueryUI": true,
+    "bScrollCollapse": true,
+    "bInfo": true,
+    "bFilter": true,
+    "bSort": true,
+    "aaData": rw,
+    "aoColumns": col,
+    "scrollCollapse": true,
+    "paging": true
+	});
 }
 
 function fn_LoadDb(){
@@ -173,31 +152,13 @@ function fn_LoadDb(){
 	    .then(function(response) {
 	    	$scope.databaseLength = response.data.length;
 	    	$scope.databaseList = response.data;
-	    	// $scope.database = response.data[0];
 	    	console.log("dblist" + response.data[0]);
-
 	    	fn_LoadDt(response.data[0]);
 	});
-
-	// $.getJSON(globalURL + "api/pistachio/secured/hadoop/db", function (json) { //api/pistachio/secured/hadoop/db
- // 	         $.each(json, function(k, v){
- //            $("#lstDB").append('<option value='+k+'>'+v+'</option>');
- //         });
- //     }).done(function(){
- //     	var Seldb = $('#lstDB option:selected').text();
-	// 	fn_LoadDt(Seldb);
-	// 	//fn_LoadDt();
-
- //     });
+	
 }
 
-function fn_LoadDt(seldb){	//seldb
-	// $.getJSON(globalURL + "api/pistachio/secured/hadoop/tables?db=" + seldb , function (json) { //"api/report/reference/state
- // 	        $.each(json, function(k, v){									
- //            	$("#lstDBtbl ul").append('<li data-value='+k+'>'+v+'</li>'); 	 
- //     		});
-	// });
-
+function fn_LoadDt(seldb){	
 	$http.get(globalURL + "api/pistachio/secured/hadoop/tables?db=" + seldb)
 	    .then(function(response) {
 	    	$scope.datatableLength = response.data.length;
@@ -207,6 +168,35 @@ function fn_LoadDt(seldb){	//seldb
 
 	    	
 	});
-
 }
+
+var historyTbl;
+function fn_showHistory(){
+
+	var historyResult;
+	$http.get(globalURL + "api/pistachio/secured/history")
+	    .then(function(response) {
+	    	if(historyTbl != undefined){
+	    		historyTbl.destroy();
+	    	}
+
+			historyResult = response.data;
+			historyTbl = $('#tblHistory').DataTable({
+					"processing": true,
+			        "data": historyResult,
+			        "columns": [	        	
+			            {
+			                "data": "id"
+			            }, {
+			                "data": "login"
+			            },{
+			                "data": "query"
+			            }	            
+			        ]
+			});
+			 $(".page-content").height($(".profile-content").height()+400);
+	    });	
+}
+
+
 });
