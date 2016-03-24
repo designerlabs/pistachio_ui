@@ -120,17 +120,17 @@ function fn_ExecQuery(qry){
 	}, 
 	function errorCallback(response){
 		fn_ClearResultTbl();
-		$("#messageView div span").html(response.responseJSON.error);
+		$("#messageView div span").html(response.data.error);
 		$("#messageView div").removeClass("alert-success");
 		$("#messageView div").addClass('alert-danger');
-		$("#messageView div").show().delay(5000).fadeOut();
+		// $("#messageView div").show().delay(15000).fadeOut();
 	});
 		
 }else{
 		fn_ClearResultTbl();
 		$("#messageView div span").html("No Query found...");
 		$("#messageView div").removeClass("alert-success");
-		$("#messageView div").addClass('alert-danger');
+		$("#messageView div").addClass('alert-anger');
 		$("#messageView div").show().delay(5000).fadeOut();
 
 	}
