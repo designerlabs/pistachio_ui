@@ -58,11 +58,13 @@ $('.tab').click(function(){
     $('.newqry').click(function(){    	
     	editor.session.setValue('');
     	fn_GotoResultTab();
-    	if(oResultTable != undefined){
-    		// oResultTable.destroy();
-    		oResultTable.clear()
-	            		 .draw();	  	
-    	}
+    	// if(oResultTable != undefined){
+    	// 	oResultTable.destroy();
+    	// 	oResultTable.clear()
+	    //         		 .draw();	  	
+    	// }
+    	fn_ClearResultTbl();
+
     });
 
 	$scope.aceLoaded = function(_editor) {
@@ -111,6 +113,7 @@ function fn_ExecQuery(qry){
 		        myArrayRow[i] = rowData;
 		        i++;
 		    });
+		    fn_ClearResultTbl();
 		    queryResultFunc(myArrayRow,myArrayColumn);
 		    $(".page-content").height($(".profile-content").height()+400);
 	    }else{
@@ -143,6 +146,7 @@ function fn_ExecQuery(qry){
 
 function queryResultFunc(rw,col) {
 	oResultTable = $('#tblResult').DataTable({
+	// "bProcessing": true,
 	"bDestroy": true,
     "bScrollCollapse": true,
     "bJQueryUI": true,
@@ -220,9 +224,15 @@ function fn_GotoResultTab(){
 
 function fn_ClearResultTbl(){
 if(oResultTable != undefined){
-			oResultTable.clear()
-	        	    	.draw();	 
+    		 // oResultTable.destroy();	
+	oResultTable.clear()
+   	    	.draw();	
+   	$('#tblResult thead tr').remove();
+    $('#tblResult_wrapper .row').remove();
+	 
 	    }
+
+
 }
 
 });
