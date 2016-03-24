@@ -198,11 +198,19 @@ function fn_showHistory(){
 			        "data": historyResult,
 			        "columns": [	        	
 			            {
-			                "data": "id"
+			                "data": "query",
+			                "width": "70%"
 			            }, {
-			                "data": "login"
+			                "data": "success",
+			                "render": function (data, type, full, meta) {
+			                    if (data == true) {
+			                        return '<label class="label label-success"> OK </label>';
+			                    } else {
+			                        return '<label class="label label-danger"> Error </label>';
+			                    }
+			                }
 			            },{
-			                "data": "query"
+			                "data": "runTime"
 			            }	            
 			        ]
 			});
