@@ -27,13 +27,17 @@ $('.tab').click(function(){
 	if(this.id == "tabResult"){
 		$(".tab-content").children().removeClass('active in'); //hide other tab contents
 		$('.tab_Result').addClass('active in'); //show relevant tab contents
+		$("#messageView div").hide();
 	}else if(this.id=="tabHistory"){
 		$(".tab-content").children().removeClass('active in');
 		$('.tab_History').addClass('active in');
 		fn_showHistory();
+		$("#messageView div").hide();
 	}else if(this.id=="tabSavedQuery"){
 		$(".tab-content").children().removeClass('active in');
 		$('.tab_Saved_Query').addClass('active in');
+		$("#messageView div").hide();
+
 	}
 
 // var seltab = "#" + $(this).attr('data');
