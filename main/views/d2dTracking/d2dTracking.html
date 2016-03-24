@@ -7,6 +7,31 @@
 <div style="height:100px">&nbsp;</div>
 <div class="container-fluid">
 <div id="result"></div>
+
+<ul>
+    <li ng-repeat="x in branchData">
+        
+        <h4>{{x.val}} ---- {{x.in_out.buckets[0].exits.buckets[0].count}}</h4>
+    </li>
+
+</ul>
+
+<ul>
+    <h3>Entry</h3>
+    <li ng-repeat="y in branchIn">
+        
+        <h4>{{ y.count }}</h4>
+    </li>
+</ul>
+
+<ul>
+    <h3>Exit</h3>
+    <li ng-repeat="z in branchOut">
+        
+        <h4>{{ z.count }}</h4>
+    </li>
+</ul>
+
 <table id="table-sparkline" class="table col-md-12" style="width:100%; margin: 30px 0;">
     <thead>
         <tr>
