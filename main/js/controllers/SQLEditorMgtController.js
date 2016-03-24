@@ -16,32 +16,32 @@ editor.$blockScrolling = Infinity;
 var oResultTable;
 var historyTbl;
 
-	$scope.OnDBClick = function(sel){
-		$scope.database = sel;
-		fn_LoadDt(sel);
+$scope.OnDBClick = function(sel){
+	$scope.database = sel;
+	fn_LoadDt(sel);
+}
+
+$('.tab').click(function(){
+	$(this).siblings().removeClass('active'); //remove opened tab
+	$(this).addClass('active'); //activate clicked tab
+	if(this.id == "tabResult"){
+		$(".tab-content").children().removeClass('active in'); //hide other tab contents
+		$('.tab_Result').addClass('active in'); //show relevant tab contents
+	}else if(this.id=="tabHistory"){
+		$(".tab-content").children().removeClass('active in');
+		$('.tab_History').addClass('active in');
+		fn_showHistory();
+	}else if(this.id=="tabSavedQuery"){
+		$(".tab-content").children().removeClass('active in');
+		$('.tab_Saved_Query').addClass('active in');
 	}
 
-	$('.tab').click(function(){
-		$(this).siblings().removeClass('active'); //remove opened tab
-		$(this).addClass('active'); //activate clicked tab
-		if(this.id == "tabResult"){
-			$(".tab-content").children().removeClass('active in'); //hide other tab contents
-			$('.tab_Result').addClass('active in'); //show relevant tab contents
-		}else if(this.id=="tabHistory"){
-			$(".tab-content").children().removeClass('active in');
-			$('.tab_History').addClass('active in');
-			fn_showHistory();
-		}else if(this.id=="tabSavedQuery"){
-			$(".tab-content").children().removeClass('active in');
-			$('.tab_Saved_Query').addClass('active in');
-		}
+// var seltab = "#" + $(this).attr('data');
+// $(this).parent().siblings().removeClass('active in');
+// $(seltab).addClass('active in');
 
-	// var seltab = "#" + $(this).attr('data');
-	// $(this).parent().siblings().removeClass('active in');
-	// $(seltab).addClass('active in');
-
-		return false;
-	});
+	return false;
+});
 
 
     $('.exec').click(function(){
