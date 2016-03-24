@@ -123,7 +123,7 @@ function fn_ExecQuery(qry){
 		$("#messageView div span").html(response.data.error);
 		$("#messageView div").removeClass("alert-success");
 		$("#messageView div").addClass('alert-danger');
-		// $("#messageView div").show().delay(15000).fadeOut();
+	    $("#messageView div").show().delay(15000).fadeOut();
 	});
 		
 }else{
