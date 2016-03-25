@@ -251,6 +251,6 @@ Rounded Portlets
 
 }
 
-#table-sparkline tr{
-       line-height: 50px;
+.tbody-sparkline tr{
+       height: 50px;
 }

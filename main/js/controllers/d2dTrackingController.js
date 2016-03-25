@@ -55,7 +55,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     var query_c = '{query: "*:*",limit: 0,'+
                         'facet: {in_outs: {type: terms,limit: 10,field: dy_action_ind,'+
                         'facet: {exits: {type: range,field: xit_date,start: " ' + dateFormat(Math.round(e.min)) + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "%2B1DAY"}}},'+
-                        'branches: {type: terms,limit: 10,field: branch,facet: {in_out: {type: terms,limit: 2,field: dy_action_ind,'+
+                        'branches: {type: terms,limit: 15,field: branch,facet: {in_out: {type: terms,limit: 2,field: dy_action_ind,'+
                         'facet: {exits: {type: range,field: xit_date,start: " ' + dateFormat(Math.round(e.min)) + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "%2B1DAY"}}}'+
                         '}}}}}';
 
@@ -66,20 +66,80 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     console.log(data.facets.branches.buckets);
                     $scope.branchData = data.facets.branches.buckets;
                     //$scope.branchEntry = data.facets.branches.buckets.in_out.buckets[0].exits.buckets[0].count;
-                   $.each(data.facets.branches.buckets, function(q, w){
-                      //$scope.branchName = w.val;
-                      
-                      console.log(w.val);
-                      $.each(w.in_out, function(e, r){
-                        $scope.branchIn = r[0].exits.buckets;
-                        $scope.branchOut = r[1].exits.buckets;
-                        debugger;
-                         
-                      });
+                   $scope.branchId = data.facets.branches.buckets;
+                    var storeBranchData = [];
+                    for (var i = 0, l = data.facets.branches.buckets.length; i < l; i++) {
+                            /*var obj = data.facets.in_outs.buckets[i];
+                            var element = [];
+                            element.push(new Date(obj.val).getTime());
+                            element.push(obj.count);
+                            storeData.push(element);*/
+                          for (var k = 0, m = data.facets.branches.buckets[i].in_out.buckets.length; k < m; k++) {
+                  
+                            /*var bObj = data.facets.branches.buckets[i].in_out.buckets[k].count;
+                            var bElement = [];
+                            bElement.push(bObj);
+                            storeBranchData.push(bElement);*/
+                              var bName = data.facets.branches.buckets[i].val;
+                              var bIn_out = data.facets.branches.buckets[i].in_out.buckets[k].val;
+                              if(bIn_out == "1"){
+                                bIn_out = "Exit";
+                              }else{
+                                bIn_out = "Entry";
+                              }
+                               var bElement = [];
+                               var brName = {};
+                               var brStatus = {};
+                               brStatus.status = bIn_out;
+                               brName.name = bName;
+                                bElement.push(brStatus);
+                              bElement.push(brName);
+                               var countEle = [];
+                            for (var j = 0, n = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets.length; j < n; j++) {
+                             
+                              //console.log(data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j]);  
+                              
+                              var bDate = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j].val;
+                              var bCount = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j].count;
+                              
+                             
+                              countEle.push(bCount);
 
-                   });
+                            }
+
+
+                            var total = eval(countEle.join("+"));
+
+/*      
+                            var total = 0;
+                            for (var i = 0; i < countEle.length; i++) {
+                                total += countEle[i] << 0;
+                            }
+
+*/                          var getTotal = {};
+                            getTotal.total = total;
+
+                         countEle = countEle.join(", ");
+
+                            var getCount = {};
+                            getCount.count = countEle;
+
+                            bElement.push(getCount);
+                             bElement.push(getTotal);
+
+                            
+                            
+                            storeBranchData.push(bElement);
+                          }
+                            
+                            
+                        };
+                      $scope.branchOut = storeBranchData;
+                     console.log(storeBranchData);
+
+             
                 });
-
+                
                 $.each(names, function(j, name) {
 
 
@@ -225,158 +285,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
 
 
-
-        Highcharts.SparkLine = function(a, b, c) {
-            var hasRenderToArg = typeof a === 'string' || a.nodeName,
-                options = arguments[hasRenderToArg ? 1 : 0],
-                defaultOptions = {
-                    chart: {
-                        renderTo: (options.chart && options.chart.renderTo) || this,
-                        backgroundColor: null,
-                        borderWidth: 0,
-                        type: 'area',
-                        margin: [2, 0, 2, 0],
-                        width: 120,
-                        height: 20,
-                        style: {
-                            overflow: 'visible'
-                        },
-                        skipClone: true
-                    },
-                    title: {
-                        text: ''
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    xAxis: {
-                        labels: {
-                            enabled: false
-                        },
-                        title: {
-                            text: null
-                        },
-                        startOnTick: false,
-                        endOnTick: false,
-                        tickPositions: []
-                    },
-                    yAxis: {
-                        endOnTick: false,
-                        startOnTick: false,
-                        labels: {
-                            enabled: false
-                        },
-                        title: {
-                            text: null
-                        },
-                        tickPositions: [0]
-                    },
-                    legend: {
-                        enabled: false
-                    },
-                    tooltip: {
-                        backgroundColor: null,
-                        borderWidth: 0,
-                        shadow: false,
-                        useHTML: true,
-                        hideDelay: 0,
-                        shared: true,
-                        padding: 0,
-                        positioner: function(w, h, point) {
-                            return { x: point.plotX - w / 2, y: point.plotY - h };
-                        }
-                    },
-                    plotOptions: {
-                        series: {
-                            animation: false,
-                            lineWidth: 1,
-                            shadow: false,
-                            color: '#ff0000',
-                            states: {
-                                hover: {
-                                    lineWidth: 1
-                                }
-                            },
-                            marker: {
-                                radius: 1,
-                                states: {
-                                    hover: {
-                                        radius: 2
-                                    }
-                                }
-                            },
-                            fillOpacity: 0.25
-                        },
-                        column: {
-                            negativeColor: '#910000',
-                            borderColor: 'silver'
-                        }
-                    }
-                };
-
-            options = Highcharts.merge(defaultOptions, options);
-
-            return hasRenderToArg ?
-                new Highcharts.Chart(a, options, c) :
-                new Highcharts.Chart(options, b);
-        };
-
-        var start = +new Date(),
-            $tds = $('td[data-sparkline]'),
-            fullLen = $tds.length,
-            n = 0;
-
-        // Creating 153 sparkline charts is quite fast in modern browsers, but IE8 and mobile
-        // can take some seconds, so we split the input into chunks and apply them in timeouts
-        // in order avoid locking up the browser process and allow interaction.
-        function doChunk() {
-            var time = +new Date(),
-                i,
-                len = $tds.length,
-                $td,
-                stringdata,
-                arr,
-                data,
-                chart;
-
-            for (i = 0; i < len; i += 1) {
-                $td = $($tds[i]);
-                stringdata = $td.data('sparkline');
-                arr = stringdata.split('; ');
-                data = $.map(arr[0].split(', '), parseFloat);
-                chart = {};
-
-                if (arr[1]) {
-                    chart.type = arr[1];
-                }
-                $td.highcharts('SparkLine', {
-                    series: [{
-                        data: data,
-                        pointStart: 1
-                    }],
-                    tooltip: {
-                        headerFormat: '<span style="font-size: 10px">' + $td.parent().find('th').html() + ', Q{point.x}:</span><br/>',
-                        pointFormat: '<b>{point.y}.000</b> USD'
-                    },
-                    chart: chart
-                });
-
-                n += 1;
-
-                // If the process takes too much time, run a timeout to allow interaction with the browser
-                if (new Date() - time > 500) {
-                    $tds.splice(0, i + 1);
-                    setTimeout(doChunk, 0);
-                    break;
-                }
-
-                // Print a feedback on the performance
-                if (n === fullLen) {
-                    $('#result').html('Generated ' + fullLen + ' sparklines in ' + (new Date() - start) + ' ms');
-                }
-            }
-        }
-        doChunk();
+       
     });
 
 // set sidebar closed and body solid layout mode
