@@ -27,13 +27,17 @@ $('.tab').click(function(){
 	if(this.id == "tabResult"){
 		$(".tab-content").children().removeClass('active in'); //hide other tab contents
 		$('.tab_Result').addClass('active in'); //show relevant tab contents
+		$("#messageView div").hide();
 	}else if(this.id=="tabHistory"){
 		$(".tab-content").children().removeClass('active in');
 		$('.tab_History').addClass('active in');
 		fn_showHistory();
+		$("#messageView div").hide();
 	}else if(this.id=="tabSavedQuery"){
 		$(".tab-content").children().removeClass('active in');
 		$('.tab_Saved_Query').addClass('active in');
+		$("#messageView div").hide();
+
 	}
 
 // var seltab = "#" + $(this).attr('data');
@@ -54,11 +58,13 @@ $('.tab').click(function(){
     $('.newqry').click(function(){    	
     	editor.session.setValue('');
     	fn_GotoResultTab();
-    	if(oResultTable != undefined){
-    		// oResultTable.destroy();
-    		oResultTable.clear()
-	            		 .draw();	  	
-    	}
+    	// if(oResultTable != undefined){
+    	// 	oResultTable.destroy();
+    	// 	oResultTable.clear()
+	    //         		 .draw();	  	
+    	// }
+    	fn_ClearResultTbl();
+
     });
 
 	$scope.aceLoaded = function(_editor) {
@@ -107,6 +113,7 @@ function fn_ExecQuery(qry){
 		        myArrayRow[i] = rowData;
 		        i++;
 		    });
+		    fn_ClearResultTbl();
 		    queryResultFunc(myArrayRow,myArrayColumn);
 		    $(".page-content").height($(".profile-content").height()+400);
 	    }else{
@@ -120,17 +127,17 @@ function fn_ExecQuery(qry){
 	}, 
 	function errorCallback(response){
 		fn_ClearResultTbl();
-		$("#messageView div span").html(response.responseJSON.error);
+		$("#messageView div span").html(response.data.error);
 		$("#messageView div").removeClass("alert-success");
 		$("#messageView div").addClass('alert-danger');
-		$("#messageView div").show().delay(5000).fadeOut();
+	    $("#messageView div").show().delay(15000).fadeOut();
 	});
 		
 }else{
 		fn_ClearResultTbl();
 		$("#messageView div span").html("No Query found...");
 		$("#messageView div").removeClass("alert-success");
-		$("#messageView div").addClass('alert-danger');
+		$("#messageView div").addClass('alert-anger');
 		$("#messageView div").show().delay(5000).fadeOut();
 
 	}
@@ -139,6 +146,7 @@ function fn_ExecQuery(qry){
 
 function queryResultFunc(rw,col) {
 	oResultTable = $('#tblResult').DataTable({
+	// "bProcessing": true,
 	"bDestroy": true,
     "bScrollCollapse": true,
     "bJQueryUI": true,
@@ -190,11 +198,19 @@ function fn_showHistory(){
 			        "data": historyResult,
 			        "columns": [	        	
 			            {
-			                "data": "id"
+			                "data": "query",
+			                "width": "70%"
 			            }, {
-			                "data": "login"
+			                "data": "success",
+			                "render": function (data, type, full, meta) {
+			                    if (data == true) {
+			                        return '<label class="label label-success"> OK </label>';
+			                    } else {
+			                        return '<label class="label label-danger"> Error </label>';
+			                    }
+			                }
 			            },{
-			                "data": "query"
+			                "data": "runTime"
 			            }	            
 			        ]
 			});
@@ -216,9 +232,15 @@ function fn_GotoResultTab(){
 
 function fn_ClearResultTbl(){
 if(oResultTable != undefined){
-			oResultTable.clear()
-	        	    	.draw();	 
+    		 // oResultTable.destroy();	
+	oResultTable.clear()
+   	    	.draw();	
+   	$('#tblResult thead tr').remove();
+    $('#tblResult_wrapper .row').remove();
+	 
 	    }
+
+
 }
 
 });

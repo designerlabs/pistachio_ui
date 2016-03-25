@@ -30,8 +30,9 @@
                     </div>
                 </a>
                 <div style="overflow: auto; max-height: 300px" aria-expanded="true" class="panel-collapse collapse in" id="lstDBtbl">
+                <label ><input ng-model="searchText" class="form-control" placeholder="Search"></input></label>
                     <ul>
-                        <li class="mt-list-item" ng-repeat="dbtbllist in datatableList">
+                        <li class="mt-list-item" ng-repeat="dbtbllist in datatableList | filter:searchText">
                           <div class="mt-list-title">{{dbtbllist}}                              
                           </div>
                         </li>
@@ -54,7 +55,7 @@
         <button class="btn btn-sm btn-success exec {{editorarea.length > 0 ? '' : 'disabled'}}"> Execute </button> 
         <button class="btn btn-sm btn-primary saveas {{editorarea.length > 0 ? '' : 'disabled'}}"> Save As </button> 
         <button class="btn btn-sm btn-default newqry"> New Query </button>
-                
+
       </div>   
     </div>
     <div class="col-md-12 result_container">
@@ -83,9 +84,9 @@
                         <table id="tblHistory" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
-                                    <th>User ID</th>
-                                    <th>Name</th>
-                                    <th>Query</th>                                    
+                                    <th>Query</th>
+                                    <th>Status</th>
+                                    <th>Time</th>                                    
                                 </tr>
                             </thead>
                         </table>                        
