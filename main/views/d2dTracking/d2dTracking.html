@@ -29,7 +29,7 @@
     </tbody>
 </table>
 
-<table class="table col-md-6" style="width:50%; margin: 30px 0;">
+<table class="table col-md-6" style="width:50%; margin: 30px 0;" id="sparklineSubTable">
     <thead>
         <tr>
         
@@ -41,13 +41,9 @@
     <tbody class="tbody-sparkline">
      
         <tr ng-if="value[0].status == 'Entry'" ng-repeat="(key, value)  in branchOut" my-repeat-directive>
-            <td> {{ value[3].total}}</td>
-            <td class="data-entry" data-sparkline="{{value[2].count}}" />
-            <td><button class="btn btn-sm btn-success">View</button></td>
-          
-           
-            
-            
+            <td> {{ value[3].total}} <span class="hiddenBranchName hide" >{{ value[1].name }} </span></td>
+            <td data-sparkline="{{value[2].count}}" />
+            <td><button class="btn btn-sm btn-success viewBtn" ng-click="viewBtn()">View</button></td>
         </tr>
     </tbody>
 </table>

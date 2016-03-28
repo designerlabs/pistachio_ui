@@ -39,111 +39,91 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     chart.showLoading('Loading data from server...');
 
 
+
+                    //Formatting Date
                     var dateFormat = function(ele) {
-                        var myDate = new Date(ele);
+                      var myDate = new Date(ele);
 
-                        var yyyy = myDate.getFullYear().toString();
+                      var yyyy = myDate.getFullYear().toString();
 
-                        var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
-                        var dd = myDate.getDate().toString();
-                        // console.log(yyyy+"-" + (mm[1]?mm:"0"+mm[0])+"-" + (dd[1]?dd:"0"+dd[0])+"T00:00:00Z");
-                        return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z"; // padding
-
+                      var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
+                      var dd = myDate.getDate().toString();
+                      return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
                     };
 
 
-                    var query_c = '{query: "*:*",limit: 0,'+
-                        'facet: {in_outs: {type: terms,limit: 10,field: dy_action_ind,'+
-                        'facet: {exits: {type: range,field: xit_date,start: " ' + dateFormat(Math.round(e.min)) + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "%2B1DAY"}}},'+
-                        'branches: {type: terms,limit: 15,field: branch,facet: {in_out: {type: terms,limit: 2,field: dy_action_ind,'+
-                        'facet: {exits: {type: range,field: xit_date,start: " ' + dateFormat(Math.round(e.min)) + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "%2B1DAY"}}}'+
-                        '}}}}}';
+                var query_c = '{query: "*:*",limit: 0,'+
+                    'facet: {in_outs: {type: terms,limit: 10,field: dy_action_ind,'+
+                    'facet: {exits: {type: range,field: xit_date,start: " ' + dateFormat(Math.round(e.min)) + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "%2B1DAY"}}},'+
+                    'branches: {type: terms,limit: 15,field: branch,facet: {in_out: {type: terms,limit: 2,field: dy_action_ind,'+
+                    'facet: {exits: {type: range,field: xit_date,start: " ' + dateFormat(Math.round(e.min)) + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "%2B1DAY"}}}'+
+                    '}}}}}';
 
+               /* var sq_branch_json = {};
+                sq_branch_json.branch = branchName;
 
-                var query_b = 'q=dy_action_ind:1&rows=1&json.facet={in_outs:{type : range,field : xit_date,start :"' + dateFormat(Math.round(e.min)) + '",end :"' + dateFormat(Math.round(e.max)) + '",gap:"%2B1DAY"}}' // "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
-                var sq_b = "http://" + solrHost + ":8983/solr/his/query?json="
+                
+                var sq_branch = "fq=branch:"+branchName+"&";
+                var jsonQ = "json=";
+                if(){
+                  jsonQ = jsonQ;
+                  sq_branch=""
+
+                }else{
+                  jsonQ = sq_branch + jsonQ;
+                }*/
+                var sq_b = "http://" + solrHost + ":8983/solr/his/query?json=";//jsonQ;
                 $http.get(sq_b + query_c).success(function(data) {
-                    console.log(data.facets.branches.buckets);
-                    $scope.branchData = data.facets.branches.buckets;
-                    //$scope.branchEntry = data.facets.branches.buckets.in_out.buckets[0].exits.buckets[0].count;
-                   $scope.branchId = data.facets.branches.buckets;
-                    var storeBranchData = [];
-                    for (var i = 0, l = data.facets.branches.buckets.length; i < l; i++) {
-                            /*var obj = data.facets.in_outs.buckets[i];
-                            var element = [];
-                            element.push(new Date(obj.val).getTime());
-                            element.push(obj.count);
-                            storeData.push(element);*/
-                          for (var k = 0, m = data.facets.branches.buckets[i].in_out.buckets.length; k < m; k++) {
-                  
-                            /*var bObj = data.facets.branches.buckets[i].in_out.buckets[k].count;
-                            var bElement = [];
-                            bElement.push(bObj);
-                            storeBranchData.push(bElement);*/
-                              var bName = data.facets.branches.buckets[i].val;
-                              var bIn_out = data.facets.branches.buckets[i].in_out.buckets[k].val;
-                              if(bIn_out == "1"){
-                                bIn_out = "Exit";
-                              }else{
-                                bIn_out = "Entry";
-                              }
-                               var bElement = [];
-                               var brName = {};
-                               var brStatus = {};
-                               brStatus.status = bIn_out;
-                               brName.name = bName;
-                                bElement.push(brStatus);
-                              bElement.push(brName);
-                               var countEle = [];
-                            for (var j = 0, n = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets.length; j < n; j++) {
-                             
-                              //console.log(data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j]);  
-                              
-                              var bDate = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j].val;
-                              var bCount = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j].count;
-                              
-                             
-                              countEle.push(bCount);
+                  console.log(data);
+                  $scope.branchData = data.facets.branches.buckets;
+                  $scope.branchId = data.facets.branches.buckets;
+                  var storeBranchData = [];
+                  for (var i = 0, l = data.facets.branches.buckets.length; i < l; i++) {
+                    for (var k = 0, m = data.facets.branches.buckets[i].in_out.buckets.length; k < m; k++) {
+                      var bName = data.facets.branches.buckets[i].val;
+                      var bIn_out = data.facets.branches.buckets[i].in_out.buckets[k].val;
+                      if(bIn_out == "1"){
+                        bIn_out = "Exit";
+                      }else{
+                        bIn_out = "Entry";
+                      }
+                      var bElement = [];
+                      var brName = {};
+                      var brStatus = {};
+                      brStatus.status = bIn_out;
+                      brName.name = bName;
+                      bElement.push(brStatus);
+                      bElement.push(brName);
+                      var countEle = [];
+                      for (var j = 0, n = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets.length; j < n; j++) {
+                        var bDate = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j].val;
+                        var bCount = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j].count;
+                        countEle.push(bCount);
+                      }
+                      
+                      var total = eval(countEle.join("+"));
 
-                            }
+                      var getTotal = {};
+                      getTotal.total = total;
 
+                      countEle = countEle.join(", ");
 
-                            var total = eval(countEle.join("+"));
+                      var getCount = {};
+                      getCount.count = countEle;
 
-/*      
-                            var total = 0;
-                            for (var i = 0; i < countEle.length; i++) {
-                                total += countEle[i] << 0;
-                            }
-
-*/                          var getTotal = {};
-                            getTotal.total = total;
-
-                         countEle = countEle.join(", ");
-
-                            var getCount = {};
-                            getCount.count = countEle;
-
-                            bElement.push(getCount);
-                             bElement.push(getTotal);
-
+                      bElement.push(getCount);
+                      bElement.push(getTotal);
                             
-                            
-                            storeBranchData.push(bElement);
-                          }
-                            
-                            
-                        };
-                      $scope.branchOut = storeBranchData;
-                     console.log(storeBranchData);
+                      storeBranchData.push(bElement);
+                    }
+                  };
+                  $scope.branchOut = storeBranchData;
+                  console.log(storeBranchData);
 
-             
                 });
                 
                 $.each(names, function(j, name) {
-
-
-                    var query = 'q=dy_action_ind:1&rows=' + name + '&json.facet={in_outs:{type : range,field : xit_date,start :"' + dateFormat(Math.round(e.min)) + '",end :"' + dateFormat(Math.round(e.max)) + '",gap:"%2B1DAY"}}' // "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
+                    var query = 'q=dy_action_ind:'+name+'&rows=2&json.facet={in_outs:{type : range,field : xit_date,start :"' + dateFormat(Math.round(e.min)) + '",end :"' + dateFormat(Math.round(e.max)) + '",gap:"%2B1DAY"}}' // "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
                     var sq = "http://" + solrHost + ":8983/solr/his/query?"
                     $http.get(sq + query).
                     success(function(data) {
@@ -181,7 +161,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     });
                 });
 
-            }
+            };
+
 
 
             /**
@@ -195,20 +176,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     rangeSelector: {
                         selected: 2
                     },
-
-                    /* yAxis: {
-                         labels: {
-                             formatter: function () {
-                                 return (this.value > 0 ? ' + ' : '') + this.value + '%';
-                             }
-                         },
-                         plotLines: [{
-                             value: 0,
-                             width: 2,
-                             color: 'silver'
-                         }]
-                     },*/
-
 
                     chart: {
                         zoomType: 'x'
@@ -238,7 +205,9 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             }
 
             $.each(seriesDet, function(j, valu) {
+
                 $.each(valu, function(m, k) {
+                    //On load
                     var query = 'q=dy_action_ind:' + k.name + '&rows=1&fq=xit_date:[NOW-6MONTH%20TO%20NOW]&json.facet={in_outs:{type : range,field : xit_date,start : "2015-01-01T00:00:00Z",end :"2016-01-23T00:00:00Z",gap:"%2B1DAY"}}' // "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
                     var sq = "http://" + solrHost + ":8983/solr/his/query?"
                     $http.get(sq + query).
@@ -283,8 +252,19 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
         $scope.timelineChart();
 
+        $scope.cleanQuery = function(data) {
+         data = data.replace(/\(/g,"\\\(");
+         data = data.replace(/\)/g,"\\\)");
+           data = data.replace(/ /g,"+");
+           return(data);
+        }
 
-
+       $scope.viewBtn = function(e){
+        var branchN = this.$$watchers[1].last;
+        branchN = $scope.cleanQuery(branchN);
+        console.log(branchN);
+        //$scope.timelineChart();
+       }
        
     });
 
