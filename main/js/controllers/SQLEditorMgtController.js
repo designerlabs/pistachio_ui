@@ -47,8 +47,10 @@ $('.tab').click(function(){
 	return false;
 });
 
-
+var $btn;
     $('.exec').click(function(){
+    	$btn = $(this);
+    	$btn.button('loading');
     	fn_GotoResultTab();
 		var qry = $scope.aceDocumentValue;
 		fn_ExecQuery(qry);
@@ -116,6 +118,9 @@ function fn_ExecQuery(qry){
 		    fn_ClearResultTbl();
 		    queryResultFunc(myArrayRow,myArrayColumn);
 		    $(".page-content").height($(".profile-content").height()+400);
+		    setTimeout(function () {
+		            $btn.button('reset');
+		    }, 1000);
 	    }else{
     		fn_ClearResultTbl();
 		    $("#messageView div span").html('No Data to Show...');
@@ -123,6 +128,9 @@ function fn_ExecQuery(qry){
 	    	$("#messageView div").addClass('alert-danger');
 	    	$("#messageView div").show().delay(5000).fadeOut();
 	    	$(".page-content").height($(".profile-content").height()+400);
+	    	setTimeout(function () {
+		            $btn.button('reset');
+		    }, 1000);
 		}
 	}, 
 	function errorCallback(response){
@@ -131,6 +139,9 @@ function fn_ExecQuery(qry){
 		$("#messageView div").removeClass("alert-success");
 		$("#messageView div").addClass('alert-danger');
 	    $("#messageView div").show().delay(15000).fadeOut();
+	    setTimeout(function () {
+		            $btn.button('reset');
+		}, 1000);
 	});
 		
 }else{
@@ -139,7 +150,9 @@ function fn_ExecQuery(qry){
 		$("#messageView div").removeClass("alert-success");
 		$("#messageView div").addClass('alert-anger');
 		$("#messageView div").show().delay(5000).fadeOut();
-
+		setTimeout(function () {
+				            $btn.button('reset');
+		}, 1000);
 	}
 
 }
