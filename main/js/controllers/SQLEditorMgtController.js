@@ -9,6 +9,7 @@ $scope.$on('$viewContentLoaded', function() {
 
 fn_LoadDb();
 $scope.database;
+$scope.btnExec = true;
 //$scope.started = true;
 var editor = ace.edit("qryeditor");
 editor.$blockScrolling = Infinity;
@@ -71,10 +72,16 @@ var $btn;
 
 	$scope.aceLoaded = function(_editor) {
 		$scope.aceSession = _editor.getSession();
+
 	};
 	
     $scope.aceChanged = function () {
       	  $scope.aceDocumentValue = $scope.aceSession.getDocument().getValue();
+      	  if($scope.aceSession.getDocument().getValue().trim().length > 0){
+      	  	$scope.btnExec = false;
+      	  }else{
+      	  	$scope.btnExec = true;
+      	  }
     };
 
 
@@ -230,8 +237,7 @@ function fn_showHistory(){
 			$('#tblHistory tbody').on('click', 'tr', function() {
 				 var data = historyTbl.row( this ).data();
 				 editor.session.setValue('');
-				 editor.session.setValue(data.query);
-			});
+				 editor.session.setValue(data.query);			});
 			 $(".page-content").height($(".profile-content").height()+400);
 	    });	
 }
