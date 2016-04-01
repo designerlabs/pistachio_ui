@@ -447,7 +447,7 @@ MetronicApp.directive('fileModel', ['$parse', function ($parse) {
 
 MetronicApp.directive('myRepeatDirective', function() {
     return function(scope, element, attrs) {
-   
+   if (scope.$last === true){
         Highcharts.SparkLine = function(a, b, c) {
             var hasRenderToArg = typeof a === 'string' || a.nodeName,
                 options = arguments[hasRenderToArg ? 1 : 0],
@@ -597,11 +597,11 @@ MetronicApp.directive('myRepeatDirective', function() {
                 if (n === fullLen) {
                     $('#result').html('Generated ' + fullLen/2 + ' Reports in ' + (new Date() - start) + ' ms');
                 }
-               $('#sparklineSubTable:nth-child(3) svg .highcharts-series-group path:nth-child(1)').attr('fill', '#4A8BF5');
+                $('.entrySpark > div svg .highcharts-series-group path:nth-child(1)').attr('fill', '#4A8BF5');
             }
         }
 
-         if (scope.$last){
+         
             doChunk();
         }
 

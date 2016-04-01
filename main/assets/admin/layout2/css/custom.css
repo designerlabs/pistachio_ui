@@ -254,3 +254,7 @@ Rounded Portlets
 .tbody-sparkline tr{
     height: 50px;
 }
+
+.borderTitle i{
+    font-size: 20px !important;
+}
