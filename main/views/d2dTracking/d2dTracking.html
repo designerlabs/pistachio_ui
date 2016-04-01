@@ -4,104 +4,38 @@
 
 <div id="container" style="height: 400px; min-width: 310px"></div>
 
-<div style="height:100px">&nbsp;</div>
 <div class="container-fluid">
-<div id="result"></div>
+    <div class="col-md-6 col-sm-8 col-xs-9 borderTitle"><h3><span ng-if="EmpName"><i class="fa fa-user"></i> {{EmpName}} /</span><span ng-if= "BranchName">  <i class="fa fa-plane"></i> {{BranchName}}</span></h3><h4>{{ele2}} List Details From {{ subtitle }}</h4></div>
+    <div ng-if="BranchName" class="col-md-6 col-sm-4 col-xs-3 text-right"><button class="btn btn-md btn-warning" style="margin-top:20px;" ng-click="backBtn()">Back</button></div>
 
-<ul>
-    <li ng-repeat="x in branchData">
-        
-        <h4>{{x.val}} ---- {{x.in_out.buckets[0].exits.buckets[0].count}}</h4>
-    </li>
+<div class="row"></div>
 
-</ul>
 
-<ul>
-    <h3>Entry</h3>
-    <li ng-repeat="y in branchIn">
-        
-        <h4>{{ y.count }}</h4>
-    </li>
-</ul>
-
-<ul>
-    <h3>Exit</h3>
-    <li ng-repeat="z in branchOut">
-        
-        <h4>{{ z.count }}</h4>
-    </li>
-</ul>
-
-<table id="table-sparkline" class="table col-md-12" style="width:100%; margin: 30px 0;">
+<table  class="table col-md-12 col-sm-12 col-xs-12" style="width:100%; margin: 30px 0;"  id="sparklineSubTable">
     <thead>
         <tr>
-            <th>Branch Name</th>
-            <th>No. of Exit</th>
+            <th><i class="fa fa-plane"></i> {{ele2}} Name</th>
+            <th>No. of Exit / Visitor(s)</th>
             <th>Exit Chart</th>
-            <th>No. of Entry</th>
+            <th>No. of Entry / Visitor(s)</th>
             <th>Entry Chart</th>
-            <th>Total Visitors</th>
+            <th>Action</th>
+           
         </tr>
     </thead>
-    <tbody id="tbody-sparkline">
-        <tr>
-            <th>KLIA 1</th>
-            <td>254</td>
-            <td data-sparkline="71, 78, 39, 66 "/>
-            <td>296</td>
-            <td data-sparkline="68, 52, 80, 96 "/>
-            <td>-42</td>
+    <tbody class="tbody-sparkline">
+        <tr ng-if="value[0].name"  ng-repeat="(key, value)  in branchOut" my-repeat-directive>
+            <td> {{ value[0].name }}</td>
+            <td ng-if="value[1].exitTotal"> {{ value[1].exitTotal}} / {{ value[1].uniqueVisitor}}</td>
+            <td ng-if="!value[1].exitTotal">0</td>
+            <td data-sparkline="{{ value[1].exit }}" />
+            <td ng-if="value[2].entryTotal">{{ value[2].entryTotal }}  / {{ value[2].uniqueVisitor }}</td>
+            <td ng-if="!value[2].entryTotal">0</td>
+            <td class="entrySpark" data-sparkline="{{ value[2].entry }}" />
+            <td><button class="btn btn-sm btn-success viewBtn" ng-click="viewBtn()">View</button></td>
         </tr>
-        <tr>
-            <th>KLIA 2</th>
-            <td>246</td>
-            <td data-sparkline="87, 44, 74, 41 "/>
-            <td>181</td>
-            <td data-sparkline="29, 54, 73, 25 "/>
-            <td>65</td>
-        </tr>
-        <tr>
-            <th>Johor Baharu</th>
-            <td>101</td>
-            <td data-sparkline="56, 12, 8, 25 "/>
-            <td>191</td>
-            <td data-sparkline="69, 14, 53, 55 "/>
-            <td>-90</td>
-        </tr>
-        <tr>
-            <th>KLIA 1</th>
-            <td>303</td>
-            <td data-sparkline="81, 50, 78, 94 "/>
-            <td>76</td>
-            <td data-sparkline="36, 15, 14, 11 "/>
-            <td>227</td>
-        </tr>
-        <tr>
-            <th>Gate 5</th>
-            <td>200</td>
-            <td data-sparkline="61, 80, 10, 49 "/>
-            <td>217</td>
-            <td data-sparkline="100, 8, 52, 57 "/>
-            <td>-17</td>
-        </tr>
-        <tr>
-            <th>Gate 6</th>
-            <td>118</td>
-            <td data-sparkline="13, 48, 21, 36 "/>
-            <td>273</td>
-            <td data-sparkline="98, 86, 8, 81 "/>
-            <td>-155</td>
-        </tr>
-        <tr>
-            <th>Gate 7</th>
-            <td>201</td>
-            <td data-sparkline="6, 64, 44, 87 "/>
-            <td>148</td>
-            <td data-sparkline="60, 13, 73, 2 "/>
-            <td>53</td>
-        </tr>
-        
     </tbody>
 </table>
+
 
 </div>

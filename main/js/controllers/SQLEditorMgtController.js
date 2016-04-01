@@ -9,6 +9,7 @@ $scope.$on('$viewContentLoaded', function() {
 
 fn_LoadDb();
 $scope.database;
+$scope.btnExec = true;
 //$scope.started = true;
 var editor = ace.edit("qryeditor");
 editor.$blockScrolling = Infinity;
@@ -47,8 +48,10 @@ $('.tab').click(function(){
 	return false;
 });
 
-
+var $btn;
     $('.exec').click(function(){
+    	$btn = $(this);
+    	$btn.button('loading');
     	fn_GotoResultTab();
 		var qry = $scope.aceDocumentValue;
 		fn_ExecQuery(qry);
@@ -69,10 +72,16 @@ $('.tab').click(function(){
 
 	$scope.aceLoaded = function(_editor) {
 		$scope.aceSession = _editor.getSession();
+
 	};
 	
     $scope.aceChanged = function () {
       	  $scope.aceDocumentValue = $scope.aceSession.getDocument().getValue();
+      	  if($scope.aceSession.getDocument().getValue().trim().length > 0){
+      	  	$scope.btnExec = false;
+      	  }else{
+      	  	$scope.btnExec = true;
+      	  }
     };
 
 
@@ -116,6 +125,9 @@ function fn_ExecQuery(qry){
 		    fn_ClearResultTbl();
 		    queryResultFunc(myArrayRow,myArrayColumn);
 		    $(".page-content").height($(".profile-content").height()+400);
+		    setTimeout(function () {
+		            $btn.button('reset');
+		    }, 1000);
 	    }else{
     		fn_ClearResultTbl();
 		    $("#messageView div span").html('No Data to Show...');
@@ -123,6 +135,9 @@ function fn_ExecQuery(qry){
 	    	$("#messageView div").addClass('alert-danger');
 	    	$("#messageView div").show().delay(5000).fadeOut();
 	    	$(".page-content").height($(".profile-content").height()+400);
+	    	setTimeout(function () {
+		            $btn.button('reset');
+		    }, 1000);
 		}
 	}, 
 	function errorCallback(response){
@@ -131,6 +146,9 @@ function fn_ExecQuery(qry){
 		$("#messageView div").removeClass("alert-success");
 		$("#messageView div").addClass('alert-danger');
 	    $("#messageView div").show().delay(15000).fadeOut();
+	    setTimeout(function () {
+		            $btn.button('reset');
+		}, 1000);
 	});
 		
 }else{
@@ -139,7 +157,9 @@ function fn_ExecQuery(qry){
 		$("#messageView div").removeClass("alert-success");
 		$("#messageView div").addClass('alert-anger');
 		$("#messageView div").show().delay(5000).fadeOut();
-
+		setTimeout(function () {
+				            $btn.button('reset');
+		}, 1000);
 	}
 
 }
@@ -217,8 +237,7 @@ function fn_showHistory(){
 			$('#tblHistory tbody').on('click', 'tr', function() {
 				 var data = historyTbl.row( this ).data();
 				 editor.session.setValue('');
-				 editor.session.setValue(data.query);
-			});
+				 editor.session.setValue(data.query);			});
 			 $(".page-content").height($(".profile-content").height()+400);
 	    });	
 }

@@ -52,8 +52,8 @@
         }"></div>
       </section>
       <div class="action" style="float:right; margin:10px 0px;">
-        <button class="btn btn-sm btn-success exec {{editorarea.length > 0 ? '' : 'disabled'}}"> Execute </button> 
-        <button class="btn btn-sm btn-primary saveas {{editorarea.length > 0 ? '' : 'disabled'}}"> Save As </button> 
+        <button class="btn btn-sm btn-success exec" ng-disabled="btnExec" data-loading-text="Executing Your Query Please Wait..."> Execute </button> 
+        <!-- <button class="btn btn-sm btn-primary saveas {{editorarea.length > 0 ? '' : 'disabled'}}"> Save As </button>  -->
         <button class="btn btn-sm btn-default newqry"> New Query </button>
 
       </div>   
@@ -71,9 +71,9 @@
                     <li class="tab" id='tabHistory' data="tab_History">
                         <a data-toggle="tab" href="#tab_History" aria-expanded="expanded"> History </a>
                     </li>
-                    <li class="tab" id='tabSavedQuery'>
+                    <!-- <li class="tab" id='tabSavedQuery'>
                         <a data-toggle="tab" href="#tab_Saved_Query" aria-expanded="expanded"> Saved Query </a>
-                    </li>  
+                    </li>  --> 
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade active in tab_Result">
@@ -91,11 +91,11 @@
                             </thead>
                         </table>                        
                     </div>
-                    <div class="tab-pane fade tab_Saved_Query">
+                    <!-- <div class="tab-pane fade tab_Saved_Query">
                         <p> This is Saved Query Tab   </p>
                         <table id="tblSavedQuery" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">                    
                         </table>
-                    </div>                    
+                    </div> -->                    
                 </div>
                 <div class="clearfix margin-bottom-20"> </div>
                 <div id="messageView" style="margin-top:20px">
@@ -111,15 +111,10 @@
       </div>    
     </div>
   </div>
-<script type="text/javascript">
-  
-    // $(document).ready(function() {
-    //   $('#tblHistory tbody').on('click', 'tr', function () {
-    //     var data = table.row( this ).data();
-    //     alert( 'You clicked on '+data[2]+'\'s row' );
-    //   });
-    // });
-
- 
-</script>
+<style type="text/css">
+  #tblHistory tbody tr td:first-child {
+    cursor: pointer;
+    cursor: hand;
+}
+</style>
 
