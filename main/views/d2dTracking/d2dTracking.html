@@ -11,7 +11,7 @@
 <div class="row"></div>
 
 
-<table  class="table col-md-12 col-sm-12 col-xs-12" style="width:100%; margin: 30px 0;"  id="sparklineSubTable">
+<table class="table col-md-12 col-sm-12 col-xs-12" style="width:100%; margin: 30px 0;"  id="sparklineSubTable">
     <thead>
         <tr>
             <th><i class="fa fa-plane"></i> {{ele2}} Name</th>
@@ -23,19 +23,27 @@
            
         </tr>
     </thead>
+
+
     <tbody class="tbody-sparkline">
-        <tr ng-if="value[0].name"  ng-repeat="(key, value)  in branchOut" my-repeat-directive>
-            <td> {{ value[0].name }}</td>
-            <td ng-if="value[1].exitTotal"> {{ value[1].exitTotal}} / {{ value[1].uniqueVisitor}}</td>
-            <td ng-if="!value[1].exitTotal">0</td>
-            <td data-sparkline="{{ value[1].exit }}" />
-            <td ng-if="value[2].entryTotal">{{ value[2].entryTotal }}  / {{ value[2].uniqueVisitor }}</td>
-            <td ng-if="!value[2].entryTotal">0</td>
-            <td class="entrySpark" data-sparkline="{{ value[2].entry }}" />
+        <tr ng-if="value.brhName.name"  ng-repeat="value  in branchOut" my-repeat-directive>
+            <td> {{ value.brhName.name }}</td>
+            <td ng-if="value.exit.exitTotal"> {{ value.exit.exitTotal}} / {{ value.exit.uniqueVisitor}}</td>
+            <td ng-if="!value.exit.exitTotal">0</td>
+            <td ng-if="value.brhName.doc">{{ value.brhName.doc }}</td>
+            <td data-sparkline="{{ value.exit.exit }}" />
+            <td ng-if="value.entry.entryTotal">{{ value.entry.entryTotal }}  / {{ value.entry.uniqueVisitor }}</td>
+            <td ng-if="!value.entry.entryTotal">0</td>
+            <td class="entrySpark" data-sparkline="{{ value.entry.entry }}" />
+            <td ng-if="value.brhName.doc">{{ foo(value.brhName.doc) }}</td>
+            <td ng-if="value.brhName.sex">{{ value.brhName.sex }}</td>
             <td><button class="btn btn-sm btn-success viewBtn" ng-click="viewBtn()">View</button></td>
+            
         </tr>
     </tbody>
 </table>
+
+
 
 
 </div>
