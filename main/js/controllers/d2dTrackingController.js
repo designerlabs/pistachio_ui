@@ -14,10 +14,22 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
 
       $scope.backBtn = function(e){
-        var branchN = this.$parent.$$watchers[1].last;
+
+        var branchN = this.$parent.ele2;
+        debugger;
         if(branchN == "Employee"){
           $scope.timelineChart("Inital", "Branch");
           localStorage.stage = "Branch";
+        }
+
+        if(branchN == "Country"){
+          $scope.timelineChart($scope.getBranchVal.one, "Employee");
+          localStorage.stage = "Employee";
+        }
+
+        if(branchN == "Visitor"){
+          $scope.timelineChart($scope.getCtryName.one, "Country");
+          localStorage.stage = "Country";
         }
       };
 
@@ -45,14 +57,35 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         
         $scope.ele1 = ele1;
         $scope.ele2 = ele2;
+
+        if($scope.ele2 == "Branch"){
+          
+          $scope.column2 = "No. of Exit / Visitor(s)";
+          $scope.column3 = "Exit Chart";
+          $scope.column4 = "No. of Entry / Visitor(s)";
+          $scope.column5 = " Entry Chart";
+        }
+
         if($scope.ele2 == "Employee"){
           $scope.BranchName = $scope.getBranchVal.two;
+          $scope.column2 = "No. of Exit / Visitor(s)";
+          $scope.column3 = "Exit Chart";
+          $scope.column4 = "No. of Entry / Visitor(s)";
+          $scope.column5 = " Entry Chart";
         }
         if($scope.ele2 == "Country"){
           $scope.EmpName = $scope.getEmpName.two;
+          $scope.column2 = "No. of Exit / Visitor(s)";
+          $scope.column3 = "Exit Chart";
+          $scope.column4 = "No. of Entry / Visitor(s)";
+          $scope.column5 = " Entry Chart";
         }
         if($scope.ele2 == "Visitor"){
           $scope.CtryName = $scope.getCtryName.two;
+          $scope.column2 = "Gender";
+          $scope.column3 = "Passport No.";
+          $scope.column4 = "No. of Exit";
+          $scope.column5 = "No. of Entry";
         }
         $scope.seriesOptions = [];
 
@@ -103,12 +136,12 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             branchQry = 'branch';
             groupBy ="";
           }else if($scope.ele2 == "Country"){
-            triggerOpt = "branch:"+$scope.getBranchVal.one+" AND  dy_create_id:"+$scope.ele1;
+            triggerOpt = "branch:"+$scope.getBranchVal.one+" AND  dy_create_id:"+$scope.getEmpName.one;
             mainFacet = "country";
             branchQry ="country";
             groupBy ="";
           }else if($scope.ele2 == "Visitor"){
-            triggerOpt = "branch:"+$scope.getBranchVal.one+" AND  dy_create_id:"+$scope.ele1+" AND country:"+$scope.getCtryName.one;
+            triggerOpt = "branch:"+$scope.getBranchVal.one+" AND  dy_create_id:"+$scope.getEmpName.one+" AND country:"+$scope.getCtryName.one;
             mainFacet = "country";
             branchQry ="country";
             groupBy = "&&group=true&group.field=doc_no";
@@ -136,6 +169,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             var storeBranchData = [];
             //debugger;
             if($scope.ele2 == "Country"){
+
                 if(data.facets.count == 0){
                   //if empty
                 }else{
@@ -195,36 +229,35 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 console.log(storeBranchData);
 
               }else if($scope.ele2 == "Visitor"){
-                
-                if(data.facets.count == 0){
-                  //if empty
-                }else{
-                  for (var i = 0, l = data.grouped.doc_no.groups.length; i < l; i++) {
-                  var bElement = {};
-                  var brName = {};
-                  var bNumFound = data.grouped.doc_no.groups[im].doclist.numFound;
-                  var bName = data.grouped.doc_no.groups[im].doclist.docs[0].name;
-                  var bAction = data.grouped.doc_no.groups[im].doclist.docs[0].dy_action_ind;
-                  var bDoc = data.grouped.doc_no.groups[im].doclist.docs[0].doc_no;
-                  var bSex = data.grouped.doc_no.groups[im].doclist.docs[0].sex;
-                  var bDob = data.grouped.doc_no.groups[im].doclist.docs[0].dy_birth_date;
+                  debugger;
+                   for (var im = 0, lm = data.grouped.doc_no.groups.length; im < lm; im++) {
+                    var bElement = {};
+                    var brName = {};
+                    var bNumFound = data.grouped.doc_no.groups[im].doclist.numFound;
+                    var bName = data.grouped.doc_no.groups[im].doclist.docs[0].name;
+                    var bAction = data.grouped.doc_no.groups[im].doclist.docs[0].dy_action_ind;
+                    var bDoc = data.grouped.doc_no.groups[im].doclist.docs[0].doc_no;
+                    var bSex = data.grouped.doc_no.groups[im].doclist.docs[0].sex;
+                    var bDob = data.grouped.doc_no.groups[im].doclist.docs[0].dy_birth_date;
+                    
+                    brName.name = bName;
+                    brName.doc = bDoc;
+                    brName.sex = bSex;
+                    brName.dob = bDob;
+                    brName.numFound = bNumFound;
+                    if(bAction == "1"){
+                      brName.entry = bAction;  
+                    }else{
+                      brName.exit = bAction;  
+                    }
+                    
 
-                  brName.name = bName;
-                  brName.doc = bDoc;
-                  brName.sex = bSex;
-                  brName.dob = bDob;
-                  brName.numFound = bNumFound;
-                  if(bAction == "1"){
-                    brName.entry = bAction;  
-                  }else{
-                    brName.exit = bAction;  
-                  }
-                  
-                  bElement.brhName = brName;
-                  storeBranchData.push(bElement);
+
+                    bElement.vName = brName;
+                    storeBranchData.push(bElement);
+
                 
-                };
-                }
+              };
                 $scope.branchOut = storeBranchData;
                 console.log(storeBranchData);
               }else{
@@ -302,19 +335,15 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
               if($scope.ele2 == "Branch"){
               triggerOptRow = "rows=2&";
-              groupBy ="";
+              
               }else if($scope.ele2 == "Employee"){
                 triggerOptRow = "rows=2&fq=branch:"+$scope.getBranchVal.one+"&";
-                groupBy ="";
               }else if($scope.ele2 == "Country"){
                 triggerOptRow = "rows=2&fq=branch:"+$scope.getBranchVal.one+"&fq=dy_create_id:"+$scope.getEmpName.one+"&";
-                groupBy ="";
               }else if($scope.ele2 == "Visitor"){
                 triggerOptRow = "rows=2&fq=branch:"+$scope.getBranchVal.one+"&fq=dy_create_id:"+$scope.getEmpName.one+"&fq=country:"+$scope.getCtryName.one+"&";
-                groupBy = "&&group=true&group.field=doc_no";
               }else{
                 triggerOptRow = "rows=2&fq=branch:"+$scope.getBranchVal.one+"&";
-                groupBy ="";
               }
 
               //var query = 'q=dy_action_ind:' + k.name + '&rows=2&fq=xit_date:[NOW-6MONTH%20TO%20NOW]&json.facet={in_outs:{type : range,field : xit_date,start : "2015-01-01T00:00:00Z",end :"2016-01-23T00:00:00Z",gap:"%2B1DAY"}}' // "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
@@ -424,7 +453,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
               branchQry = 'branch';
 
             }else if($scope.ele2 == "Country"){
-              triggerOpt = "branch:"+$scope.getBranchVal.one+" AND  dy_create_id:"+$scope.ele1;
+              triggerOpt = "branch:"+$scope.getBranchVal.one+" AND  dy_create_id:"+$scope.getEmpName.one;
               triggerOptRow = "rows=2&fq=branch:"+$scope.getBranchVal.one+"&fq=dy_create_id:"+$scope.getEmpName.one+"&";
               mainFacet = "country";
               branchQry ="country";
@@ -614,7 +643,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     
 
 
-                    bElement.brhName = brName;
+                    bElement.vName = brName;
                     storeBranchData.push(bElement);
 
                 
