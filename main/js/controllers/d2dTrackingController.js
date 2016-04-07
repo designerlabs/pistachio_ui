@@ -101,19 +101,23 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             triggerOpt = "*:*";
             mainFacet = "branches";
             branchQry = 'branch';
+            groupBy ="";
           }else if($scope.ele2 == "Country"){
             triggerOpt = "branch:"+$scope.getBranchVal.one+" AND  dy_create_id:"+$scope.ele1;
             mainFacet = "country";
             branchQry ="country";
+            groupBy ="";
           }else if($scope.ele2 == "Visitor"){
             triggerOpt = "branch:"+$scope.getBranchVal.one+" AND  dy_create_id:"+$scope.ele1+" AND country:"+$scope.getCtryName.one;
             mainFacet = "country";
             branchQry ="country";
+            groupBy = "&&group=true&group.field=doc_no";
           }else{
               triggerOpt = "branch:"+$scope.ele1;
               //branchQry = ',facet:{branch:{type : terms,limit : 5,field: dy_create_id,facet : {exits:{ type : range,field : xit_date,start :"'+startDt+'",end: "'+endDt+'",gap:"%2B1DAY"}}}}';
               mainFacet = "branches";
               branchQry = 'dy_create_id';
+              groupBy ="";
           }
 
           var query_c = '{query: "'+triggerOpt+'",filter : "xit_date : ['+dateFormat(Math.round(e.min))+' TO '+dateFormat(Math.round(e.max))+']",limit: 20,'+
@@ -121,7 +125,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             'facet: {exits: {type: range,field: xit_date,start: " ' + dateFormat(Math.round(e.min)) + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "%2B1DAY"},passport: "unique(doc_no)"}},'+
             mainFacet+': {type: terms,limit: 15,field:'+branchQry+',facet: {in_out: {type: terms,limit: 2,field: dy_action_ind,  sort:{index:asc},'+
             'facet: {exits: {type: range,field: xit_date,start: " ' + dateFormat(Math.round(e.min)) + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "%2B1DAY"},passport: "unique(doc_no)"}}'+
-            '}}}}}';
+            '}}}}}'+groupBy;
 
 
 
@@ -130,169 +134,160 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             //alert('call-1');
 
             var storeBranchData = [];
-
+            //debugger;
             if($scope.ele2 == "Country"){
-                for (var i = 0, l = data.facets.country.buckets.length; i < l; i++) {
-                  var bElement = {};
-                  var brName = {};
-                  var bName = data.facets.country.buckets[i].val;
-                  brName.name = bName;
-                  bElement.brhName = brName;
-                  for (var k = 0, m = data.facets.country.buckets[i].in_out.buckets.length; k < m; k++) {
-                  
-                  
-                    $scope.bIn_out = data.facets.country.buckets[i].in_out.buckets[k].val;
-                    $scope.uniqueVisitors = data.facets.country.buckets[i].in_out.buckets[k].passport; 
-                    var brStatus = {};
-                    var countEle = [];
+                if(data.facets.count == 0){
+                  //if empty
+                }else{
+                  for (var i = 0, l = data.facets.country.buckets.length; i < l; i++) {
+                    var bElement = {};
+                    var brName = {};
+                    var bName = data.facets.country.buckets[i].val;
+                    brName.name = bName;
+                    bElement.brhName = brName;
+                    for (var k = 0, m = data.facets.country.buckets[i].in_out.buckets.length; k < m; k++) {
+                    
+                    
+                      $scope.bIn_out = data.facets.country.buckets[i].in_out.buckets[k].val;
+                      $scope.uniqueVisitors = data.facets.country.buckets[i].in_out.buckets[k].passport; 
+                      var brStatus = {};
+                      var countEle = [];
 
-                    for (var j = 0, n = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets.length; j < n; j++) {
-                      var bDate = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets[j].val;
-                      var bCount = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets[j].count;
-                      countEle.push(bCount);
+                      for (var j = 0, n = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets.length; j < n; j++) {
+                        var bDate = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets[j].val;
+                        var bCount = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets[j].count;
+                        countEle.push(bCount);
+                      }
+                      //bElement.push(brStatus);
+
+                      if($scope.bIn_out == "1"){
+                      $scope.bIn_out = "Entry";
+                      var entryTotal = eval(countEle.join("+"));
+                      brStatus.entry = countEle.toString().replace(/,/g , ", ");
+                      brStatus.uniqueVisitor = $scope.uniqueVisitors;
+                      brStatus.entryTotal = entryTotal;
+                      bElement.entry  = brStatus;
+                    }else if($scope.bIn_out == "2"){
+                      $scope.bIn_out = "Exit";
+                      var exitTotal = eval(countEle.join("+"));
+                      brStatus.exit = countEle.toString().replace(/,/g , ", ");
+                      brStatus.uniqueVisitor = $scope.uniqueVisitors;
+                      brStatus.exitTotal = exitTotal;
+                      bElement.exit  = brStatus;
                     }
-                    //bElement.push(brStatus);
+                    }
 
-                    if($scope.bIn_out == "1"){
-                    $scope.bIn_out = "Entry";
-                    var entryTotal = eval(countEle.join("+"));
-                    brStatus.entry = countEle.toString().replace(/,/g , ", ");
-                    brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                    brStatus.entryTotal = entryTotal;
-                    bElement.entry  = brStatus;
-                  }else if($scope.bIn_out == "2"){
-                    $scope.bIn_out = "Exit";
-                    var exitTotal = eval(countEle.join("+"));
-                    brStatus.exit = countEle.toString().replace(/,/g , ", ");
-                    brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                    brStatus.exitTotal = exitTotal;
-                    bElement.exit  = brStatus;
-                  }
-                  }
+                    var total = eval(countEle.join("+"));
+                    var getTotal = {};
+                    getTotal.total = total;
+                    countEle = countEle.join(", ");
+                    var getCount = {};
+                    getCount.count = countEle;
 
-                  var total = eval(countEle.join("+"));
-                  var getTotal = {};
-                  getTotal.total = total;
-                  countEle = countEle.join(", ");
-                  var getCount = {};
-                  getCount.count = countEle;
-
-                  //bElement.push(getCount);
-                  //bElement.push(getTotal);
-                  storeBranchData.push(bElement);
+                    //bElement.push(getCount);
+                    //bElement.push(getTotal);
+                    storeBranchData.push(bElement);
+                  
+                  };  
+                }
                 
-                };
                 $scope.branchOut = storeBranchData;
                 console.log(storeBranchData);
+
               }else if($scope.ele2 == "Visitor"){
-                for (var i = 0, l = data.facets.country.buckets.length; i < l; i++) {
+                
+                if(data.facets.count == 0){
+                  //if empty
+                }else{
+                  for (var i = 0, l = data.grouped.doc_no.groups.length; i < l; i++) {
                   var bElement = {};
                   var brName = {};
-                  var bName = data.facets.country.buckets[i].val;
+                  var bNumFound = data.grouped.doc_no.groups[im].doclist.numFound;
+                  var bName = data.grouped.doc_no.groups[im].doclist.docs[0].name;
+                  var bAction = data.grouped.doc_no.groups[im].doclist.docs[0].dy_action_ind;
+                  var bDoc = data.grouped.doc_no.groups[im].doclist.docs[0].doc_no;
+                  var bSex = data.grouped.doc_no.groups[im].doclist.docs[0].sex;
+                  var bDob = data.grouped.doc_no.groups[im].doclist.docs[0].dy_birth_date;
+
                   brName.name = bName;
+                  brName.doc = bDoc;
+                  brName.sex = bSex;
+                  brName.dob = bDob;
+                  brName.numFound = bNumFound;
+                  if(bAction == "1"){
+                    brName.entry = bAction;  
+                  }else{
+                    brName.exit = bAction;  
+                  }
+                  
                   bElement.brhName = brName;
-                  for (var k = 0, m = data.facets.country.buckets[i].in_out.buckets.length; k < m; k++) {
-                  
-                  
-                    $scope.bIn_out = data.facets.country.buckets[i].in_out.buckets[k].val;
-                    $scope.uniqueVisitors = data.facets.country.buckets[i].in_out.buckets[k].passport; 
-                    var brStatus = {};
-                    var countEle = [];
-
-                    for (var j = 0, n = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets.length; j < n; j++) {
-                      var bDate = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets[j].val;
-                      var bCount = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets[j].count;
-                      countEle.push(bCount);
-                    }
-                    //bElement.push(brStatus);
-
-                    if($scope.bIn_out == "1"){
-                    $scope.bIn_out = "Entry";
-                    var entryTotal = eval(countEle.join("+"));
-                    brStatus.entry = countEle.toString().replace(/,/g , ", ");
-                    brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                    brStatus.entryTotal = entryTotal;
-                    bElement.entry  = brStatus;
-                  }else if($scope.bIn_out == "2"){
-                    $scope.bIn_out = "Exit";
-                    var exitTotal = eval(countEle.join("+"));
-                    brStatus.exit = countEle.toString().replace(/,/g , ", ");
-                    brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                    brStatus.exitTotal = exitTotal;
-                    bElement.exit  = brStatus;
-                  }
-                  }
-
-                  var total = eval(countEle.join("+"));
-                  var getTotal = {};
-                  getTotal.total = total;
-                  countEle = countEle.join(", ");
-                  var getCount = {};
-                  getCount.count = countEle;
-
-                  //bElement.push(getCount);
-                  //bElement.push(getTotal);
                   storeBranchData.push(bElement);
                 
                 };
+                }
                 $scope.branchOut = storeBranchData;
                 console.log(storeBranchData);
               }else{
 
-                for (var i = 0, l = data.facets.branches.buckets.length; i < l; i++) {
-                  var bElement = {};
-                  var brName = {};
-                  var bName = data.facets.branches.buckets[i].val;
-                  brName.name = bName;
-                  bElement.brhName = brName;
-                  for (var k = 0, m = data.facets.branches.buckets[i].in_out.buckets.length; k < m; k++) {
-                    $scope.bIn_out = data.facets.branches.buckets[i].in_out.buckets[k].val;
-                    $scope.uniqueVisitors = data.facets.branches.buckets[i].in_out.buckets[k].passport; 
-                    var brStatus = {};
-                    var countEle = [];
-                    for (var j = 0, n = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets.length; j < n; j++) {
-                      var bDate = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j].val;
-                      var bCount = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j].count;
-                      countEle.push(bCount);
+                if(data.facets.count == 0){
+                  //if empty
+                }else{
+                  for (var i = 0, l = data.facets.branches.buckets.length; i < l; i++) {
+                    var bElement = {};
+                    var brName = {};
+                    var bName = data.facets.branches.buckets[i].val;
+                    brName.name = bName;
+                    bElement.brhName = brName;
+                    for (var k = 0, m = data.facets.branches.buckets[i].in_out.buckets.length; k < m; k++) {
+                      $scope.bIn_out = data.facets.branches.buckets[i].in_out.buckets[k].val;
+                      $scope.uniqueVisitors = data.facets.branches.buckets[i].in_out.buckets[k].passport; 
+                      var brStatus = {};
+                      var countEle = [];
+                      for (var j = 0, n = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets.length; j < n; j++) {
+                        var bDate = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j].val;
+                        var bCount = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j].count;
+                        countEle.push(bCount);
+                      }
+                      //brStatus.status = bIn_out;
+                      //bElement.push(brStatus);
+                    
+                      if($scope.bIn_out == "1"){
+                      $scope.bIn_out = "Entry";
+                      var entryTotal = eval(countEle.join("+"));
+                      brStatus.entry = countEle.toString().replace(/,/g , ", ");
+                      brStatus.uniqueVisitor = $scope.uniqueVisitors;
+                      brStatus.entryTotal = entryTotal;
+                      bElement.entry  = brStatus;
+                    }else if($scope.bIn_out == "2"){
+                      $scope.bIn_out = "Exit";
+                      var exitTotal = eval(countEle.join("+"));
+                      brStatus.exit = countEle.toString().replace(/,/g , ", ");
+                      brStatus.uniqueVisitor = $scope.uniqueVisitors;
+                      brStatus.exitTotal = exitTotal;
+                      bElement.exit  = brStatus;
                     }
-                    //brStatus.status = bIn_out;
-                    //bElement.push(brStatus);
-                  
-                    if($scope.bIn_out == "1"){
-                    $scope.bIn_out = "Entry";
-                    var entryTotal = eval(countEle.join("+"));
-                    brStatus.entry = countEle.toString().replace(/,/g , ", ");
-                    brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                    brStatus.entryTotal = entryTotal;
-                    bElement.entry  = brStatus;
-                  }else if($scope.bIn_out == "2"){
-                    $scope.bIn_out = "Exit";
-                    var exitTotal = eval(countEle.join("+"));
-                    brStatus.exit = countEle.toString().replace(/,/g , ", ");
-                    brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                    brStatus.exitTotal = exitTotal;
-                    bElement.exit  = brStatus;
-                  }
-                  }
-                  
-                  var total = eval(countEle.join("+"));
+                    }
+                    
+                    var total = eval(countEle.join("+"));
 
-                  var getTotal = {};
-                  
-                  getTotal.total = total;
+                    var getTotal = {};
+                    
+                    getTotal.total = total;
 
-                  countEle = countEle.join(", ");
+                    countEle = countEle.join(", ");
 
-                  var getCount = {};
-                  getCount.count = countEle;
+                    var getCount = {};
+                    getCount.count = countEle;
 
-                  
+                    
 
-                  //bElement.push(getCount);
-                  //bElement.push(getTotal);
-                      
-                  storeBranchData.push(bElement);
-                };
+                    //bElement.push(getCount);
+                    //bElement.push(getTotal);
+                        
+                    storeBranchData.push(bElement);
+                  };
+                }
+                
                 $scope.branchOut = storeBranchData;
                 console.log(storeBranchData);
               }
@@ -307,14 +302,19 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
               if($scope.ele2 == "Branch"){
               triggerOptRow = "rows=2&";
+              groupBy ="";
               }else if($scope.ele2 == "Employee"){
                 triggerOptRow = "rows=2&fq=branch:"+$scope.getBranchVal.one+"&";
+                groupBy ="";
               }else if($scope.ele2 == "Country"){
                 triggerOptRow = "rows=2&fq=branch:"+$scope.getBranchVal.one+"&fq=dy_create_id:"+$scope.getEmpName.one+"&";
+                groupBy ="";
               }else if($scope.ele2 == "Visitor"){
                 triggerOptRow = "rows=2&fq=branch:"+$scope.getBranchVal.one+"&fq=dy_create_id:"+$scope.getEmpName.one+"&fq=country:"+$scope.getCtryName.one+"&";
+                groupBy = "&&group=true&group.field=doc_no";
               }else{
                 triggerOptRow = "rows=2&fq=branch:"+$scope.getBranchVal.one+"&";
+                groupBy ="";
               }
 
               //var query = 'q=dy_action_ind:' + k.name + '&rows=2&fq=xit_date:[NOW-6MONTH%20TO%20NOW]&json.facet={in_outs:{type : range,field : xit_date,start : "2015-01-01T00:00:00Z",end :"2016-01-23T00:00:00Z",gap:"%2B1DAY"}}' // "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
@@ -324,14 +324,18 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
               success(function(data) {
                   console.log(data);
                   var storeData = [];
-                  for (var i = 0, l = data.facets.in_outs.buckets.length; i < l; i++) {
+                  
+                  if(data.facets.count == 0){
+                    //console.log(data.facets.count.length);
+                   }else{
+                    for (var i = 0, l = data.facets.in_outs.buckets.length; i < l; i++) {
                       var obj = data.facets.in_outs.buckets[i];
                       var element = [];
                       element.push(new Date(obj.val).getTime());
                       element.push(obj.count);
                       storeData.push(element);
-
-                  }
+                    }
+                   }
                   
                   chart.hideLoading();
                   // As we're loading the data asynchronously, we don't know what order it will arrive. So
@@ -411,16 +415,11 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
           $.each(valu, function(m, k) {
             //On load
 
-
-
             if($scope.ele1 == "Inital"){
               triggerOpt = "*:*";
                mainFacet = "branches";
               triggerOptRow = "rows=2&";
               groupBy ="";
-              
-
-              
               $scope.subtitle = $scope.changeDt(startDt) +" - "+$scope.changeDt(endDt);
               branchQry = 'branch';
 
@@ -471,13 +470,26 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 console.log(data);
                 //alert('call-2');
                 var storeData = [];
-                for (var i = 0, l = data.facets.in_outs.buckets.length; i < l; i++) {
+                   if(data.facets.count == 0){
+                    //console.log(data.facets.count.length);
+                   }else{
+                    for (var i = 0, l = data.facets.in_outs.buckets.length; i < l; i++) {
+                      var obj = data.facets.in_outs.buckets[i];
+                      var element = [];
+                      element.push(new Date(obj.val).getTime());
+                      element.push(obj.count);
+                      storeData.push(element);
+                    }
+                   }
+                  /*for (var i = 0, l = data.facets.in_outs.buckets.length; i < l; i++) {
                     var obj = data.facets.in_outs.buckets[i];
                     var element = [];
                     element.push(new Date(obj.val).getTime());
                     element.push(obj.count);
                     storeData.push(element);
-                }
+                  }  
+               */
+                
 
 
                 //console.log(storeData);
@@ -511,172 +523,24 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
               var storeBranchData = [];
 
               if($scope.ele2 == "Country"){
-                for (var i = 0, l = data.facets.country.buckets.length; i < l; i++) {
-                  var bElement = {};
-                  var brName = {};
-                  var bName = data.facets.country.buckets[i].val;
-                  brName.name = bName;
-                  bElement.brhName = brName;
-                for (var k = 0, m = data.facets.country.buckets[i].in_out.buckets.length; k < m; k++) {
-                  
-                  
-                  $scope.bIn_out = data.facets.country.buckets[i].in_out.buckets[k].val;
-                  $scope.uniqueVisitors = data.facets.country.buckets[i].in_out.buckets[k].passport; 
-                  var brStatus = {};
-                   var countEle = [];
-
-                   for (var j = 0, n = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets.length; j < n; j++) {
-                    var bDate = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets[j].val;
-                    var bCount = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets[j].count;
-                    countEle.push(bCount);
-                  }
-                  //bElement.push(brStatus);
-
-                  if($scope.bIn_out == "1"){
-                    $scope.bIn_out = "Entry";
-                    var entryTotal = eval(countEle.join("+"));
-                    brStatus.entry = countEle.toString().replace(/,/g , ", ");
-                    brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                    brStatus.entryTotal = entryTotal;
-                    bElement.entry  = brStatus;
-                  }else if($scope.bIn_out == "2"){
-                    $scope.bIn_out = "Exit";
-                    var exitTotal = eval(countEle.join("+"));
-                    brStatus.exit = countEle.toString().replace(/,/g , ", ");
-                    brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                    brStatus.exitTotal = exitTotal;
-                    bElement.exit  = brStatus;
-                  }
-                  }
-
-
-                  var total = eval(countEle.join("+"));
-
-                  var getTotal = {};
-                  getTotal.total = total;
-
-
-                  countEle = countEle.join(", ");
-
-                  var getCount = {};
-                  getCount.count = countEle;
-
-                  //bElement.push(getCount);
-                  //bElement.push(getTotal);
+                if(data.facets.count == 0){
+                  //if empty
+                }else{
+                    for (var i = 0, l = data.facets.country.buckets.length; i < l; i++) {
+                      var bElement = {};
+                      var brName = {};
+                      var bName = data.facets.country.buckets[i].val;
+                      brName.name = bName;
+                      bElement.brhName = brName;
+                    for (var k = 0, m = data.facets.country.buckets[i].in_out.buckets.length; k < m; k++) {
                       
-                  storeBranchData.push(bElement);
-                  
-                  
-                
-                
-              };
-
-              $scope.branchOut = storeBranchData;
-                console.log(storeBranchData);
-              }else if($scope.ele2 == "Visitor"){
-                   for (var im = 0, lm = data.grouped.doc_no.groups.length; im < lm; im++) {
-                    var bElement = {};
-                    var brName = {};
-                    var bName = data.grouped.doc_no.groups[im].doclist.docs[0].name;
-                    var bDoc = data.grouped.doc_no.groups[im].doclist.docs[0].doc_no;
-                    var bSex = data.grouped.doc_no.groups[im].doclist.docs[0].sex;
-                    var bDob = data.grouped.doc_no.groups[im].doclist.docs[0].dy_birth_date;
-                    
-                    brName.name = bName;
-                    brName.doc = bDoc;
-                    brName.sex = bSex;
-                    brName.dob = bDob;
-
-
-                    $scope.$watch(
-                        function( $scope ) {
-                            console.log( "Function watched" );
-                            // This becomes the value we're "watching".
-                            //return( "Function: Best friend is " + $scope);
-                            console.log($scope.branchOut);
-                        },
-                        function foo( newValue ) {
-                            console.log( newValue );
-                        }
-                    );
-
-                    $scope.$watch('foo', function(myData) {
-                    
-                    var triggerOpt = "branch:"+$scope.getBranchVal.one;
-                    var query_spark = '{query: "'+triggerOpt+'",filter : "xit_date : ['+startDt+' TO '+endDt+']  AND  dy_create_id:'+$scope.getEmpName.one+' AND country:'+$scope.getCtryName.one+' AND doc_no:'+myData+'", offset:20, limit: 10,'+
-                    'facet: {in_outs: {type: terms,limit: 10,field: dy_action_ind,'+
-                    'facet: {exits: {type: range,field: xit_date,start: "'+startDt+'",end: "'+endDt+'",gap: "%2B1DAY"}}}}}}';
-                    
-                      var sq_spark = "http://" + solrHost + ":8983/solr/his/query?rows=2&json=";//jsonQ;
-                      brName.test = myData;
-
-                      /*$http.get(sq_spark + query_spark).
-                      success(function(data) {
-                          for (var i = 0, l = data.facets.country.buckets.length; i < l; i++) {
-                            for (var k = 0, m = data.facets.country.buckets[i].in_out.buckets.length; k < m; k++) {
-                              $scope.bIn_out = data.facets.country.buckets[i].in_out.buckets[k].val;
-                              var brStatus = {};
-                               var countEle = [];
-                               for (var j = 0, n = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets.length; j < n; j++) {
-                                var bDate = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets[j].val;
-                                var bCount = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets[j].count;
-                                countEle.push(bCount);
-                              }
-
-                              if($scope.bIn_out == "1"){
-                                $scope.bIn_out = "Entry";
-                                var entryTotal = eval(countEle.join("+"));
-                                brStatus.entry = countEle.toString().replace(/,/g , ", ");
-                                brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                                brStatus.entryTotal = entryTotal;
-                                bElement.entry  = brStatus;
-                              }else if($scope.bIn_out == "2"){
-                                $scope.bIn_out = "Exit";
-                                var exitTotal = eval(countEle.join("+"));
-                                brStatus.exit = countEle.toString().replace(/,/g , ", ");
-                                brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                                brStatus.exitTotal = exitTotal;
-                                bElement.exit  = brStatus;
-                              }
-                            }
-
-                            var total = eval(countEle.join("+"));
-
-                            var getTotal = {};
-                            getTotal.total = total;
-
-
-                            countEle = countEle.join(", ");
-
-                            var getCount = {};
-                             //storeBranchData.push(bElement);
-                            };
-                        $scope.branchOut = storeBranchData;
-                        console.log(storeBranchData);
-                      });*/
-
                       
-                    });
-
-                    bElement.brhName = brName;
-                    storeBranchData.push(bElement);
-
-                /*for (var i = 0, l = data.facets.country.buckets.length; i < l; i++) {
-                  
-                  var brName = {};
-                  var bName = data.facets.country.buckets[i].val;
-                  brName.name = bName;
-                  bElement.brhName = brName;
-
-
-                  for (var k = 0, m = data.facets.country.buckets[i].in_out.buckets.length; k < m; k++) {
-                    
                       $scope.bIn_out = data.facets.country.buckets[i].in_out.buckets[k].val;
                       $scope.uniqueVisitors = data.facets.country.buckets[i].in_out.buckets[k].passport; 
                       var brStatus = {};
-                      var countEle = [];
+                       var countEle = [];
 
-                      for (var j = 0, n = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets.length; j < n; j++) {
+                       for (var j = 0, n = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets.length; j < n; j++) {
                         var bDate = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets[j].val;
                         var bCount = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets[j].count;
                         countEle.push(bCount);
@@ -698,90 +562,131 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         brStatus.exitTotal = exitTotal;
                         bElement.exit  = brStatus;
                       }
-                    }
+                      }
 
 
-                    var total = eval(countEle.join("+"));
+                      var total = eval(countEle.join("+"));
 
-                    var getTotal = {};
-                    getTotal.total = total;
+                      var getTotal = {};
+                      getTotal.total = total;
 
 
-                    countEle = countEle.join(", ");
+                      countEle = countEle.join(", ");
 
-                    var getCount = {};
-                    getCount.count = countEle;
+                      var getCount = {};
+                      getCount.count = countEle;
 
-                    //bElement.push(getCount);
-                    //bElement.push(getTotal);
+                      //bElement.push(getCount);
+                      //bElement.push(getTotal);
+                          
+                      storeBranchData.push(bElement);
+                      
                       
                     
-              };*/
+                    
+                  };
+                }
+                
+
+              $scope.branchOut = storeBranchData;
+                console.log(storeBranchData);
+              }else if($scope.ele2 == "Visitor"){
+                   for (var im = 0, lm = data.grouped.doc_no.groups.length; im < lm; im++) {
+                    var bElement = {};
+                    var brName = {};
+                    var bNumFound = data.grouped.doc_no.groups[im].doclist.numFound;
+                    var bName = data.grouped.doc_no.groups[im].doclist.docs[0].name;
+                    var bAction = data.grouped.doc_no.groups[im].doclist.docs[0].dy_action_ind;
+                    var bDoc = data.grouped.doc_no.groups[im].doclist.docs[0].doc_no;
+                    var bSex = data.grouped.doc_no.groups[im].doclist.docs[0].sex;
+                    var bDob = data.grouped.doc_no.groups[im].doclist.docs[0].dy_birth_date;
+                    
+                    brName.name = bName;
+                    brName.doc = bDoc;
+                    brName.sex = bSex;
+                    brName.dob = bDob;
+                    brName.numFound = bNumFound;
+                    if(bAction == "1"){
+                      brName.entry = bAction;  
+                    }else{
+                      brName.exit = bAction;  
+                    }
+                    
+
+
+                    bElement.brhName = brName;
+                    storeBranchData.push(bElement);
+
+                
               };
                 $scope.branchOut = storeBranchData;
                 console.log(storeBranchData);
               }else{
+                if(data.facets.count == 0){
+                  //if empty
+                }else{
+                    for (var i = 0, l = data.facets.branches.buckets.length; i < l; i++) {
+                      var bElement = {};
+                      var brName = {};
+                      var bName = data.facets.branches.buckets[i].val;
+                      brName.name = bName;
+                      bElement.brhName = brName;
 
-                for (var i = 0, l = data.facets.branches.buckets.length; i < l; i++) {
-                  var bElement = {};
-                  var brName = {};
-                  var bName = data.facets.branches.buckets[i].val;
-                  brName.name = bName;
-                  bElement.brhName = brName;
-
-                for (var k = 0, m = data.facets.branches.buckets[i].in_out.buckets.length; k < m; k++) {
-                  
-                 
-                  $scope.bIn_out = data.facets.branches.buckets[i].in_out.buckets[k].val;
-                  $scope.uniqueVisitors = data.facets.branches.buckets[i].in_out.buckets[k].passport; 
-                  var brStatus = {};
-                  
-                  var countEle = [];
-                  for (var j = 0, n = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets.length; j < n; j++) {
-                    
-                    var bDate = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j].val;
-                    var bCount = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j].count;
-                    countEle.push(bCount);
-
-                  }
-                  //brStatus.status = bIn_out;
-                  
-                  
-                  if($scope.bIn_out == "1"){
-                    $scope.bIn_out = "Entry";
-                    var entryTotal = eval(countEle.join("+"));
-                    brStatus.entry = countEle.toString().replace(/,/g , ", ");
-                    brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                    brStatus.entryTotal = entryTotal;
-                    bElement.entry  = brStatus;
-                  }else if($scope.bIn_out == "2"){
-                    $scope.bIn_out = "Exit";
-                    var exitTotal = eval(countEle.join("+"));
-                    brStatus.exit = countEle.toString().replace(/,/g , ", ");
-                    brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                    brStatus.exitTotal = exitTotal;
-                    bElement.exit  = brStatus;
-                  }
-                }
-                  
-                  var total = eval(countEle.join("+"));
-
-                  var getTotal = {};
-                  
-                  getTotal.total = total;
-
-                  countEle = countEle.join(", ");
-
-                  var getCount = {};
-                  getCount.count = countEle;
-
-                  
-
-                  //bElement.push(getCount);
-                  //bElement.push(getTotal);
+                    for (var k = 0, m = data.facets.branches.buckets[i].in_out.buckets.length; k < m; k++) {
                       
-                  storeBranchData.push(bElement);
-              };
+                     
+                      $scope.bIn_out = data.facets.branches.buckets[i].in_out.buckets[k].val;
+                      $scope.uniqueVisitors = data.facets.branches.buckets[i].in_out.buckets[k].passport; 
+                      var brStatus = {};
+                      
+                      var countEle = [];
+                      for (var j = 0, n = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets.length; j < n; j++) {
+                        
+                        var bDate = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j].val;
+                        var bCount = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j].count;
+                        countEle.push(bCount);
+
+                      }
+                      //brStatus.status = bIn_out;
+                      
+                      
+                      if($scope.bIn_out == "1"){
+                        $scope.bIn_out = "Entry";
+                        var entryTotal = eval(countEle.join("+"));
+                        brStatus.entry = countEle.toString().replace(/,/g , ", ");
+                        brStatus.uniqueVisitor = $scope.uniqueVisitors;
+                        brStatus.entryTotal = entryTotal;
+                        bElement.entry  = brStatus;
+                      }else if($scope.bIn_out == "2"){
+                        $scope.bIn_out = "Exit";
+                        var exitTotal = eval(countEle.join("+"));
+                        brStatus.exit = countEle.toString().replace(/,/g , ", ");
+                        brStatus.uniqueVisitor = $scope.uniqueVisitors;
+                        brStatus.exitTotal = exitTotal;
+                        bElement.exit  = brStatus;
+                      }
+                    }
+                      
+                      var total = eval(countEle.join("+"));
+
+                      var getTotal = {};
+                      
+                      getTotal.total = total;
+
+                      countEle = countEle.join(", ");
+
+                      var getCount = {};
+                      getCount.count = countEle;
+
+                      
+
+                      //bElement.push(getCount);
+                      //bElement.push(getTotal);
+                          
+                      storeBranchData.push(bElement);
+                  };
+                }
+                
               $scope.branchOut = storeBranchData;
               console.log(storeBranchData);
               }
