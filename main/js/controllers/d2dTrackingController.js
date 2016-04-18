@@ -827,7 +827,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         }
     
         $scope.timelineChart(branchN, localStorage.stage);
-        debugger;
+        //debugger;
         //alert(getStage);
       };
     });
