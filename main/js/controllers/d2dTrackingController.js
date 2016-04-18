@@ -16,7 +16,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
       $scope.backBtn = function(e){
 
         var branchN = this.$parent.ele2;
-        debugger;
         if(branchN == "Officer"){
           $scope.timelineChart("Inital", "Branch");
           localStorage.stage = "Branch";
@@ -29,11 +28,13 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
           $scope.timelineChart($scope.getBranchVal.one, "Officer");
           //localStorage.stage = "Officer";
           $scope.EmpName = false;
+
         }
 
         if(branchN == "Visitor"){
           $scope.timelineChart($scope.getCtryName.one, "Country");
           localStorage.stage = "Country";
+          alert('visitor');
         }
       };
 
