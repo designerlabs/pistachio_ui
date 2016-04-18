@@ -16,20 +16,25 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
       $scope.backBtn = function(e){
 
         var branchN = this.$parent.ele2;
-        debugger;
+        
+
         if(branchN == "Employee"){
           $scope.timelineChart("Inital", "Branch");
           localStorage.stage = "Branch";
+          localStorage.removeItem('branchName');
+          alert('employee');
         }
 
         if(branchN == "Country"){
           $scope.timelineChart($scope.getBranchVal.one, "Employee");
           localStorage.stage = "Employee";
+          alert('country');
         }
 
         if(branchN == "Visitor"){
           $scope.timelineChart($scope.getCtryName.one, "Country");
           localStorage.stage = "Country";
+          alert('visitor');
         }
       };
 
