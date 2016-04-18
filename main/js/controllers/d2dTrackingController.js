@@ -17,14 +17,18 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
         var branchN = this.$parent.ele2;
         debugger;
-        if(branchN == "Employee"){
+        if(branchN == "Officer"){
           $scope.timelineChart("Inital", "Branch");
           localStorage.stage = "Branch";
+          localStorage.removeItem('branchName');
+          $scope.BranchName = false;
+          $scope.EmpName = false;
         }
 
         if(branchN == "Country"){
-          $scope.timelineChart($scope.getBranchVal.one, "Employee");
-          localStorage.stage = "Employee";
+          $scope.timelineChart($scope.getBranchVal.one, "Officer");
+          //localStorage.stage = "Officer";
+          $scope.EmpName = false;
         }
 
         if(branchN == "Visitor"){
@@ -33,8 +37,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         }
       };
 
-      var startDt, endDt, triggerOpt, triggerOptRow, branchQry, mainFacet, triggerBt, groupBy; // Global variable
-      
+      var startDt, endDt, triggerOpt, triggerOptRow, branchQry, mainFacet, triggerBt, groupBy, gap; // Global variable
+      var immigrationSolr = "his_move";
       localStorage.removeItem('branchName'); // each time removing the branch and Emp name
       localStorage.removeItem('empName');
       localStorage.removeItem('ctryName'); 
@@ -61,24 +65,24 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         if($scope.ele2 == "Branch"){
           
           $scope.column2 = "No. of Exit / Visitor(s)";
-          $scope.column3 = "Exit Chart";
+          $scope.column3 = "Exit Trend";
           $scope.column4 = "No. of Entry / Visitor(s)";
-          $scope.column5 = " Entry Chart";
+          $scope.column5 = " Entry Trend";
         }
 
-        if($scope.ele2 == "Employee"){
+        if($scope.ele2 == "Officer"){
           $scope.BranchName = $scope.getBranchVal.two;
           $scope.column2 = "No. of Exit / Visitor(s)";
-          $scope.column3 = "Exit Chart";
+          $scope.column3 = "Exit Trend";
           $scope.column4 = "No. of Entry / Visitor(s)";
-          $scope.column5 = " Entry Chart";
+          $scope.column5 = " Entry Trend";
         }
         if($scope.ele2 == "Country"){
           $scope.EmpName = $scope.getEmpName.two;
           $scope.column2 = "No. of Exit / Visitor(s)";
-          $scope.column3 = "Exit Chart";
+          $scope.column3 = "Exit Trend";
           $scope.column4 = "No. of Entry / Visitor(s)";
-          $scope.column5 = " Entry Chart";
+          $scope.column5 = " Entry Trend";
         }
         if($scope.ele2 == "Visitor"){
           $scope.CtryName = $scope.getCtryName.two;
@@ -93,8 +97,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
         $scope.seriesDet = {
           "series": [
-              { "name": "1", "title": "Entry", "color": "#B7D8F5" },
-              { "name": "2", "title": "Exit", "color": "#F5B7BC" }
+              { "name": "in", "title": "Entry", "color": "#B7D8F5" },
+              { "name": "out", "title": "Exit", "color": "#F5B7BC" }
           ]
         };
 
@@ -110,6 +114,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         }(Highcharts));
 
         function afterSetExtremes(e) {
+          $scope.loading = true;
           var chart = $('#container').highcharts();
           chart.showLoading('Loading data from server...');
 
@@ -135,37 +140,41 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             mainFacet = "branches";
             branchQry = 'branch';
             groupBy ="";
+            gap = "%2B1DAY";
           }else if($scope.ele2 == "Country"){
             triggerOpt = "branch:"+$scope.getBranchVal.one+" AND  dy_create_id:"+$scope.getEmpName.one;
             mainFacet = "country";
             branchQry ="country";
             groupBy ="";
+            gap = "%2B1DAY";
           }else if($scope.ele2 == "Visitor"){
             triggerOpt = "branch:"+$scope.getBranchVal.one+" AND  dy_create_id:"+$scope.getEmpName.one+" AND country:"+$scope.getCtryName.one;
             mainFacet = "country";
             branchQry ="country";
             groupBy = "&&group=true&group.field=doc_no";
+            gap = "%2B1DAY";
           }else{
-              triggerOpt = "branch:"+$scope.ele1;
-              //branchQry = ',facet:{branch:{type : terms,limit : 5,field: dy_create_id,facet : {exits:{ type : range,field : xit_date,start :"'+startDt+'",end: "'+endDt+'",gap:"%2B1DAY"}}}}';
-              mainFacet = "branches";
-              branchQry = 'dy_create_id';
-              groupBy ="";
+            triggerOpt = "branch:"+$scope.ele1;
+            //branchQry = ',facet:{branch:{type : terms,limit : 5,field: dy_create_id,facet : {exits:{ type : range,field : xit_date,start :"'+startDt+'",end: "'+endDt+'",gap:"%2B1DAY"}}}}';
+            mainFacet = "branches";
+            branchQry = 'dy_create_id';
+            groupBy ="";
+            gap = "%2B1DAY";
           }
 
           var query_c = '{query: "'+triggerOpt+'",filter : "xit_date : ['+dateFormat(Math.round(e.min))+' TO '+dateFormat(Math.round(e.max))+']",limit: 20,'+
             'facet: {in_outs: {type: terms,limit: 10,field: dy_action_ind,'+
-            'facet: {exits: {type: range,field: xit_date,start: " ' + dateFormat(Math.round(e.min)) + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "%2B1DAY"},passport: "unique(doc_no)"}},'+
+            'facet: {exits: {type: range,field: xit_date,start: "' + dateFormat(Math.round(e.min)) + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "'+gap+'"},passport: "unique(doc_no)"}},'+
             mainFacet+': {type: terms,limit: 15,field:'+branchQry+',facet: {in_out: {type: terms,limit: 2,field: dy_action_ind,  sort:{index:asc},'+
-            'facet: {exits: {type: range,field: xit_date,start: " ' + dateFormat(Math.round(e.min)) + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "%2B1DAY"},passport: "unique(doc_no)"}}'+
+            'facet: {exits: {type: range,field: xit_date,start: "' + dateFormat(Math.round(e.min)) + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "'+gap+'"},passport: "unique(doc_no)"}}'+
             '}}}}}'+groupBy;
 
 
 
-          var sq_b = "http://" + solrHost + ":8983/solr/his/query?json=";//jsonQ;
+          var sq_b = "http://" + solrHost + ":8983/solr/"+immigrationSolr+"/query?json=";//jsonQ;
           $http.get(sq_b + query_c).success(function(data) {
             //alert('call-1');
-
+            
             var storeBranchData = [];
             //debugger;
             if($scope.ele2 == "Country"){
@@ -194,14 +203,14 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                       }
                       //bElement.push(brStatus);
 
-                      if($scope.bIn_out == "1"){
+                      if($scope.bIn_out == "in"){
                       $scope.bIn_out = "Entry";
                       var entryTotal = eval(countEle.join("+"));
                       brStatus.entry = countEle.toString().replace(/,/g , ", ");
                       brStatus.uniqueVisitor = $scope.uniqueVisitors;
                       brStatus.entryTotal = entryTotal;
                       bElement.entry  = brStatus;
-                    }else if($scope.bIn_out == "2"){
+                    }else if($scope.bIn_out == "out"){
                       $scope.bIn_out = "Exit";
                       var exitTotal = eval(countEle.join("+"));
                       brStatus.exit = countEle.toString().replace(/,/g , ", ");
@@ -229,7 +238,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 console.log(storeBranchData);
 
               }else if($scope.ele2 == "Visitor"){
-                  debugger;
+                  //debugger;
                    for (var im = 0, lm = data.grouped.doc_no.groups.length; im < lm; im++) {
                     var bElement = {};
                     var brName = {};
@@ -245,7 +254,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     brName.sex = bSex;
                     brName.dob = bDob;
                     brName.numFound = bNumFound;
-                    if(bAction == "1"){
+                    if(bAction == "in"){
                       brName.entry = bAction;  
                     }else{
                       brName.exit = bAction;  
@@ -284,14 +293,14 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                       //brStatus.status = bIn_out;
                       //bElement.push(brStatus);
                     
-                      if($scope.bIn_out == "1"){
+                      if($scope.bIn_out == "in"){
                       $scope.bIn_out = "Entry";
                       var entryTotal = eval(countEle.join("+"));
                       brStatus.entry = countEle.toString().replace(/,/g , ", ");
                       brStatus.uniqueVisitor = $scope.uniqueVisitors;
                       brStatus.entryTotal = entryTotal;
                       bElement.entry  = brStatus;
-                    }else if($scope.bIn_out == "2"){
+                    }else if($scope.bIn_out == "out"){
                       $scope.bIn_out = "Exit";
                       var exitTotal = eval(countEle.join("+"));
                       brStatus.exit = countEle.toString().replace(/,/g , ", ");
@@ -324,6 +333,12 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 $scope.branchOut = storeBranchData;
                 console.log(storeBranchData);
               }
+          })
+          .catch(function(err){
+
+          })
+          .finally(function(){
+            $scope.loading = false;
           });
 
 
@@ -334,21 +349,24 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
               //On load
 
               if($scope.ele2 == "Branch"){
-              triggerOptRow = "rows=2&";
-              
-              }else if($scope.ele2 == "Employee"){
+                triggerOptRow = "rows=2&";
+                gap = "%2B1DAY";
+              }else if($scope.ele2 == "Officer"){
                 triggerOptRow = "rows=2&fq=branch:"+$scope.getBranchVal.one+"&";
+                gap = "%2B1HOUR";
               }else if($scope.ele2 == "Country"){
                 triggerOptRow = "rows=2&fq=branch:"+$scope.getBranchVal.one+"&fq=dy_create_id:"+$scope.getEmpName.one+"&";
+                gap = "%2B1DAY";
               }else if($scope.ele2 == "Visitor"){
                 triggerOptRow = "rows=2&fq=branch:"+$scope.getBranchVal.one+"&fq=dy_create_id:"+$scope.getEmpName.one+"&fq=country:"+$scope.getCtryName.one+"&";
+                gap = "%2B1DAY";
               }else{
                 triggerOptRow = "rows=2&fq=branch:"+$scope.getBranchVal.one+"&";
+                gap = "%2B1DAY";
               }
 
-              //var query = 'q=dy_action_ind:' + k.name + '&rows=2&fq=xit_date:[NOW-6MONTH%20TO%20NOW]&json.facet={in_outs:{type : range,field : xit_date,start : "2015-01-01T00:00:00Z",end :"2016-01-23T00:00:00Z",gap:"%2B1DAY"}}' // "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
-              var query = 'q=dy_action_ind:'+k.name+'&'+triggerOptRow+'json.facet={in_outs:{type : range,field : xit_date,start :"' + dateFormat(Math.round(e.min)) + '",end :"' + dateFormat(Math.round(e.max)) + '",gap:"%2B1DAY"},passport: "unique(doc_no)"}' // "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
-              var sq = "http://" + solrHost + ":8983/solr/his/query?"
+              var query = 'q=dy_action_ind:'+k.name+'&'+triggerOptRow+'json.facet={in_outs:{type : range,field : xit_date,start :"' + dateFormat(Math.round(e.min)) + '",end :"' + dateFormat(Math.round(e.max)) + '",gap:"'+gap+'"},passport: "unique(doc_no)"}'
+              var sq = "http://" + solrHost + ":8983/solr/"+immigrationSolr+"/query?"
               $http.get(sq + query).
               success(function(data) {
                   console.log(data);
@@ -375,6 +393,12 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                       $scope.createChart();
                   }
 
+              })
+              .catch(function(err){
+
+              })
+              .finally(function(){
+                //$scope.loading = false;
               });
             });
           });
@@ -390,12 +414,17 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
           $('#container').highcharts('StockChart', {
 
               rangeSelector: {
-                  selected: 2
+                  selected: 5
+                  //inputDateFormat: '%Y-%m-%d'
               },
 
               chart: {
                   zoomType: 'x'
 
+              },
+
+              navigator:{
+                enabled:false
               },
 
               xAxis: {
@@ -417,15 +446,29 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
               },
 
               series: $scope.seriesOptions
-          });
+          }/*, function(chart) {
+
+            // apply the date pickers
+            setTimeout(function() {
+                $('input.highcharts-range-selector', $('#' + chart.options.chart.renderTo)).datepicker()
+            }, 0)
+        }*/);
+          /*$.datepicker.setDefaults({
+              dateFormat: 'yy-mm-dd',
+              onSelect: function(dateText) {
+                  this.onchange();
+                  this.onblur();
+              }
+          });*/
         }
         $scope.populateChart();
-        
+        // Set the datepicker's date format
+    
       };
 
 
       $scope.populateChart = function(){
-        
+        $scope.loading = true;
         if($scope.startDate){
           startDt = $scope.startDate;
         }else{
@@ -451,6 +494,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
               groupBy ="";
               $scope.subtitle = $scope.changeDt(startDt) +" - "+$scope.changeDt(endDt);
               branchQry = 'branch';
+              gap = "%2B1DAY";
 
             }else if($scope.ele2 == "Country"){
               triggerOpt = "branch:"+$scope.getBranchVal.one+" AND  dy_create_id:"+$scope.getEmpName.one;
@@ -458,6 +502,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
               mainFacet = "country";
               branchQry ="country";
               groupBy ="";
+              gap = "%2B1DAY";
              
             }else if($scope.ele2 == "Visitor"){
               triggerOpt = "branch:"+$scope.getBranchVal.one+" AND  dy_create_id:"+$scope.getEmpName.one+" AND country:"+$scope.getCtryName.one;
@@ -465,37 +510,30 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
               mainFacet = "country";
               branchQry ="country";
               groupBy = "&&group=true&group.field=doc_no";
+              gap = "%2B1DAY";
             }else{
               triggerOpt = "branch:"+$scope.ele1;
               triggerOptRow = "rows=2&fq=branch:"+$scope.ele1+"&";
               groupBy ="";
-
+              gap = "%2B1HOUR";
               $scope.subtitle = $scope.changeDt(startDt) +" - "+$scope.changeDt(endDt);
-              //branchQry = ',facet:{branch:{type : terms,limit : 5,field: dy_create_id,facet : {exits:{ type : range,field : xit_date,start :"'+startDt+'",end: "'+endDt+'",gap:"%2B1DAY"}}}}';
               branchQry = 'dy_create_id';
             }
-            var query = 'q=dy_action_ind:' + k.name + '&'+triggerOptRow+'json.facet={in_outs:{type : range,field : xit_date,start : "'+startDt+'",end :"'+endDt+'",gap:"%2B1DAY"},passport: "unique(doc_no)"}' // "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
-            /*var query_spark = '{query: "*:*",limit: 0,'+
-            'facet: {in_outs: {type: terms,limit: 10,field: dy_action_ind,'+
-            'facet: {exits: {type: range,field: xit_date,start: "'+startDt+'",end: "'+endDt+'",gap: "%2B1DAY"}}},'+
-            'branches: {type: terms,limit: 15,field: branch,facet: {in_out: {type: terms,limit: 2,field: dy_action_ind,'+
-            'facet: {exits: {type: range,field: xit_date,start: "'+startDt+'",end: "'+endDt+'",gap: "%2B1DAY"}}}'+
-            '}}}}}';*/
-
+            var query = 'q=dy_action_ind:' + k.name + '&'+triggerOptRow+'json.facet={in_outs:{type : range,field : xit_date,start : "'+startDt+'",end :"'+endDt+'",gap:"'+gap+'"},passport: "unique(doc_no)"}' // "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
+   
             var query_spark = '{query: "'+triggerOpt+'",filter : "xit_date : ['+startDt+' TO '+endDt+']", limit: 20,'+
             'facet: {in_outs: {type: terms,limit: 10,field: dy_action_ind,'+
-            'facet: {exits: {type: range,field: xit_date,start: "'+startDt+'",end: "'+endDt+'",gap: "%2B1DAY"},passport: "unique(doc_no)"}},'+
+            'facet: {exits: {type: range,field: xit_date,start: "'+startDt+'",end: "'+endDt+'",gap: "'+gap+'"},passport: "unique(doc_no)"}},'+
             mainFacet+': {type: terms,limit: 15,field: '+branchQry+',facet: {in_out: {type: terms,limit: 2,field: dy_action_ind, sort:{index:asc},'+
-            'facet: {exits: {type: range,field: xit_date,start: "'+startDt+'",end: "'+endDt+'",gap: "%2B1DAY"},passport: "unique(doc_no)"}}'+
+            'facet: {exits: {type: range,field: xit_date,start: "'+startDt+'",end: "'+endDt+'",gap: "'+gap+'"},passport: "unique(doc_no)"}}'+
             '}}}}}'+groupBy;
 
 
-            var sq_spark = "http://" + solrHost + ":8983/solr/his/query?json=";//jsonQ;
+            var sq_spark = "http://" + solrHost + ":8983/solr/"+immigrationSolr+"/query?json=";//jsonQ;
             
-            var sq = "http://" + solrHost + ":8983/solr/his/query?"
+            var sq = "http://" + solrHost + ":8983/solr/"+immigrationSolr+"/query?"
             $http.get(sq + query).
             success(function(data) {
-
                 console.log(data);
                 //alert('call-2');
                 var storeData = [];
@@ -542,14 +580,21 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     $scope.createChart();
                 }
 
+            })
+            .catch(function(err){
+
+            }).finally(function(){
+              //$scope.loading = false;
             });
 
-
-            $http.get(sq_spark + query_spark).success(function(data) {
-              console.log(data);
-              //$scope.branchData = data.facets.branches.buckets;
-              //$scope.branchId = data.facets.branches.buckets;
-              var storeBranchData = [];
+            //$scope.loading = true;
+            $http.get(sq_spark + query_spark)
+              .success(function(data) {
+                
+                console.log(data);
+                //$scope.branchData = data.facets.branches.buckets;
+                //$scope.branchId = data.facets.branches.buckets;
+                var storeBranchData = [];
 
               if($scope.ele2 == "Country"){
                 if(data.facets.count == 0){
@@ -576,14 +621,14 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                       }
                       //bElement.push(brStatus);
 
-                      if($scope.bIn_out == "1"){
+                      if($scope.bIn_out == "in"){
                         $scope.bIn_out = "Entry";
                         var entryTotal = eval(countEle.join("+"));
                         brStatus.entry = countEle.toString().replace(/,/g , ", ");
                         brStatus.uniqueVisitor = $scope.uniqueVisitors;
                         brStatus.entryTotal = entryTotal;
                         bElement.entry  = brStatus;
-                      }else if($scope.bIn_out == "2"){
+                      }else if($scope.bIn_out == "out"){
                         $scope.bIn_out = "Exit";
                         var exitTotal = eval(countEle.join("+"));
                         brStatus.exit = countEle.toString().replace(/,/g , ", ");
@@ -617,7 +662,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 }
                 
 
-              $scope.branchOut = storeBranchData;
+                $scope.branchOut = storeBranchData;
                 console.log(storeBranchData);
               }else if($scope.ele2 == "Visitor"){
                    for (var im = 0, lm = data.grouped.doc_no.groups.length; im < lm; im++) {
@@ -635,7 +680,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     brName.sex = bSex;
                     brName.dob = bDob;
                     brName.numFound = bNumFound;
-                    if(bAction == "1"){
+                    if(bAction == "in"){
                       brName.entry = bAction;  
                     }else{
                       brName.exit = bAction;  
@@ -647,7 +692,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     storeBranchData.push(bElement);
 
                 
-              };
+                  };
                 $scope.branchOut = storeBranchData;
                 console.log(storeBranchData);
               }else{
@@ -679,14 +724,14 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                       //brStatus.status = bIn_out;
                       
                       
-                      if($scope.bIn_out == "1"){
+                      if($scope.bIn_out == "in"){
                         $scope.bIn_out = "Entry";
                         var entryTotal = eval(countEle.join("+"));
                         brStatus.entry = countEle.toString().replace(/,/g , ", ");
                         brStatus.uniqueVisitor = $scope.uniqueVisitors;
                         brStatus.entryTotal = entryTotal;
                         bElement.entry  = brStatus;
-                      }else if($scope.bIn_out == "2"){
+                      }else if($scope.bIn_out == "out"){
                         $scope.bIn_out = "Exit";
                         var exitTotal = eval(countEle.join("+"));
                         brStatus.exit = countEle.toString().replace(/,/g , ", ");
@@ -722,6 +767,12 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
               
               
+            })
+            .catch(function(err){
+
+            })
+            .finally(function(){
+              $scope.loading = false;
             });
           });
         });
@@ -761,10 +812,10 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
         if(getStage == "Branch"){
           localStorage.setItem('branchName', JSON.stringify(setBranch));
-          localStorage.stage = "Employee";
+          localStorage.stage = "Officer";
         }
         
-        if(getStage == "Employee"){
+        if(getStage == "Officer"){
           localStorage.setItem('empName', JSON.stringify(setEmp));
           localStorage.stage = "Country";
         }
@@ -775,6 +826,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         }
     
         $scope.timelineChart(branchN, localStorage.stage);
+        debugger;
         //alert(getStage);
       };
     });

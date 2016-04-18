@@ -64,9 +64,14 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         $scope.reportPrivilege = JSON.parse($scope.getReportPrivilege);
 
 
-        $("#dataManagement").click(function () {
+        
+        $("#sidebarMenu li").click(function(){
             $("#sidebarMenu li").removeClass("active");
+            $("#sidebarMenu li").removeClass("open");
             $(this).addClass('active');
+            console.log(this);
+            //alert(this);
+            $(this).parents('ul').parent('li').addClass("active");
         });
 
         // initialize core components
