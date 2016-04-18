@@ -39,7 +39,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
       };
 
       var startDt, endDt, triggerOpt, triggerOptRow, branchQry, mainFacet, triggerBt, groupBy, gap; // Global variable
-      var immigrationSolr = "his_move";
+      var immigrationSolr = "hismove";
       localStorage.removeItem('branchName'); // each time removing the branch and Emp name
       localStorage.removeItem('empName');
       localStorage.removeItem('ctryName'); 
