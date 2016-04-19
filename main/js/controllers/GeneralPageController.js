@@ -852,18 +852,18 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             var selTemplateVal = JSON.stringify({
                 fromDt: fromDate,
                 toDt: toDate,
-                state: _state,
-                dept: _dept,
-                branch: _branch,
-                nationality: _nationality,
-                pastype: _pastype,
-                applicant: _applicant,
-                applicationstatus: _applicationStatus,
-                applicationstep: _applicationStep,
-                applicationtype: _applicationType,
-                city: _city,
-                sector: _sector,
-                sex: _sex
+                state: _state.substr(0, _state.indexOf(' - ')),
+                dept: _dept.substr(0, _dept.indexOf(' - ')),
+                branch: _branch.substr(0, _branch.indexOf(' - ')),
+                nationality: _nationality.substr(0, _nationality.indexOf(' - ')),
+                pastype: _pastype.substr(0, _pastype.indexOf(' - ')),
+                applicant: _applicant.substr(0, _applicant.indexOf(' - ')),
+                applicationstatus: _applicationStatus.substr(0, _applicationStatus.indexOf(' - ')),
+                applicationstep: _applicationStep.substr(0, _applicationStep.indexOf(' - ')),
+                applicationtype: _applicationType.substr(0, _applicationType.indexOf(' - ')),
+                city: _city.substr(0, _city.indexOf(' - ')),
+                sector: _sector.substr(0, _sector.indexOf(' - ')),
+                sex: _sex.substr(0, _sex.indexOf(' - '))
             });
             localStorage.setItem("selTemplateVal", selTemplateVal);
 
