@@ -1,0 +1,11 @@
+.cchart-wrapper {
+ position: relative;
+    padding-bottom: 40%;
+    width:100%;
+    float:left;
+}
+
+.cchart-inner {
+position: absolute;
+    width: 50%; height: 100%;
+}
