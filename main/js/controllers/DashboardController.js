@@ -5,6 +5,7 @@ MetronicApp.controller('DashboardController', function($rootScope, $scope, $http
 
         // initialize core components
         Metronic.initAjax();
+        $scope.iframeHeight = window.innerHeight;
         var getUser = localStorage.getItem("username");
     	$http.get(globalURL+"pistachio/dashboard")
     	.success(function(response) {
@@ -33,5 +34,5 @@ MetronicApp.controller('DashboardController', function($rootScope, $scope, $http
     });
 
     // set sidebar closed and body solid layout mode
-    $rootScope.settings.layout.pageSidebarClosed = false;
+    $rootScope.settings.layout.pageSidebarClosed = true;
 });

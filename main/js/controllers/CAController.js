@@ -8,7 +8,7 @@ MetronicApp.controller('CAController', function($rootScope, $scope, $http, $time
 
   $scope.countryQuery = function(country) {
     var query = ""
-    var sq = "http://"+solrHost+":8983/solr/immigration1_shard1_replica1/query?json=";
+    var sq = "http://"+solrHost+":8983/solr/immigration1/query?json=";
 
     var json = {};
     json.query = "country:"+country
@@ -56,18 +56,20 @@ MetronicApp.controller('CAController', function($rootScope, $scope, $http, $time
        $scope.column($scope.ageRange);
        $scope.timelineChart($scope.jobTimeline);
 
+
      })
   }
 
   $scope.visitMatcher = function(data) {
 
     for (var i = 0; i < 2; i++) {
-      if(data[i].val == "1")
+
+      if(data[i].val == "in")
       {
         $scope.oVisitEntry = data[i].count;
         $scope.uVisitEntry = data[i].uniqDoc;
       }
-      if(data[i].val == "2")
+      if(data[i].val == "out")
       {
         $scope.oVisitExit = data[i].count;
         $scope.uVisitExit = data[i].uniqDoc;
@@ -96,7 +98,7 @@ MetronicApp.controller('CAController', function($rootScope, $scope, $http, $time
 
   $scope.visitorQuery = function(country) {
     var query = ""
-    var sq = "http://"+solrHost+":8983/solr/his/query?json=";
+    var sq = "http://"+solrHost+":8983/solr/hismove/query?json=";
 
     var json = {};
     json.query = "country:"+country
@@ -139,7 +141,7 @@ MetronicApp.controller('CAController', function($rootScope, $scope, $http, $time
     $scope.aVisitCount = 0;
 
     var query = ""
-    var sq = "http://"+solrHost+":8983/solr/immigration1_shard1_replica1/query?json=";
+    var sq = "http://"+solrHost+":8983/solr/immigration1/query?json=";
 
     var json = {};
     json.query = "*:*"
