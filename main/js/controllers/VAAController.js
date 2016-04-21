@@ -26,6 +26,8 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
         $scope.getDateLimits();
         $scope.formStates();
 
+        $scope.loading = true;
+
 
     });
 
@@ -334,6 +336,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
              $scope.column();
              $scope.date_query();
              //$scope.chartjs();
+             $scope.loading = false;
            }
 
          }).
