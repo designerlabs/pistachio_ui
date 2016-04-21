@@ -18,6 +18,7 @@
 	"sidebar.dashboardchart": "Chart",
 	"sidebar.dashboardlink": "Links",
     "sidebar.appl_analysis": "Visa Application Analysis",
+		"sidebar.countryAnalysis": "Analysis by Country",
 	"header.search" : "Search",
 	"fastsearch.launch" : "Launch",
 	"fastsearch.doc.title" : "Fast Document Search",

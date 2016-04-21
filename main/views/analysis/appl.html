@@ -1,4 +1,15 @@
 <div ng-controller="VAAController">
+  <div style="background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%; position:absolute; top:0px;"  ng-show="loading">
+
+                    <!--  BEGIN PAGE SPINNER -->
+                     <div ng-spinner-bar class="page-spinner-bar show">
+                         <div class="bounce1"></div>
+                         <div class="bounce2"></div>
+                         <div class="bounce3"></div>
+                     </div>
+                  <!--    END PAGE SPINNER -->
+  </div>
+
 <div class="page-bar" ng-if="filterButtons.length>0">
     <ul class="page-breadcrumb" data-ng-repeat="filter in filterButtons">
         <li>
@@ -21,7 +32,7 @@
                              btn-radio="'active'" ng-change="changeQueryType()" ng-model="queryType"
                              ng-class="{overall:'', active:'bg-green', '':'disable'}[queryType]"
                             >
-                            	Active    
+                            	Active
                             </label>
                             <label id = "overall" class="btn dark btn-outline btn-circle btn-sm"
                             btn-radio="'overall'" ng-change="changeQueryType()" ng-model="queryType"
@@ -29,7 +40,7 @@
                             >
                                 Overall
                             </label>
-                            
+
                         </div>
                     </div>
                 <!--<div class="portlet-title" style="padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
@@ -44,22 +55,22 @@
 	            			<a ng-cloak class="list-group-item bg-green-turquoise font-sm" data-ng-repeat="cnt in jobs" ng-click="clickJobs(cnt.field)" style="padding:5px;" title={{cnt.field}}>
 	                                        {{cnt.field |limitTo:25}}
 	                                            <span class="badge badge-danger"> {{cnt.count}}</span>
-	                                        
+
 	                        </a>
-	                
-	            	
-	            
+
+
+
 	            <h4 class="block" style="padding: 0px; margin: 1px;">Top Employer</h4>
 	            	<div class="list-group">
 
 	            			<a class="list-group-item bg-green-turquoise" data-ng-repeat="cnt in employers" ng-click="clickEmply(cnt.field)" style="padding:5px;" title={{cnt.field}}>
 	                                        {{cnt.field|limitTo:25}}
 	                                            <span class="badge badge-danger"> {{cnt.count}}</span>
-	                                        
+
 	                        </a>
 	                </div>
-	              
-	            	
+
+
 	            </div>
 	            <h4 class="block" style="padding: 0px; margin: 1px;">Visa Types</h4>
 	            	<div class="list-group">
@@ -67,11 +78,11 @@
 	            			<a class="list-group-item bg-green-turquoise" data-ng-repeat="cnt in visas" ng-click="clickVisa(cnt.field)" style="padding:5px;" >
 	                                        {{cnt.field}}
 	                                            <span class="badge badge-danger"> {{cnt.count}}</span>
-	                                        
+
 	                        </a>
 	                </div>
-	              
-	            	
+
+
 	            </div>
 	        </div>
 		</div>
@@ -87,21 +98,21 @@
                     </div>
                     <ul class="nav nav-tabs">
                                         <li class="active">
-                                            <a data-target="#overal_analysis" 
-                                               data-id='overall' 
-                                               class="active" 
+                                            <a data-target="#overal_analysis"
+                                               data-id='overall'
+                                               class="active"
                                                ng-click="changeAnalysis('overall')"
                                                data-toggle="tab"> Overall Analysis </a>
                                         </li>
                                         <li>
                                             <a data-target="#timeline_analysis"
                                             	id = "time"
-                                               ng-model="analysisType" 
+                                               ng-model="analysisType"
                                                ng-click="changeAnalysis('timeline')"
                                              data-toggle="tab"> Timeline Analysis</a>
                                         </li>
                                     </ul>
-                    
+
                 </div>
                 <div class="portlet-body">
                 	<div class="tab-content">
@@ -111,7 +122,7 @@
 							  		map="mapObject"
 							  		on-click="updateActiveGeography"
 							  		plugins="mapPlugins"
-							  		
+
 							  		>
 								</datamap>
 							</div>
@@ -122,19 +133,18 @@
 								<div class="col-md-8">
 									<div id="highchart_col"></div>
 								</div>
-								
+
 							</div>
 						</div>
 						<div class="tab-pane active" id="timeline_analysis">
 							<div id="highchart_timeline"></div>
 						</div>
 					</div>
-				
+
 				</div>
-			
+
 		</div>
 	</div>
 
-</div>	
 </div>
-
+</div>
