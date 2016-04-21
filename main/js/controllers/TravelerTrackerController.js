@@ -1,66 +1,85 @@
 'use strict';
-
-MetronicApp.controller('TravelerTrackerController', function($rootScope,$scope,$http) {
-
-
-// angular.element(document).ready(function () {
-// alert('Hi this is fn_LoadAllRequest');
-    // alert($rootScope.docno + ", " + $rootScope.cntry );
-fn_LoadAllRequest();
-var inoutTbl = undefined;
-function fn_LoadAllRequest(){	  
-	 	 debugger;
-	 	// Get Basic details of traveler
-	 	//$rootScope.docno
-	 	// $rootScope.cntry
-
-			$.get("http://pistachio_server:8983/solr/immigration1/query?json={query : 'mad_doc_no:SK4107002 AND country:PAKISTAN',sort  : 'mad_crt_dt desc',limit : 20000,facet: {visa : {type: terms,field: mad_pas_typ_cd},employers : {type: terms,field: employer}}}")
-			.success(function(data) {
-			 	console.log(data.response.docs[0].mad_applcnt_nm);
-				$scope.basicdetails = data.response.docs[0];
-				
-		   });
-		// Get details of visa and in and outs
-			//$.get("http://pistachio_server:8983/solr/his/query?rows=2&json={query: 'country:PAKISTAN AND doc_no:AA0929482',limit: 1,sort  : 'xit_date desc',facet: {branch : {type: terms,field: branch},exits: {type: range,field: xit_date,start: '2015-01-01T00:00:00Z',end: '2016-03-23T00:00:00Z',gap: '%2B1DAY'},in_outs: {type: terms,field: dy_action_ind,facet: {branch : {type: terms,field: branch}}},officer :{type: terms,field: dy_create_id}}}}")
-			$.get("http://pistachio_server:8983/solr/his/query?rows=2&json={query:%20%22country:SINGAPORE%20AND%20doc_no:E3522027C%22,limit:%201,sort%20%20:%20%27xit_date%20desc%27,facet:%20{exits:%20{type:%20range,field:%20xit_date,mincount%20:%201,start:%20%222000-01-01T00:00:00Z%22,end:%20%222016-03-23T00:00:00Z%22,gap:%20%22%2B1DAY%22,facet:{in_outs:%20{type:%20terms,field:%20dy_action_ind,facet:%20{branch%20:%20{type:%20terms,field:%20branch,facet%20:{officer%20:{type:%20terms,field:%20dy_create_id}}}}}}}}}}")
-			.success(function(data) {
-			 	console.log(data.facets.count);			 	
-				$scope.persondetails = data.response.docs[0];
-				$scope.InOutdetails = data.facets.exits.buckets;
-				$scope.inoutTbl = data.facets.exits.buckets;
-				// $scope.Officers = data.facets.officer.buckets;				
-				 // newj =  data.facets.branch.buckets;
-				// svg.append("svg:text")
-				//   .attr("class", "aster-score")
-				//   .attr("dy", ".35em")
-				//   .attr("text-anchor", "middle") // text-align: right
-				//   .text($scope.InOutdetails.count.toString());
-		   });
-		}
-// });
-// debugger;
-	$scope.inoutTbl.forEach(function(e) {
-	   e.start = e.val;	   
-	   e.content =(e.in_outs.buckets[0].val == 1 ? 'IN' : 'OUT');	   
-	});
  
 
+MetronicApp.controller('TravelerTrackerController', function($rootScope,$scope,$http, $timeout) {
+
+$scope.res = "result";
+ $scope.personal12 = "result";
+    $scope.$on('$viewContentLoaded', function() {
+        Metronic.initAjax(); // initialize core components
+        $scope.database = "default"; 
+               // fn_LoadAllRequest();             
+            
+	});
+
+
+var inoutTbl = undefined;
+function fn_LoadAllRequest(){	  
+	 	// Get Basic details of traveler
+	 	$rootScope.docno
+	 	$rootScope.cntry
+
+		// Get details of visa and in and outs
+			//$.get("http://pistachio_server:8983/solr/his/query?rows=2&json={query: 'country:PAKISTAN AND doc_no:AA0929482',limit: 1,sort  : 'xit_date desc',facet: {branch : {type: terms,field: branch},exits: {type: range,field: xit_date,start: '2015-01-01T00:00:00Z',end: '2016-03-23T00:00:00Z',gap: '%2B1DAY'},in_outs: {type: terms,field: dy_action_ind,facet: {branch : {type: terms,field: branch}}},officer :{type: terms,field: dy_create_id}}}}")
+
+	}
+	// "+$rootScope.docno+" "+$rootScope.cntry+"
+
+$scope.fn_getBasicInfo = function(){
+	$.get("http://10.4.104.177:8983/solr/immigration2/query?json={query : 'mad_doc_no:E48556309 AND country:CHINA',limit:20000,facet: {visa : {type: terms,field: mad_pas_typ_cd},employers : {type: terms,field: employer}}}")
+	.then(function(data) {
+	 	console.log(data.response.docs[0]);
+		$scope.basicdetails = data.response.docs[0];
+		$scope.basicdetailsTbl = data.response.docs;
+		$scope.$apply();			
+
+   });
+}
+	
+$scope.fn_getPersonalInfo = function(){			
+	$.get("http://10.4.104.177:8983/solr/hismove/query?json={query:'country:CHINA AND doc_no:E48556309',limit:1,facet:%20{exits:%20{type:%20range,field:%20xit_date,mincount:1,start:%20%222000-01-01T00:00:00Z%22,end:%20%222016-03-23T00:00:00Z%22,gap:%20%22%2B1DAY%22,facet:{in_outs:%20{type:%20terms,field:%20dy_action_ind,facet:%20{branch%20:%20{type:%20terms,field:%20branch,facet%20:{officer%20:{type:%20terms,field:%20dy_create_id}}}}}}}}}}")
+	.then(function(result) {
+
+		$scope.res = result.response.docs[0];	
+		$scope.InOutdetails = result.facets.exits.buckets;
+		$scope.inoutTbl = result.facets.exits.buckets;
+		$scope.CreateInoutChart(result.facets.exits.buckets);
+		$scope.$apply();
+   });
+}
+
+
+
+
+ 
+$scope.CreateInoutChart = function(_data){
+	var newary = _data;
+	newary.forEach(function(e) {
+	   e.start = e.val;	   
+	   // e.content =(e.in_outs.buckets[0].val == 'in' ? 'IN' : 'OUT');
+	   // className 
+	   if(e.in_outs.buckets[0].val == 'in'){
+	   	// e.content = "IN";
+	   	e.className = 'green';
+	   }else{
+	   	// e.content = "OUT";
+	   	e.className = 'red';
+	   }	   
+	   e.content = e.in_outs.buckets[0].branch.buckets[0].val + ' , ' + e.in_outs.buckets[0].branch.buckets[0].officer.buckets[0].val;
+	});
+
      var container = document.getElementById('visualization');
-     var newitems = $scope.InOutdetails;
+     var newitems = newary;
       var options = {
  	    height: '300px',
  	    min: new Date(2012, 0, 1),                // lower limit of visible range
  	    max: new Date(2017, 0, 1),                // upper limit of visible range
  	    zoomMin: 1000 * 60 * 60 * 24,             // one day in milliseconds
- 	    zoomMax: 1000 * 60 * 60 * 24 * 31 * 3     // about three months in milliseconds
+ 	    zoomMax: 1000 * 60 * 60 * 24 * 31 * 12     // about three months in milliseconds
  	  };
      var timeline = new vis.Timeline(container, newitems, options);
 
-     /**
-      * Move the timeline a given percentage to left or right
-      * @param {Number} percentage   For example 0.1 (left) or -0.1 (right)
-      */
-     function move (percentage) {
+      function move (percentage) {
          var range = timeline.getWindow();
          var interval = range.end - range.start;
 
@@ -70,10 +89,6 @@ function fn_LoadAllRequest(){
          });
      }
 
-     /**
-      * Zoom the timeline a given percentage in or out
-      * @param {Number} percentage   For example 0.1 (zoom out) or -0.1 (zoom in)
-      */
      function zoom (percentage) {
          var range = timeline.getWindow();
          var interval = range.end - range.start;
@@ -84,12 +99,16 @@ function fn_LoadAllRequest(){
          });
      }
 
-     // attach events to the navigation buttons
      document.getElementById('zoomIn').onclick    = function () { zoom(-0.2); };
      document.getElementById('zoomOut').onclick   = function () { zoom( 0.2); };
      document.getElementById('moveLeft').onclick  = function () { move( 0.2); };
      document.getElementById('moveRight').onclick = function () { move(-0.2); };
 
+
+}
+      
+$scope.fn_getPersonalInfo();
+$scope.fn_getBasicInfo();
 
 // //All the function of d3 chart
 
@@ -185,10 +204,6 @@ function fn_LoadAllRequest(){
 
 	// console.log('hello'+$scope.InOutdetails.count.toString());
 
-$scope.$on('$viewContentLoaded', function() {
-        Metronic.initAjax(); // initialize core components
-        $scope.database = "default";       
-	});
 
 });
 

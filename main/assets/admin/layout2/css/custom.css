@@ -236,3 +236,18 @@ Rounded Portlets
 .portlet.box.red-intense > .portlet-title {
     background-color: #7CB1B9 !important;
 }
+
+/* create a custom sized dot at the bottom of the red item */
+.vis-item.red {
+  background-color: #ff0000;
+  border-color: darkred;  
+  color: #fff;
+}
+
+ .vis-item.green {
+  background-color: greenyellow;
+  border-color: green;
+}
+
+.calendar-text { margin-top: .3em; }
+.file-text { margin-top: .2em; }

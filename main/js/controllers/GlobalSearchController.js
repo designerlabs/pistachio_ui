@@ -207,7 +207,8 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
           $scope.viewReq = function(docno,cntry){
             $rootScope.docno = docno;
             $rootScope.cntry = cntry;
-            window.location.href ="#/travelertracker/travelertracker.html";
+            // window.location.href ="#/travelertracker/travelertracker.html";
+            window.location = "index.html#/travelertracker/travelertracker.html";
             
           }
 
