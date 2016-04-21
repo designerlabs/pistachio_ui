@@ -13,32 +13,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
       };
 
 
-      $scope.backBtn = function(e){
 
-        var branchN = this.$parent.ele2;
-        if(branchN == "Officer"){
-          $scope.timelineChart("Inital", "Branch");
-          localStorage.stage = "Branch";
-          localStorage.removeItem('branchName');
-          $scope.BranchName = false;
-          $scope.EmpName = false;
-        }
-
-        if(branchN == "Country"){
-          $scope.timelineChart($scope.getBranchVal.one, "Officer");
-          //localStorage.stage = "Officer";
-          $scope.EmpName = false;
-
-        }
-
-        if(branchN == "Visitor"){
-          $scope.timelineChart($scope.getCtryName.one, "Country");
-          localStorage.stage = "Country";
-          alert('visitor');
-        }
-      };
-
-      var startDt, endDt, triggerOpt, triggerOptRow, branchQry, mainFacet, triggerBt, groupBy, gap; // Global variable
+      var startDt, endDt, triggerOpt, triggerOptRow, branchQry, ubranch, mainFacet,  offsetVal,  triggerBt, groupBy, gap, count, sortValue; // Global variable
       var immigrationSolr = "hismove";
       localStorage.removeItem('branchName'); // each time removing the branch and Emp name
       localStorage.removeItem('empName');
@@ -142,6 +118,12 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             branchQry = 'branch';
             groupBy ="";
             gap = "%2B1DAY";
+          }else if($scope.ele2 == "Officer"){
+            triggerOpt = "branch:"+$scope.getBranchVal.one;
+            mainFacet = "branches";
+            branchQry ="dy_create_id";
+            groupBy ="";
+            gap = "%2B1DAY";
           }else if($scope.ele2 == "Country"){
             triggerOpt = "branch:"+$scope.getBranchVal.one+" AND  dy_create_id:"+$scope.getEmpName.one;
             mainFacet = "country";
@@ -163,10 +145,10 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             gap = "%2B1DAY";
           }
 
-          var query_c = '{query: "'+triggerOpt+'",filter : "xit_date : ['+dateFormat(Math.round(e.min))+' TO '+dateFormat(Math.round(e.max))+']",limit: 20,'+
-            'facet: {in_outs: {type: terms,limit: 10,field: dy_action_ind,'+
+          var query_c = '{query: "'+triggerOpt+'",filter : "xit_date : ['+dateFormat(Math.round(e.min))+' TO '+dateFormat(Math.round(e.max))+']",limit: 15,'+
+            'facet: {in_outs: {type: terms,limit: 15,field: dy_action_ind,'+
             'facet: {exits: {type: range,field: xit_date,start: "' + dateFormat(Math.round(e.min)) + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "'+gap+'"},passport: "unique(doc_no)"}},'+
-            mainFacet+': {type: terms,limit: 15,field:'+branchQry+',facet: {in_out: {type: terms,limit: 2,field: dy_action_ind,  sort:{index:asc},'+
+            mainFacet+': {type: terms,limit: 15,field:'+branchQry+',facet: {in_out: {type: terms,limit: 15,field: dy_action_ind,  sort:{index:asc},'+
             'facet: {exits: {type: range,field: xit_date,start: "' + dateFormat(Math.round(e.min)) + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "'+gap+'"},passport: "unique(doc_no)"}}'+
             '}}}}}'+groupBy;
 
@@ -239,7 +221,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 console.log(storeBranchData);
 
               }else if($scope.ele2 == "Visitor"){
-                  //debugger;
+                  debugger;
                    for (var im = 0, lm = data.grouped.doc_no.groups.length; im < lm; im++) {
                     var bElement = {};
                     var brName = {};
@@ -295,20 +277,20 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                       //bElement.push(brStatus);
                     
                       if($scope.bIn_out == "in"){
-                      $scope.bIn_out = "Entry";
-                      var entryTotal = eval(countEle.join("+"));
-                      brStatus.entry = countEle.toString().replace(/,/g , ", ");
-                      brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                      brStatus.entryTotal = entryTotal;
-                      bElement.entry  = brStatus;
-                    }else if($scope.bIn_out == "out"){
-                      $scope.bIn_out = "Exit";
-                      var exitTotal = eval(countEle.join("+"));
-                      brStatus.exit = countEle.toString().replace(/,/g , ", ");
-                      brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                      brStatus.exitTotal = exitTotal;
-                      bElement.exit  = brStatus;
-                    }
+                        $scope.bIn_out = "Entry";
+                        var entryTotal = eval(countEle.join("+"));
+                        brStatus.entry = countEle.toString().replace(/,/g , ", ");
+                        brStatus.uniqueVisitor = $scope.uniqueVisitors;
+                        brStatus.entryTotal = entryTotal;
+                        bElement.entry  = brStatus;
+                      }else if($scope.bIn_out == "out"){
+                        $scope.bIn_out = "Exit";
+                        var exitTotal = eval(countEle.join("+"));
+                        brStatus.exit = countEle.toString().replace(/,/g , ", ");
+                        brStatus.uniqueVisitor = $scope.uniqueVisitors;
+                        brStatus.exitTotal = exitTotal;
+                        bElement.exit  = brStatus;
+                      }
                     }
                     
                     var total = eval(countEle.join("+"));
@@ -321,8 +303,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
                     var getCount = {};
                     getCount.count = countEle;
-
-                    
 
                     //bElement.push(getCount);
                     //bElement.push(getTotal);
@@ -354,7 +334,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 gap = "%2B1DAY";
               }else if($scope.ele2 == "Officer"){
                 triggerOptRow = "rows=2&fq=branch:"+$scope.getBranchVal.one+"&";
-                gap = "%2B1HOUR";
+                gap = "%2B1DAY";
               }else if($scope.ele2 == "Country"){
                 triggerOptRow = "rows=2&fq=branch:"+$scope.getBranchVal.one+"&fq=dy_create_id:"+$scope.getEmpName.one+"&";
                 gap = "%2B1DAY";
@@ -383,7 +363,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                       element.push(obj.count);
                       storeData.push(element);
                     }
-                   }
+                  }
                   
                   chart.hideLoading();
                   // As we're loading the data asynchronously, we don't know what order it will arrive. So
@@ -391,7 +371,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                   $scope.seriesCounter += 1;
 
                   if ($scope.seriesCounter === $scope.seriesDet.series.length) {
-                      $scope.createChart();
+                    $scope.createChart();
                   }
 
               })
@@ -442,8 +422,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
               tooltip: {
 
-                  pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
-                  valueDecimals: 2
+                  pointFormat: '<span  style="color:{series.color}; font-size:20px;">{series.name}: {point.y}</span><br/>',
+                  valueDecimals: 0
               },
 
               series: $scope.seriesOptions
@@ -467,8 +447,51 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
     
       };
 
+      count = 0;
+     
+      var limitValue = 15;
+       $scope.branchOffset = 0;
+       $scope.pageCount = 1;
+      if($scope.branchOffset == 0 || $scope.pageCount == 1){
+        $("#bPreviousBtn").prop('disabled', true);
+      }else{
+        $("#bPreviousBtn").prop('disabled', false);
+      }
+
+
+      sortValue = "desc";
+
+      $("#bNextBtn").click(function(){
+        $scope.branchOffset += limitValue;
+        $scope.pageCount += 1;
+        if($scope.branchOffset == 0 || $scope.pageCount == 1){
+          $("#bPreviousBtn").prop('disabled', true);
+        }else{
+          $("#bPreviousBtn").prop('disabled', false);
+        }
+
+        if(($scope.totalCount - $scope.branchOffset) <= limitValue){
+          $("#bNextBtn").prop('disabled', true);
+        }else{
+          $("#bNextBtn").prop('disabled', false);
+        }
+        $scope.populateChart();
+      });
+
+      $("#bPreviousBtn").click(function(){
+        $scope.branchOffset -= limitValue;
+        $scope.pageCount -= 1;
+        $("#bNextBtn").prop('disabled', false);
+        if($scope.branchOffset == 0 || $scope.pageCount == 1){
+          $("#bPreviousBtn").prop('disabled', true);
+        }else{
+          $("#bPreviousBtn").prop('disabled', false);
+        }
+        $scope.populateChart();
+      });
 
       $scope.populateChart = function(){
+
         $scope.loading = true;
         if($scope.startDate){
           startDt = $scope.startDate;
@@ -483,49 +506,99 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
           endDt = "2016-02-05T00:00:00Z";
         };
 
+        //alert(count + " first");
         $.each($scope.seriesDet, function(j, valu) {
 
           $.each(valu, function(m, k) {
             //On load
-
+            //alert(count+ " sec");
+            //alert($scope.ele2);
             if($scope.ele1 == "Inital"){
+              count = 0;
               triggerOpt = "*:*";
                mainFacet = "branches";
               triggerOptRow = "rows=2&";
-              groupBy ="";
+              groupBy, offsetVal ="";
               $scope.subtitle = $scope.changeDt(startDt) +" - "+$scope.changeDt(endDt);
               branchQry = 'branch';
+              ubranch = 'ubranch: "unique('+branchQry+')"';
               gap = "%2B1DAY";
 
+            }else if($scope.ele2 == "Officer"){
+              count +=1;
+              //alert(count);
+              if(count == 2){
+                $scope.branchOffset = 0; $scope.pageCount = 1;
+                $("#bPreviousBtn").prop('disabled', true);
+                $("#bNextBtn").prop('disabled', false);
+              }
+              triggerOpt = "branch:"+$scope.ele1;
+              triggerOptRow = "rows=2&fq=branch:"+$scope.ele1+"&";
+              mainFacet = "branches";
+              groupBy, offsetVal ="";
+              gap = "%2B1DAY";
+              $scope.subtitle = $scope.changeDt(startDt) +" - "+$scope.changeDt(endDt);
+              branchQry = 'dy_create_id';
+              ubranch = 'ubranch: "unique('+branchQry+')"';
+             
             }else if($scope.ele2 == "Country"){
+              count +=1;
+              //alert(count);
+              if(count == 2){
+                $scope.branchOffset = 0; $scope.pageCount = 1;
+                $("#bPreviousBtn").prop('disabled', true);
+                $("#bNextBtn").prop('disabled', false);
+              }
               triggerOpt = "branch:"+$scope.getBranchVal.one+" AND  dy_create_id:"+$scope.getEmpName.one;
               triggerOptRow = "rows=2&fq=branch:"+$scope.getBranchVal.one+"&fq=dy_create_id:"+$scope.getEmpName.one+"&";
               mainFacet = "country";
               branchQry ="country";
-              groupBy ="";
+              ubranch = 'ubranch: "unique('+branchQry+')"';
+              groupBy, offsetVal ="";
+              
               gap = "%2B1DAY";
              
             }else if($scope.ele2 == "Visitor"){
+              count +=1;
+              //alert(count);
+              if(count == 2){
+                $scope.branchOffset = 0; $scope.pageCount = 1;
+                $("#bPreviousBtn").prop('disabled', true);
+                $("#bNextBtn").prop('disabled', false);
+              }
               triggerOpt = "branch:"+$scope.getBranchVal.one+" AND  dy_create_id:"+$scope.getEmpName.one+" AND country:"+$scope.getCtryName.one;
               triggerOptRow = "rows=2&fq=branch:"+$scope.getBranchVal.one+"&fq=dy_create_id:"+$scope.getEmpName.one+"&fq=country:"+$scope.getCtryName.one+"&";
               mainFacet = "country";
               branchQry ="country";
+              ubranch = 'ubranch: "unique(doc_no)"';
+              offsetVal = 'offset:'+$scope.branchOffset+',';
               groupBy = "&&group=true&group.field=doc_no";
               gap = "%2B1DAY";
             }else{
+              count +=1;
+              //alert(count);
+              if(count == 2){
+                $scope.branchOffset = 0; $scope.pageCount = 1;
+                $("#bPreviousBtn").prop('disabled', true);
+                $("#bNextBtn").prop('disabled', false);
+              }
               triggerOpt = "branch:"+$scope.ele1;
               triggerOptRow = "rows=2&fq=branch:"+$scope.ele1+"&";
-              groupBy ="";
-              gap = "%2B1HOUR";
+              groupBy, offsetVal ="";
+              gap = "%2B1DAY";
               $scope.subtitle = $scope.changeDt(startDt) +" - "+$scope.changeDt(endDt);
               branchQry = 'dy_create_id';
+              ubranch = 'ubranch: "unique('+branchQry+')"';
+             
+
             }
+
             var query = 'q=dy_action_ind:' + k.name + '&'+triggerOptRow+'json.facet={in_outs:{type : range,field : xit_date,start : "'+startDt+'",end :"'+endDt+'",gap:"'+gap+'"},passport: "unique(doc_no)"}' // "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
    
-            var query_spark = '{query: "'+triggerOpt+'",filter : "xit_date : ['+startDt+' TO '+endDt+']", limit: 20,'+
-            'facet: {in_outs: {type: terms,limit: 10,field: dy_action_ind,'+
+            var query_spark = '{query: "'+triggerOpt+'",filter : "xit_date : ['+startDt+' TO '+endDt+']", limit: '+limitValue+','+offsetVal+
+            'facet: {'+ubranch+',  in_outs: {type: terms,limit: '+limitValue+',field: dy_action_ind,'+
             'facet: {exits: {type: range,field: xit_date,start: "'+startDt+'",end: "'+endDt+'",gap: "'+gap+'"},passport: "unique(doc_no)"}},'+
-            mainFacet+': {type: terms,limit: 15,field: '+branchQry+',facet: {in_out: {type: terms,limit: 2,field: dy_action_ind, sort:{index:asc},'+
+            mainFacet+': {type: terms,limit: '+limitValue+',  offset:'+$scope.branchOffset+', field: '+branchQry+', sort:{count:'+sortValue+'},facet: {in_out: {type: terms,limit: 15,field: dy_action_ind,'+
             'facet: {exits: {type: range,field: xit_date,start: "'+startDt+'",end: "'+endDt+'",gap: "'+gap+'"},passport: "unique(doc_no)"}}'+
             '}}}}}'+groupBy;
 
@@ -537,6 +610,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             success(function(data) {
                 console.log(data);
                 //alert('call-2');
+
                 var storeData = [];
                    if(data.facets.count == 0){
                     //console.log(data.facets.count.length);
@@ -591,7 +665,12 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             //$scope.loading = true;
             $http.get(sq_spark + query_spark)
               .success(function(data) {
-                
+               // debugger;
+                $scope.totalCount = data.facets.ubranch;
+                $scope.numofpage = Math.ceil($scope.totalCount / limitValue);
+                if(limitValue > $scope.totalCount){
+                  $("#bNextBtn").prop('disabled', true);
+                }
                 console.log(data);
                 //$scope.branchData = data.facets.branches.buckets;
                 //$scope.branchId = data.facets.branches.buckets;
@@ -666,6 +745,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 $scope.branchOut = storeBranchData;
                 console.log(storeBranchData);
               }else if($scope.ele2 == "Visitor"){
+          
                    for (var im = 0, lm = data.grouped.doc_no.groups.length; im < lm; im++) {
                     var bElement = {};
                     var brName = {};
@@ -791,6 +871,42 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
          return(data);
       };
 
+
+
+      $scope.backBtn = function(e){
+        count = 0;
+        
+        if(($scope.totalCount - $scope.branchOffset) < 15){
+          $("#bNextBtn").prop('disabled', true);
+        }else{
+          $("#bNextBtn").prop('disabled', false);
+        }
+
+        var branchN = this.$parent.ele2;
+        if(branchN == "Officer"){
+          $scope.timelineChart("Inital", "Branch");
+          localStorage.stage = "Branch";
+          localStorage.removeItem('branchName');
+          $scope.BranchName = false;
+          $scope.EmpName = false;
+          $scope.CtryName = false;
+        }
+
+        if(branchN == "Country"){
+          $scope.timelineChart($scope.getBranchVal.one, "Officer");
+          //$scope.timelineChart($scope.getBranchVal.one, "Officer");
+          localStorage.stage = "Officer";
+          $scope.EmpName = false;
+          $scope.CtryName = false;
+
+        }
+
+        if(branchN == "Visitor"){
+          $scope.timelineChart($scope.getCtryName.one, "Country");
+          localStorage.stage = "Country";
+          $scope.CtryName = false;
+        }
+      };
       
 
       $scope.viewBtn = function(e){
@@ -805,7 +921,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         EmpN = $scope.cleanQuery(EmpN);
         countryN = $scope.cleanQuery(countryN);
         visitorN = $scope.cleanQuery(visitorN);
-        
+        count = 0;
         var setBranch = { 'one': branchN, 'two': this.$parent.$$watchers[0].last};
         var setEmp = { 'one': EmpN, 'two': this.$parent.$$watchers[0].last};
         var setCountry = { 'one': countryN, 'two': this.$parent.$$watchers[0].last};

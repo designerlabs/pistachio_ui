@@ -169,7 +169,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 //var globalURL = "http://10.23.124.243:8080/";
 var globalURL = "http://pistachio_server:8080/";
 //var solrHost = "10.23.124.243";
-var solrHost = "pistachio_server";
+var solrHost = "10.4.104.176";
 var queryString = "query";
 var categoryName = "cat";
 
