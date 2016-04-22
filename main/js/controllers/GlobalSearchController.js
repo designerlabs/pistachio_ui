@@ -2,6 +2,7 @@
 var selected_countries = [];
 var filter_query = "";
 // var solrHost = "localhost";
+var solrHost = "pistachio_server";
 MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $http, $timeout, $sce) {
     $scope.$on('$viewContentLoaded', function() {
 
@@ -222,11 +223,10 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
           $(".nextBtn").prop("disabled", false);
         }
 
-
            console.log($scope.countries);
            // console.log(countryObjList);
-
-
+//           console.log($scope.countries);
+//           console.log(countryObjList);
 
          }).
          error(function(data, status, headers, config) {

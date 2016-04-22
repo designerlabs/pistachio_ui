@@ -70,7 +70,7 @@
 
 
 
-        <li id="dataManagement" ng-if="chkRole('ROLE_ADMIN')">
+        <li ng-if="chkRole('ROLE_ADMIN')" class="start">
             <a href="javascript:;">
                 <i class="icon-users"></i>
                 <span class="title">{{'sidebar.administrator' | translate}}</span>
@@ -99,6 +99,12 @@
                         <i class="icon-plane"></i> Traveler Tracker
                     </a>
                 </li> -->
+
+                <li>
+                    <a href="#/d2dTracking/d2dTracking.html">
+                        <i class="fa fa-line-chart"></i> Tracking
+                    </a>
+                </li>
 
                 <li>
                     <a href="#/audit.html">
@@ -163,13 +169,6 @@
 $(function(){
     $("#afpr").addClass("active");
 //alert(isAdmin+ "sidebar");
-});
-$("#sidebarMenu li").click(function(){
-    $("#sidebarMenu li").removeClass("active");
-    $("#sidebarMenu li").removeClass("open");
-    $(this).addClass('active');
-    console.log($(this));
-    $(this).parents('ul').parent('li').addClass("active");
 });
 
 

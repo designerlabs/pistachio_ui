@@ -1,7 +1,7 @@
 'use strict';
 
-MetronicApp.controller('SQLEditorMgtController', function($scope,$http) {
-
+MetronicApp.controller('SQLEditorMgtController', function($scope,$rootScope,$http) {
+  $rootScope.settings.layout.pageSidebarClosed = true;
 $scope.$on('$viewContentLoaded', function() {
         Metronic.initAjax(); // initialize core components
         $scope.database = "default";
@@ -58,13 +58,13 @@ var $btn;
 
     });
 
-    $('.newqry').click(function(){    	
+    $('.newqry').click(function(){
     	editor.session.setValue('');
     	fn_GotoResultTab();
     	// if(oResultTable != undefined){
     	// 	oResultTable.destroy();
     	// 	oResultTable.clear()
-	    //         		 .draw();	  	
+	    //         		 .draw();
     	// }
     	fn_ClearResultTbl();
 
@@ -74,7 +74,7 @@ var $btn;
 		$scope.aceSession = _editor.getSession();
 
 	};
-	
+
     $scope.aceChanged = function () {
       	  $scope.aceDocumentValue = $scope.aceSession.getDocument().getValue();
       	  if($scope.aceSession.getDocument().getValue().trim().length > 0){
@@ -91,7 +91,7 @@ var aryJSONColTable = [];
 //All the Functions started here
 
 function fn_ExecQuery(qry){
-	if(qry != null && qry.length > 0){	
+	if(qry != null && qry.length > 0){
 		$http.post(globalURL + "api/pistachio/secured/runSQL",qry.trim())
 		.then(function successCallback(result){
 		if (result != null && result.data.columns != null) {
@@ -139,7 +139,7 @@ function fn_ExecQuery(qry){
 		            $btn.button('reset');
 		    }, 1000);
 		}
-	}, 
+	},
 	function errorCallback(response){
 		fn_ClearResultTbl();
 		$("#messageView div span").html(response.data.error);
@@ -150,7 +150,7 @@ function fn_ExecQuery(qry){
 		            $btn.button('reset');
 		}, 1000);
 	});
-		
+
 }else{
 		fn_ClearResultTbl();
 		$("#messageView div span").html("No Query found...");
@@ -190,10 +190,10 @@ function fn_LoadDb(){
 	    	console.log("dblist" + response.data[0]);
 	    	fn_LoadDt(response.data[0]);
 	});
-	
+
 }
 
-function fn_LoadDt(seldb){	
+function fn_LoadDt(seldb){
 	$http.get(globalURL + "api/pistachio/secured/hadoop/tables?db=" + seldb)
 	    .then(function(response) {
 	    	$scope.datatableLength = response.data.length;
@@ -201,7 +201,7 @@ function fn_LoadDt(seldb){
 	    	// $scope.database = response.data[0];
 	    	console.log("dtlist" + response.data[0]);
 
-	    	
+
 	});
 }
 
@@ -216,7 +216,7 @@ function fn_showHistory(){
 			historyTbl = $('#tblHistory').DataTable({
 					"processing": true,
 			        "data": historyResult,
-			        "columns": [	        	
+			        "columns": [
 			            {
 			                "data": "query",
 			                "width": "70%"
@@ -231,7 +231,7 @@ function fn_showHistory(){
 			                }
 			            },{
 			                "data": "runTime"
-			            }	            
+			            }
 			        ]
 			});
 			$('#tblHistory tbody').on('click', 'tr', function() {
@@ -239,7 +239,7 @@ function fn_showHistory(){
 				 editor.session.setValue('');
 				 editor.session.setValue(data.query);			});
 			 $(".page-content").height($(".profile-content").height()+400);
-	    });	
+	    });
 }
 
 function fn_GotoResultTab(){
@@ -251,12 +251,12 @@ function fn_GotoResultTab(){
 
 function fn_ClearResultTbl(){
 if(oResultTable != undefined){
-    		 // oResultTable.destroy();	
+    		 // oResultTable.destroy();
 	oResultTable.clear()
-   	    	.draw();	
+   	    	.draw();
    	$('#tblResult thead tr').remove();
     $('#tblResult_wrapper .row').remove();
-	 
+
 	    }
 
 
