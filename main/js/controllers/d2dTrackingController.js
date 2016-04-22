@@ -989,7 +989,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         }
 
         if(getStage == "Visitor"){
-          alert('visitor');
+          //location.href="/travelertracker/travelertracker.html?doc_no="+passportNo+"&country="+countryName;
+          location.href="../main/index.html#/travelertracker/travelertracker.html?doc_no="+this.$parent.value.vName.doc+"&country="+$scope.CtryQueryName;
           return false;
         }
     
