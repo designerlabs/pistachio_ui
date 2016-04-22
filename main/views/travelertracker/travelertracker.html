@@ -1,179 +1,201 @@
-<h3 class="page-title"> Individual Traveler Profile
-    <small></small>
-</h3>
-<div class="row row1">
-    <div class="col-md-12">
-        <!-- BEGIN PROFILE SIDEBAR -->
-        <div class="profile-sidebar">
-            <!-- PORTLET MAIN -->
-            <div class="portlet light profile-sidebar-portlet ">
-                <!-- SIDEBAR USERPIC -->
-                <div class="profile-userpic">
-                    <img alt="" class="img-responsive" src="./assets/admin/layout2/img/avatar.png"> </div>
-                <!-- END SIDEBAR USERPIC -->
-                <!-- SIDEBAR USER TITLE -->
-                <div class="profile-usertitle">
-                    <div class="profile-usertitle-name">
-                     {{basicdetails.mad_applcnt_nm}} 
-                     <!-- <span>{{basicdetails.sex}} </span> -->
-                     <span style="display: none">
-                     	{{basicdetails.sex == "LELAKI" ? started = false : started = true}}</span>
-                     	<i class="fa fa-male" data-ng-hide="started"></i>
-                     	<i class="fa fa-female" data-ng-show="started"></i>                     	
-                    </div>
-                    <div class="profile-usertitle form-group"> 
-                    	Total <i class="fa fa-plane"></i> Malaysia = {{InOutdetails.in_outs.buckets[0].count}}
-                    </div>
-                    <div class="profile-usertitle form-group">
-                    	Total <i class="fa fa-plane fa-rotate-180"></i> Malaysia = {{InOutdetails.in_outs.buckets[1].count}}
-                    </div>
-                    <div class="profile-usertitle form-group">
-                    	Current Status = {{persondetails.dy_action_ind == 1 ?'In Malaysia' : 'Out from Malaysia'}}
-                    </div>
 
-                   
-                </div>
-                <!-- END SIDEBAR USER TITLE -->                
-                <!-- SIDEBAR MENU -->
-                <div class="profile-usermenu">
-                    	
-                </div>
-                <!-- END MENU -->
-            </div>
-            <!-- END PORTLET MAIN -->           
-        </div>
-        <!-- END BEGIN PROFILE SIDEBAR -->
-        <!-- BEGIN PROFILE CONTENT -->
+<!-- <h3 class="page-title"> 
+    <small>Individual Traveler Profile</small>
+</h3> -->
+<div class="row row1" style="position: relative; z-index:9">
+    <div class="col-md-12" style="position:fixed;width:85%;">
         <div class="profile-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- BEGIN PORTLET -->
+                    <div class="portlet light ">
+                        <div class="profile-content">            
+                            <div class="col-md-3" style="border-color: green;">
+                                <div class="profile-userpic">
+                                    <img alt="" class="img-responsive pic-bordered" src="./assets/admin/layout2/img/avatar.png" style="margin-left:0px;">                     
+                                    <a href="">Click here to view</a>                   
+                                </div>                        
+                            </div>
+                            <div class="col-md-9" >     
+                                <div class="row">
+                                   <i class="fa fa-user fa-3x"></i>
+                                   <span class="caption-subject font-black-madison bold uppercase">
+                                       {{basicdetails.name}} /
+                                   </span> 
+                                    <span class="caption" style="display: none">
+                                      {{res.sex == "LELAKI" ? started = false : started = true}}
+                                    </span>
+                                    <i class="fa fa-male blue fa-3x" data-ng-hide="started"></i>
+                                    <i class="fa fa-female pink fa-3x" data-ng-show="started"></i>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 col-xs-4" style="padding-left:0px">
+                                        <span class="caption ">
+                                         <i class="fa fa-birthday-cake" aria-hidden="true"></i>
+                                          {{res.dy_birth_date}} / {{basicdetails.age}}
+                                        </span>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <span class="caption">
+                                            <i class="fa fa-book"></i>
+                                                {{res.doc_no}} 
+                                        </span>                        
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <span class="caption">
+                                             <i class="fa fa-newspaper-o"></i> {{res.doc_type}} 
+                                        </span>                        
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 col-xs-4" style="padding-left:0px">
+                                        <span class="caption">
+                                            Visitor Type 
+                                            {{basicdetails.visitor_typ}}                                                  
+                                        </span>                        
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <span class="caption">
+                                            Start Date 
+                                            {{basicdetails.vstart}} 
+                                        </span>                       
+                                    </div>
+                                    <div class="col-md-3 col-sm-4 col-xs-4">
+                                        <span class="caption">
+                                            End Date 
+                                            {{basicdetails.vend}} 
+                                        </span>
+                                    </div>
+                                </div> 
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 col-xs-4" style="padding-left:0px">
+                                        <span class="caption">
+                                            <i class="fa fa-globe"></i>
+                                            {{res.country}}                                                  
+                                        </span>                        
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <span class="caption">
+                                            <i class="fa fa-book"></i>    <i class="fa fa-asterisk"></i>  3
+                                        </span>                       
+                                    </div>
+                                    <div class="col-md-3 col-sm-4 col-xs-4">
+                                        <span class="caption">
+                                            <i class="fa fa-newspaper-o"></i>  <i class="fa fa-asterisk"></i>  3 
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 col-xs-4" style="padding-left:0px">
+                                        <span class="caption">
+                                            Status 
+                                            {{basicdetails.status}}                                                  
+                                        </span>                        
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <span class="caption">
+                                        </span>                       
+                                    </div>
+                                    <div class="col-md-3 col-sm-4 col-xs-4">
+                                        <span class="caption">
+                                        </span>
+                                    </div>
+                                </div>           
+                            </div>                  
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>                  
+        
+    </div>
+</div>
+<div class="row" style="height:227px">&nbsp;
+    
+</div>
+<div class="row row2">
+     <div class="col-md-12">
+     <div class="profile-content">
             <div class="row">
                 <div class="col-md-12">
                     <!-- BEGIN PORTLET -->
                     <div class="portlet light ">
                         <div class="portlet-title">
                             <div class="caption caption-md">
-                                <i class="icon-bar-chart theme-font"></i>
-                                <span class="caption-subject font-blue-madison bold uppercase">About the Traveler</span>
+                                <i class="fa fa-sitemap theme-font"></i>
+                                <span class="caption-subject font-blue-madison bold uppercase">More Details</span>
                             </div>
                             <div class="actions">
-                                <div id="Detailtab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
-                                	 <a href="#personalInfo" class="btn btn-transparent grey-salsa btn-circle btn-sm active" data-toggle="tab">Personal</a>
-              						<a href="#employerInfo" class="btn btn-transparent grey-salsa btn-circle btn-sm" data-toggle="tab">Employer</a>
-              						<a href="#personalInfo" class="btn btn-transparent grey-salsa btn-circle btn-sm" data-toggle="tab">Visa</a>
-              						<a href="#employerInfo" class="btn btn-transparent grey-salsa btn-circle btn-sm" data-toggle="tab">Photos</a>                                   
+                                <div id="detailstab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
+                                    <a href="#tabemp" class="btn btn-transparent grey-salsa btn-circle btn-sm active" data-toggle="tab">Employee</a>
+                                    <a href="#tabvisa" class="btn btn-transparent grey-salsa btn-circle btn-sm" data-toggle="tab">Visa</a>
+                                    <a href="#tabphoto" class="btn btn-transparent grey-salsa btn-circle btn-sm" data-toggle="tab">Photo</a>
+                                    <a href="#tabblsl" class="btn btn-transparent grey-salsa btn-circle btn-sm" data-toggle="tab">BL/SL</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="portlet-body tab-content">
-                            <div class="row number-stats margin-bottom-30 tab-pane active" id="personalInfo">
-                            	<div>
-	                                <div class="col-md-6 col-sm-6 col-xs-6">
-	                                    <div class="stat-right">        
-		                                    <ul class="list-unstyled profile-nav">
-		                                    	<li>
-	                                          		<span class="caption ">Name : {{basicdetails.mad_applcnt_nm}}</span> 
-		                                    	</li>
-		                                    	<li>
-		                                    		 <span class="caption ">Age : {{basicdetails.age}}</span>
-		                                    	</li>
-		                                    	<li>
-		                                    		<span class="caption ">Country : {{persondetails.country}}</span>
-		                                    	</li>
-		                                    	<li>
-		                                    		<span class="caption ">Passport Number : {{persondetails.doc_no}}</span>
-		                                    	</li>
-		                                    	<li>
-		                                    		<span class="caption ">Create ID : {{persondetails.dy_create_id}}</span>
-		                                    	</li>
-		                                    </ul>
-		                                </div>
-	                                </div>
-	                                <div class="col-md-6 col-sm-6 col-xs-6">
-	                                    <div class="stat-right">
-	                                    <ul class="list-unstyled profile-nav">
-		                                    	<li>
-		                                    		<span class="caption ">Gender : {{persondetails.sex}}</span>
-		                                    	</li>
-		                                    	<li>
-		                                    		<span class="caption">Nationality : {{basicdetails.mad_nat_cd}}</span>
-		                                    	</li>
-		                                    	<li>
-		                                    		<span class="caption">Date of birth : {{persondetails.dy_birth_date}}</span>
-		                                    	</li>
-		                                    	<li>
-		                                    		<span class="caption">Visa Type : {{persondetails.doc_type}}</span>
-		                                    	</li>
-		                                    	<li>
-		                                    		<span class="caption">Number of Visa he/she hold : 3 </span>
-		                                    	</li>
-		                                    </ul> 
-	                                        
-	                                        
-	                                    </div>
-	                                </div>
+                        <div class="portlet-body  tab-content">
+                            <div class="row number-stats margin-bottom-30 tab-pane active" id="tabemp">
+                                <div class="search-table table-responsive">
+                                    <table class="table table-bordered table-striped table-condensed">
+                                        <thead class="bg-table-gray">
+                                            <tr>
+                                                <th>Job Title</th>
+                                                <th>Employer</th>
+                                                <th>Pass Type</th>
+                                                <th>Job City</th>
+                                                <th>Job State</th>
+                                                <th>Passport No</th>
+                                                <th>Create Date</th>
+                                                <th>Expire Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="y in basicdetailsTbl">
+                                                <td>{{y.job_en}}</td>
+                                                <td>{{y.employer}}</td>
+                                                <td>{{y.mad_pas_typ_cd}}</td>
+                                                <td>{{y.mad_job_city_cd}}</td>  
+                                                <td>{{y.mad_job_state_cd}}</td>
+                                                <td>{{y.mad_doc_no}}</td>
+                                                <td>{{y.mad_crt_dt}}</td>
+                                                <td>One month</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                        		<h4>Previous Visit Details</h4>
-                                <div>
-	                                <div class="col-md-6 col-sm-6 col-xs-6">
-	                                    <div class="stat-right">        
-		                                    <ul class="list-unstyled profile-nav">
-		                                    	<li>
-	                                          		<span class="caption ">Date : {{persondetails.xit_date}}</span> 
-		                                    	</li>
-		                                    </ul>
-		                                </div>
-		                            </div> 
-		                            <div class="col-md-6 col-sm-6 col-xs-6">
-	                                    <div class="stat-right">
-		                                    <ul class="list-unstyled profile-nav">
-		                                    	<li>
-		                                    		<span class="caption ">Branch : {{persondetails.branch}}</span>
-		                                    	</li>
-			                                </ul>
-		                                </div>  
-		                            </div>      	       	
+                            </div>  
+                            <div class="row number-stats margin-bottom-30 tab-pane" id="tabvisa">
+                                <div class="search-table table-responsive">
+                                    <table class="table table-bordered table-striped table-condensed">
+                                        <thead class="bg-table-gray">
+                                            <tr>                                                
+                                                <th>Pass Type</th>                                               
+                                                <th>Passport No</th>
+                                                <th>Create Date</th>
+                                                <th>Expire Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>SAMPLE VISA PASS</td>
+                                                <td>SA123456</td>
+                                                <td>2016/04/21</td>                                                
+                                                <td>2016/05/21</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                            </div>
-                            <div class="table-scrollable table-scrollable-borderless tab-pane" id="employerInfo">        
-                            	<div>
-	                                <div class="col-md-6 col-sm-6 col-xs-6">
-	                                    <div class="stat-right">        
-		                                    <ul class="list-unstyled profile-nav">
-		                                    	<li>
-	                                          		<span class="caption ">Job Title EN : {{basicdetails.job_en}}</span> 
-		                                    	</li>
-		                                    	<li>
-	                                          		<span class="caption ">Employer : {{basicdetails.employer}}</span> 
-		                                    	</li>
-		                                    	<li>
-	                                          		<span class="caption ">Employer State : {{basicdetails.mad_job_state_cd}}</span> 
-		                                    	</li>
-		                                    </ul>
-		                                </div>
-		                            </div> 
-		                            <div class="col-md-6 col-sm-6 col-xs-6">
-	                                    <div class="stat-right">
-		                                    <ul class="list-unstyled profile-nav">
-		                                    	<li>
-		                                    		<span class="caption ">Job Title BM : {{basicdetails.job_bm}}</span>
-		                                    	</li>
-		                                    	<li>
-	                                          		<span class="caption ">Employer City : {{basicdetails.mad_job_city_cd}}</span> 
-		                                    	</li>
-			                                </ul>
-		                                </div>  
-		                            </div>      	       	
-                                </div>                  
-                            </div>
+                            </div>                          
                         </div>
                     </div>
                     <!-- END PORTLET -->
                 </div>                
             </div>        
         </div>
-        <!-- END PROFILE CONTENT -->
-    </div>
+     </div>
 </div>
-<div class="row row2">
+<div class="row row3">
 	 <div class="col-md-12">
 	 <div class="profile-content">
             <div class="row">
@@ -192,8 +214,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row number-stats margin-bottom-30 tab-pane active" id="inoutchart">
-                        	<div class="portlet-body tab-content">                            
+                        <div class="portlet-body tab-content">
+                        	<div class="row number-stats margin-bottom-30 tab-pane active" id="inoutchart">
 	                            <div class="actions">
 	                            	<i id="zoomIn" class="btn fa fa-search-plus"></i>
 	                            	<i id="zoomOut" class="btn fa fa-search-minus"></i>
@@ -203,44 +225,44 @@
 	                            <div class="chart" id="visualization">
 	                            	
 	                            </div>
-                    		</div>
-                        </div>
-                        <div class="row number-stats margin-bottom-30 tab-pane" id="inoutdatatbl">
-                        	<div class="search-table table-responsive">
-					            <table class="table table-bordered table-striped table-condensed">
-					                <thead class="bg-table-gray">
-					                    <tr>
-					                        <th>
-					                            Date
-					                        </th>
-					                        <th>
-					                            <a href="javascript:;">Entry / Exit</a>
-					                        </th>
-					                        <th>
-					                            <a href="javascript:;">Branch</a>
-					                        </th>
-					                        <th style="text-align: center;">
-					                            <a href="javascript:;">Officer</a>
-					                        </th>
-					                    </tr>
-					                </thead>
-					                <tbody>
-					                    <tr ng-repeat="x in inoutTbl">
-					                        <td>
-					                          {{x.val}}
-					                        </td>
-					                        <td>
-					                          {{x.in_outs.buckets[0].val ==1 ? 'Entry' : 'Exit'}}
-					                        </td>
-					                        <td> {{x.in_outs.buckets[0].branch.buckets[0].val}} </td>
-					                        <td>
-					                          {{x.in_outs.buckets[0].branch.buckets[0].officer.buckets[0].val}}
-					                        </td>					                        
-					                    </tr>
-					                </tbody>
-					            </table>
-					        </div>
-                        </div>                       
+                    		</div>                        
+                            <div class="row number-stats margin-bottom-30 tab-pane" id="inoutdatatbl">
+                            	<div class="search-table table-responsive">
+    					            <table class="table table-bordered table-striped table-condensed">
+    					                <thead class="bg-table-gray">
+    					                    <tr>
+    					                        <th>
+    					                            Date
+    					                        </th>
+    					                        <th>
+    					                            <a href="javascript:;">Entry / Exit</a>
+    					                        </th>
+    					                        <th>
+    					                            <a href="javascript:;">Branch</a>
+    					                        </th>
+    					                        <th style="text-align: center;">
+    					                            <a href="javascript:;">Officer</a>
+    					                        </th>
+    					                    </tr>
+    					                </thead>
+    					                <tbody>
+    					                    <tr ng-repeat="x in inoutTbl">
+    					                        <td>
+    					                          {{x.val}}
+    					                        </td>
+    					                        <td>
+    					                          {{x.in_outs.buckets[0].val == 'in' ? 'Entry' : 'Exit'}}
+    					                        </td>
+    					                        <td> {{x.in_outs.buckets[0].branch.buckets[0].val}} </td>
+    					                        <td>
+    					                          {{x.in_outs.buckets[0].branch.buckets[0].officer.buckets[0].val}}
+    					                        </td>					                        
+    					                    </tr>
+    					                </tbody>
+    					            </table>
+    					        </div>
+                            </div> 
+                        </div>                     
                     </div>
                     <!-- END PORTLET -->
                 </div>                
@@ -248,246 +270,7 @@
         </div>
 	 </div>
 </div>
-<div class="row row3">
-	 <div class="col-md-12">
-	 <div class="profile-content">
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- BEGIN PORTLET -->
-                    <div class="portlet light ">
-                        <div class="portlet-title">
-                            <div class="caption caption-md">
-                                <i class="icon-bar-chart theme-font"></i>
-                                <span class="caption-subject font-blue-madison bold uppercase">Network diagram</span>
-                            </div>
-                            <div class="actions">
-                                <div class="btn-group btn-group-devided" data-toggle="buttons">
-                                    <label class="btn btn-transparent grey-salsa btn-circle btn-sm active">
-                                        <input type="radio" name="options" class="toggle" id="option1">Chart</label>
-                                    <label class="btn btn-transparent grey-salsa btn-circle btn-sm">
-                                        <input type="radio" name="options" class="toggle" id="option2">Data</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portlet-body">
-                            <div class="row number-stats margin-bottom-30">
-                                <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <div class="stat-left">
-                                        <div class="stat-chart">
-                                            <!-- do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
-                                            <div id="sparkline_bar"><canvas height="45" width="90" style="display: inline-block; width: 90px; height: 45px; vertical-align: top;"></canvas></div>
-                                        </div>
-                                        <div class="stat-number">
-                                            <div class="title"> Total </div>
-                                            <div class="number"> 2460 </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <div class="stat-right">
-                                        <div class="stat-chart">
-                                            <!-- do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
-                                            <div id="sparkline_bar2"><canvas height="45" width="90" style="display: inline-block; width: 90px; height: 45px; vertical-align: top;"></canvas></div>
-                                        </div>
-                                        <div class="stat-number">
-                                            <div class="title"> New </div>
-                                            <div class="number"> 719 </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="table-scrollable table-scrollable-borderless">
-                                <table class="table table-hover table-light">
-                                    <thead>
-                                        <tr class="uppercase">
-                                            <th colspan="2"> MEMBER </th>
-                                            <th> Earnings </th>
-                                            <th> CASES </th>
-                                            <th> CLOSED </th>
-                                            <th> RATE </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody><tr>
-                                        <td class="fit">
-                                            <!-- <img class="user-pic" src="../assets/pages/media/users/avatar4.jpg"> </td> -->
-                                        <td>
-                                            <a href="javascript:;" class="primary-link">Brain</a>
-                                        </td>
-                                        <td> $345 </td>
-                                        <td> 45 </td>
-                                        <td> 124 </td>
-                                        <td>
-                                            <span class="bold theme-font">80%</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fit">
-                                            <!-- <img class="user-pic" src="../assets/pages/media/users/avatar5.jpg"> </td> -->
-                                        <td>
-                                            <a href="javascript:;" class="primary-link">Nick</a>
-                                        </td>
-                                        <td> $560 </td>
-                                        <td> 12 </td>
-                                        <td> 24 </td>
-                                        <td>
-                                            <span class="bold theme-font">67%</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fit">
-                                            <!-- <img class="user-pic" src="../assets/pages/media/users/avatar6.jpg"> </td> -->
-                                        <td>
-                                            <a href="javascript:;" class="primary-link">Tim</a>
-                                        </td>
-                                        <td> $1,345 </td>
-                                        <td> 450 </td>
-                                        <td> 46 </td>
-                                        <td>
-                                            <span class="bold theme-font">98%</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fit">
-                                            <!-- <img class="user-pic" src="../assets/pages/media/users/avatar7.jpg"> </td> -->
-                                        <td>
-                                            <a href="javascript:;" class="primary-link">Tom</a>
-                                        </td>
-                                        <td> $645 </td>
-                                        <td> 50 </td>
-                                        <td> 89 </td>
-                                        <td>
-                                            <span class="bold theme-font">58%</span>
-                                        </td>
-                                    </tr>
-                                </tbody></table>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END PORTLET -->
-                </div>                
-            </div>        
-        </div>
-	 </div>
-</div>
-<style type="text/css">
-	.sale-summary ul {
-	    margin-top: -10px;
-	}
-	.sale-summary li {
-	    border-top: 1px solid #eee;
-	    overflow: hidden;
-	    padding: 10px 0;
-	}
-	.sale-summary li:first-child {
-	    border-top: medium none;
-	}
-	.sale-summary li .sale-info {
-	    color: #646464;
-	    float: left;
-	    font-size: 14px;
-	    margin-top: 4px;
-	    text-transform: uppercase;
-	}
-	.sale-summary li .sale-num {
-	    color: #169ef4;
-	    float: right;
-	    font-size: 20px;
-	    font-weight: 300;
-	}
-	.sale-summary li span i {
-	    display: inline-block;
-	    height: 14px;
-	    margin-left: 3px;
-	    position: relative;
-	    top: 100px;
-	    width: 13px;
-	}
-	.sale-summary li i.icon-img-up {
-	    background: rgba(0, 0, 0, 0) url("../../img/icon-img-up.png") no-repeat scroll 0 0 !important;
-	}
-	.sale-summary li i.icon-img-down {
-	    background: rgba(0, 0, 0, 0) url("../../img/icon-img-down.png") no-repeat scroll 0 0 !important;
-	}
-	.sale-summary .caption h4 {
-	    color: #383839;
-	    font-size: 18px;
-	}
-	.sale-summary .caption {
-	    border-color: #c9c9c9;
-	}
-</style>
 
-<style type="text/css">	
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.bar {
-  fill: orange;
-}
-
-.solidArc:hover {
-  fill: orangered ;
-}
-
-.solidArc {
-    -moz-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    -webkit-transition: all 0.3s;
-    transition: all 0.3s;
-}
-
-.x.axis path {
-  display: none;
-}
-
-.aster-score { 
-  line-height: 1;
-  font-weight: bold;
-  font-size: 300%;
-}
-
-.d3-tip {
-  line-height: 1;
-  font-weight: bold;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border-radius: 2px;
-}
-
-/* Creates a small triangle extender for the tooltip */
-.d3-tip:after {
-  box-sizing: border-box;
-  display: inline;
-  font-size: 10px;
-  width: 100%;
-  line-height: 1;
-  color: rgba(0, 0, 0, 0.8);
-  content: "\25BC";
-  position: absolute;
-  text-align: center;
-}
-
-/* Style northward tooltips differently */
-.d3-tip.n:after {
-  margin: -1px 0 0 0;
-  top: 100%;
-  left: 0;
-}
-
-
- html, body {
-    height:100%;
-}
-#visualization {
- height: 100%; 
-}  
-
-</style>
 <script type="text/javascript">	
 
  // $('#tabs').tab();
@@ -498,7 +281,7 @@
 });
 
  //Detailtab
-  $('#Detailtab a').click(function (e) {
+  $('#detailstab a').click(function (e) {
   e.preventDefault();
   $(this).tab('show');
 });
