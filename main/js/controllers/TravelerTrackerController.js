@@ -12,6 +12,9 @@ $scope.res = "result";
             
 	});
 
+console.log(window.location.href);
+var Qstring = window.location.href;
+var Qparam = Qstring.replace('=',':').replace('=',':').replace('&',' AND ').split('?')[1];
 
 var inoutTbl = undefined;
 function fn_LoadAllRequest(){	  
@@ -26,7 +29,7 @@ function fn_LoadAllRequest(){
 	// "+$rootScope.docno+" "+$rootScope.cntry+"
 
 $scope.fn_getBasicInfo = function(){
-	$.get("http://10.4.104.177:8983/solr/immigration2/query?json={query : 'mad_doc_no:E48556309 AND country:CHINA',limit:20000,facet: {visa : {type: terms,field: mad_pas_typ_cd},employers : {type: terms,field: employer}}}")
+	$.get("http://10.4.104.177:8983/solr/immigration2/query?json={query :'"+Qparam+"',limit:20000,facet: {visa : {type: terms,field: pass_typ},employers : {type: terms,field: employer}}}")
 	.then(function(data) {
 	 	console.log(data.response.docs[0]);
 		$scope.basicdetails = data.response.docs[0];
@@ -37,7 +40,7 @@ $scope.fn_getBasicInfo = function(){
 }
 	
 $scope.fn_getPersonalInfo = function(){			
-	$.get("http://10.4.104.177:8983/solr/hismove/query?json={query:'country:CHINA AND doc_no:E48556309',limit:1,facet:%20{exits:%20{type:%20range,field:%20xit_date,mincount:1,start:%20%222000-01-01T00:00:00Z%22,end:%20%222016-03-23T00:00:00Z%22,gap:%20%22%2B1DAY%22,facet:{in_outs:%20{type:%20terms,field:%20dy_action_ind,facet:%20{branch%20:%20{type:%20terms,field:%20branch,facet%20:{officer%20:{type:%20terms,field:%20dy_create_id}}}}}}}}}}")
+	$.get("http://10.4.104.176:8983/solr/hismove/query?json={query:'"+Qparam+"',limit:1,facet:%20{exits:%20{type:%20range,field:%20xit_date,mincount:1,start:%20%222000-01-01T00:00:00Z%22,end:%20%222016-03-23T00:00:00Z%22,gap:%20%22%2B1DAY%22,facet:{in_outs:%20{type:%20terms,field:%20dy_action_ind,facet:%20{branch%20:%20{type:%20terms,field:%20branch,facet%20:{officer%20:{type:%20terms,field:%20dy_create_id}}}}}}}}}}")
 	.then(function(result) {
 
 		$scope.res = result.response.docs[0];	

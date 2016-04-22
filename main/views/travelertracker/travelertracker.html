@@ -4,64 +4,110 @@
 </h3> -->
 <div class="row row1" style="position: relative; z-index:9">
     <div class="col-md-12" style="position:fixed;width:85%;">
-        <div class="profile-content">            
-            <div class="col-md-3" style="border-color: green;">
-                <div class="profile-userpic">
-                    <img alt="" class="img-responsive pic-bordered" src="./assets/admin/layout2/img/avatar.png" style="margin-left:0px;">                     
-                    <a href="">Click here to view</a>                   
-                </div>                        
+        <div class="profile-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- BEGIN PORTLET -->
+                    <div class="portlet light ">
+                        <div class="profile-content">            
+                            <div class="col-md-3" style="border-color: green;">
+                                <div class="profile-userpic">
+                                    <img alt="" class="img-responsive pic-bordered" src="./assets/admin/layout2/img/avatar.png" style="margin-left:0px;">                     
+                                    <a href="">Click here to view</a>                   
+                                </div>                        
+                            </div>
+                            <div class="col-md-9" >     
+                                <div class="row">
+                                   <i class="fa fa-user fa-3x"></i>
+                                   <span class="caption-subject font-black-madison bold uppercase">
+                                       {{basicdetails.name}} /
+                                   </span> 
+                                    <span class="caption" style="display: none">
+                                      {{res.sex == "LELAKI" ? started = false : started = true}}
+                                    </span>
+                                    <i class="fa fa-male blue fa-3x" data-ng-hide="started"></i>
+                                    <i class="fa fa-female pink fa-3x" data-ng-show="started"></i>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 col-xs-4" style="padding-left:0px">
+                                        <span class="caption ">
+                                         <i class="fa fa-birthday-cake" aria-hidden="true"></i>
+                                          {{res.dy_birth_date}} / {{basicdetails.age}}
+                                        </span>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <span class="caption">
+                                            <i class="fa fa-book"></i>
+                                                {{res.doc_no}} 
+                                        </span>                        
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <span class="caption">
+                                             <i class="fa fa-newspaper-o"></i> {{res.doc_type}} 
+                                        </span>                        
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 col-xs-4" style="padding-left:0px">
+                                        <span class="caption">
+                                            Visitor Type 
+                                            {{basicdetails.visitor_typ}}                                                  
+                                        </span>                        
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <span class="caption">
+                                            Start Date 
+                                            {{basicdetails.vstart}} 
+                                        </span>                       
+                                    </div>
+                                    <div class="col-md-3 col-sm-4 col-xs-4">
+                                        <span class="caption">
+                                            End Date 
+                                            {{basicdetails.vend}} 
+                                        </span>
+                                    </div>
+                                </div> 
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 col-xs-4" style="padding-left:0px">
+                                        <span class="caption">
+                                            <i class="fa fa-globe"></i>
+                                            {{res.country}}                                                  
+                                        </span>                        
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <span class="caption">
+                                            <i class="fa fa-book"></i>    <i class="fa fa-asterisk"></i>  3
+                                        </span>                       
+                                    </div>
+                                    <div class="col-md-3 col-sm-4 col-xs-4">
+                                        <span class="caption">
+                                            <i class="fa fa-newspaper-o"></i>  <i class="fa fa-asterisk"></i>  3 
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-4 col-xs-4" style="padding-left:0px">
+                                        <span class="caption">
+                                            Status 
+                                            {{basicdetails.status}}                                                  
+                                        </span>                        
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <span class="caption">
+                                        </span>                       
+                                    </div>
+                                    <div class="col-md-3 col-sm-4 col-xs-4">
+                                        <span class="caption">
+                                        </span>
+                                    </div>
+                                </div>           
+                            </div>                  
+                        </div>
+                    </div>
+                 </div>
             </div>
-            <div class="col-md-9" >     
-                <div class="row">
-                    <span class="caption "><i class="fa fa-user"></i>
-                         {{basicdetails.mad_applcnt_nm}} / 
-                    </span> 
-                    <span class="caption" style="display: none">
-                      {{basicdetails.sex == "LELAKI" ? started = false : started = true}}
-                    </span>
-                    <i class="fa fa-male blue" data-ng-hide="started"></i>
-                    <i class="fa fa-female pink" data-ng-show="started"></i>
-                </div>  
-                <div class="row">
-                    <div class="col-md-4 col-sm-4 col-xs-4" style="padding-left:0px">
-                        <span class="caption ">
-                         <i class="fa fa-birthday-cake" aria-hidden="true"></i>
-                          {{res.dy_birth_date}} / {{basicdetails.age}}
-                        </span>
-                    </div>
-
-                    <div class="col-md-4 col-sm-4 col-xs-4">
-                        <span class="caption">
-                            <i class="fa fa-book"></i>
-                                {{res.doc_no}} 
-                        </span>                        
-                    </div>
-                    <div class="col-md-4 col-sm-4 col-xs-4">
-                        <span class="caption">
-                             <i class="fa fa-newspaper-o"></i> {{res.doc_type}} 
-                        </span>                        
-                    </div>
-                </div>  
-                <div class="row">
-                    <div class="col-md-4 col-sm-4 col-xs-4" style="padding-left:0px">
-                        <span class="caption">
-                            <i class="fa fa-globe"></i>
-                            {{res.country}}                                                  
-                        </span>                        
-                    </div>
-                    <div class="col-md-4 col-sm-4 col-xs-4">
-                        <span class="caption">
-                            <i class="fa fa-book"></i>    <i class="fa fa-asterisk"></i>  3
-                        </span>                       
-                    </div>
-                    <div class="col-md-3 col-sm-4 col-xs-4">
-                        <span class="caption">
-                            <i class="fa fa-newspaper-o"></i>  <i class="fa fa-asterisk"></i>  3 
-                        </span>
-                    </div>
-                </div>          
-            </div>                  
-        </div>
+        </div>                  
+        
     </div>
 </div>
 <div class="row" style="height:227px">&nbsp;
@@ -76,8 +122,8 @@
                     <div class="portlet light ">
                         <div class="portlet-title">
                             <div class="caption caption-md">
-                                <i class="icon-bar-chart theme-font"></i>
-                                <span class="caption-subject font-blue-madison bold uppercase">Other Details</span>
+                                <i class="fa fa-sitemap theme-font"></i>
+                                <span class="caption-subject font-blue-madison bold uppercase">More Details</span>
                             </div>
                             <div class="actions">
                                 <div id="detailstab" data-toggle="buttons-radio" class="btn-group btn-group-devided">

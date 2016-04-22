@@ -208,7 +208,8 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
             $rootScope.docno = docno;
             $rootScope.cntry = cntry;
             // window.location.href ="#/travelertracker/travelertracker.html";
-            window.location = "index.html#/travelertracker/travelertracker.html";
+            window.location = "index.html#/travelertracker/travelertracker.html?doc_no="+docno+"&country="+cntry+"";
+            // window.open("MusicMe.html?variable=value", "_self");
             
           }
 
