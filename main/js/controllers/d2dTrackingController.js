@@ -14,7 +14,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
 
 
-      var startDt, endDt, triggerOpt, triggerOptRow, branchQry, ubranch, mainFacet,  offsetVal,  triggerBt, groupBy, gap, count, sortValue; // Global variable
+      var startDt, endDt, triggerOpt, triggerOptRow, branchQry, ubranch, mainFacet,  offsetVal,  triggerBt, groupBy, gap, count, sortValue, $widget; // Global variable
       var immigrationSolr = "hismove";
       localStorage.removeItem('branchName'); // each time removing the branch and Emp name
       localStorage.removeItem('empName');
@@ -172,8 +172,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     brName.name = bName;
                     bElement.brhName = brName;
                     for (var k = 0, m = data.facets.country.buckets[i].in_out.buckets.length; k < m; k++) {
-                    
-                    
                       $scope.bIn_out = data.facets.country.buckets[i].in_out.buckets[k].val;
                       $scope.uniqueVisitors = data.facets.country.buckets[i].in_out.buckets[k].passport; 
                       var brStatus = {};
@@ -187,20 +185,20 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                       //bElement.push(brStatus);
 
                       if($scope.bIn_out == "in"){
-                      $scope.bIn_out = "Entry";
-                      var entryTotal = eval(countEle.join("+"));
-                      brStatus.entry = countEle.toString().replace(/,/g , ", ");
-                      brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                      brStatus.entryTotal = entryTotal;
-                      bElement.entry  = brStatus;
-                    }else if($scope.bIn_out == "out"){
-                      $scope.bIn_out = "Exit";
-                      var exitTotal = eval(countEle.join("+"));
-                      brStatus.exit = countEle.toString().replace(/,/g , ", ");
-                      brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                      brStatus.exitTotal = exitTotal;
-                      bElement.exit  = brStatus;
-                    }
+                        $scope.bIn_out = "Entry";
+                        var entryTotal = eval(countEle.join("+"));
+                        brStatus.entry = countEle.toString().replace(/,/g , ", ");
+                        brStatus.uniqueVisitor = $scope.uniqueVisitors;
+                        brStatus.entryTotal = entryTotal;
+                        bElement.entry  = brStatus;
+                      }else if($scope.bIn_out == "out"){
+                        $scope.bIn_out = "Exit";
+                        var exitTotal = eval(countEle.join("+"));
+                        brStatus.exit = countEle.toString().replace(/,/g , ", ");
+                        brStatus.uniqueVisitor = $scope.uniqueVisitors;
+                        brStatus.exitTotal = exitTotal;
+                        bElement.exit  = brStatus;
+                      }
                     }
 
                     var total = eval(countEle.join("+"));
@@ -221,7 +219,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 console.log(storeBranchData);
 
               }else if($scope.ele2 == "Visitor"){
-                  debugger;
+                  //debugger;
                    for (var im = 0, lm = data.grouped.doc_no.groups.length; im < lm; im++) {
                     var bElement = {};
                     var brName = {};
@@ -395,7 +393,9 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
           $('#container').highcharts('StockChart', {
 
               rangeSelector: {
-                  selected: 5
+                  selected: 5,
+                  inputDateFormat: '%d-%m-%Y',
+                  inputEditDateFormat: '%d-%m-%Y'
                   //inputDateFormat: '%Y-%m-%d'
               },
 
@@ -427,20 +427,29 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
               },
 
               series: $scope.seriesOptions
-          }/*, function(chart) {
+          }, function(chart) {
 
             // apply the date pickers
-            setTimeout(function() {
-                $('input.highcharts-range-selector', $('#' + chart.options.chart.renderTo)).datepicker()
-            }, 0)
-        }*/);
-          /*$.datepicker.setDefaults({
-              dateFormat: 'yy-mm-dd',
-              onSelect: function(dateText) {
-                  this.onchange();
-                  this.onblur();
-              }
-          });*/
+            setTimeout(function(){
+      
+              $('input.highcharts-range-selector', $('#container'))
+              .datepicker({
+                  beforeShow: function(i,obj) {
+                      $widget = obj.dpDiv;
+                      window.$uiDatepickerDiv = $widget;
+                      if ($widget.data("top")) {
+                          setTimeout(function() {
+                              $uiDatepickerDiv.css( "top", $uiDatepickerDiv.data("top") );
+                          },50);
+                      }
+                  }
+                  ,onClose: function(i,obj) {
+                      $widget = obj.dpDiv;
+                      $widget.data("top", $widget.position().top);
+                  }
+              })
+          },0)
+        });
         }
         $scope.populateChart();
         // Set the datepicker's date format
@@ -460,6 +469,31 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
 
       sortValue = "desc";
+
+      $(".sortBtn1").toggle(function(){
+         sortValue = "asc";
+         $scope.populateChart();
+
+      },function(){
+        sortValue = "desc";
+        $scope.populateChart();
+      });
+      $(".sortBtn2").toggle(function(){
+         sortValue = "asc";
+         $scope.populateChart();
+
+      },function(){
+        sortValue = "desc";
+        $scope.populateChart();
+      });
+      $(".sortBtn3").toggle(function(){
+         sortValue = "asc";
+         $scope.populateChart();
+
+      },function(){
+        sortValue = "desc";
+        $scope.populateChart();
+      });
 
       $("#bNextBtn").click(function(){
         $scope.branchOffset += limitValue;
@@ -492,6 +526,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
       $scope.populateChart = function(){
 
+
         $scope.loading = true;
         if($scope.startDate){
           startDt = $scope.startDate;
@@ -513,6 +548,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             //On load
             //alert(count+ " sec");
             //alert($scope.ele2);
+
             if($scope.ele1 == "Inital"){
               count = 0;
               triggerOpt = "*:*";
@@ -666,12 +702,20 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             $http.get(sq_spark + query_spark)
               .success(function(data) {
                // debugger;
+
+               if(($scope.totalCount - $scope.branchOffset) < 15){
+                 $("#bNextBtn").prop('disabled', true);
+               }else{
+                 $("#bNextBtn").prop('disabled', false);
+               }
+
+
                 $scope.totalCount = data.facets.ubranch;
                 $scope.numofpage = Math.ceil($scope.totalCount / limitValue);
-                if(limitValue > $scope.totalCount){
+                /*if(limitValue > $scope.totalCount){
                   $("#bNextBtn").prop('disabled', true);
                 }
-                console.log(data);
+                */console.log(data);
                 //$scope.branchData = data.facets.branches.buckets;
                 //$scope.branchId = data.facets.branches.buckets;
                 var storeBranchData = [];
@@ -875,12 +919,14 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
       $scope.backBtn = function(e){
         count = 0;
+/*
+        alert($scope.totalCount - $scope.branchOffset);
         
         if(($scope.totalCount - $scope.branchOffset) < 15){
           $("#bNextBtn").prop('disabled', true);
         }else{
           $("#bNextBtn").prop('disabled', false);
-        }
+        }*/
 
         var branchN = this.$parent.ele2;
         if(branchN == "Officer"){
@@ -940,6 +986,11 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         if(getStage == "Country"){
           localStorage.setItem('ctryName', JSON.stringify(setCountry));
           localStorage.stage = "Visitor";
+        }
+
+        if(getStage == "Visitor"){
+          alert('visitor');
+          return false;
         }
     
         $scope.timelineChart(branchN, localStorage.stage);
