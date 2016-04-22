@@ -1,6 +1,7 @@
 'use strict';
 var selected_countries = [];
 var filter_query = "";
+// var solrHost = "localhost";
 var solrHost = "pistachio_server";
 MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $http, $timeout, $sce) {
     $scope.$on('$viewContentLoaded', function() {
@@ -202,6 +203,16 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
              $scope.showApplication = true;
              $scope.countries = $scope.decopule(data.facet_counts.facet_fields.mad_nat_cd,20);
            }
+         
+
+          $scope.viewReq = function(docno,cntry){
+            $rootScope.docno = docno;
+            $rootScope.cntry = cntry;
+            // window.location.href ="#/travelertracker/travelertracker.html";
+            window.location = "index.html#/travelertracker/travelertracker.html?doc_no="+docno+"&country="+cntry+"";
+            // window.open("MusicMe.html?variable=value", "_self");
+            
+          }
 
 
 
@@ -214,7 +225,8 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
           $(".nextBtn").prop("disabled", false);
         }
 
-
+           console.log($scope.countries);
+           // console.log(countryObjList);
 //           console.log($scope.countries);
 //           console.log(countryObjList);
 
@@ -234,6 +246,11 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
       filter_query = "";
       $scope.showApplication =false;
     });
+
+     // $('.searchBtn').click(function (event) {
+
+     //  alert('clicked view');
+     // });
 
     // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.pageSidebarClosed = true;

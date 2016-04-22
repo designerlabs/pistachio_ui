@@ -172,6 +172,8 @@ var globalURL = "http://pistachio_server:8080/";
 
 var solrHost = "solr_server";
 
+//var solrHost = "10.4.104.177";
+
 var queryString = "query";
 var categoryName = "cat";
 
@@ -2230,8 +2232,37 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         name: 'MetronicApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                         files: [
-			'assets/pages/css/profile.css',
+			             'assets/pages/css/profile.css',
                         'js/controllers/MyProfileController.js'
+                        ]
+                });
+                }]
+        }
+    })
+
+    //Traveler Tracker page
+    .state('travelertracker', {
+
+            url: "/travelertracker/travelertracker.html",
+            templateUrl: "views/travelertracker/travelertracker.html",
+            data: {
+                pageTitle: 'Traveler Tracker'
+            },
+            controller: "TravelerTrackerController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [                        
+                        'assets/pages/css/profile.css',
+                        'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
+                        'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
+                        'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',                        
+                        'assets/global/plugins/datatables/all.min.js',
+                        'assets/global/plugins/vis/vis.js',
+                        'assets/global/plugins/vis/vis.css',
+                        'js/controllers/TravelerTrackerController.js'
                         ]
                 });
                 }]
