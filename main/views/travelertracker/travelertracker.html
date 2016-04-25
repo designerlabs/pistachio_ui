@@ -3,20 +3,20 @@
     <small>Individual Traveler Profile</small>
 </h3> -->
 <div class="row row1" style="position: relative; z-index:9">
-    <div class="col-md-12" style="position:fixed;width:85%;">
+    <div class="col-md-12" style="position:fixed;"> <!--width:85%;-->
         <div class="profile-content">
             <div class="row">
                 <div class="col-md-12">
                     <!-- BEGIN PORTLET -->
-                    <div class="portlet light ">
+                    <div class="portlet light container-fluid">
                         <div class="profile-content">            
-                            <div class="col-md-3" style="border-color: green;">
+                            <div class="col-md-2 col-xs-2 col-sm-2">
                                 <div class="profile-userpic">
                                     <img alt="" class="img-responsive pic-bordered" src="./assets/admin/layout2/img/avatar.png" style="margin-left:0px;">                     
                                     <a href="">Click here to view</a>                   
                                 </div>                        
                             </div>
-                            <div class="col-md-9" >     
+                            <div class="col-md-9 col-xs-6 col-sm-3" >     
                                 <div class="row">
                                    <i class="fa fa-user fa-3x"></i>
                                    <span class="caption-subject font-black-madison bold uppercase">
@@ -29,74 +29,74 @@
                                     <i class="fa fa-female pink fa-3x" data-ng-show="started"></i>
                                 </div>  
                                 <div class="row">
-                                    <div class="col-md-4 col-sm-4 col-xs-4" style="padding-left:0px">
+                                    <div class="col-md-3 col-sm-2 col-xs-2 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="Date of Birth" style="padding-left:0px">
                                         <span class="caption ">
-                                         <i class="fa fa-birthday-cake" aria-hidden="true"></i>
-                                          {{res.dy_birth_date}} / {{basicdetails.age}}
+                                         <i class="fa fa-birthday-cake"></i>
+                                          {{dob}} / {{age}}
                                         </span>
                                     </div>
-                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <div class="col-md-3 col-sm-2 col-xs-2 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="Passport Number" style="padding-left:0px">
                                         <span class="caption">
                                             <i class="fa fa-book"></i>
                                                 {{res.doc_no}} 
                                         </span>                        
                                     </div>
-                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <div class="col-md-3 col-sm-2 col-xs-2 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="Document Type" style="padding-left:0px">
                                         <span class="caption">
                                              <i class="fa fa-newspaper-o"></i> {{res.doc_type}} 
                                         </span>                        
                                     </div>
-                                </div>  
-                                <div class="row">
-                                    <div class="col-md-4 col-sm-4 col-xs-4" style="padding-left:0px">
+                               <!--  </div>  
+                                <div class="row"> -->
+                                    <div class="col-md-3 col-sm-2 col-xs-2" style="padding-left:0px">
                                         <span class="caption">
                                             Visitor Type 
                                             {{basicdetails.visitor_typ}}                                                  
                                         </span>                        
                                     </div>
-                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <div class="col-md-3 col-sm-2 col-xs-2"  style="padding-left:0px">
                                         <span class="caption">
                                             Start Date 
-                                            {{basicdetails.vstart}} 
+                                            {{vstartdt}} 
                                         </span>                       
                                     </div>
-                                    <div class="col-md-3 col-sm-4 col-xs-4">
+                                    <div class="col-md-3 col-sm-2 col-xs-2" style="padding-left:0px">
                                         <span class="caption">
                                             End Date 
-                                            {{basicdetails.vend}} 
+                                            {{venddt}} 
                                         </span>
                                     </div>
-                                </div> 
-                                <div class="row">
-                                    <div class="col-md-4 col-sm-4 col-xs-4" style="padding-left:0px">
+                                <!-- </div> 
+                                <div class="row"> -->
+                                    <div class="col-md-3 col-sm-2 col-xs-2 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="Nationality" style="padding-left:0px">
                                         <span class="caption">
                                             <i class="fa fa-globe"></i>
                                             {{res.country}}                                                  
                                         </span>                        
                                     </div>
-                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <div class="col-md-3 col-sm-2 col-xs-2 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="No of Passport" style="padding-left:0px">
                                         <span class="caption">
                                             <i class="fa fa-book"></i>    <i class="fa fa-asterisk"></i>  3
                                         </span>                       
                                     </div>
-                                    <div class="col-md-3 col-sm-4 col-xs-4">
+                                    <div class="col-md-3 col-sm-2 col-xs-2 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="No of Visa" style="padding-left:0px">
                                         <span class="caption">
                                             <i class="fa fa-newspaper-o"></i>  <i class="fa fa-asterisk"></i>  3 
                                         </span>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4 col-sm-4 col-xs-4" style="padding-left:0px">
+                               <!--  </div>
+                                <div class="row"> -->
+                                    <div class="col-md-3 col-sm-2 col-xs-2" style="padding-left:0px">
                                         <span class="caption">
                                             Status 
                                             {{basicdetails.status}}                                                  
                                         </span>                        
                                     </div>
-                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <div class="col-md-3 col-sm-2 col-xs-2" style="padding-left:0px">
                                         <span class="caption">
                                         </span>                       
                                     </div>
-                                    <div class="col-md-3 col-sm-4 col-xs-4">
+                                    <div class="col-md-3 col-sm-2 col-xs-2" style="padding-left:0px">
                                         <span class="caption">
                                         </span>
                                     </div>
@@ -110,7 +110,7 @@
         
     </div>
 </div>
-<div class="row" style="height:227px">&nbsp;
+<div class="row" style="height:160px">&nbsp;
     
 </div>
 <div class="row row2">
@@ -127,15 +127,14 @@
                             </div>
                             <div class="actions">
                                 <div id="detailstab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
-                                    <a href="#tabemp" class="btn btn-transparent grey-salsa btn-circle btn-sm active" data-toggle="tab">Employee</a>
-                                    <a href="#tabvisa" class="btn btn-transparent grey-salsa btn-circle btn-sm" data-toggle="tab">Visa</a>
-                                    <a href="#tabphoto" class="btn btn-transparent grey-salsa btn-circle btn-sm" data-toggle="tab">Photo</a>
+                                    <!-- <a href="#tabemp" class="btn btn-transparent grey-salsa btn-circle btn-sm active" data-toggle="tab">Employee</a> -->
+                                    <a href="#tabvisa" class="btn btn-transparent grey-salsa btn-circle btn-sm active" data-toggle="tab">Visa</a>                                    
                                     <a href="#tabblsl" class="btn btn-transparent grey-salsa btn-circle btn-sm" data-toggle="tab">BL/SL</a>
                                 </div>
                             </div>
                         </div>
                         <div class="portlet-body  tab-content">
-                            <div class="row number-stats margin-bottom-30 tab-pane active" id="tabemp">
+                            <div class="row number-stats margin-bottom-30 tab-pane" id="tabemp">
                                 <div class="search-table table-responsive">
                                     <table class="table table-bordered table-striped table-condensed">
                                         <thead class="bg-table-gray">
@@ -165,23 +164,27 @@
                                     </table>
                                 </div>
                             </div>  
-                            <div class="row number-stats margin-bottom-30 tab-pane" id="tabvisa">
+                            <div class="row number-stats margin-bottom-30 tab-pane active" id="tabvisa">
                                 <div class="search-table table-responsive">
                                     <table class="table table-bordered table-striped table-condensed">
                                         <thead class="bg-table-gray">
-                                            <tr>                                                
-                                                <th>Pass Type</th>                                               
-                                                <th>Passport No</th>
+                                            <tr>
+                                                <th>Passport No</th>                                                
+                                                <th>Name</th>   
+                                                <th>Pass Type</th>  
+                                                <th>Visitor Type</th>                                          
                                                 <th>Create Date</th>
                                                 <th>Expire Date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>SAMPLE VISA PASS</td>
-                                                <td>SA123456</td>
-                                                <td>2016/04/21</td>                                                
-                                                <td>2016/05/21</td>
+                                            <tr ng-repeat="y in basicdetailsTbl">
+                                                <td>{{y.doc_no}}</td>
+                                                <td>{{y.name}}</td>
+                                                <td>{{y.pass_typ}}</td>  
+                                                <td>{{y.visitor_typ}}</td>                                              
+                                                <td>{{y.vstart.toString().substr(0,10)}}</td>
+                                                <td>{{y.vend.toString().substr(0,10)}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -231,8 +234,8 @@
     					            <table class="table table-bordered table-striped table-condensed">
     					                <thead class="bg-table-gray">
     					                    <tr>
-    					                        <th>
-    					                            Date
+    					                        <th> 
+    					                            In/Out Date
     					                        </th>
     					                        <th>
     					                            <a href="javascript:;">Entry / Exit</a>
@@ -248,7 +251,7 @@
     					                <tbody>
     					                    <tr ng-repeat="x in inoutTbl">
     					                        <td>
-    					                          {{x.val}}
+    					                          {{x.val.toString().substr(0,10)}}
     					                        </td>
     					                        <td>
     					                          {{x.in_outs.buckets[0].val == 'in' ? 'Entry' : 'Exit'}}

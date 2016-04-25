@@ -33,7 +33,19 @@ $scope.fn_getBasicInfo = function(){
 	.then(function(data) {
 	 	console.log(data.response.docs[0]);
 		$scope.basicdetails = data.response.docs[0];
+		$scope.vstartdt = $scope.basicdetails.created.toString().substr(0,10);
+		$scope.venddt = $scope.basicdetails.vend.toString().substr(0,10);
 		$scope.basicdetailsTbl = data.response.docs;
+
+		var strdob = data.response.docs[0].birth_date.toString();
+		$scope.dob = strdob.substr(0,4) +"-"+strdob.substr(4,2) +"-"+ strdob.substr(6,2);
+
+		var year=Number(strdob.substr(0,4));
+		var month=Number(strdob.substr(4,2))-1;
+		var day=Number(strdob.substr(6,2));
+		var today=new Date();
+		$scope.age=today.getFullYear()-year;
+
 		$scope.$apply();			
 
    });
@@ -44,6 +56,8 @@ $scope.fn_getPersonalInfo = function(){
 	.then(function(result) {
 
 		$scope.res = result.response.docs[0];	
+		
+
 		$scope.InOutdetails = result.facets.exits.buckets;
 		$scope.inoutTbl = result.facets.exits.buckets;
 		$scope.CreateInoutChart(result.facets.exits.buckets);
@@ -112,6 +126,8 @@ $scope.CreateInoutChart = function(_data){
       
 $scope.fn_getPersonalInfo();
 $scope.fn_getBasicInfo();
+
+$('.tool').tooltip();
 
 // //All the function of d3 chart
 
