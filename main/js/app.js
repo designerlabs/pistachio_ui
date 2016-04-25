@@ -2140,9 +2140,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
                     'assets/pages/scripts/angular-chart/angular-chart.css',
+                    '//ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css',
                     'assets/pages/scripts/datamaps/datamaps.world.js',
                     'assets/pages/css/search.css',
-
+                    '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js',
                     'assets/pages/css/pricing.min.css', 
                     'assets/pages/scripts/highstock.js',
 

@@ -25,10 +25,10 @@
     <thead>
         <tr>
             <th><i class="fa fa-plane"></i> {{ele2}} Name</th>
-            <th>{{ column2 }} <button><i class="fa fa-sort"></i></button></th>
+            <th>{{ column2 }} <span ng-show="column2 == 'No. of Exit / Visitor(s)'"><button class="sortBtn1"><i class="fa fa-sort"></i></button></span></th>
             <th>{{ column3 }}</th>
-            <th>{{ column4 }} <button><i class="fa fa-sort"></i></button></th>
-            <th>{{ column5 }}</th>
+            <th>{{ column4 }} <button class="sortBtn2"><i class="fa fa-sort"></i></button></th>
+            <th>{{ column5 }} <span ng-show="column5 == 'No. of Entry'"><button class="sortBtn3"><i class="fa fa-sort"></i></button></span></th>
             <th>Action</th>
         </tr>
     </thead>
