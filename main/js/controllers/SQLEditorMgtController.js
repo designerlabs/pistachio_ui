@@ -224,7 +224,7 @@ function fn_showHistory(){
 			                "data": "success",
 			                "render": function (data, type, full, meta) {
 			                    if (data == true) {
-			                        return '<label class="label label-success"> OK </label>';
+			                        return '<label class="label label-success"> Success </label>';
 			                    } else {
 			                        return '<label class="label label-danger"> Error </label>';
 			                    }
