@@ -1,5 +1,4 @@
 'use strict';
- 
 
 MetronicApp.controller('TravelerTrackerController', function($rootScope,$scope,$http, $timeout) {
 
@@ -27,41 +26,74 @@ function fn_LoadAllRequest(){
 
 	}
 	// "+$rootScope.docno+" "+$rootScope.cntry+"
-
-$scope.fn_getBasicInfo = function(){
-	$.get("http://10.4.104.177:8983/solr/immigration2/query?json={query :'"+Qparam+"',limit:20000,facet: {visa : {type: terms,field: pass_typ},employers : {type: terms,field: employer}}}")
+	//http://10.4.104.177:8983/ //immigration2
+$scope.fn_getBasicInfo = function(){//mad_pas_typ_cd
+	$.get("http://10.4.104.177:8983/solr/immigration2/query?json={query :'"+Qparam+"',limit:20000,facet: {visa : {type: terms,field: pass_typ},employers : {type: terms,field: employer}}}") //mad_pas_typ_cd - pass_typ
 	.then(function(data) {
-	 	console.log(data.response.docs[0]);
+		// debugger;
+	 	console.log(data.response.docs);
 		$scope.basicdetails = data.response.docs[0];
-		$scope.vstartdt = $scope.basicdetails.created.toString().substr(0,10);
-		$scope.venddt = $scope.basicdetails.vend.toString().substr(0,10);
+		// $scope.vstartdt = $scope.basicdetails.created.toString().substr(0,10);
+		// $scope.vstartdt = $scope.basicdetails.mad_crt_dt.toString().substr(0,10);
+		// $scope.venddt = $scope.basicdetails.vend.toString().substr(0,10);
+		// $scope.venddt = $scope.basicdetails.vend.toString().substr(0,10); //end date is not avail in immi..
+		$scope.titleDetails = "Visa details"
+
 		$scope.basicdetailsTbl = data.response.docs;
 
-		var strdob = data.response.docs[0].birth_date.toString();
-		$scope.dob = strdob.substr(0,4) +"-"+strdob.substr(4,2) +"-"+ strdob.substr(6,2);
-
-		var year=Number(strdob.substr(0,4));
-		var month=Number(strdob.substr(4,2))-1;
-		var day=Number(strdob.substr(6,2));
-		var today=new Date();
-		$scope.age=today.getFullYear()-year;
+		$('#tblvisa').DataTable( {
+		    data: data.response.docs,
+		    columns: [
+		    	{ "data": "doc_no" },
+		        { "data": "name" },
+		        { "data": "pass_typ" },
+		        { "data": "visitor_typ" },
+		        { "data": "job_en" },
+		        { "data": "employer" },
+		        { "data": "vstart"},
+		        { "data": "vend" }
+		        // { "data": "mad_doc_no" },
+		        // { "data": "mad_applcnt_nm" },
+		        // { "data": "mad_pas_typ_cd" },
+		        // { "data": "visitor_typ" },
+		        // { "data": "job_en" },
+		        // { "data": "employer" },
+		        // { "data": "mad_crt_dt"},
+		        // { "data": "mad_crt_dt" }
+		    ]
+		} );
+		
 
 		$scope.$apply();			
 
    });
 }
-	
-$scope.fn_getPersonalInfo = function(){			
-	$.get("http://10.4.104.176:8983/solr/hismove/query?json={query:'"+Qparam+"',limit:1,facet:%20{exits:%20{type:%20range,field:%20xit_date,mincount:1,start:%20%222000-01-01T00:00:00Z%22,end:%20%222016-03-23T00:00:00Z%22,gap:%20%22%2B1DAY%22,facet:{in_outs:%20{type:%20terms,field:%20dy_action_ind,facet:%20{branch%20:%20{type:%20terms,field:%20branch,facet%20:{officer%20:{type:%20terms,field:%20dy_create_id}}}}}}}}}}")
+	var today=new Date();
+	//http://10.4.104.176:8983/
+$scope.fn_getPersonalInfo = function(){		
+	$.get("http://10.4.104.176:8983/solr/hismove/query?json={query:'"+Qparam+"',limit:1,facet:%20{exits:%20{type:%20range,field:%20xit_date,mincount:1,start:%20%221900-01-01T00:00:00Z%22,end:'"+today.toISOString()+"',gap:%20%22%2B1DAY%22,facet:{in_outs:%20{type:%20terms,field:%20dy_action_ind,facet:%20{branch%20:%20{type:%20terms,field:%20branch,facet%20:{officer%20:{type:%20terms,field:%20dy_create_id}}}}}}}}}}")
 	.then(function(result) {
+		console.log(result);
+		if(result.response.docs.length !== 0){
+			$scope.res = result.response.docs[0];		
 
-		$scope.res = result.response.docs[0];	
-		
+			$scope.InOutdetails = result.facets.exits.buckets;
+			$scope.inoutTbl = result.facets.exits.buckets;
+			$scope.CreateInoutChart(result.facets.exits.buckets);
 
-		$scope.InOutdetails = result.facets.exits.buckets;
-		$scope.inoutTbl = result.facets.exits.buckets;
-		$scope.CreateInoutChart(result.facets.exits.buckets);
-		$scope.$apply();
+			var strdob = result.response.docs[0].dy_birth_date.toString();
+			$scope.dob = strdob.substr(0,4) +"-"+strdob.substr(4,2) +"-"+ strdob.substr(6,2);
+
+			var year=Number(strdob.substr(0,4));
+			var month=Number(strdob.substr(4,2))-1;
+			var day=Number(strdob.substr(6,2));
+			
+			$scope.age=today.getFullYear()-year;
+
+			$scope.$apply();
+		}else{
+			alert('No date found in himove table');
+		}
    });
 }
 
@@ -121,6 +153,25 @@ $scope.CreateInoutChart = function(_data){
      document.getElementById('moveLeft').onclick  = function () { move( 0.2); };
      document.getElementById('moveRight').onclick = function () { move(-0.2); };
 
+     // var tblvisabind;
+     //     function fn_tblvisabind() {
+     //         // alert('add '+ data); 
+     //        tblvisabind = $('#tblvisa').DataTable( { 
+     //         searching: false, 
+     //         // paging: false,
+     //         "pageLength":5,
+     //            "columns": [
+     //            {
+     //                "data": "id",
+     //                "searchable": false,
+     //                className: "hide "
+     //            },
+     //            {
+     //                "data": "parentname",
+     //                "searchable": false,
+     //                className: "hide "
+     //            },
+
 
 }
       
@@ -128,6 +179,11 @@ $scope.fn_getPersonalInfo();
 $scope.fn_getBasicInfo();
 
 $('.tool').tooltip();
+$scope.availHeight = window.screen.availHeight;
+// $('#topfield').fitText();
+// $('#tblvisa').dataTable({
+// 	// "paging": true
+// });
 
 // //All the function of d3 chart
 
@@ -225,5 +281,6 @@ $('.tool').tooltip();
 
 
 });
+
 
 
