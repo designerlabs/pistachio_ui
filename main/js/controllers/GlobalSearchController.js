@@ -9,27 +9,45 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
         // initialize core components
         Metronic.initAjax();
         var getUser = localStorage.getItem("username");
-        $http.get('http://'+solrHost+':8983/solr/immigration1/select?q=*:*&wt=json&start=0&rows=0&json.facet={users:\'hll(mad_doc_no)\',employers:\'hll(employer)\'}').
-         success(function(data) {
-             console.log(data);
-             $scope.items = data.response.docs;
-             $scope.applicationsFound = data.response.numFound;
-             $scope.qtime = data.responseHeader.QTime;
-             $scope.users = data.facets.users;
-             $scope.employers = data.facets.employers;
-             console.log(data.response.docs);
-           }).
-           error(function(data, status, headers, config) {
-             console.log('error');
-             console.log('status : ' + status); //Being logged as 0
-             console.log('headers : ' + headers);
-             console.log('config : ' + JSON.stringify(config));
-             console.log('data : ' + data); //Being logged as null
-           });
-                     $scope.start=0;
+        $scope.showApplication = false;
+        $scope.showVisitors = false;
+        $scope.go();
+        $scope.start=0;
 
 
     });
+
+    $scope.go = function() {
+      $http.get('http://'+solrHost+':8983/solr/immigration1/select?q=*:*&wt=json&start=0&rows=0&json.facet={users:\'hll(mad_doc_no)\',employers:\'hll(employer)\'}').
+       success(function(data) {
+           console.log(data);
+           $scope.items = data.response.docs;
+           $scope.applicationsFound = data.response.numFound;
+           $scope.qtime = data.responseHeader.QTime;
+           $scope.users = data.facets.users;
+
+           console.log(data.response.docs);
+         }).
+         error(function(data, status, headers, config) {
+           console.log('error');
+           console.log('status : ' + status); //Being logged as 0
+           console.log('headers : ' + headers);
+           console.log('config : ' + JSON.stringify(config));
+           console.log('data : ' + data); //Being logged as null
+         });
+
+         $http.get('http://'+solrHost+':8983/solr/hismove/select?q=*:*&wt=json&start=0&rows=0').
+          success(function(data) {
+              $scope.employers = data.response.numFound;
+              $scope.vtime = data.responseHeader.QTime;
+            }).
+            error(function(data, status, headers, config) {
+              console.log('data : ' + data); //Being logged as null
+            });
+    }
+
+
+
     $scope.text = '';
 
     $scope.updateFilterQuery = function () {
@@ -173,12 +191,65 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
                  else
                   country[keys[0]]=data[i];
                  if(data[i+1] == 0) continue;
-                 
+
                  country[keys[1]]=data[i+1];
                  objList.push(country);
 
                }
                return (objList);
+    }
+
+
+    $scope.viewReq = function(docno,cntry){
+      $rootScope.docno = docno;
+      $rootScope.cntry = cntry;
+      // window.location.href ="#/travelertracker/travelertracker.html";
+      window.location = "index.html#/travelertracker/travelertracker.html?doc_no="+docno+"&country="+cntry+"";
+      // window.open("MusicMe.html?variable=value", "_self");
+
+    };
+
+    $scope.showVistors = function() {
+      var query = "";
+      $scope.showApplication = false;
+      $scope.showVisitors = true;
+      var query = ""
+      var sq = "http://"+solrHost+":8983/solr/hismove/query?json=";
+
+      var json = {};
+      json.limit = 10;
+      json.offset = $scope.start
+      if($scope.text.length > 0) {
+        json.query = "combinedSearch:'"+$scope.text+"'"
+      }
+      else {
+        json.query = "*:*"
+      }
+
+      //var filter = $scope.jsonFilterQuery();
+      //console.log(filter);
+      //alert(filter.length);
+      //if(filter.length>0)
+      //{
+      //  json.filter = filter;
+      //}
+
+      json.facet = {};
+      json.facet.country = {};
+      json.facet.country.type   = "terms";
+      json.facet.country.field  =  "country";
+
+      $http.get(sq+JSON.stringify(json)).
+       success(function(data) {
+         $scope.vtime = data.responseHeader.QTime;
+         $scope.employers = data.response.numFound;
+         $scope.items = data.response.docs;
+         $scope.countries = data.facets.country.buckets
+       })
+       .error(function(data, status, headers, config) {
+         console.log('error');
+       });
+
     }
 
     $scope.showApplications = function() {
@@ -191,8 +262,8 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
       else {
         query = 'http://'+solrHost+':8983/solr/immigration1/select?sort=mad_crt_dt desc&q=*:*&wt=json&start='+$scope.start+'&rows=10&facet=true&facet.offset=1&facet.field=mad_nat_cd&facet.limit=10&json.facet={users:\'hll(mad_doc_no)\',employers:\'hll(employer)\'}'+filter_query;
       }
-      $http.get(query).
-       success(function(data) {
+      $http.get(query)
+        .success(function(data) {
            $scope.qtime = data.responseHeader.QTime;
            $scope.users = data.facets.users;
            $scope.employers = data.facets.employers;
@@ -203,35 +274,15 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
              $scope.showApplication = true;
              $scope.countries = $scope.decopule(data.facet_counts.facet_fields.mad_nat_cd,20);
            }
-         
-
-          $scope.viewReq = function(docno,cntry){
-            $rootScope.docno = docno;
-            $rootScope.cntry = cntry;
-            // window.location.href ="#/travelertracker/travelertracker.html";
-            window.location = "index.html#/travelertracker/travelertracker.html?doc_no="+docno+"&country="+cntry+"";
-            // window.open("MusicMe.html?variable=value", "_self");
-            
-          }
-
-
-
-
-        if($scope.applicationsFound < 10){
-          $scope.newCount = $scope.applicationsFound;
-          $(".nextBtn").prop("disabled", true);
-        }else{
-          $scope.newCount = clicks;
-          $(".nextBtn").prop("disabled", false);
-        }
-
-           console.log($scope.countries);
-           // console.log(countryObjList);
-//           console.log($scope.countries);
-//           console.log(countryObjList);
-
-         }).
-         error(function(data, status, headers, config) {
+           if($scope.applicationsFound < 10){
+              $scope.newCount = $scope.applicationsFound;
+              $(".nextBtn").prop("disabled", true);
+           }else{
+              $scope.newCount = clicks;
+              $(".nextBtn").prop("disabled", false);
+           }
+         })
+        .error(function(data, status, headers, config) {
            console.log('error');
            console.log('status : ' + status); //Being logged as 0
            console.log('headers : ' + headers);

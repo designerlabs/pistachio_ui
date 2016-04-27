@@ -642,7 +642,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
 
             series: [{
                 type: 'area',
-                name: 'USD to EUR',
+                name: 'Total',
                 data: data
             }]
         });

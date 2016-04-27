@@ -604,11 +604,11 @@ MetronicApp.directive('myRepeatDirective', function() {
                 $('.entrySpark > div svg .highcharts-series-group path:nth-child(1)').attr('fill', '#4A8BF5');
                 $('.entrySpark > div svg .highcharts-series-group path:nth-child(2)').attr('stroke', '#4A8BF5');
                 $('.entrySpark > div svg .highcharts-series-group .highcharts-markers path').attr('stroke', '#4A8BF5 !important');
-                
+
             }
         }
 
-         
+
             doChunk();
         }
 
@@ -2117,7 +2117,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                         'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
                         'assets/global/plugins/datatables/all.min.js',
 
-
+                        'bower_components/ace-builds/src-min-noconflict/ext-language_tools.js',
                         'js/controllers/SQLEditorMgtController.js'
                     ]
                 });
@@ -2144,7 +2144,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                     'assets/pages/scripts/datamaps/datamaps.world.js',
                     'assets/pages/css/search.css',
                     '//ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js',
-                    'assets/pages/css/pricing.min.css', 
+                    'assets/pages/css/pricing.min.css',
                     'assets/pages/scripts/highstock.js',
 
 
@@ -2254,11 +2254,11 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                     return $ocLazyLoad.load({
                         name: 'MetronicApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                        files: [                        
+                        files: [
                         'assets/pages/css/profile.css',
                         'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
                         'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
-                        'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',                        
+                        'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
                         'assets/global/plugins/datatables/all.min.js',
                         'assets/global/plugins/vis/vis.js',
                         'assets/global/plugins/vis/vis.css',

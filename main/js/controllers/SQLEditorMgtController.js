@@ -5,6 +5,9 @@ MetronicApp.controller('SQLEditorMgtController', function($scope,$rootScope,$htt
 $scope.$on('$viewContentLoaded', function() {
         Metronic.initAjax(); // initialize core components
         $scope.database = "default";
+        $scope.start = 0;
+        $scope.rows = 10;
+        fn_showHistory();
 	});
 
 fn_LoadDb();
@@ -13,12 +16,15 @@ $scope.btnExec = true;
 //$scope.started = true;
 var editor = ace.edit("qryeditor");
 editor.$blockScrolling = Infinity;
-
+editor.setOptions({
+    enableBasicAutocompletion: true
+});
 var oResultTable;
 var historyTbl;
 
 $scope.OnDBClick = function(sel){
 	$scope.database = sel;
+  $scope.db_clicked = "collapsed"
 	fn_LoadDt(sel);
 }
 
@@ -204,18 +210,34 @@ function fn_LoadDt(seldb){
 
 	});
 }
+$scope.next = function(){
+  $scope.start++;
+  fn_showHistory()
+}
+
+$scope.previous = function(){
+  $scope.start--;
+  fn_showHistory();
+}
+
+function loadHistory(historyResult) {
+
+}
 
 function fn_showHistory(){
 	var historyResult;
-	$http.get(globalURL + "api/pistachio/secured/history")
+	$http.get(globalURL + "api/pistachio/secured/hist?start="+$scope.start+"&rows="+$scope.rows)
 	    .then(function(response) {
 	    	if(historyTbl != undefined){
 	    		historyTbl.destroy();
 	    	}
-			historyResult = response.data;
+
+			historyResult = response.data.content;
 			historyTbl = $('#tblHistory').DataTable({
 					"processing": true,
 			        "data": historyResult,
+              "paging":         false,
+              "bInfo" : false,
 			        "columns": [
 			            {
 			                "data": "query",
