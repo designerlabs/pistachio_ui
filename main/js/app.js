@@ -325,7 +325,7 @@ var currentToken = localStorage.getItem("token");
 
       var dt = new Date(localStorage.getItem("expireTime"));
       var sec = dt.getSeconds()
-      IdleProvider.idle(300); //idle time dueration
+      IdleProvider.idle(6000); //idle time dueration
       IdleProvider.timeout(30); // waiting time to refresh
       // KeepaliveProvider.interval(15);
     });

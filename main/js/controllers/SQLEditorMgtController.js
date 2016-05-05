@@ -8,6 +8,7 @@ $scope.$on('$viewContentLoaded', function() {
         $scope.start = 0;
         $scope.rows = 10;
         fn_showHistory();
+        $scope.showResults = false;
 	});
 
 fn_LoadDb();
@@ -54,6 +55,12 @@ $('.tab').click(function(){
 	return false;
 });
 
+$scope.export_csv = function(){
+  var qry = $scope.aceDocumentValue;
+//  $http.get(globalURL + "api/pistachio/secured/csv?query="+qry.trim())
+window.location.href = globalURL+"api/pistachio/secured/csv?query="+qry.trim();
+
+}
 var $btn;
     $('.exec').click(function(){
     	$btn = $(this);
@@ -101,6 +108,7 @@ function fn_ExecQuery(qry){
 		$http.post(globalURL + "api/pistachio/secured/runSQL",qry.trim())
 		.then(function successCallback(result){
 		if (result != null && result.data.columns != null) {
+      $scope.showResults = true;
 			var	resultOutputCol = jQuery.parseJSON(result.data.columns);
 			var	resultOutput = jQuery.parseJSON(result.data.results);
 		    var myArrayColumn = [];

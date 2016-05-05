@@ -63,6 +63,19 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
       }
     }
 
+    $scope.updateFilterQuery_Country = function () {
+      filter_query = "&fq=";
+      var arrayLength = selected_countries.length;
+      for (var i = 0; i < arrayLength; i++) {
+        if(i==0)
+          filter_query = filter_query + "country:"+selected_countries[i];
+        else {
+          filter_query = filter_query + " OR country:"+selected_countries[i];
+        }
+
+      }
+    }
+
     $scope.checkboxselected = function(id) {
       var index = selected_countries.indexOf(id);    // <-- Not supported in <IE9
       if (index !== -1) {
@@ -82,6 +95,29 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
         $scope.showApplications();
 
     }
+
+    $scope.checkboxselectedCountry = function(id) {
+      var index = selected_countries.indexOf(id);    // <-- Not supported in <IE9
+      if (index !== -1) {
+        selected_countries.splice(index, 1);
+      }
+      else {
+        selected_countries.push(id);
+      }
+      console.log(selected_countries);
+      $scope.start = 0;
+    //  alert($scope.text);
+
+      var search_text = $scope.text;
+      if (search_text == '')
+        search_text = "*"
+        $scope.updateFilterQuery_Country();
+        $scope.showVistors();
+
+
+    }
+
+
 
     $scope.refresh = function() {
 

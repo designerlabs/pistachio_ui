@@ -232,11 +232,11 @@
 																			<li class="list-group-item" data-ng-repeat="cnt in countries">
 
 																							<div class="md-checkbox" style="padding: 2px;">
-																								<input type="checkbox" ng-click="checkboxselected(cnt.field)" class="md-check" id={{cnt.field}}>
-																								<label for={{cnt.field}}>
+																								<input type="checkbox" ng-click="checkboxselectedCountry(cnt.val)" class="md-check" id={{cnt.val}}>
+																								<label for={{cnt.val}}>
 																										<span class="inc"></span>
 																										<span class="check"></span>
-																										<span class="box"></span> {{cnt.field}}</label><span class="badge pull-right ng-binding"> {{cnt.count}} </span>
+																										<span class="box"></span> {{cnt.val}}</label><span class="badge pull-right ng-binding"> {{cnt.count}} </span>
 																							</div>
 																			</li>
 
