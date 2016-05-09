@@ -2,52 +2,74 @@
 <!-- <h3 class="page-title"> 
     <small>Individual Traveler Profile</small>
 </h3> -->
+<div id="loader" style="position:absolute; top:0px; left:0px; background:rgba(255,255,255,0.8); width:100%; z-index:9999;">   
+    <div ng-spinner-bar class="page-spinner-bar">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+</div>
 <div class="row row1" style="position: relative; z-index:9">
-    <div class="col-md-12" style="position:fixed;"> <!--width:85%;-->
+    <div class="col-md-12 toppnl" style="position:fixed;"> <!--width:85%;-->
         <div class="profile-content">
             <div class="row">
-                <div class="col-md-12">
+                <!-- <div>
+                    <div class="btn btn-warning">BACK</div>
+                </div> -->
+                <div class="col-md-12">                   
+
                     <!-- BEGIN PORTLET -->
+
                     <div class="portlet light container-fluid" style="padding:0px;margin-bottom: 0px;">
-                        <div class="profile-content">            
-                            <div class="col-md-2 col-xs-4 col-sm-4">
+                        <div class="profile-content">                                        
+                            <div class="col-md-1 col-xs-2 col-sm-2">
                                 <div class="pic">
                                     <!-- <img alt="" class="img-responsive pic-bordered" src="./assets/admin/layout2/img/avatar.png" style="margin-left:0px;">                     
                                     <a id="text" href="">View</a>   -->  
                                     <p><a class="hovertext" href="#" title="View">
-                                    <img src="./assets/admin/layout2/img/avatar.png" width="100" height="100" border="0" alt=""></a></p>
+                                    <!-- <img src="encodedString" width="100" height="100" border="0" alt=""> -->
+                                    <img  width="100" height="100" border="0" alt=""></a></p>
 
                                 </div>                        
                             </div>
-                            <div id="topfield" class="col-md-9 col-xs-8 col-sm-8" style="padding-top: 20px;">  
+                            <!-- <div class="col-md-1" style="float: right;">
+                                <i class="fa fa-lock lk"></i>
+                                <i class="fa fa-unlock-alt lk"></i>
+                            </div> -->
+                            <div id="topfield" class="col-md-9 col-xs-8 col-sm-8" style="padding-top: 20px;padding-left: 50px;">                             
                                 <div class="profile-details">
                                     <div class="row">
-                                       <i class="fa fa-user fa-3x"></i>
-                                       <span class="uppercase" style="font-size: 21px">
-                                           {{basicdetails.name}} / 
-                                       </span> 
-                                        <span class="caption" style="display: none">
-                                          {{res.sex == "LELAKI" ? started = false : started = true}}
-                                        </span>
-                                        <i class="fa fa-male blue fa-3x" data-ng-hide="started"></i>
-                                        <i class="fa fa-female pink fa-3x" data-ng-show="started"></i>
-                                    </div>  
-                                    <div class="row">
-                                        <div class="col-md-3 col-sm-6 col-xs-12 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="Date of Birth" style="padding-left:0px">
-                                            <span class="caption ">
-                                             <i class="fa fa-birthday-cake"></i>
-                                              {{dob}} / {{age}}
+                                       <div class="col-md-6 col-sm-6 col-xs-12" style="padding-left:0px">
+                                           <i class="fa fa-user fa-3x"></i> : 
+                                           <span class="uppercase" style="font-size: 21px">
+                                               {{res.name}} / 
+                                           </span>
+                                            <span class="caption" style="display: none">
+                                              {{res.sex == "LELAKI" ? started = false : started = true}}
                                             </span>
+                                            <i class="fa fa-male blue fa-3x" data-ng-hide="started"></i>
+                                            <i class="fa fa-female pink fa-3x" data-ng-show="started"></i>
                                         </div>
                                         <div class="col-md-3 col-sm-6 col-xs-12 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="Passport Number" style="padding-left:0px">
                                             <span class="caption">
-                                                <i class="fa fa-book"></i>
-                                                    {{res.doc_no}} 
+                                                <i class="fa fa-book"></i> :                                                 {{res.doc_no}} 
                                             </span>                        
                                         </div>
+                                        <!-- <div class="col-md-1 col-sm-1 col-xs-1" style="padding-right:10px">
+                                            <div class="btn btn-warning">BACK</div>
+                                        </div> -->
+                                    </div>  
+                                    <div class="row">
+                                        
+                                        <div class="col-md-3 col-sm-6 col-xs-12 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="Date of Birth" style="padding-left:0px">
+                                            <span class="caption ">
+                                             <i class="fa fa-birthday-cake"></i> :                                             {{dob}} / {{age}}
+                                            </span>
+                                        </div>
+                                        
                                         <div class="col-md-3 col-sm-6 col-xs-12 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="Document Type" style="padding-left:0px">
                                             <span class="caption">
-                                                 <i class="fa fa-newspaper-o"></i> {{res.doc_type}} 
+                                                 <i class="fa fa-newspaper-o"></i> : {{res.doc_type}} 
                                             </span>                        
                                         </div>                               
                                         <!-- <div class="col-md-3 col-sm-6 col-xs-12" style="padding-left:0px">
@@ -72,26 +94,25 @@
                                         </div>   -->                              
                                         <div class="col-md-3 col-sm-6 col-xs-12 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="Nationality" style="padding-left:0px">
                                             <span class="caption">
-                                                <i class="fa fa-globe"></i>
+                                                <i class="fa fa-globe"></i> : 
                                                 {{res.country}}                                                  
                                             </span>                        
                                         </div>
                                         <div class="col-md-3 col-sm-6 col-xs-12 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="No of Passport" style="padding-left:0px">
                                             <span class="caption">
                                                 <!-- <i class="fa fa-book"></i> <i class="fa fa-asterisk"></i> -->  
-                                               No of Passport 1
+                                               No of Passport : 1
                                             </span>                       
                                         </div>
                                         <div class="col-md-3 col-sm-6 col-xs-12 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="No of Visa" style="padding-left:0px">
                                             <span class="caption">
                                                 <!-- <i class="fa fa-newspaper-o"></i>  <i class="fa fa-asterisk"></i> -->  
-                                                No of Visa 3 
+                                                No of Visa : {{totalvisa}}
                                             </span>
                                         </div>                               
                                         <div class="col-md-3 col-sm-6 col-xs-12" style="padding-left:0px">
                                             <span class="caption">
-                                                Status 
-                                                {{basicdetails.status}}                                                  
+                                                Status : {{res.dy_action_ind=='in'? 'Entry' :  'Exit'}}                                                  
                                             </span>                        
                                         </div>
                                         <div class="col-md-3 col-sm-6 col-xs-12" style="padding-left:0px">
@@ -130,43 +151,12 @@
                             </div>
                             <div class="actions">
                                 <div id="detailstab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
-                                    <!-- <a href="#tabemp" class="btn btn-transparent grey-salsa btn-circle btn-sm active" data-toggle="tab">Employee</a> -->
                                     <a href="#tabvisa" class="btn btn-transparent grey-salsa btn-circle btn-sm active" data-toggle="tab">Visa</a>                                    
-                                    <a href="#tabblsl" class="btn btn-transparent grey-salsa btn-circle btn-sm" data-toggle="tab">BL/SL</a>
+                                    <!-- <a href="#tabblsl" class="btn btn-transparent grey-salsa btn-circle btn-sm" data-toggle="tab">BL/SL</a> -->
                                 </div>
                             </div>
                         </div>
-                        <div class="portlet-body  tab-content">
-                            <div class="row number-stats margin-bottom-30 tab-pane" id="tabemp">
-                                <div class="search-table table-responsive">
-                                    <table class="table table-bordered table-striped table-condensed">
-                                        <thead class="bg-table-gray">
-                                            <tr>
-                                                <th>Job Title</th>
-                                                <th>Employer</th>
-                                                <th>Pass Type</th>
-                                                <th>Job City</th>
-                                                <th>Job State</th>
-                                                <th>Passport No</th>
-                                                <th>Create Date</th>
-                                                <th>Expire Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="y in basicdetailsTbl">
-                                                <td>{{y.job_en}}</td>
-                                                <td>{{y.employer}}</td>
-                                                <td>{{y.mad_pas_typ_cd}}</td>
-                                                <td>{{y.mad_job_city_cd}}</td>  
-                                                <td>{{y.mad_job_state_cd}}</td>
-                                                <td>{{y.mad_doc_no}}</td>
-                                                <td>{{y.mad_crt_dt}}</td>
-                                                <td>One month</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>  
+                        <div class="portlet-body  tab-content">                            
                             <div class="row number-stats margin-bottom-30 tab-pane active" id="tabvisa">
                                 <div > <!--class="search-table table-responsive"-->
                                     <table id="tblvisa" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"> <!--class="table table-bordered table-striped table-condensed" -->
@@ -175,7 +165,7 @@
                                                 <th>Passport No</th>                                                
                                                 <th>Name</th>   
                                                 <th>Pass Type</th>  
-                                                <th>Visitor Type</th>
+                                                <!-- <th>Visitor Type</th> -->
                                                 <th>Job Title</th>
                                                 <th>Employer</th>                                          
                                                 <th>Create Date</th>
@@ -240,30 +230,30 @@
 	                            	<i id="moveLeft" class="btn fa fa-arrow-left"></i>
 	                            	<i id="moveRight" class="btn fa fa-arrow-right"></i>
 	                            </div>
-	                            <div class="chart" id="visualization">
+	                            <div class="chart123" id="visualization">
 	                            	
 	                            </div>
                     		</div>                        
                             <div class="row number-stats margin-bottom-30 tab-pane" id="inoutdatatbl">
-                            	<div class="search-table table-responsive">
-    					            <table class="table table-bordered table-striped table-condensed">
+                            	<div>
+    					            <table id="tblinout" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
     					                <thead class="bg-table-gray">
     					                    <tr>
     					                        <th> 
     					                            In/Out Date
     					                        </th>
     					                        <th>
-    					                            <a href="javascript:;">Entry / Exit</a>
+    					                            Entry / Exit
     					                        </th>
     					                        <th>
-    					                            <a href="javascript:;">Branch</a>
+    					                            Branch
     					                        </th>
-    					                        <th style="text-align: center;">
-    					                            <a href="javascript:;">Officer</a>
+    					                        <th>
+    					                            Officer
     					                        </th>
     					                    </tr>
     					                </thead>
-    					                <tbody>
+    					                <!-- <tbody>
     					                    <tr ng-repeat="x in inoutTbl">
     					                        <td>
     					                          {{x.val.toString().substr(0,10)}}
@@ -276,7 +266,7 @@
     					                          {{x.in_outs.buckets[0].branch.buckets[0].officer.buckets[0].val}}
     					                        </td>					                        
     					                    </tr>
-    					                </tbody>
+    					                </tbody> -->
     					            </table>
     					        </div>
                             </div> 

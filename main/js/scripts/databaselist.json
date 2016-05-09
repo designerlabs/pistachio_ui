@@ -2,10 +2,10 @@
 [      
     {
         "dbtype" : "POSTGRES",
-        "driver" : "JDBC-Driver"                   
+        "driver" : "org.postgresql.Driver"              
     },{
         "dbtype" : "DB2",
-        "driver" : "ORACLEBC-Driver"
+        "driver" : "com.ibm.db2.jcc.DB2Driver"
     },{
         "dbtype" : "MYSQL",
         "driver" : "Test-Driver"
