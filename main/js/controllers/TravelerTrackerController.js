@@ -1,7 +1,6 @@
 'use strict';
-var solrHost1 = "10.23.124.242"
 MetronicApp.controller('TravelerTrackerController', function($rootScope,$scope,$http, $timeout) {
-
+$rootScope.settings.layout.pageSidebarClosed = true;
 $scope.lock = 'true';
 $scope.res = "result";
 $('.MismatchArea').hide();
@@ -30,7 +29,7 @@ function fn_LoadAllRequest(){
 	console.log(solrHost);
 $scope.fn_getBasicInfo = function(){//mad_pas_typ_cd
 
-	$.get("http://"+solrHost1+":8983/solr/immigration2/query?sort=created desc&json={query :'"+Qparam+"',limit:20000,facet: {visa : {type: terms,field: pass_typ},employers : {type: terms,field: employer}}}") //mad_pas_typ_cd - pass_typ
+	$.get("http://"+solrHost+":8983/solr/immigration2/query?sort=created desc&json={query :'"+Qparam+"',limit:20000,facet: {visa : {type: terms,field: pass_typ},employers : {type: terms,field: employer}}}") //mad_pas_typ_cd - pass_typ
 	.then(function(data) {
 		// debugger;
 		if(data.response.docs.length !== 0){
@@ -126,7 +125,7 @@ $scope.fn_getPersonalInfo = function(){
 	// $("#loader .page-spinner-bar").removeClass('hide');
 	// $("#loader").show();
 //http://"+solrHost+":8983/solr/hismove/query?sort=xit_date desc&json={query:'"+Qparam.replace('mad_','')+"',limit:1,facet:%20{exits:%20{type:%20range,field:%20xit_date,mincount:1,sort:'xit_date desc',start:%20%221900-01-01T00:00:00Z%22,end:'"+today.toISOString()+"',gap:%20%22%2B1DAY%22,facet:{in_outs:%20{type:%20terms,field:%20dy_action_ind,facet:%20{branch%20:%20{type:%20terms,field:%20branch,facet%20:{officer%20:{type:%20terms,field:%20dy_create_id}}}}}}}}}}
-	$.get("http://"+solrHost1+":8983/solr/hismove/query?sort=xit_date desc&json={query:'"+Qparam+"',limit:100000}")
+	$.get("http://"+solrHost+":8983/solr/hismove/query?sort=xit_date desc&json={query:'"+Qparam+"',limit:100000}")
 	.then(function(result) {
 		console.log(result);
 		$scope.summary = { entry : $.grep( result.response.docs, function( n, i ) {
