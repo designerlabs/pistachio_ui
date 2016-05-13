@@ -5,6 +5,10 @@ MetronicApp.controller('SQLEditorMgtController', function($scope,$rootScope,$htt
 $scope.$on('$viewContentLoaded', function() {
         Metronic.initAjax(); // initialize core components
         $scope.database = "default";
+        $scope.start = 0;
+        $scope.rows = 10;
+        fn_showHistory();
+        $scope.showResults = false;
 	});
 
 fn_LoadDb();
@@ -13,12 +17,15 @@ $scope.btnExec = true;
 //$scope.started = true;
 var editor = ace.edit("qryeditor");
 editor.$blockScrolling = Infinity;
-
+editor.setOptions({
+    enableBasicAutocompletion: true
+});
 var oResultTable;
 var historyTbl;
 
 $scope.OnDBClick = function(sel){
 	$scope.database = sel;
+  $scope.db_clicked = "collapsed"
 	fn_LoadDt(sel);
 }
 
@@ -48,6 +55,12 @@ $('.tab').click(function(){
 	return false;
 });
 
+$scope.export_csv = function(){
+  var qry = $scope.aceDocumentValue;
+//  $http.get(globalURL + "api/pistachio/secured/csv?query="+qry.trim())
+window.location.href = globalURL+"api/pistachio/secured/csv?query="+qry.trim();
+
+}
 var $btn;
     $('.exec').click(function(){
     	$btn = $(this);
@@ -95,6 +108,7 @@ function fn_ExecQuery(qry){
 		$http.post(globalURL + "api/pistachio/secured/runSQL",qry.trim())
 		.then(function successCallback(result){
 		if (result != null && result.data.columns != null) {
+      $scope.showResults = true;
 			var	resultOutputCol = jQuery.parseJSON(result.data.columns);
 			var	resultOutput = jQuery.parseJSON(result.data.results);
 		    var myArrayColumn = [];
@@ -204,18 +218,34 @@ function fn_LoadDt(seldb){
 
 	});
 }
+$scope.next = function(){
+  $scope.start++;
+  fn_showHistory()
+}
+
+$scope.previous = function(){
+  $scope.start--;
+  fn_showHistory();
+}
+
+function loadHistory(historyResult) {
+
+}
 
 function fn_showHistory(){
 	var historyResult;
-	$http.get(globalURL + "api/pistachio/secured/history")
+	$http.get(globalURL + "api/pistachio/secured/hist?start="+$scope.start+"&rows="+$scope.rows)
 	    .then(function(response) {
 	    	if(historyTbl != undefined){
 	    		historyTbl.destroy();
 	    	}
-			historyResult = response.data;
+
+			historyResult = response.data.content;
 			historyTbl = $('#tblHistory').DataTable({
 					"processing": true,
 			        "data": historyResult,
+              "paging":         false,
+              "bInfo" : false,
 			        "columns": [
 			            {
 			                "data": "query",
@@ -224,7 +254,7 @@ function fn_showHistory(){
 			                "data": "success",
 			                "render": function (data, type, full, meta) {
 			                    if (data == true) {
-			                        return '<label class="label label-success"> OK </label>';
+			                        return '<label class="label label-success"> Success </label>';
 			                    } else {
 			                        return '<label class="label label-danger"> Error </label>';
 			                    }

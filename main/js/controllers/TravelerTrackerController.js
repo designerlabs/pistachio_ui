@@ -1,14 +1,14 @@
 'use strict';
- 
 
 MetronicApp.controller('TravelerTrackerController', function($rootScope,$scope,$http, $timeout) {
 
+$scope.lock = 'true';
 $scope.res = "result";
  $scope.personal12 = "result";
     $scope.$on('$viewContentLoaded', function() {
         Metronic.initAjax(); // initialize core components
         $scope.database = "default"; 
-               // fn_LoadAllRequest();             
+               // fn_LoadAllRequest();          
             
 	});
 
@@ -27,54 +27,198 @@ function fn_LoadAllRequest(){
 
 	}
 	// "+$rootScope.docno+" "+$rootScope.cntry+"
-
-$scope.fn_getBasicInfo = function(){
-	$.get("http://10.4.104.177:8983/solr/immigration2/query?json={query :'"+Qparam+"',limit:20000,facet: {visa : {type: terms,field: pass_typ},employers : {type: terms,field: employer}}}")
+	//http://10.4.104.177:8983/ //immigration2
+	console.log(solrHost);
+$scope.fn_getBasicInfo = function(){//mad_pas_typ_cd
+	$.get("http://"+solrHost+":8983/solr/immigration2/query?sort=created desc&json={query :'"+Qparam+"',limit:20000,facet: {visa : {type: terms,field: pass_typ},employers : {type: terms,field: employer}}}") //mad_pas_typ_cd - pass_typ
 	.then(function(data) {
-	 	console.log(data.response.docs[0]);
-		$scope.basicdetails = data.response.docs[0];
+		// debugger;
+		if(data.response.docs.length !== 0){
+		 	console.log(data.response.docs);
+			$scope.passdetails = data.response.docs[0]; 	
+			$scope.totalvisa = data.response.docs.length;
+			// $scope.vstartdt = $scope.basicdetails.created.toString().substr(0,10);
+			// $scope.vstartdt = $scope.basicdetails.mad_crt_dt.toString().substr(0,10);
+			// $scope.venddt = $scope.basicdetails.vend.toString().substr(0,10);
+			// $scope.venddt = $scope.basicdetails.vend.toString().substr(0,10); //end date is not avail in immi..
+			$scope.titleDetails = "Visa details"
+
+			
+
+			$scope.basicdetailsTbl = data.response.docs;
+
+			$('#tblvisa').DataTable( {
+			    data: data.response.docs,
+			    columns: [
+			    	{ "data": "doc_no" },
+			        { "data": "name" },
+			        { "data": "pass_typ" },
+			        { "data": "visitor_typ" },
+			        { "data": "job_en" },
+			        { "data": "employer" },
+			        { "data": "created"},
+			        { "data": "vend" }
+			        // { "data": "mad_doc_no" },
+			        // { "data": "mad_applcnt_nm" },
+			        // { "data": "mad_pas_typ_cd" },
+			        // // { "data": "visitor_typ" },
+			        // { "data": "job_en" },
+			        // { "data": "employer" },
+			        // { "data": "mad_crt_dt"},
+			        // { "data": "mad_crt_dt" }
+			    ]
+			} );
+			$scope.$apply();
+			
+		}else{
+			alert('No data find in immigration2 table');
+		}			
+	 	console.log(data.response.docs);
+		$scope.passdetails = data.response.docs[0]; 	
+		$scope.totalvisa = data.response.docs.length;
+		// $scope.vstartdt = $scope.basicdetails.created.toString().substr(0,10);
+		// $scope.vstartdt = $scope.basicdetails.mad_crt_dt.toString().substr(0,10);
+		// $scope.venddt = $scope.basicdetails.vend.toString().substr(0,10);
+		// $scope.venddt = $scope.basicdetails.vend.toString().substr(0,10); //end date is not avail in immi..
+		$scope.titleDetails = "Visa details"
+
+		var strdob = result.response.docs[0].birth_date.toString();
+		$scope.dob = strdob.substr(0,4) +"-"+strdob.substr(4,2) +"-"+ strdob.substr(6,2);
+
+		var year=Number(strdob.substr(0,4));
+		var month=Number(strdob.substr(4,2))-1;
+		var day=Number(strdob.substr(6,2));
+		
+		$scope.age=today.getFullYear()-year;
+
 		$scope.basicdetailsTbl = data.response.docs;
+
+		$('#tblvisa').DataTable( {
+		    data: data.response.docs,
+		    columns: [
+		    	{ "data": "doc_no" },
+		        { "data": "name" },
+		        { "data": "pass_typ" },
+		        { "data": "visitor_typ" },
+		        { "data": "job_en" },
+		        { "data": "employer" },
+		        { "data": "vstart"},
+		        { "data": "vend" }
+		        // { "data": "mad_doc_no" },
+		        // { "data": "mad_applcnt_nm" },
+		        // { "data": "mad_pas_typ_cd" },
+		        // // { "data": "visitor_typ" },
+		        // { "data": "job_en" },
+		        // { "data": "employer" },
+		        // { "data": "mad_crt_dt"},
+		        // { "data": "mad_crt_dt" }
+		    ]
+		} );
 		$scope.$apply();			
-
    });
 }
-	
-$scope.fn_getPersonalInfo = function(){			
-	$.get("http://10.4.104.176:8983/solr/hismove/query?json={query:'"+Qparam+"',limit:1,facet:%20{exits:%20{type:%20range,field:%20xit_date,mincount:1,start:%20%222000-01-01T00:00:00Z%22,end:%20%222016-03-23T00:00:00Z%22,gap:%20%22%2B1DAY%22,facet:{in_outs:%20{type:%20terms,field:%20dy_action_ind,facet:%20{branch%20:%20{type:%20terms,field:%20branch,facet%20:{officer%20:{type:%20terms,field:%20dy_create_id}}}}}}}}}}")
+	var today = new Date();
+	//http://10.4.104.176:8983/
+$scope.fn_getPersonalInfo = function(){
+	// $("#loader").css('height', $(".page-content").height() + 140 + 'px');
+	// $("#loader .page-spinner-bar").removeClass('hide');
+	// $("#loader").show();
+
+//http://"+solrHost+":8983/solr/hismove/query?sort=xit_date desc&json={query:'"+Qparam.replace('mad_','')+"',limit:1,facet:%20{exits:%20{type:%20range,field:%20xit_date,mincount:1,sort:'xit_date desc',start:%20%221900-01-01T00:00:00Z%22,end:'"+today.toISOString()+"',gap:%20%22%2B1DAY%22,facet:{in_outs:%20{type:%20terms,field:%20dy_action_ind,facet:%20{branch%20:%20{type:%20terms,field:%20branch,facet%20:{officer%20:{type:%20terms,field:%20dy_create_id}}}}}}}}}}
+	$.get("http://"+solrHost+":8983/solr/hismove/query?sort=xit_date desc&json={query:'"+Qparam+"',limit:100000}")
 	.then(function(result) {
+		console.log(result);
+		if(result.response.docs.length !== 0){
+			$scope.res = result.response.docs[0];		
+			// $scope.inoutTbl = result.facets.exits.buckets;
+			$scope.CreateInoutChart(result.response.docs);
+			var strdob = result.response.docs[0].dy_birth_date.toString();
+			$scope.dob = strdob.substr(0,4) +"-"+strdob.substr(4,2) +"-"+ strdob.substr(6,2);
+			$scope.age=today.getFullYear()-year;		
+			
+			$('#tblinout').DataTable( {
+		    data: result.response.docs,
+		    columns: [		    	
+		        { "data": "xit_date",
+		          "render": function (data, type, full, meta){                      
+                            return data.toString().substr(0,10);                       
+                    }	
+		         },
+		        { "data": "dy_action_ind",
+		          "render": function (data, type, full, meta){                      
+                            // return (data=='in'?'Entry':'Exit');  
+                            if(data=='in'){
+                            	return 'Entry';
+                            }else if(data=='out'){
+                            	return 'Exit';	
+                            }else if(data=='in0out'){
+                            	return 'Entry and Exit';
+                            }                     
+                    }	 
+		         },
+		        { "data": "branch" },
+		        { "data": "dy_create_id" }		        
+		    ]
+		} );
 
-		$scope.res = result.response.docs[0];	
-		$scope.InOutdetails = result.facets.exits.buckets;
-		$scope.inoutTbl = result.facets.exits.buckets;
-		$scope.CreateInoutChart(result.facets.exits.buckets);
-		$scope.$apply();
+
+			$scope.$apply();
+
+		}else{
+			alert('No date found in himove table');
+		}
+		$("#loader .page-spinner-bar").addClass('hide');
+		$("#loader").hide();
+
    });
 }
-
-
-
-
  
 $scope.CreateInoutChart = function(_data){
 	var newary = _data;
+	var cnt = _data.length;
+	var wrg = [];
+	var tempwrg =[];
+	
 	newary.forEach(function(e) {
-	   e.start = e.val;	   
+	   e.start = e.xit_date;	   
 	   // e.content =(e.in_outs.buckets[0].val == 'in' ? 'IN' : 'OUT');
 	   // className 
-	   if(e.in_outs.buckets[0].val == 'in'){
+	   if(e.dy_action_ind == 'in'){
 	   	// e.content = "IN";
 	   	e.className = 'green';
-	   }else{
+	   }else if(e.dy_action_ind == 'out'){
 	   	// e.content = "OUT";
 	   	e.className = 'red';
-	   }	   
-	   e.content = e.in_outs.buckets[0].branch.buckets[0].val + ' , ' + e.in_outs.buckets[0].branch.buckets[0].officer.buckets[0].val;
+	   }else if(e.dy_action_ind == 'in0out'){
+	   	e.className = 'orange';
+	   }
+
+	   if(cnt <= 10){
+	   	e.content = e.xit_date.toString().substr(0,10)+ ' , ' +e.branch + ' , ' + e.dy_create_id;
+	   }
+
+	   if( k != 0 && e.dy_action_ind == newary[k-1].dy_action_ind){
+	   	 tempwrg =[];
+	   	 tempwrg={
+	   	 	start : e.xit_date,
+	   	 	end : newary[k-1].xit_date,
+	   	 	content : 'Some Thing not Correct',
+	   	 	className : 'orange'
+	   	 };
+	   	  
+	      wrg.push(tempwrg);
+	   }   
+
 	});
 
      var container = document.getElementById('visualization');
+     // newary.push(wrg);
      var newitems = newary;
+     var chart_height = (_data.length < 100 ? "400px" : "800px");
+     console.log("chart_height=" + chart_height);
+
       var options = {
- 	    height: '300px',
+ 	    height: chart_height,
  	    min: new Date(2012, 0, 1),                // lower limit of visible range
  	    max: new Date(2017, 0, 1),                // upper limit of visible range
  	    zoomMin: 1000 * 60 * 60 * 24,             // one day in milliseconds
@@ -107,11 +251,100 @@ $scope.CreateInoutChart = function(_data){
      document.getElementById('moveLeft').onclick  = function () { move( 0.2); };
      document.getElementById('moveRight').onclick = function () { move(-0.2); };
 
+     // var tblvisabind;
+     //     function fn_tblvisabind() {
+     //         // alert('add '+ data); 
+     //        tblvisabind = $('#tblvisa').DataTable( { 
+     //         searching: false, 
+     //         // paging: false,
+     //         "pageLength":5,
+     //            "columns": [
+     //            {
+     //                "data": "id",
+     //                "searchable": false,
+     //                className: "hide "
+     //            },
+     //            {
+     //                "data": "parentname",
+     //                "searchable": false,
+     //                className: "hide "
+     //            },
+
 
 }
+
+
       
 $scope.fn_getPersonalInfo();
 $scope.fn_getBasicInfo();
+
+$('.tool').tooltip();
+$scope.availHeight = window.screen.availHeight;
+
+$('.lk').click(function(){
+	alert('clicked');
+	$scope.lock == 'true'?'false':'true';
+});
+
+$('.bck').click(function() {
+	parent.history.back();
+		return false;
+})
+// Starts --Convert Hex string to Base64----- 
+if (!window.atob) {
+  var tableStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+  var table = tableStr.split("");
+
+  window.atob = function (base64) {
+    if (/(=[^=]+|={3,})$/.test(base64)) throw new Error("String contains an invalid character");
+    base64 = base64.replace(/=/g, "");
+    var n = base64.length & 3;
+    if (n === 1) throw new Error("String contains an invalid character");
+    for (var i = 0, j = 0, len = base64.length / 4, bin = []; i < len; ++i) {
+      var a = tableStr.indexOf(base64[j++] || "A"), b = tableStr.indexOf(base64[j++] || "A");
+      var c = tableStr.indexOf(base64[j++] || "A"), d = tableStr.indexOf(base64[j++] || "A");
+      if ((a | b | c | d) < 0) throw new Error("String contains an invalid character");
+      bin[bin.length] = ((a << 2) | (b >> 4)) & 255;
+      bin[bin.length] = ((b << 4) | (c >> 2)) & 255;
+      bin[bin.length] = ((c << 6) | d) & 255;
+    };
+    return String.fromCharCode.apply(null, bin).substr(0, bin.length + n - 4);
+  };
+
+  window.btoa = function (bin) {
+    for (var i = 0, j = 0, len = bin.length / 3, base64 = []; i < len; ++i) {
+      var a = bin.charCodeAt(j++), b = bin.charCodeAt(j++), c = bin.charCodeAt(j++);
+      if ((a | b | c) > 255) throw new Error("String contains an invalid character");
+      base64[base64.length] = table[a >> 2] + table[((a << 4) & 63) | (b >> 4)] +
+                              (isNaN(b) ? "=" : table[((b << 2) & 63) | (c >> 6)]) +
+                              (isNaN(b + c) ? "=" : table[c & 63]);
+    }
+    return base64.join("");
+  };
+
+}
+
+function hexToBase64(str) {
+  return btoa(String.fromCharCode.apply(null,
+    str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" "))
+  );
+}
+
+function base64ToHex(str) {
+  for (var i = 0, bin = atob(str.replace(/[ \r\n]+$/, "")), hex = []; i < bin.length; ++i) {
+    var tmp = bin.charCodeAt(i).toString(16);
+    if (tmp.length === 1) tmp = "0" + tmp;
+    hex[hex.length] = tmp;
+  }
+  return hex.join(" ");
+}
+
+// Ends --Convert Hex string to Base64----- 
+
+// $('#topfield').fitText();
+// $('#tblvisa').dataTable({
+// 	// "paging": true
+// });
 
 // //All the function of d3 chart
 
@@ -209,5 +442,6 @@ $scope.fn_getBasicInfo();
 
 
 });
+
 
 

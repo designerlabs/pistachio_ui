@@ -12,12 +12,12 @@
                 </div>
             </div>
             <div class="mt-list-container list-simple ext-1 group">
-                <a class="list-toggle-container collapsed" data-toggle="collapse" data-target="#lstDB" aria-expanded="false">
+                <a class="list-toggle-container collapsed"  data-toggle="collapse" data-target="#lstDB" aria-expanded="false">
                     <div class="list-toggle done">{{database}}
                         <span class="badge badge-default pull-right bg-white font-green bold">{{databaseLength}}</span>
                     </div>
                 </a>
-                <div style="" aria-expanded="false" class="panel-collapse collapsed collapse" id="lstDB">
+                <div style="" aria-expanded="false" ng-class="{{db_clicked}}" class="panel-collapse collapsed collapse" id="lstDB">
                     <ul>
                       <li  class="mt-list-item" ng-repeat="dblist in databaseList" ng-click="OnDBClick(dblist)">
                         <div class="mt-list-title">{{dblist}}</div>
@@ -68,7 +68,7 @@
                     <li class="tab active" id='tabResult' data="tab_Result">
                         <a data-toggle="tab" href="#tab_Result" aria-expanded="expanded"> Results </a>
                     </li>
-                    <li class="tab" id='tabHistory' data="tab_History">
+                    <li class="tab " id='tabHistory' data="tab_History">
                         <a data-toggle="tab" href="#tab_History" aria-expanded="expanded"> History </a>
                     </li>
                     <!-- <li class="tab" id='tabSavedQuery'>
@@ -77,8 +77,19 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade active in tab_Result">
-                        <table id="tblResult" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-                        </table>
+											<div class="portlet box red" ng-show="showResults">
+															<div class="portlet-title" >
+																	<div class="actions">
+																			<a ng-click="export_csv()" class="btn btn-sm grey-mint">
+																					<i class="fa fa-file-excel-o"></i> Export as CSV </a>
+																	</div>
+															</div>
+															<div class="portlet-body">
+                        				<table id="tblResult" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                        				</table>
+															</div>
+											</div>
+
                     </div>
                     <div class="tab-pane fade tab_History">
                         <table id="tblHistory" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
@@ -90,6 +101,18 @@
                                 </tr>
                             </thead>
                         </table>
+												<div class="search-pagination" style="text-align: center;">
+								            <ul class="pagination">
+								                <li >
+								                    <button ng-click="previous()" class="btn btn-primary previousBtn" ><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+								                </li>
+								                <li class="page-active">
+								                    <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn" >{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+								                </li>
+
+								            </ul>
+								        </div>
+
                     </div>
                     <!-- <div class="tab-pane fade tab_Saved_Query">
                         <p> This is Saved Query Tab   </p>
@@ -111,6 +134,8 @@
       </div>
     </div>
   </div>
+	<div class="clearfix">
+	</div>
 <style type="text/css">
   #tblHistory tbody tr td:first-child {
     cursor: pointer;
