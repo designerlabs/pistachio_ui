@@ -10,133 +10,116 @@
     </div>
 </div>
 <div class="row row1" style="position: relative; z-index:9">
-    <div class="col-md-12 toppnl" style="position:fixed;"> <!--width:85%;-->
+    <div class="col-md-12 toppnl" > <!--width:85%;  style="position:fixed;"-->
         <div class="profile-content">
             <div class="row">
-                <!-- <div>
-                    <div class="btn btn-warning">BACK</div>
-                </div> -->
-                <div class="col-md-12">                   
-
-                    <!-- BEGIN PORTLET -->
-
-                    <div class="portlet light container-fluid" style="padding:0px;margin-bottom: 0px;">
+                <div class="col-md-6">
+                    <div class="portlet light container-fluid">
                         <div class="profile-content">                                        
-                            <div class="col-md-1 col-xs-2 col-sm-2">
-                                <div class="pic">
-                                    <!-- <img alt="" class="img-responsive pic-bordered" src="./assets/admin/layout2/img/avatar.png" style="margin-left:0px;">                     
-                                    <a id="text" href="">View</a>   -->  
-                                    <p><a class="hovertext" href="#" title="View">
-                                    <!-- <img src="encodedString" width="100" height="100" border="0" alt=""> -->
-                                    <img  width="100" height="100" border="0" alt=""></a></p>
-
-                                </div>                        
+                            <div class="col-md-4 col-xs-2 col-sm-2" style="height: 170px;padding-left: 0px;">
+                                   <span class="loadimg" style="position: absolute; left: 14px; top: 75px;"><i class='fa fa-circle-o-notch fa-spin'></i> Loading image..</span>
+                                    <img width="100%" height="100%" ng-src="{{imagetxt}}" >
                             </div>
-                            <!-- <div class="col-md-1" style="float: right;">
-                                <i class="fa fa-lock lk"></i>
-                                <i class="fa fa-unlock-alt lk"></i>
-                            </div> -->
+                            <div id="topfield" class="col-md-8 col-xs-8 col-sm-8">                             
+                                <div class="profile-details">
+                                    <div class="row">
+                                       <div class="col-md-12 col-sm-12 col-xs-12 form-group" style="padding-left:0px">
+                                            <small class="uppercase">
+                                               Name
+                                           </small>
+                                           <div class="uppercase bold" style="font-size: 21px">
+                                               {{res.name}} 
+                                           </div>
+                                        </div>
+                                    </div>  
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
+                                           <small>DATE OF BIRTH</small> 
+                                            <div class="bold">
+                                            {{dob}} / {{age}}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
+                                        <small>COUNTRY</small>
+                                            <div class="bold">
+                                            {{res.country}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group tool" data-original-title="Passport Number" style="padding-left:0px">
+                                           <small>GENDER</small> 
+                                            <div class="bold">
+                                            {{res.sex}}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
+                                        <small>PASSPORT NO</small>
+                                            <div class="bold">
+                                            {{res.doc_no}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">                    
+                    <div class="portlet light container-fluid">
+                    <div class="portlet-title">                        
+                    <div class="actions">
+                        <div id="detailstab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
+                            <a class="btn btn-transparent grey-salsa btn-circle btn-sm active bck" data-toggle="tab">Go Back</a>
+                        </div>
+                    </div>
+                    </div>
+                        <div class="profile-content">                                        
                             <div id="topfield" class="col-md-9 col-xs-8 col-sm-8" style="padding-top: 20px;padding-left: 50px;">                             
                                 <div class="profile-details">
                                     <div class="row">
-                                       <div class="col-md-6 col-sm-6 col-xs-12" style="padding-left:0px">
-                                           <i class="fa fa-user fa-3x"></i> : 
-                                           <span class="uppercase" style="font-size: 21px">
-                                               {{res.name}} / 
-                                           </span>
-                                            <span class="caption" style="display: none">
-                                              {{res.sex == "LELAKI" ? started = false : started = true}}
-                                            </span>
-                                            <i class="fa fa-male blue fa-3x" data-ng-hide="started"></i>
-                                            <i class="fa fa-female pink fa-3x" data-ng-show="started"></i>
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
+                                           <small>TOTAL ENTRY</small> 
+                                            <div class="uppercase bold">
+                                            {{summary.entry.length}}
+                                            </div>
                                         </div>
-                                        <div class="col-md-3 col-sm-6 col-xs-12 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="Passport Number" style="padding-left:0px">
-                                            <span class="caption">
-                                                <i class="fa fa-book"></i> :                                                 {{res.doc_no}} 
-                                            </span>                        
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
+                                        <small>TOTAL Exit</small>
+                                            <div class="bold">
+                                            {{summary.exit.length}}
+                                            </div>
                                         </div>
-                                        <!-- <div class="col-md-1 col-sm-1 col-xs-1" style="padding-right:10px">
-                                            <div class="btn btn-warning">BACK</div>
-                                        </div> -->
-                                    </div>  
+                                        <!-- <span class="btn warning bck">Back</span> -->
+                                    </div>
                                     <div class="row">
-                                        
-                                        <div class="col-md-3 col-sm-6 col-xs-12 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="Date of Birth" style="padding-left:0px">
-                                            <span class="caption ">
-                                             <i class="fa fa-birthday-cake"></i> :                                             {{dob}} / {{age}}
-                                            </span>
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
+                                           <small>CURRENT STATUS</small> 
+                                            <div class="uppercase bold">
+                                            {{res.dy_action_ind == 'in' ? 'Entry' : 'Exit'}}
+                                            </div>
                                         </div>
-                                        
-                                        <div class="col-md-3 col-sm-6 col-xs-12 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="Document Type" style="padding-left:0px">
-                                            <span class="caption">
-                                                 <i class="fa fa-newspaper-o"></i> : {{res.doc_type}} 
-                                            </span>                        
-                                        </div>                               
-                                        <!-- <div class="col-md-3 col-sm-6 col-xs-12" style="padding-left:0px">
-                                            <span class="caption">
-                                                Visitor Type 
-                                                {{basicdetails.visitor_typ}}     
-                                                    {{basicdetails.mad_pas_typ_cd}}  
-
-                                            </span>                        
-                                        </div> -->
-                                        <!-- <div class="col-md-3 col-sm-6 col-xs-12"  style="padding-left:0px">
-                                            <span class="caption">
-                                                Start Date 
-                                                {{vstartdt}}                                             
-                                            </span>                       
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
+                                        <small>COUNTRY</small>
+                                            <div class="bold">
+                                            {{res.country}}
+                                            </div>
                                         </div>
-                                        <div class="col-md-3 col-sm-6 col-xs-12" style="padding-left:0px">
-                                            <span class="caption">
-                                                End Date 
-                                                {{venddt}} 
-                                            </span>
-                                        </div>   -->                              
-                                        <div class="col-md-3 col-sm-6 col-xs-12 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="Nationality" style="padding-left:0px">
-                                            <span class="caption">
-                                                <i class="fa fa-globe"></i> : 
-                                                {{res.country}}                                                  
-                                            </span>                        
-                                        </div>
-                                        <div class="col-md-3 col-sm-6 col-xs-12 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="No of Passport" style="padding-left:0px">
-                                            <span class="caption">
-                                                <!-- <i class="fa fa-book"></i> <i class="fa fa-asterisk"></i> -->  
-                                               No of Passport : 1
-                                            </span>                       
-                                        </div>
-                                        <div class="col-md-3 col-sm-6 col-xs-12 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="No of Visa" style="padding-left:0px">
-                                            <span class="caption">
-                                                <!-- <i class="fa fa-newspaper-o"></i>  <i class="fa fa-asterisk"></i> -->  
-                                                No of Visa : {{totalvisa}}
-                                            </span>
-                                        </div>                               
-                                        <div class="col-md-3 col-sm-6 col-xs-12" style="padding-left:0px">
-                                            <span class="caption">
-                                                Status : {{res.dy_action_ind=='in'? 'Entry' :  'Exit'}}                                                  
-                                            </span>                        
-                                        </div>
-                                        <div class="col-md-3 col-sm-6 col-xs-12" style="padding-left:0px">
-                                            <span class="caption">
-                                            </span>                       
-                                        </div>
-                                        <div class="col-md-3 col-sm-6 col-xs-12" style="padding-left:0px">
-                                            <span class="caption">
-                                            </span>
-                                        </div>
-                                    </div> 
+                                        <!-- <span class="btn warning bck">Back</span> -->
+                                    </div>
                                 </div>             
                             </div>                  
                         </div>
                     </div>
-                 </div>
+                </div>
             </div>
         </div>                  
         
     </div>
 </div>
-<div class="row" style="height: {{availHeight > 1000 ? 210 : 160}}px">&nbsp;
+<!-- <div class="row" style="height: {{availHeight > 1000 ? 210 : 160}}px">&nbsp;
     
-</div>
+</div> -->
 <div class="row row2">
      <div class="col-md-12">
      <div class="profile-content">
@@ -213,7 +196,7 @@
                         <div class="portlet-title">
                             <div class="caption caption-md">
                                 <i class="icon-bar-chart theme-font"></i>
-                                <span class="caption-subject font-blue-madison bold uppercase">in and out details</span>
+                                <span class="caption-subject font-blue-madison bold uppercase">Entry and Exit details</span>
                             </div>
                             <div class="actions">
                                 <div id="inouttab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
@@ -229,10 +212,23 @@
 	                            	<i id="zoomOut" class="btn fa fa-search-minus"></i>
 	                            	<i id="moveLeft" class="btn fa fa-arrow-left"></i>
 	                            	<i id="moveRight" class="btn fa fa-arrow-right"></i>
+                                    <span class="clkditem" style="background-color: #C5DC3B"></span>
 	                            </div>
 	                            <div class="chart123" id="visualization">
 	                            	
 	                            </div>
+                                <div class="MismatchArea">
+                                    <span class="row bold red"><center>{{MisMatchCnt}} Mismatch cases found</center></span>
+                                    <table id="tblMisMatch" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"> <!--class="table table-bordered table-striped table-condensed" -->
+                                        <thead class="bg-table-gray">
+                                            <tr>
+                                                <th>Mismatch case</th>                                                
+                                                <th>From Date</th>   
+                                                <th>To Date</th>                                                 
+                                            </tr>
+                                        </thead>                                        
+                                    </table>
+                                </div>
                     		</div>                        
                             <div class="row number-stats margin-bottom-30 tab-pane" id="inoutdatatbl">
                             	<div>
@@ -240,7 +236,7 @@
     					                <thead class="bg-table-gray">
     					                    <tr>
     					                        <th> 
-    					                            In/Out Date
+    					                            Date & Time
     					                        </th>
     					                        <th>
     					                            Entry / Exit

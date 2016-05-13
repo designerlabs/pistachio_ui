@@ -2,7 +2,7 @@
 var selected_countries = [];
 var filter_query = "";
 // var solrHost = "localhost";
-var solrHost = "pistachio_server";
+//var solrHost = "pistachio_server";
 MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $http, $timeout, $sce) {
     $scope.$on('$viewContentLoaded', function() {
 
@@ -10,21 +10,43 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
         Metronic.initAjax();
         var getUser = localStorage.getItem("username");
         $scope.showApplication = false;
-        $scope.showVisitors = false;
-        $scope.go();
+        $scope.showVisitor = false;
+        
         $scope.start=0;
-
-
+        $scope.users = 0;
+        $scope.text = "";
+        $scope.go();
     });
 
+    $scope.getQuery = function() {
+      var query;
+      if($scope.text.length > 0) {
+        query = "combinedSearch:'"+$scope.text+"'"
+      }
+      else {
+        query = "*:*"
+      }
+      return(query);
+    }
+
+    $scope.show = function() {
+      if($scope.showApplication)
+        $scope.showApplications();
+      else if ($scope.showVisitor)
+        $scope.showVisitors();
+      else
+        $scope.go();
+   }
+
+
     $scope.go = function() {
-      $http.get('http://'+solrHost+':8983/solr/immigration1/select?q=*:*&wt=json&start=0&rows=0&json.facet={users:\'hll(mad_doc_no)\',employers:\'hll(employer)\'}').
+      $http.get('http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.getQuery()+'&wt=json&start=0&rows=0').
        success(function(data) {
            console.log(data);
            $scope.items = data.response.docs;
            $scope.applicationsFound = data.response.numFound;
            $scope.qtime = data.responseHeader.QTime;
-           $scope.users = data.facets.users;
+           //$scope.users = data.facets.users;
 
            console.log(data.response.docs);
          }).
@@ -36,7 +58,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
            console.log('data : ' + data); //Being logged as null
          });
 
-         $http.get('http://'+solrHost+':8983/solr/hismove/select?q=*:*&wt=json&start=0&rows=0').
+         $http.get('http://'+solrHost+':8983/solr/hismove/select?q='+$scope.getQuery()+'&wt=json&start=0&rows=0').
           success(function(data) {
               $scope.employers = data.response.numFound;
               $scope.vtime = data.responseHeader.QTime;
@@ -48,16 +70,16 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
 
 
-    $scope.text = '';
+   
 
     $scope.updateFilterQuery = function () {
       filter_query = "&fq=";
       var arrayLength = selected_countries.length;
       for (var i = 0; i < arrayLength; i++) {
         if(i==0)
-          filter_query = filter_query + "mad_nat_cd:"+selected_countries[i];
+          filter_query = filter_query + "ctry_issue:"+selected_countries[i];
         else {
-          filter_query = filter_query + " OR mad_nat_cd:"+selected_countries[i];
+          filter_query = filter_query + " OR ctry_issue:"+selected_countries[i];
         }
 
       }
@@ -112,12 +134,12 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
       if (search_text == '')
         search_text = "*"
         $scope.updateFilterQuery_Country();
-        $scope.showVistors();
+      //  $scope.showVisitors();
 
 
     }
 
-
+   
 
     $scope.refresh = function() {
 
@@ -136,79 +158,30 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
       $scope.start = 0;
 
       selected_countries = [];
-      if($scope.applicationsFound < 10){
-        $scope.newCount = $scope.applicationsFound;
-      }else{
-        $scope.newCount = 10;
-      }
-      if($scope.showApplication != undefined && $scope.applicationsFound)
-      {
-        $scope.showApplications();
-      }
-      else {
-        $http.get('http://'+solrHost+':8983/solr/immigration1/select?q=combinedSearch:'+text+'&wt=json&start=0&rows=0').
-         success(function(data) {
-             $scope.applicationsFound = data.response.numFound;
-             $scope.qtime = data.responseHeader.QTime;
-           }).
-           error(function(data, status, headers, config) {
-             console.log('error');
-             console.log('status : ' + status); //Being logged as 0
-             console.log('headers : ' + headers);
-             console.log('config : ' + JSON.stringify(config));
-             console.log('data : ' + data); //Being logged as null
-           });
-
-        };
-      }
+      $scope.show();
+      
+      
+      };
         $scope.reset = function() {
           selected_countries = [];
-          $http.get('http://'+solrHost+':8983/solr/immigration1/select?q=*:*&wt=json&start=0&rows=0').
-           success(function(data) {
-               $scope.applicationsFound = data.response.numFound;
-               $scope.qtime = data.responseHeader.QTime;
-             }).
-             error(function(data, status, headers, config) {
-               console.log('error');
-               console.log('status : ' + status); //Being logged as 0
-               console.log('headers : ' + headers);
-               console.log('config : ' + JSON.stringify(config));
-               console.log('data : ' + data); //Being logged as null
-             });
+          $scope.text = "";
+          $scope.go();
         };
 
 
 
 
-        var clicks = 10;
-        $scope.newCount = clicks;
-
         $scope.next = function() {
-          $(".previousBtn").prop( "disabled", false);
-           clicks += 10;
           $scope.start = $scope.start + 10;
-          $scope.showApplications();
-          $scope.newCount = clicks;
-          var listCount = 10;
-
+                 $scope.show();
+ 
         }
 
         $scope.previous = function() {
-
-          clicks -= 10;
-
           $scope.start = $scope.start - 10;
-
-          if(clicks == 10){
-            $(".previousBtn").prop( "disabled", true);
-          }else{
-             $(".previousBtn").prop( "disabled", false);
-          }
-
           if($scope.start < 0)
             $scope.start = 0;
-            $scope.newCount = clicks;
-            $scope.showApplications();
+            $scope.show();
         }
 
 
@@ -237,31 +210,24 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
 
     $scope.viewReq = function(docno,cntry){
-      $rootScope.docno = docno;
-      $rootScope.cntry = cntry;
-      // window.location.href ="#/travelertracker/travelertracker.html";
-      window.location = "index.html#/travelertracker/travelertracker.html?doc_no="+docno+"&country="+cntry+"";
+            // window.location.href ="#/travelertracker/travelertracker.html";
+      window.location = "#/travelertracker/travelertracker.html?doc_no="+docno+"&country="+cntry+"";
       // window.open("MusicMe.html?variable=value", "_self");
 
     };
 
-    $scope.showVistors = function() {
+    $scope.showVisitors = function() {
       var query = "";
       $scope.showApplication = false;
-      $scope.showVisitors = true;
+      $scope.showVisitor = true;
       var query = ""
       var sq = "http://"+solrHost+":8983/solr/hismove/query?json=";
 
       var json = {};
       json.limit = 10;
       json.offset = $scope.start
-      if($scope.text.length > 0) {
-        json.query = "combinedSearch:'"+$scope.text+"'"
-      }
-      else {
-        json.query = "*:*"
-      }
-
+      json.query = $scope.getQuery();
+      
       //var filter = $scope.jsonFilterQuery();
       //console.log(filter);
       //alert(filter.length);
@@ -293,10 +259,10 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
       var query = "";
 
       if($scope.text.length > 0) {
-        query = 'http://'+solrHost+':8983/solr/immigration1/select?sort=mad_crt_dt desc&q=combinedSearch:'+$scope.text+'&wt=json&start='+$scope.start+'&rows=10&facet=true&facet.field=mad_nat_cd&facet.limit=10&json.facet={users:\'hll(mad_doc_no)\',employers:\'hll(employer)\'}'+filter_query;
+        query = 'http://'+solrHost+':8983/solr/immigration2/select?sort=created desc&q=combinedSearch:'+$scope.text+'&wt=json&start='+$scope.start+'&rows=10&facet=true&facet.field=ctry_issue&facet.limit=10&json.facet={users:\'hll(doc_no)\',employers:\'hll(employer)\'}'+filter_query;
       }
       else {
-        query = 'http://'+solrHost+':8983/solr/immigration1/select?sort=mad_crt_dt desc&q=*:*&wt=json&start='+$scope.start+'&rows=10&facet=true&facet.offset=1&facet.field=mad_nat_cd&facet.limit=10&json.facet={users:\'hll(mad_doc_no)\',employers:\'hll(employer)\'}'+filter_query;
+        query = 'http://'+solrHost+':8983/solr/immigration2/select?sort=created desc&q=*:*&wt=json&start='+$scope.start+'&rows=10&facet=true&facet.offset=1&facet.field=ctry_issue&facet.limit=10&json.facet={users:\'hll(doc_no)\',employers:\'hll(employer)\'}'+filter_query;
       }
       $http.get(query)
         .success(function(data) {
@@ -306,9 +272,9 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
            $scope.items = data.response.docs;
            $scope.applicationsFound = data.response.numFound;
            if(selected_countries == 0) {
-             var countries = data.facet_counts.facet_fields.mad_nat_cd;
+             var countries = data.facet_counts.facet_fields.ctry_issue;
              $scope.showApplication = true;
-             $scope.countries = $scope.decopule(data.facet_counts.facet_fields.mad_nat_cd,20);
+             $scope.countries = $scope.decopule(data.facet_counts.facet_fields.ctry_issue,20);
            }
            if($scope.applicationsFound < 10){
               $scope.newCount = $scope.applicationsFound;
