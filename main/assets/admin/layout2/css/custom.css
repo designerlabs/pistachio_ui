@@ -267,7 +267,11 @@ Rounded Portlets
 }
 
  .vis-item.green {
-  background-color: greenyellow;
+  background-color: #adff2f;
+  border-color: green;
+}
+.vis-item.orange {
+  background-color: #FFA500;
   border-color: green;
 }
 
