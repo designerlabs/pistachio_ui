@@ -173,6 +173,7 @@ var globalURL = "http://pistachio_server:8080/";
 
 var solrHost = "10.4.104.176";
 
+
 var queryString = "query";
 var categoryName = "cat";
 

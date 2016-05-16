@@ -223,7 +223,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
        }
 
        $scope.clickState = function(data) {
-        $scope.addFilter("sta","Negeri :"+data,"mad_job_state_cd:"+$scope.cleanQuery(data));
+        $scope.addFilter("sta","Negeri :"+data,"state:"+$scope.cleanQuery(data));
         $scope.querySolr();
        }
 
@@ -233,12 +233,12 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
        };
 
        $scope.clickVisa = function(data) {
-        $scope.addFilter("vis","Visa Type : "+data,"mad_pas_typ_cd:"+$scope.cleanQuery(data));
+        $scope.addFilter("vis","Visa Type : "+data,"pass_typ:"+$scope.cleanQuery(data));
         $scope.querySolr();
        }
 
        $scope.updateActiveGeography = function(geography) {
-          $scope.addFilter("cnt","country: "+geography.id,"mad_nat_cd:"+geography.id);
+          $scope.addFilter("cnt","country: "+geography.id,"ctry_issue:"+geography.id);
           $scope.querySolr();
       }
 
@@ -295,11 +295,11 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
           if($scope.analysiType == 'overall')
               $scope.querySolr();
             else if ($scope.analysiType == 'timeline')  {
-              query = 'http://'+solrHost+':8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.field=mad_pas_typ_cd&facet.limit=150&'+$scope.filterQuery();
+              query = 'http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field= ctry_issue&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=pass_typ&facet.limit=150&'+$scope.filterQuery();
             }
 
           else if ($scope.analysiType == 'age')
-            query = 'http://'+solrHost+':8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.field=mad_pas_typ_cd&facet.limit=150&'+$scope.filterQuery();
+            query = 'http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field= ctry_issue&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=pass_typ&facet.limit=150&'+$scope.filterQuery();
 
        }
 
@@ -310,12 +310,12 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
           var query = "";
           $scope.filters = false;
           if($scope.analysiType == 'overall')
-              query = 'http://'+solrHost+':8983/solr/immigration1/select?q='+$scope.formQuery()+
-            '&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.field=mad_pas_typ_cd&facet.limit=150&'+$scope.filterQuery();
+              query = 'http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.formQuery()+
+            '&wt=json&rows=0&facet=true&facet.field= ctry_issue&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=pass_typ&facet.limit=150&'+$scope.filterQuery();
             else if ($scope.analysiType == 'timeline')
-            query = 'http://'+solrHost+':8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.field=mad_pas_typ_cd&facet.limit=150&'+$scope.filterQuery();
+            query = 'http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field= ctry_issue&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=pass_typ&facet.limit=150&'+$scope.filterQuery();
           else if ($scope.analysiType == 'age')
-            query = 'http://'+solrHost+':8983/solr/immigration1/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=mad_nat_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=mad_job_state_cd&facet.field=mad_pas_typ_cd&facet.limit=150&'+$scope.filterQuery();
+            query = 'http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field= ctry_issue&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=pass_typ&facet.limit=150&'+$scope.filterQuery();
 
 
 
@@ -323,12 +323,12 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
       $http.get(query).
        success(function(data) {
            if(selected_countries == 0) {
-             $scope.countries = $scope.decopule(data.facet_counts.facet_fields.mad_nat_cd,0,keys);
+             $scope.countries = $scope.decopule(data.facet_counts.facet_fields. ctry_issue,0,keys);
              $scope.jobs = $scope.decopule(data.facet_counts.facet_fields.job_en,20,keys);
              $scope.employers = $scope.decopule(data.facet_counts.facet_fields.employer,20,keys);
-             $scope.visas = $scope.decopule(data.facet_counts.facet_fields.mad_pas_typ_cd,20,keys);
+             $scope.visas = $scope.decopule(data.facet_counts.facet_fields.pass_typ,20,keys);
              $scope.sex = $scope.decopule(data.facet_counts.facet_fields.sex,data.facet_counts.facet_fields.sex.length,keys1);
-             $scope.state = $scope.decopule(data.facet_counts.facet_fields.mad_job_state_cd,data.facet_counts.facet_fields.mad_job_state_cd.length,keys1);
+             $scope.state = $scope.decopule(data.facet_counts.facet_fields.state,data.facet_counts.facet_fields.state.length,keys1);
              //alert(data.facet_counts.facet_fields.sex.length);
              console.log($scope.sex1);
              $scope.loadMap();
@@ -492,8 +492,8 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
 
 
     $scope.getDateLimits = function () {
-      var query = "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
-      var sq = "http://"+solrHost+":8983/solr/immigration1_shard1_replica1/query?"
+      var query = "q=-created%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(created)\",\"max_date\":\"max(created)\"}}"
+      var sq = "http://"+solrHost+":8983/solr/immigration2/query?"
       $http.get(sq+query).
        success(function(data) {
          var y = {};
@@ -510,7 +510,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
        return;
 
       var query = ""
-      var sq = "http://"+solrHost+":8983/solr/immigration1_shard1_replica1/query?json=";
+      var sq = "http://"+solrHost+":8983/solr/immigration2/query?json=";
 
       var json = {};
       json.query = "*:*"
@@ -528,7 +528,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
       json.facet.date_range = {};
 
       json.facet.date_range.type   = "range";
-      json.facet.date_range.field  =  "mad_crt_dt";
+      json.facet.date_range.field  =  "created";
       if($scope.time_filtered_max.length > 0)
       {
         json.facet.date_range.start  = $scope.time_filtered_min;
@@ -583,7 +583,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
                         var display = "[ "+ Highcharts.dateFormat('%Y-%m-%d', event.xAxis[0].min) +" TO "+ Highcharts.dateFormat('%Y-%m-%d', event.xAxis[0].max)+" ]";
                         $scope.time_filtered_max = Highcharts.dateFormat('%Y-%m-%dT00:00:00Z', event.xAxis[0].max);
                         $scope.time_filtered_min = Highcharts.dateFormat('%Y-%m-%dT00:00:00Z', event.xAxis[0].min);
-                            $scope.addFilter("tim","Time :"+display,"mad_crt_dt:"+range);
+                            $scope.addFilter("tim","Time :"+display,"created:"+range);
                             $scope.querySolr();
                     } else {
                         alert('Selection reset');

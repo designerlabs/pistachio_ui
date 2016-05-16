@@ -16,34 +16,21 @@
                 <div class="col-md-6">
                     <div class="portlet light container-fluid">
                         <div class="profile-content">                                        
-                            <div class="col-md-4 col-xs-2 col-sm-2" style="height: 170px">
-                                <div >
-                                    <a class="hovertext" href="#" title="View">
-                                    <img  width="100" height="100" border="0" alt=""></a>
-                                </div>                        
+                            <div class="col-md-4 col-xs-2 col-sm-2" style="height: 170px;padding-left: 0px;">
+                                   <span class="loadimg" style="position: absolute; left: 14px; top: 75px;"><i class='fa fa-circle-o-notch fa-spin'></i> Loading image..</span>
+                                    <img width="100%" height="100%" ng-src="{{imagetxt}}" >
                             </div>
                             <div id="topfield" class="col-md-8 col-xs-8 col-sm-8">                             
                                 <div class="profile-details">
                                     <div class="row">
                                        <div class="col-md-12 col-sm-12 col-xs-12 form-group" style="padding-left:0px">
-                                           <!-- <i class="fa fa-user fa-3x"></i> :  -->
                                             <small class="uppercase">
                                                Name
                                            </small>
                                            <div class="uppercase bold" style="font-size: 21px">
                                                {{res.name}} 
                                            </div>
-                                            <!-- <span class="caption" style="display: none">
-                                              {{res.sex == "LELAKI" ? started = false : started = true}}
-                                            </span>
-                                            <i class="fa fa-male blue fa-3x" data-ng-hide="started"></i>
-                                            <i class="fa fa-female pink fa-3x" data-ng-show="started"></i> -->
                                         </div>
-                                        <!-- <div class="col-md-3 col-sm-6 col-xs-12 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="Passport Number" style="padding-left:0px">
-                                            <span class="caption">
-                                                <i class="fa fa-book"></i> :                                                 {{res.doc_no}} 
-                                            </span>                        
-                                        </div> -->
                                     </div>  
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
@@ -60,7 +47,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group tool" data-original-title="Passport Number" style="padding-left:0px">
                                            <small>GENDER</small> 
                                             <div class="bold">
                                             {{res.sex}}
@@ -73,29 +60,43 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="row">
-                                        
-                                        <div class="col-md-3 col-sm-6 col-xs-12 tool" data-placement="left" data-toggle="tooltip" aria-hidden="true" data-original-title="Date of Birth" style="padding-left:0px">
-                                            <span class="caption ">
-                                             <i class="fa fa-birthday-cake"></i> :                                             {{dob}} / {{age}}
-=======
-    <div class="col-md-12 toppnl" style="position:fixed;"> <!--width:85%;-->  
                                 </div>
                             </div>  
                         </div>
                     </div>
-                </div>                
-                  
-                <div class="col-md-6">
+                </div>
+                <div class="col-md-6">                    
                     <div class="portlet light container-fluid">
+                    <div class="portlet-title">                        
+                    <div class="actions">
+                        <div id="detailstab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
+                            <a class="btn btn-transparent grey-salsa btn-circle btn-sm active bck" data-toggle="tab">Go Back</a>
+                        </div>
+                    </div>
+                    </div>
                         <div class="profile-content">                                        
                             <div id="topfield" class="col-md-9 col-xs-8 col-sm-8" style="padding-top: 20px;padding-left: 50px;">                             
                                 <div class="profile-details">
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
+                                           <small>TOTAL ENTRY</small> 
+                                            <div class="uppercase bold">
+                                            {{summary.entry.length}}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
+                                        <small>TOTAL Exit</small>
+                                            <div class="bold">
+                                            {{summary.exit.length}}
+                                            </div>
+                                        </div>
+                                        <!-- <span class="btn warning bck">Back</span> -->
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
                                            <small>CURRENT STATUS</small> 
                                             <div class="uppercase bold">
-                                            {{res.dy_action_ind}}
+                                            {{res.dy_action_ind == 'in' ? 'Entry' : 'Exit'}}
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
@@ -195,7 +196,7 @@
                         <div class="portlet-title">
                             <div class="caption caption-md">
                                 <i class="icon-bar-chart theme-font"></i>
-                                <span class="caption-subject font-blue-madison bold uppercase">in and out details</span>
+                                <span class="caption-subject font-blue-madison bold uppercase">Entry and Exit details</span>
                             </div>
                             <div class="actions">
                                 <div id="inouttab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
@@ -211,10 +212,23 @@
 	                            	<i id="zoomOut" class="btn fa fa-search-minus"></i>
 	                            	<i id="moveLeft" class="btn fa fa-arrow-left"></i>
 	                            	<i id="moveRight" class="btn fa fa-arrow-right"></i>
+                                    <span class="clkditem" style="background-color: #C5DC3B"></span>
 	                            </div>
 	                            <div class="chart123" id="visualization">
 	                            	
 	                            </div>
+                                <div class="MismatchArea">
+                                    <span class="row bold red"><center>{{MisMatchCnt}} Mismatch cases found</center></span>
+                                    <table id="tblMisMatch" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"> <!--class="table table-bordered table-striped table-condensed" -->
+                                        <thead class="bg-table-gray">
+                                            <tr>
+                                                <th>Mismatch case</th>                                                
+                                                <th>From Date</th>   
+                                                <th>To Date</th>                                                 
+                                            </tr>
+                                        </thead>                                        
+                                    </table>
+                                </div>
                     		</div>                        
                             <div class="row number-stats margin-bottom-30 tab-pane" id="inoutdatatbl">
                             	<div>
@@ -222,7 +236,7 @@
     					                <thead class="bg-table-gray">
     					                    <tr>
     					                        <th> 
-    					                            In/Out Date
+    					                            Date & Time
     					                        </th>
     					                        <th>
     					                            Entry / Exit
