@@ -4,7 +4,7 @@ Metronic AngularJS App Main Script
 
 /* Metronic App */
 var MetronicApp = angular
-    .module("MetronicApp", [    
+    .module("MetronicApp", [
     "ui.router",
     "oc.lazyLoad",
     "ui.ace",
@@ -364,6 +364,9 @@ MetronicApp.factory('httpRequestInterceptor', function () {
     request: function (config) {
         var storeToken = localStorage.getItem("token");
       // use this to destroying other existing headers
+
+      //alert(config.headers.Content-Type);
+      
       config.headers = {'token':storeToken, 'Content-Type': 'application/json'};
 
       // use this to prevent destroying other existing headers
@@ -621,12 +624,13 @@ MetronicApp.service('fileUpload', ['$http', function ($http) {
         fd.append('file', file);
         $http.post(uploadUrl, fd, {
             transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
+            headers: {'Content-Type': 'application/octet-stream'}
         })
         .success(function(data){
             console.log(data);
         })
         .error(function(){
+          alert("error")
         });
     }
 }]);
