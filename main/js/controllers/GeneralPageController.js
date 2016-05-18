@@ -29,7 +29,7 @@ function onResize1() {
 
 /* GeneralPageController starts */
 MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http', 'settings', 'authorities', 'fileUpload', function ($rootScope, $scope, $http, settings, authorities, fileUpload) {
-    
+
     $scope.uploadFile = function(){
         var file = $scope.myFile;
         console.log('file is ' );
@@ -45,17 +45,17 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             $("#database-type").append('<option data-driver='+v.driver+' value='+v.dbtype+'>'+v.dbtype+'</option>');
         });
     });
-                  
 
-    $("#database-type").change(function () {       
+
+    $("#database-type").change(function () {
         $('#database-driver').val($("#database-type option:selected").attr('data-driver'));
     });
-    
+
 
     $.extend( true, $.fn.dataTable.defaults, {
      stateSave: true
     });
-    
+
     $scope.$on('$viewContentLoaded', function () {
         $("#databaseList").show();
         $("#tableList").hide();
@@ -64,7 +64,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         $scope.reportPrivilege = JSON.parse($scope.getReportPrivilege);
 
 
-        
+
         $("#sidebarMenu li").click(function(){
             $("#sidebarMenu li").removeClass("active");
             $("#sidebarMenu li").removeClass("open");
@@ -125,7 +125,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             });
         }
 
-       
+
 
         formInputValidation("#databaseForm");
         $("#databaseUISubmit").click(function (event) {
@@ -459,7 +459,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             var tr = $(this).closest('tr');
             var row = queryData.row(tr);
             //console.log(row);
-            
+
             // if( $('#childRow').length > 0){
             //     $('#childRow').parent().parent().prev('tr').removeClass('shown');
             //     $('#childRow').parent().parent().remove();
@@ -469,11 +469,11 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             //     tr.addClass('shown');
             //     createCalenderCtrl();
             // }
-            
-            
-            
+
+
+
             if (row.child.isShown()) {
-                
+
                 $(this).html('<i class="fa fa-plus-circle"></i> Expand');
                 $(this).removeClass('btn-warning');
                 $(this).removeClass('btn-danger');
@@ -486,12 +486,12 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 row.child.remove();
                 // $('#childRow').parent().parent().remove();
                 tr.removeClass('shown');
-               
+
             } else {
                 $('.TemplateBtn').html('<i class="fa fa-plus-circle"></i> Expand');
                 $('.TemplateBtn').removeClass('btn-warning');
                 $('.TemplateBtn').addClass('btn-success');
-                
+
                 $(this).html('<i class="fa fa-minus-circle"></i> Close');
                 $(this).removeClass('btn-warning');
                 $(this).removeClass('btn-success');
@@ -502,8 +502,8 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                     $('#childRow').parent().parent().remove();
                     tr.removeClass('shown');
                 }
-             
-               
+
+
                 row.child(format(row.data())).show();
                 $(".dtRangeGroup").toggle(row.data().dtRange);
                 $(".branchGroup").toggle(row.data().branch);
@@ -519,7 +519,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 $(".sectorGroup").toggle(row.data().sector);
                 $(".sexGroup").toggle(row.data().sex);
 
-                
+
                 tr.addClass('shown');
                 // $('#reportrange').daterangepicker();
 
@@ -530,26 +530,26 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         $("#temp-state").append('<option value='+k+'>'+v+'</option>');
                      });
                  });
-                 
-                 
+
+
                 $.getJSON(globalURL + "api/report/reference/nationality", function (json) {
                      $.each(json, function(k, v){
                          $("#temp-nationality").append('<option value='+k+'>'+v+'</option>');
                      });
                  });
-                 
+
                  $.getJSON(globalURL + "api/report/reference/pastype", function (json) {
                      $.each(json, function(k, v){
                          $("#temp-pastype").append('<option value='+k+'>'+v+'</option>');
                      });
                  });
-                 
+
                  $.getJSON(globalURL + "api/report/reference/branch", function (json) {
                      $.each(json, function(k, v){
                          $("#temp-branch").append('<option value='+k+'>'+v+'</option>');
                      });
                  });
-                 
+
                  $.getJSON(globalURL + "api/user/reference/dept", function (json) {
                      $.each(json, function(k, v){
                          $("#temp-dept").append('<option value='+k+'>'+v+'</option>');
@@ -604,7 +604,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
         /* Formatting function for row details - modify as you need */
         function format(d) {
-            // `d` is the original data object for the row             
+            // `d` is the original data object for the row
 
             return '<form id="childRow" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" action="#">' +
                 '<div class="form-body">' +
@@ -628,7 +628,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 '</div>' +
                 '</div></div>' +
                 //Datepicker end
-                
+
                 //State dropdown
                 '<div class=" col-md-4 col-sm-6 col-xs-12 stateGroup">'+
                 '<div class="form-group" >' +
@@ -739,7 +739,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         }
 
 
-        
+
 
         var reportPermitMasukData;
         queryMasukFunc = function () {
@@ -972,13 +972,13 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         });
 
 
-        
-        
+
+
         formInputValidation("#queryForm");
         formInputValidation("#queryFormTemplate");
-        
+
         $("#queryUISubmit").click(function (event) {
-            
+
             var queryNameVal = $("#queryForm #query-name").val();
             var queryTextVal = $("#queryForm #query-text").val();
 
@@ -1020,10 +1020,10 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             templateFileName = getVal.split(/(\\|\/)/g).pop();
         });
 
-        
+
         $("#queryUISubmitTemplate").click(function (event) {
             var queryNameValTemp = $("#queryFormTemplate #query-name").val();
-           
+
             /*var dtRange = $("#queryFormTemplate #dtRange").prop("checked");
             var stateVal = $("#queryFormTemplate #stateVal").prop("checked");
             var branchVal = $("#queryFormTemplate #branchVal").prop("checked");
@@ -1068,7 +1068,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
 
         });
-        
+
 
 
         $("#queryUIUpdateTemplate").click(function (event) {
@@ -1135,10 +1135,10 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             $("#queryAddForm #queryUISubmitTemplate").addClass('hide');
             $("#queryAddForm #queryUIUpdateTemplate").removeClass('hide');
 
-            
+
             $("#queryForm #query-name").val(selectedQuery.queryName);
             $("#queryFormTemplate #query-name").val(selectedQuery.queryName);
-            
+
             $("#queryForm #query-text").val(selectedQuery.query);
             $("#queryForm #query-template").val(selectedQuery.reportFileName);
             $("#queryAddFormHeader").html("Update Query UI");
@@ -1373,14 +1373,14 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
                 });
         });
-        
+
        /* $("#queryUIUpdateTemplate").click(function (event){
             var queryNameValTempUpdated = $("#queryForm #query-name-update").val();
         });*/
 
         $("#queryUIUpdate").click(function (event) {
             var queryNameValUpdated = $("#queryForm #query-name").val();
-            
+
             var queryTextValUpdated = $("#queryForm #query-text").val();
             //alert(selectedQueryId);
             $.ajax({
@@ -1614,7 +1614,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
 
         $('#jobsContainer').on('click', 'button.btn3', function () {
-            
+
             var jobData = jobsData.row($(this).parents('tr')).data();
 
             $.ajax({
@@ -1741,10 +1741,10 @@ MetronicApp.controller('GeneralPageController', function($scope, Idle, Keepalive
       });
 
       $rootScope.start = function() {
-        
+
         closeModals();
         Idle.watch();
-        
+
         $scope.started = true;
       };
 

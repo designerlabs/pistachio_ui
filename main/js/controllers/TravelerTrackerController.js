@@ -1,5 +1,4 @@
 'use strict';
-var solrHost1 = "10.23.124.242"
 MetronicApp.controller('TravelerTrackerController', function($rootScope,$scope,$http, $timeout) {
 
 $scope.lock = 'true';
@@ -9,9 +8,9 @@ $('.clkditem').hide();
  $scope.personal12 = "result";
     $scope.$on('$viewContentLoaded', function() {
         Metronic.initAjax(); // initialize core components
-        $scope.database = "default"; 
-               // fn_LoadAllRequest();          
-            
+        $scope.database = "default";
+               // fn_LoadAllRequest();
+
 	});
 
 console.log(window.location.href);
@@ -19,7 +18,7 @@ var Qstring = window.location.href;
 var Qparam = Qstring.replace('=',':').replace('=',':').replace('&',' AND ').split('?')[1];
 
 var inoutTbl = undefined;
-function fn_LoadAllRequest(){	  
+function fn_LoadAllRequest(){
 	 	// Get Basic details of traveler
 	 	// Get details of visa and in and outs
 			//$.get("http://pistachio_server:8983/solr/his/query?rows=2&json={query: 'country:PAKISTAN AND doc_no:AA0929482',limit: 1,sort  : 'xit_date desc',facet: {branch : {type: terms,field: branch},exits: {type: range,field: xit_date,start: '2015-01-01T00:00:00Z',end: '2016-03-23T00:00:00Z',gap: '%2B1DAY'},in_outs: {type: terms,field: dy_action_ind,facet: {branch : {type: terms,field: branch}}},officer :{type: terms,field: dy_create_id}}}}")
@@ -30,7 +29,7 @@ function fn_LoadAllRequest(){
 	console.log(solrHost);
 $scope.fn_getBasicInfo = function(){//mad_pas_typ_cd
 
-	$.get("http://"+solrHost1+":8983/solr/immigration2/query?sort=created desc&json={query :'"+Qparam+"',limit:20000,facet: {visa : {type: terms,field: pass_typ},employers : {type: terms,field: employer}}}") //mad_pas_typ_cd - pass_typ
+	$.get("http://"+solrHost+":8983/solr/immigration2/query?sort=created desc&json={query :'"+Qparam+"',limit:20000,facet: {visa : {type: terms,field: pass_typ},employers : {type: terms,field: employer}}}") //mad_pas_typ_cd - pass_typ
 	.then(function(data) {
 		// debugger;
 		if(data.response.docs.length !== 0){
@@ -41,10 +40,10 @@ $scope.fn_getBasicInfo = function(){//mad_pas_typ_cd
 		 	var year=Number(strdob.substr(0,4));
 		 	var month=Number(strdob.substr(4,2))-1;
 		 	var day=Number(strdob.substr(6,2));
-		 	
+
 		 	$scope.age=today.getFullYear()-year;
 
-			$scope.passdetails = data.response.docs[0]; 	
+			$scope.passdetails = data.response.docs[0];
 			$scope.totalvisa = data.response.docs.length;
 			// $scope.vstartdt = $scope.basicdetails.created.toString().substr(0,10);
 			// $scope.vstartdt = $scope.basicdetails.mad_crt_dt.toString().substr(0,10);
@@ -52,7 +51,7 @@ $scope.fn_getBasicInfo = function(){//mad_pas_typ_cd
 			// $scope.venddt = $scope.basicdetails.vend.toString().substr(0,10); //end date is not avail in immi..
 			$scope.titleDetails = "Visa details"
 
-			
+
 
 			$scope.basicdetailsTbl = data.response.docs;
 
@@ -78,12 +77,12 @@ $scope.fn_getBasicInfo = function(){//mad_pas_typ_cd
 			    ]
 			} );
 			$scope.$apply();
-			
+
 		}else{
 			// alert('No data find in immigration2 table');
-		}			
+		}
 	 	console.log(data.response.docs);
-		$scope.passdetails = data.response.docs[0]; 	
+		$scope.passdetails = data.response.docs[0];
 		$scope.totalvisa = data.response.docs.length;
 		// $scope.vstartdt = $scope.basicdetails.created.toString().substr(0,10);
 		// $scope.vstartdt = $scope.basicdetails.mad_crt_dt.toString().substr(0,10);
@@ -91,7 +90,7 @@ $scope.fn_getBasicInfo = function(){//mad_pas_typ_cd
 		// $scope.venddt = $scope.basicdetails.vend.toString().substr(0,10); //end date is not avail in immi..
 		$scope.titleDetails = "Visa details"
 
-		
+
 
 		$scope.basicdetailsTbl = data.response.docs;
 
@@ -116,7 +115,7 @@ $scope.fn_getBasicInfo = function(){//mad_pas_typ_cd
 		        // { "data": "mad_crt_dt" }
 		    ]
 		} );
-		$scope.$apply();			
+		$scope.$apply();
    });
 }
 	var today = new Date();
@@ -126,7 +125,7 @@ $scope.fn_getPersonalInfo = function(){
 	// $("#loader .page-spinner-bar").removeClass('hide');
 	// $("#loader").show();
 //http://"+solrHost+":8983/solr/hismove/query?sort=xit_date desc&json={query:'"+Qparam.replace('mad_','')+"',limit:1,facet:%20{exits:%20{type:%20range,field:%20xit_date,mincount:1,sort:'xit_date desc',start:%20%221900-01-01T00:00:00Z%22,end:'"+today.toISOString()+"',gap:%20%22%2B1DAY%22,facet:{in_outs:%20{type:%20terms,field:%20dy_action_ind,facet:%20{branch%20:%20{type:%20terms,field:%20branch,facet%20:{officer%20:{type:%20terms,field:%20dy_create_id}}}}}}}}}}
-	$.get("http://"+solrHost1+":8983/solr/hismove/query?sort=xit_date desc&json={query:'"+Qparam+"',limit:100000}")
+	$.get("http://"+solrHost+":8983/solr/hismove/query?sort=xit_date desc&json={query:'"+Qparam+"',limit:100000}")
 	.then(function(result) {
 		console.log(result);
 		$scope.summary = { entry : $.grep( result.response.docs, function( n, i ) {
@@ -136,27 +135,27 @@ $scope.fn_getPersonalInfo = function(){
 							  return n.dy_action_ind =='out';
 							})
 				}
-		
+
 
 		if(result.response.docs.length !== 0){
-			$scope.res = result.response.docs[0];		
-			// $scope.inoutTbl = result.facets.exits.buckets;	
+			$scope.res = result.response.docs[0];
+			// $scope.inoutTbl = result.facets.exits.buckets;
 			$('#tblinout').DataTable( {
 		    data: result.response.docs,
-		    columns: [		    	
+		    columns: [
 		        { "data": "xit_date",
-		          "render": function (data, type, full, meta){    
-		          				var strdt = data.toString().substr(0,10) +" "+ data.toString().substr(11,8);               
-                            return strdt;                       
-                    }	
+		          "render": function (data, type, full, meta){
+		          				var strdt = data.toString().substr(0,10) +" "+ data.toString().substr(11,8);
+                            return strdt;
+                    }
 		         },
 		        { "data": "dy_action_ind",
-		          "render": function (data, type, full, meta){                      
-                            return (data =='in'?'Entry':'Exit');                              
-                    }	 
+		          "render": function (data, type, full, meta){
+                            return (data =='in'?'Entry':'Exit');
+                    }
 		         },
 		        { "data": "branch" },
-		        { "data": "dy_create_id" }		        
+		        { "data": "dy_create_id" }
 		    ]
 		} );
 			$scope.CreateInoutChart(result.response.docs);
@@ -170,17 +169,17 @@ $scope.fn_getPersonalInfo = function(){
 
    });
 }
- 
+
 $scope.CreateInoutChart = function(_data){
 	var newary = _data;
 	var cnt = _data.length;
 	var wrg = [];
 	var tempwrg =[];
-	
+
 	newary.forEach(function(e,k) {
-	   e.start = e.xit_date;	   
+	   e.start = e.xit_date;
 	   // e.content =(e.in_outs.buckets[0].val == 'in' ? 'IN' : 'OUT');
-	   // className 
+	   // className
 	   if(e.dy_action_ind == 'in'){
 	   	// e.content = "IN";
 	   	e.className = 'green';
@@ -201,14 +200,14 @@ $scope.CreateInoutChart = function(_data){
 	   	 tempwrg =[];
 	   	 tempwrg={
 	   	 	start : e.xit_date,
-	   	 	end : newary[k-1].xit_date,	   	 	
+	   	 	end : newary[k-1].xit_date,
 	   	 	ind: e.dy_action_ind,
 	   	 	content : 'Mismatching '+ e.dy_action_ind.toUpperCase(),
 	   	 	className : 'orange'
 	   	 };
-	   	  
+
 	      wrg.push(tempwrg);
-	   }   
+	   }
 
 	});
 
@@ -232,21 +231,21 @@ $scope.CreateInoutChart = function(_data){
     if(wrg.length >= 1){
     	$('.MismatchArea').show();
 	    $scope.MisMatchCnt = wrg.length;
-		$('#tblMisMatch').DataTable({			
+		$('#tblMisMatch').DataTable({
 		    data: wrg,
 		    columns: [
 		    	{ "data": "ind",
-		          "render": function (data, type, full, meta){                      
+		          "render": function (data, type, full, meta){
                             return (data =='in'?'Entry':'Exit');}
                 },
 		        { "data": "start",
-		          "render": function (data, type, full, meta){    
+		          "render": function (data, type, full, meta){
 		          				return data.toString().substr(0,10) +" "+ data.toString().substr(11,8);
                     }	 },
 		        { "data": "end",
-		          "render": function (data, type, full, meta){    
+		          "render": function (data, type, full, meta){
 		          				return data.toString().substr(0,10) +" "+ data.toString().substr(11,8);
-                    } 
+                    }
                 }]
 		});
 	}
@@ -275,7 +274,7 @@ $scope.CreateInoutChart = function(_data){
      document.getElementById('zoomOut').onclick   = function () { zoom( 0.2); };
      document.getElementById('moveLeft').onclick  = function () { move( 0.2); };
      document.getElementById('moveRight').onclick = function () { move(-0.2); };
-     
+
      $('.vis-item-content').click(function(e){
      	$('.clkditem').show();
      	$('.clkditem').text("Selected item : "+ this.parentElement.getAttribute('data-title'));
@@ -302,7 +301,7 @@ $('.bck').click(function() {
 var docno =  Qparam.split('AND')[0].replace("doc_no:","").trim();
 $('.loadimg').show();
 	$.get(globalURL+"api/image/docno/" + docno)
-      	.then(function(response) {      		
+      	.then(function(response) {
       		console.log(response);
       		$('.loadimg').hide();
          }).fail(function(response){
@@ -312,6 +311,3 @@ $('.loadimg').show();
          	$scope.$apply();
          });
 });
-
-
-
