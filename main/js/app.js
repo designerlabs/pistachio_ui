@@ -2146,6 +2146,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProv
                     'assets/pages/scripts/jquery-ui.min.js',
                     'assets/pages/css/pricing.min.css',
                     'assets/pages/scripts/highstock.js',
+                    'bower_components/moment/min/moment.min.js',
+                    'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+                    'bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
 
 
                     'js/controllers/d2dTrackingController.js'

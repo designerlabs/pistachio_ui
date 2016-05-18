@@ -955,6 +955,17 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
       };
       
 
+       $scope.dateFromChange = function(e) {
+       alert(e);
+      };
+
+      $scope.dateToChange = function(e) {
+        alert(e);
+      };
+
+      $scope.submitDate = function(e){
+      }
+
       $scope.viewBtn = function(e){
 
         var getStage = localStorage.stage;
