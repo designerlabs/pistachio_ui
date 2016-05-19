@@ -8,7 +8,7 @@
     <div class='col-md-2'>
         <div class="form-group">
             <div class='input-group date' id='datetimeFrom'>
-                <input type='text' class="form-control" ng-model="dateFrom" ng-change="dateFromChange()"/>
+                <input type='text' class="form-control"/>
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -25,7 +25,7 @@
     <div class='col-md-2'>
         <div class="form-group">
             <div class='input-group date' id='datetimeTo'>
-                <input type='text' class="form-control" ng-model="dateTo" ng-change="dateToChange()"/>
+                <input type='text' class="form-control"/>
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -39,7 +39,7 @@
     </div>
 
 </div>
-{{dateTo}}
+
 <div class="row"></div>
 <div id="container"></div>
 <div style="background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%; position:absolute; top:0px;"  ng-show="loading">
@@ -115,43 +115,6 @@
 <script type="text/javascript">
 
     $(function () {
-        var resultDtFrom, resultDtTo;
-         var dateNow = new Date();
-         var tDate = dateNow.getDate();
-         var tmonth = dateNow.getMonth() + 1
-         var tyear = dateNow.getFullYear()-1;
-         if (tmonth < 10) tmonth = '0' + tmonth;
-         if (tDate < 10) tDate = '0' + tDate;
-        var lastDate = tDate+"/"+tmonth+"/"+tyear;
-     
-        $('#datetimeFrom').datetimepicker({format: 'DD/MM/YYYY', defaultDate: '"'+tmonth+'"/"'+tDate+'"/"'+tyear+'"'});
-        $('#datetimeTo').datetimepicker({
-            useCurrent: false,
-            defaultDate:dateNow,
-            format: 'DD/MM/YYYY' //Important! See issue #1075
-        });
-        $("#datetimeFrom").on("dp.change", function (e) {
-            var myDate = new Date(e.date);
-             
-            var yyyy = myDate.getFullYear().toString();
-
-            var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
-            var dd = myDate.getDate().toString();
-            resultDtFrom = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
-            alert(yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z");
-           // return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
-            $('#datetimeTo').data("DateTimePicker").minDate(e.date);
-
-        });
-        $("#datetimeTo").on("dp.change", function (e) {
-            var myDate = new Date(e.date);
-             
-            var yyyy = myDate.getFullYear().toString();
-            var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
-            var dd = myDate.getDate().toString();
-            resultDtTo = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
-            alert(yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z");
-            $('#datetimeFrom').data("DateTimePicker").maxDate(e.date);
-        });
+        
     });
 </script>

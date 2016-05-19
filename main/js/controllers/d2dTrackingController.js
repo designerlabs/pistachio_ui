@@ -13,6 +13,78 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
       };
 
 
+      var resultDtFrom, resultDtTo;
+       var dateNow = new Date();
+       var tDate = dateNow.getDate();
+       var tmonth = dateNow.getMonth() + 1
+       var tyear = dateNow.getFullYear()-1;
+       if (tmonth < 10) tmonth = '0' + tmonth;
+       if (tDate < 10) tDate = '0' + tDate;
+      var lastDate = tDate+"/"+tmonth+"/"+tyear;
+      
+      $('#datetimeFrom').datetimepicker({format: 'DD/MM/YYYY', defaultDate: '"'+tmonth+'"/"'+tDate+'"/"'+tyear+'"'});
+      $('#datetimeTo').datetimepicker({
+          useCurrent: false,
+          defaultDate:dateNow,
+          format: 'DD/MM/YYYY' //Important! See issue #1075
+      });
+
+      var frmDt = $('#datetimeFrom').data('date');
+
+      var toDt = $('#datetimeTo').data('date');
+
+      frmDt = frmDt.split('/');
+      toDt = toDt.split('/');
+
+      //$scope.utcFromDt = frmDt[2]+"-"+frmDt[1]+"-"+frmDt[0];
+     // $scope.utcToDt = toDt[2]+"-"+toDt[1]+"-"+toDt[0];
+
+      $scope.getFromDt  = frmDt[2]+"-"+frmDt[1]+"-"+frmDt[0]+"T00:00:00Z";
+      $scope.getToDt = toDt[2]+"-"+toDt[1]+"-"+toDt[0]+"T00:00:00Z";
+
+
+      var utcFromDt = new Date(frmDt[2]+"-"+frmDt[1]+"-"+frmDt[0]+"T00:00:00Z");
+      var utcToDt = new Date(toDt[2]+"-"+toDt[1]+"-"+toDt[0]+"T00:00:00Z");
+       $scope.utcFromDt = parseInt(utcFromDt.getTime());
+       $scope.utcToDt = parseInt(utcToDt.getTime());
+      //alert($scope.utcFromDt);
+
+      $("#datetimeFrom").on("dp.change", function (e) {
+          var myDate = new Date(e.date);
+           
+          var yyyy = myDate.getFullYear().toString();
+
+          var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
+          var dd = myDate.getDate().toString();
+          resultDtFrom = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
+          
+          $scope.fromYr = yyyy;
+          $scope.fromMo = mm;
+          $scope.fromDd = dd;
+
+          $scope.getFromDt = resultDtFrom;
+          //alert($scope.getFromDt);
+         // return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
+          $('#datetimeTo').data("DateTimePicker").minDate(e.date);
+      });
+
+      $("#datetimeTo").on("dp.change", function (e) {
+          var myDate = new Date(e.date);
+          var yyyy = myDate.getFullYear().toString();
+          var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
+          var dd = myDate.getDate().toString();
+
+          $scope.toYr = yyyy;
+          $scope.toMo = mm;
+          $scope.toDd = dd;
+
+          resultDtTo = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
+          $scope.getToDt = resultDtTo;
+          //alert($scope.getToDt);
+          $('#datetimeFrom').data("DateTimePicker").maxDate(e.date);
+      });
+
+
 
       var startDt, endDt, triggerOpt, triggerOptRow, branchQry, ubranch, mainFacet,  offsetVal,  triggerBt, groupBy, gap, count, sortValue, $widget; // Global variable
       var immigrationSolr = "hismove";
@@ -107,8 +179,14 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
           };
 
           
-          $scope.startDate = dateFormat(Math.round(e.min));
-          $scope.endDate = dateFormat(Math.round(e.max));
+          //$scope.startDate = dateFormat(Math.round(e.min));
+          //$scope.endDate = dateFormat(Math.round(e.max));
+          $("#datetimeFrom").data('DateTimePicker').date($scope.changeDt(dateFormat(Math.round(e.min))));
+          $("#datetimeTo").data('DateTimePicker').date($scope.changeDt(dateFormat(Math.round(e.max))));
+          
+          $scope.startDate = $scope.getFromDt;
+          $scope.endDate = $scope.getToDt;
+
 
           $scope.subtitle = $scope.changeDt(dateFormat(Math.round(e.min))) +" - "+$scope.changeDt(dateFormat(Math.round(e.max)));
          
@@ -145,11 +223,11 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             gap = "%2B1DAY";
           }
 
-          var query_c = '{query: "'+triggerOpt+'",filter : "xit_date : ['+dateFormat(Math.round(e.min))+' TO '+dateFormat(Math.round(e.max))+']",limit: 15,'+
+          var query_c = '{query: "'+triggerOpt+'",filter : "xit_date : ['+startDt+' TO '+dateFormat(Math.round(e.max))+']",limit: 15,'+
             'facet: {in_outs: {type: terms,limit: 15,field: dy_action_ind,'+
-            'facet: {exits: {type: range,field: xit_date,start: "' + dateFormat(Math.round(e.min)) + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "'+gap+'"},passport: "unique(doc_no)"}},'+
+            'facet: {exits: {type: range,field: xit_date,start: "' + startDt + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "'+gap+'"},passport: "unique(doc_no)"}},'+
             mainFacet+': {type: terms,limit: 15,field:'+branchQry+',facet: {in_out: {type: terms,limit: 15,field: dy_action_ind,  sort:{index:asc},'+
-            'facet: {exits: {type: range,field: xit_date,start: "' + dateFormat(Math.round(e.min)) + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "'+gap+'"},passport: "unique(doc_no)"}}'+
+            'facet: {exits: {type: range,field: xit_date,start: "' + startDt + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "'+gap+'"},passport: "unique(doc_no)"}}'+
             '}}}}}'+groupBy;
 
 
@@ -344,7 +422,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 gap = "%2B1DAY";
               }
 
-              var query = 'q=dy_action_ind:'+k.name+'&'+triggerOptRow+'json.facet={in_outs:{type : range,field : xit_date,start :"' + dateFormat(Math.round(e.min)) + '",end :"' + dateFormat(Math.round(e.max)) + '",gap:"'+gap+'"},passport: "unique(doc_no)"}'
+              var query = 'q=dy_action_ind:'+k.name+'&'+triggerOptRow+'json.facet={in_outs:{type : range,field : xit_date,start :"' + startDt + '",end :"' + dateFormat(Math.round(e.max)) + '",gap:"'+gap+'"},passport: "unique(doc_no)"}'
               var sq = "http://" + solrHost + ":8983/solr/"+immigrationSolr+"/query?"
               $http.get(sq + query).
               success(function(data) {
@@ -394,18 +472,39 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
               rangeSelector: {
                   selected: 5,
-                  inputDateFormat: '%d-%m-%Y',
-                  inputEditDateFormat: '%d-%m-%Y'
+                  inputEnabled: false
+                  //inputDateFormat: '%d-%m-%Y',
+                  //inputEditDateFormat: '%d-%m-%Y'
                   //inputDateFormat: '%Y-%m-%d'
               },
 
               chart: {
-                  zoomType: 'x'
+                  zoomType: 'x',
+                  events: {
+                load: function (event) {
+                  console.log(event.target);
+                  
+                    /*if (event.target) {
+                      alert(event);
+                        var range = "[ "+ Highcharts.dateFormat('%Y-%m-%dT00:00:00Z', event.xAxis[0].min) +" TO "+ Highcharts.dateFormat('%Y-%m-%dT00:00:00Z', event.xAxis[0].max)+" ]";
+                        var display = "[ "+ Highcharts.dateFormat('%Y-%m-%d', event.xAxis[0].min) +" TO "+ Highcharts.dateFormat('%Y-%m-%d', event.xAxis[0].max)+" ]";
+                        $scope.time_filtered_max = Highcharts.dateFormat('%Y-%m-%dT00:00:00Z', event.xAxis[0].max);
+                        $scope.time_filtered_min = Highcharts.dateFormat('%Y-%m-%dT00:00:00Z', event.xAxis[0].min);
+                            $scope.addFilter("tim","Time :"+display,"created:"+range);
+                            $scope.querySolr();
+                    } else {
+                        alert('Selection reset');
+                        $scope.time_filtered_max = "";
+                        $scope.time_filtered_min = "";
+                        $scope.updateFilter("tim",true);
+                    }*/
+                  }
+                }
 
               },
 
               navigator:{
-                enabled:false
+                enabled:true
               },
 
               xAxis: {
@@ -528,18 +627,18 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
 
         $scope.loading = true;
-        if($scope.startDate){
+        /*if($scope.startDate){
           startDt = $scope.startDate;
-        }else{
-          startDt =  "2015-02-01T00:00:00Z";
-        };
+        }else{*/
+          startDt =  $scope.getFromDt;
+        /*};*/
 
 
-        if($scope.endDate){
+       /* if($scope.endDate){
           endDt = $scope.endDate;
-        }else{
-          endDt = "2016-02-05T00:00:00Z";
-        };
+        }else{*/
+          endDt = $scope.getToDt;
+        /*};*/
 
         //alert(count + " first");
         $.each($scope.seriesDet, function(j, valu) {
@@ -555,7 +654,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                mainFacet = "branches";
               triggerOptRow = "rows=2&";
               groupBy, offsetVal ="";
-              $scope.subtitle = $scope.changeDt(startDt) +" - "+$scope.changeDt(endDt);
+              $scope.subtitle = $('#datetimeFrom').data('date') +" - "+ $('#datetimeTo').data('date');
               branchQry = 'branch';
               ubranch = 'ubranch: "unique('+branchQry+')"';
               gap = "%2B1DAY";
@@ -573,7 +672,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
               mainFacet = "branches";
               groupBy, offsetVal ="";
               gap = "%2B1DAY";
-              $scope.subtitle = $scope.changeDt(startDt) +" - "+$scope.changeDt(endDt);
+              $scope.subtitle = $('#datetimeFrom').data('date') +" - "+ $('#datetimeTo').data('date');
               branchQry = 'dy_create_id';
               ubranch = 'ubranch: "unique('+branchQry+')"';
              
@@ -588,6 +687,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
               triggerOpt = "branch:"+$scope.getBranchVal.one+" AND  dy_create_id:"+$scope.getEmpName.one;
               triggerOptRow = "rows=2&fq=branch:"+$scope.getBranchVal.one+"&fq=dy_create_id:"+$scope.getEmpName.one+"&";
               mainFacet = "country";
+              $scope.subtitle = $('#datetimeFrom').data('date') +" - "+ $('#datetimeTo').data('date');
               branchQry ="country";
               ubranch = 'ubranch: "unique('+branchQry+')"';
               groupBy, offsetVal ="";
@@ -605,6 +705,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
               triggerOpt = "branch:"+$scope.getBranchVal.one+" AND  dy_create_id:"+$scope.getEmpName.one+" AND country:"+$scope.getCtryName.one;
               triggerOptRow = "rows=2&fq=branch:"+$scope.getBranchVal.one+"&fq=dy_create_id:"+$scope.getEmpName.one+"&fq=country:"+$scope.getCtryName.one+"&";
               mainFacet = "country";
+              $scope.subtitle = $('#datetimeFrom').data('date') +" - "+ $('#datetimeTo').data('date');
               branchQry ="country";
               ubranch = 'ubranch: "unique(doc_no)"';
               offsetVal = 'offset:'+$scope.branchOffset+',';
@@ -622,7 +723,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
               triggerOptRow = "rows=2&fq=branch:"+$scope.ele1+"&";
               groupBy, offsetVal ="";
               gap = "%2B1DAY";
-              $scope.subtitle = $scope.changeDt(startDt) +" - "+$scope.changeDt(endDt);
+              $scope.subtitle = $('#datetimeFrom').data('date')+" - "+ $('#datetimeTo').data('date');
               branchQry = 'dy_create_id';
               ubranch = 'ubranch: "unique('+branchQry+')"';
              
@@ -644,9 +745,9 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             var sq = "http://" + solrHost + ":8983/solr/"+immigrationSolr+"/query?"
             $http.get(sq + query).
             success(function(data) {
-                console.log(data);
-                //alert('call-2');
-
+              console.log(data);
+              //alert('call-2');
+                //alert(startDt);
                 var storeData = [];
                    if(data.facets.count == 0){
                     //console.log(data.facets.count.length);
@@ -955,15 +1056,14 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
       };
       
 
-       $scope.dateFromChange = function(e) {
-       alert(e);
-      };
-
-      $scope.dateToChange = function(e) {
-        alert(e);
-      };
 
       $scope.submitDate = function(e){
+
+
+       $scope.timelineChart(this.$parent.ele1, this.$parent.ele2);
+
+       $scope.populateChart();
+       $scope.createChart();
       }
 
       $scope.viewBtn = function(e){
