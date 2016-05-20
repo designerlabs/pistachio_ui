@@ -41,6 +41,7 @@
 	"fastsearch.global.users" : "Users",
 	"fastsearch.global.view" : "View",
 	"fastsearch.global.stickers" : "Vistors",
+	"fastsearch.global.blacklisted" : "BlackListed",
 	"fastsearch.global.usersfound" : "users found",
 	"fastsearch.global.employersfound" : "vistors found",
 	"fastsearch.global.auditfound" : "audit found",

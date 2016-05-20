@@ -1,6 +1,9 @@
 'use strict';
 var selected_countries = [];
 var filter_query = "";
+
+var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/immigration2/query?json='
+
 MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $timeout, $sce) {
     $scope.$on('$viewContentLoaded', function() {
 
@@ -9,24 +12,11 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
         //alert("HI");
         var getUser = localStorage.getItem("username");
 
-        $scope.cntName = "";
-        $scope.cntCode = "";
-        $scope.cJobs = "";
-         $scope.cEmply = "";
-          $scope.cSex = "";
-          $scope.cState = "";
-          $scope.filters = false;
-          $scope.filterButtons = [];
-           $scope.analysiType = 'overall';
-           $scope.loadTimeline = true;
-           $scope.time_filtered_max = "";
-           $scope.time_filtered_min = "";
+        $scope.reset();
+    //    $scope.getDateLimits();
+    //    $scope.formStates();
 
-        $scope.querySolr();
-        $scope.getDateLimits();
-        $scope.formStates();
-
-        $scope.loading = true;
+      //  $scope.loading = true;
 
 
     });
@@ -35,6 +25,28 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
     $scope.changeQueryType = function () {
        // $scope.querySolr();
     };
+
+    $scope.moreJobs = function(){
+      $scope.jobCount = $scope.jobCount + 10;
+
+      var json = {};
+      json.limit  = 0;
+      json.offset = 0
+      json.query = $scope.formQuery();
+      json.filter = $scope.filterQuery();
+      json.facet = {};
+      json.facet.job = {};
+      json.facet.job.type   = "terms";
+      json.facet.job.field  =  "job_en";
+      json.facet.job.limit  =  $scope.jobCount;
+      $scope.jobCount
+      $http.get(thisSolrAppUrl+JSON.stringify(json)).
+           success(function(data) {
+              $scope.jobs = data.facets.job.buckets;
+              //return data;
+            })
+
+    }
 
 
     $scope.changeAnalysis = function (data) {
@@ -60,17 +72,25 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
 
 
     $scope.reset = function(){
-        $scope.cntName = "";
-        $scope.cntCode = "";
-        $scope.cJobs = "";
-        $scope.cEmply = "";
+      $scope.cntName = "";
+      $scope.cntCode = "";
+      $scope.cJobs = "";
+       $scope.cEmply = "";
         $scope.cSex = "";
         $scope.cState = "";
         $scope.filters = false;
         $scope.filterButtons = [];
-        $scope.time_filtered_max = "";
-        $scope.time_filtered_min = "";
-        $scope.needRefresh = false;
+         $scope.analysiType = 'overall';
+         $scope.loadTimeline = true;
+         $scope.time_filtered_max = "";
+         $scope.time_filtered_min = "";
+
+         $scope.jobCount = 10;
+
+         $scope.dateRange = {};
+         $scope.dateRange.min = "2010-01-01T00:00:00Z"
+         $scope.dateRange.max = "2016-01-01T00:00:00Z"
+
          //$scope.analysiType = 'overall';
         $scope.querySolr();
     }
@@ -89,14 +109,15 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
     // color can be whatever you wish
     var paletteScale = d3.scale.linear()
             .domain([minValue,maxValue])
-            .range(["#AFEFFF","#C2386F"]); // blue color
+          //  .range(["#AFEFFF","#C2386F"]); // blue color
+          .range(["#E0F8E0","green"]); // blue color
     // fill dataset in appropriate format
     //$scope.countries.forEach(function(item){ //
     //  alert("before");
      // alert("from map" +$scope.countries.length);
       var index;
       for (index = $scope.countries.length - 1; index >= 0; --index) {
-         var iso = $scope.countries[index]["field"],
+         var iso = $scope.countries[index]["val"],
                 value = $scope.countries[index]["count"];
                // alert(iso);
         dataset[iso] = { numberOfThings: value, fillColor: paletteScale(value) };
@@ -222,6 +243,11 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
         $scope.querySolr();
        }
 
+       $scope.clickSkill = function(data) {
+        $scope.addFilter("skl","Skill : "+data,"skill:"+$scope.cleanQuery(data));
+        $scope.querySolr();
+       }
+
        $scope.clickState = function(data) {
         $scope.addFilter("sta","Negeri :"+data,"state:"+$scope.cleanQuery(data));
         $scope.querySolr();
@@ -233,12 +259,12 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
        };
 
        $scope.clickVisa = function(data) {
-        $scope.addFilter("vis","Visa Type : "+data,"pass_typ:"+$scope.cleanQuery(data));
+        $scope.addFilter("vis","Visa Type : "+data,"pass_type:"+$scope.cleanQuery(data));
         $scope.querySolr();
        }
 
        $scope.updateActiveGeography = function(geography) {
-          $scope.addFilter("cnt","country: "+geography.id,"ctry_issue:"+geography.id);
+          $scope.addFilter("cnt","country: "+geography.id,"cntry_cd:"+geography.id);
           $scope.querySolr();
       }
 
@@ -282,10 +308,10 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
         var query = "";
         if($scope.filterButtons.length == 0)
           return query;
-        query = "fq="+$scope.filterButtons[0]["query"];
+        query = $scope.filterButtons[0]["query"];
         if($scope.filterButtons.length > 1)
           for (var i = 1; i < $scope.filterButtons.length; i++) {
-              query = query+"&fq="+$scope.filterButtons[i]["query"];
+              query = query+" AND "+$scope.filterButtons[i]["query"];
           }
 
         return query;
@@ -295,58 +321,114 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
           if($scope.analysiType == 'overall')
               $scope.querySolr();
             else if ($scope.analysiType == 'timeline')  {
-              query = 'http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field= ctry_issue&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=pass_typ&facet.limit=150&'+$scope.filterQuery();
+              query = 'http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=cntry_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=pass_type&facet.limit=150&'+$scope.filterQuery();
             }
 
           else if ($scope.analysiType == 'age')
-            query = 'http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field= ctry_issue&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=pass_typ&facet.limit=150&'+$scope.filterQuery();
+            query = 'http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=cntry_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=pass_type&facet.limit=150&'+$scope.filterQuery();
 
        }
 
        $scope.querySolr = function() {
 
-          var keys = ["field","count"];
-          var keys1 = ["name","y"];
-          var query = "";
           $scope.filters = false;
+          var json = {};
           if($scope.analysiType == 'overall')
-              query = 'http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.formQuery()+
-            '&wt=json&rows=0&facet=true&facet.field= ctry_issue&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=pass_typ&facet.limit=150&'+$scope.filterQuery();
-            else if ($scope.analysiType == 'timeline')
-            query = 'http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field= ctry_issue&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=pass_typ&facet.limit=150&'+$scope.filterQuery();
-          else if ($scope.analysiType == 'age')
-            query = 'http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field= ctry_issue&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=pass_typ&facet.limit=150&'+$scope.filterQuery();
+          {
+            json.limit  = 0;
+            json.offset = 0
+            json.query = $scope.formQuery();
+            json.filter = $scope.filterQuery();
+            json.facet = {};
+            json.facet.country = {};
+            json.facet.country.type   = "terms";
+            json.facet.country.field  =  "country";
+            json.facet.cntry_cd = {};
+            json.facet.cntry_cd.limit = 150;
+            json.facet.cntry_cd.type   = "terms";
+            json.facet.cntry_cd.field  =  "cntry_cd";
+            json.facet.job = {};
+            json.facet.job.type   = "terms";
+            json.facet.job.limit = $scope.jobCount;
+            json.facet.job.field  =  "job_en";
+            json.facet.sex = {};
+            json.facet.sex.type   = "terms";
+            json.facet.sex.field  =  "sex";
+            json.facet.pass = {};
+            json.facet.pass.type   = "terms";
+            json.facet.pass.field  =  "pass_type";
+            json.facet.emp = {};
+            json.facet.emp.type   = "terms";
+            json.facet.emp.field  =  "employer";
+            json.facet.skill = {};
+            json.facet.skill.type   = "terms";
+            json.facet.skill.field  =  "skill";
+            json.facet.uJob  =  "unique(job_en)";
+            json.facet.uEmp  =  "unique(employer)";
+            json.facet.uVis  =  "unique(pass_type)";
 
 
+            json.facet.date_range = {};
 
+            json.facet.date_range.type   = "range";
+            json.facet.date_range.field  =  "created";
+            if($scope.time_filtered_max.length > 0)
+            {
+              json.facet.date_range.start  = $scope.time_filtered_min;
+              json.facet.date_range.end    = $scope.time_filtered_max;
+            }
+            else {
+              json.facet.date_range.start  = $scope.dateRange.min;
+              json.facet.date_range.end    = $scope.dateRange.max;
+            }
 
-      $http.get(query).
-       success(function(data) {
-           if(selected_countries == 0) {
-             $scope.countries = $scope.decopule(data.facet_counts.facet_fields. ctry_issue,0,keys);
-             $scope.jobs = $scope.decopule(data.facet_counts.facet_fields.job_en,20,keys);
-             $scope.employers = $scope.decopule(data.facet_counts.facet_fields.employer,20,keys);
-             $scope.visas = $scope.decopule(data.facet_counts.facet_fields.pass_typ,20,keys);
-             $scope.sex = $scope.decopule(data.facet_counts.facet_fields.sex,data.facet_counts.facet_fields.sex.length,keys1);
-             $scope.state = $scope.decopule(data.facet_counts.facet_fields.state,data.facet_counts.facet_fields.state.length,keys1);
-             //alert(data.facet_counts.facet_fields.sex.length);
-             console.log($scope.sex1);
-             $scope.loadMap();
-             $scope.pie();
-             $scope.column();
-             $scope.date_query();
-             //$scope.chartjs();
-             $scope.loading = false;
-           }
+            json.facet.date_range.gap    = "%2B1MONTH";
 
-         }).
-         error(function(data, status, headers, config) {
-           console.log('error');
-           console.log('status : ' + status); //Being logged as 0
-           console.log('headers : ' + headers);
-           console.log('config : ' + JSON.stringify(config));
-           console.log('data : ' + data); //Being logged as null
-         });
+          }
+
+          $http.get(thisSolrAppUrl+JSON.stringify(json)).
+             success(function(data) {
+                 if(selected_countries == 0) {
+                   $scope.countries = data.facets.cntry_cd.buckets;
+                   $scope.jobs = data.facets.job.buckets
+                   $scope.employers = data.facets.emp.buckets
+                   $scope.visas = data.facets.pass.buckets
+                   $scope.skill = data.facets.skill.buckets
+                   var sex = data.facets.sex.buckets;
+                   var i;
+                   for(i = 0; i < sex.length; i++){
+                      sex[i].name = sex[i]['val'];
+                      sex[i].y = sex[i]['count'];
+                      delete sex[i].val;
+                      delete sex[i].count;
+                    }
+                    console.log(sex);
+                   $scope.sex = sex;
+                   $scope.state = data.facets.job.buckets
+                   $scope.uJob = data.facets.uJob;
+                   $scope.uEmp = data.facets.uEmp;
+                   $scope.uVis = data.facets.uVis;
+                   //alert(data.facet_counts.facet_fields.sex.length);
+                   console.log($scope.sex1);
+                   $scope.loadMap();
+                   $scope.pie();
+                //   $scope.column();
+                //   $scope.date_query();
+                   //$scope.chartjs();
+
+                   $scope.timelineChart(data.facets.date_range.buckets)
+                   $scope.loading = false;
+                 }
+                 $scope.timelineChart(data.facets.date_range.buckets)
+
+               }).
+               error(function(data, status, headers, config) {
+                 console.log('error');
+                 console.log('status : ' + status); //Being logged as 0
+                 console.log('headers : ' + headers);
+                 console.log('config : ' + JSON.stringify(config));
+                 console.log('data : ' + data); //Being logged as null
+               });
 
     };
 
@@ -392,32 +474,18 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
 
 
 
-      $scope.labels = $scope.sex;
+      $scope.labels = $scope.sex.val;
       $scope.data = $scope.sex.count;
     };
 
-    $scope.formStates = function() {
-      var obj = {};
-      obj["001"]   ="Johor";
-      obj["01"]   ="Johor";
-      obj["002"]   ="Kedah";
-      obj["003"]   ="Kelantan";
-      obj["004"]   ="Melaka";
-      obj["005"]   ="Negeri Sembilan";
-      obj["006 "]  ="Pahang";
-      obj["008"]   ="Perak";
-      obj["009"]   ="Perlis";
-      obj["007"]   ="Pulau Pinang";
-      obj["012"]   ="Sabah";
-      obj["013"]   ="Sarawak";
-      obj["010"]  ="Selangor";
-      obj["10"]  ="Selangor";
-      obj["011"]  ="Terengganu";
-      obj["14"]  ="Kuala Lumpur";
-      obj["099"]  ="Kuala Lumpur";
-      obj["15"]  ="Labuan";
-
-      $scope.stateObject = obj;
+    $scope.omitNa = function (data) {
+      if(data.length == 0)
+      {
+        return "NOT MENTIONED"
+      }
+      else {
+        return data
+      }
     }
 
     $scope.column = function() {
@@ -492,16 +560,13 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
 
 
     $scope.getDateLimits = function () {
-      var query = "q=-created%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(created)\",\"max_date\":\"max(created)\"}}"
-      var sq = "http://"+solrHost+":8983/solr/immigration2/query?"
-      $http.get(sq+query).
-       success(function(data) {
+      //var query = "q=-created%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(created)\",\"max_date\":\"max(created)\"}}"
+      //var sq = "http://"+solrHost+":8983/solr/immigration2/query?"
+      //$http.get(sq+query).
+      // success(function(data) {
          var y = {};
-         y.min = $scope.yyyymmdd(new Date(data.facets.min_date));
-         y.max = $scope.yyyymmdd(new Date(data.facets.max_date));
-         console.log(y);
-         $scope.dateRange = y;
-       })
+
+
     }
 
     $scope.date_query = function () {
@@ -556,15 +621,14 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
 
     $scope.timelineChart = function(data_range) {
 
-      $scope.loadTimeline =false;
-    //  var data_range = $scope.getDate();
+
       console.log(data_range);
       //alert(data_range.facets.date_range.buckets[0]);
       //alert(data_range[1][0]);
-      console.log(data_range.facets.date_range.buckets);
+      //console.log(data_range.facets.date_range.buckets);
       var data = [];
-       for( var i=0,l = data_range.facets.date_range.buckets.length;i<l; i++){
-         var obj = data_range.facets.date_range.buckets[i];
+       for( var i=0,l = data_range.length;i<l; i++){
+         var obj = data_range[i];
          var element =[];
          element.push(new Date(obj.val).getTime());
          element.push(obj.count);
@@ -586,7 +650,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $tim
                             $scope.addFilter("tim","Time :"+display,"created:"+range);
                             $scope.querySolr();
                     } else {
-                        alert('Selection reset');
+                      //  alert('Selection reset');
                         $scope.time_filtered_max = "";
                         $scope.time_filtered_min = "";
                         $scope.updateFilter("tim",true);

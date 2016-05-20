@@ -48,42 +48,79 @@
                         <span class="caption-subject font-green bold uppercase">FILTERS</span>
                  </div>
                 -->
-	            <div class="portlet-body" style="padding: 5px;">
-	            <h4 class="block" style="padding: 0px; margin: 1px;">Top Jobs</h4>
-	            	<div class="list-group">
+                <div class="col-md-12 portlet light portlet-fit bordered" style="padding: 5px;">
+                  <div class="mt-element-list">
+                    <div class="mt-list-head list-simple ext-1 font-white bg-blue-chambray">
+                        <div class="list-head-title-container">
+                              <a ng-click="reset()" class="font-white pull-right">
+                                  <i class="fa fa-refresh"></i>
+                              </a>
+                                  <h4 class="list-title">Filter</h4>
+                              </div>
+                          </div>
 
-	            			<a ng-cloak class="list-group-item bg-green-turquoise font-sm" data-ng-repeat="cnt in jobs" ng-click="clickJobs(cnt.field)" style="padding:5px;" title={{cnt.field}}>
-	                                        {{cnt.field |limitTo:25}}
-	                                            <span class="badge badge-danger"> {{cnt.count}}</span>
+                          <div class="mt-list-container list-simple ext-1 group">
+                                            <a class="list-toggle-container" data-toggle="collapse" data-target="#jobs" aria-expanded="false">
+                                                <div class="list-toggle done uppercase"> Jobs
+                                                    <span class="badge badge-default pull-right bg-white font-green bold">{{uJob}}</span>
+                                                </div>
+                                            </a>
+                                            <div style="" aria-expanded="false" ng-class="{{db_clicked}}" class="panel-collapse collapsed collapse" id="jobs">
+                                                <ul>
+                                                  <li  class="mt-list-item" ng-repeat="cnt in jobs" ng-click="clickJobs(cnt.val)">
+                                                    <div class="mt-list-title">  {{omitNa(cnt.val) |limitTo:25}}</div>
+                                                    <div class="list-datetime"> {{cnt.count}} </div>
+                                                  </li>
+                                                  <li  class="mt-list-item" ng-click="moreJobs()">
+                                                    <div class="mt-list-title"> show more</div>
+                                                  </li>
+                                                </ul>
+                                            </div>
+                                            <a class="list-toggle-container" data-toggle="collapse" data-target="#employers" aria-expanded="false">
+                                                <div class="list-toggle uppercase"> employer
+                                                    <span class="badge badge-default pull-right bg-white font-dark bold">{{uEmp}}</span>
+                                                </div>
+                                            </a>
+                                            <div style="" aria-expanded="false"  class="panel-collapse collapsed collapse" id="employers">
+                                                <ul>
+                                                  <li  class="mt-list-item" ng-repeat="cnt in employers" ng-click="clickEmply(cnt.val)">
+                                                    <div class="mt-list-title">  {{omitNa(cnt.val) |limitTo:25}}</div>
+                                                    <div class="list-datetime"> {{cnt.count}} </div>
+                                                  </li>
+                                                </ul>
+                                            </div>
+                                            <a class="list-toggle-container" data-toggle="collapse" data-target="#visa" aria-expanded="false">
+                                                <div class="list-toggle done uppercase"> Visa
+                                                    <span class="badge badge-default pull-right bg-white font-green bold">{{uVis}}</span>
+                                                </div>
+                                            </a>
+                                            <div style="" aria-expanded="false" ng-class="{{db_clicked}}" class="panel-collapse collapsed collapse" id="visa">
+                                                <ul>
+                                                  <li  class="mt-list-item" ng-repeat="cnt in visas" ng-click="clickVisa(cnt.val)">
+                                                    <div class="mt-list-title">  {{omitNa(cnt.val) |limitTo:25}}</div>
+                                                    <div class="list-datetime"> {{cnt.count}} </div>
+                                                  </li>
+                                                </ul>
+                                            </div>
+                                            <a class="list-toggle-container" data-toggle="collapse" data-target="#skill" aria-expanded="false">
+                                                <div class="list-toggle uppercase"> Skill
+                                                  <!--  <span class="badge badge-default pull-right bg-white font-dark bold">{{uEmp}}</span>-->
+                                                </div>
+                                            </a>
+                                            <div style="" aria-expanded="false"  class="panel-collapse collapsed collapse" id="skill">
+                                                <ul>
+                                                  <li  class="mt-list-item" ng-repeat="cnt in skill" ng-click="clickSkill(cnt.val)">
+                                                    <div class="mt-list-title">  {{omitNa(cnt.val) |limitTo:25}}</div>
+                                                    <div class="list-datetime"> {{cnt.count}} </div>
+                                                  </li>
+                                                </ul>
+                                            </div>
 
-	                        </a>
+                                        </div>
 
+                      </div>
+                </div>
 
-
-	            <h4 class="block" style="padding: 0px; margin: 1px;">Top Employer</h4>
-	            	<div class="list-group">
-
-	            			<a class="list-group-item bg-green-turquoise" data-ng-repeat="cnt in employers" ng-click="clickEmply(cnt.field)" style="padding:5px;" title={{cnt.field}}>
-	                                        {{cnt.field|limitTo:25}}
-	                                            <span class="badge badge-danger"> {{cnt.count}}</span>
-
-	                        </a>
-	                </div>
-
-
-	            </div>
-	            <h4 class="block" style="padding: 0px; margin: 1px;">Visa Types</h4>
-	            	<div class="list-group">
-
-	            			<a class="list-group-item bg-green-turquoise" data-ng-repeat="cnt in visas" ng-click="clickVisa(cnt.field)" style="padding:5px;" >
-	                                        {{cnt.field}}
-	                                            <span class="badge badge-danger"> {{cnt.count}}</span>
-
-	                        </a>
-	                </div>
-
-
-	            </div>
 	        </div>
 		</div>
 	</div>
@@ -104,13 +141,14 @@
                                                ng-click="changeAnalysis('overall')"
                                                data-toggle="tab"> Overall Analysis </a>
                                         </li>
+                                        <!--
                                         <li>
                                             <a data-target="#timeline_analysis"
                                             	id = "time"
                                                ng-model="analysisType"
                                                ng-click="changeAnalysis('timeline')"
                                              data-toggle="tab"> Timeline Analysis</a>
-                                        </li>
+                                        </li> -->
                                     </ul>
 
                 </div>
@@ -131,14 +169,19 @@
 									<div id="highchart_pie"></div>
 								</div>
 								<div class="col-md-8">
-									<div id="highchart_col"></div>
+                <!--
+									<div id="highchart_col"></div>-->
+                  <div id="highchart_timeline"></div>
 								</div>
+
 
 							</div>
 						</div>
+            <!--
 						<div class="tab-pane active" id="timeline_analysis">
-							<div id="highchart_timeline"></div>
+							<div id="highchart_timeline1"></div>
 						</div>
+          -->
 					</div>
 
 				</div>
