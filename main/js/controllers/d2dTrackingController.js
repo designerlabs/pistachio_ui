@@ -479,7 +479,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
               },
 
               chart: {
-                  zoomType: 'x',
                   events: {
                 load: function (event) {
                   console.log(event.target);

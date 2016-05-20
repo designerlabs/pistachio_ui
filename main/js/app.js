@@ -176,7 +176,7 @@ var solrHost = "10.4.104.176";
 
 var queryString = "query";
 var categoryName = "cat";
-
+var sendUpload = false;
 //validation on keyup
 function formInputValidation(id) {
     $(id + " input").keyup(function (event) {
@@ -367,11 +367,16 @@ MetronicApp.factory('httpRequestInterceptor', function () {
 
       //alert(config.headers.Content-Type);
       
-      config.headers = {'token':storeToken, 'Content-Type': 'application/json'};
+      //config.headers = {'token':storeToken, 'Content-Type': 'application/json'};
 
       // use this to prevent destroying other existing headers
       // config.headers['Authorization'] = 'authentication';
-
+      if(sendUpload){
+        config.headers = {'token':storeToken};
+        sendUpload = false;
+      }else{
+        config.headers = {'token':storeToken, 'Content-Type': 'application/json'};
+      }
       return config;
     }
   };
@@ -620,13 +625,16 @@ MetronicApp.directive('myRepeatDirective', function() {
 
 MetronicApp.service('fileUpload', ['$http', function ($http) {
     this.uploadFileToUrl = function(file, uploadUrl){
+    
+        sendUpload = true;
         var fd = new FormData();
         fd.append('file', file);
         $http.post(uploadUrl, fd, {
             transformRequest: angular.identity,
-            headers: {'Content-Type': 'application/octet-stream'}
+            headers: {'Content-Type': undefined}
         })
         .success(function(data){
+          alert("successfully submitted!");
             console.log(data);
         })
         .error(function(){
@@ -634,7 +642,6 @@ MetronicApp.service('fileUpload', ['$http', function ($http) {
         });
     }
 }]);
-
 
 
 /***
