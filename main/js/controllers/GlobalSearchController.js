@@ -11,7 +11,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
         var getUser = localStorage.getItem("username");
         $scope.showApplication = false;
         $scope.showVisitor = false;
-        
+
         $scope.start=0;
         $scope.users = 0;
         $scope.text = "";
@@ -22,14 +22,17 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
       var query;
       if($scope.text.length > 0) {
         var stext = $scope.text.split(" ");
+          var j = stext.length;
+          console.log("length :"+j);
           query = "combinedSearch:*"+stext[0]+"*"
-          for (var i = 1; i < stext; i++) {
-             filter_query = query + " OR combinedSearch:*"+stext[i]+"*";
+          for (var i = 1; i < j; i++) {
+             query = query + " AND combinedSearch:*"+stext[i]+"*";
           }
       }
       else {
         query = "*:*"
       }
+      console.log(query);
       return(query);
     }
 
@@ -74,7 +77,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
 
 
-   
+
 
     $scope.updateFilterQuery = function () {
       filter_query = "&fq=";
@@ -96,7 +99,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
       for (var i = 0; i < arrayLength; i++) {
         filter_query = filter_query + "country:"+selected_countries[i];
-        
+
         if(i !=arrayLength-1)
           filter_query = filter_query + " OR "
 
@@ -142,7 +145,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
     }
 
-   
+
 
     $scope.refresh = function() {
 
@@ -162,8 +165,8 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
       selected_countries = [];
       $scope.show();
-      
-      
+
+
       };
         $scope.reset = function() {
           selected_countries = [];
@@ -177,7 +180,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
         $scope.next = function() {
           $scope.start = $scope.start + 10;
                  $scope.show();
- 
+
         }
 
         $scope.previous = function() {
@@ -208,7 +211,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
       json.offset = $scope.start
       json.query = $scope.getQuery();
       json.filter = $scope.updateFilterQuery_Country();
-      json.sort = "xit_date desc"      
+      json.sort = "xit_date desc"
       json.facet = {};
       json.facet.country = {};
       json.facet.country.type   = "terms";
@@ -260,7 +263,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
     }
 
- 
+
     $scope.$on('$locationChangeStart', function( event ) {
       selected_countries = [];
       filter_query = "";
