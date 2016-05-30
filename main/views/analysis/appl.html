@@ -27,6 +27,7 @@
 		<div class = "row">
 			<div class="portlet light bordered " style="padding: 5px; min-height: 25px;">
 			<div class="actions">
+      <!--
                         <div  class="btn-group btn-group-devided">
                             <label id = "active" class="btn dark btn-outline btn-circle btn-sm active"
                              btn-radio="'active'" ng-change="changeQueryType()" ng-model="queryType"
@@ -41,7 +42,7 @@
                                 Overall
                             </label>
 
-                        </div>
+                        </div> -->
                     </div>
                 <!--<div class="portlet-title" style="padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
                 <i class="icon-settings font-green"></i>
@@ -68,7 +69,7 @@
                                             <div style="" aria-expanded="false" ng-class="{{db_clicked}}" class="panel-collapse collapsed collapse" id="jobs">
                                                 <ul>
                                                   <li  class="mt-list-item" ng-repeat="cnt in jobs" ng-click="clickJobs(cnt.val)">
-                                                    <div class="mt-list-title">  {{omitNa(cnt.val) |limitTo:25}}</div>
+                                                    <div class="mt-list-title" data-toggle="tooltip" title="{{cnt.val}}">  {{omitNa(cnt.val) |limitTo:25}}</div>
                                                     <div class="list-datetime"> {{cnt.count}} </div>
                                                   </li>
                                                   <li  class="mt-list-item" ng-click="moreJobs()">
@@ -84,7 +85,7 @@
                                             <div style="" aria-expanded="false"  class="panel-collapse collapsed collapse" id="employers">
                                                 <ul>
                                                   <li  class="mt-list-item" ng-repeat="cnt in employers" ng-click="clickEmply(cnt.val)">
-                                                    <div class="mt-list-title">  {{omitNa(cnt.val) |limitTo:25}}</div>
+                                                    <div class="mt-list-title" data-toggle="tooltip" title="{{cnt.val}}">  {{omitNa(cnt.val) |limitTo:25}}</div>
                                                     <div class="list-datetime"> {{cnt.count}} </div>
                                                   </li>
                                                 </ul>
@@ -97,7 +98,7 @@
                                             <div style="" aria-expanded="false" ng-class="{{db_clicked}}" class="panel-collapse collapsed collapse" id="visa">
                                                 <ul>
                                                   <li  class="mt-list-item" ng-repeat="cnt in visas" ng-click="clickVisa(cnt.val)">
-                                                    <div class="mt-list-title">  {{omitNa(cnt.val) |limitTo:25}}</div>
+                                                    <div class="mt-list-title" data-toggle="tooltip" title="{{cnt.val}}">  {{omitNa(cnt.val) |limitTo:25}}</div>
                                                     <div class="list-datetime"> {{cnt.count}} </div>
                                                   </li>
                                                 </ul>
@@ -110,7 +111,7 @@
                                             <div style="" aria-expanded="false"  class="panel-collapse collapsed collapse" id="skill">
                                                 <ul>
                                                   <li  class="mt-list-item" ng-repeat="cnt in skill" ng-click="clickSkill(cnt.val)">
-                                                    <div class="mt-list-title">  {{omitNa(cnt.val) |limitTo:25}}</div>
+                                                    <div class="mt-list-title" data-toggle="tooltip" title="{{cnt.val}}">  {{omitNa(cnt.val) |limitTo:25}}</div>
                                                     <div class="list-datetime"> {{cnt.count}} </div>
                                                   </li>
                                                 </ul>

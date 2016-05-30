@@ -37,8 +37,10 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
     }
 
     $scope.show = function() {
-      if($scope.showApplication)
+      $scope.box_update();
+      if($scope.showApplication){
         $scope.showApplications();
+      }
       else if ($scope.showVisitor)
         $scope.showVisitors();
       else
@@ -47,32 +49,8 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
 
     $scope.go = function() {
-      $http.get('http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.getQuery()+'&wt=json&start=0&rows=0').
-       success(function(data) {
-           console.log(data);
-           $scope.items = data.response.docs;
-           $scope.applicationsFound = data.response.numFound;
-           $scope.qtime = data.responseHeader.QTime;
-           //$scope.users = data.facets.users;
-
-           console.log(data.response.docs);
-         }).
-         error(function(data, status, headers, config) {
-           console.log('error');
-           console.log('status : ' + status); //Being logged as 0
-           console.log('headers : ' + headers);
-           console.log('config : ' + JSON.stringify(config));
-           console.log('data : ' + data); //Being logged as null
-         });
-
-         $http.get('http://'+solrHost+':8983/solr/hismove/select?q='+$scope.getQuery()+'&wt=json&start=0&rows=0').
-          success(function(data) {
-              $scope.employers = data.response.numFound;
-              $scope.vtime = data.responseHeader.QTime;
-            }).
-            error(function(data, status, headers, config) {
-              console.log('data : ' + data); //Being logged as null
-            });
+      $scope.application_box();
+      $scope.visitor_box();
     }
 
 
@@ -126,7 +104,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
     }
 
     $scope.checkboxselectedCountry = function(id) {
-
+      id = id.replace(/ /g,"*");
       //alert(id);
       var index = selected_countries.indexOf(id);    // <-- Not supported in <IE9
       if (index !== -1) {
@@ -145,6 +123,46 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
     }
 
+    $scope.application_box = function () {
+      $http.get('http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.getQuery()+'&wt=json&start=0&rows=0').
+       success(function(data) {
+           console.log(data);
+           $scope.items = data.response.docs;
+           $scope.applicationsFound = data.response.numFound;
+           $scope.qtime = data.responseHeader.QTime;
+           //$scope.users = data.facets.users;
+
+           console.log(data.response.docs);
+         }).
+         error(function(data, status, headers, config) {
+           console.log('error');
+           console.log('status : ' + status); //Being logged as 0
+           console.log('headers : ' + headers);
+           console.log('config : ' + JSON.stringify(config));
+           console.log('data : ' + data); //Being logged as null
+         });
+    }
+
+    $scope.visitor_box = function() {
+      $http.get('http://'+solrHost+':8983/solr/hismove/select?q='+$scope.getQuery()+'&wt=json&start=0&rows=0').
+          success(function(data) {
+              $scope.employers = data.response.numFound;
+              $scope.vtime = data.responseHeader.QTime;
+            }).
+            error(function(data, status, headers, config) {
+              console.log('data : ' + data); //Being logged as null
+            });
+    }
+
+    $scope.box_update = function () {
+      if($scope.showApplication)
+      {
+        $scope.visitor_box();
+      }
+      else if ($scope.showVisitor){
+        $scope.application_box();
+      }
+    }
 
 
     $scope.refresh = function() {
@@ -193,6 +211,12 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
 
     $scope.viewReq = function(docno,cntry){
+
+     
+     cntry = cntry.replace(/ /g,"*");
+      //}
+      //alert(cntry)
+
             // window.location.href ="#/travelertracker/travelertracker.html";
       window.location = "#/travelertracker/travelertracker.html?doc_no="+docno+"&country="+cntry+"";
       // window.open("MusicMe.html?variable=value", "_self");
@@ -252,7 +276,8 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
       $http.get(sq+JSON.stringify(json)).
        success(function(data) {
          $scope.vtime = data.responseHeader.QTime;
-         $scope.employers = data.response.numFound;
+         $scope.applicationsFound = data.response.numFound;
+         //$scope.employers = data.response.numFound;
          $scope.items = data.response.docs;
          if(selected_countries.length == 0)
          $scope.countries = data.facets.country.buckets

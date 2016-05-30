@@ -25,16 +25,16 @@ function onResize1() {
 }
 
 
-var getCurrentUserName;
+
 
 /* GeneralPageController starts */
 MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http', 'settings', 'authorities', 'fileUpload', function ($rootScope, $scope, $http, settings, authorities, fileUpload) {
-    getCurrentUserName = localStorage.getItem("username");
+
     $scope.uploadFile = function(){
         var file = $scope.myFile;
         console.log('file is ' );
         console.dir(file);
-        var uploadUrl = globalURL + "api/pistachio/upload?user="+getCurrentUserName;
+        var uploadUrl = globalURL + "api/pistachio/upload?user=";
         fileUpload.uploadFileToUrl(file, uploadUrl);
     };
 
