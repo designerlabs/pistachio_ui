@@ -1084,7 +1084,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             console.log(deptVal);
             console.log($("#queryFormTemplate #deptVal").prop('checked'));*/
 
-            inputValidation("#queryFormTemplate", queryAjax);
+            inputValidation("#queryFormTemplate", setTimeout(queryAjax, 100));
 
             function queryAjax() {
                 $.ajax({
