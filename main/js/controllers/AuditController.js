@@ -3,7 +3,7 @@
 var stats = ["LOGIN", "LOGOUT", "ERROR"];
 var selected_filter = [];
 
-MetronicApp.controller('AuditController', function($rootScope, $scope, $http, $timeout, $sce) {
+MetronicApp.controller('AuditController', function($rootScope, $scope, $http) {
     $scope.$on('$viewContentLoaded', function() {
 
         // initialize core components

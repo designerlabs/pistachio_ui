@@ -4,7 +4,7 @@ var filter_query = "";
 
 var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/immigration2/query?json='
 
-MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $timeout, $sce) {
+MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $datamaps) {
     $scope.$on('$viewContentLoaded', function() {
 
         // initialize core components
