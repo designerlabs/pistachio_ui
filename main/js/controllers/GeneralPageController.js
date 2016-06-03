@@ -1033,7 +1033,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             console.log(deptVal);
             console.log($("#queryFormTemplate #deptVal").prop('checked'));*/
 
-            inputValidation("#queryFormTemplate", queryAjax);
+            inputValidation("#queryFormTemplate", setTimeout(queryAjax, 100));
 
             function queryAjax() {
                 $.ajax({
@@ -1051,7 +1051,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                             reportFileName: templateFileName,
                             query:'NA',
                             cached: null,
-			    login: localStorage.username
+                            login: localStorage.username
                         })
                     })
                     .done(function () {
