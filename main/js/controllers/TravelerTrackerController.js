@@ -13,7 +13,9 @@ $scope.dob="";
 $scope.imagetxt="./assets/admin/layout2/img/avatar.png";
     $scope.$on('$viewContentLoaded', function() {
         Metronic.initAjax(); // initialize core components
-        $scope.database = "default"; 
+        $scope.database = "default";
+        $scope.showVisa = true;
+        $scope.showHistory = true;
 	});
 
 console.log(window.location.href);
@@ -27,10 +29,9 @@ $scope.fn_getBasicInfo = function(){//mad_pas_typ_cd
 
 	$.get("http://"+solrHost+":8983/solr/immigration2/query?sort=created desc&json={query :'"+Qparam+"',limit:20000,facet: {visa : {type: terms,field: pass_type},employers : {type: terms,field: employer}}}") //mad_pas_typ_cd - pass_type
 	.then(function(data) {
-		// debugger;
 		chartvisadtls = data.response.docs;
 		if(data.response.docs.length !== 0){
-		 	console.log(data.response.docs);		 	
+		 	console.log(data.response.docs);
 		 	if($scope.dob == "" || $scope.dob == undefined){
 			 	var strdob = data.response.docs[0].birth_date.toString();
 			 	$scope.dob = strdob.substr(0,4) +"-"+strdob.substr(4,2) +"-"+ strdob.substr(6,2);
@@ -38,92 +39,65 @@ $scope.fn_getBasicInfo = function(){//mad_pas_typ_cd
 			 	var year=Number(strdob.substr(0,4));
 			 	var month=Number(strdob.substr(4,2))-1;
 			 	var day=Number(strdob.substr(6,2));
-			 	
+
 			 	$scope.age=today.getFullYear()-year;
 		 	}
-		 	
-
-			$scope.passdetails = data.response.docs[0]; 	
+			$scope.passdetails = data.response.docs[0];
 			$scope.totalvisa = data.response.docs.length;
-			// $scope.vstartdt = $scope.basicdetails.created.toString().substr(0,10);
-			// $scope.vstartdt = $scope.basicdetails.mad_crt_dt.toString().substr(0,10);
-			// $scope.venddt = $scope.basicdetails.vend.toString().substr(0,10);
-			// $scope.venddt = $scope.basicdetails.vend.toString().substr(0,10); //end date is not avail in immi..
 			$scope.titleDetails = "Visa details"
-
-			
-
 			$scope.basicdetailsTbl = data.response.docs;
-			
+
 			$('#tblvisa').DataTable( {
 			    data: data.response.docs,
 			    columns: [
-			    	{ "data": "doc_no" },
-			        { "data": "name" },
+
 			        { "data": "pass_type",
-    			          "render": function (data, type, full, meta){    
-	    	                            return (data==undefined?"":data);                       
-    	                    }	
+    			          "render": function (data, type, full, meta){
+	    	                            return (data==undefined?"":data);
+    	                    }
 			         },
-			        // { "data": "visitor_typ" },
-			        { "data": "job_en" },
-			        { "data": "employer" },
+
+			        { "data": "job_en",
+    			          "render": function (data, type, full, meta){
+	    	                            return (data==undefined?"":data);
+    	                    }
+			          },
+			        { "data": "employer",
+    			          "render": function (data, type, full, meta){
+	    	                            return (data==undefined?"":data);
+    	                    }
+			          },
+              { "data": "skill",
+    			          "render": function (data, type, full, meta){
+	    	                            return (data==undefined?"":data);
+    	                    }
+			          },
+              { "data": "current_step" },
+              { "data": "approval_status" },
 			        { "data": "created"},
-			        { "data": "vend",
-    			          "render": function (data, type, full, meta){    
-	    	                            return (data==undefined?"":data);                       
+			        { "data": "created",
+    			          "render": function (data, type, full, meta){
+	    	                            return (data==undefined?"":data);
     	                    }
 			         }
-			        // { "data": "mad_doc_no" },
-			        // { "data": "mad_applcnt_nm" },
-			        // { "data": "mad_pas_typ_cd" },
-			        // // { "data": "visitor_typ" },
-			        // { "data": "job_en" },
-			        // { "data": "employer" },
-			        // { "data": "mad_crt_dt"},
-			        // { "data": "mad_crt_dt" }
 			    ]
 			} );
 		 $scope.$apply();
-			
+
 		}else{
 			// alert('No data find in immigration2 table');
-		}			
+      $scope.showVisa = false;
+		}
 	 	console.log(data.response.docs);
-		$scope.passdetails = data.response.docs[0]; 	
+		$scope.passdetails = data.response.docs[0];
 		$scope.totalvisa = data.response.docs.length;
 		// $scope.vstartdt = $scope.basicdetails.created.toString().substr(0,10);
 		// $scope.vstartdt = $scope.basicdetails.mad_crt_dt.toString().substr(0,10);
 		// $scope.venddt = $scope.basicdetails.vend.toString().substr(0,10);
 		// $scope.venddt = $scope.basicdetails.vend.toString().substr(0,10); //end date is not avail in immi..
 		$scope.titleDetails = "Visa details"
-
-		
-
 		$scope.basicdetailsTbl = data.response.docs;
-
-		// $('#tblvisa').DataTable( {
-		//     data: data.response.docs,
-		//     columns: [
-		//     	{ "data": "doc_no" },
-		//         { "data": "name" },
-		//         { "data": "pass_type" },
-		//         // { "data": "visitor_typ" },
-		//         { "data": "job_en" },
-		//         { "data": "employer" },
-		//         { "data": "vstart"},
-		//         { "data": "vend" }
-		//         // { "data": "mad_doc_no" },
-		//         // { "data": "mad_applcnt_nm" },
-		//         // { "data": "mad_pas_typ_cd" },
-		//         // // { "data": "visitor_typ" },
-		//         // { "data": "job_en" },
-		//         // { "data": "employer" },
-		//         // { "data": "mad_crt_dt"},
-		//         // { "data": "mad_crt_dt" }
-		//     ]
-		// } );
-		$scope.$apply();			
+		$scope.$apply();
    });
 }
 	var today = new Date();
@@ -143,11 +117,11 @@ $scope.fn_getPersonalInfo = function(){
 							  return n.dy_action_ind =='out';
 							})
 				}
-		
+
 
 		if(result.response.docs.length !== 0){
-			$scope.res = result.response.docs[0];		
-			// $scope.inoutTbl = result.facets.exits.buckets;	
+			$scope.res = result.response.docs[0];
+			// $scope.inoutTbl = result.facets.exits.buckets;
 			if($scope.dob == "" || $scope.dob == undefined){
 				var strdob = result.response.docs[0].birth_date.toString();
 				$scope.dob = strdob.substr(0,4) +"-"+strdob.substr(4,2) +"-"+ strdob.substr(6,2);
@@ -155,26 +129,26 @@ $scope.fn_getPersonalInfo = function(){
 				var year=Number(strdob.substr(0,4));
 				var month=Number(strdob.substr(4,2))-1;
 				var day=Number(strdob.substr(6,2));
-				
+
 				$scope.age=today.getFullYear()-year;
 			}
 
 			$('#tblinout').DataTable( {
 		    data: result.response.docs,
-		    columns: [		    	
+		    columns: [
 		        { "data": "xit_date",
-		          "render": function (data, type, full, meta){    
-		          				var strdt = data.toString().substr(0,10) +" "+ data.toString().substr(11,8);               
-                            return strdt;                       
-                    }	
+		          "render": function (data, type, full, meta){
+		          				var strdt = data.toString().substr(0,10) +" "+ data.toString().substr(11,8);
+                            return strdt;
+                    }
 		         },
 		        { "data": "dy_action_ind",
-		          "render": function (data, type, full, meta){                      
-                            return (data =='in'?'Entry':'Exit');                              
-                    }	 
+		          "render": function (data, type, full, meta){
+                            return (data =='in'?'Entry':'Exit');
+                    }
 		         },
 		        { "data": "branch" },
-		        { "data": "dy_create_id" }		        
+		        { "data": "dy_create_id" }
 		    ]
 		} );
 			$scope.CreateInoutChart(result.response.docs);
@@ -182,23 +156,24 @@ $scope.fn_getPersonalInfo = function(){
 
 		}else{
 			// alert('No date found in himove table');
+      $scope.showHistory = false;
 		}
 		$("#loader .page-spinner-bar").addClass('hide');
 		$("#loader").hide();
 
    });
 }
- 
+
 $scope.CreateInoutChart = function(_data){
 	var newary = _data;
 	var cnt = _data.length;
 	var wrg = [];
 	var tempwrg =[];
-	
+
 	newary.forEach(function(e,k) {
-	   e.start = e.xit_date;	   
+	   e.start = e.xit_date;
 	   // e.content =(e.in_outs.buckets[0].val == 'in' ? 'IN' : 'OUT');
-	   // className 
+	   // className
 	   if(e.dy_action_ind == 'in'){
 	   	// e.content = "IN";
 	   	e.className = 'green';
@@ -219,22 +194,22 @@ $scope.CreateInoutChart = function(_data){
 	   	 tempwrg =[];
 	   	 tempwrg={
 	   	 	start : e.xit_date,
-	   	 	end : newary[k-1].xit_date,	   	 	
+	   	 	end : newary[k-1].xit_date,
 	   	 	ind: e.dy_action_ind,
 	   	 	content : 'Mismatching '+ e.dy_action_ind.toUpperCase(),
 	   	 	className : 'orange'
 	   	 };
-	   	  
+
 	      wrg.push(tempwrg);
-	   }   
+	   }
 
 	});
-	
+
 
 
      var container = document.getElementById('visualization');
      var newitems = $.merge( newary, wrg);
-     var chart_height = (_data.length < 100 ? "400px" : "800px");
+     var chart_height = (_data.length < 200 ? "300px" : "450px");
      console.log("chart_height=" + chart_height);
 
       var options = {
@@ -251,21 +226,21 @@ $scope.CreateInoutChart = function(_data){
     if(wrg.length >= 1){
     	$('.MismatchArea').show();
 	    $scope.MisMatchCnt = wrg.length;
-		$('#tblMisMatch').DataTable({			
+		$('#tblMisMatch').DataTable({
 		    data: wrg,
 		    columns: [
 		    	{ "data": "ind",
-		          "render": function (data, type, full, meta){                      
+		          "render": function (data, type, full, meta){
                             return (data =='in'?'Entry':'Exit');}
                 },
 		        { "data": "start",
-		          "render": function (data, type, full, meta){    
+		          "render": function (data, type, full, meta){
 		          				return data.toString().substr(0,10) +" "+ data.toString().substr(11,8);
                     }	 },
 		        { "data": "end",
-		          "render": function (data, type, full, meta){    
+		          "render": function (data, type, full, meta){
 		          				return data.toString().substr(0,10) +" "+ data.toString().substr(11,8);
-                    } 
+                    }
                 }]
 		});
 	}
@@ -294,7 +269,7 @@ $scope.CreateInoutChart = function(_data){
      document.getElementById('zoomOut').onclick   = function () { zoom( 0.2); };
      document.getElementById('moveLeft').onclick  = function () { move( 0.2); };
      document.getElementById('moveRight').onclick = function () { move(-0.2); };
-     
+
      $('.vis-item-content').click(function(e){
      	$('.clkditem').show();
      	$('.clkditem').text("Selected item : "+ this.parentElement.getAttribute('data-title'));
@@ -321,17 +296,14 @@ $('.bck').click(function() {
 var docno =  Qparam.split('AND')[0].replace("doc_no:","").trim();
 $('.loadimg').show();
 	$.get(globalURL+"api/image/docno/" + docno)
-      	.then(function(response) {      		
+      	.then(function(response) {
       		console.log(response);
       		$('.loadimg').hide();
          }).fail(function(response){
          	if(response.statusText == "OK"){
 	         	$scope.imagetxt="data:image/bmp;base64," +response.responseText;
-	         	$scope.$apply();         		
+	         	$scope.$apply();
          	}
          	$('.loadimg').hide();
          });
 });
-
-
-
