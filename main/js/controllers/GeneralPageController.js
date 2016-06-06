@@ -1,5 +1,5 @@
 /* Setup general page controller */
-var tableFunc, jobsDataFunc, selectedQueryRunId, reportCategoryID, fromDate, toDate, FrmTemplate = undefined;
+var tableFunc, jobsDataFunc, selectedQueryRunId, reportCategoryID, fromDate, toDate, FrmTemplate = undefined, login;
 
 //reportCategoryID =   $("#reportCategoryID").val();
 
@@ -25,16 +25,16 @@ function onResize1() {
 }
 
 
-var getCurrentUserName;
+
 
 /* GeneralPageController starts */
 MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http', 'settings', 'authorities', 'fileUpload', function ($rootScope, $scope, $http, settings, authorities, fileUpload) {
-    getCurrentUserName = localStorage.getItem("username");
+
     $scope.uploadFile = function(){
         var file = $scope.myFile;
         console.log('file is ' );
         console.dir(file);
-        var uploadUrl = globalURL + "api/pistachio/upload?user="+getCurrentUserName;
+        var uploadUrl = globalURL + "api/pistachio/upload?user=";
         fileUpload.uploadFileToUrl(file, uploadUrl);
     };
 
@@ -421,9 +421,9 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         }
                 }, {
                         "data": "action",
-                        "width": "22%",
+                        "width": "29%",
                         "render": function (data, type, full, meta) {
-                            return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
+                            return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-warning btn-sm downloadBtn"><i class="fa fa-download"></i> Template</button>';
                         }
                 }]
                 })
@@ -855,6 +855,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
             // console.log( globalURL+ 'jasperreport/' + fileformat + '/' + reportid);
             var selTemplateVal = JSON.stringify({
+		username: localStorage.username,
                 fromDt: fromDate,
                 toDt: toDate,
                 state: _state.substr(0, _state.indexOf(' - ')),
@@ -994,7 +995,8 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                             queryName: queryNameVal,
                             query: queryTextVal,
                             category: reportCategoryID,
-                            cached: null
+                            cached: null,
+			    login: localStorage.username
                         })
                     })
                     .done(function () {
@@ -1031,7 +1033,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             console.log(deptVal);
             console.log($("#queryFormTemplate #deptVal").prop('checked'));*/
 
-            inputValidation("#queryFormTemplate", queryAjax);
+            inputValidation("#queryFormTemplate", setTimeout(queryAjax, 1000));
 
             function queryAjax() {
                 $.ajax({
@@ -1048,7 +1050,8 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                             category: reportCategoryID,
                             reportFileName: templateFileName,
                             query:'NA',
-                            cached: null
+                            cached: null,
+                            login: localStorage.username
                         })
                     })
                     .done(function () {
@@ -1081,7 +1084,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             console.log(deptVal);
             console.log($("#queryFormTemplate #deptVal").prop('checked'));*/
 
-            inputValidation("#queryFormTemplate", queryAjax);
+            inputValidation("#queryFormTemplate", setTimeout(queryAjax, 1000));
 
             function queryAjax() {
                 $.ajax({
@@ -1099,7 +1102,8 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                             category: reportCategoryID,
                             reportFileName: templateFileName,
                             query:'NA',
-                            cached: null
+                            cached: null,
+			    login: localStorage.username
                         })
                     })
                     .done(function () {
@@ -1144,6 +1148,13 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             $("#queryAddFormHeader").html("Update Query UI");
             $("#queryAddForm").modal('show');
 
+        });
+
+	var selectedQueryReportId = undefined;
+        $('#queryContainer').on('click', 'button.downloadBtn', function () {
+            var selectedQuery = queryData.row($(this).parents('tr')).data();
+            selectedQueryReportId = selectedQuery.id;
+            window.location.href = globalURL + 'download/jasper/' + selectedQueryReportId;
         });
 
         $("#queryAddForm").on('hidden.bs.modal', function () {
@@ -1392,7 +1403,8 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         id: selectedQueryId,
                         queryName: queryNameValUpdated,
                         query: queryTextValUpdated,
-                        cached: null
+                        cached: null,
+			login: localStorage.username
                     })
                 })
                 .done(function (data) {

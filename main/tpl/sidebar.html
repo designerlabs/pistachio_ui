@@ -40,12 +40,26 @@
             </a>
         </li>
 
+         <li class="start" id="sqleditor">
+            <a href="#/sqleditor/sqleditor.html">
+            <i class="icon-pencil"></i>
+                <span class="title">Query Editor</span>
+            </a>
+        </li>
+        <li class="start" id="tracker">
+            <a href="#/d2dTracking/d2dTracking.html">
+            <i class="fa fa-line-chart"></i>
+                <span class="title">Tracking</span>
+            </a>
+        </li>
+
         <li class="start" id="workflowMgt"  ng-if="!chkRole('ROLE_ADMIN')">
             <a href="#/workflowuser.html">
                 <i class="icon-magnifier"></i>
                 <span class="title">Request Management</span>
             </a>
         </li>
+       
 
 
 
@@ -88,23 +102,20 @@
                     </a>
                 </li>
 
-                <li>
-                    <a href="#/sqleditor/sqleditor.html">
-                        <i class="icon-pencil"></i> Query Editor
-                    </a>
-                </li>
+               
 
                 <!--  <li>
                     <a href="#/travelertracker/travelertracker.html">
                         <i class="icon-plane"></i> Traveler Tracker
                     </a>
                 </li> -->
-
+<!--
                 <li>
                     <a href="#/d2dTracking/d2dTracking.html">
                         <i class="fa fa-line-chart"></i> Tracking
                     </a>
                 </li>
+                -->
 
                 <li>
                     <a href="#/audit.html">

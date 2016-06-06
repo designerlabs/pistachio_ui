@@ -16,7 +16,7 @@
 	"sidebar.database" : "Database",
 	"sidebar.audit" : "Audit",
 	"sidebar.dashboardchart": "Chart",
-	"sidebar.dashboardlink": "Links",
+	"sidebar.dashboardlink": "Analysis",
     "sidebar.appl_analysis": "Visa Application Analysis",
 		"sidebar.countryAnalysis": "Analysis by Country",
 	"header.search" : "Search",

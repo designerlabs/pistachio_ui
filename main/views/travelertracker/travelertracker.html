@@ -1,8 +1,8 @@
 
-<!-- <h3 class="page-title"> 
+<!-- <h3 class="page-title">
     <small>Individual Traveler Profile</small>
 </h3> -->
-<div id="loader" style="position:absolute; top:0px; left:0px; background:rgba(255,255,255,0.8); width:100%; z-index:9999;">   
+<div id="loader" style="position:absolute; top:0px; left:0px; background:rgba(255,255,255,0.8); width:100%; z-index:9999;">
     <div ng-spinner-bar class="page-spinner-bar">
         <div class="bounce1"></div>
         <div class="bounce2"></div>
@@ -15,12 +15,12 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="portlet light container-fluid">
-                        <div class="profile-content">                                        
+                        <div class="profile-content">
                             <div class="col-md-4 col-xs-2 col-sm-2" style="height: 170px;padding-left: 0px;">
                                    <span class="loadimg" style="position: absolute; left: 14px; top: 75px;"><i class='fa fa-circle-o-notch fa-spin'></i> Loading image..</span>
                                     <img width="100%" height="100%" ng-src="{{imagetxt}}" >
                             </div>
-                            <div id="topfield" class="col-md-8 col-xs-8 col-sm-8">                             
+                            <div id="topfield" class="col-md-8 col-xs-8 col-sm-8">
                                 <div class="profile-details">
                                     <div class="row">
                                        <div class="col-md-12 col-sm-12 col-xs-12 form-group" style="padding-left:0px">
@@ -28,13 +28,13 @@
                                                Name
                                            </small>
                                            <div class="uppercase bold" style="font-size: 21px">
-                                               {{res.name}} 
+                                               {{res.name}}
                                            </div>
                                         </div>
-                                    </div>  
+                                    </div>
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
-                                           <small>DATE OF BIRTH</small> 
+                                           <small>DATE OF BIRTH</small>
                                             <div class="bold">
                                             {{dob}} / {{age}}
                                             </div>
@@ -48,7 +48,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6 col-xs-12 form-group tool" data-original-title="Passport Number" style="padding-left:0px">
-                                           <small>GENDER</small> 
+                                           <small>GENDER</small>
                                             <div class="bold">
                                             {{res.sex}}
                                             </div>
@@ -61,25 +61,25 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>  
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">                    
+                <div class="col-md-6">
                     <div class="portlet light container-fluid">
-                    <div class="portlet-title">                        
+                    <div class="portlet-title">
                     <div class="actions">
                         <div id="detailstab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
                             <a class="btn btn-transparent grey-salsa btn-circle btn-sm active bck" data-toggle="tab">Go Back</a>
                         </div>
                     </div>
                     </div>
-                        <div class="profile-content">                                        
-                            <div id="topfield" class="col-md-9 col-xs-8 col-sm-8" style="padding-top: 20px;padding-left: 50px;">                             
+                        <div class="profile-content">
+                            <div id="topfield" class="col-md-9 col-xs-8 col-sm-8" style="padding-top: 20px;padding-left: 50px;">
                                 <div class="profile-details">
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
-                                           <small>TOTAL ENTRY</small> 
+                                           <small>TOTAL ENTRY</small>
                                             <div class="uppercase bold">
                                             {{summary.entry.length}}
                                             </div>
@@ -94,7 +94,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
-                                           <small>CURRENT STATUS</small> 
+                                           <small>CURRENT STATUS</small>
                                             <div class="uppercase bold">
                                             {{res.dy_action_ind == 'in' ? 'Entry' : 'Exit'}}
                                             </div>
@@ -107,20 +107,20 @@
                                         </div>
                                         <!-- <span class="btn warning bck">Back</span> -->
                                     </div>
-                                </div>             
-                            </div>                  
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>                  
-        
+        </div>
+
     </div>
 </div>
 <!-- <div class="row" style="height: {{availHeight > 1000 ? 210 : 160}}px">&nbsp;
-    
+
 </div> -->
-<div class="row row2">
+<div class="row row2" ng-if="showVisa">
      <div class="col-md-12">
      <div class="profile-content">
             <div class="row">
@@ -134,59 +134,60 @@
                             </div>
                             <div class="actions">
                                 <div id="detailstab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
-                                    <a href="#tabvisa" class="btn btn-transparent grey-salsa btn-circle btn-sm active" data-toggle="tab">Visa</a>                                    
+                                    <a href="#tabvisa" class="btn btn-transparent grey-salsa btn-circle btn-sm active" data-toggle="tab">Visa</a>
                                     <!-- <a href="#tabblsl" class="btn btn-transparent grey-salsa btn-circle btn-sm" data-toggle="tab">BL/SL</a> -->
                                 </div>
                             </div>
                         </div>
-                        <div class="portlet-body  tab-content">                            
+                        <div class="portlet-body  tab-content">
                             <div class="row number-stats margin-bottom-30 tab-pane active" id="tabvisa">
                                 <div > <!--class="search-table table-responsive"-->
                                     <table id="tblvisa" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"> <!--class="table table-bordered table-striped table-condensed" -->
                                         <thead class="bg-table-gray">
                                             <tr>
-                                                <th>Passport No</th>                                                
-                                                <th>Name</th>   
-                                                <th>Pass Type</th>  
-                                                <!-- <th>Visitor Type</th> -->
+                                                <th>Pass Type</th>
                                                 <th>Job Title</th>
-                                                <th>Employer</th>                                          
-                                                <th>Create Date</th>
-                                                <th>Expire Date</th>
+                                                <th>Employer</th>
+                                                <!-- <th>Visitor Type</th> -->
+                                                <th>Skill</th>
+                                                <th>Current Step</th>
+                                                <th>Applroval Status</th>
+                                                <th>Start Date</th>
+                                                <th>End Date</th>
                                             </tr>
                                         </thead>
                                         <!-- <tbody>
                                             <tr ng-repeat="y in basicdetailsTbl">
                                                 <td>{{y.doc_no}}</td>
                                                 <td>{{y.name}}</td>
-                                                <td>{{y.pass_typ}}</td>  
-                                                <td>{{y.visitor_typ}}</td>                                              
+                                                <td>{{y.pass_typ}}</td>
+                                                <td>{{y.visitor_typ}}</td>
                                                 <td>{{y.vstart.toString().substr(0,10)}}</td>
                                                 <td>{{y.vend.toString().substr(0,10)}}</td>
 
                                                 <td>{{y.mad_doc_no}}</td>
                                                 <td>{{y.mad_applcnt_nm}}</td>
-                                                <td>{{y.mad_pas_typ_cd}}</td> 
+                                                <td>{{y.mad_pas_typ_cd}}</td>
                                                 <td>{{y.visitor_typ}}</td>
-                                                <td>{{y.job_en}}</td>    
-                                                <td>{{y.employer}}</td>                                            
+                                                <td>{{y.job_en}}</td>
+                                                <td>{{y.employer}}</td>
                                                 <td>{{y.mad_crt_dt.toString().substr(0,10)}}</td>
-                                                  <td>{{y.vend.toString().substr(0,10)}}</td> 
+                                                  <td>{{y.vend.toString().substr(0,10)}}</td>
                                                <td>{{y.mad_crt_dt.toString().substr(0,10)}}</td>
                                             </tr>
                                         </tbody> -->
                                     </table>
                                 </div>
-                            </div>                          
+                            </div>
                         </div>
                     </div>
                     <!-- END PORTLET -->
-                </div>                
-            </div>        
+                </div>
+            </div>
         </div>
      </div>
 </div>
-<div class="row row3">
+<div class="row row3" ng-if="showHistory">
 	 <div class="col-md-12">
 	 <div class="profile-content">
             <div class="row">
@@ -201,7 +202,7 @@
                             <div class="actions">
                                 <div id="inouttab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
                                 	 <a href="#inoutchart" class="btn btn-transparent grey-salsa btn-circle btn-sm active" data-toggle="tab">Chart</a>
-              						<a href="#inoutdatatbl" class="btn btn-transparent grey-salsa btn-circle btn-sm" data-toggle="tab">Data</a>              						                                
+              						<a href="#inoutdatatbl" class="btn btn-transparent grey-salsa btn-circle btn-sm" data-toggle="tab">Data</a>
                                 </div>
                             </div>
                         </div>
@@ -215,27 +216,27 @@
                                     <span class="clkditem" style="background-color: #C5DC3B"></span>
 	                            </div>
 	                            <div class="chart123" id="visualization">
-	                            	
+
 	                            </div>
                                 <div class="MismatchArea">
                                     <span class="row bold red"><center>{{MisMatchCnt}} Mismatch cases found</center></span>
                                     <table id="tblMisMatch" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"> <!--class="table table-bordered table-striped table-condensed" -->
                                         <thead class="bg-table-gray">
                                             <tr>
-                                                <th>Mismatch case</th>                                                
-                                                <th>From Date</th>   
-                                                <th>To Date</th>                                                 
+                                                <th>Mismatch case</th>
+                                                <th>From Date</th>
+                                                <th>To Date</th>
                                             </tr>
-                                        </thead>                                        
+                                        </thead>
                                     </table>
                                 </div>
-                    		</div>                        
+                    		</div>
                             <div class="row number-stats margin-bottom-30 tab-pane" id="inoutdatatbl">
                             	<div>
     					            <table id="tblinout" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
     					                <thead class="bg-table-gray">
     					                    <tr>
-    					                        <th> 
+    					                        <th>
     					                            Date & Time
     					                        </th>
     					                        <th>
@@ -260,17 +261,17 @@
     					                        <td> {{x.in_outs.buckets[0].branch.buckets[0].val}} </td>
     					                        <td>
     					                          {{x.in_outs.buckets[0].branch.buckets[0].officer.buckets[0].val}}
-    					                        </td>					                        
+    					                        </td>
     					                    </tr>
     					                </tbody> -->
     					            </table>
     					        </div>
-                            </div> 
-                        </div>                     
+                            </div>
+                        </div>
                     </div>
                     <!-- END PORTLET -->
-                </div>                
-            </div>        
+                </div>
+            </div>
         </div>
 	 </div>
 </div>
@@ -302,7 +303,7 @@
   }
 
 </style>
-<script type="text/javascript">	
+<script type="text/javascript">
 
  // $('#tabs').tab();
 
@@ -328,5 +329,5 @@ $('.options').click(function(e){
   	$(this).tab('show');
 });
 	// create a timeline with some data
-    
+
 </script>
