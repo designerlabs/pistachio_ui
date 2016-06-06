@@ -423,7 +423,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         "data": "action",
                         "width": "29%",
                         "render": function (data, type, full, meta) {
-                            return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-warning btn-sm downloadBtn"><i class="fa fa-download"></i> Download</button>';
+                            return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-warning btn-sm downloadBtn"><i class="fa fa-download"></i> Template</button>';
                         }
                 }]
                 })
@@ -1033,7 +1033,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             console.log(deptVal);
             console.log($("#queryFormTemplate #deptVal").prop('checked'));*/
 
-            inputValidation("#queryFormTemplate", setTimeout(queryAjax, 100));
+            inputValidation("#queryFormTemplate", setTimeout(queryAjax, 1000));
 
             function queryAjax() {
                 $.ajax({
@@ -1084,7 +1084,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             console.log(deptVal);
             console.log($("#queryFormTemplate #deptVal").prop('checked'));*/
 
-            inputValidation("#queryFormTemplate", setTimeout(queryAjax, 100));
+            inputValidation("#queryFormTemplate", setTimeout(queryAjax, 1000));
 
             function queryAjax() {
                 $.ajax({
