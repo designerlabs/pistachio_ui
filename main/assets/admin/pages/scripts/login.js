@@ -120,7 +120,7 @@ var Login = function () {
 
                     })
                     .fail(function (data) {
-                        console.log("error123");
+                        console.log("error");
                         console.log(data);
                         $('#loginRequire', $('.login-form')).hide();
                         var responseTextData = $.parseJSON(data.responseText);

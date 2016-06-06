@@ -1,7 +1,7 @@
 
 
                <!-- <div style="width:200px; height:200px; background: #ff0000; position:absolute; z-index:9;"></div> -->
-<h1>Border Tracking System</h1>
+<h1>Border Activity Analysis</h1>
 
 <div id="mainContainer" ng-controller="d2dTrackingController">
 <div class="row">
@@ -84,7 +84,7 @@
             <td class="entrySpark" data-sparkline="{{ value.entry.entry }}" />
             <td ng-if="value.brhName.entry">{{value.brhName.numFound}}</td>
             <td ng-if="value.brhName.sex">{{ value.brhName.sex }}</td>
-            <td><button class="btn btn-sm btn-success viewBtn" ng-click="viewBtn()">View</button></td>
+            <td><button class="btn btn-sm btn-success viewBtn" ng-click="viewBtn()">View</button><span ng-show="ele2 == 'Officer'"><button class="btn btn-sm btn-success viewBtn" ng-click="detBtn()">Details</button></span></td>
         </tr>
 
         <tr ng-if="value.vName.name"  ng-repeat="value  in branchOut">
@@ -103,6 +103,7 @@
 <div class="text-center"><button id="bPreviousBtn" class="btn btn-md btn-warning"><i class="fa fa-arrow-left"></i> Previous</button><button  id="bNextBtn" class="btn btn-md btn-warning">Next <i class="fa fa-arrow-right"></i></button></div>
 </div>
 </div>
+
 <style>
 #mainContainer { height: 100%; width: 100%; margin: 0; position:relative; }
 #mainContainer #container { 

@@ -1,0 +1,67 @@
+<h1>Officers Activity Analysis</h1>
+<h3>From {{subTitle}}</h3>
+<div id="mainContainer1" ng-controller="employeeHourlyDetailsController">
+    <div class="row" style="display: none;">
+        <div class='col-md-2'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimeFrom'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class='col-md-1 text-center' style="width: 4%; padding-top: 4px;">
+            <div class="form-group">
+                <label for="">To</label>
+            </div>
+        </div>
+        <div class='col-md-2'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimeTo'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="form-group">
+            <button class="btn btn-success btn-md" ng-click="submitDate()"><i class ="fa fa-refresh"></i> Refine</button>
+            <button class="btn btn-danger btn-md" ng-click="backBtn()"><i class ="fa fa-arrow-left"></i> Back</button>
+
+        </div>
+    </div>
+    <div class="row"></div>
+    <div style="background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%; position:absolute; top:0px;" ng-show="loading">
+        <!--  BEGIN PAGE SPINNER -->
+        <div ng-spinner-bar class="page-spinner-bar show">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+        <!--    END PAGE SPINNER -->
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2" id="employeeList">
+                <div class="checkbox" ng-repeat="value  in storeData" my-emp-directive>
+                    <label>
+                        <input type="checkbox" class="{{value[0]}}" value="{{value[0]}}">{{value[0]}} ({{value[1]}})</label>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <h3>Entry Trend</h3>
+                <div id="container" style="height: 250px; min-width: 310px"></div>
+                <div class="row"></div>
+                <h3>Exit Trend</h3>
+                <div id="container1" style="height: 250px; min-width: 310px"></div>
+                <h3>Overall Trend</h3>
+                <div id="container2" style="height: 250px; min-width: 310px"></div>
+            </div>
+        </div>
+    </div>
+</div>
