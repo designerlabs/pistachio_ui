@@ -108,7 +108,7 @@
 	"profile.edit.newPswd" : "New Password",
 	"profile.edit.retypenewPswd" : "Re-type New Password",
 	"profile.edit.changePswd" : "Change Password",
-	"profile.edit.cancelPswd" : "Cancel"
+	"profile.edit.cancelPswd" : "Cancel",
 
 	"report.query" : "Report Name",
 	"report.queryName" : "Template",
