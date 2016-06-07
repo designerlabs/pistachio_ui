@@ -110,4 +110,7 @@
 	"profile.edit.changePswd" : "Change Password",
 	"profile.edit.cancelPswd" : "Cancel"
 
+	"report.query" : "Report Name",
+	"report.queryName" : "Template",
+	"report.download" : "Download"
 }

@@ -112,4 +112,7 @@
 	"profile.edit.changePswd" : "Tukar kata laluan",
 	"profile.edit.cancelPswd" : "Batal"
 
+	"report.query" : "Nama Laporan",
+	"report.queryName" : "Template",
+	"report.download" : "Muatturun"
 }
