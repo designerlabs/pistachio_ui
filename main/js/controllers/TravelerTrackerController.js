@@ -52,7 +52,7 @@ $scope.fn_getBasicInfo = function(){//mad_pas_typ_cd
       $scope.fn_personalInfo(data.response.docs[0]);
 		 	if($scope.dob == "" || $scope.dob == undefined){
 			 	var strdob = data.response.docs[0].birth_date.toString();
-			 	$scope.dob = strdob.substr(0,4) +"-"+strdob.substr(4,2) +"-"+ strdob.substr(6,2);
+			 	$scope.dob = strdob.substr(6,2)+" - "+ strdob.substr(4,2) +" - "+strdob.substr(0,4);
 
 			 	var year=Number(strdob.substr(0,4));
 			 	var month=Number(strdob.substr(4,2))-1;
