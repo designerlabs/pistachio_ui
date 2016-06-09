@@ -189,6 +189,8 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
         $scope.reset = function() {
           selected_countries = [];
           $scope.text = "";
+          $scope.showApplication = false;
+          $scope.showVisitor = false;
           $scope.go();
         };
 
@@ -212,7 +214,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
     $scope.viewReq = function(docno,cntry){
 
-     
+
      cntry = cntry.replace(/ /g,"*");
       //}
       //alert(cntry)

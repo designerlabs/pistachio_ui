@@ -3,6 +3,7 @@
 // var solrHost1 = "10.23.124.220";
 MetronicApp.controller('TravelerTrackerController', function($rootScope,$scope,$http, $timeout) {
 
+$rootScope.settings.layout.pageContentWhite=true;
 $scope.lock = 'true';
 $scope.res = "result";
 $('.MismatchArea').hide();
@@ -50,7 +51,11 @@ $scope.fn_getBasicInfo = function(){//mad_pas_typ_cd
 			$('#tblvisa').DataTable( {
 			    data: data.response.docs,
 			    columns: [
-
+              { "data": "sticker",
+                  "render": function (data, type, full, meta){
+                                  return (data==undefined?"":data);
+                        }
+             },
 			        { "data": "pass_type",
     			          "render": function (data, type, full, meta){
 	    	                            return (data==undefined?"":data);
@@ -62,18 +67,12 @@ $scope.fn_getBasicInfo = function(){//mad_pas_typ_cd
 	    	                            return (data==undefined?"":data);
     	                    }
 			          },
-			        { "data": "employer",
+			        { "data": "address",
     			          "render": function (data, type, full, meta){
 	    	                            return (data==undefined?"":data);
     	                    }
-			          },
-              { "data": "skill",
-    			          "render": function (data, type, full, meta){
-	    	                            return (data==undefined?"":data);
-    	                    }
-			          },
-              { "data": "current_step" },
-              { "data": "approval_status" },
+			        },
+
 			        { "data": "created"},
 			        { "data": "created",
     			          "render": function (data, type, full, meta){

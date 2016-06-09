@@ -165,7 +165,8 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 /* Global hosting details */
 
 //var globalURL = "http://10.23.124.243:8080/";
-var globalURL = "http://pistachio_server:8080/";
+var globalURL = "http://10.1.17.25:8080/";
+//var globalURL = "http://pistachio_server:8080/";
 //var solrHost = "10.23.124.220";
 var solrHost = "solr_server";
 
@@ -345,8 +346,10 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
         layout: {
             pageSidebarClosed: false, // sidebar state
             pageAutoScrollOnLoad: 1000, // auto scroll to top on page load
+            pageContentWhite: false,
             pageTitle: function(){ return pageTitle;},
             setTitle: function(n){ n ? pageTitle = n+'.title' : pageTitle = n; }
+
         },
         layoutImgPath: Metronic.getAssetsPath() + 'admin/layout/img/',
         layoutCssPath: Metronic.getAssetsPath() + 'admin/layout/css/'
@@ -735,7 +738,7 @@ MetronicApp.controller('SidebarController', ['$scope', '$http', 'authorities', f
                 $scope.displayNames = data.reports;
                 console.log(data.reports);
                 console.log("success");
-                
+
             })
             .fail(function() {
                 localStorage.setItem("token", "");
@@ -906,7 +909,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         },
         controller: "VAAController",
         resolve: {
-            deps: ['$ocLazyLoad', function($ocLazyLoad) {   
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
                 return $ocLazyLoad.load({
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
@@ -1325,7 +1328,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                 }]
             }
         })
-       
+
 
 
     .state('query?cat=visa', {
@@ -1799,6 +1802,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
                         'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
                         'assets/global/plugins/datatables/all.min.js',
+                        'assets/pages/css/invoice-2.css',
                         'assets/global/plugins/vis/vis.js',
                         'assets/global/plugins/vis/vis.css',
                         'js/controllers/TravelerTrackerController.js'

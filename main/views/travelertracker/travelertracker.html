@@ -11,269 +11,160 @@
 </div>
 <div class="row row1" style="position: relative; z-index:9">
     <div class="col-md-12 toppnl" > <!--width:85%;  style="position:fixed;"-->
-        <div class="profile-content">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="portlet light container-fluid">
-                        <div class="profile-content">
-                            <div class="col-md-4 col-xs-2 col-sm-2" style="height: 170px;padding-left: 0px;">
-                                   <span class="loadimg" style="position: absolute; left: 14px; top: 75px;"><i class='fa fa-circle-o-notch fa-spin'></i> Loading image..</span>
-                                    <img width="100%" height="100%" ng-src="{{imagetxt}}" >
-                            </div>
-                            <div id="topfield" class="col-md-8 col-xs-8 col-sm-8">
-                                <div class="profile-details">
-                                    <div class="row">
-                                       <div class="col-md-12 col-sm-12 col-xs-12 form-group" style="padding-left:0px">
-                                            <small class="uppercase">
-                                               Name
-                                           </small>
-                                           <div class="uppercase bold" style="font-size: 21px">
-                                               {{res.name}}
-                                           </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
-                                           <small>DATE OF BIRTH</small>
-                                            <div class="bold">
-                                            {{dob}} / {{age}}
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
-                                        <small>COUNTRY</small>
-                                            <div class="bold">
-                                            {{res.country}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group tool" data-original-title="Passport Number" style="padding-left:0px">
-                                           <small>GENDER</small>
-                                            <div class="bold">
-                                            {{res.sex}}
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
-                                        <small>PASSPORT NO</small>
-                                            <div class="bold">
-                                            {{res.doc_no}}
-                                            </div>
-                                        </div>
-                                    </div>
+      <div class="invoice-content-2 bordered" style="padding:20px;">
+        <div class="col-md-2 col-xs-4">
+                                <div class="invoice-logo">
+                                  <span class="loadimg" style="position: absolute; left: 14px; top: 75px;"><i class='fa fa-circle-o-notch fa-spin'></i> Loading image..</span>
+                                   <img width="100%" height="60%" ng-src="{{imagetxt}}" >
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="portlet light container-fluid">
-                    <div class="portlet-title">
-                    <div class="actions">
-                        <div id="detailstab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
-                            <a class="btn btn-transparent grey-salsa btn-circle btn-sm active bck" data-toggle="tab">Go Back</a>
-                        </div>
-                    </div>
-                    </div>
-                        <div class="profile-content">
-                            <div id="topfield" class="col-md-9 col-xs-8 col-sm-8" style="padding-top: 20px;padding-left: 50px;">
-                                <div class="profile-details">
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
-                                           <small>TOTAL ENTRY</small>
-                                            <div class="uppercase bold">
-                                            {{summary.entry.length}}
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
-                                        <small>TOTAL Exit</small>
-                                            <div class="bold">
-                                            {{summary.exit.length}}
-                                            </div>
-                                        </div>
-                                        <!-- <span class="btn warning bck">Back</span> -->
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
-                                           <small>CURRENT STATUS</small>
-                                            <div class="uppercase bold">
-                                            {{res.dy_action_ind == 'in' ? 'Entry' : 'Exit'}}
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
-                                        <small>COUNTRY</small>
-                                            <div class="bold">
-                                            {{res.country}}
-                                            </div>
-                                        </div>
-                                        <!-- <span class="btn warning bck">Back</span> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+          </div>
 
+                          <div class="row invoice-cust-add col-md-4 col-xs-12" style="margin-bottom:0px;">
+                               <div class="col-md-12 col-sm-12 col-xs-12 form-group" style="padding-left:0px">
+                                    <small class="uppercase">
+                                       Name
+                                   </small>
+                                   <div class="uppercase bold" style="font-size: 21px">
+                                       {{res.name}}
+                                   </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12 col-xs-12 form-group" style="padding-left:0px">
+                                   <small>DATE OF BIRTH</small>
+                                    <div class="bold">
+                                    {{dob}} / {{age}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
+                                <small>COUNTRY</small>
+                                    <div class="bold">
+                                    {{res.country}}
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12 form-group tool" data-original-title="Passport Number" style="padding-left:0px">
+                                   <small>GENDER</small>
+                                    <div class="bold">
+                                    {{res.sex}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
+                                <small>PASSPORT NO</small>
+                                    <div class="bold">
+                                    {{res.doc_no}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row invoice-cust-add" style="margin-bottom:0px;">
+                              <div class="actions">
+                                  <div id="detailstab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
+                                      <a class="btn btn-transparent grey-salsa btn-circle btn-sm active bck" data-toggle="tab">Go Back</a>
+                                  </div>
+                              </div>
+                            </div>
+
+      </div>
     </div>
 </div>
 <!-- <div class="row" style="height: {{availHeight > 1000 ? 210 : 160}}px">&nbsp;
 
 </div> -->
-<div class="row row2" ng-if="showVisa">
-     <div class="col-md-12">
-     <div class="profile-content">
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- BEGIN PORTLET -->
-                    <div class="portlet light ">
-                        <div class="portlet-title">
-                            <div class="caption caption-md">
-                                <i class="fa fa-sitemap theme-font"></i>
-                                <span class="caption-subject font-blue-madison bold uppercase">{{titleDetails}}</span>
-                            </div>
-                            <div class="actions">
-                                <div id="detailstab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
-                                    <a href="#tabvisa" class="btn btn-transparent grey-salsa btn-circle btn-sm active" data-toggle="tab">Visa</a>
-                                    <!-- <a href="#tabblsl" class="btn btn-transparent grey-salsa btn-circle btn-sm" data-toggle="tab">BL/SL</a> -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portlet-body  tab-content">
-                            <div class="row number-stats margin-bottom-30 tab-pane active" id="tabvisa">
-                                <div > <!--class="search-table table-responsive"-->
-                                    <table id="tblvisa" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"> <!--class="table table-bordered table-striped table-condensed" -->
-                                        <thead class="bg-table-gray">
-                                            <tr>
-                                                <th>Pass Type</th>
-                                                <th>Job Title</th>
-                                                <th>Employer</th>
-                                                <!-- <th>Visitor Type</th> -->
-                                                <th>Skill</th>
-                                                <th>Current Step</th>
-                                                <th>Applroval Status</th>
-                                                <th>Start Date</th>
-                                                <th>End Date</th>
-                                            </tr>
-                                        </thead>
-                                        <!-- <tbody>
-                                            <tr ng-repeat="y in basicdetailsTbl">
-                                                <td>{{y.doc_no}}</td>
-                                                <td>{{y.name}}</td>
-                                                <td>{{y.pass_typ}}</td>
-                                                <td>{{y.visitor_typ}}</td>
-                                                <td>{{y.vstart.toString().substr(0,10)}}</td>
-                                                <td>{{y.vend.toString().substr(0,10)}}</td>
 
-                                                <td>{{y.mad_doc_no}}</td>
-                                                <td>{{y.mad_applcnt_nm}}</td>
-                                                <td>{{y.mad_pas_typ_cd}}</td>
-                                                <td>{{y.visitor_typ}}</td>
-                                                <td>{{y.job_en}}</td>
-                                                <td>{{y.employer}}</td>
-                                                <td>{{y.mad_crt_dt.toString().substr(0,10)}}</td>
-                                                  <td>{{y.vend.toString().substr(0,10)}}</td>
-                                               <td>{{y.mad_crt_dt.toString().substr(0,10)}}</td>
-                                            </tr>
-                                        </tbody> -->
-                                    </table>
-                                </div>
+<div class="portlet light portlet-fit bordered">
+
+                                <div class="portlet-body">
+                                    <div class="tabbable-line boxless margin-bottom-20">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active" ng-if="showVisa">
+                                                <a data-target="#visa" data-toggle="tab" aria-expanded="false"> Visa Details </a>
+                                            </li>
+                                            <li class="" ng-if="showHistory">
+                                                <a data-target="#history" data-toggle="tab" aria-expanded="true"> Travel History </a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content" style="padding:5px;">
+                                            <div class="tab-pane active" id="visa">
+                                                                 <div class="portlet-body  tab-content">
+                                                                     <div class="row number-stats margin-bottom-30 tab-pane active" id="tabvisa">
+                                                                         <div > <!--class="search-table table-responsive"-->
+                                                                             <table id="tblvisa" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"> <!--class="table table-bordered table-striped table-condensed" -->
+                                                                                 <thead class="bg-table-gray">
+                                                                                     <tr>
+                                                                                         <th> Sticker</th>
+                                                                                         <th>Pass Type</th>
+                                                                                         <th>Job Title</th>
+                                                                                         <th>Address</th>
+                                                                                         <th>Start Date</th>
+                                                                                         <th>End Date</th>
+                                                                                     </tr>
+                                                                                 </thead>
+                                                                             </table>
+                                                                         </div>
+                                                                     </div>
+                                                                 </div>
+                                                             </div>
+                                            <div class="tab-pane" id="history" ng-if="showHistory">
+                                              <div class="actions pull-right">
+                                                  <div id="inouttab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
+                                                     <a data-target="#inoutchart" class="btn btn-transparent grey-salsa btn-sm active" data-toggle="tab">Chart</a>
+                                                     <a data-target="#inoutdatatbl" class="btn btn-transparent grey-salsa btn-sm" data-toggle="tab">Data</a>
+                                                     <a data-target="#mismatch" class="btn btn-transparent grey-salsa btn-sm" data-toggle="tab">Miss Match</a>
+                                                  </div>
+                                              </div>
+                                                                   <div class="portlet-body tab-content" >
+
+                                                                     <div class="row number-stats margin-bottom-30 tab-pane active" id="inoutchart">
+                                                                         <div class="actions">
+                                                                           <i id="zoomIn" class="btn fa fa-search-plus"></i>
+                                                                           <i id="zoomOut" class="btn fa fa-search-minus"></i>
+                                                                           <i id="moveLeft" class="btn fa fa-arrow-left"></i>
+                                                                           <i id="moveRight" class="btn fa fa-arrow-right"></i>
+                                                                               <span class="clkditem" style="background-color: #C5DC3B"></span>
+                                                                         </div>
+                                                                         <div class="chart123" id="visualization">
+
+                                                                         </div>
+
+                                                                   </div>
+
+                                                                       <div class="row number-stats margin-bottom-30 tab-pane" id="inoutdatatbl">
+                                                                         <div>
+                                                                     <table id="tblinout" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                                                                         <thead class="bg-table-gray">
+                                                                             <tr>
+                                                                                 <th>
+                                                                                     Date & Time
+                                                                                 </th>
+                                                                                 <th>
+                                                                                     Entry / Exit
+                                                                                 </th>
+                                                                                 <th>
+                                                                                     Branch
+                                                                                 </th>
+                                                                                 <th>
+                                                                                     Officer
+                                                                                 </th>
+                                                                             </tr>
+                                                                         </thead>
+
+                                                                     </table>
+                                                                 </div>
+                                                                       </div>
+                                                                   </div>
+                                                               </div>
+                                                               <!-- END PORTLET -->
+                                                           </div>
+                                                       </div>
+                                                   </div>
+                                              </div>
+
                             </div>
-                        </div>
-                    </div>
-                    <!-- END PORTLET -->
-                </div>
-            </div>
-        </div>
-     </div>
+
+
+
+<div class="row row2" ng-if="showVisa">
+
 </div>
 <div class="row row3" ng-if="showHistory">
-	 <div class="col-md-12">
-	 <div class="profile-content">
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- BEGIN PORTLET -->
-                    <div class="portlet light ">
-                        <div class="portlet-title">
-                            <div class="caption caption-md">
-                                <i class="icon-bar-chart theme-font"></i>
-                                <span class="caption-subject font-blue-madison bold uppercase">Entry and Exit details</span>
-                            </div>
-                            <div class="actions">
-                                <div id="inouttab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
-                                	 <a href="#inoutchart" class="btn btn-transparent grey-salsa btn-circle btn-sm active" data-toggle="tab">Chart</a>
-              						<a href="#inoutdatatbl" class="btn btn-transparent grey-salsa btn-circle btn-sm" data-toggle="tab">Data</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portlet-body tab-content">
-                        	<div class="row number-stats margin-bottom-30 tab-pane active" id="inoutchart">
-	                            <div class="actions">
-	                            	<i id="zoomIn" class="btn fa fa-search-plus"></i>
-	                            	<i id="zoomOut" class="btn fa fa-search-minus"></i>
-	                            	<i id="moveLeft" class="btn fa fa-arrow-left"></i>
-	                            	<i id="moveRight" class="btn fa fa-arrow-right"></i>
-                                    <span class="clkditem" style="background-color: #C5DC3B"></span>
-	                            </div>
-	                            <div class="chart123" id="visualization">
 
-	                            </div>
-                                <div class="MismatchArea">
-                                    <span class="row bold red"><center>{{MisMatchCnt}} Mismatch cases found</center></span>
-                                    <table id="tblMisMatch" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"> <!--class="table table-bordered table-striped table-condensed" -->
-                                        <thead class="bg-table-gray">
-                                            <tr>
-                                                <th>Mismatch case</th>
-                                                <th>From Date</th>
-                                                <th>To Date</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                    		</div>
-                            <div class="row number-stats margin-bottom-30 tab-pane" id="inoutdatatbl">
-                            	<div>
-    					            <table id="tblinout" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-    					                <thead class="bg-table-gray">
-    					                    <tr>
-    					                        <th>
-    					                            Date & Time
-    					                        </th>
-    					                        <th>
-    					                            Entry / Exit
-    					                        </th>
-    					                        <th>
-    					                            Branch
-    					                        </th>
-    					                        <th>
-    					                            Officer
-    					                        </th>
-    					                    </tr>
-    					                </thead>
-    					                <!-- <tbody>
-    					                    <tr ng-repeat="x in inoutTbl">
-    					                        <td>
-    					                          {{x.val.toString().substr(0,10)}}
-    					                        </td>
-    					                        <td>
-    					                          {{x.in_outs.buckets[0].val == 'in' ? 'Entry' : 'Exit'}}
-    					                        </td>
-    					                        <td> {{x.in_outs.buckets[0].branch.buckets[0].val}} </td>
-    					                        <td>
-    					                          {{x.in_outs.buckets[0].branch.buckets[0].officer.buckets[0].val}}
-    					                        </td>
-    					                    </tr>
-    					                </tbody> -->
-    					            </table>
-    					        </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END PORTLET -->
-                </div>
-            </div>
-        </div>
-	 </div>
 </div>
 <style type="text/css">
     a.hovertext {
