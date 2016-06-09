@@ -3,7 +3,7 @@
 // var solrHost1 = "10.23.124.220";
 MetronicApp.controller('TravelerTrackerController', function($rootScope,$scope,$http, $timeout) {
 
-$rootScope.settings.layout.pageContentWhite=true;
+
 $scope.lock = 'true';
 $scope.res = "result";
 $('.MismatchArea').hide();
@@ -12,12 +12,12 @@ var chartvisadtls;
 $scope.personal12 = "result";
 $scope.dob="";
 $scope.imagetxt="./assets/admin/layout2/img/avatar.png";
-    $scope.$on('$viewContentLoaded', function() {
-        Metronic.initAjax(); // initialize core components
-        $scope.database = "default";
-        $scope.showVisa = true;
-        $scope.showHistory = true;
-	});
+$scope.$on('$viewContentLoaded', function() {
+    Metronic.initAjax(); // initialize core components
+    $scope.database = "default";
+    $scope.showVisa = true;
+    $scope.showHistory = true;
+});
 
 console.log(window.location.href);
 var Qstring = window.location.href;
@@ -305,4 +305,8 @@ $('.loadimg').show();
          	}
          	$('.loadimg').hide();
          });
+
+         $rootScope.settings.layout.pageContentWhite=true;
+         $rootScope.skipTitle = false;
+  		 $rootScope.settings.layout.setTitle("");
 });
