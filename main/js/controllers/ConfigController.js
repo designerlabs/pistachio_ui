@@ -1,4 +1,4 @@
-/* Setup general page controller */
+/* Setup Config page controller */
 var tableFunc, jobsDataFunc, selectedQueryRunId, reportCategoryID, fromDate, toDate, FrmTemplate = undefined, login;
 
 //reportCategoryID =   $("#reportCategoryID").val();
@@ -27,8 +27,8 @@ function onResize1() {
 
 
 
-/* GeneralPageController starts */
-MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http', 'settings', 'authorities', 'fileUpload', function ($rootScope, $scope, $http, settings, authorities, fileUpload) {
+/* ConfigController starts */
+MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'settings', 'authorities', 'fileUpload', function ($rootScope, $scope, $http, settings, authorities, fileUpload) {
 
     $scope.uploadFile = function(){
         var file = $scope.myFile;
@@ -39,12 +39,14 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
     };
 
 
+    
+
     $.extend( true, $.fn.dataTable.defaults, {
      stateSave: true
     });
 
     $scope.$on('$viewContentLoaded', function () {
-        $("#tableList").hide();
+        
         $scope.chkRole = authorities.checkRole;
         $scope.getReportPrivilege = localStorage.getItem('reportPrivilege');
         $scope.reportPrivilege = JSON.parse($scope.getReportPrivilege);
@@ -62,7 +64,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
         // initialize core components
         Metronic.initAjax();
-        var databases;
+       
         $scope.authoritiesValue = localStorage.getItem('authorities');
 
         $scope.res = $scope.authoritiesValue.split(",");
@@ -82,83 +84,6 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         $scope.reporttitle = localStorage.getItem("selSystemDisplayName"); //Display parent name in e-reporting.html
         $('#lblReportTitle').text(localStorage.getItem('reportCategoryTitle'));
 
-        function databaseDataFunc() {
-            databases = $('#databaseData').DataTable({
-
-                "ajax": {
-                    "processing": true,
-                    "serverSide": true,
-                    "url": globalURL + "etl/databases",
-                    "dataSrc": ""
-                },
-                "columns": [{
-                        "data": "dbName"
-                    }, {
-                        "data": "dbType"
-                    }, {
-                        "data": "username"
-                    }, {
-                        "data": "createdDate",
-                        "width": "10%"
-                    }, {
-                        "data": "action",
-                        "width": "35%",
-                        "render": function (data, type, full, meta) {
-                            return '<button class="btn btn-success btn-sm tableView"><i class="fa fa-eye"></i> view</button><button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
-                        }
-                    }
-                ]
-            });
-        }
-
-
-
-        formInputValidation("#databaseForm");
-        $("#databaseUISubmit").click(function (event) {
-            var databaseNameVal = $("#databaseForm #database-name").val();
-            var databaseTypeVal = $("#databaseForm #database-type").val();
-            var databaseURLVal = $("#databaseForm #database-url").val();
-            var databaseSchemaVal = $("#databaseForm #database-schema").val();
-            var databaseUserVal = $("#databaseForm #database-uname").val();
-            var databasePwdVal = $("#databaseForm #database-pwd").val();
-            var databaseDriverVal = $("#databaseForm #database-driver").val();
-            inputValidation("#databaseForm", databaseAjax);
-
-            function databaseAjax() {
-                $.ajax({
-                        url: globalURL + "etl/databases",
-                        type: "POST",
-                        dataType: 'json',
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify({
-                            dbName: databaseNameVal,
-                            dbType: databaseTypeVal,
-                            dbUrl: databaseURLVal,
-                            dbSchemaName: databaseSchemaVal,
-                            dbUsername: databaseUserVal,
-                            dbPassword: databasePwdVal,
-                            dbDriver: databaseDriverVal,
-                            active: "active",
-                            username: "admin"
-
-                        })
-                    })
-                    .done(function () {
-                        databases.destroy();
-                        databaseDataFunc();
-                        $("#databaseAddForm").modal('hide');
-                        $("#databaseRequire").hide();
-                    })
-                    .fail(function (data) {
-                        //console.log(data.responseJSON.error);
-                        $("#databaseRequire span").html(data.responseJSON.error);
-                        $("#databaseRequire").show();
-                        //alert('Failed!');
-                    });
-            }
-        });
-
-        databaseDataFunc();
 
 
         // configuration
@@ -841,7 +766,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
             // console.log( globalURL+ 'jasperreport/' + fileformat + '/' + reportid);
             var selTemplateVal = JSON.stringify({
-        username: localStorage.username,
+		username: localStorage.username,
                 fromDt: fromDate,
                 toDt: toDate,
                 state: _state.substr(0, _state.indexOf(' - ')),
@@ -982,7 +907,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                             query: queryTextVal,
                             category: reportCategoryID,
                             cached: null,
-                login: localStorage.username
+			    login: localStorage.username
                         })
                     })
                     .done(function () {
@@ -1089,7 +1014,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                             reportFileName: templateFileName,
                             query:'NA',
                             cached: null,
-                login: localStorage.username
+			    login: localStorage.username
                         })
                     })
                     .done(function () {
@@ -1136,7 +1061,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
         });
 
-    var selectedQueryReportId = undefined;
+	var selectedQueryReportId = undefined;
         $('#queryContainer').on('click', 'button.downloadBtn', function () {
             var selectedQuery = queryData.row($(this).parents('tr')).data();
             selectedQueryReportId = selectedQuery.id;
@@ -1390,7 +1315,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         queryName: queryNameValUpdated,
                         query: queryTextValUpdated,
                         cached: null,
-            login: localStorage.username
+			login: localStorage.username
                     })
                 })
                 .done(function (data) {
@@ -1404,6 +1329,176 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 });
         });
 
+
+
+        var selectedDatabaseId = undefined;
+        $('#databaseData').on('click', 'button.updateBtn', function () {
+            // debugger;
+            var selectedDatabase = databases.row($(this).parents('tr')).data();
+            selectedDatabaseId = selectedDatabase.id;
+            $("#databaseAddForm #databaseUISubmit").addClass('hide');
+            $("#databaseAddForm #databaseUIUpdate").removeClass('hide');
+            $("#databaseForm #database-name").val(selectedDatabase.dbName);
+            //$("#databaseForm #database-type option:selected").text(selectedDatabase.dbType);
+            console.log(selectedDatabase.dbType);
+            $("#databaseForm #database-type").val(selectedDatabase.dbType);
+            $("#databaseForm #database-url").val(selectedDatabase.dbUrl);
+            $("#databaseForm #database-schema").val(selectedDatabase.dbSchemaName);
+            $("#databaseForm #database-uname").val(selectedDatabase.dbUsername);
+            $("#databaseForm #database-pwd").val(selectedDatabase.dbPassword);
+            $("#databaseForm #database-driver").val(selectedDatabase.dbDriver);
+            $("#databaseAddFormHeader").html("Update Database");
+            $("#databaseAddForm").modal('show');
+        });
+
+
+
+        $("#databaseUIUpdate").click(function (event) {
+
+            var databaseUpdateNameVal = $("#databaseForm #database-name").val();
+            var databaseUpdateTypeVal = $("#databaseForm #database-type").val();
+            var databaseUpdateURLVal = $("#databaseForm #database-url").val();
+            var databaseSchemaVal = $("#databaseForm #database-schema").val();
+            var databaseUpdateUserVal = $("#databaseForm #database-uname").val();
+            var databaseUpdatePwdVal = $("#databaseForm #database-pwd").val();
+            var databaseUpdateDriverVal = $("#databaseForm #database-driver").val();
+            //alert(selectedQueryId);
+            $.ajax({
+                    url: globalURL + "etl/databases/",
+                    type: "PUT",
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        id: selectedDatabaseId,
+                        dbName: databaseUpdateNameVal,
+                        dbType: databaseUpdateTypeVal,
+                        dbUrl: databaseUpdateURLVal,
+                        dbSchemaName: databaseSchemaVal,
+                        dbUsername: databaseUpdateUserVal,
+                        dbPassword: databaseUpdatePwdVal,
+                        dbDriver: databaseUpdateDriverVal,
+                        active: "active",
+                        username: "admin"
+                    })
+                })
+                .done(function (data) {
+                    databases.destroy();
+                    databaseDataFunc();
+                    //selectedQueryId = null;
+                })
+                .fail(function (e) {
+                    console.log(e);
+                });
+        });
+
+        var selectedDatabaseForDelete;
+        $('#databaseData').on('click', 'button.deleteBtn', function () {
+            $("#databaseDelete").modal('show');
+            selectedDatabaseForDelete = databases.row($(this).parents('tr')).data();
+            $("#databaseDelete .modal-body h3").html('Are you sure do you want to<br>delete the database <strong>' + selectedDatabaseForDelete.dbName + '</strong>?');
+
+        });
+
+        $('#databaseDataDeleteBtn').click(function (event) {
+            //$('#databaseData').on('click', 'button.deleteBtn', function() {
+            //var selectedDatabaseForDelete = databases.row($(this).parents('tr')).data();
+            $.ajax({
+                url: globalURL + 'etl/databases/' + selectedDatabaseForDelete.id,
+                type: 'DELETE',
+                success: function (result) {
+                    // Do something with the result
+                    databases.destroy();
+                    databaseDataFunc();
+                    $("#databaseDelete").modal('hide');
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //alert("Status: " + textStatus);
+                    //alert("Error: " + errorThrown);
+                    //alert("request: " + XMLHttpRequest);
+                    if (errorThrown) {
+                        $("#errorTitle").html(XMLHttpRequest.responseJSON.error);
+                        $("#databaseDeleteErrorMsg").modal('show');
+                        //console.log(XMLHttpRequest.responseJSON.error);
+                    }
+                    //console.log(XMLHttpRequest);
+                    $("#databaseDelete").modal('hide');
+                }
+            });
+
+        });
+
+
+
+
+
+
+        $('#databaseData tbody').on('click', '.tableView', function () {
+            var data = databases.row($(this).parents('tr')).data();
+            $scope.SelectedViewID = data.id;
+            var tables;
+            $("#databaseList").hide();
+            $("#tableList").show();
+            tableFunc = function () {
+                tables = $('#example12').DataTable({
+                    "paginate": true,
+                    "retrieve": true
+                });
+                tables.destroy();
+                tables = $('#example12').DataTable({
+                    "paginate": true,
+                    "retrieve": true,
+                    "ajax": {
+                        "url": globalURL + "etl/databases/" + data.id + "/tables",
+                        "dataSrc": ""
+                    },
+                    "columns": [{
+                        "data": "tableName"
+                    }, {
+                        "data": "status"
+                    }, {
+                        "data": "progress"
+                    }, {
+                        "data": "status",
+                        "render": function (data, type, full, meta) {
+                            if ((data == "NOT_SYNCED") || (data == "NEVER_EXECUTED")) {
+                                return '<button class="btn btn-success btn-sm sqoopBtn"><i class="fa fa-compress"></i> Sqoop</button>';
+                            } else
+                            if (data == "COMPLETED") {
+                                return '<button class="btn btn-default btn-sm dailysqoopBtn" disabled><i class="fa fa-compress"></i> Sqooped</button><button class="btn btn-success btn-sm"><i class="fa fa-compress"></i> Daily Sqoop</button>';
+                            } else {
+                                return '<button class="btn btn-default btn-sm dailysqoopBtn" disabled><i class="fa fa-compress"></i> Sqooped</button><button class="btn btn-danger btn-sm"><i class="fa fa-compress"></i> Daily Sqoop</button>';
+                            }
+                        }
+                    }],
+
+                });
+            }
+
+            tableFunc();
+
+
+            $('#example12 tbody').on('click', 'button.sqoopBtn', function () {
+                var tableList = tables.row($(this).parents('tr')).data();
+                $.ajax({
+                    url: globalURL + "etl/databases/" + tableList.dbId + "/sync?table=" + tableList.tableName + "&hdfs=11",
+                    type: 'GET',
+                    success: function (result) {
+                        // Do something with the result
+                        //alert('done');
+                        tableFunc();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(XMLHttpRequest, textStatus, errorThrown);
+                    }
+                }).error(function (e) {
+                    console.log(e);
+                });
+
+            });
+
+
+
+        });
 
         $(document).ajaxStart(function () {
             $("#loader").css('height', $(".page-content").height() + 140 + 'px');
@@ -1491,7 +1586,25 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
         });
 
-      
+        /*
+                $('#jobsContainer').on('click', 'button.btn2', function() {
+                    var jobData = jobsData.row($(this).parents('tr')).data();
+                    //alert(jobData.id);
+                    $.ajax({
+                        url: globalURL+'etl/jobs/' + jobData.id + '/delete',
+                        type: 'DELETE',
+                        success: function(result) {
+                            // Do something with the result
+                            jobsData.destroy();
+                            jobsDataFunc();
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            alert("Status: " + textStatus);
+                            alert("Error: " + errorThrown);
+                        }
+                    });
+
+                });*/
 
         $("#backBtn").click(function (event) {
             $("#databaseList").show();
@@ -1502,16 +1615,25 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         });
 
 
+
+
+        /*
+                $("#backBtnQuery").click(function(event) {
+                    $("#QueryUIList").show();
+                    $("#QueryUIListRun, #jqueryRunData").hide();
+                });*/
+
+
     });
 
 
 // set sidebar closed and body solid layout mode
   $rootScope.settings.layout.pageSidebarClosed = true;
   $rootScope.skipTitle = false;
-  $rootScope.settings.layout.setTitle("joblist");
+  $rootScope.settings.layout.setTitle("config");
 }]);
 
-MetronicApp.controller('GeneralPageController', function($scope, Idle, settings, Keepalive, $modal, $rootScope){
+MetronicApp.controller('ConfigController', function($scope, Idle, settings, Keepalive, $modal, $rootScope){
       $scope.started = false;
       console.log($scope.started );
       function closeModals() {

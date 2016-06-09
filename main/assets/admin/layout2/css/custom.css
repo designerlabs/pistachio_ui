@@ -20,6 +20,28 @@ Rounded Portlets
 
 
 
+.mt-element-list .list-simple.ext-1.mt-list-container ul>.mt-list-item:hover{
+     background: #3D4A53 !important;
+     color: #fff !important;
+}
+
+.mt-element-list .list-simple.ext-1.mt-list-container ul>.mt-list-item{
+   background: #cdd2cf !important;
+}
+
+.mt-element-list .list-simple.ext-1.mt-list-container ul>.show-more-btn{
+    text-align: center !important;
+}
+
+.mt-element-list .list-simple.ext-1.mt-list-container ul>.show-more-btn:hover{
+    background: #cdd2cf !important;
+}
+
+.mt-element-list .list-simple.ext-1.mt-list-container ul>.show-more-btn label:hover{
+    background: #FFADB2 !important;
+    color: #333 !important;
+}
+
 
 .progress{
     height: 20px;

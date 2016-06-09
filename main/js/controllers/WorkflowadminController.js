@@ -275,5 +275,9 @@ MetronicApp.controller('WorkflowadminController', ['$rootScope', '$scope', '$htt
 	            filter : 'failed'
     	}];
 
+    	$rootScope.settings.layout.pageSidebarClosed = false;
+    	$rootScope.skipTitle = false;
+    	$rootScope.settings.layout.setTitle("workflowmgt");
+
 }]);
 

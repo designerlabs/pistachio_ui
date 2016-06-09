@@ -96,7 +96,15 @@
         </form> -->
         <!-- END HEADER SEARCH BOX -->
         <!-- BEGIN TOP NAVIGATION MENU -->
-        <div class="top-menu">
+        <div class="top-menu" style="float: none;">
+
+            <ul class="nav navbar-nav pull-left">
+                <li><h3 style="padding:0px 0 0 8px; font-size: 26px;" ng-show="skipTitle">{{ reporttitle }}</h3>
+
+                <h3 style="padding:0px 0 0 8px; font-size: 26px;"  ng-show="skipTitle == false">{{ settings.layout.pageTitle() | translate }}</h3>
+                </li>
+            </ul>
+        
             <ul class="nav navbar-nav pull-right">
                 <!-- BEGIN NOTIFICATION DROPDOWN -->
                 <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
@@ -202,9 +210,11 @@
     //      window.location = "login.html";
     //     });
 
+
     $(function () {
         var currentToken = localStorage.getItem("token");
         var currentUserName = localStorage.getItem("username");
+
 
 
         if (currentToken) {

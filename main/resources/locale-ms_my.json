@@ -3,6 +3,9 @@
 	"sidebar.dashboard" : "Paparan Utama",
 	"directives.language-select.Language": "Bahasa Malaysia",
 	"dashboard.title" : "Paparan Utama",
+	"dashboardmgt.title":"Dashboard Management",
+	"databaselist.title":"Database list",
+	"config.title":"Configuration settings",
 	"sidebar.fastsearch": "Carian Cepat",
 	"sidebar.ereport" : "E-Laporan",
 	"sidebar.administrator" : "Pentadbir",
@@ -18,8 +21,12 @@
 	"sidebar.dashboardchart": "Carta",
 	"sidebar.dashboardlink": "Analisa Umum",
     "sidebar.appl_analysis": "Visa Application Analysis",
-		"sidebar.countryAnalysis": "Analysis by Country",
+	"sidebar.countryAnalysis": "Analysis by Country",
 	"header.search" : "Pencarian",
+	"usermgt.title":"User Management",
+	"rolemgt.title":"Role Management",
+	"joblist.title":"Job list",
+	"fastsearch.title":"Fast Search",
 	"fastsearch.launch" : "Pelancaran",
 	"fastsearch.doc.title" : "Pencarian Cepat (Dokumen)",
 	"fastsearch.doc.search" : "Penarian",
@@ -52,7 +59,7 @@
 	"fastsearch.global.country" : "Negara",
 	"fastsearch.global.applicationno" : "Nombor Aplikasi",
 	"fastsearch.global.action" : "Tindakan",
-
+	"queryeditor.title" : "Query Editor",
 	"ereporting.add" : "Tambah",
 	"ereporting.back" : "Kembali",
 	"ereporting.name" : "Nama",
@@ -68,7 +75,7 @@
 
 
 	"report.title" : "E-Laporan",
-
+	"reportmgt.title":"Manage System Reports",
 	"audit.title" : "Audit",
 	"audit.filter" : "Tapisan",
 	"audit.eventTime" : "Masa",
@@ -82,7 +89,8 @@
 	"session.idlemessage" : "Anda Idle. Lakukan sesuatu",
 	"session.timeoutmessage" : "Anda telah tamat masa",
 	"session.loggedoutmessage" : "Anda adalah terbiar terlalu lama. Anda log keluar sekarang, Sila log masuk lagi",
-
+	"tracking.title" : "Border Activity Analysis",
+	"workflowmgt.title":"Request Management",
 	"profile.title" : "Profil saya",
 	"profile.overview" : "Gambaran Keseluruhan",
 	"profile.edit" : "Edit",

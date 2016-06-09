@@ -1,4 +1,4 @@
-/* Setup general page controller */
+/* Setup database list page controller */
 var tableFunc, jobsDataFunc, selectedQueryRunId, reportCategoryID, fromDate, toDate, FrmTemplate = undefined, login;
 
 //reportCategoryID =   $("#reportCategoryID").val();
@@ -27,16 +27,21 @@ function onResize1() {
 
 
 
-/* GeneralPageController starts */
-MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http', 'settings', 'authorities', 'fileUpload', function ($rootScope, $scope, $http, settings, authorities, fileUpload) {
+/* databaselistcontroller starts */
+MetronicApp.controller('DatabaseListController', ['$rootScope', '$scope', '$http', 'settings', 'authorities', 'fileUpload', function ($rootScope, $scope, $http, settings, authorities, fileUpload) {
 
-    $scope.uploadFile = function(){
-        var file = $scope.myFile;
-        console.log('file is ' );
-        console.dir(file);
-        var uploadUrl = globalURL + "api/pistachio/upload?user=";
-        fileUpload.uploadFileToUrl(file, uploadUrl);
-    };
+
+    $.getJSON("js/scripts/databaselist.json",function(json){
+    	$.each(json, function(k, v){
+            // $("#database-type").empty();
+            $("#database-type").append('<option data-driver='+v.driver+' value='+v.dbtype+'>'+v.dbtype+'</option>');
+        });
+    });
+
+
+    $("#database-type").change(function () {
+        $('#database-driver').val($("#database-type option:selected").attr('data-driver'));
+    });
 
 
     $.extend( true, $.fn.dataTable.defaults, {
@@ -44,43 +49,33 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
     });
 
     $scope.$on('$viewContentLoaded', function () {
+        $("#databaseList").show();
         $("#tableList").hide();
         $scope.chkRole = authorities.checkRole;
         $scope.getReportPrivilege = localStorage.getItem('reportPrivilege');
         $scope.reportPrivilege = JSON.parse($scope.getReportPrivilege);
 
 
-
         $("#sidebarMenu li").click(function(){
             $("#sidebarMenu li").removeClass("active");
             $("#sidebarMenu li").removeClass("open");
             $(this).addClass('active');
-            console.log(this);
-            //alert(this);
             $(this).parents('ul').parent('li').addClass("active");
         });
 
         // initialize core components
         Metronic.initAjax();
         var databases;
+        //check
         $scope.authoritiesValue = localStorage.getItem('authorities');
-
         $scope.res = $scope.authoritiesValue.split(",");
         $scope.roles = $scope.res;
-        /*
-                $scope.checkRole = function(x){
-                    alert(x);
-                    //alert(x + " Admin");
-                    var arrayChk = $.inArray(x,$scope.roles);
-                    if(arrayChk != -1){
-                     return true;
-                    }else{
-                     return false;
-                    }
-
-                }*/
         $scope.reporttitle = localStorage.getItem("selSystemDisplayName"); //Display parent name in e-reporting.html
         $('#lblReportTitle').text(localStorage.getItem('reportCategoryTitle'));
+
+        //check
+
+
 
         function databaseDataFunc() {
             databases = $('#databaseData').DataTable({
@@ -159,148 +154,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         });
 
         databaseDataFunc();
-
-
-        // configuration
-        var configuration;
-        configurationDataFunc = function () {
-            configuration = $('#config').DataTable({
-
-                "ajax": {
-                    "processing": true,
-                    "serverSide": true,
-                    "url": globalURL + "config",
-                    "dataSrc": ""
-                },
-                "columns": [{
-                    "data": "id"
-                }, {
-                    "data": "configName"
-                }, {
-                    "data": "configValue"
-                }, {
-                    "data": "application"
-                }, {
-                    "data": "action",
-                    "width": "22%",
-                    "render": function (data, type, full, meta) {
-                        return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
-                    }
-                }]
-            });
-        }
-
-
-
-
-        formInputValidation("#configForm");
-        $("#configUISubmit").click(function (event) {
-            var configNameVal = $("#configForm #config-name").val();
-            var configVal = $("#configForm #config-value").val();
-            var configApp = $("#configForm #config-application").val();
-            inputValidation("#configForm", configAjax);
-
-            function configAjax() {
-                $.ajax({
-                        url: globalURL + "config/",
-                        type: "POST",
-                        dataType: 'json',
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify({
-                            configName: configNameVal,
-                            configValue: configVal,
-                            application: configApp
-                        })
-                    })
-                    .done(function () {
-                        configuration.destroy();
-                        configurationDataFunc();
-                        //$("#configForm input").parent('.form-group').removeClass('has-error');
-                        $("#configAddForm").modal('hide');
-                        $("#configRequire").hide();
-                    })
-                    .fail(function (data) {
-                        //console.log(data.responseJSON.error);
-                        $("#configRequire span").html(data.responseJSON.error);
-                        $("#configRequire").show();
-                    });
-            }
-
-        });
-
-
-        configurationDataFunc();
-
-        var selectedConfigId = undefined;
-        $('#config').on('click', 'button.updateBtn', function () {
-            $("#configForm input").parent('.form-group').removeClass('has-error');
-            var selectedConfig = configuration.row($(this).parents('tr')).data();
-            selectedConfigId = selectedConfig.id;
-            $("#configAddForm #configUISubmit").addClass('hide');
-            $("#configAddForm #configUIUpdate").removeClass('hide');
-            $("#configForm #config-name").val(selectedConfig.configName);
-            $("#configForm #config-value").val(selectedConfig.configValue);
-            $("#configForm #config-application").val(selectedConfig.application);
-            $("#configAddForm").modal('show');
-            $("#configAddFormHeader").html("Update Configuration");
-        });
-
-
-        $("#configUIUpdate").click(function (event) {
-            var configNameVal = $("#configForm #config-name").val();
-            var configVal = $("#configForm #config-value").val();
-            var configApp = $("#configForm #config-application").val();
-            //alert(selectedQueryId);
-            $.ajax({
-                    url: globalURL + "config/",
-                    type: "PUT",
-                    dataType: 'json',
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify({
-                        id: selectedConfigId,
-                        configName: configNameVal,
-                        configValue: configVal,
-                        application: configApp
-                    })
-                })
-                .done(function (data) {
-                    configuration.destroy();
-                    configurationDataFunc();
-                    $("#configAddForm").modal('hide');
-                    //selectedQueryId = null;
-                })
-                .fail(function (e) {
-                    console.log(e);
-                });
-        });
-
-        var selectedConfigForDelete;
-        $('#config').on('click', 'button.deleteBtn', function () {
-            $("#configDelete").modal('show');
-            selectedConfigForDelete = configuration.row($(this).parents('tr')).data();
-            $("#configDelete .modal-body h3").html('Are you sure do you want to<br>delete the config <strong>' + selectedConfigForDelete.configName + '</strong> ?');
-        });
-
-        $('#configDataDeleteBtn').click(function (event) {
-
-            $.ajax({
-                url: globalURL + 'config/' + selectedConfigForDelete.id,
-                type: 'DELETE',
-                success: function (result) {
-                    // Do something with the result
-                    configuration.destroy();
-                    configurationDataFunc();
-                    $("#configDelete").modal('hide');
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $("#configErrorTitle").html(XMLHttpRequest.responseJSON.error);
-                    $("#configDeleteErrorMsg").modal('show');
-                    $("#configDelete").modal('hide');
-                }
-            });
-
-        });
-
+    
 
         var jobsData;
         jobsDataFunc = function () {
@@ -841,7 +695,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
             // console.log( globalURL+ 'jasperreport/' + fileformat + '/' + reportid);
             var selTemplateVal = JSON.stringify({
-        username: localStorage.username,
+		username: localStorage.username,
                 fromDt: fromDate,
                 toDt: toDate,
                 state: _state.substr(0, _state.indexOf(' - ')),
@@ -982,7 +836,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                             query: queryTextVal,
                             category: reportCategoryID,
                             cached: null,
-                login: localStorage.username
+			    login: localStorage.username
                         })
                     })
                     .done(function () {
@@ -1089,7 +943,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                             reportFileName: templateFileName,
                             query:'NA',
                             cached: null,
-                login: localStorage.username
+			    login: localStorage.username
                         })
                     })
                     .done(function () {
@@ -1136,7 +990,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
         });
 
-    var selectedQueryReportId = undefined;
+	var selectedQueryReportId = undefined;
         $('#queryContainer').on('click', 'button.downloadBtn', function () {
             var selectedQuery = queryData.row($(this).parents('tr')).data();
             selectedQueryReportId = selectedQuery.id;
@@ -1390,7 +1244,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                         queryName: queryNameValUpdated,
                         query: queryTextValUpdated,
                         cached: null,
-            login: localStorage.username
+			login: localStorage.username
                     })
                 })
                 .done(function (data) {
@@ -1404,6 +1258,176 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 });
         });
 
+
+
+        var selectedDatabaseId = undefined;
+        $('#databaseData').on('click', 'button.updateBtn', function () {
+            // debugger;
+            var selectedDatabase = databases.row($(this).parents('tr')).data();
+            selectedDatabaseId = selectedDatabase.id;
+            $("#databaseAddForm #databaseUISubmit").addClass('hide');
+            $("#databaseAddForm #databaseUIUpdate").removeClass('hide');
+            $("#databaseForm #database-name").val(selectedDatabase.dbName);
+            //$("#databaseForm #database-type option:selected").text(selectedDatabase.dbType);
+            console.log(selectedDatabase.dbType);
+            $("#databaseForm #database-type").val(selectedDatabase.dbType);
+            $("#databaseForm #database-url").val(selectedDatabase.dbUrl);
+            $("#databaseForm #database-schema").val(selectedDatabase.dbSchemaName);
+            $("#databaseForm #database-uname").val(selectedDatabase.dbUsername);
+            $("#databaseForm #database-pwd").val(selectedDatabase.dbPassword);
+            $("#databaseForm #database-driver").val(selectedDatabase.dbDriver);
+            $("#databaseAddFormHeader").html("Update Database");
+            $("#databaseAddForm").modal('show');
+        });
+
+
+
+        $("#databaseUIUpdate").click(function (event) {
+
+            var databaseUpdateNameVal = $("#databaseForm #database-name").val();
+            var databaseUpdateTypeVal = $("#databaseForm #database-type").val();
+            var databaseUpdateURLVal = $("#databaseForm #database-url").val();
+            var databaseSchemaVal = $("#databaseForm #database-schema").val();
+            var databaseUpdateUserVal = $("#databaseForm #database-uname").val();
+            var databaseUpdatePwdVal = $("#databaseForm #database-pwd").val();
+            var databaseUpdateDriverVal = $("#databaseForm #database-driver").val();
+            //alert(selectedQueryId);
+            $.ajax({
+                    url: globalURL + "etl/databases/",
+                    type: "PUT",
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        id: selectedDatabaseId,
+                        dbName: databaseUpdateNameVal,
+                        dbType: databaseUpdateTypeVal,
+                        dbUrl: databaseUpdateURLVal,
+                        dbSchemaName: databaseSchemaVal,
+                        dbUsername: databaseUpdateUserVal,
+                        dbPassword: databaseUpdatePwdVal,
+                        dbDriver: databaseUpdateDriverVal,
+                        active: "active",
+                        username: "admin"
+                    })
+                })
+                .done(function (data) {
+                    databases.destroy();
+                    databaseDataFunc();
+                    //selectedQueryId = null;
+                })
+                .fail(function (e) {
+                    console.log(e);
+                });
+        });
+
+        var selectedDatabaseForDelete;
+        $('#databaseData').on('click', 'button.deleteBtn', function () {
+            $("#databaseDelete").modal('show');
+            selectedDatabaseForDelete = databases.row($(this).parents('tr')).data();
+            $("#databaseDelete .modal-body h3").html('Are you sure do you want to<br>delete the database <strong>' + selectedDatabaseForDelete.dbName + '</strong>?');
+
+        });
+
+        $('#databaseDataDeleteBtn').click(function (event) {
+            //$('#databaseData').on('click', 'button.deleteBtn', function() {
+            //var selectedDatabaseForDelete = databases.row($(this).parents('tr')).data();
+            $.ajax({
+                url: globalURL + 'etl/databases/' + selectedDatabaseForDelete.id,
+                type: 'DELETE',
+                success: function (result) {
+                    // Do something with the result
+                    databases.destroy();
+                    databaseDataFunc();
+                    $("#databaseDelete").modal('hide');
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //alert("Status: " + textStatus);
+                    //alert("Error: " + errorThrown);
+                    //alert("request: " + XMLHttpRequest);
+                    if (errorThrown) {
+                        $("#errorTitle").html(XMLHttpRequest.responseJSON.error);
+                        $("#databaseDeleteErrorMsg").modal('show');
+                        //console.log(XMLHttpRequest.responseJSON.error);
+                    }
+                    //console.log(XMLHttpRequest);
+                    $("#databaseDelete").modal('hide');
+                }
+            });
+
+        });
+
+
+
+
+
+
+        $('#databaseData tbody').on('click', '.tableView', function () {
+            var data = databases.row($(this).parents('tr')).data();
+            $scope.SelectedViewID = data.id;
+            var tables;
+            $("#databaseList").hide();
+            $("#tableList").show();
+            tableFunc = function () {
+                tables = $('#example12').DataTable({
+                    "paginate": true,
+                    "retrieve": true
+                });
+                tables.destroy();
+                tables = $('#example12').DataTable({
+                    "paginate": true,
+                    "retrieve": true,
+                    "ajax": {
+                        "url": globalURL + "etl/databases/" + data.id + "/tables",
+                        "dataSrc": ""
+                    },
+                    "columns": [{
+                        "data": "tableName"
+                    }, {
+                        "data": "status"
+                    }, {
+                        "data": "progress"
+                    }, {
+                        "data": "status",
+                        "render": function (data, type, full, meta) {
+                            if ((data == "NOT_SYNCED") || (data == "NEVER_EXECUTED")) {
+                                return '<button class="btn btn-success btn-sm sqoopBtn"><i class="fa fa-compress"></i> Sqoop</button>';
+                            } else
+                            if (data == "COMPLETED") {
+                                return '<button class="btn btn-default btn-sm dailysqoopBtn" disabled><i class="fa fa-compress"></i> Sqooped</button><button class="btn btn-success btn-sm"><i class="fa fa-compress"></i> Daily Sqoop</button>';
+                            } else {
+                                return '<button class="btn btn-default btn-sm dailysqoopBtn" disabled><i class="fa fa-compress"></i> Sqooped</button><button class="btn btn-danger btn-sm"><i class="fa fa-compress"></i> Daily Sqoop</button>';
+                            }
+                        }
+                    }],
+
+                });
+            }
+
+            tableFunc();
+
+
+            $('#example12 tbody').on('click', 'button.sqoopBtn', function () {
+                var tableList = tables.row($(this).parents('tr')).data();
+                $.ajax({
+                    url: globalURL + "etl/databases/" + tableList.dbId + "/sync?table=" + tableList.tableName + "&hdfs=11",
+                    type: 'GET',
+                    success: function (result) {
+                        // Do something with the result
+                        //alert('done');
+                        tableFunc();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(XMLHttpRequest, textStatus, errorThrown);
+                    }
+                }).error(function (e) {
+                    console.log(e);
+                });
+
+            });
+
+
+
+        });
 
         $(document).ajaxStart(function () {
             $("#loader").css('height', $(".page-content").height() + 140 + 'px');
@@ -1491,7 +1515,6 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
         });
 
-      
 
         $("#backBtn").click(function (event) {
             $("#databaseList").show();
@@ -1504,16 +1527,16 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
     });
 
-
 // set sidebar closed and body solid layout mode
   $rootScope.settings.layout.pageSidebarClosed = true;
   $rootScope.skipTitle = false;
-  $rootScope.settings.layout.setTitle("joblist");
+  $rootScope.settings.layout.setTitle("databaselist");
+
 }]);
 
-MetronicApp.controller('GeneralPageController', function($scope, Idle, settings, Keepalive, $modal, $rootScope){
+MetronicApp.controller('DatabaseListController', function($scope, Idle, Keepalive, $modal, $rootScope){
       $scope.started = false;
-      console.log($scope.started );
+     
       function closeModals() {
         if ($scope.warning) {
           $scope.warning.close();
@@ -1561,5 +1584,4 @@ MetronicApp.controller('GeneralPageController', function($scope, Idle, settings,
         $scope.started = false;
 
       };
-
     });

@@ -29,10 +29,11 @@ MetronicApp.controller('DashboardController', function($rootScope, $scope, $http
             $("#iframeContainer").hide();
             $("#iframeContainer iframe").attr('src','');
         });
-        console.log($scope);
 
     });
 
     // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.pageSidebarClosed = true;
+    $rootScope.skipTitle = false;
+    $rootScope.settings.layout.setTitle("dashboard");
 });

@@ -60,4 +60,8 @@ MetronicApp.controller('AuditController', function($rootScope, $scope, $http) {
 
     // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.pageSidebarClosed = false;
+    $rootScope.skipTitle = false;
+    $rootScope.settings.layout.setTitle("audit");
+  
+
 });

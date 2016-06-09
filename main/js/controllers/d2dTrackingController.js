@@ -42,7 +42,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         $scope.getFromDt = frmDt[2] + "-" + frmDt[1] + "-" + frmDt[0] + "T00:00:00Z";
         $scope.getToDt = toDt[2] + "-" + toDt[1] + "-" + toDt[0] + "T00:00:00Z";
 
-
+        
         var utcFromDt = new Date(frmDt[2] + "-" + frmDt[1] + "-" + frmDt[0] + "T00:00:00Z");
         var utcToDt = new Date(toDt[2] + "-" + toDt[1] + "-" + toDt[0] + "T00:00:00Z");
         $scope.utcFromDt = parseInt(utcFromDt.getTime());
@@ -1126,4 +1126,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
     // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.pageSidebarClosed = false;
+    $rootScope.skipTitle = false;
+    $rootScope.settings.layout.setTitle("tracking");
 });

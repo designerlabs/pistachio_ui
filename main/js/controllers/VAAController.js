@@ -4,7 +4,7 @@ var filter_query = "";
 
 var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/immigration2/query?json='
 
-MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $datamaps) {
+MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
     $scope.$on('$viewContentLoaded', function() {
 
         // initialize core components
@@ -719,4 +719,6 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http, $dat
 
     // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.pageSidebarClosed = true;
+    $rootScope.skipTitle = false;
+    $rootScope.settings.layout.setTitle("");
 });

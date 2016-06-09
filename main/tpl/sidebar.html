@@ -6,7 +6,7 @@
     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
     <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-    <ul class="page-sidebar-menu page-sidebar-menu-hover-submenu" id="sidebarMenu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" ng-class="{'page-sidebar-menu-closed': settings.layout.pageSidebarClosed}">
+    <ul class="page-sidebar-menu" id="sidebarMenu"  ng-class="{'page-sidebar-menu-closed': settings.layout.pageSidebarClosed}">
 
 
         <li class="start" id="dashboard">
@@ -33,33 +33,7 @@
                 </li>
             </ul>
         </li>
-       <li class="start" id="fastsearch">
-            <a href="#/fastsearch.html">
-                <i class="icon-magnifier"></i>
-                <span class="title">{{'sidebar.fastsearch' | translate}}</span>
-            </a>
-        </li>
-
-         <li class="start" id="sqleditor">
-            <a href="#/sqleditor/sqleditor.html">
-            <i class="icon-pencil"></i>
-                <span class="title">Query Editor</span>
-            </a>
-        </li>
-        <li class="start" id="tracker">
-            <a href="#/d2dTracking/d2dTracking.html">
-            <i class="fa fa-line-chart"></i>
-                <span class="title">Tracking</span>
-            </a>
-        </li>
-
-        <li class="start" id="workflowMgt"  ng-if="!chkRole('ROLE_ADMIN')">
-            <a href="#/workflowuser.html">
-                <i class="icon-magnifier"></i>
-                <span class="title">Request Management</span>
-            </a>
-        </li>
-       
+        
 
 
 
@@ -80,10 +54,8 @@
 
         </li>
 
-
-
-
-
+        
+    
         <li ng-if="chkRole('ROLE_ADMIN')" class="start">
             <a href="javascript:;">
                 <i class="icon-users"></i>
@@ -102,21 +74,6 @@
                     </a>
                 </li>
 
-               
-
-                <!--  <li>
-                    <a href="#/travelertracker/travelertracker.html">
-                        <i class="icon-plane"></i> Traveler Tracker
-                    </a>
-                </li> -->
-<!--
-                <li>
-                    <a href="#/d2dTracking/d2dTracking.html">
-                        <i class="fa fa-line-chart"></i> Tracking
-                    </a>
-                </li>
-                -->
-
                 <li>
                     <a href="#/audit.html">
                         <i class="icon-docs"></i> {{'sidebar.audit' | translate}}
@@ -125,7 +82,6 @@
                 <li>
                     <a href="#/dashboardManagement/dashboardMgt.html">
                         <i class="icon-layers"></i> {{'sidebar.dashboardmanagement' | translate}}
-                        <span class="arrow "></span>
                     </a>
                 </li>
                 <li id="configurationLink">
@@ -163,13 +119,43 @@
                         <li>
                             <a href="#/datatables/advanced.html">
                                 <i class="icon-layers"></i>{{'sidebar.database' | translate}}
-                                <span class="arrow "></span>
                             </a>
                         </li>
                     </ul>
                 </li>
             </ul>
         </li>
+       <li class="start" id="fastsearch">
+            <a href="#/fastsearch.html">
+                <i class="icon-magnifier"></i>
+                <span class="title">{{'sidebar.fastsearch' | translate}}</span>
+            </a>
+        </li>
+
+         <li class="start" id="sqleditor">
+            <a href="#/sqleditor/sqleditor.html">
+            <i class="icon-pencil"></i>
+                <span class="title">Query Editor</span>
+            </a>
+        </li>
+        <li class="start" id="tracker">
+            <a href="#/d2dTracking/d2dTracking.html">
+            <i class="fa fa-line-chart"></i>
+                <span class="title">Tracking</span>
+            </a>
+        </li>
+
+        <li class="start" id="workflowMgt"  ng-if="!chkRole('ROLE_ADMIN')">
+            <a href="#/workflowuser.html">
+                <i class="icon-magnifier"></i>
+                <span class="title">Request Management</span>
+            </a>
+        </li>
+       
+
+
+
+
 
 
 
@@ -177,10 +163,11 @@
     <!-- END SIDEBAR MENU -->
 </div>
 <script>
-$(function(){
+
+/*$(function(){
     $("#afpr").addClass("active");
 //alert(isAdmin+ "sidebar");
-});
+});*/
 
 
 

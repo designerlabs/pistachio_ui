@@ -37,7 +37,7 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
             //console.log(response.subReports);
     		//$scope.names = response;
        });
-            $scope.reporttitle = localStorage.getItem("selSystemDisplayName"); //Display parent name in report2/3.html
+            $rootScope.reporttitle = localStorage.getItem("selSystemDisplayName"); //Display parent name in report2/3.html
             $scope.countDown = 1;    
             $scope.timer = setInterval(function(){
                 $scope.countDown++;
@@ -139,4 +139,6 @@ MetronicApp.controller('ReportCategoryController',  ['$rootScope', '$scope', '$h
 
     // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.pageSidebarClosed = false;
+    $rootScope.skipTitle = true;
+    $rootScope.settings.layout.setTitle("reporttitle");
 }]);

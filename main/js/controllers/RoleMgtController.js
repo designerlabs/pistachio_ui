@@ -4,7 +4,7 @@ var triggerName = "";
 var triggerDataTableName = "";
 var SubReportAry = [];
 var SubReportObj = [];
-MetronicApp.controller('RoleMgtController', function($rootScope, $scope, $http, $timeout) {
+MetronicApp.controller('RoleMgtController', function($rootScope, $scope, settings, $http, $timeout) {
     $scope.$on('$viewContentLoaded', function() {   
 
          $("#roleMgtList").show();
@@ -591,6 +591,8 @@ function UpdateCrud(_data){
 
     // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.pageSidebarClosed = false;
+    $rootScope.skipTitle = false;
+    $rootScope.settings.layout.setTitle("rolemgt");
 });
 
 // http://pistachio_server:8080/api/role/{rolename}/subcrud -- To See sub report permissions

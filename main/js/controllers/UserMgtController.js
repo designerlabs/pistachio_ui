@@ -1,6 +1,6 @@
 'use strict';
 
-MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, $timeout) {
+MetronicApp.controller('UserMgtController', function($rootScope, settings, $scope, $http, $timeout) {
     $scope.$on('$viewContentLoaded', function() {   
 
         $("#userMgtList").show();
@@ -280,6 +280,7 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
     	};
     });
 
-    // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.pageSidebarClosed = false;
+    $rootScope.skipTitle = false;
+    $rootScope.settings.layout.setTitle("usermgt");
 });

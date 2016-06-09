@@ -395,6 +395,10 @@ $scope.start=0;
          $('#userReqDes').val("");
          $('#userPriority option:selected').text("Normal");
         $scope.resetBtn = true;
-	 }
+	}
+
+	$rootScope.settings.layout.pageSidebarClosed = false;
+	$rootScope.skipTitle = false;
+	$rootScope.settings.layout.setTitle("workflowmgt");
 
 });
