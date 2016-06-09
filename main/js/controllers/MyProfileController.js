@@ -21,10 +21,18 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
        $scope.setProfileInfo(response);
        $scope.noedit =true;
        userId = response.id;
+       showReportTemplate(response.login);
       });
 
     });
 
+    function showReportTemplate(login){
+        $http.get(globalURL+"jasperreport/query/"+login+"?start=0&rows=8")
+          .then(function(response) {
+            $scope.rptcontent = response.data;
+          });
+     }
+    
     $scope.tabs = [{
             title: 'Profile',
             url: 'edit.profile.html'
@@ -35,6 +43,10 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
             title: 'Change Password',
             url: 'change.password.html'
     }];
+    
+    $scope.downloadReport = function(id) {
+        window.location.href = globalURL + 'download/jasper/' + id;
+      }
 
     $scope.currentTab = 'edit.profile.html';
 

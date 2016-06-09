@@ -155,7 +155,69 @@
 									</div>
 								</div>
 																						<!-- END PORTLET -->
-						</div>
+						    </div>
+						    </div>
+						<div class="row" ng-if="noedit">
+						  <div class="col-md-6">
+								<div class="portlet light ">
+									<div class="portlet-title">
+										<div class="caption caption-md">
+											<i class="icon-bar-chart theme-font hide"></i>
+
+											<span class="caption-subject font-blue-madison bold uppercase">{{'report.template' | translate}}</span>
+											<span class="caption-helper hide">weekly stats...</span>
+										</div>
+									</div>
+									<div class="portlet-body">
+										<div class="table-scrollable table-scrollable-borderless">
+                                            <table class="table table-hover table-light">
+                                                <thead >
+                                                    <tr>
+                                                        <th>
+                                                            <a href="javascript:;">{{'report.query' | translate}}</a>
+                                                        </th>
+                                                        <th>
+                                                            <a href="javascript:;">{{'report.queryName' | translate}}</a>
+                                                        </th>
+                                                        <th>
+                                                            <a href="javascript:;">{{'report.download' | translate}}</a>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="y in rptcontent">
+                                                   
+                                                        <td  style="width:45%;"  class="table-title">
+                                                            <a href="javascript:;">{{y.queryName}}</a>
+                                                        </td>
+                                                        <td style="width:25%;" class="table-desc"> {{y.reportFileName}} </td>
+                                                        <!--<td class="table-download"><button class="btn btn-warning btn-sm downloadBtn"><i class="fa fa-download"></i> {{y.download}}</button></td>-->
+                                                        <td class="action-column">
+                <button type="button" class="btn btn-info btn-sm downloadBtn" ng-click="downloadReport(y.id)"><i class="fa fa-download"></i>Template</button>
+            </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+									</div>
+								</div>
+						  </div>
+						  <div class="col-md-6">
+								<div class="portlet light ">
+									<div class="portlet-title">
+										<div class="caption caption-md">
+											<i class="icon-bar-chart theme-font hide"></i>
+
+											<span class="caption-subject font-blue-madison bold uppercase">{{'report.favourite' | translate}}</span>
+											<span class="caption-helper hide">weekly stats...</span>
+										</div>
+									</div>
+									<div class="portlet-body form">
+										
+									</div>
+								</div>
+						  </div>
+						<div>
 					</div>
 					<!--Edit Profile -->
 		<div class="profile-content" ng-if="!noedit">
