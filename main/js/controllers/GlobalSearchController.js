@@ -25,7 +25,6 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
           $scope.start=0;
           $scope.users = 0;
           $scope.text = $rootScope.fastsearch.text;
-          $('.searchbox').val('$scope.text');
           $scope.show();
           $rootScope.fastsearch.load=false;
         }
@@ -160,6 +159,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
     $scope.visitor_box = function() {
       $http.get('http://'+solrHost+':8983/solr/hismove/select?q='+$scope.getQuery()+'&wt=json&start=0&rows=0').
           success(function(data) {
+              $('#searchbox').val($scope.text);
               $scope.employers = data.response.numFound;
               $scope.vtime = data.responseHeader.QTime;
             }).
