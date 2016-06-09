@@ -301,6 +301,7 @@ $('.lk').click(function(){
 });
 
 $('.bck').click(function() {
+  $rootScope.fastsearch.load=true;
 	parent.history.back();
 		return false;
 });

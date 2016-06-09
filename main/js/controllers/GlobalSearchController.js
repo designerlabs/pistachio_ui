@@ -9,13 +9,27 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
         // initialize core components
         Metronic.initAjax();
         var getUser = localStorage.getItem("username");
-        $scope.showApplication = false;
-        $scope.showVisitor = false;
+        if(!$rootScope.fastsearch.load)
+        {
+          $scope.showApplication = false;
+          $scope.showVisitor = false;
 
-        $scope.start=0;
-        $scope.users = 0;
-        $scope.text = "";
-        $scope.go();
+          $scope.start=0;
+          $scope.users = 0;
+          $scope.text = "";
+          $scope.go();
+        }
+        else {
+          $scope.showApplication = $rootScope.fastsearch.showApplication;
+          $scope.showVisitor = $rootScope.fastsearch.showVisitor;
+          $scope.start=0;
+          $scope.users = 0;
+          $scope.text = $rootScope.fastsearch.text;
+          $('.searchbox').val('$scope.text');
+          $scope.show();
+          $rootScope.fastsearch.load=false;
+        }
+
     });
 
     $scope.getQuery = function() {
@@ -173,10 +187,6 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
     $scope.search = function(text) {
 
-      //if (/\s/.test(text)) {
-     //    text = text.replace(/\s+/g,",");
-      //}
-      selected_countries = [];
       filter_query = "";
       $scope.text = text;
       $scope.start = 0;
@@ -213,17 +223,9 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
 
     $scope.viewReq = function(docno,cntry){
-
-
      cntry = cntry.replace(/ /g,"*");
-      //}
-      //alert(cntry)
-
-            // window.location.href ="#/travelertracker/travelertracker.html";
-      window.location = "#/travelertracker/travelertracker.html?doc_no="+docno+"&country="+cntry+"";
-      // window.open("MusicMe.html?variable=value", "_self");
-
-    };
+     window.location = "#/travelertracker/travelertracker.html?doc_no="+docno+"&country="+cntry+"";
+   };
 
     $scope.showVisitors = function() {
       var query = "";
@@ -301,9 +303,9 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
 
     $scope.$on('$locationChangeStart', function( event ) {
-      selected_countries = [];
-      filter_query = "";
-      $scope.showApplication =false;
+      $rootScope.fastsearch.text = $scope.text;
+      $rootScope.fastsearch.showApplication = $scope.showApplication;
+      $rootScope.fastsearch.showVisitor = $scope.showVisitor;
     });
 
      // $('.searchBtn').click(function (event) {
