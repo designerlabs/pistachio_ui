@@ -1,6 +1,9 @@
 'use strict';
 // var solrHost1 = "10.23.124.242";
 // var solrHost1 = "10.23.124.220";
+
+var info_personal_loaded = false;
+
 MetronicApp.controller('TravelerTrackerController', function($rootScope,$scope,$http, $timeout) {
 
 
@@ -9,30 +12,44 @@ $scope.res = "result";
 $('.MismatchArea').hide();
 $('.clkditem').hide();
 var chartvisadtls;
-$scope.personal12 = "result";
 $scope.dob="";
 $scope.imagetxt="./assets/admin/layout2/img/avatar.png";
-$scope.$on('$viewContentLoaded', function() {
-    Metronic.initAjax(); // initialize core components
-    $scope.database = "default";
-    $scope.showVisa = true;
-    $scope.showHistory = true;
-});
 
-console.log(window.location.href);
+    $scope.$on('$viewContentLoaded', function() {
+        Metronic.initAjax(); // initialize core components
+        $scope.database = "default";
+        $scope.showVisa = true;
+        $scope.showHistory = true;
+        info_personal_loaded = false;
+	});
+
+
 var Qstring = window.location.href;
 var Qparam = Qstring.replace('=',':').replace('=',':').replace('&',' AND ').split('?')[1];
 
 var inoutTbl = undefined;
-	// "+$rootScope.docno+" "+$rootScope.cntry+"
-	//http://10.4.104.177:8983/ //immigration2
+
+  /*
+  *   Function to update Personal Info
+  */
+  $scope.fn_personalInfo = function(info) {
+    if(!info_personal_loaded)
+    {
+      $scope.res = info;
+      info_personal_loaded = true;
+    }
+  }
+
+
+
+
 $scope.fn_getBasicInfo = function(){//mad_pas_typ_cd
 
 	$.get("http://"+solrHost+":8983/solr/immigration2/query?sort=created desc&json={query :'"+Qparam+"',limit:20000,facet: {visa : {type: terms,field: pass_type},employers : {type: terms,field: employer}}}") //mad_pas_typ_cd - pass_type
 	.then(function(data) {
 		chartvisadtls = data.response.docs;
 		if(data.response.docs.length !== 0){
-		 	console.log(data.response.docs);
+      $scope.fn_personalInfo(data.response.docs[0]);
 		 	if($scope.dob == "" || $scope.dob == undefined){
 			 	var strdob = data.response.docs[0].birth_date.toString();
 			 	$scope.dob = strdob.substr(0,4) +"-"+strdob.substr(4,2) +"-"+ strdob.substr(6,2);
@@ -90,10 +107,6 @@ $scope.fn_getBasicInfo = function(){//mad_pas_typ_cd
 	 	console.log(data.response.docs);
 		$scope.passdetails = data.response.docs[0];
 		$scope.totalvisa = data.response.docs.length;
-		// $scope.vstartdt = $scope.basicdetails.created.toString().substr(0,10);
-		// $scope.vstartdt = $scope.basicdetails.mad_crt_dt.toString().substr(0,10);
-		// $scope.venddt = $scope.basicdetails.vend.toString().substr(0,10);
-		// $scope.venddt = $scope.basicdetails.vend.toString().substr(0,10); //end date is not avail in immi..
 		$scope.titleDetails = "Visa details"
 		$scope.basicdetailsTbl = data.response.docs;
 		$scope.$apply();
@@ -119,7 +132,8 @@ $scope.fn_getPersonalInfo = function(){
 
 
 		if(result.response.docs.length !== 0){
-			$scope.res = result.response.docs[0];
+
+      $scope.fn_personalInfo(result.response.docs[0]);
 			// $scope.inoutTbl = result.facets.exits.buckets;
 			if($scope.dob == "" || $scope.dob == undefined){
 				var strdob = result.response.docs[0].birth_date.toString();
@@ -288,6 +302,7 @@ $('.lk').click(function(){
 });
 
 $('.bck').click(function() {
+  $rootScope.fastsearch.load=true;
 	parent.history.back();
 		return false;
 });

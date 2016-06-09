@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="input-group">
-            <input ng-model="search.text" type="search" class="form-control" placeholder="{{'fastsearch.global.searchfor' | translate}}...">
+            <input id="searchbox" ng-model="search.text" type="search" class="form-control" placeholder="{{'fastsearch.global.searchfor' | translate}}...">
             <span class="input-group-btn btn-grp-padding">
               <button class="btn green-soft uppercase bold" ng-click="search(search.text)" type="button"><i class="fa fa-search"></i>{{'fastsearch.global.search' | translate}}</button>
               <button class="btn bg-LightCoral uppercase bold" ng-click="reset()" type="button"><i class="fa fa-refresh"></i> {{'fastsearch.global.resetsearch' | translate}}</button>

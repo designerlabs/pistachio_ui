@@ -355,6 +355,19 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
         layoutCssPath: Metronic.getAssetsPath() + 'admin/layout/css/'
     };
 
+    var fastsearch ={
+      load : false,
+      text : "",
+      showApplication : false,
+      showVisitor: false,
+
+      showPreviousSearch: function() {
+        load : true;
+      }
+
+    }
+    $rootScope.fastsearch = fastsearch;
+
     $rootScope.settings = settings;
     return settings;
 }]);
