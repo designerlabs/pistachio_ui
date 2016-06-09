@@ -245,8 +245,13 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
      // json.facet.country.domain = "{excludeTags:COLOR}"
       $http.get(sq+JSON.stringify(json)).
        success(function(data) {
+         if(data.response.numFound == 0)
+          {
+            $scope.showVisitor =false;
+          }
          $scope.vtime = data.responseHeader.QTime;
          $scope.employers = data.response.numFound;
+
          $scope.items = data.response.docs;
          if(selected_countries.length == 0)
          $scope.countries = data.facets.country.buckets
@@ -277,6 +282,10 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
      // json.facet.country.domain = "{excludeTags:COLOR}"
       $http.get(sq+JSON.stringify(json)).
        success(function(data) {
+         if(data.response.numFound == 0)
+          {
+            $scope.showApplication =false;
+          }
          $scope.vtime = data.responseHeader.QTime;
          $scope.applicationsFound = data.response.numFound;
          //$scope.employers = data.response.numFound;
