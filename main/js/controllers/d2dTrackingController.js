@@ -12,6 +12,13 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             return newDate2;
         };
 
+        $("#sidebarMenu li").click(function(){
+            $("#sidebarMenu li").removeClass("active");
+            $("#sidebarMenu li").removeClass("open");
+            $(this).addClass('active');
+            $(this).parents('ul').parent('li').addClass("active");
+        });
+
 
         var resultDtFrom, resultDtTo;
         var dateNow = new Date();
@@ -179,13 +186,15 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 };
 
 
-                //$scope.startDate = dateFormat(Math.round(e.min));
-                //$scope.endDate = dateFormat(Math.round(e.max));
+               
+
                 $("#datetimeFrom").data('DateTimePicker').date($scope.changeDt(dateFormat(Math.round(e.min))));
                 $("#datetimeTo").data('DateTimePicker').date($scope.changeDt(dateFormat(Math.round(e.max))));
 
-                $scope.startDate = $scope.getFromDt;
-                $scope.endDate = $scope.getToDt;
+                $scope.startDate = dateFormat(Math.round(e.min));
+                $scope.endDate = dateFormat(Math.round(e.max));
+              /*  $scope.startDate = $scope.getFromDt;
+                $scope.endDate = $scope.getToDt;*/
 
 
                 $scope.subtitle = $scope.changeDt(dateFormat(Math.round(e.min))) + " - " + $scope.changeDt(dateFormat(Math.round(e.max)));
@@ -223,11 +232,11 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     gap = "%2B1DAY";
                 }
 
-                var query_c = '{query: "' + triggerOpt + '",filter : "xit_date : [' + startDt + ' TO ' + dateFormat(Math.round(e.max)) + ']",limit: 15,' +
+                var query_c = '{query: "' + triggerOpt + '",filter : "xit_date : [' + $scope.startDate + ' TO ' + $scope.endDate + ']",limit: 15,' +
                     'facet: {in_outs: {type: terms,limit: 15,field: dy_action_ind,' +
-                    'facet: {exits: {type: range,field: xit_date,start: "' + startDt + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "' + gap + '"},passport: "unique(doc_no)"}},' +
+                    'facet: {exits: {type: range,field: xit_date,start: "' + $scope.startDate + '",end: "' + $scope.endDate + '",gap: "' + gap + '"},passport: "unique(doc_no)"}},' +
                     mainFacet + ': {type: terms,limit: 15,field:' + branchQry + ',facet: {in_out: {type: terms,limit: 15,field: dy_action_ind,  sort:{index:asc},' +
-                    'facet: {exits: {type: range,field: xit_date,start: "' + startDt + '",end: "' + dateFormat(Math.round(e.max)) + '",gap: "' + gap + '"},passport: "unique(doc_no)"}}' +
+                    'facet: {exits: {type: range,field: xit_date,start: "' + $scope.startDate + '",end: "' + $scope.endDate + '",gap: "' + gap + '"},passport: "unique(doc_no)"}}' +
                     '}}}}}' + groupBy;
 
 
@@ -470,35 +479,24 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
                 $('#container').highcharts('StockChart', {
 
+                    scrollbar: {
+                        enabled: false
+                    },
+
+
                     rangeSelector: {
                         selected: 5,
                         inputEnabled: false
-                            //inputDateFormat: '%d-%m-%Y',
-                            //inputEditDateFormat: '%d-%m-%Y'
-                            //inputDateFormat: '%Y-%m-%d'
                     },
 
                     chart: {
                         events: {
                             load: function(event) {
                                 console.log(event.target);
-
-                                /*if (event.target) {
-                                  alert(event);
-                                    var range = "[ "+ Highcharts.dateFormat('%Y-%m-%dT00:00:00Z', event.xAxis[0].min) +" TO "+ Highcharts.dateFormat('%Y-%m-%dT00:00:00Z', event.xAxis[0].max)+" ]";
-                                    var display = "[ "+ Highcharts.dateFormat('%Y-%m-%d', event.xAxis[0].min) +" TO "+ Highcharts.dateFormat('%Y-%m-%d', event.xAxis[0].max)+" ]";
-                                    $scope.time_filtered_max = Highcharts.dateFormat('%Y-%m-%dT00:00:00Z', event.xAxis[0].max);
-                                    $scope.time_filtered_min = Highcharts.dateFormat('%Y-%m-%dT00:00:00Z', event.xAxis[0].min);
-                                        $scope.addFilter("tim","Time :"+display,"created:"+range);
-                                        $scope.querySolr();
-                                } else {
-                                    alert('Selection reset');
-                                    $scope.time_filtered_max = "";
-                                    $scope.time_filtered_min = "";
-                                    $scope.updateFilter("tim",true);
-                                }*/
                             }
-                        }
+                        },
+
+                        zoomType: 'x'
 
                     },
 
@@ -1063,6 +1061,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
         $scope.submitDate = function(e) {
 
+            console.log(this.$parent.ele1, this.$parent.ele2);
 
             $scope.timelineChart(this.$parent.ele1, this.$parent.ele2);
 
