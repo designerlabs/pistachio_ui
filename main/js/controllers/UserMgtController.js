@@ -2,7 +2,6 @@
 
 MetronicApp.controller('UserMgtController', function($rootScope, settings, $scope, $http, $timeout) {
     $scope.$on('$viewContentLoaded', function() {   
-
         $("#userMgtList").show();
         $("#tableList").hide();
 
@@ -31,8 +30,6 @@ MetronicApp.controller('UserMgtController', function($rootScope, settings, $scop
                         "data": "login"
                     },*/ {
                         "data": "firstName"
-                    }, {
-                        "data": "lastName"
                     }, {
                         "data": "email"
                     },{
@@ -73,43 +70,7 @@ MetronicApp.controller('UserMgtController', function($rootScope, settings, $scop
 
 
         formInputValidation("#userMgtForm");
-        /*$("#userMgtUISubmit").click(function(event) {
-            var userMgtTitleVal = $("#userMgtForm #usertMgt-title").val();
-            var userMgtCategoryVal = $("#userMgtForm #userMgt-category").val();
-            var userMgtThemeVal = $("#userMgtForm #userMgt-theme").val();
-            //var userMgtIconVal = $("#userMgtForm #userMgt-icon").val();
-            var userMgtRoleVal = $("#userMgtForm #userMgt-role").val();
-            var userMgtActivateVal = $("#userMgtForm #userMgt-activated").val();
-            inputValidation("#userMgtForm", userMgtAjax);
-
-            function userMgtAjax() {
-                $.ajax({
-                        url: globalURL+"query/cato",
-                        type: "POST",
-                        dataType: 'json',
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify({
-                            queryCategoryName: userMgtTitleVal,
-                            queryCategory: userMgtCategoryVal,
-                            className: userMgtThemeVal,
-                            role: userMgtRoleVal,
-                            activated: userMgtActivateVal
-                        })
-                    })
-                    .done(function() {
-                        userMgts.destroy();
-                        userMgtDataFunc();
-                        $("#userMgtAddForm").modal('hide');
-                        $("#userMgtRequire").hide();
-                    })
-                    .fail(function(data) {
-                        console.log(data.responseJSON.error);
-                        $("#userMgtRequire span").html(data.responseJSON.error);
-                        $("#userMgtRequire").show();
-                        //alert('Failed!');
-                    });
-            }
-        });*/
+      
 
         userMgtDataFunc();
         //Update Record
@@ -117,10 +78,10 @@ MetronicApp.controller('UserMgtController', function($rootScope, settings, $scop
         $('#userMgtdata').on('click', 'button.updateBtn', function() {
             var selecteduserMgt = userMgts.row($(this).parents('tr')).data();
             selecteduserMgtId = selecteduserMgt.id;
+           
             $("#userMgtAddForm #userMgtUISubmit").addClass('hide');
             $("#userMgtAddForm #userMgtUIUpdate").removeClass('hide');
             $("#userMgtForm #userMgt-title").val(selecteduserMgt.firstName);
-            $("#userMgtForm #userMgt-category").val(selecteduserMgt.lastName);
             $("#userMgtForm #userMgt-theme").val(selecteduserMgt.email);
             $("#userMgtForm #userMgt-role").val(selecteduserMgt.activate);
             $("#userMgtForm #userMgt-activated").val(selecteduserMgt.activated);
