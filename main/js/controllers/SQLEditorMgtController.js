@@ -105,12 +105,15 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         $btnSave = $(this);
         $btnSave.button('loading');
         // fn_GotoResultTab();
-        
+        $('#savequery-name').val('');
          $("#mdlSaveQry").modal('show');
          // $scope.Saveqry = true;
          // $scope.Saveqry = false;
         // fn_ExecQuery(qry);
 
+    });
+    $('#btncancl').click(function(){
+        $btnSave.button('reset');
     });
 
      $('#btnSaveQry').click(function() {
