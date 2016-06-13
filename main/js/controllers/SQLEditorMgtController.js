@@ -7,14 +7,19 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         Metronic.initAjax(); // initialize core components
         $scope.database = "default";
         $scope.start = 0;
+        $scope.svdstart = 0;
         $scope.rows = 10;
-        fn_showHistory();
+        $scope.svdrows = 10;
+        // fn_showHistory();
+        fn_showSavedQry();
         $scope.showResults = false;
     });
 
     fn_LoadDb();
     $scope.database;
     $scope.btnExec = true;
+    $scope.Saveqry = true;
+
     //$scope.started = true;
     var editor = ace.edit("qryeditor");
     editor.$blockScrolling = Infinity;
@@ -23,12 +28,35 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
     });
     var oResultTable;
     var historyTbl;
+    var SavedQryTbl;
 
     $scope.OnDBClick = function(sel) {
         $scope.database = sel;
-        $scope.db_clicked = "collapsed"
+        // $scope.db_clicked = "collapsed";
         fn_LoadDt(sel);
+        //collapse the datatable list
+        $('#lstDB').prev().addClass('collapsed');
+        $('#lstDB').prev().attr('aria-expanded','false');
+        $('#lstDB').addClass('collapsing');
+        $('#lstDB').removeClass('in');
+        $('#lstDB').removeClass('collapsing');
+        $('#lstDB').attr('aria-expanded','false');
+        $('#lstDB').attr('style','height:0px');
+     
+
+
+        // $('#lstDB').toggle();
+        // $('#lstDB').attr('style','');
     }
+
+    $('#lstDB').prev().click(function(){
+        // $('#lstDB').attr('style','');
+
+    });
+
+    $('#lstDB').click(function(){
+         // $('#lstDB').toggle('expand');
+    });
 
     $('.tab').click(function() {
         $(this).siblings().removeClass('active'); //remove opened tab
@@ -45,6 +73,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         } else if (this.id == "tabSavedQuery") {
             $(".tab-content").children().removeClass('active in');
             $('.tab_Saved_Query').addClass('active in');
+            fn_showSavedQry();
             $("#messageView div").hide();
 
         }
@@ -63,6 +92,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
 
     }
     var $btn;
+    var $btnSave;
     $('.exec').click(function() {
         $btn = $(this);
         $btn.button('loading');
@@ -70,6 +100,25 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         var qry = $scope.aceDocumentValue;
         fn_ExecQuery(qry);
 
+    });
+    $('.saveqry').click(function() {
+        $btnSave = $(this);
+        $btnSave.button('loading');
+        // fn_GotoResultTab();
+        
+         $("#mdlSaveQry").modal('show');
+         // $scope.Saveqry = true;
+         // $scope.Saveqry = false;
+        // fn_ExecQuery(qry);
+
+    });
+
+     $('#btnSaveQry').click(function() {
+        // var saveqry = $scope.aceDocumentValue;
+        var qry = JSON.stringify({
+            "query" : $scope.aceDocumentValue
+        });
+        fn_saveQuery($('#savequery-name').val().trim(),qry);
     });
 
     $('.newqry').click(function() {
@@ -93,8 +142,10 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         $scope.aceDocumentValue = $scope.aceSession.getDocument().getValue();
         if ($scope.aceSession.getDocument().getValue().trim().length > 0) {
             $scope.btnExec = false;
+            $scope.Saveqry = false;
         } else {
             $scope.btnExec = true;
+            $scope.Saveqry = true;
         }
     };
 
@@ -179,6 +230,29 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
 
     }
 
+    function fn_saveQuery(qry_name,qry){
+        if (qry_name != null && qry_name.length > 0) {
+            $http.post(globalURL + "api/pistachio/secured/save?name=" + qry_name, qry)
+                .then(function successCallback(result) {
+                    fn_showSavedQry(); //loading saved query table again.
+                    $btnSave.button('reset');
+            },function errorCallback(response) {
+                        fn_ClearResultTbl();
+                        $("#messageView div span").html(response.data.error);
+                        $("#messageView div").removeClass("alert-success");
+                        $("#messageView div").addClass('alert-danger');
+                        $("#messageView div").show().delay(15000).fadeOut();
+                        setTimeout(function() {
+                            $btn.button('reset');
+                        }, 1000);
+                        $("#mdlSaveQry").modal('hide');
+                        $btnSave.button('reset');
+                    }
+
+            );
+        }    
+    }
+
     function queryResultFunc(rw, col) {
         oResultTable = $('#tblResult').DataTable({
             // "bProcessing": true,
@@ -203,7 +277,9 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                 $scope.databaseLength = response.data.length;
                 $scope.databaseList = response.data;
                 console.log("dblist" + response.data[0]);
-                fn_LoadDt(response.data[0]);
+                // fn_LoadDt(response.data[0]);
+                fn_LoadDt("default");
+
             });
 
     }
@@ -214,8 +290,10 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                 $scope.datatableLength = response.data.length;
                 $scope.datatableList = response.data;
                 // $scope.database = response.data[0];
-                console.log("dtlist" + response.data[0]);
-
+                console.log("dtlist" + response.data[0]);               
+                
+                // $('#lstDB').attr('aria-expanded','false');
+                // $('#lstDB').removeClass('in');
 
             });
     }
@@ -227,6 +305,16 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
     $scope.previous = function() {
         $scope.start--;
         fn_showHistory();
+    }
+
+    $scope.svdnext = function() {
+        $scope.svdstart++;
+        fn_showSavedQry()
+    }
+
+    $scope.svdprevious = function() {
+        $scope.svdstart--;
+        fn_showSavedQry();
     }
 
     function loadHistory(historyResult) {
@@ -269,6 +357,41 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                     editor.session.setValue(data.query);
                 });
                 $(".page-content").height($(".profile-content").height() + 400);
+            });
+    }
+
+    function fn_showSavedQry() {
+        var SavedQryResult;
+        $http.get(globalURL + "api/pistachio/secured/save?start=" + $scope.svdstart + "&rows=" + $scope.svdrows)
+            .then(function(response) {
+                if (SavedQryTbl != undefined) {
+                    SavedQryTbl.destroy();
+                }
+
+                SavedQryResult = response.data.content;
+                SavedQryTbl = $('#tblSavedQuery').DataTable({
+                    "processing": true,
+                    "data": SavedQryResult,
+                    "paging": false,
+                    "bInfo": false,
+                    "columns": [{
+                        "data": "name",
+                        "width": "20%"
+                    }, {
+                        "data": "query",
+                        "width": "50%"
+                    },{
+                        "data": "savedTime",
+                        "width": "30%"
+                    }]
+                });
+                $('#tblSavedQuery tbody').on('click', 'tr', function() {
+                    var data = SavedQryTbl.row(this).data();
+                    editor.session.setValue('');
+                    editor.session.setValue(data.query);
+                });
+                $(".page-content").height($(".profile-content").height() + 400);
+                $("#mdlSaveQry").modal('hide');
             });
     }
 
