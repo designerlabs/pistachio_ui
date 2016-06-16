@@ -229,12 +229,16 @@ $(function() {
         $("#roleMgtAddForm #roleMgtUISubmit").removeClass('hide');
         $("#roleMgtAddForm #roleMgtUIUpdate").addClass('hide');
         $("#roleMgtAddFormHeader").html("Add role"); //Change
-        $('#myParentSel option').remove();;
+        $('#myParentSel option').remove();
         $('#myParentSel').multiSelect('refresh');
         $('#mySubParentSel optgroup').remove();
         $('#mySubParentSel').multiSelect('refresh');
         $("#roleMgtForm")[0].reset();
         $("#roleMgtRequire").hide();
+        $('#myDashboardSel option').remove();
+        $('#myDashboardSel').multiSelect('refresh');      
+        $('#myDatabaseSel option').remove();
+        $('#myDatabaseSel').multiSelect('refresh');
 
         $.get( globalURL + "reportcat/", function( data ) {
         $.each(data, function (key, value) {
@@ -281,19 +285,10 @@ $('#roleMgtAddForm').on('hidden.bs.modal', function () {
         dtable
             .clear()
             .draw();
-
     });
-
 })
 
-$(document).ready(function() {
-
-
-
-    });
-
 $("#loader").hide();
-
 $(document).ajaxStart(function() {
     $("#loader").hide();
     $("#loaderTableView").css('height', '500px');
