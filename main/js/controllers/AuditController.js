@@ -12,9 +12,9 @@ MetronicApp.controller('AuditController', function($rootScope, $scope, $http) {
         $scope.rows = 10;
         $scope.status = stats;
         $scope.go();
-       
+       });
 
-        $scope.go = function(data){
+       $scope.go = function(data){
          if (typeof data == 'undefined') {
             data = "";
           }
@@ -62,6 +62,6 @@ MetronicApp.controller('AuditController', function($rootScope, $scope, $http) {
     $rootScope.settings.layout.pageSidebarClosed = false;
     $rootScope.skipTitle = false;
     $rootScope.settings.layout.setTitle("audit");
-  });
+  
 
 });
