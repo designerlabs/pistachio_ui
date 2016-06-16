@@ -4,8 +4,9 @@ MetronicApp.controller('LoginController', function($rootScope, $scope, $http, $t
     $scope.$on('$viewContentLoaded', function() {   
         // initialize core components
         Metronic.initAjax();
+            // set sidebar closed and body solid layout mode
+    	$rootScope.settings.layout.pageSidebarClosed = false;
     });
 
-    // set sidebar closed and body solid layout mode
-    $rootScope.settings.layout.pageSidebarClosed = false;
+
 });

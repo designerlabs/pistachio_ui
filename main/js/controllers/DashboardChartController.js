@@ -29,9 +29,9 @@ MetronicApp.controller('DashboardChartController', function($rootScope, $scope, 
             $("#iframeContainer iframe").attr('src','');
         });
         console.log($scope);
-
+        // set sidebar closed and body solid layout mode
+        $rootScope.settings.layout.pageSidebarClosed = false;
     });
 
-    // set sidebar closed and body solid layout mode
-    $rootScope.settings.layout.pageSidebarClosed = false;
+    
 });

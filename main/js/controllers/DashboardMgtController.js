@@ -2,12 +2,13 @@
 
 MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $http, $timeout) {
     $scope.$on('$viewContentLoaded', function() {   
-
+        // initialize core components
+        Metronic.initAjax();
+        
         $("#dashboard").show();
         $("#tableList").hide();
 
-        // initialize core components
-        Metronic.initAjax();
+       
 
 
         var dashboards;
@@ -296,11 +297,11 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
             //$scope.message = sharedService.categoryId;
     	};
         //console.log($scope);
-
+        
+        // set sidebar closed and body solid layout mode
+        $rootScope.settings.layout.pageSidebarClosed = false;
+        $rootScope.skipTitle = false;
+        $rootScope.settings.layout.setTitle("dashboardmgt");
     });
 
-    // set sidebar closed and body solid layout mode
-    $rootScope.settings.layout.pageSidebarClosed = false;
-    $rootScope.skipTitle = false;
-    $rootScope.settings.layout.setTitle("dashboardmgt");
 });

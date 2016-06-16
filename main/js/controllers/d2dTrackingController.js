@@ -12,7 +12,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             return newDate2;
         };
 
-        $("#sidebarMenu li").click(function(){
+        $("#sidebarMenu li").click(function() {
             $("#sidebarMenu li").removeClass("active");
             $("#sidebarMenu li").removeClass("open");
             $(this).addClass('active');
@@ -49,7 +49,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         $scope.getFromDt = frmDt[2] + "-" + frmDt[1] + "-" + frmDt[0] + "T00:00:00Z";
         $scope.getToDt = toDt[2] + "-" + toDt[1] + "-" + toDt[0] + "T00:00:00Z";
 
-        
+
         var utcFromDt = new Date(frmDt[2] + "-" + frmDt[1] + "-" + frmDt[0] + "T00:00:00Z");
         var utcToDt = new Date(toDt[2] + "-" + toDt[1] + "-" + toDt[0] + "T00:00:00Z");
         $scope.utcFromDt = parseInt(utcFromDt.getTime());
@@ -186,15 +186,15 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 };
 
 
-               
+
 
                 $("#datetimeFrom").data('DateTimePicker').date($scope.changeDt(dateFormat(Math.round(e.min))));
                 $("#datetimeTo").data('DateTimePicker').date($scope.changeDt(dateFormat(Math.round(e.max))));
 
                 $scope.startDate = dateFormat(Math.round(e.min));
                 $scope.endDate = dateFormat(Math.round(e.max));
-              /*  $scope.startDate = $scope.getFromDt;
-                $scope.endDate = $scope.getToDt;*/
+                /*  $scope.startDate = $scope.getFromDt;
+                  $scope.endDate = $scope.getToDt;*/
 
 
                 $scope.subtitle = $scope.changeDt(dateFormat(Math.round(e.min))) + " - " + $scope.changeDt(dateFormat(Math.round(e.max)));
@@ -761,19 +761,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                                     storeData.push(element);
                                 }
                             }
-                            /*for (var i = 0, l = data.facets.in_outs.buckets.length; i < l; i++) {
-                    var obj = data.facets.in_outs.buckets[i];
-                    var element = [];
-                    element.push(new Date(obj.val).getTime());
-                    element.push(obj.count);
-                    storeData.push(element);
-                  }  
-               */
-
-
-
-                            //console.log(storeData);
-
 
                             $scope.seriesOptions[m] = {
                                 name: k.title,
@@ -803,7 +790,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     //$scope.loading = true;
                     $http.get(sq_spark + query_spark)
                         .success(function(data) {
-                            // debugger;
 
                             if (($scope.totalCount - $scope.branchOffset) < 15) {
                                 $("#bNextBtn").prop('disabled', true);
@@ -814,13 +800,9 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
                             $scope.totalCount = data.facets.ubranch;
                             $scope.numofpage = Math.ceil($scope.totalCount / limitValue);
-                            /*if(limitValue > $scope.totalCount){
-                              $("#bNextBtn").prop('disabled', true);
-                            }
-                            */
+
                             console.log(data);
-                            //$scope.branchData = data.facets.branches.buckets;
-                            //$scope.branchId = data.facets.branches.buckets;
+
                             var storeBranchData = [];
 
                             if ($scope.ele2 == "Country") {
@@ -992,9 +974,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                                 $scope.branchOut = storeBranchData;
                                 console.log(storeBranchData);
                             }
-
-
-
                         })
                         .catch(function(err) {
 
@@ -1119,12 +1098,13 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             var currentSelectDate = this.$parent.$parent.subtitle;
             var currBranchName = this.$parent.$parent.getBranchVal.one;
             var currEmpName = this.$parent.value.brhName.name;
-           location.href = "index.html#/employeeHourlyDetails/employeeHourlyDetails.html?branch_name="+currBranchName+"&emp_name="+currEmpName+"&currDate="+currentSelectDate;
+            location.href = "index.html#/employeeHourlyDetails/employeeHourlyDetails.html?branch_name=" + currBranchName + "&emp_name=" + currEmpName + "&currDate=" + currentSelectDate;
         };
-    });
 
-    // set sidebar closed and body solid layout mode
-    $rootScope.settings.layout.pageSidebarClosed = false;
-    $rootScope.skipTitle = false;
-    $rootScope.settings.layout.setTitle("tracking");
+
+        // set sidebar closed and body solid layout mode
+        $rootScope.settings.layout.pageSidebarClosed = false;
+        $rootScope.skipTitle = false;
+        $rootScope.settings.layout.setTitle("tracking");
+    });
 });
