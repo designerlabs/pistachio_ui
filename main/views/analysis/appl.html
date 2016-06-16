@@ -24,30 +24,8 @@
     <div class="row">
         <div class="col-md-3">
             <div class="row">
-                <div class="portlet light bordered " style="padding: 5px; min-height: 25px;">
-                    <div class="actions">
-                        <!--
-                        <div  class="btn-group btn-group-devided">
-                            <label id = "active" class="btn dark btn-outline btn-circle btn-sm active"
-                             btn-radio="'active'" ng-change="changeQueryType()" ng-model="queryType"
-                             ng-class="{overall:'', active:'bg-green', '':'disable'}[queryType]"
-                            >
-                              Active
-                            </label>
-                            <label id = "overall" class="btn dark btn-outline btn-circle btn-sm"
-                            btn-radio="'overall'" ng-change="changeQueryType()" ng-model="queryType"
-                            ng-class="{overall:'bg-green', active:'', '':''}[queryType]"
-                            >
-                                Overall
-                            </label>
+                <div class="" style="padding: 5px; min-height: 25px;">
 
-                        </div> -->
-                    </div>
-                    <!--<div class="portlet-title" style="padding-right: 5px; padding-bottom: 5px; padding-left: 5px;">
-                <i class="icon-settings font-green"></i>
-                        <span class="caption-subject font-green bold uppercase">FILTERS</span>
-                 </div>
-                -->
                     <div class="col-md-12 portlet light portlet-fit bordered" style="padding: 5px;">
                         <div class="mt-element-list">
                             <div class="mt-list-head list-simple ext-1 font-white bg-blue-chambray">
@@ -118,6 +96,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
         <div class="col-md-9">
@@ -147,8 +126,10 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="overal_analysis">
                                 <div class="row">
+                                  <div class="col-md-6">
                                     <datamap map="mapObject" on-click="updateActiveGeography" plugins="mapPlugins">
                                     </datamap>
+                                  </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
