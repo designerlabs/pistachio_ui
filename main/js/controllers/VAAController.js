@@ -263,6 +263,11 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
         $scope.querySolr();
        }
 
+       $scope.clickCountry = function(data) {
+        $scope.addFilter("cnt","Country : "+data,"country:'"+$scope.cleanQuery(data))+"'";
+        $scope.querySolr();
+       }
+
        $scope.updateActiveGeography = function(geography) {
           $scope.addFilter("cnt","country: "+geography.id,"cntry_cd:"+geography.id);
           $scope.querySolr();

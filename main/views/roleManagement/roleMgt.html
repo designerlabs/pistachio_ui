@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <!-- END EXAMPLE TABLE PORTLET-->
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
-        <div id="loader" style="position:absolute; top:0px; left:0px; background:rgba(255,255,255,0.8); width:100%; z-index:9999;">   
+        <div id="loader" style="position:absolute; top:0px; left:0px; background:rgba(255,255,255,0.8); width:100%; z-index:9999;">
             <div ng-spinner-bar class="page-spinner-bar">
                 <div class="bounce1"></div>
                 <div class="bounce2"></div>
@@ -36,8 +36,8 @@
                     </tr>
                 </tbody>
             </div>
-        </div>          
-    </div> 
+        </div>
+    </div>
     </div>
 </div>
 <div class="modal fade" id="roleMgtAddForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
@@ -57,7 +57,7 @@
                     <div class="form-group col-md-5">
                         <label for="roleMgt-name" class="control-label">Role Name:</label>
                         <input type="text" class="form-control col-sm-5" id="roleMgt-name">
-                    </div> 
+                    </div>
                   </div>
  		  <div class="row">
                     <div class="form-group col-md-6 col-xs-12 col-sm-12" style="float: left;">
@@ -68,9 +68,9 @@
                     <!-- </br> -->
                     <div id='divSubReport' class="form-group col-md-6 col-xs-12 col-sm-12" style="float: left;" >
                      <label for="mySubParentSel" class="control-label">Sub Level Category Selection:</label>
-                      <select id='mySubParentSel' multiple='multiple'>    
+                      <select id='mySubParentSel' multiple='multiple'>
                       </select>
-                    </div>  
+                    </div>
 		  </div>
                     <div id='divdtCURD' class="form-group">
                      <label for="dtCURD" class="control-label col-md-12">Select Permission to Sub Level Category:</label>
@@ -87,8 +87,8 @@
                                 <th>Query Visible</th>
                             </tr>
                         </thead>
-                    </table>                                          
-                    </div>                                                                    
+                    </table>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -133,7 +133,7 @@
 
 
 <script>
-$(function() {   
+$(function() {
     // $('#myParentSel').multiSelect();
     $("#roleMgtAddBtn").click(function(event) {
 
@@ -145,7 +145,7 @@ $(function() {
         $('#mySubParentSel optgroup').remove();
         $('#mySubParentSel').multiSelect('refresh');
         $("#roleMgtForm")[0].reset();
-        $("#roleMgtRequire").hide(); 
+        $("#roleMgtRequire").hide();
 
         $.get( globalURL + "reportcat/", function( data ) {
         $.each(data, function (key, value) {
@@ -159,7 +159,7 @@ $(function() {
         $("#myParentSel").multiSelect('refresh');
       });
 
-       
+
 
 
 });
@@ -167,7 +167,7 @@ $(function() {
 $('#roleMgtAddForm').on('hidden.bs.modal', function () {
     triggerName = "";
     SubReportAry = [];
-     var dtable = $('#dtCURD').DataTable(); 
+     var dtable = $('#dtCURD').DataTable();
         dtable
             .clear()
             .draw();
@@ -176,10 +176,10 @@ $('#roleMgtAddForm').on('hidden.bs.modal', function () {
 
 })
 
-$(document).ready(function() { 
+$(document).ready(function() {
 
-      
-      
+
+
     });
 
 $("#loader").hide();
