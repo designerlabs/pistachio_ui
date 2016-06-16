@@ -129,7 +129,7 @@ $scope.fn_getBasicInfo = function(){//mad_pas_typ_cd
   $scope.fn_getCitizenInfo = function(){
     $scope.showVisa = false;
     var qry = Qparam.substring(0,Qparam.length-17);
-
+    $scope.showVisa = false;
     $.get("http://"+solrHost+":8983/solr/cit/query?sort=xit_date desc&json={query:'"+qry+"',limit:100000}")
   	.then(function(result) {
   		console.log(result);
@@ -138,6 +138,7 @@ $scope.fn_getBasicInfo = function(){//mad_pas_typ_cd
   		if(result.response.docs.length !== 0){
 
         $scope.showHistory = true;
+        $scope.showVisa = false;
         result.response.docs[0].country = "Malaysia";
         $scope.DOB(result.response.docs[0].birth_date)
         $scope.fn_personalInfo(result.response.docs[0]);

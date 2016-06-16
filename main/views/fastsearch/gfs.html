@@ -14,15 +14,15 @@
         </div>
       </div>
     </div>
-    <div class="option-box col-md-12" ng-if="option">
-      <div class="col-md-3">
+    <div class="option-box col-md-12" style="padding:0px;" ng-if="option">
+      <div class=" mini-box col-md-3">
         <h2> Country </h2>
         <div class="todo-project-list">
           <ul class="list-group">
             <li class="list-group-item" data-ng-repeat="cnt in countries" style="padding-left: 3px; padding-right: 1px;">
 
               <div class="md-checkbox" style="padding: 2px;">
-                <input type="checkbox" ng-click="checkboxselected(cnt.val)" class="md-check" id={{cnt.val}}>
+                <input type="checkbox" ng-click="checkboxselectedCountry(cnt.val)"  class="md-check" id={{cnt.val}}>
                 <label for={{cnt.val}}>
                   <span class="inc"></span>
                   <span class="check"></span>
@@ -33,52 +33,74 @@
             </ul>
           </div>
         </div>
+        <div class=" mini-box col-md-3">
+          <h2> Jobs </h2>
+          <div class="todo-project-list">
+            <ul class="list-group">
+              <li class="list-group-item" data-ng-repeat="cnt in jobs" style="padding-left: 3px; padding-right: 1px;">
+
+                <div class="md-checkbox" style="padding: 2px;">
+                  <input type="checkbox" ng-click="jobBox(cnt.val)"  class="md-check" id={{cnt.val}}>
+                  <label for={{cnt.val}}>
+                    <span class="inc"></span>
+                    <span class="check"></span>
+                    <span class="box"></span> {{cnt.val}}</label><span class="badge pull-right ng-binding"> {{cnt.count}} </span>
+                  </div>
+                </li>
+
+              </ul>
+            </div>
+          </div>
     </div>
     <div>
-      <div class='uib'>
-      <div class='ui_box' ng-class="{selected: showApplication}" ng-click="showApplications()">
-        <div class='ui_box__inner'>
-          <h2>{{'fastsearch.global.applications' | translate}}</h2>
-          <div class='stat'>
-            <span>{{applicationsFound}}</span>
+      <div class="row" style=>
+          <div class="col-md-12">
+            <div class='uib'>
+            <div class='ui_box' ng-class="{selected: showApplication}" ng-click="showApplications()">
+              <div class='ui_box__inner'>
+                <h2>{{'fastsearch.global.applications' | translate}}</h2>
+                <div class='stat'>
+                  <span>{{applicationsFound}}</span>
+                </div>
+                <p>permohonan found in {{qtime}} milliseconds</p>
+
+              </div>
+
+            </div>
+            <div class='ui_box' ng-class="{selected: showCitizen}" ng-click="showCitizens()">
+              <div class='ui_box__inner'>
+                <h2>{{'fastsearch.global.users' | translate}}</h2>
+                <div class='stat'>
+                  <span>{{users}}</span>
+                </div>
+                <p>{{'fastsearch.global.usersfound' | translate}}</p>
+              </div>
+
+            </div>
+            <div class='ui_box' ng-class="{selected: showVisitor}" ng-click="showVisitors()">
+              <div class='ui_box__inner'>
+                <h2>{{'fastsearch.global.stickers' | translate}}</h2>
+                <div class='stat'>
+                  <span>{{employers}}</span>
+                </div>
+                <p>{{'fastsearch.global.employersfound' | translate}} in {{vtime}} milliseconds</p>
+              </div>
+
+            </div>
+            <div class='ui_box' >
+              <div class='ui_box__inner'>
+                <h2>{{'fastsearch.global.blacklisted' | translate}}</h2>
+                <div class='stat'>
+                  <span>0</span>
+                </div>
+                <p>permohonan found in {{qtime}} milliseconds</p>
+              </div>
+
+            </div>
+
           </div>
-          <p>permohonan found in {{qtime}} milliseconds</p>
-
         </div>
-
       </div>
-      <div class='ui_box' ng-class="{selected: showCitizen}" ng-click="showCitizens()">
-        <div class='ui_box__inner'>
-          <h2>{{'fastsearch.global.users' | translate}}</h2>
-          <div class='stat'>
-            <span>{{users}}</span>
-          </div>
-          <p>{{'fastsearch.global.usersfound' | translate}}</p>
-        </div>
-
-      </div>
-      <div class='ui_box' ng-class="{selected: showVisitor}" ng-click="showVisitors()">
-        <div class='ui_box__inner'>
-          <h2>{{'fastsearch.global.stickers' | translate}}</h2>
-          <div class='stat'>
-            <span>{{employers}}</span>
-          </div>
-          <p>{{'fastsearch.global.employersfound' | translate}} in {{vtime}} milliseconds</p>
-        </div>
-
-      </div>
-      <div class='ui_box' >
-        <div class='ui_box__inner'>
-          <h2>{{'fastsearch.global.blacklisted' | translate}}</h2>
-          <div class='stat'>
-            <span>0</span>
-          </div>
-          <p>permohonan found in {{qtime}} milliseconds</p>
-        </div>
-
-      </div>
-
-    </div>
 
       <div class="portlet light portlet-fit bordered" ng-if="false">
 
@@ -196,7 +218,7 @@
             </div>
           -->
             <div class="col-md-12">
-              <div   class="search-table table-responsive">
+              <div   class="search-table">
                 <table class="table table-bordered table-striped table-condensed">
                   <thead class="bg-table-gray">
                     <tr>
@@ -228,7 +250,7 @@
                         <a href="javascript:;">{{formatDate(x.created)}}</a>
                       </td>
                       <td  style="width:15%;"  class="table-title">
-                        <a href="javascript:;">{{x.job_en}}</a>
+                        <a href="javascript:;">{{x.job_bm}}</a>
                       </td>
                       <td class="table-title">
                         {{x.name}}
@@ -265,7 +287,7 @@
           <div class="row">
 
                 <div class="col-md-12">
-                  <div   class="search-table table-responsive">
+                  <div   class="search-table">
                     <table class="table table-bordered table-striped table-condensed">
                       <thead class="bg-table-gray">
                         <tr>
@@ -363,7 +385,7 @@
                 </div>
               -->
         <div class="col-md-12">
-         <div   class="search-table table-responsive">
+         <div   class="search-table">
            <table class="table table-bordered table-striped table-condensed">
              <thead class="bg-table-gray">
                <tr>

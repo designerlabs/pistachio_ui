@@ -1,5 +1,7 @@
 'use strict';
 var selected_countries = [];
+var selected_jobs = [];
+
 var filter_query = "";
 // var solrHost = "localhost";
 //var solrHost = "pistachio_server";
@@ -99,6 +101,17 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
         }
 
       }
+      arrayLength = selected_jobs.length;
+      job_filter = "&fq=";
+      for (var i = 0; i < arrayLength; i++) {
+        if(i==0)
+        filter_query = filter_query + "job_bm:'"+selected_jobs[i]+"'";
+        else {
+          filter_query = filter_query + " OR job_bm:'"+selected_jobs[i]+"'";
+        }
+
+      }
+      return filter_query + job_filter
     }
 
     $scope.updateFilterQuery_Country = function () {
@@ -113,7 +126,16 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
           filter_query = filter_query + " OR "
 
       }
-      return filter_query;
+      arrayLength = selected_jobs.length;
+      if(arrayLength>0 && filter_query.length > 1)
+        filter_query = filter_query + "&fq="
+      for (var i = 0; i < arrayLength; i++) {
+        filter_query = filter_query + "job_bm:"+selected_countries[i];
+
+        if(i !=arrayLength-1)
+          filter_query = filter_query + " OR "
+      }
+      return filter_query
     }
 
     $scope.checkboxselected = function(id) {
@@ -131,6 +153,21 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
       var search_text = $scope.text;
         $scope.updateFilterQuery();
         $scope.showApplications();
+
+    }
+
+
+    $scope.jobBox = function(id) {
+      var index = selected_jobs.indexOf(id);    // <-- Not supported in <IE9
+      if (index !== -1) {
+        selected_jobs.splice(index, 1);
+      }
+      else {
+        selected_jobs.push(id);
+      }
+      console.log(selected_jobs);
+      $scope.start = 0;
+      $scope.show();
 
     }
 
@@ -293,6 +330,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
       json.facet.country = {};
       json.facet.country.type   = "terms";
       json.facet.country.field  =  "country";
+
      // json.facet.country.domain = "{excludeTags:COLOR}"
       $http.get(sq+JSON.stringify(json)).
        success(function(data) {
@@ -306,6 +344,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
          $scope.items = data.response.docs;
          if(selected_countries.length == 0)
          $scope.countries = data.facets.country.buckets
+
        })
        .error(function(data, status, headers, config) {
          console.log('error');
@@ -366,6 +405,9 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
       json.facet.country = {};
       json.facet.country.type   = "terms";
       json.facet.country.field  =  "country";
+      json.facet.job = {};
+      json.facet.job.type   = "terms";
+      json.facet.job.field  =  "job_bm";
      // json.facet.country.domain = "{excludeTags:COLOR}"
       $http.get(sq+JSON.stringify(json)).
        success(function(data) {
@@ -379,6 +421,10 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
          $scope.items = data.response.docs;
          if(selected_countries.length == 0)
          $scope.countries = data.facets.country.buckets
+
+         if(selected_jobs.length == 0)
+          $scope.jobs = data.facets.job.buckets
+         console.log($scope.jobs);
        })
        .error(function(data, status, headers, config) {
          console.log('error');

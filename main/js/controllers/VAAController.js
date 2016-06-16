@@ -351,7 +351,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
             json.facet.cntry_cd = {};
             json.facet.cntry_cd.limit = 150;
             json.facet.cntry_cd.type   = "terms";
-            json.facet.cntry_cd.field  =  "cntry_cd";
+            json.facet.cntry_cd.field  =  "country";
             json.facet.job = {};
             json.facet.job.type   = "terms";
             json.facet.job.limit = $scope.jobCount;
