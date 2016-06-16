@@ -118,7 +118,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
       var filter_query = "";
       var arrayLength = selected_countries.length;
       if(arrayLength == 0) return "";
-
+      filter_query = "country:("
       for (var i = 0; i < arrayLength; i++) {
         filter_query = filter_query + "country:"+selected_countries[i];
 

@@ -24,7 +24,7 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
        showReportTemplate(response.login);
       });
 
-    });
+   
 
     function showReportTemplate(login){
         $http.get(globalURL+"jasperreport/query/"+login+"?start=0&rows=8")
@@ -154,4 +154,5 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
     $rootScope.settings.layout.pageSidebarClosed = true;
     $rootScope.skipTitle = false;
     $rootScope.settings.layout.setTitle("profile");
+    });
 });
