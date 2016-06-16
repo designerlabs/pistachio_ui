@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <!-- END EXAMPLE TABLE PORTLET-->
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
-        <div id="loader" style="position:absolute; top:0px; left:0px; background:rgba(255,255,255,0.8); width:100%; z-index:9999;">   
+        <div id="loader" style="position:absolute; top:0px; left:0px; background:rgba(255,255,255,0.8); width:100%; z-index:9999;">
             <div ng-spinner-bar class="page-spinner-bar">
                 <div class="bounce1"></div>
                 <div class="bounce2"></div>
@@ -36,8 +36,8 @@
                     </tr>
                 </tbody>
             </div>
-        </div>          
-    </div> 
+        </div>
+    </div>
     </div>
 </div>
 <div class="modal fade" id="roleMgtAddForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
@@ -53,6 +53,7 @@
                     <span></span>
                 </div>
                 <form id="roleMgtForm" name="roleMgtUIForm" autocomplete="off">
+
                     <div class="row">
                         <div class="form-group col-md-5">
                             <label for="roleMgt-name" class="control-label">Role Name:</label>
@@ -175,9 +176,8 @@
                         </div>
                     </div>
                     
-                    <!--TAB WILL END HERE-->                                                                    
+                    <!--TAB WILL END HERE-->  
                 </form>
-                  
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
@@ -222,7 +222,7 @@
 
 
 <script>
-$(function() {   
+$(function() {
     // $('#myParentSel').multiSelect();
     $("#roleMgtAddBtn").click(function(event) {
 
@@ -234,7 +234,7 @@ $(function() {
         $('#mySubParentSel optgroup').remove();
         $('#mySubParentSel').multiSelect('refresh');
         $("#roleMgtForm")[0].reset();
-        $("#roleMgtRequire").hide(); 
+        $("#roleMgtRequire").hide();
 
         $.get( globalURL + "reportcat/", function( data ) {
         $.each(data, function (key, value) {
@@ -247,6 +247,7 @@ $(function() {
         });
         $("#myParentSel").multiSelect('refresh');
       });
+
 
     $.get( globalURL + "api/pistachio/secured/hadoop/db", function( data ) {
         $.each(data, function (key, value) {
@@ -271,13 +272,12 @@ $(function() {
     });
        
 
-
 });
 
 $('#roleMgtAddForm').on('hidden.bs.modal', function () {
     triggerName = "";
     SubReportAry = [];
-     var dtable = $('#dtCURD').DataTable(); 
+     var dtable = $('#dtCURD').DataTable();
         dtable
             .clear()
             .draw();
@@ -286,10 +286,10 @@ $('#roleMgtAddForm').on('hidden.bs.modal', function () {
 
 })
 
-$(document).ready(function() { 
+$(document).ready(function() {
 
-      
-      
+
+
     });
 
 $("#loader").hide();

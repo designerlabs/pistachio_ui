@@ -168,7 +168,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 var globalURL = "http://10.1.17.25:8080/";
 //var globalURL = "http://pistachio_server:8080/";
 //var solrHost = "10.23.124.220";
-var solrHost = "solr_server";
+var solrHost = "10.4.104.176";
 
 //var solrHost = "10.4.104.176";
 
@@ -1036,6 +1036,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
+                      'assets/pistachio/fastsearch/ui_box.css',
                         'assets/admin/pages/css/tasks.css',
                         'assets/pages/css/portfolio.min.css',
 

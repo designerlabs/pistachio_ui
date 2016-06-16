@@ -14,6 +14,7 @@ $('.clkditem').hide();
 var chartvisadtls;
 $scope.dob="";
 $scope.imagetxt="./assets/admin/layout2/img/avatar.png";
+$scope.citizen = false;
 
     $scope.$on('$viewContentLoaded', function() {
         Metronic.initAjax(); // initialize core components
@@ -24,8 +25,6 @@ $scope.imagetxt="./assets/admin/layout2/img/avatar.png";
 	});
 
 
-var Qstring = window.location.href;
-var Qparam = Qstring.replace('=',':').replace('=',':').replace('&',' AND ').split('?')[1];
 
 var inoutTbl = undefined;
 
@@ -113,13 +112,69 @@ $scope.fn_getBasicInfo = function(){//mad_pas_typ_cd
    });
 }
 	var today = new Date();
-	//http://10.4.104.176:8983/
+  $scope.DOB = function(data) {
+    if($scope.dob == "" || $scope.dob == undefined){
+    //  var strdob = result.response.docs[0].birth_date.toString();
+      var strdob = data;
+      $scope.dob = strdob.substr(0,4) +"-"+strdob.substr(4,2) +"-"+ strdob.substr(6,2);
+
+      var year=Number(strdob.substr(0,4));
+      var month=Number(strdob.substr(4,2))-1;
+      var day=Number(strdob.substr(6,2));
+
+      $scope.age=today.getFullYear()-year;
+    }
+  }
+
+  $scope.fn_getCitizenInfo = function(){
+    $scope.showVisa = false;
+    var qry = Qparam.substring(0,Qparam.length-17);
+
+    $.get("http://"+solrHost+":8983/solr/cit/query?sort=xit_date desc&json={query:'"+qry+"',limit:100000}")
+  	.then(function(result) {
+  		console.log(result);
+
+
+  		if(result.response.docs.length !== 0){
+
+        $scope.showHistory = true;
+        result.response.docs[0].country = "Malaysia";
+        $scope.DOB(result.response.docs[0].birth_date)
+        $scope.fn_personalInfo(result.response.docs[0]);
+
+  			$('#tblinout').DataTable( {
+  		    data: result.response.docs,
+  		    columns: [
+  		        { "data": "xit_date",
+  		          "render": function (data, type, full, meta){
+  		          				var strdt = data.toString().substr(0,10) +" "+ data.toString().substr(11,8);
+                              return strdt;
+                      }
+  		         },
+  		        { "data": "dy_action_ind",
+  		          "render": function (data, type, full, meta){
+                              return (data =='in'?'Entry':'Exit');
+                      }
+  		         },
+              { "data": "branch" },
+  		        { "data": "branch" }
+  		    ]
+  		} );
+  			$scope.CreateInoutChart(result.response.docs);
+  			$scope.$apply();
+
+  		}else{
+  			// alert('No date found in himove table');
+        $scope.showHistory = false;
+  		}
+  		$("#loader .page-spinner-bar").addClass('hide');
+  		$("#loader").hide();
+
+     });
+  }
+
 $scope.fn_getPersonalInfo = function(){
-	// $("#loader").css('height', $(".page-content").height() + 140 + 'px');
-	// $("#loader .page-spinner-bar").removeClass('hide');
-	// $("#loader").show();
-//http://"+solrHost+":8983/solr/hismove/query?sort=xit_date desc&json={query:'"+Qparam.replace('mad_','')+"',limit:1,facet:%20{exits:%20{type:%20range,field:%20xit_date,mincount:1,sort:'xit_date desc',start:%20%221900-01-01T00:00:00Z%22,end:'"+today.toISOString()+"',gap:%20%22%2B1DAY%22,facet:{in_outs:%20{type:%20terms,field:%20dy_action_ind,facet:%20{branch%20:%20{type:%20terms,field:%20branch,facet%20:{officer%20:{type:%20terms,field:%20dy_create_id}}}}}}}}}}
-	$.get("http://"+solrHost+":8983/solr/hismove/query?sort=xit_date desc&json={query:'"+Qparam+"',limit:100000}")
+		$.get("http://"+solrHost+":8983/solr/hismove/query?sort=xit_date desc&json={query:'"+Qparam+"',limit:100000}")
 	.then(function(result) {
 		console.log(result);
 		$scope.summary = { entry : $.grep( result.response.docs, function( n, i ) {
@@ -134,17 +189,8 @@ $scope.fn_getPersonalInfo = function(){
 		if(result.response.docs.length !== 0){
 
       $scope.fn_personalInfo(result.response.docs[0]);
-			// $scope.inoutTbl = result.facets.exits.buckets;
-			if($scope.dob == "" || $scope.dob == undefined){
-				var strdob = result.response.docs[0].birth_date.toString();
-				$scope.dob = strdob.substr(0,4) +"-"+strdob.substr(4,2) +"-"+ strdob.substr(6,2);
+      $scope.DOB(result.response.docs[0].birth_date)
 
-				var year=Number(strdob.substr(0,4));
-				var month=Number(strdob.substr(4,2))-1;
-				var day=Number(strdob.substr(6,2));
-
-				$scope.age=today.getFullYear()-year;
-			}
 
 			$('#tblinout').DataTable( {
 		    data: result.response.docs,
@@ -289,9 +335,20 @@ $scope.CreateInoutChart = function(_data){
      });
 
 }
+$scope.fn_processInput = function(str) {
+  if(str.includes("citizen"))
+  {
+    $scope.fn_getCitizenInfo();
+  }
+  else {
+    $scope.fn_getPersonalInfo();
+    $scope.fn_getBasicInfo();
+  }
+}
 
-$scope.fn_getPersonalInfo();
-$scope.fn_getBasicInfo();
+var Qstring = window.location.href;
+var Qparam = Qstring.replace('=',':').replace('=',':').replace('&',' AND ').split('?')[1];
+$scope.fn_processInput(Qparam);
 
 $('.tool').tooltip();
 $scope.availHeight = window.screen.availHeight;
@@ -323,5 +380,5 @@ $('.loadimg').show();
 
          $rootScope.settings.layout.pageContentWhite=true;
          $rootScope.skipTitle = false;
-  		 $rootScope.settings.layout.setTitle("");
+  		   $rootScope.settings.layout.setTitle("");
 });

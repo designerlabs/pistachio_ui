@@ -7,15 +7,80 @@
             <input id="searchbox" ng-model="search.text" type="search" class="form-control" placeholder="{{'fastsearch.global.searchfor' | translate}}...">
             <span class="input-group-btn btn-grp-padding">
               <button class="btn green-soft uppercase bold" ng-click="search(search.text)" type="button"><i class="fa fa-search"></i>{{'fastsearch.global.search' | translate}}</button>
-              <button class="btn bg-LightCoral uppercase bold" ng-click="reset()" type="button"><i class="fa fa-refresh"></i> {{'fastsearch.global.resetsearch' | translate}}</button>
+              <button class="btn btn-icon-only green" ng-click="reset()" type="button"><i class="fa fa-refresh"></i> </button>
+              <button class="btn btn-icon-only" ng-click="options()" type="button"><i class="fa fa-gear"></i> </button>
             </span>
           </div>
         </div>
       </div>
     </div>
-    <div>
+    <div class="option-box col-md-12" ng-if="option">
+      <div class="col-md-3">
+        <h2> Country </h2>
+        <div class="todo-project-list">
+          <ul class="list-group">
+            <li class="list-group-item" data-ng-repeat="cnt in countries" style="padding-left: 3px; padding-right: 1px;">
 
-      <div class="portlet light portlet-fit bordered">
+              <div class="md-checkbox" style="padding: 2px;">
+                <input type="checkbox" ng-click="checkboxselected(cnt.val)" class="md-check" id={{cnt.val}}>
+                <label for={{cnt.val}}>
+                  <span class="inc"></span>
+                  <span class="check"></span>
+                  <span class="box"></span> {{cnt.val}}</label><span class="badge pull-right ng-binding"> {{cnt.count}} </span>
+                </div>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+    </div>
+    <div>
+      <div class='uib'>
+      <div class='ui_box' ng-class="{selected: showApplication}" ng-click="showApplications()">
+        <div class='ui_box__inner'>
+          <h2>{{'fastsearch.global.applications' | translate}}</h2>
+          <div class='stat'>
+            <span>{{applicationsFound}}</span>
+          </div>
+          <p>permohonan found in {{qtime}} milliseconds</p>
+
+        </div>
+
+      </div>
+      <div class='ui_box' ng-class="{selected: showCitizen}" ng-click="showCitizens()">
+        <div class='ui_box__inner'>
+          <h2>{{'fastsearch.global.users' | translate}}</h2>
+          <div class='stat'>
+            <span>{{users}}</span>
+          </div>
+          <p>{{'fastsearch.global.usersfound' | translate}}</p>
+        </div>
+
+      </div>
+      <div class='ui_box' ng-class="{selected: showVisitor}" ng-click="showVisitors()">
+        <div class='ui_box__inner'>
+          <h2>{{'fastsearch.global.stickers' | translate}}</h2>
+          <div class='stat'>
+            <span>{{employers}}</span>
+          </div>
+          <p>{{'fastsearch.global.employersfound' | translate}} in {{vtime}} milliseconds</p>
+        </div>
+
+      </div>
+      <div class='ui_box' >
+        <div class='ui_box__inner'>
+          <h2>{{'fastsearch.global.blacklisted' | translate}}</h2>
+          <div class='stat'>
+            <span>0</span>
+          </div>
+          <p>permohonan found in {{qtime}} milliseconds</p>
+        </div>
+
+      </div>
+
+    </div>
+
+      <div class="portlet light portlet-fit bordered" ng-if="false">
 
         <div class="portlet-body">
           <div class="pricing-content-1">
@@ -49,8 +114,9 @@
                       <h3 style="padding:2px; margin:0px;">{{users}}</h3>
                       <p>{{'fastsearch.global.usersfound' | translate}}</p>
                     </div>
+                    <div ng-if="showCitizen" style="padding:0px;" class="price-ribbon">selected</div>
                     <div class="price-table-footer" style="padding:2px;">
-                      <button type="button" class="btn btn-success btn-outline sbold uppercase price-button">{{'fastsearch.global.view' | translate}}</button>
+                      <button type="button" ng-click="showCitizens()" class="btn btn-success btn-outline sbold uppercase price-button">{{'fastsearch.global.view' | translate}}</button>
                     </div>
                   </div>
                 </div>
@@ -97,6 +163,7 @@
       </div>
       <div class="search-page search-content-4" ng-if="showApplication">
         <div class="row">
+          <!--
           <div class="col-md-2" style="padding: 1px;">
 
             <div class="portlet light " style="padding: 2px;">
@@ -127,7 +194,8 @@
               </div>
 
             </div>
-            <div class="col-md-10">
+          -->
+            <div class="col-md-12">
               <div   class="search-table table-responsive">
                 <table class="table table-bordered table-striped table-condensed">
                   <thead class="bg-table-gray">
@@ -157,7 +225,7 @@
 
                     <tr ng-repeat="x in items">
                       <td  style="width:10%;"  class="table-title">
-                        <a href="javascript:;">{{x.created}}</a>
+                        <a href="javascript:;">{{formatDate(x.created)}}</a>
                       </td>
                       <td  style="width:15%;"  class="table-title">
                         <a href="javascript:;">{{x.job_en}}</a>
@@ -193,40 +261,108 @@
             </div>
           </div>
         </div>
+        <div class="search-page search-content-4" ng-if="showCitizen">
+          <div class="row">
 
-        <div class="search-page search-content-4" ng-if="showVisitor">
-         <div class="row">
-          <div class="col-md-2" style="padding: 1px;">
+                <div class="col-md-12">
+                  <div   class="search-table table-responsive">
+                    <table class="table table-bordered table-striped table-condensed">
+                      <thead class="bg-table-gray">
+                        <tr>
+                          <th>
+                            <a href="javascript:;">Date</a>
+                          </th>
+                          <th>
+                            <a href="javascript:;">Branch</a>
+                          </th>
+                          <th>
+                            <a href="javascript:;">Name</a>
+                          </th>
+                          <th>
+                            <a href="javascript:;">Doc Type</a>
+                          </th>
+                          <th style="text-align: center;">
+                            <a href="javascript:;">Document No</a>
+                          </th>
+                          <th style="text-align: left;">
+                            <a href="javascript:;">{{'fastsearch.global.action' | translate}}</a>
+                          </th>
+                        </tr>
+                      </thead>
 
-           <div class="portlet light " style="padding: 2px;">
-             <div class="portlet-title">
-               <div class="caption" data-toggle="collapse">
-                 <span class="caption-subject font-green-sharp bold uppercase">{{'fastsearch.global.countries' | translate}} </span>
-                 <span class="caption-helper visible-sm-inline-block visible-xs-inline-block">{{'fastsearch.global.viewprojectlist' | translate}}</span>
-               </div>
+                      <tbody>
+                        <tr ng-repeat="x in items">
+                          <td  style="width:10%;"  class="table-title">
+                            <a href="javascript:;">{{formatDate(x.xit_date)}}</a>
+                          </td>
+                          <td  style="width:15%;"  class="table-title">
+                            <a href="javascript:;">{{x.branch}}</a>
+                          </td>
+                          <td class="table-title">
+                            {{x.name}}
+                          </td>
+                          <td style="width:15%;" class="table-desc"> {{x.doc_type}} </td>
+                          <td class="table-download">
+                            {{x.doc_no}}
+                          </td>
+                          <td style="text-align: left; width:5%;" class="table-status">
+                            <a href="#/travelertracker/travelertracker.html" ng-click="viewCitizen(x.doc_no);">
+                              <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>{{'fastsearch.global.view' | translate}}</button>
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
 
-             </div>
-             <div class="portlet-body todo-project-list-content in" aria-expanded="true" style="height: auto;">
-               <div class="todo-project-list">
-                <ul class="list-group">
-                 <li class="list-group-item" data-ng-repeat="cnt in countries" style="padding-left: 3px; padding-right: 1px;">
-
-                   <div class="md-checkbox" style="padding: 2px;">
-                    <input type="checkbox" ng-click="checkboxselectedCountry(cnt.val)" class="md-check" id={{cnt.val}}>
-                    <label for={{cnt.val}} >
-                      <span class="inc"></span>
-                      <span class="check"></span>
-                      <span class="box"></span> {{cnt.val}}</label><span class="badge pull-right ng-binding"> {{cnt.count}} </span>
-                    </div>
-                  </li>
-
-                </ul>
-              </div>
+                  <div class="search-pagination">
+                    <ul class="pagination">
+                      <li >
+                        <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="start==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+                      </li>
+                      <li class="page-active">
+                        <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="pageNum">( {{start}} / {{applicationsFound}} )</div>
+                </div>
             </div>
           </div>
+          <div class="search-page search-content-4" ng-if="showVisitor">
+              <div class="row">
+                <!--
+                        <div class="col-md-2" style="padding: 1px;">
 
-        </div>
-        <div class="col-md-10">
+                          <div class="portlet light " style="padding: 2px;">
+                            <div class="portlet-title">
+                              <div class="caption" data-toggle="collapse">
+                                <span class="caption-subject font-green-sharp bold uppercase">{{'fastsearch.global.countries' | translate}} </span>
+                                <span class="caption-helper visible-sm-inline-block visible-xs-inline-block">{{'fastsearch.global.viewprojectlist' | translate}}</span>
+                              </div>
+                     </div>
+                     <div class="portlet-body todo-project-list-content in" aria-expanded="true" style="height: auto;">
+                       <div class="todo-project-list">
+                        <ul class="list-group">
+                         <li class="list-group-item" data-ng-repeat="cnt in countries" style="padding-left: 3px; padding-right: 1px;">
+
+                           <div class="md-checkbox" style="padding: 2px;">
+                            <input type="checkbox" ng-click="checkboxselectedCountry(cnt.val)" class="md-check" id={{cnt.val}}>
+                            <label for={{cnt.val}} >
+                              <span class="inc"></span>
+                              <span class="check"></span>
+                              <span class="box"></span> {{cnt.val}}</label><span class="badge pull-right ng-binding"> {{cnt.count}} </span>
+                            </div>
+                          </li>
+
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              -->
+        <div class="col-md-12">
          <div   class="search-table table-responsive">
            <table class="table table-bordered table-striped table-condensed">
              <thead class="bg-table-gray">
@@ -256,7 +392,7 @@
 
                <tr ng-repeat="x in items">
                 <td  style="width:10%;"  class="table-title">
-                   <a href="javascript:;">{{x.xit_date}}</a>
+                   <a href="javascript:;">{{formatDate(x.xit_date)}}</a>
                  </td>
                  <td  style="width:15%;"  class="table-title">
                    <a href="javascript:;">{{x.branch}}</a>
