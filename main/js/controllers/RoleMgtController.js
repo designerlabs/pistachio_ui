@@ -72,7 +72,10 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify({
                             name: roleMgtNameVal,
-                            value: 0
+                            value: 0,
+                            fastsearch :(flag_fastsearch.length>0?true: false),
+                            dashboards:(flag_dashboard.length>0?true: false),
+                            editor:(flag_database.length>0?true: false)
                         })
                     })
                     .done(function(){
@@ -162,6 +165,12 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
             $('#myParentSel').multiSelect('refresh');
             $('#mySubParentSel optgroup').remove();
             $('#mySubParentSel').multiSelect('refresh');
+            $('#myDashboardSel optgroup').remove();
+            $('#myDashboardSel').multiSelect('refresh');
+            $('#myFastSearchSel optgroup').remove();
+            $('#myFastSearchSel').multiSelect('refresh');
+            $('#myDatabaseSel optgroup').remove();
+            $('#myDatabaseSel').multiSelect('refresh');
 
             $.get( globalURL + "reportcat/", function( data ) {
               // debugger;
@@ -515,13 +524,66 @@ function UpdateSubReportsCrud(RoleName){
                 oTable.fnDeleteRow(this);
               });
              var filteredNames = $(SubReportAry).filter(function( idx ) {
-                  return SubReportAry[idx].sid == disid 
+                  return SubReportAry[idx].sid == disid;
               });
              // SubReportAry.remove(filteredNames);
              SubReportAry.splice($.inArray(filteredNames[0],SubReportAry),1);
 
         }
     });
+
+var flag_dashboard=[], flag_fastsearch=[], flag_database=[], _nme;
+
+ $('#myDashboardSel').multiSelect({
+  afterSelect: function (value) {
+    flag_dashboard.push(value); 
+    console.log(flag_dashboard); 
+  },
+  afterDeselect: function(value){ 
+   _nme="";
+   _nme = $(flag_dashboard).filter(function( k,v ) {
+                  return flag_dashboard[k] == value;
+              });
+    console.log(_nme[0]); 
+    flag_dashboard.splice($.inArray(_nme[0],flag_dashboard),1);  
+    console.log(flag_dashboard); 
+
+  }
+ });
+
+ $('#myFastSearchSel').multiSelect({
+  afterSelect: function (value) {  
+    flag_fastsearch.push(value);
+    console.log(flag_fastsearch); 
+
+  },
+  afterDeselect: function(value){  
+   _nme="";  
+   _nme = $(flag_fastsearch).filter(function( i ) {
+                  return flag_fastsearch[i] == value 
+              });
+    flag_fastsearch.splice($.inArray(_nme[0],flag_fastsearch),1);   
+    console.log(flag_fastsearch); 
+
+  }
+ });
+
+ $('#myDatabaseSel').multiSelect({
+  afterSelect: function (value) {  
+    flag_database.push(value);
+    console.log(flag_database); 
+
+  },
+  afterDeselect: function(value){      
+     _nme="";  
+   _nme = $(flag_database).filter(function( i ) {
+                  return flag_database[i] == value 
+              });
+    flag_database.splice($.inArray(_nme[0],flag_database),1);  
+    console.log(flag_database); 
+
+  }
+ });
 
 function UpdateCrud(_data){
         
