@@ -35,7 +35,7 @@
   color: white;
   box-shadow: none;
 }
-.uib > ul {
+.uib  ul {
   margin: 0px 30px 10px 0px;
   padding: 0;
   list-style-type: none;
@@ -66,16 +66,16 @@
 .ui_box__inner {
   padding: 30px;
 }
-.ui_box__inner > span {
+.ui_box__inner  span {
   font-size: 36px;
   font-weight: 700;
 }
-.ui_box > h2 {
+.ui_box  h2 {
   font-weight: normal;
   font-size: 16px;
   margin: -4px 0px 3px 0px;
 }
-.ui_box > p {
+.ui_box  p {
   font-size: 11px;
   color: #b6b6b6;
   clear: left;
@@ -84,7 +84,7 @@
   margin: 2px 0px 15px 0px;
 }
 
-.ui_box > img {
+.ui_box  img {
   float: right;
   width: 85px;
   text-align: top;
