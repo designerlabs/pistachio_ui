@@ -264,7 +264,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
        }
 
        $scope.clickCountry = function(data) {
-        $scope.addFilter("cnt","Country : "+data,"country:'"+$scope.cleanQuery(data))+"'";
+        $scope.addFilter("cnt","Country : "+data,"country:"+$scope.cleanQuery(data));
         $scope.querySolr();
        }
 
@@ -326,11 +326,11 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
           if($scope.analysiType == 'overall')
               $scope.querySolr();
             else if ($scope.analysiType == 'timeline')  {
-              query = 'http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=cntry_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=pass_type&facet.limit=150&'+$scope.filterQuery();
+              query = 'http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=country&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=pass_type&facet.limit=150&'+$scope.filterQuery();
             }
 
           else if ($scope.analysiType == 'age')
-            query = 'http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=cntry_cd&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=pass_type&facet.limit=150&'+$scope.filterQuery();
+            query = 'http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.formQuery()+'&wt=json&rows=0&facet=true&facet.field=country&facet.limit=100&facet.field=job_en&facet.field=sex&facet.field=employer&facet.field=pass_type&facet.limit=150&'+$scope.filterQuery();
 
        }
 
@@ -346,12 +346,9 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
             json.filter = $scope.filterQuery();
             json.facet = {};
             json.facet.country = {};
+            json.facet.country.limit = 150;
             json.facet.country.type   = "terms";
             json.facet.country.field  =  "country";
-            json.facet.cntry_cd = {};
-            json.facet.cntry_cd.limit = 150;
-            json.facet.cntry_cd.type   = "terms";
-            json.facet.cntry_cd.field  =  "country";
             json.facet.job = {};
             json.facet.job.type   = "terms";
             json.facet.job.limit = $scope.jobCount;
@@ -394,7 +391,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
           $http.get(thisSolrAppUrl+JSON.stringify(json)).
              success(function(data) {
                  if(selected_countries == 0) {
-                   $scope.countries = data.facets.cntry_cd.buckets;
+                   $scope.countries = data.facets.country.buckets;
                    $scope.jobs = data.facets.job.buckets
                    $scope.employers = data.facets.emp.buckets
                    $scope.visas = data.facets.pass.buckets
@@ -415,7 +412,6 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
                    $scope.uVis = data.facets.uVis;
                    //alert(data.facet_counts.facet_fields.sex.length);
                    console.log($scope.sex1);
-                   $scope.loadMap();
                    $scope.pie();
                 //   $scope.column();
                 //   $scope.date_query();

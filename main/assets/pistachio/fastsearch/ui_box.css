@@ -9,7 +9,7 @@
   border: 1px solid #eeeeee;
 }
 
-.option-box .todo-project-list {
+.option-box > .todo-project-list {
     overflow-y: scroll;
     height: 250px;
 }
@@ -35,7 +35,7 @@
   color: white;
   box-shadow: none;
 }
-.uib ul {
+.uib > ul {
   margin: 0px 30px 10px 0px;
   padding: 0;
   list-style-type: none;
@@ -43,24 +43,7 @@
   font-weight: 400;
   line-height: 20px;
 }
-.uib .drop {
-  z-index: -3;
-  opacity: 0;
-  width: 240px;
-  height: 10px;
-  background: #3e8368;
-  position: absolute;
-  color: white;
-  bottom: 0;
-  padding: 12px 30px 21px 30px;
-  -webkit-transition-property: bottom,opacity;
-  transition-property: bottom,opacity;
-  -webkit-transition-duration: .3s;
-          transition-duration: .3s;
-}
-.uib .drop p {
-  color: #f8fbfa;
-}
+
 
 
 .ui_box {
@@ -83,16 +66,16 @@
 .ui_box__inner {
   padding: 30px;
 }
-.ui_box__inner span {
+.ui_box__inner > span {
   font-size: 36px;
   font-weight: 700;
 }
-.ui_box h2 {
+.ui_box > h2 {
   font-weight: normal;
   font-size: 16px;
   margin: -4px 0px 3px 0px;
 }
-.ui_box p {
+.ui_box > p {
   font-size: 11px;
   color: #b6b6b6;
   clear: left;
@@ -101,7 +84,7 @@
   margin: 2px 0px 15px 0px;
 }
 
-.ui_box img {
+.ui_box > img {
   float: right;
   width: 85px;
   text-align: top;

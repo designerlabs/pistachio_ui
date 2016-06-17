@@ -37,6 +37,19 @@
                                 </div>
                             </div>
                             <div class="mt-list-container list-simple ext-1 group">
+                              <a class="list-toggle-container" data-toggle="collapse" data-target="#country" aria-expanded="false">
+                                  <div class="list-toggle uppercase col-md-12 col-sm-12 col-xs-12"> Negara
+                                      <!--  <span class="badge badge-default pull-right bg-white font-dark bold">{{uEmp}}</span>-->
+                                  </div>
+                              </a>
+                              <div style="" aria-expanded="false" class="panel-collapse collapsed collapse" id="country">
+                                  <ul>
+                                      <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" ng-repeat="cnt in countries" ng-click="clickCountry(cnt.val)">
+                                          <div class="mt-list-title col-md-9 col-sm-9 col-xs-9" data-toggle="tooltip" title="{{cnt.val}}"> {{omitNa(cnt.val) |limitTo:25}}</div>
+                                          <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count}} </div>
+                                      </li>
+                                  </ul>
+                              </div>
                                 <a class="list-toggle-container" data-toggle="collapse" data-target="#jobs" aria-expanded="false">
                                     <div class="list-toggle done uppercase col-md-12 col-sm-12 col-xs-12"> Jobs
                                         <span class="badge badge-default pull-right bg-white font-green bold">{{uJob}}</span>
@@ -92,19 +105,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <a class="list-toggle-container" data-toggle="collapse" data-target="#country" aria-expanded="false">
-                                    <div class="list-toggle uppercase col-md-12 col-sm-12 col-xs-12"> Negara
-                                        <!--  <span class="badge badge-default pull-right bg-white font-dark bold">{{uEmp}}</span>-->
-                                    </div>
-                                </a>
-                                <div style="" aria-expanded="false" class="panel-collapse collapsed collapse" id="country">
-                                    <ul>
-                                        <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" ng-repeat="cnt in countries" ng-click="clickCountry(cnt.val)">
-                                            <div class="mt-list-title col-md-9 col-sm-9 col-xs-9" data-toggle="tooltip" title="{{cnt.val}}"> {{omitNa(cnt.val) |limitTo:25}}</div>
-                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count}} </div>
-                                        </li>
-                                    </ul>
-                                </div>
+
                             </div>
                         </div>
                     </div>
