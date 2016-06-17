@@ -30,10 +30,12 @@ MetronicApp.controller('DashboardController', function($rootScope, $scope, $http
             $("#iframeContainer iframe").attr('src','');
         });
 
+        // set sidebar closed and body solid layout mode
+        $rootScope.settings.layout.pageSidebarClosed = true;
+        $rootScope.skipTitle = false;
+        $rootScope.settings.layout.setTitle("dashboard");
+
     });
 
-    // set sidebar closed and body solid layout mode
-    $rootScope.settings.layout.pageSidebarClosed = true;
-    $rootScope.skipTitle = false;
-    $rootScope.settings.layout.setTitle("dashboard");
+
 });

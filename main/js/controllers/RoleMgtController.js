@@ -7,12 +7,14 @@ var SubReportObj = [];
 MetronicApp.controller('RoleMgtController', function($rootScope, $scope, settings, $http, $timeout) {
     $scope.$on('$viewContentLoaded', function() {
 
+      // initialize core components
+      Metronic.initAjax();
+
+
          $("#roleMgtList").show();
          $("#tableList").hide();
 
-        // initialize core components
-        Metronic.initAjax();
-
+  
 
         var roleMgts;
 
@@ -72,10 +74,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify({
                             name: roleMgtNameVal,
-                            value: 0,
-                            fastsearch :(flag_fastsearch.length>0?true: false),
-                            dashboards:(flag_dashboard.length>0?true: false),
-                            editor:(flag_database.length>0?true: false)
+                            value: 0
                         })
                     })
                     .done(function(){
@@ -199,12 +198,6 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
             $('#myParentSel').multiSelect('refresh');
             $('#mySubParentSel optgroup').remove();
             $('#mySubParentSel').multiSelect('refresh');
-            $('#myDashboardSel optgroup').remove();
-            $('#myDashboardSel').multiSelect('refresh');
-            $('#myFastSearchSel optgroup').remove();
-            $('#myFastSearchSel').multiSelect('refresh');
-            $('#myDatabaseSel optgroup').remove();
-            $('#myDatabaseSel').multiSelect('refresh');
 
             $.get( globalURL + "reportcat/", function( data ) {
               // debugger;
@@ -558,7 +551,7 @@ function UpdateSubReportsCrud(RoleName){
                 oTable.fnDeleteRow(this);
               });
              var filteredNames = $(SubReportAry).filter(function( idx ) {
-                 return SubReportAry[idx].sid == disid
+                  return SubReportAry[idx].sid == disid
               });
              // SubReportAry.remove(filteredNames);
              SubReportAry.splice($.inArray(filteredNames[0],SubReportAry),1);

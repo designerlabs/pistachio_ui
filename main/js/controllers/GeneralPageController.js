@@ -3,26 +3,6 @@ var tableFunc, jobsDataFunc, selectedQueryRunId, reportCategoryID, fromDate, toD
 
 //reportCategoryID =   $("#reportCategoryID").val();
 
-/* resize function */
-function onResize1() {
-    var $width = $(document).width();
-    //Iphone
-    if ($width < 1250 && $width > 300) {
-        $('td .tableView').html('<i class="fa fa-eye"></i>');
-        $('td .btn1').html('<i class="fa fa-play"></i>');
-        $('td .updateBtn').html('<i class="fa fa-edit"></i>');
-        $('td .deleteBtn, td .btn2').html('<i class="fa fa-trash"></i>');
-        $('td .btn3').html('<i class="fa fa-clock-o"></i>');
-        $('td .btn').css('padding', '3px');
-    } else {
-        $('.tableView').html('<i class="fa fa-eye"></i> View');
-        $('td .btn1').html('<i class="fa fa-play"></i> Start');
-        $('td .updateBtn').html('<i class="fa fa-edit"></i> Edit');
-        $('td .deleteBtn, td .btn2').html('<i class="fa fa-trash"></i> Delete');
-        $('td .btn3').html('<i class="fa fa-clock-o"></i> Schedule');
-        $('td .btn').css('padding', '6px 12px');
-    }
-}
 
 
 
@@ -30,20 +10,47 @@ function onResize1() {
 /* GeneralPageController starts */
 MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http', 'settings', 'authorities', 'fileUpload', function ($rootScope, $scope, $http, settings, authorities, fileUpload) {
 
-    $scope.uploadFile = function(){
-        var file = $scope.myFile;
-        console.log('file is ' );
-        console.dir(file);
-        var uploadUrl = globalURL + "api/pistachio/upload?user=";
-        fileUpload.uploadFileToUrl(file, uploadUrl);
-    };
-
-
-    $.extend( true, $.fn.dataTable.defaults, {
-     stateSave: true
-    });
+    
 
     $scope.$on('$viewContentLoaded', function () {
+        // initialize core components
+        Metronic.initAjax();
+
+        /* resize function */
+        function onResize1() {
+            var $width = $(document).width();
+            //Iphone
+            if ($width < 1250 && $width > 300) {
+                $('td .tableView').html('<i class="fa fa-eye"></i>');
+                $('td .btn1').html('<i class="fa fa-play"></i>');
+                $('td .updateBtn').html('<i class="fa fa-edit"></i>');
+                $('td .deleteBtn, td .btn2').html('<i class="fa fa-trash"></i>');
+                $('td .btn3').html('<i class="fa fa-clock-o"></i>');
+                $('td .btn').css('padding', '3px');
+            } else {
+                $('.tableView').html('<i class="fa fa-eye"></i> View');
+                $('td .btn1').html('<i class="fa fa-play"></i> Start');
+                $('td .updateBtn').html('<i class="fa fa-edit"></i> Edit');
+                $('td .deleteBtn, td .btn2').html('<i class="fa fa-trash"></i> Delete');
+                $('td .btn3').html('<i class="fa fa-clock-o"></i> Schedule');
+                $('td .btn').css('padding', '6px 12px');
+            }
+        }
+
+
+        $scope.uploadFile = function(){
+            var file = $scope.myFile;
+            console.log('file is ' );
+            console.dir(file);
+            var uploadUrl = globalURL + "api/pistachio/upload?user=";
+            fileUpload.uploadFileToUrl(file, uploadUrl);
+        };
+
+
+        $.extend( true, $.fn.dataTable.defaults, {
+         stateSave: true
+        });
+
         $("#tableList").hide();
         $scope.chkRole = authorities.checkRole;
         $scope.getReportPrivilege = localStorage.getItem('reportPrivilege');
@@ -60,8 +67,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             $(this).parents('ul').parent('li').addClass("active");
         });
 
-        // initialize core components
-        Metronic.initAjax();
+       
         var databases;
         $scope.authoritiesValue = localStorage.getItem('authorities');
 
@@ -1500,15 +1506,15 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         $('#btnRefresh').click(function(event){
             $.get(globalURL+'etl/databases/'+ $scope.SelectedViewID +'/refresh');
         });
-
+        
+        // set sidebar closed and body solid layout mode
+          $rootScope.settings.layout.pageSidebarClosed = true;
+          $rootScope.skipTitle = false;
+          $rootScope.settings.layout.setTitle("joblist");
 
     });
 
 
-// set sidebar closed and body solid layout mode
-  $rootScope.settings.layout.pageSidebarClosed = true;
-  $rootScope.skipTitle = false;
-  $rootScope.settings.layout.setTitle("joblist");
 }]);
 
 MetronicApp.controller('GeneralPageController', function($scope, Idle, settings, Keepalive, $modal, $rootScope){

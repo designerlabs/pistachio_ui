@@ -581,9 +581,9 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         }
 
         $scope.timelineChart();
-
+         // set sidebar closed and body solid layout mode
+    $rootScope.settings.layout.pageSidebarClosed = false;
     });
 
-    // set sidebar closed and body solid layout mode
-    $rootScope.settings.layout.pageSidebarClosed = false;
+   
 });

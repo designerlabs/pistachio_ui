@@ -49,7 +49,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
       else {
         query = "*:*"
       }
-      console.log(query);
+      //console.log(query);
       return(query);
     }
 
@@ -197,7 +197,14 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
     $scope.formatDate = function (date) {
      //var d = new Date(date);
      //return d.toString();
-     return date.replace('T',' ').replace('Z','')
+    if(date){
+     var rDate = date.replace('T',' ').replace('Z','');
+     console.log(rDate);
+     return rDate;
+     }else{
+      return ''; 
+     }
+     
     }
     $scope.box_update = function () {
       if($scope.showApplication)

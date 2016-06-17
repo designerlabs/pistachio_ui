@@ -30,10 +30,12 @@ MetronicApp.controller('FastSearchController', function($rootScope, $scope, $htt
         });
         console.log($scope);
 
+        // set sidebar closed and body solid layout mode
+        $rootScope.settings.layout.pageSidebarClosed = false;
+        $rootScope.skipTitle = false;
+        $rootScope.settings.layout.setTitle("fastsearch");
+
     });
 
-    // set sidebar closed and body solid layout mode
-    $rootScope.settings.layout.pageSidebarClosed = false;
-    $rootScope.skipTitle = false;
-    $rootScope.settings.layout.setTitle("fastsearch");
+    
 });
