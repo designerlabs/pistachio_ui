@@ -102,7 +102,12 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
             $btn = $(this);
             $btn.button('loading');
             fn_GotoResultTab();
-            var qry = $scope.aceDocumentValue;
+            var qry;
+            if(editor.getSelectedText().length > 0){
+                qry = editor.getSelectedText();
+            }else{
+                 qry = $scope.aceDocumentValue;
+            }
             fn_ExecQuery(qry);
 
         });
