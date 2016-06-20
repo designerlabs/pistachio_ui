@@ -8,6 +8,7 @@ MetronicApp.controller('ReportCategoryController', ['$rootScope', '$scope', '$ht
 
         // initialize core components
         Metronic.initAjax();
+
         var getUser = localStorage.getItem("token");
         var getSideMenu = localStorage.getItem("sideMenuValue");
         //$http.get(globalURL+"auth/token?token="+getUser)
@@ -37,6 +38,20 @@ MetronicApp.controller('ReportCategoryController', ['$rootScope', '$scope', '$ht
                 //console.log(response.subReports);
                 //$scope.names = response;
             });
+
+            $(".page-sidebar-menu > li").removeClass('active');
+
+
+            $("#ereportLink, #rptmgtLink").addClass('active');
+
+        $('.page-sidebar-menu .sub-menu li a').click(function() {
+            $(".nav-item").removeClass("active");
+            $(".nav-item").removeClass("open");
+            $('.sub-menu').hide();
+            $(this).addClass('active');
+            //alert(this);
+            $(this).parents('ul').parent('li').addClass("active");
+        });
         $rootScope.reporttitle = localStorage.getItem("selSystemDisplayName"); //Display parent name in report2/3.html
         $scope.countDown = 1;
         $scope.timer = setInterval(function() {
@@ -141,5 +156,8 @@ MetronicApp.controller('ReportCategoryController', ['$rootScope', '$scope', '$ht
         $rootScope.settings.layout.pageSidebarClosed = false;
         $rootScope.skipTitle = true;
         $rootScope.settings.layout.setTitle("reporttitle");
+        //$rootScope.settings.Layout.setSidebarMenuActiveLink('set', $('#ereportLink')); 
+
+
     });
 }]);

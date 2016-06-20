@@ -116,6 +116,22 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
 
 
 
+        $(".page-sidebar-menu > li").removeClass('active');
+        $(".sub-menu > li").removeClass('active');
+
+        $("#adminLink").addClass('active');
+        $("#rptmgtLink").addClass('active');
+
+        $('.sub-menu li a').click(function() {
+        
+            $(".nav-item").removeClass("active");
+            $(".nav-item").removeClass("open");
+            $('.sub-menu').hide();
+            $(this).parent('li').addClass('active');
+            console.log(this);
+            //alert(this);
+            $(this).parents('ul').parent('li').addClass("active");
+        });
 
 
         $("#reportMgtUISubmit").click(function(event) {

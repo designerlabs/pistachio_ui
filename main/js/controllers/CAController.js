@@ -7,6 +7,8 @@ MetronicApp.controller('CAController', function($rootScope, $scope, $http) {
 
         // initialize core components
         Metronic.initAjax();
+        $(".page-sidebar-menu > li").removeClass('active');
+        $("#dashboardLink").addClass('active');
          $rootScope.settings.layout.pageSidebarClosed = true;
   $rootScope.skipTitle = false;
   $rootScope.settings.layout.setTitle("");

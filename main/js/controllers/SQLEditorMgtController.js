@@ -10,15 +10,20 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         $scope.svdstart = 0;
         $scope.rows = 10;
         $scope.svdrows = 10;
-        // fn_showHistory();
-        fn_showSavedQry();
-        $scope.showResults = false;
-
-
-        fn_LoadDb();
+        $scope.showResults = false;     
         $scope.database;
         $scope.btnExec = true;
         $scope.Saveqry = true;
+        fn_showSavedQry();
+        fn_LoadDb();
+
+        });
+      
+        // fn_showHistory();
+
+
+       
+        
 
         //$scope.started = true;
         var editor = ace.edit("qryeditor");
@@ -97,7 +102,12 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
             $btn = $(this);
             $btn.button('loading');
             fn_GotoResultTab();
-            var qry = $scope.aceDocumentValue;
+            var qry;
+            if(editor.getSelectedText().length > 0){
+                qry = editor.getSelectedText();
+            }else{
+                 qry = $scope.aceDocumentValue;
+            }
             fn_ExecQuery(qry);
 
         });
@@ -193,7 +203,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                                 });
                                 fn_ClearResultTbl();
                                 queryResultFunc(myArrayRow, myArrayColumn);
-                                $(".page-content").height($(".profile-content").height() + 400);
+                                //$(".page-content").height($(".profile-content").height() + 400);
                                 setTimeout(function() {
                                     $btn.button('reset');
                                 }, 1000);
@@ -203,7 +213,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                                 $("#messageView div").removeClass("alert-success");
                                 $("#messageView div").addClass('alert-danger');
                                 $("#messageView div").show().delay(5000).fadeOut();
-                                $(".page-content").height($(".profile-content").height() + 400);
+                                //$(".page-content").height($(".profile-content").height() + 400);
                                 setTimeout(function() {
                                     $btn.button('reset');
                                 }, 1000);
@@ -358,8 +368,10 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                         var data = historyTbl.row(this).data();
                         editor.session.setValue('');
                         editor.session.setValue(data.query);
+                        // $scope.btnExec = false;
+                        // $scope.Saveqry = false;
                     });
-                    $(".page-content").height($(".profile-content").height() + 400);
+                    //$(".page-content").height($(".profile-content").height() + 400);
                 });
         }
 
@@ -392,8 +404,9 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                         var data = SavedQryTbl.row(this).data();
                         editor.session.setValue('');
                         editor.session.setValue(data.query);
+                         // $scope.Saveqry = false;
                     });
-                    $(".page-content").height($(".profile-content").height() + 400);
+                    //$(".page-content").height($(".profile-content").height() + 400);
                     $("#mdlSaveQry").modal('hide');
                 });
         }
@@ -421,6 +434,5 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         $rootScope.settings.layout.pageSidebarClosed = true;
         $rootScope.skipTitle = false;
         $rootScope.settings.layout.setTitle("queryeditor");
-    });
-
+    
 });

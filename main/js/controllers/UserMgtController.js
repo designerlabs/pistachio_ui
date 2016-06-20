@@ -8,7 +8,24 @@ MetronicApp.controller('UserMgtController', function($rootScope, settings, $scop
 
         // initialize core components
         Metronic.initAjax();
+       
 
+        $(".page-sidebar-menu > li").removeClass('active');
+        $(".sub-menu > li").removeClass('active');
+
+        $("#adminLink").addClass('active');
+        $("#userManagementLink").addClass('active');
+
+        $('.sub-menu li a').click(function() {
+        
+            $(".nav-item").removeClass("active");
+            $(".nav-item").removeClass("open");
+            $('.sub-menu').hide();
+            $(this).parent('li').addClass('active');
+            console.log(this);
+            //alert(this);
+            $(this).parents('ul').parent('li').addClass("active");
+        });
 
         var userMgts;
 

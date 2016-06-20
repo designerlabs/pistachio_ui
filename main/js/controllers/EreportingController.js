@@ -4,20 +4,7 @@ var tableFunc, jobsDataFunc, selectedQueryRunId, reportCategoryID, fromDate, toD
 //reportCategoryID =   $("#reportCategoryID").val();
 
 
-
-
-
-
-/* EreportingController starts */
-MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http', 'settings', 'authorities', 'fileUpload', function ($rootScope, $scope, $http, settings, authorities, fileUpload) {
-
-
-
-    $scope.$on('$viewContentLoaded', function () {
-        // initialize core components
-        Metronic.initAjax();
-
-        /* resize function */
+    /* resize function */
         function onResize1() {
             var $width = $(document).width();
             //Iphone
@@ -38,6 +25,20 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
             }
         }
 
+
+
+
+/* EreportingController starts */
+MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http', 'settings', 'authorities', 'fileUpload', function ($rootScope, $scope, $http, settings, authorities, fileUpload) {
+
+
+
+    $scope.$on('$viewContentLoaded', function () {
+        // initialize core components
+
+        Metronic.initAjax();
+        Layout.fixContentHeight(); 
+    
         $scope.uploadFile = function(){
             var file = $scope.myFile;
             console.log('file is ' );
@@ -56,15 +57,11 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
         $scope.reportPrivilege = JSON.parse($scope.getReportPrivilege);
 
 
+        $(".page-sidebar-menu > li").removeClass('active');
+        $(".sub-menu > li").removeClass('active');
 
-        $("#sidebarMenu li").click(function(){
-            $("#sidebarMenu li").removeClass("active");
-            $("#sidebarMenu li").removeClass("open");
-            $(this).addClass('active');
-            console.log(this);
-            //alert(this);
-            $(this).parents('ul').parent('li').addClass("active");
-        });
+        $("#ereportLink").addClass('active');
+        //$("#roleManagementLink").addClass('active');
 
         
         var databases;
@@ -404,6 +401,7 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
                         "data": "reportFileName",
                         "render": function (data, type, full, meta) {
                             // alert(data);
+                            console.log(data);
                             if (data == null) {
                                 return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-eye"></i> View</button></a>';
                             } else {
@@ -433,7 +431,15 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
                         "data": "execute",
                         "render": function (data, type, full, meta) {
 
-                                return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
+                            if (full.reportFileName) {
+                                return '<button class="btn btn-success btn-sm TemplateBtn details-control"><i class="fa fa-plus-circle"></i> Expand</button>';
+                            } else {
+                                  return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-eye"></i> View</button></a>';
+                                
+                            }
+
+                                //return '<button class="btn btn-success btn-sm TemplateBtn details-control"><i class="fa fa-plus-circle"></i> Expand</button>';
+                                //return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
 
                             }
                             /* "render": function(data, type, full, meta) {
@@ -446,7 +452,7 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
         };
 
         // Add event listener for opening and closing details
-        $('#queryContainer').on('click', '.details-control', function () {
+        $('#queryContainer, #queryContainerAdmin').on('click', '.details-control', function () {
             var tr = $(this).closest('tr');
             var row = queryData.row(tr);
             //console.log(row);
@@ -1176,6 +1182,13 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
             //alert(selectedQueryRunId);
         });
 
+         $('#queryContainerAdmin').on('click', 'button.TemplateBtn', function () {
+            var selectedRunQuery = queryData.row($(this).parents('tr')).data();
+            selectedQueryRunId = selectedRunQuery.id;
+            FrmTemplate = 'Yes';
+            localStorage.setItem("selTemplateVal", "");
+        });
+
 
 
 
@@ -1411,7 +1424,7 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
 
 
         $(document).ajaxStart(function () {
-            $("#loader").css('height', $(".page-content").height() + 140 + 'px');
+//            $("#loader").css('height', $(".page-content").height() + 140 + 'px');
             $("#loader .page-spinner-bar").removeClass('hide');
             $("#loader").show();
         });
