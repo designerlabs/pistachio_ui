@@ -471,9 +471,56 @@ MetronicApp.directive('myEmpDirective', function() {
     return function(scope, element, attrs, $scope) {
 
         if (scope.$last) {
+
+         $('input[name="check-box"]').wrap('<div class="check-box"><i></i></div>');
+         $.fn.toggleCheckbox = function () {
+             this.attr('checked', !this.attr('checked'));
+         }
+/*         $('.check-box').on('click', function () {
+            scope.employeeArr=[];
+            $.each($("#employeeList input:checked"), function(i, k) {
+            //console.log(k);
+            var currentValue = k.value;
+            scope.employeeArr.push(currentValue);
+            console.log(scope.employeeArr);
+            debugger;
+            });              
+             $(this).find(':checkbox').toggleCheckbox();
+             $(this).find(':checkbox').prop('checked');
+             $(this).toggleClass('checkedBox');
+         });*/
+        //scope.employeeArr=[];
+        $.each($("#employeeList input"), function(i, k) {
+            $(k).parent().parent('.check-box').on('click', function (e) {
+                //debugger;
+                $(this).find(':checkbox').toggleCheckbox();
+                $(this).find(':checkbox').prop('checked');
+                $(this).toggleClass('checkedBox');
+                var currentValue = $(e.target.innerHTML).children().val();
+                var currentValueNext = $(e.target.innerHTML).val();
+                if($('.'+currentValue).prop('checked')){
+                    scope.employeeArr.push(currentValue);
+                }else if($('.'+currentValueNext).prop('checked')){
+                    scope.employeeArr.push(currentValueNext);
+                }else{
+                    if(currentValue){
+                        removeItem(scope.employeeArr, currentValue);    
+                    }else{
+                        removeItem(scope.employeeArr, currentValueNext);
+                    }
+                    
+                }
+
+                console.log(scope.employeeArr);
+                scope.timelineChart();
+
+            });
+        });
+
             scope.$watch('empName', function(e){
                 console.log(e);
                 $("."+e).prop('checked', true);
+                $('.'+e).parent().parent('.check-box').toggleClass('checkedBox');
             });
             scope.$watch('employeeArr', function(e) {
                 console.log(e)
@@ -489,31 +536,11 @@ MetronicApp.directive('myEmpDirective', function() {
                 }
             };
 
-            $.each($("#employeeList input"), function(i, k) {
-
-                $(k).change(function(e) {
-
-                    var currentValue = e.target.value;
-                    if (this.checked) {
-                        scope.employeeArr.push(currentValue);
-
-
-                    } else {
-                        //scope.employeeArr.pop(currentValue);
-                        removeItem(scope.employeeArr, currentValue);
-
-                    }
-
-                    console.log(scope.employeeArr);
-
-
-                }).change(function() {
-
-                });
-            });
+            
         }
     };
 });
+
 
 MetronicApp.directive('myRepeatDirective', function() {
     return function(scope, element, attrs) {
@@ -1636,7 +1663,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
                         'bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
 
-
+                        'assets/pistachio/hourlyReport/hourlyReport.css',
                         'js/controllers/employeeHourlyDetailsController.js'
                     ]
                 });
