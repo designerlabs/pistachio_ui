@@ -58,7 +58,12 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
          var formattedTime = startDtN.split(" ")[1].split(":");
          $scope.epochStart = new Date(formattedDays[2], formattedDays[1] - 1, formattedDays[0], formattedTime[0], formattedTime[1], formattedTime[2], 0).getTime() / 1000;
          console.log($scope.epochStart);*/
-
+         /*
+            Custom checkbox and radio button - Jun 18, 2013
+            (c) 2013 @ElmahdiMahmoud 
+            license: http://www.opensource.org/licenses/mit-license.php
+         */   
+     
 
         $scope.changeDt = function(format) { // for display purpose
             var newDate = format.split('T');
@@ -210,6 +215,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                 var chart = $('#container').highcharts();
                 chart.showLoading('Loading data from server...');
 
+
                 //Formatting Date
                 var dateFormat = function(ele) {
                     var myDate = new Date(ele);
@@ -242,7 +248,15 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
              * @returns {undefined}
              */
             $scope.createChart = function() {
+
+                Highcharts.setOptions({
+                    global: {
+                        useUTC: false
+                    }
+                });
+
                 $('#container').highcharts('StockChart', {
+
 
                     xAxis: {
                         type: 'datetime',
@@ -298,9 +312,9 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     series: $scope.seriesOptions
                 });
 
-
+                
                 $('#container1').highcharts('StockChart', {
-
+                     
                     xAxis: {
                         type: 'datetime',
                         tickInterval: 3600 * 1000,
@@ -436,10 +450,43 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
             $.each(ele, function(i, name) {
 
-                $http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "/1").success(function(data) {
-                    //$.getJSON('jsonp_' + name + '.js', function(data) {
-                    // Create a timer
+            /*    return {
+                    getEverything: function() {
+
+                        var getPlayers= $http({
+                            method: 'GET',
+                            url: globalURL + "api/employee/1001231/" + 
+                                    name + "/" + $scope.startDtNSplit[2] + "-" + 
+                                    $scope.startDtNSplit[1] + "-" + 
+                                    $scope.startDtNSplit[0] + "/" + 
+                                    $scope.endDtNSplit[2] + "-" + 
+                                    $scope.endDtNSplit[1] + "-" + 
+                                    $scope.endDtNSplit[0] + "/1",
+                        });
+                        var getMatches= $http({
+                            method: 'GET',
+                            url: globalURL + "api/employee/1001231/" + 
+                                    name + "/" + $scope.startDtNSplit[2] + "-" + 
+                                    $scope.startDtNSplit[1] + "-" + 
+                                    $scope.startDtNSplit[0] + "/" + 
+                                    $scope.endDtNSplit[2] + "-" + 
+                                    $scope.endDtNSplit[1] + "-" + 
+                                    $scope.endDtNSplit[0] + "/2",
+                        });
+
+                       return $q.all([getPlayers,getMatches]);
+                    }
+                };
+
+
+                getEverything().then(function(data){
                     console.log(data);
+                   var players=data[0].data;
+                   var matches=data[1].data;
+                });*/
+
+                //return false;
+                $http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "/1").success(function(data) {
                     var start = +new Date();
                     if (data) {
                         $scope.seriesOptions[i] = {
@@ -467,92 +514,81 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     }
 
                 }).catch(function(err) {
+                    console.log(err);
+                    $scope.loading = false;
+                    
+                }).finally(function(){
+                    $scope.loading = false;
+                });
 
-                })
-                    .finally(function() {
-                        $scope.loading = true;
-                        //$scope.loading = false;
-                        $.each(ele, function(i, name) {
+/*
+                $http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "/2").success(function(data) {
+                    //$.getJSON('jsonp_' + name + '.js', function(data) {
+                    // Create a timer
+                    console.log(data);
+                    var start = +new Date();
+                    if (data) {
+                        $scope.seriesOptions1[i] = {
+                            name: name,
+                            data: data.data,
+                            pointStart: $scope.startDtNEpoch,
+                            //pointStart: 1211414400000,
+                            //pointStart: Date.UTC(2008, 04, 22),
+                            pointInterval: 3600 * 1000,
+                            tooltip: {
+                                valueDecimals: 0
+                            }
+                        };
 
-                            $http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "/2").success(function(data) {
-                                //$.getJSON('jsonp_' + name + '.js', function(data) {
-                                // Create a timer
-                                console.log(data);
-                                var start = +new Date();
-                                if (data) {
-                                    $scope.seriesOptions1[i] = {
-                                        name: name,
-                                        data: data.data,
-                                        pointStart: $scope.startDtNEpoch,
-                                        //pointStart: 1211414400000,
-                                        //pointStart: Date.UTC(2008, 04, 22),
-                                        pointInterval: 3600 * 1000,
-                                        tooltip: {
-                                            valueDecimals: 0
-                                        }
-                                    };
+                        $scope.seriesCounter1 += 1;
+                        // Create the chart
+                        console.log($scope.seriesCounter1 === ele.length);
+                        if ($scope.seriesCounter1 === ele.length) {
 
-                                    $scope.seriesCounter1 += 1;
-                                    // Create the chart
-                                    console.log($scope.seriesCounter1 === ele.length);
-                                    if ($scope.seriesCounter1 === ele.length) {
+                            $scope.createChart();
+                        }
+                    } else {
+                        return false;
+                    }
 
-                                        $scope.createChart();
-                                    }
-                                } else {
-                                    return false;
-                                }
+                }).catch(function(err) {
 
-                            }).catch(function(err) {
+                });
 
-                            })
-                                .finally(function() {
-                                    $scope.loading = true;
-                                    //$scope.loading = false;
+                $http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0]).success(function(data) {
+                    //$.getJSON('jsonp_' + name + '.js', function(data) {
+                    // Create a timer
+                    console.log(data);
+                    var start = +new Date();
+                    if (data) {
+                        $scope.seriesOptions2[i] = {
+                            name: name,
+                            data: data.data,
+                            pointStart: $scope.startDtNEpoch,
+                            //pointStart: 1211414400000,
+                            //pointStart: Date.UTC(2008, 04, 22),
+                            pointInterval: 3600 * 1000,
+                            tooltip: {
+                                valueDecimals: 0
+                            }
+                        };
 
-                                    $.each(ele, function(i, name) {
+                        $scope.seriesCounter2 += 1;
+                        // Create the chart
+                        console.log($scope.seriesCounter2 === ele.length);
+                        if ($scope.seriesCounter2 === ele.length) {
 
-                                        $http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0]).success(function(data) {
-                                            //$.getJSON('jsonp_' + name + '.js', function(data) {
-                                            // Create a timer
-                                            console.log(data);
-                                            var start = +new Date();
-                                            if (data) {
-                                                $scope.seriesOptions2[i] = {
-                                                    name: name,
-                                                    data: data.data,
-                                                    pointStart: $scope.startDtNEpoch,
-                                                    //pointStart: 1211414400000,
-                                                    //pointStart: Date.UTC(2008, 04, 22),
-                                                    pointInterval: 3600 * 1000,
-                                                    tooltip: {
-                                                        valueDecimals: 0
-                                                    }
-                                                };
+                            $scope.createChart();
+                        }
+                    } else {
+                        return false;
+                    }
 
-                                                $scope.seriesCounter2 += 1;
-                                                // Create the chart
-                                                console.log($scope.seriesCounter2 === ele.length);
-                                                if ($scope.seriesCounter2 === ele.length) {
+                }).catch(function(err) {
 
-                                                    $scope.createChart();
-                                                }
-                                            } else {
-                                                return false;
-                                            }
-
-                                        }).catch(function(err) {
-
-                                        })
-                                            .finally(function() {
-                                                $scope.loading = false;
-
-                                            });
-                                    });
-
-                                });
-                        });
-                    });
+                });
+                */
+                    
             });
 
 
