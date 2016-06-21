@@ -3,26 +3,27 @@ var tableFunc, jobsDataFunc, selectedQueryRunId, reportCategoryID, fromDate, toD
 
 //reportCategoryID =   $("#reportCategoryID").val();
 
-/* resize function */
-function onResize1() {
-    var $width = $(document).width();
-    //Iphone
-    if ($width < 1250 && $width > 300) {
-        $('td .tableView').html('<i class="fa fa-eye"></i>');
-        $('td .btn1').html('<i class="fa fa-play"></i>');
-        $('td .updateBtn').html('<i class="fa fa-edit"></i>');
-        $('td .deleteBtn, td .btn2').html('<i class="fa fa-trash"></i>');
-        $('td .btn3').html('<i class="fa fa-clock-o"></i>');
-        $('td .btn').css('padding', '3px');
-    } else {
-        $('.tableView').html('<i class="fa fa-eye"></i> View');
-        $('td .btn1').html('<i class="fa fa-play"></i> Start');
-        $('td .updateBtn').html('<i class="fa fa-edit"></i> Edit');
-        $('td .deleteBtn, td .btn2').html('<i class="fa fa-trash"></i> Delete');
-        $('td .btn3').html('<i class="fa fa-clock-o"></i> Schedule');
-        $('td .btn').css('padding', '6px 12px');
-    }
-}
+
+    /* resize function */
+        function onResize1() {
+            var $width = $(document).width();
+            //Iphone
+            if ($width < 1250 && $width > 300) {
+                $('td .tableView').html('<i class="fa fa-eye"></i>');
+                $('td .btn1').html('<i class="fa fa-play"></i>');
+                $('td .updateBtn').html('<i class="fa fa-edit"></i>');
+                $('td .deleteBtn, td .btn2').html('<i class="fa fa-trash"></i>');
+                $('td .btn3').html('<i class="fa fa-clock-o"></i>');
+                $('td .btn').css('padding', '3px');
+            } else {
+                $('.tableView').html('<i class="fa fa-eye"></i> View');
+                $('td .btn1').html('<i class="fa fa-play"></i> Start');
+                $('td .updateBtn').html('<i class="fa fa-edit"></i> Edit');
+                $('td .deleteBtn, td .btn2').html('<i class="fa fa-trash"></i> Delete');
+                $('td .btn3').html('<i class="fa fa-clock-o"></i> Schedule');
+                $('td .btn').css('padding', '6px 12px');
+            }
+        }
 
 
 
@@ -30,38 +31,39 @@ function onResize1() {
 /* EreportingController starts */
 MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http', 'settings', 'authorities', 'fileUpload', function ($rootScope, $scope, $http, settings, authorities, fileUpload) {
 
-    $scope.uploadFile = function(){
-        var file = $scope.myFile;
-        console.log('file is ' );
-        console.dir(file);
-        var uploadUrl = globalURL + "api/pistachio/upload?user=";
-        fileUpload.uploadFileToUrl(file, uploadUrl);
-    };
 
-
-    $.extend( true, $.fn.dataTable.defaults, {
-     stateSave: true
-    });
 
     $scope.$on('$viewContentLoaded', function () {
+        // initialize core components
+
+        Metronic.initAjax();
+        Layout.fixContentHeight(); 
+    
+        $scope.uploadFile = function(){
+            var file = $scope.myFile;
+            console.log('file is ' );
+            console.dir(file);
+            var uploadUrl = globalURL + "api/pistachio/upload?user=";
+            fileUpload.uploadFileToUrl(file, uploadUrl);
+        };
+
+
+        $.extend( true, $.fn.dataTable.defaults, {
+         stateSave: true
+        });
         $("#tableList").hide();
         $scope.chkRole = authorities.checkRole;
         $scope.getReportPrivilege = localStorage.getItem('reportPrivilege');
         $scope.reportPrivilege = JSON.parse($scope.getReportPrivilege);
 
 
+        $(".page-sidebar-menu > li").removeClass('active');
+        $(".sub-menu > li").removeClass('active');
 
-        $("#sidebarMenu li").click(function(){
-            $("#sidebarMenu li").removeClass("active");
-            $("#sidebarMenu li").removeClass("open");
-            $(this).addClass('active');
-            console.log(this);
-            //alert(this);
-            $(this).parents('ul').parent('li').addClass("active");
-        });
+        $("#ereportLink").addClass('active');
+        //$("#roleManagementLink").addClass('active');
 
-        // initialize core components
-        Metronic.initAjax();
+        
         var databases;
         $scope.authoritiesValue = localStorage.getItem('authorities');
 
@@ -399,6 +401,7 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
                         "data": "reportFileName",
                         "render": function (data, type, full, meta) {
                             // alert(data);
+                            console.log(data);
                             if (data == null) {
                                 return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-eye"></i> View</button></a>';
                             } else {
@@ -428,7 +431,15 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
                         "data": "execute",
                         "render": function (data, type, full, meta) {
 
-                                return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
+                            if (full.reportFileName) {
+                                return '<button class="btn btn-success btn-sm TemplateBtn details-control"><i class="fa fa-plus-circle"></i> Expand</button>';
+                            } else {
+                                  return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-eye"></i> View</button></a>';
+                                
+                            }
+
+                                //return '<button class="btn btn-success btn-sm TemplateBtn details-control"><i class="fa fa-plus-circle"></i> Expand</button>';
+                                //return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
 
                             }
                             /* "render": function(data, type, full, meta) {
@@ -441,7 +452,7 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
         };
 
         // Add event listener for opening and closing details
-        $('#queryContainer').on('click', '.details-control', function () {
+        $('#queryContainer, #queryContainerAdmin').on('click', '.details-control', function () {
             var tr = $(this).closest('tr');
             var row = queryData.row(tr);
             //console.log(row);
@@ -1171,6 +1182,13 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
             //alert(selectedQueryRunId);
         });
 
+         $('#queryContainerAdmin').on('click', 'button.TemplateBtn', function () {
+            var selectedRunQuery = queryData.row($(this).parents('tr')).data();
+            selectedQueryRunId = selectedRunQuery.id;
+            FrmTemplate = 'Yes';
+            localStorage.setItem("selTemplateVal", "");
+        });
+
 
 
 
@@ -1406,7 +1424,7 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
 
 
         $(document).ajaxStart(function () {
-            $("#loader").css('height', $(".page-content").height() + 140 + 'px');
+//            $("#loader").css('height', $(".page-content").height() + 140 + 'px');
             $("#loader .page-spinner-bar").removeClass('hide');
             $("#loader").show();
         });
@@ -1501,14 +1519,14 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
             $.get(globalURL+'etl/databases/'+ $scope.SelectedViewID +'/refresh');
         });
 
-
+        // set sidebar closed and body solid layout mode
+          $rootScope.settings.layout.pageSidebarClosed = true;
+          $rootScope.skipTitle = true;
+          $rootScope.settings.layout.setTitle("reporttitles");
     });
 
 
-// set sidebar closed and body solid layout mode
-  $rootScope.settings.layout.pageSidebarClosed = true;
-  $rootScope.skipTitle = true;
-  $rootScope.settings.layout.setTitle("reporttitles");
+
 }]);
 
 MetronicApp.controller('GeneralPageController', function($scope, Idle, settings, Keepalive, $modal, $rootScope){

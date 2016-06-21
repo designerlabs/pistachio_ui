@@ -8,12 +8,16 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
         // initialize core components
         Metronic.initAjax();
+
+
+
         var getUser = localStorage.getItem("username");
         if(!$rootScope.fastsearch.load)
         {
           $scope.showApplication = false;
           $scope.showVisitor = false;
-
+          $scope.showCitizen = false;
+          $scope.option = false;
           $scope.start=0;
           $scope.users = 0;
           $scope.text = "";
@@ -45,7 +49,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
       else {
         query = "*:*"
       }
-      console.log(query);
+      //console.log(query);
       return(query);
     }
 
@@ -53,9 +57,22 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
       $scope.box_update();
       if($scope.showApplication){
         $scope.showApplications();
+        $scope.visitor_box();
+        $scope.citizen_box();
       }
       else if ($scope.showVisitor)
+      {
         $scope.showVisitors();
+        $scope.application_box();
+        $scope.citizen_box();
+      }
+
+      else if ($scope.showCitizen){
+        $scope.showCitizens();
+        $scope.application_box();
+        $scope.visitor_box();
+      }
+
       else
         $scope.go();
    }
@@ -64,6 +81,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
     $scope.go = function() {
       $scope.application_box();
       $scope.visitor_box();
+      $scope.citizen_box();
     }
 
 
@@ -139,13 +157,9 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
     $scope.application_box = function () {
       $http.get('http://'+solrHost+':8983/solr/immigration2/select?q='+$scope.getQuery()+'&wt=json&start=0&rows=0').
        success(function(data) {
-           console.log(data);
-           $scope.items = data.response.docs;
            $scope.applicationsFound = data.response.numFound;
            $scope.qtime = data.responseHeader.QTime;
-           //$scope.users = data.facets.users;
 
-           console.log(data.response.docs);
          }).
          error(function(data, status, headers, config) {
            console.log('error');
@@ -168,20 +182,54 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
             });
     }
 
+    $scope.citizen_box = function() {
+      $http.get('http://'+solrHost+':8983/solr/cit/select?q='+$scope.getQuery()+'&wt=json&start=0&rows=0').
+          success(function(data) {
+              $('#searchbox').val($scope.text);
+              $scope.users = data.response.numFound;
+              $scope.vtime = data.responseHeader.QTime;
+            }).
+            error(function(data, status, headers, config) {
+              console.log('data : ' + data); //Being logged as null
+            });
+    }
+
+    $scope.formatDate = function (date) {
+     //var d = new Date(date);
+     //return d.toString();
+    if(date){
+     var rDate = date.replace('T',' ').replace('Z','');
+     console.log(rDate);
+     return rDate;
+     }else{
+      return ''; 
+     }
+     
+    }
     $scope.box_update = function () {
       if($scope.showApplication)
       {
         $scope.visitor_box();
+        $scope.citizen_box();
       }
       else if ($scope.showVisitor){
         $scope.application_box();
+        $scope.citizen_box();
+      }
+      else if ($scope.showCitizen){
+        $scope.application_box();
+        $scope.visitor_box();
       }
     }
 
 
-    $scope.refresh = function() {
-
-
+    $scope.options = function() {
+      if(!$scope.option) {
+        $scope.option = true;
+      }
+      else {
+        $scope.option = false;
+      }
 
     }
 
@@ -201,6 +249,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
           $scope.text = "";
           $scope.showApplication = false;
           $scope.showVisitor = false;
+          $scope.showCitizen = false;
           $scope.go();
         };
 
@@ -227,9 +276,16 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
      window.location = "#/travelertracker/travelertracker.html?doc_no="+docno+"&country="+cntry+"";
    };
 
+   $scope.viewCitizen = function(docno){
+
+    window.location = "#/travelertracker/travelertracker.html?doc_no="+docno+"&citizen=true";
+  };
+
+
     $scope.showVisitors = function() {
       var query = "";
       $scope.showApplication = false;
+      $scope.showCitizen = false;
       $scope.showVisitor = true;
       var query = ""
       var sq = "http://"+solrHost+":8983/solr/hismove/query?json=";
@@ -264,10 +320,46 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
     }
 
+    $scope.showCitizens = function() {
+      var query = "";
+
+      $scope.showCitizen = true;
+      $scope.showApplication = false;
+      $scope.showVisitor = false;
+      var query = ""
+      var sq = "http://"+solrHost+":8983/solr/cit/query?json=";
+
+      var json = {};
+      json.limit = 10;
+      json.offset = $scope.start
+      json.query = $scope.getQuery();
+      json.sort = "xit_date desc"
+      $http.get(sq+JSON.stringify(json)).
+       success(function(data) {
+         if(data.response.numFound == 0)
+          {
+            $scope.showCitizen =false;
+          }
+         $scope.vtime = data.responseHeader.QTime;
+         $scope.users = data.response.numFound;
+         console.log(data.response.docs);
+         $scope.items = data.response.docs;
+
+       })
+       .error(function(data, status, headers, config) {
+         console.log('error');
+       });
+
+    }
+
+
+
     $scope.showApplications = function() {
       var query = "";
-      $scope.showApplication = true;
       $scope.showVisitor = false;
+      $scope.showCitizen = false;
+      $scope.showApplication = true;
+
       var query = ""
       var sq = "http://"+solrHost+":8983/solr/immigration2/query?json=";
 

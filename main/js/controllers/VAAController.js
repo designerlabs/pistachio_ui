@@ -9,6 +9,8 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
 
         // initialize core components
         Metronic.initAjax();
+        $(".page-sidebar-menu > li").removeClass('active');
+        $("#dashboardLink").addClass('active');
         //alert("HI");
         var getUser = localStorage.getItem("username");
 
@@ -260,6 +262,11 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
 
        $scope.clickVisa = function(data) {
         $scope.addFilter("vis","Visa Type : "+data,"pass_type:"+$scope.cleanQuery(data));
+        $scope.querySolr();
+       }
+
+       $scope.clickCountry = function(data) {
+        $scope.addFilter("cnt","Country : "+data,"country:'"+$scope.cleanQuery(data))+"'";
         $scope.querySolr();
        }
 

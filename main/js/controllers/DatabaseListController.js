@@ -4,25 +4,7 @@ var tableFunc, jobsDataFunc, selectedQueryRunId, reportCategoryID, fromDate, toD
 //reportCategoryID =   $("#reportCategoryID").val();
 
 /* resize function */
-function onResize1() {
-    var $width = $(document).width();
-    //Iphone
-    if ($width < 1250 && $width > 300) {
-        $('td .tableView').html('<i class="fa fa-eye"></i>');
-        $('td .btn1').html('<i class="fa fa-play"></i>');
-        $('td .updateBtn').html('<i class="fa fa-edit"></i>');
-        $('td .deleteBtn, td .btn2').html('<i class="fa fa-trash"></i>');
-        $('td .btn3').html('<i class="fa fa-clock-o"></i>');
-        $('td .btn').css('padding', '3px');
-    } else {
-        $('.tableView').html('<i class="fa fa-eye"></i> View');
-        $('td .btn1').html('<i class="fa fa-play"></i> Start');
-        $('td .updateBtn').html('<i class="fa fa-edit"></i> Edit');
-        $('td .deleteBtn, td .btn2').html('<i class="fa fa-trash"></i> Delete');
-        $('td .btn3').html('<i class="fa fa-clock-o"></i> Schedule');
-        $('td .btn').css('padding', '6px 12px');
-    }
-}
+
 
 
 
@@ -31,24 +13,51 @@ function onResize1() {
 MetronicApp.controller('DatabaseListController', ['$rootScope', '$scope', '$http', 'settings', 'authorities', 'fileUpload', function ($rootScope, $scope, $http, settings, authorities, fileUpload) {
 
 
-    $.getJSON("js/scripts/databaselist.json",function(json){
-    	$.each(json, function(k, v){
-            // $("#database-type").empty();
-            $("#database-type").append('<option data-driver='+v.driver+' value='+v.dbtype+'>'+v.dbtype+'</option>');
-        });
-    });
-
-
-    $("#database-type").change(function () {
-        $('#database-driver').val($("#database-type option:selected").attr('data-driver'));
-    });
-
-
-    $.extend( true, $.fn.dataTable.defaults, {
-     stateSave: true
-    });
 
     $scope.$on('$viewContentLoaded', function () {
+
+        // initialize core components
+        Metronic.initAjax();
+
+
+        function onResize1() {
+            var $width = $(document).width();
+            //Iphone
+            if ($width < 1250 && $width > 300) {
+                $('td .tableView').html('<i class="fa fa-eye"></i>');
+                $('td .btn1').html('<i class="fa fa-play"></i>');
+                $('td .updateBtn').html('<i class="fa fa-edit"></i>');
+                $('td .deleteBtn, td .btn2').html('<i class="fa fa-trash"></i>');
+                $('td .btn3').html('<i class="fa fa-clock-o"></i>');
+                $('td .btn').css('padding', '3px');
+            } else {
+                $('.tableView').html('<i class="fa fa-eye"></i> View');
+                $('td .btn1').html('<i class="fa fa-play"></i> Start');
+                $('td .updateBtn').html('<i class="fa fa-edit"></i> Edit');
+                $('td .deleteBtn, td .btn2').html('<i class="fa fa-trash"></i> Delete');
+                $('td .btn3').html('<i class="fa fa-clock-o"></i> Schedule');
+                $('td .btn').css('padding', '6px 12px');
+            }
+        }
+        
+        $.getJSON("js/scripts/databaselist.json",function(json){
+            $.each(json, function(k, v){
+                // $("#database-type").empty();
+                $("#database-type").append('<option data-driver='+v.driver+' value='+v.dbtype+'>'+v.dbtype+'</option>');
+            });
+        });
+
+
+        $("#database-type").change(function () {
+            $('#database-driver').val($("#database-type option:selected").attr('data-driver'));
+        });
+
+
+        $.extend( true, $.fn.dataTable.defaults, {
+         stateSave: true
+        });
+
+
         $("#databaseList").show();
         $("#tableList").hide();
         $scope.chkRole = authorities.checkRole;
@@ -63,8 +72,7 @@ MetronicApp.controller('DatabaseListController', ['$rootScope', '$scope', '$http
             $(this).parents('ul').parent('li').addClass("active");
         });
 
-        // initialize core components
-        Metronic.initAjax();
+
         var databases;
         //check
         $scope.authoritiesValue = localStorage.getItem('authorities');
@@ -1430,7 +1438,7 @@ MetronicApp.controller('DatabaseListController', ['$rootScope', '$scope', '$http
         });
 
         $(document).ajaxStart(function () {
-            $("#loader").css('height', $(".page-content").height() + 140 + 'px');
+//            $("#loader").css('height', $(".page-content").height() + 140 + 'px');
             $("#loader .page-spinner-bar").removeClass('hide');
             $("#loader").show();
         });
@@ -1524,13 +1532,13 @@ MetronicApp.controller('DatabaseListController', ['$rootScope', '$scope', '$http
             $.get(globalURL+'etl/databases/'+ $scope.SelectedViewID +'/refresh');
         });
 
+        // set sidebar closed and body solid layout mode
+          $rootScope.settings.layout.pageSidebarClosed = true;
+          $rootScope.skipTitle = false;
+          $rootScope.settings.layout.setTitle("databaselist");
 
     });
 
-// set sidebar closed and body solid layout mode
-  $rootScope.settings.layout.pageSidebarClosed = true;
-  $rootScope.skipTitle = false;
-  $rootScope.settings.layout.setTitle("databaselist");
 
 }]);
 

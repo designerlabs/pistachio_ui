@@ -52,14 +52,14 @@
             <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
                 <small>PASSPORT NO</small>
                 <div class="bold">
-                    {{res.doc_no}}
+                    {{res.doc_nos}}
                 </div>
             </div>
         </div>
-        
+
         <div class="bordered" style="padding:20px;">
             <div class="row invoice-cust-add" style="margin-bottom:0px;">
-            
+
         </div>
         </div>
     </div>
@@ -79,7 +79,7 @@
                 </li>
             </ul>
             <div class="tab-content" style="padding:5px;">
-                <div class="tab-pane active" id="visa">
+                <div class="tab-pane active" id="visa" ng-class="{active: showVisa}">
                     <div class="portlet-body  tab-content">
                         <div class="row number-stats margin-bottom-30 tab-pane active" id="tabvisa">
                             <div>
@@ -101,7 +101,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane" id="history" ng-if="showHistory">
+                <div class="tab-pane" id="history" ng-if="showHistory" ng-class="{'active':!showVisa}">
                     <div class="actions pull-right">
                         <div id="inouttab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
                             <a data-target="#inoutchart" class="btn btn-transparent grey-salsa btn-sm active" data-toggle="tab">Chart</a>

@@ -25,9 +25,9 @@ MetronicApp.controller('DocumentSearchController', function($rootScope, $scope, 
 
 
         console.log($scope);
-
+        
+        // set sidebar closed and body solid layout mode
+        $rootScope.settings.layout.pageSidebarClosed = false;
     });
 
-    // set sidebar closed and body solid layout mode
-    $rootScope.settings.layout.pageSidebarClosed = false;
 });

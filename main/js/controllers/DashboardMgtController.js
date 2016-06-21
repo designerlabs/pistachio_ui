@@ -2,13 +2,28 @@
 
 MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $http, $timeout) {
     $scope.$on('$viewContentLoaded', function() {   
-
+        // initialize core components
+        Metronic.initAjax();
+        
         $("#dashboard").show();
         $("#tableList").hide();
 
-        // initialize core components
-        Metronic.initAjax();
+        $(".page-sidebar-menu > li").removeClass('active');
+        $(".sub-menu > li").removeClass('active');
 
+        $("#adminLink").addClass('active');
+        $("#dashboardmgtLink").addClass('active');
+
+        $('.sub-menu li a').click(function() {
+        
+            $(".nav-item").removeClass("active");
+            $(".nav-item").removeClass("open");
+            $('.sub-menu').hide();
+            $(this).parent('li').addClass('active');
+            console.log(this);
+            //alert(this);
+            $(this).parents('ul').parent('li').addClass("active");
+        });
 
         var dashboards;
 
@@ -296,11 +311,11 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
             //$scope.message = sharedService.categoryId;
     	};
         //console.log($scope);
-
+        
+        // set sidebar closed and body solid layout mode
+        $rootScope.settings.layout.pageSidebarClosed = false;
+        $rootScope.skipTitle = false;
+        $rootScope.settings.layout.setTitle("dashboardmgt");
     });
 
-    // set sidebar closed and body solid layout mode
-    $rootScope.settings.layout.pageSidebarClosed = false;
-    $rootScope.skipTitle = false;
-    $rootScope.settings.layout.setTitle("dashboardmgt");
 });

@@ -20,6 +20,8 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         });
         console.log(myArr);
 
+        Layout.setSidebarMenuActiveLink('set', $('#trackerLink')); // set profile link active in sidebar menu 
+
         $scope.empName = myArr[1];
 
         $scope.employeeArr.push(myArr[1]);
@@ -32,6 +34,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         var endDtN = CurrentDate[1];
         $scope.startDtNSplit = startDtN.split("/");
         $scope.endDtNSplit = endDtN.split("/");
+
 
         $scope.subTitle = $scope.startDtNSplit[0] + "/" + $scope.startDtNSplit[1] + "/" + $scope.startDtNSplit[2] + " - " + $scope.endDtNSplit[0] + "/" + $scope.endDtNSplit[1] + "/" + $scope.endDtNSplit[2];
         $scope.startDtNEpoch = $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "-" + $scope.startDtNSplit[2];
@@ -264,7 +267,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
                     },
 
-                    navigator:{
+                    navigator: {
                         enabled: false
                     },
 
@@ -321,7 +324,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
                     },
 
-                    navigator:{
+                    navigator: {
                         enabled: false
                     },
 
@@ -383,7 +386,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                         inputEnabled: false
                     },
 
-                    navigator:{
+                    navigator: {
                         enabled: false
                     },
 
@@ -434,75 +437,75 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
             $.each(ele, function(i, name) {
 
                 $http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "/1").success(function(data) {
-                        //$.getJSON('jsonp_' + name + '.js', function(data) {
-                        // Create a timer
-                        console.log(data);
-                        var start = +new Date();
-                        if (data) {
-                            $scope.seriesOptions[i] = {
-                                name: name,
-                                data: data.data,
-                                pointStart: $scope.startDtNEpoch,
-                                //pointStart: 1211414400000,
-                                //pointStart: Date.UTC(2008, 04, 22),
-                                pointInterval: 3600 * 1000,
-                                tooltip: {
-                                    valueDecimals: 0
-                                }
-                            };
-
-                            $scope.seriesCounter += 1;
-                            // Create the chart
-                            console.log($scope.seriesCounter === ele.length);
-                            if ($scope.seriesCounter === ele.length) {
-
-                                $scope.createChart();
+                    //$.getJSON('jsonp_' + name + '.js', function(data) {
+                    // Create a timer
+                    console.log(data);
+                    var start = +new Date();
+                    if (data) {
+                        $scope.seriesOptions[i] = {
+                            name: name,
+                            data: data.data,
+                            pointStart: $scope.startDtNEpoch,
+                            //pointStart: 1211414400000,
+                            //pointStart: Date.UTC(2008, 04, 22),
+                            pointInterval: 3600 * 1000,
+                            tooltip: {
+                                valueDecimals: 0
                             }
+                        };
 
-                        } else {
-                            return false;
+                        $scope.seriesCounter += 1;
+                        // Create the chart
+                        console.log($scope.seriesCounter === ele.length);
+                        if ($scope.seriesCounter === ele.length) {
+
+                            $scope.createChart();
                         }
 
-                    }).catch(function(err) {
+                    } else {
+                        return false;
+                    }
 
-                    })
+                }).catch(function(err) {
+
+                })
                     .finally(function() {
                         $scope.loading = true;
                         //$scope.loading = false;
                         $.each(ele, function(i, name) {
 
                             $http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "/2").success(function(data) {
-                                    //$.getJSON('jsonp_' + name + '.js', function(data) {
-                                    // Create a timer
-                                    console.log(data);
-                                    var start = +new Date();
-                                    if (data) {
-                                        $scope.seriesOptions1[i] = {
-                                            name: name,
-                                            data: data.data,
-                                            pointStart: $scope.startDtNEpoch,
-                                            //pointStart: 1211414400000,
-                                            //pointStart: Date.UTC(2008, 04, 22),
-                                            pointInterval: 3600 * 1000,
-                                            tooltip: {
-                                                valueDecimals: 0
-                                            }
-                                        };
-
-                                        $scope.seriesCounter1 += 1;
-                                        // Create the chart
-                                        console.log($scope.seriesCounter1 === ele.length);
-                                        if ($scope.seriesCounter1 === ele.length) {
-
-                                            $scope.createChart();
+                                //$.getJSON('jsonp_' + name + '.js', function(data) {
+                                // Create a timer
+                                console.log(data);
+                                var start = +new Date();
+                                if (data) {
+                                    $scope.seriesOptions1[i] = {
+                                        name: name,
+                                        data: data.data,
+                                        pointStart: $scope.startDtNEpoch,
+                                        //pointStart: 1211414400000,
+                                        //pointStart: Date.UTC(2008, 04, 22),
+                                        pointInterval: 3600 * 1000,
+                                        tooltip: {
+                                            valueDecimals: 0
                                         }
-                                    } else {
-                                        return false;
+                                    };
+
+                                    $scope.seriesCounter1 += 1;
+                                    // Create the chart
+                                    console.log($scope.seriesCounter1 === ele.length);
+                                    if ($scope.seriesCounter1 === ele.length) {
+
+                                        $scope.createChart();
                                     }
+                                } else {
+                                    return false;
+                                }
 
-                                }).catch(function(err) {
+                            }).catch(function(err) {
 
-                                })
+                            })
                                 .finally(function() {
                                     $scope.loading = true;
                                     //$scope.loading = false;
@@ -510,37 +513,37 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                                     $.each(ele, function(i, name) {
 
                                         $http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0]).success(function(data) {
-                                                //$.getJSON('jsonp_' + name + '.js', function(data) {
-                                                // Create a timer
-                                                console.log(data);
-                                                var start = +new Date();
-                                                if (data) {
-                                                    $scope.seriesOptions2[i] = {
-                                                        name: name,
-                                                        data: data,
-                                                        pointStart: $scope.startDtNEpoch,
-                                                        //pointStart: 1211414400000,
-                                                        //pointStart: Date.UTC(2008, 04, 22),
-                                                        pointInterval: 3600 * 1000,
-                                                        tooltip: {
-                                                            valueDecimals: 0
-                                                        }
-                                                    };
-
-                                                    $scope.seriesCounter2 += 1;
-                                                    // Create the chart
-                                                    console.log($scope.seriesCounter2 === ele.length);
-                                                    if ($scope.seriesCounter2 === ele.length) {
-
-                                                        $scope.createChart();
+                                            //$.getJSON('jsonp_' + name + '.js', function(data) {
+                                            // Create a timer
+                                            console.log(data);
+                                            var start = +new Date();
+                                            if (data) {
+                                                $scope.seriesOptions2[i] = {
+                                                    name: name,
+                                                    data: data.data,
+                                                    pointStart: $scope.startDtNEpoch,
+                                                    //pointStart: 1211414400000,
+                                                    //pointStart: Date.UTC(2008, 04, 22),
+                                                    pointInterval: 3600 * 1000,
+                                                    tooltip: {
+                                                        valueDecimals: 0
                                                     }
-                                                } else {
-                                                    return false;
+                                                };
+
+                                                $scope.seriesCounter2 += 1;
+                                                // Create the chart
+                                                console.log($scope.seriesCounter2 === ele.length);
+                                                if ($scope.seriesCounter2 === ele.length) {
+
+                                                    $scope.createChart();
                                                 }
+                                            } else {
+                                                return false;
+                                            }
 
-                                            }).catch(function(err) {
+                                        }).catch(function(err) {
 
-                                            })
+                                        })
                                             .finally(function() {
                                                 $scope.loading = false;
 
@@ -581,9 +584,11 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         }
 
         $scope.timelineChart();
-
+        // set sidebar closed and body solid layout mode
+        $rootScope.settings.layout.pageSidebarClosed = true;
+        $rootScope.skipTitle = false;
+        $rootScope.settings.layout.setTitle("officeractivity");
     });
 
-    // set sidebar closed and body solid layout mode
-    $rootScope.settings.layout.pageSidebarClosed = false;
+
 });

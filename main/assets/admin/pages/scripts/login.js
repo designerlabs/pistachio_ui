@@ -1,4 +1,4 @@
-var globalURL = "http://pistachio_server:8080/";
+var globalURL = "http://10.1.17.25:8080/";
 //var globalURL = "http://10.23.124.243:8080/";
 var queryString = "query";
 var categoryName = "cat";
@@ -35,7 +35,7 @@ var Login = function () {
                 }
             },
 
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
                 $('#loginRequire', $('.login-form')).show();
                 $('#loginError', $('.login-form')).hide();
             },
@@ -172,7 +172,7 @@ var Login = function () {
                 }
             },
 
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
 
             },
 
@@ -276,7 +276,7 @@ var Login = function () {
                 }
             },
 
-            invalidHandler: function (event, validator) { //display error alert on form submit   
+            invalidHandler: function (event, validator) { //display error alert on form submit
 
             },
 
@@ -291,7 +291,7 @@ var Login = function () {
             },
 
             errorPlacement: function (error, element) {
-                if (element.attr("name") == "tnc") { // insert checkbox errors after the container                  
+                if (element.attr("name") == "tnc") { // insert checkbox errors after the container
                     error.insertAfter($('#register_tnc_error'));
                 } else if (element.closest('.input-icon').size() === 1) {
                     error.insertAfter(element.closest('.input-icon'));
@@ -382,11 +382,11 @@ var Login = function () {
 
     var handleLanguage = function () {
         $('#selLang').change(function () {
-            // alert($scope.changeLanguage);                
+            // alert($scope.changeLanguage);
             selectedLang = $('#selLang').val();
             // localStorage.setItem("lang", selectedLang);
-            
-               
+
+
             // $translateProvider.preferredLanguage(selectedLang);
         });
     }
@@ -408,11 +408,11 @@ var Login = function () {
 }();
 
 // MetronicApp.module('MetronicApplogin').controller(, ['$translate', '$scope', function ($translate, $scope) {
-//     $scope.$on('$viewContentLoaded', function() {  
+//     $scope.$on('$viewContentLoaded', function() {
 //     alert('on scope');
 //         // initialize core components
 //         // Metronic.initAjax();
-//         $('#selLang').change(function(){     
+//         $('#selLang').change(function(){
 //         alert('change');
 //                 selectedLang = $('#selLang').val();
 //                  $translateProvider.preferredLanguage(selectedLang);
