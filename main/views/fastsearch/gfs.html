@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="option-box col-md-12" ng-if="option">
-      <div class="col-md-3">
+      <div class="col-md-2">
         <h2> Country </h2>
         <div class="todo-project-list">
           <ul class="list-group">
@@ -120,7 +120,7 @@
                         <th style="text-align: center;">
                           <a href="javascript:;">Document No</a>
                         </th>
-                        <th style="text-align: left;">
+                        <th style="text-align: center;">
                           <a href="javascript:;">{{'fastsearch.global.action' | translate}}</a>
                         </th>
                       </tr>
@@ -130,17 +130,17 @@
                         <td  style="width:10%;"  class="table-title">
                           <a href="javascript:;">{{formatDate(x.created)}}</a>
                         </td>
-                        <td  style="width:15%;"  class="table-title">
+                        <td  style="width:30%;"  class="table-title">
                           <a href="javascript:;">{{x.job_en}}</a>
                         </td>
-                        <td class="table-title">
+                        <td style="width:30%;" class="table-title">
                           {{x.name}}
                         </td>
-                        <td style="width:5%;" class="table-desc"> {{x.country}} </td>
-                        <td class="table-download">
+                        <td style="width:10%;" class="table-desc"> {{x.country}} </td>
+                        <td style="width:10%;" class="table-download">
                           {{x.doc_no}}
                         </td>
-                        <td style="text-align: left; width:5%;" class="table-status">
+                        <td style="text-align: center; width:10%;" class="table-status">
                           <a href="#/travelertracker/travelertracker.html" ng-click="viewReq(x.doc_no,x.country);">
                             <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>{{'fastsearch.global.view' | translate}}</button>
                           </a>

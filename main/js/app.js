@@ -477,20 +477,7 @@ MetronicApp.directive('myEmpDirective', function() {
              this.attr('checked', !this.attr('checked'));
 
          }
-/*         $('.check-box').on('click', function () {
-            scope.employeeArr=[];
-            $.each($("#employeeList input:checked"), function(i, k) {
-            //console.log(k);
-            var currentValue = k.value;
-            scope.employeeArr.push(currentValue);
-            console.log(scope.employeeArr);
-            debugger;
-            });              
-             $(this).find(':checkbox').toggleCheckbox();
-             $(this).find(':checkbox').prop('checked');
-             $(this).toggleClass('checkedBox');
-         });*/
-        //scope.employeeArr=[];
+
         $.each($("#employeeList input"), function(i, k) {
             $(k).parent().parent('.check-box').on('click', function (e) {
                 //debugger;
@@ -501,17 +488,17 @@ MetronicApp.directive('myEmpDirective', function() {
                 var currentValueNext = $(e.target.innerHTML).val();
                 if($('.'+currentValue).prop('checked')){
                     scope.employeeArr.push(currentValue);
-                    scope.timelineChart();
+                    //scope.timelineChart();
                 }else if($('.'+currentValueNext).prop('checked')){
                     scope.employeeArr.push(currentValueNext);
-                    scope.timelineChart();
+                    //scope.timelineChart();
                 }else{
                     if(currentValue){
                         removeItem(scope.employeeArr, currentValue);    
                         scope.timelineChart(); 
                     }else{
                         removeItem(scope.employeeArr, currentValueNext);
-                        scope.timelineChart(); 
+                        //scope.timelineChart(); 
                     }
                        
                 }
