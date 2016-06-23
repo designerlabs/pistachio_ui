@@ -475,6 +475,7 @@ MetronicApp.directive('myEmpDirective', function() {
          $('input[name="check-box"]').wrap('<div class="check-box"><i></i></div>');
          $.fn.toggleCheckbox = function () {
              this.attr('checked', !this.attr('checked'));
+
          }
 /*         $('.check-box').on('click', function () {
             scope.employeeArr=[];
@@ -500,21 +501,26 @@ MetronicApp.directive('myEmpDirective', function() {
                 var currentValueNext = $(e.target.innerHTML).val();
                 if($('.'+currentValue).prop('checked')){
                     scope.employeeArr.push(currentValue);
+                    scope.timelineChart();
                 }else if($('.'+currentValueNext).prop('checked')){
                     scope.employeeArr.push(currentValueNext);
+                    scope.timelineChart();
                 }else{
                     if(currentValue){
                         removeItem(scope.employeeArr, currentValue);    
+                        scope.timelineChart(); 
                     }else{
                         removeItem(scope.employeeArr, currentValueNext);
+                        scope.timelineChart(); 
                     }
-                    
+                       
                 }
 
                 console.log(scope.employeeArr);
-                scope.timelineChart();
+                
 
             });
+
         });
 
             scope.$watch('empName', function(e){
@@ -523,7 +529,8 @@ MetronicApp.directive('myEmpDirective', function() {
                 $('.'+e).parent().parent('.check-box').toggleClass('checkedBox');
             });
             scope.$watch('employeeArr', function(e) {
-                console.log(e)
+                console.log(e);
+
             });
 
 

@@ -969,6 +969,11 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                                 }
 
                                 $scope.branchOut = storeBranchData;
+                                if(storeBranchData.length > 0){
+                                    $(".highcharts-container").show();
+                                }else{
+                                    $(".highcharts-container").hide();
+                                }
                                 console.log(storeBranchData);
                             }
                         })

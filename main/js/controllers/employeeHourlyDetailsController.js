@@ -8,6 +8,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         Metronic.initAjax();
         $scope.drawSparkline = 0;
         $scope.employeeArr = [];
+        $scope.loading = true;
         console.log(window.location.href);
         var Qstring = window.location.href;
         var Qparam = Qstring.split('?')[1];
@@ -37,13 +38,13 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
 
         $scope.subTitle = $scope.startDtNSplit[0] + "/" + $scope.startDtNSplit[1] + "/" + $scope.startDtNSplit[2] + " - " + $scope.endDtNSplit[0] + "/" + $scope.endDtNSplit[1] + "/" + $scope.endDtNSplit[2];
-        $scope.startDtNEpoch = $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "-" + $scope.startDtNSplit[2];
-        $scope.startDtNEpoch = moment($scope.startDtNEpoch).unix() * 1000;
+        //$scope.startDtNEpoch = $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "-" + $scope.startDtNSplit[2];
+        //$scope.startDtNEpoch = moment($scope.startDtNEpoch).unix() * 1000;
 
 
 
-        $scope.endDtNEpoch = $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "-" + $scope.endDtNSplit[2];
-        $scope.endDtNEpoch = moment($scope.endDtNEpoch).unix() * 1000;
+        //$scope.endDtNEpoch = $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "-" + $scope.endDtNSplit[2];
+        //$scope.endDtNEpoch = moment($scope.endDtNEpoch).unix() * 1000;
 
 
         $scope.getFromDtEpoch = $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "T00:00:00Z";
@@ -72,7 +73,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         };
 
 
-        var resultDtFrom, resultDtTo;
+        var resultDtFrom, resultDtTo, chDtFrom, chDtTo;
         var dateNow = new Date();
         var tDate = dateNow.getDate();
         var tmonth = dateNow.getMonth() + 1
@@ -83,11 +84,11 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
         $('#datetimeFrom').datetimepicker({
             format: 'DD/MM/YYYY',
-            defaultDate: '"' + tmonth + '"/"' + tDate + '"/"' + tyear + '"'
+            defaultDate: '"' + $scope.startDtNSplit[1] + '"/"' + $scope.startDtNSplit[0] + '"/"' + $scope.startDtNSplit[2] + '"'
         });
         $('#datetimeTo').datetimepicker({
             useCurrent: false,
-            defaultDate: dateNow,
+            defaultDate: '"'+$scope.endDtNSplit[1] +'"/"'+$scope.endDtNSplit[0] + '"/"' + $scope.endDtNSplit[2] + '"',
             format: 'DD/MM/YYYY' //Important! See issue #1075
         });
 
@@ -108,6 +109,15 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         $scope.getToDtN = toDt[2] + "-" + toDt[1] + "-" + toDt[0];
 
 
+        $scope.startDtNEpoch = frmDt[1] + "-" + frmDt[0] + "-" + frmDt[2];
+        $scope.startDtNEpoch = moment($scope.startDtNEpoch).unix() * 1000;
+
+        $scope.endDtNEpoch = toDt[1] + "-" + toDt[0] + "-" + toDt[2];
+        $scope.endDtNEpoch = moment($scope.endDtNEpoch).unix() * 1000;
+
+       // $scope.endDtNEpoch = $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "-" + $scope.endDtNSplit[2];
+        //$scope.endDtNEpoch = moment($scope.endDtNEpoch).unix() * 1000;
+
         var utcFromDt = new Date(frmDt[2] + "-" + frmDt[1] + "-" + frmDt[0] + "T00:00:00Z");
         var utcToDt = new Date(toDt[2] + "-" + toDt[1] + "-" + toDt[0] + "T00:00:00Z");
         $scope.utcFromDt = parseInt(utcFromDt.getTime());
@@ -122,12 +132,15 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
             var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
             var dd = myDate.getDate().toString();
             resultDtFrom = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
-
+            chDtFrom = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]);
             $scope.fromYr = yyyy;
             $scope.fromMo = mm;
             $scope.fromDd = dd;
 
             $scope.getFromDt = resultDtFrom;
+            $scope.getFromDtN = chDtFrom;
+            $scope.startDtNEpoch =  (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "-" + yyyy;
+            $scope.startDtNEpoch = moment($scope.startDtNEpoch).unix() * 1000;
             //alert($scope.getFromDt);
             // return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
             $('#datetimeTo').data("DateTimePicker").minDate(e.date);
@@ -144,7 +157,11 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
             $scope.toDd = dd;
 
             resultDtTo = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
+            chDtTo = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]);
             $scope.getToDt = resultDtTo;
+            $scope.getToDtN = chDtTo;
+            $scope.endDtNEpoch = (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "-" + yyyy;
+            $scope.endDtNEpoch = moment($scope.endDtNEpoch).unix() * 1000;
             //alert($scope.getToDt);
             $('#datetimeFrom').data("DateTimePicker").maxDate(e.date);
         });
@@ -163,7 +180,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         $http.get("http://" + solrHost + ":8983/solr/" + immigrationSolr + "/query?json={query: '" + triggerOpt + "',filter : 'xit_date : [" + $scope.getFromDtEpoch + " TO " + $scope.getToDtEpoch + "]',limit: 0,facet: {officer: {type: terms,limit: 30,field: dy_create_id}}}")
             .success(function(data) {
                 //console.log(data);
-
+                //$scope.loading = true;
                 if (data.facets.count == 0) {
                     //console.log(data.facets.count.length);
                 } else {
@@ -181,7 +198,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
             })
             .finally(function() {
-                $scope.loading = false;
+                //$scope.loading = false;
             });
 
 
@@ -215,7 +232,6 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                 var chart = $('#container').highcharts();
                 chart.showLoading('Loading data from server...');
 
-
                 //Formatting Date
                 var dateFormat = function(ele) {
                     var myDate = new Date(ele);
@@ -227,7 +243,6 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
                 };
 
-
                 //$scope.startDate = dateFormat(Math.round(e.min));
                 //$scope.endDate = dateFormat(Math.round(e.max));
                 $("#datetimeFrom").data('DateTimePicker').date($scope.changeDt(dateFormat(Math.round(e.min))));
@@ -236,11 +251,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                 $scope.startDate = $scope.getFromDt;
                 $scope.endDate = $scope.getToDt;
 
-
                 $scope.subtitle = $scope.changeDt(dateFormat(Math.round(e.min))) + " - " + $scope.changeDt(dateFormat(Math.round(e.max)));
-
-
-
             };
 
             /**
@@ -255,9 +266,9 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     }
                 });
 
+                console.log($scope.startDtNEpoch);
+
                 $('#container').highcharts('StockChart', {
-
-
                     xAxis: {
                         type: 'datetime',
                         tickInterval: 3600 * 1000,
@@ -308,7 +319,6 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
                     },
                     loading: true,
-
                     series: $scope.seriesOptions
                 });
 
@@ -450,45 +460,12 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
             $.each(ele, function(i, name) {
 
-            /*    return {
-                    getEverything: function() {
-
-                        var getPlayers= $http({
-                            method: 'GET',
-                            url: globalURL + "api/employee/1001231/" + 
-                                    name + "/" + $scope.startDtNSplit[2] + "-" + 
-                                    $scope.startDtNSplit[1] + "-" + 
-                                    $scope.startDtNSplit[0] + "/" + 
-                                    $scope.endDtNSplit[2] + "-" + 
-                                    $scope.endDtNSplit[1] + "-" + 
-                                    $scope.endDtNSplit[0] + "/1",
-                        });
-                        var getMatches= $http({
-                            method: 'GET',
-                            url: globalURL + "api/employee/1001231/" + 
-                                    name + "/" + $scope.startDtNSplit[2] + "-" + 
-                                    $scope.startDtNSplit[1] + "-" + 
-                                    $scope.startDtNSplit[0] + "/" + 
-                                    $scope.endDtNSplit[2] + "-" + 
-                                    $scope.endDtNSplit[1] + "-" + 
-                                    $scope.endDtNSplit[0] + "/2",
-                        });
-
-                       return $q.all([getPlayers,getMatches]);
-                    }
-                };
-
-
-                getEverything().then(function(data){
-                    console.log(data);
-                   var players=data[0].data;
-                   var matches=data[1].data;
-                });*/
-
-                //return false;
-                $http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "/1").success(function(data) {
+                console.log($scope.getFromDtN, $scope.getToDtN);
+                //$http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "/1").success(function(data) {
+                $http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.getFromDtN+"/"+$scope.getToDtN  + "/1").success(function(data) {
                     var start = +new Date();
                     if (data) {
+                        //$scope.loading = true;
                         $scope.seriesOptions[i] = {
                             name: name,
                             data: data.data,
@@ -515,47 +492,46 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
                 }).catch(function(err) {
                     console.log(err);
-                    $scope.loading = false;
+                    //$scope.loading = false;
                     
                 }).finally(function(){
-                    $scope.loading = false;
-                });
+                    //$scope.loading = false;
+                    //$http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "/2").success(function(data) {
+                    $http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.getFromDtN+"/"+$scope.getToDtN  + "/2").success(function(data) {
+                        //$.getJSON('jsonp_' + name + '.js', function(data) {
+                        // Create a timer
+                        console.log(data);
+                        var start = +new Date();
+                        if (data) {
+                            $scope.seriesOptions1[i] = {
+                                name: name,
+                                data: data.data,
+                                pointStart: $scope.startDtNEpoch,
+                                //pointStart: 1211414400000,
+                                //pointStart: Date.UTC(2008, 04, 22),
+                                pointInterval: 3600 * 1000,
+                                tooltip: {
+                                    valueDecimals: 0
+                                }
+                            };
 
-/*
-                $http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "/2").success(function(data) {
-                    //$.getJSON('jsonp_' + name + '.js', function(data) {
-                    // Create a timer
-                    console.log(data);
-                    var start = +new Date();
-                    if (data) {
-                        $scope.seriesOptions1[i] = {
-                            name: name,
-                            data: data.data,
-                            pointStart: $scope.startDtNEpoch,
-                            //pointStart: 1211414400000,
-                            //pointStart: Date.UTC(2008, 04, 22),
-                            pointInterval: 3600 * 1000,
-                            tooltip: {
-                                valueDecimals: 0
+                            $scope.seriesCounter1 += 1;
+                            // Create the chart
+                            console.log($scope.seriesCounter1 === ele.length);
+                            if ($scope.seriesCounter1 === ele.length) {
+
+                                $scope.createChart();
                             }
-                        };
-
-                        $scope.seriesCounter1 += 1;
-                        // Create the chart
-                        console.log($scope.seriesCounter1 === ele.length);
-                        if ($scope.seriesCounter1 === ele.length) {
-
-                            $scope.createChart();
+                        } else {
+                            return false;
                         }
-                    } else {
-                        return false;
-                    }
 
-                }).catch(function(err) {
+                    }).catch(function(err) {
 
-                });
-
-                $http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0]).success(function(data) {
+                    }).finally(function(){
+                    //    $scope.loading = false;
+                        //$http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0]).success(function(data) {
+                        $http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.getFromDtN+"/"+$scope.getToDtN).success(function(data) {
                     //$.getJSON('jsonp_' + name + '.js', function(data) {
                     // Create a timer
                     console.log(data);
@@ -579,6 +555,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                         if ($scope.seriesCounter2 === ele.length) {
 
                             $scope.createChart();
+                            return false;
                         }
                     } else {
                         return false;
@@ -586,8 +563,11 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
                 }).catch(function(err) {
 
+                }).finally(function(){
+                    $scope.loading = false;
                 });
-                */
+                    });
+                });
                     
             });
 
