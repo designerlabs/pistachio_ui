@@ -125,5 +125,6 @@
 	"report.favourite" : "Laporan Kegemaran",
 	"report.query" : "Nama Laporan",
 	"report.queryName" : "Template",
-	"report.download" : "Muat Turun"
+	"report.download" : "Muat Turun",
+	"robot.title": "Document Robot Search"
 }

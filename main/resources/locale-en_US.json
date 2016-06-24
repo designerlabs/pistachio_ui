@@ -123,5 +123,6 @@
 	"report.favourite" : "Favourite Reports",
 	"report.query" : "Report Name",
 	"report.queryName" : "Template",
-	"report.download" : "Download"
+	"report.download" : "Download",
+	"robot.title": "Document Robot Search"
 }
