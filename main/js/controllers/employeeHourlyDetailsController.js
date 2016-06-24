@@ -161,7 +161,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
             $scope.getToDt = resultDtTo;
             $scope.getToDtN = chDtTo;
             $scope.endDtNEpoch = (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "-" + yyyy;
-            $scope.endDtNEpoch = moment($scope.endDtNEpoch).unix() * 1000;
+            $scope.endDtNEpoch = (moment($scope.endDtNEpoch).unix() + 86400 - 60) * 1000;
             //alert($scope.getToDt);
             $('#datetimeFrom').data("DateTimePicker").maxDate(e.date);
         });
