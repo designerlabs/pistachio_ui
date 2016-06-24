@@ -983,6 +983,26 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
+    .state('robot', {
+        url: "/robot/robot.html",
+        templateUrl: "views/robot/robot.html",
+        data: {
+            pageTitle: 'Robot Document'
+        },
+        controller: "RobotDocumentController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'js/controllers/RobotDocumentController.js'
+                    ]
+                });
+            }]
+        }
+    })
+
 
     .state('workflowuser', {
         url: "/workflowuser.html",
@@ -1725,6 +1745,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }]
         }
     })
+
+
 
     //My Profile page
     .state('myprofile', {
