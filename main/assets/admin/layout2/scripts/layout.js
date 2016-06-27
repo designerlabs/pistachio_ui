@@ -35,15 +35,32 @@ var Layout = function() {
                 var footerHeight = $('.page-footer').outerHeight();
 
                 if (Metronic.getViewPort().width < resBreakpointMd) {
-                    height = Metronic.getViewPort().height - headerHeight - footerHeight;
+                    var met  = Metronic.getViewPort();
+
+                    height = met.height - headerHeight - footerHeight;
                 } else {
-                    height = sidebar.outerHeight() + 10;
+                
+                    var staticOuterHeight = sidebar.outerHeight();
+                    //PROBLEM in OUTER HEIGHT
+                    if(isNaN(staticOuterHeight)){
+                        height = 911;
+                    }else{
+                        height = staticOuterHeight + 10;
+                    }
+                    
+
+                    console.log(height);
                 }
 
                 if ((height + headerHeight + footerHeight) <= Metronic.getViewPort().height) {
+ 
                     height = Metronic.getViewPort().height - headerHeight - footerHeight;
+                    console.log(height);
                 }
             }
+            console.log(height);
+
+            
             content.attr('style', 'min-height:' + height + 'px');
         }
     };
@@ -546,7 +563,7 @@ var Layout = function() {
         },
 
         initFooter: function() {
-            handleGoTop(); //handles scroll to top functionality in the footer
+            //handleGoTop(); //handles scroll to top functionality in the footer
         },
 
         init: function () {            

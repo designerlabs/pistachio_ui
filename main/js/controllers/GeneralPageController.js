@@ -1412,7 +1412,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
 
         $(document).ajaxStart(function () {
-            $("#loader").css('height', $(".page-content").height() + 140 + 'px');
+            //$("#loader").css('height', $(".page-content").height() + 140 + 'px');
             $("#loader .page-spinner-bar").removeClass('hide');
             $("#loader").show();
         });

@@ -89,6 +89,7 @@
 	"session.loggedoutmessage" : "You were idle too long. You are logged out now, Please login again",
 	"workflowmgt.title":"Request Management",
 	"tracking.title" : "Border Activity Analysis",
+	"officeractivity.title":"Officers Activity Analysis",
 	"profile.title" : "My Profile",
 	"profile.overview" : "Overview",
 	"profile.edit" : "Edit",
@@ -122,5 +123,6 @@
 	"report.favourite" : "Favourite Reports",
 	"report.query" : "Report Name",
 	"report.queryName" : "Template",
-	"report.download" : "Download"
+	"report.download" : "Download",
+	"robot.title": "Document Robot Search"
 }

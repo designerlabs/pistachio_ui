@@ -8,8 +8,22 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
         $("#dashboard").show();
         $("#tableList").hide();
 
-       
+        $(".page-sidebar-menu > li").removeClass('active');
+        $(".sub-menu > li").removeClass('active');
 
+        $("#adminLink").addClass('active');
+        $("#dashboardmgtLink").addClass('active');
+
+        $('.sub-menu li a').click(function() {
+        
+            $(".nav-item").removeClass("active");
+            $(".nav-item").removeClass("open");
+            $('.sub-menu').hide();
+            $(this).parent('li').addClass('active');
+            console.log(this);
+            //alert(this);
+            $(this).parents('ul').parent('li').addClass("active");
+        });
 
         var dashboards;
 

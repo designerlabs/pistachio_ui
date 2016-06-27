@@ -6,11 +6,10 @@
     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
     <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-    <ul class="page-sidebar-menu" id="sidebarMenu"  ng-class="{'page-sidebar-menu-closed': settings.layout.pageSidebarClosed}">
-
-
-        <li class="start" id="dashboard">
-            <a  href="javascript:;">
+    <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" ng-class="{'page-sidebar-menu-closed': settings.layout.pageSidebarClosed}">
+      
+        <li class="nav-item" id="dashboardLink">
+            <a  href="javascript:;" class="nav-link nav-toggle">
                 <i class="icon-bar-chart"></i>
                 <span class="title">{{'sidebar.dashboard' | translate}}</span>
                  <span class="arrow "></span>
@@ -37,16 +36,16 @@
 
 
 
-        <li class="start" id="afpr">
+        <li class="nav-item" id="ereportLink">
 
-            <a href="javascript:;">
+            <a href="javascript:;" class="nav-link nav-toggle">
                 <i class="icon-speech"></i>
                 <span class="title">{{'sidebar.ereport' | translate}}</span>
                 <span class="arrow "></span>
             </a>
             <ul class="sub-menu">
                 <li ng-repeat="x in displayNames">
-                    <a ng-click='goes(x.name,x.display)'>
+                    <a ng-click='goes(x.name,x.display)' >
                         <i class="icon-docs"></i> {{x.display}}
                     </a>
                 </li>
@@ -56,14 +55,14 @@
 
         
     
-        <li ng-if="chkRole('ROLE_ADMIN')" class="start">
-            <a href="javascript:;">
+        <li ng-if="chkRole('ROLE_ADMIN')" class="nav-item" id="adminLink">
+            <a href="javascript:;" class="nav-link nav-toggle">
                 <i class="icon-users"></i>
                 <span class="title">{{'sidebar.administrator' | translate}}</span>
                 <span class="arrow "></span>
             </a>
             <ul class="sub-menu">
-                <li>
+                <li id="rptmgtLink">
                     <a href="#/reportManagement/reportMgt.html">
                         <i class="icon-docs"></i> {{'sidebar.reportmanagement' | translate}}
                     </a>
@@ -79,7 +78,7 @@
                         <i class="icon-docs"></i> {{'sidebar.audit' | translate}}
                     </a>
                 </li>
-                <li>
+                <li id="dashboardmgtLink">
                     <a href="#/dashboardManagement/dashboardMgt.html">
                         <i class="icon-layers"></i> {{'sidebar.dashboardmanagement' | translate}}
                     </a>
@@ -104,8 +103,8 @@
                         <span class="title">{{'sidebar.rolemanagement' | translate}}</span>
                     </a>
                 </li>
-                <li id="dataConslidation">
-                    <a href="javascript:;">
+                <li class="nav-item" id="dataConslidation">
+                    <a href="javascript:;" class="nav-link nav-toggle">
                         <i class="icon-energy"></i>
                         <span class="title">{{'sidebar.dataconsolidation' | translate}}</span>
                         <span class="arrow "></span>
@@ -125,41 +124,42 @@
                 </li>
             </ul>
         </li>
-       <li class="start" id="fastsearch">
-            <a href="#/fastsearch.html">
+       <li class="nav-item">
+            <a href="#/fastsearch.html" id="fastsearchLink">
                 <i class="icon-magnifier"></i>
                 <span class="title">{{'sidebar.fastsearch' | translate}}</span>
             </a>
         </li>
 
-         <li class="start" id="sqleditor">
-            <a href="#/sqleditor/sqleditor.html">
+         <li class="nav-item">
+            <a href="#/sqleditor/sqleditor.html" id="sqleditorLink">
             <i class="icon-pencil"></i>
                 <span class="title">Query Editor</span>
             </a>
         </li>
-        <li class="start" id="tracker">
-            <a href="#/d2dTracking/d2dTracking.html">
+        <li class="nav-item">
+            <a href="#/d2dTracking/d2dTracking.html" id="trackerLink">
             <i class="fa fa-line-chart"></i>
                 <span class="title">Tracking</span>
             </a>
         </li>
 
-        <li class="start" id="workflowMgt"  ng-if="!chkRole('ROLE_ADMIN')">
+        <li class="nav-item">
+            <a href="#/robot/robot.html" id="robotLink">
+            <i class="fa fa-rocket"></i>
+                <span class="title">Document Robot</span>
+            </a>
+        </li>
+
+        <li class="nav-item" id="workflowMgt"  ng-if="!chkRole('ROLE_ADMIN')">
             <a href="#/workflowuser.html">
                 <i class="icon-magnifier"></i>
                 <span class="title">Request Management</span>
             </a>
         </li>
-       
-
-
-
-
-
-
-
     </ul>
+
+
     <!-- END SIDEBAR MENU -->
 </div>
 <script>

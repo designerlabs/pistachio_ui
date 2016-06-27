@@ -203,7 +203,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                                 });
                                 fn_ClearResultTbl();
                                 queryResultFunc(myArrayRow, myArrayColumn);
-                                $(".page-content").height($(".profile-content").height() + 400);
+                                //$(".page-content").height($(".profile-content").height() + 400);
                                 setTimeout(function() {
                                     $btn.button('reset');
                                 }, 1000);
@@ -213,7 +213,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                                 $("#messageView div").removeClass("alert-success");
                                 $("#messageView div").addClass('alert-danger');
                                 $("#messageView div").show().delay(5000).fadeOut();
-                                $(".page-content").height($(".profile-content").height() + 400);
+                                //$(".page-content").height($(".profile-content").height() + 400);
                                 setTimeout(function() {
                                     $btn.button('reset');
                                 }, 1000);
@@ -371,7 +371,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                         // $scope.btnExec = false;
                         // $scope.Saveqry = false;
                     });
-                    $(".page-content").height($(".profile-content").height() + 400);
+                    //$(".page-content").height($(".profile-content").height() + 400);
                 });
         }
 
@@ -406,7 +406,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                         editor.session.setValue(data.query);
                          // $scope.Saveqry = false;
                     });
-                    $(".page-content").height($(".profile-content").height() + 400);
+                    //$(".page-content").height($(".profile-content").height() + 400);
                     $("#mdlSaveQry").modal('hide');
                 });
         }

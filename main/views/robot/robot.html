@@ -1,0 +1,119 @@
+<div ng-controller="RobotDocumentController">
+
+  <form id="queryFormTemplate" name="queryUIFormTemplate" class="box" method="post" action="" enctype="multipart/form-data">
+    <div class="box-input">
+      <input class="box__file" type="file" name="files[]" id="file" file-model="myFile" accept=".pdf, .doc, .docx" data-multiple-caption="{count} files selected"
+        multiple />
+      <label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label>
+      <button type="button" id="queryUIUpdateTemplate" class="btn btn-primary" ng-click="uploadFile()"><i class="fa fa-check"></i> {{'ereporting.update' | translate}}</button>
+    </div>
+  </form>
+  <div class="row">&nbsp;</div>  
+  <div class="search-page search-content-4">
+    <div class="search-bar bordered">
+      <div class="row">
+        <div class="col-lg-8 col-sm-12">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search for...">
+            <span class="input-group-btn">
+              <button class="btn green-soft uppercase bold" type="button">Search</button>
+            </span>
+          </div>
+        </div>
+        <div class="col-lg-2 extra-buttons col-sm-6">
+          <button class="btn grey-steel uppercase bold" type="button">Reset Search</button>
+
+        </div>
+        <div class="col-lg-2 col-sm-6">
+          <div class="number">
+            <h3 class="font-green-sharp">
+              <small class="font-blue-sharp">Loaded in</small>
+              <span data-counter="counterup" data-value="7800">{{qtime}}</span>
+              <small class="font-blue-sharp">milli-secs</small>
+            </h3>
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="search-table table-responsive">
+
+    </div>
+
+  </div>
+  <div class="col-md-12">
+
+    <div class="search-table">
+
+    </div>
+
+  </div>
+
+</div>
+<style>
+  .box__dragndrop,
+  .box__uploading,
+  .box__success,
+  .box__error {
+    display: none;
+  }
+  
+  .box {
+    font-size: 1.25rem;
+    background-color: rgb(61, 74, 83);
+    border: 4px solid #fff;
+    box-shadow: inset 0 5px 20px rgb(111, 138, 131);
+    padding: 5rem 8rem;
+    width: 25%;
+    margin: 0 auto;
+  }
+  
+  .box-input {
+    text-align: center;
+  }
+  
+  input[type="button" i],
+  input[type="file" i]::-webkit-file-upload-button {
+    display: none!important;
+  }
+  
+  .box.has-advanced-upload {
+    transition: all .15s ease-in-out, background-color .15s linear;
+  }
+  
+  button {
+    background: #0CE9AF;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
+    color: #fff;
+    display: flex;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: auto;
+    margin-top: 2.5rem;
+    overflow: auto;
+    padding: 1rem 1.5rem;
+  }
+  
+  .box-file {
+    width: .1px;
+    height: .1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+  
+  .box-input label {
+    margin: auto;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    display: block;
+    overflow: hidden;
+  }
+</style>

@@ -4,6 +4,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
     $scope.$on('$viewContentLoaded', function() {
         // initialize core components
         Metronic.initAjax();
+        Layout.setSidebarMenuActiveLink('set', $('#trackerLink')); // set profile link active in sidebar menu 
+   
         $scope.drawSparkline = 0;
 
         $scope.changeDt = function(format) { // for display purpose
@@ -12,12 +14,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             return newDate2;
         };
 
-        $("#sidebarMenu li").click(function() {
-            $("#sidebarMenu li").removeClass("active");
-            $("#sidebarMenu li").removeClass("open");
-            $(this).addClass('active');
-            $(this).parents('ul').parent('li').addClass("active");
-        });
+       
 
 
         var resultDtFrom, resultDtTo;
@@ -972,6 +969,11 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                                 }
 
                                 $scope.branchOut = storeBranchData;
+                                if(storeBranchData.length > 0){
+                                    $(".highcharts-container").show();
+                                }else{
+                                    $(".highcharts-container").hide();
+                                }
                                 console.log(storeBranchData);
                             }
                         })
@@ -1101,10 +1103,10 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             location.href = "index.html#/employeeHourlyDetails/employeeHourlyDetails.html?branch_name=" + currBranchName + "&emp_name=" + currEmpName + "&currDate=" + currentSelectDate;
         };
 
-
+ });
         // set sidebar closed and body solid layout mode
-        $rootScope.settings.layout.pageSidebarClosed = false;
+        $rootScope.settings.layout.pageSidebarClosed = true;
         $rootScope.skipTitle = false;
         $rootScope.settings.layout.setTitle("tracking");
-    });
+
 });

@@ -3,7 +3,6 @@
   margin: 0 auto;
   padding: 0px;
   margin-top: 0px;
-  font-family: 'Source Sans Pro', sans-serif;
   background-color: #f8fbfa;
   box-shadow: none;
   border: 1px solid #eeeeee;
@@ -31,7 +30,6 @@
   width: 100%;
   margin: 0 auto;
   margin-top: 10px;
-  font-family: 'Source Sans Pro', sans-serif;
   color: white;
   box-shadow: none;
 }
@@ -45,10 +43,9 @@
 }
 
 
-
 .ui_box {
   width: 25%;
-  height: 180px;
+  height: 150px;
   position: relative;
   background: #3d3d3d;
   float: left;
@@ -64,24 +61,26 @@
           transition-duration: .3s;
 }
 .ui_box__inner {
-  padding: 30px;
+  padding: 15px 0;
 }
 .ui_box__inner  span {
   font-size: 36px;
-  font-weight: 700;
+  font-weight: 300;
 }
 .ui_box  h2 {
   font-weight: normal;
   font-size: 16px;
+  text-align: center;
+  text-transform: uppercase;
   margin: -4px 0px 3px 0px;
 }
 .ui_box  p {
   font-size: 11px;
-  color: #b6b6b6;
+  color: #fff;
   clear: left;
   font-weight: 300;
-  width: 160px;
-  margin: 2px 0px 15px 0px;
+  margin: 0px 0px 15px 0px;
+  text-align: center
 }
 
 .ui_box  img {
@@ -112,10 +111,14 @@
   z-index: 1;
 }
 
+
 .ui_box:hover > .ui_box__inner p,.ui_box:focus > .ui_box__inner p{
   color: #b3dacb;
-}
 
+.stat{
+    text-align: center;
+    margin: 20px 0;
+}
 
 .stat_left {
   float: left;

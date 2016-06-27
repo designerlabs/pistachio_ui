@@ -10,7 +10,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
         // initialize core components
         Metronic.initAjax();
-
+        Layout.setSidebarMenuActiveLink('set', $('#fastsearchLink')); 
 
 
         var getUser = localStorage.getItem("username");

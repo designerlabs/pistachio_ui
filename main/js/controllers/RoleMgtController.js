@@ -14,8 +14,23 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
          $("#roleMgtList").show();
          $("#tableList").hide();
 
-  
+        $(".page-sidebar-menu > li").removeClass('active');
+        $(".sub-menu > li").removeClass('active');
 
+        $("#adminLink").addClass('active');
+        $("#roleManagementLink").addClass('active');
+
+        $('.sub-menu li a').click(function() {
+        
+            $(".nav-item").removeClass("active");
+            $(".nav-item").removeClass("open");
+            $('.sub-menu').hide();
+            $(this).parent('li').addClass('active');
+            console.log(this);
+            //alert(this);
+            $(this).parents('ul').parent('li').addClass("active");
+        });
+     
         var roleMgts;
 
         $.extend( true, $.fn.dataTable.defaults, {
@@ -188,7 +203,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
           dtable
                .clear()
                .draw();
-            $("#loader").css('height', $(".page-content").height() + 140 + 'px');
+            //$("#loader").css('height', $(".page-content").height() + 140 + 'px');
             $("#loader .page-spinner-bar").removeClass('hide');
 
             $("#loader").show();
@@ -434,7 +449,7 @@ function UpdateSubReportsCrud(RoleName){
                var optgrp = $("<optgroup></optgroup>");
                optgrp[0].label = $("#myParentSel option[value =" + value + "]").text();
 
-               $("#loader").css('height', $(".page-content").height() + 140 + 'px');
+               //$("#loader").css('height', $(".page-content").height() + 140 + 'px');
                $("#loader .page-spinner-bar").removeClass('hide');
 
                $.get(globalURL + "query/report/" + value, function( data ) {
