@@ -10,7 +10,7 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
 
         // initialize core components
         Metronic.initAjax();
-        Layout.setSidebarMenuActiveLink('set', $('#fastsearchLink')); 
+        Layout.setSidebarMenuActiveLink('set', $('#fastsearchLink'));
 
 
         var getUser = localStorage.getItem("username");
@@ -232,9 +232,11 @@ MetronicApp.controller('GlobalSearchController', function($rootScope, $scope, $h
     }
 
     $scope.formatDate = function (date) {
-     //var d = new Date(date);
-     //return d.toString();
-     return date.replace('T',' ').replace('Z','')
+      if(typeof(date) != "undefined")
+        return date.replace('T',' ').replace('Z','')
+      else {
+        return ""
+      }
     }
     $scope.box_update = function () {
       if($scope.showApplication)
