@@ -15,6 +15,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
         var getUser = localStorage.getItem("username");
 
         $scope.reset();
+        $scope.drawHeatMap();
     //    $scope.getDateLimits();
     //    $scope.formStates();
 
@@ -22,6 +23,19 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
 
 
     });
+
+    $scope.drawHeatMap = function() {
+      debugger;
+      var map = L.map("map").setView([4, 100], 7);
+      L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png', {
+        attribution: '&copy; NSL | Mimos',
+        maxZoom: 9
+      }).addTo(map);
+      new L.SolrHeatmapLayer('http://10.4.104.176:8983/solr/immigration2', {
+         field: 'loc',
+         colors: ['ffff00', 'ff0000']
+      }).addTo(map);
+    }
 
     $scope.queryType = 'active';
     $scope.changeQueryType = function () {
