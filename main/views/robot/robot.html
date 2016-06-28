@@ -1,14 +1,9 @@
 <div ng-controller="RobotDocumentController">
 
-  <form id="queryFormTemplate" name="queryUIFormTemplate" class="box" method="post" action="" enctype="multipart/form-data">
-    <div class="box-input">
-      <input class="box__file" type="file" name="files[]" id="file" file-model="myFile" accept=".pdf, .doc, .docx" data-multiple-caption="{count} files selected"
-        multiple />
-      <label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label>
-      <button type="button" id="queryUIUpdateTemplate" class="btn btn-primary" ng-click="uploadFile()"><i class="fa fa-check"></i> {{'ereporting.update' | translate}}</button>
-    </div>
-  </form>
-  <div class="row">&nbsp;</div>  
+
+
+
+  <div class="row">&nbsp;</div>
   <div class="search-page search-content-4">
     <div class="search-bar bordered">
       <div class="row">
@@ -16,26 +11,23 @@
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Search for...">
             <span class="input-group-btn">
-              <button class="btn green-soft uppercase bold" type="button">Search</button>
+              <button class="btn green-soft uppercase bold" type="button"><i class="fa fa-search"></i> Search</button>
             </span>
           </div>
         </div>
         <div class="col-lg-2 extra-buttons col-sm-6">
-          <button class="btn grey-steel uppercase bold" type="button">Reset Search</button>
+          <button class="btn grey-steel uppercase bold" type="button"><i class="fa fa-refresh"></i> Reset</button>
 
         </div>
-        <div class="col-lg-2 col-sm-6">
-          <div class="number">
-            <h3 class="font-green-sharp">
-              <small class="font-blue-sharp">Loaded in</small>
-              <span data-counter="counterup" data-value="7800">{{qtime}}</span>
-              <small class="font-blue-sharp">milli-secs</small>
-            </h3>
-
-
-          </div>
+        <div class="col-lg-2 extra-buttons col-sm-6 text-right">
+          <button  data-toggle="collapse" data-target="#upload-container" class="btn btn-info uppercase bold" type="button"><i class="fa fa-upload"></i> Upload</button>
 
         </div>
+
+      </div>
+      <div style="margin-top: 20px;" id='upload-container' class="collapse">
+        <div id="fileuploader">Browse</div>
+        <div id="extrabutton" class="btn btn-success uppercase bold">Start Submit</div>
       </div>
     </div>
     <div class="search-table table-responsive">

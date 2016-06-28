@@ -1004,7 +1004,11 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/morris/morris.css',
                         'assets/admin/pages/css/tasks.css',
                         'assets/pages/css/search.css',
-                         'assets/pages/css/search.css'
+                        'assets/pistachio/upload_doc/css/uploadfile.css',
+                        'assets/pistachio/upload_doc/js/jquery.uploadfile.min.js'
+  
+                        
+                        
                     ]
                 });
             }]

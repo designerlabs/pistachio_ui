@@ -2,26 +2,19 @@ MetronicApp.controller('RobotDocumentController', function ($rootScope, $scope, 
 
     $scope.$on('$viewContentLoaded', function () {
         Metronic.initAjax();
+        var extraObj = $("#fileuploader").uploadFile({
+            url:  globalURL + "api/pistachio/upload?user=",
+            fileName: "myfile",
+            acceptFiles: ".pdf, .csv, .doc, .docx",
+            autoSubmit: false,
+            uploadStr: 'Browse',
+            formData:{"login": localStorage.username } 
+        });
+        $("#extrabutton").click(function () {
+            extraObj.startUpload();
+        });
     });
-    $scope.uploadFile = function () {
-        var file = $scope.myFile;
-        console.log('file is ');
-        console.dir(file);
-        var uploadUrl = globalURL + "api/pistachio/upload?user=";
-        fileUpload.uploadFileToUrl(file, uploadUrl);
-    };
-
-    var templateFileName=[];
-    $("#file").change(function () {
-        //var getVal = $('input[type=file]').val();
-        var files = document.getElementById("file").files;
-        for (var i = 0; i < files.length; i++){
-            templateFileName.push(files[i].name);
-          
-        }
-        
-        //templateFileName = getVal.split(/(\\|\/)/g).pop();
-    });
+  
 
     $("#queryUISubmitTemplate").click(function (event) {
 
@@ -33,11 +26,11 @@ MetronicApp.controller('RobotDocumentController', function ($rootScope, $scope, 
         var deptVal = $("#queryFormTemplate #deptVal").prop('checked');
         console.log(deptVal);
         console.log($("#queryFormTemplate #deptVal").prop('checked'));*/
-        $.each(templateFileName, function(index, value){
+        $.each(templateFileName, function (index, value) {
             console.log(value);
             inputValidation("#queryFormTemplate", setTimeout(queryAjax(index), 1000));
         });
-        
+
 
         function queryAjax(count) {
             $.ajax({
