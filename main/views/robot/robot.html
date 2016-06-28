@@ -27,7 +27,7 @@
       </div>
       <div style="margin-top: 20px;" id='upload-container' class="collapse">
         <div id="fileuploader">Browse</div>
-        <div id="extrabutton" class="btn btn-success uppercase bold">Start Submit</div>
+        <div id="extrabutton" class="btn btn-success uppercase bold" ng-click="uploadFile()">Start Submit</div>
       </div>
     </div>
     <div class="search-table table-responsive">
@@ -44,68 +44,3 @@
   </div>
 
 </div>
-<style>
-  .box__dragndrop,
-  .box__uploading,
-  .box__success,
-  .box__error {
-    display: none;
-  }
-  
-  .box {
-    font-size: 1.25rem;
-    background-color: rgb(61, 74, 83);
-    border: 4px solid #fff;
-    box-shadow: inset 0 5px 20px rgb(111, 138, 131);
-    padding: 5rem 8rem;
-    width: 25%;
-    margin: 0 auto;
-  }
-  
-  .box-input {
-    text-align: center;
-  }
-  
-  input[type="button" i],
-  input[type="file" i]::-webkit-file-upload-button {
-    display: none!important;
-  }
-  
-  .box.has-advanced-upload {
-    transition: all .15s ease-in-out, background-color .15s linear;
-  }
-  
-  button {
-    background: #0CE9AF;
-    border: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
-    color: #fff;
-    display: flex;
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin: auto;
-    margin-top: 2.5rem;
-    overflow: auto;
-    padding: 1rem 1.5rem;
-  }
-  
-  .box-file {
-    width: .1px;
-    height: .1px;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
-  }
-  
-  .box-input label {
-    margin: auto;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: #fff;
-    cursor: pointer;
-    text-align: center;
-    display: block;
-    overflow: hidden;
-  }
-</style>

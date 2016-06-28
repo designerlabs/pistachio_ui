@@ -2,19 +2,50 @@ MetronicApp.controller('RobotDocumentController', function ($rootScope, $scope, 
 
     $scope.$on('$viewContentLoaded', function () {
         Metronic.initAjax();
+
+
+        var fileArr = [];
         var extraObj = $("#fileuploader").uploadFile({
-            url:  globalURL + "api/pistachio/upload?user=",
+            url: globalURL + "api/pistachio/upload?user=",
             fileName: "myfile",
             acceptFiles: ".pdf, .csv, .doc, .docx",
             autoSubmit: false,
             uploadStr: 'Browse',
-            formData:{"login": localStorage.username } 
+            returnType:"json",
+            showDelete: true,
+            onSelect: function(files){
+                $scope.abb = {};
+                $scope.abb.name = files;
+                fileArr.push($scope.abb.name);
+            },
+            onSubmit: function (files) {
+               var uploadUrl = globalURL + "api/pistachio/upload?user=";
+                
+               for(var i=0; i < fileArr.length; i++){
+                   fileUpload.uploadFileToUrl(fileArr[i][0], uploadUrl);
+               }
+                return false;
+            }
+
         });
-        $("#extrabutton").click(function () {
+
+        $scope.uploadFile = function () {
             extraObj.startUpload();
-        });
+
+        };
+
+
+
+
+
+
+        //$("#extrabutton").click(function () {
+        // console.log(extraObj);
+        // debugger;
+        //extraObj.startUpload();
+        //});
     });
-  
+
 
     $("#queryUISubmitTemplate").click(function (event) {
 
