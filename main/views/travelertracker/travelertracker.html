@@ -71,10 +71,10 @@
     <div class="portlet-body">
         <div class="tabbable-line boxless margin-bottom-20">
             <ul class="nav nav-tabs">
-                <li class="active" ng-if="showVisa">
+                <li ng-class="{'active':showVisa}" ng-if="showVisa">
                     <a data-target="#visa" data-toggle="tab" aria-expanded="false"> Visa Details </a>
                 </li>
-                <li class="" ng-if="showHistory">
+                <li ng-class="{'active':!showVisa}" ng-if="showHistory">
                     <a data-target="#history" data-toggle="tab" aria-expanded="true"> Travel History </a>
                 </li>
             </ul>

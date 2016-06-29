@@ -58,6 +58,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
 
                             $scope.age = today.getFullYear() - year;
                         }
+
                         $scope.passdetails = data.response.docs[0];
                         $scope.totalvisa = data.response.docs.length;
                         $scope.titleDetails = "Visa details"

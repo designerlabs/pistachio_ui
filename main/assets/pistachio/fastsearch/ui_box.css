@@ -1,16 +1,25 @@
 .option-box {
   width: 100%;
   margin: 0 auto;
+  padding: 0px;
   margin-top: 0px;
-  font-family: 'Source Sans Pro', sans-serif;
   background-color: #f8fbfa;
   box-shadow: none;
   border: 1px solid #eeeeee;
 }
 
-.option-box todo-project-list {
+.option-box > .todo-project-list {
     overflow-y: scroll;
-    height: 200px;
+    height: 250px;
+}
+.option-box .mini-box {
+  margin: 0 auto;
+  margin-top: 0px;
+  padding: 2px;
+  font-family: 'Source Sans Pro', sans-serif;
+  background-color: #f8fbfa;
+  box-shadow: none;
+  border: 1px solid #eeeeee;
 }
 
 .option-box > .col-md-3 {
@@ -21,11 +30,10 @@
   width: 100%;
   margin: 0 auto;
   margin-top: 10px;
-  font-family: 'Source Sans Pro', sans-serif;
   color: white;
   box-shadow: none;
 }
-.uib ul {
+.uib  ul {
   margin: 0px 30px 10px 0px;
   padding: 0;
   list-style-type: none;
@@ -33,29 +41,12 @@
   font-weight: 400;
   line-height: 20px;
 }
-.uib .drop {
-  z-index: -3;
-  opacity: 0;
-  width: 240px;
-  height: 10px;
-  background: #3e8368;
-  position: absolute;
-  color: white;
-  bottom: 0;
-  padding: 12px 30px 21px 30px;
-  -webkit-transition-property: bottom,opacity;
-  transition-property: bottom,opacity;
-  -webkit-transition-duration: .3s;
-          transition-duration: .3s;
-}
-.uib .drop p {
-  color: #f8fbfa;
-}
+
 
 
 .ui_box {
   width: 25%;
-  height: 180px;
+  height: 150px;
   position: relative;
   background: #3d3d3d;
   float: left;
@@ -71,27 +62,29 @@
           transition-duration: .3s;
 }
 .ui_box__inner {
-  padding: 30px;
+  padding: 15px 0;
 }
-.ui_box__inner span {
+.ui_box__inner  span {
   font-size: 36px;
-  font-weight: 700;
+  font-weight: 400;
 }
-.ui_box h2 {
+.ui_box  h2 {
   font-weight: normal;
   font-size: 16px;
+  text-align: center;
+  text-transform: uppercase;
   margin: -4px 0px 3px 0px;
 }
-.ui_box p {
+.ui_box  p {
   font-size: 11px;
-  color: #b6b6b6;
+  color: #fff;
   clear: left;
   font-weight: 300;
-  width: 160px;
-  margin: 2px 0px 15px 0px;
+  margin: 0px 0px 15px 0px;
+  text-align: center
 }
 
-.ui_box img {
+.ui_box  img {
   float: right;
   width: 85px;
   text-align: top;
@@ -105,7 +98,7 @@
   background: #4FA584;
 }
 
-.ui_box:hover {
+.ui_box:hover,.ui_box:focus {
   background: #4FA584;
   -webkit-transform: scale(1.1);
           transform: scale(1.1);
@@ -119,138 +112,18 @@
   z-index: 1;
 }
 
+
 .ui_box:hover > .ui_box__inner p {
-  color: #b3dacb;
+  color: #fff;
+
 }
 
-.ui_box:hover > .drop {
-  -webkit-transition-property: bottom,opacity;
-  transition-property: bottom,opacity;
-  -webkit-transition-duration: .3s;
-          transition-duration: .3s;
-  bottom: -42px;
-  opacity: 1;
-}
 
-.ui_box:hover > .drop .arrow {
-  -webkit-transition-property: -webkit-transform;
-  transition-property: -webkit-transform;
-  transition-property: transform;
-  transition-property: transform, -webkit-transform;
-  -webkit-transition-duration: 1s;
-          transition-duration: 1s;
-  -webkit-transform: rotate(765deg);
-          transform: rotate(765deg);
-}
-
-.ui_box:hover > .ui_box__inner .progress_graph > div {
-  background: white;
-}
-
-.ui_box:hover > .ui_box__inner .progress .progress_bar, .ui_box:hover > .ui_box__inner .progress .progress_bar--two {
-  background: white;
+.stat{
+    text-align: center;
+    margin: 20px 0;
 }
 
 .stat_left {
   float: left;
-}
-
-
-
-@-webkit-keyframes bar {
-  from {
-    width: 0px;
-  }
-  to {
-    width: 58%;
-  }
-}
-
-@keyframes bar {
-  from {
-    width: 0px;
-  }
-  to {
-    width: 58%;
-  }
-}
-@-webkit-keyframes bar2 {
-  from {
-    width: 0px;
-  }
-  to {
-    width: 78%;
-  }
-}
-@keyframes bar2 {
-  from {
-    width: 0px;
-  }
-  to {
-    width: 78%;
-  }
-}
-@-webkit-keyframes graph {
-  from {
-    height: 0px;
-  }
-  to {
-    height: 20px;
-  }
-}
-@keyframes graph {
-  from {
-    height: 0px;
-  }
-  to {
-    height: 20px;
-  }
-}
-@-webkit-keyframes graph2 {
-  from {
-    height: 0px;
-  }
-  to {
-    height: 30px;
-  }
-}
-@keyframes graph2 {
-  from {
-    height: 0px;
-  }
-  to {
-    height: 30px;
-  }
-}
-@-webkit-keyframes graph3 {
-  from {
-    height: 0px;
-  }
-  to {
-    height: 24px;
-  }
-}
-@keyframes graph3 {
-  from {
-    height: 0px;
-  }
-  to {
-    height: 24px;
-  }
-}
-@-webkit-keyframes graph4 {
-  from {
-    height: 0px;
-  }
-  to {
-    height: 13px;
-  }
-}
-@keyframes graph4 {
-  from {
-    height: 0px;
-  }
-  to {
-    height: 13px;
-  }
 }
