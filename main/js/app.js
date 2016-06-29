@@ -732,11 +732,11 @@ MetronicApp.service('fileUpload', ['$http', function($http) {
                 headers: { 'Content-Type': undefined }
             })
             .success(function(data) {
-                alert("successfully submitted!");
+              //  alert("successfully submitted!");
                 console.log(data);
             })
             .error(function() {
-                alert("error")
+             //   alert("error");
             });
     }
 }]);
