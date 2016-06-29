@@ -92,7 +92,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                                 { "data": "created" }, {
                                     "data": "created",
                                     "render": function(data, type, full, meta) {
-                                        return (data == undefined ? "" : data);
+                                        return (data.toString().substr(0, 10) == undefined ? "" : data.toString().substr(0, 10));
                                     }
                                 }
                             ]
