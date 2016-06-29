@@ -32,35 +32,86 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
       $rootScope.fastsearch.load = false;
 
     }
-    $scope.drawHeatMap();  
+    $scope.drawHeatMap();
   });
 
-var bigmapheight = 650;
-	  	var smallmapheight = 300;
-	  	var mapbreakwidth = 720;
-	  	var highzoom = 8;
-	  	var lowzoom = 7;
-	  	var initzoom;
+  var bigmapheight = 650;
+  var smallmapheight = 300;
+  var mapbreakwidth = 720;
+  var highzoom = 8;
+  var lowzoom = 7;
+  var initzoom;
 
-  
-     // don't forget to include leaflet-heatmap.js
-    $scope.drawHeatMap = function() {
-      var map = L.map("mapid").setView([4, 100], 7);
-      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; NSL | Mimos'
+  var rangeSlider = function () { 
+    var slider = $('.range-slider'), 
+        range = $('.range-slider__range'), 
+        value = $('.range-slider__value'); 
+        slider.each(function () { 
+        value.each(function () { 
+          var value = $(this).prev().attr('value');
+          $(this).html(value+" KM"); 
+        });
+        range.on('input', function () {
+          $(this).next(value).html(this.value+" KM");
+          $rootScope.triggerFunc(this.value+"000");
+
+        }); 
+    }); 
+  }; 
+  rangeSlider();
+  // don't forget to include leaflet-heatmap.js
+
+  var greenIcon = L.icon({
+    iconUrl: 'assets/pistachio/map/leaf-green.png',
+    shadowUrl: 'assets/pistachio/map/leaf-shadow.png',
+
+    iconSize:     [38, 95], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
+  $scope.drawHeatMap = function () {
+    var map = L.map("mapid").setView([4, 100], 7);
+    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; NSL | Mimos'
+    }).addTo(map);
+
+    var clickCircle, clickMarker;
+    map.on('singleclick', function (e) {
+      $(".range-slider__range").val('1');
+      $(".range-slider__value").text('1 KM');
+      console.log('singleclick', e);
+      $rootScope.triggerFunc = function(km){
+        console.log('hello');
+        if ($scope.clickCircle != undefined) {
+        map.removeLayer($scope.clickCircle);
+        map.removeLayer(clickMarker);
+      };
+      clickMarker = L.marker([e.latlng.lat, e.latlng.lng], {icon: greenIcon}).addTo(map);
+      $scope.clickCircle = L.circle([e.latlng.lat, e.latlng.lng], km, {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5
       }).addTo(map);
-     
-
-  map.on('load', function(e) {
-        	$("#mapid").css('height', bigmapheight);
-			$("#mapid").css('height', bigmapheight);
-       L.control.mousePosition().addTo(map);
+      L.popup().setLatLng(e.latlng)
+        .setContent('<p><code>clicked location</code> is ' + e.latlng)
+        .openOn(map);
+      };
+      
+      $scope.triggerFunc(1000);
     });
 
-     
-    }
+    map.on('load', function (e) {
+      $("#mapid").css('height', bigmapheight);
+      $("#mapid").css('height', bigmapheight);
+    });
 
- 
+
+  }
+
+
   $scope.getQuery = function () {
     var query;
     if ($scope.text.length > 0) {
