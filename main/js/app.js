@@ -953,8 +953,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pages/css/search.css',
                         'assets/pages/css/pricing.min.css',
                         'assets/pages/scripts/highstock.js',
-                        'assets/pistachio/fastsearch/leaflet/leaflet.css',
-                        'assets/pistachio/fastsearch/leaflet/leaflet.js',
                         'assets/pistachio/fastsearch/leaflet/leaflet_canvas_layer.js',
                         'assets/pistachio/fastsearch/leaflet/heatmap.js ',
                         'js/controllers/VAAController.js'
@@ -1180,7 +1178,11 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pages/css/search.css',
                         'assets/pages/css/pricing.min.css',
 
-                        'assets/admin/pages/scripts/index.js',
+                        'assets/pistachio/fastsearch/leaflet/leaflet_canvas_layer.js',
+                        //'assets/pistachio/map/heatmap.min.js',
+                        //'assets/pistachio/map/leaflet-heatmap.js',
+                        'assets/pistachio/fastsearch/leaflet/heatmap.js ',
+                        'assets/pistachio/map/singleclick.js',
                         'js/controllers/GlobalSearchController.js'
                     ]
                 });
