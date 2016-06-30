@@ -14,19 +14,19 @@
         </div>
       </div>
     </div>
-    <div class="option-box col-md-12" style="padding:0px; min-height:500px" ng-show="option" >
+    <div class="option-box col-md-12" style="padding:0px; min-height:380px" ng-show="option" >
       <div class=" mini-box col-md-3">
-        <h2> Country </h2>
+        <h4> Country </h4>
         <div class="todo-project-list">
           <ul class="list-group">
-            <li class="list-group-item" data-ng-repeat="cnt in countries" style="padding-left: 3px; padding-right: 1px;">
+            <li class="list-group-item" data-ng-repeat="cnt in countries" data-cntval="{{cnt.count}}" style="padding-left: 3px; padding-right: 1px;">
 
               <div class="md-checkbox" style="padding: 2px;">
                 <input type="checkbox" ng-click="checkboxselectedCountry(cnt.val)" class="md-check" id={{cnt.val}}>
                 <label for={{cnt.val}}>
                   <span class="inc"></span>
                   <span class="check"></span>
-                  <span class="box"></span> {{cnt.val}}</label><span class="badge pull-right ng-binding"> {{cnt.count}} </span>
+                  <span class="box"></span> {{cnt.val}}</label>
               </div>
             </li>
 
@@ -34,17 +34,17 @@
         </div>
       </div>
       <div class=" mini-box col-md-3">
-        <h2> Jobs </h2>
+        <h4> Jobs </h4>
         <div class="todo-project-list">
           <ul class="list-group">
-            <li class="list-group-item" data-ng-repeat="cnt in jobs" style="padding-left: 3px; padding-right: 1px;">
+            <li class="list-group-item" data-ng-repeat="cnt in jobs" data-cntval="{{cnt.count}}" style="padding-left: 3px; padding-right: 1px;">
 
               <div class="md-checkbox" style="padding: 2px;">
                 <input type="checkbox" ng-click="jobBox(cnt.val)" class="md-check" id={{cnt.val}}>
                 <label for={{cnt.val}}>
                     <span class="inc"></span>
                     <span class="check"></span>
-                    <span class="box"></span> {{cnt.val}}</label><span class="badge pull-right ng-binding"> {{cnt.count}} </span>
+                    <span class="box"></span> {{cnt.val}}</label>
               </div>
             </li>
 
@@ -52,15 +52,15 @@
         </div>
       </div>
       <div class="col-md-6">
-        <h2> Search by Map </h2>
+        <h4> Search by Map </h4>
           <style>
-           #mapid {  width:100%; height: 400px; }
+           #mapid {  width:100%; height: 250px; }
           </style>
           <div  id="mapid"></div>
           
           <div class="range-slider">
             <h4>Select radius by Kilometer</h4>
-            <input class="range-slider__range" type="range" value="1" min="1" max="50">
+            <input class="range-slider__range" type="range" value="20" min="1" max="50">
             <span class="range-slider__value">0</span>
           </div>
         </div>

@@ -16,14 +16,13 @@
   margin: 0 auto;
   margin-top: 0px;
   padding: 2px;
-  font-family: 'Source Sans Pro', sans-serif;
   background-color: #f8fbfa;
   box-shadow: none;
   border: 1px solid #eeeeee;
 }
 
 .option-box > .col-md-3 {
-    padding: 0;
+    padding: 0px 10px;
 }
 
 .uib {
@@ -46,7 +45,7 @@
 
 .ui_box {
   width: 25%;
-  height: 150px;
+  height: 110px;
   position: relative;
   background: #3d3d3d;
   float: left;
@@ -64,10 +63,55 @@
 .ui_box__inner {
   padding: 15px 0;
 }
-.ui_box__inner  span {
-  font-size: 36px;
-  font-weight: 400;
+
+.md-checkbox label>.box {
+    top: 4px !important;
+    border: 1px solid #666  !important;
+    height: 15px  !important;
+    width: 15px  !important;
 }
+
+
+.md-checkbox label>.check {
+    top: 3px !important;
+    left: 6px !important;
+    width: 7px !important;
+    height: 13px !important;
+}
+
+.md-checkbox label>span.inc {
+    left: 3px !important;
+    top: 47px  !important;
+    height: 10px  !important;
+    width: 10px  !important;
+}
+
+li.list-group-item:after {
+    content: attr(data-cntval);
+    position: absolute;
+    top: 9px;
+    right: 0px;
+    padding: 0 5px;
+    background: #b1ffb7;
+}
+
+
+.ui_box__inner  span {
+  font-size: 30px;
+  font-weight: 300;
+  text-shadow: #000 0px 2px 5px;
+}
+
+.list-group-item {
+    padding: 1px 10px !important;
+    margin-bottom: 0px !important;
+    border: 1px solid #ececec !important;
+}
+
+.md-checkbox label {
+  font-size: 13px !important;
+}
+
 .ui_box  h2 {
   font-weight: normal;
   font-size: 16px;
@@ -121,7 +165,7 @@
 
 .stat{
     text-align: center;
-    margin: 20px 0;
+    margin: 5px 0;
 }
 
 .stat_left {
