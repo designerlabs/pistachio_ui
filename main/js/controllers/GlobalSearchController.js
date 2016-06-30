@@ -102,13 +102,16 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
       $scope.triggerFunc(20000);
     });
 
+
     map.on('load', function (e) {
       $("#mapid").css('height', bigmapheight);
       $("#mapid").css('height', bigmapheight);
     });
 
 
-  }
+
+    }
+
 
 
   $scope.getQuery = function () {
@@ -191,24 +194,26 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     var filter_query = "";
     var arrayLength = selected_countries.length;
     if (arrayLength == 0) return "";
-    filter_query = "country:("
+    filter_query = "country:( "
     for (var i = 0; i < arrayLength; i++) {
-      filter_query = filter_query + "country:" + selected_countries[i];
+      filter_query = filter_query + selected_countries[i];
 
       if (i != arrayLength - 1)
-        filter_query = filter_query + " OR "
+        filter_query = filter_query + ","
 
     }
     arrayLength = selected_jobs.length;
+    if (arrayLength == 0) return filter_query + ")"
     if (arrayLength > 0 && filter_query.length > 1)
-      filter_query = filter_query + "&fq="
+      filter_query = filter_query + ") AND job_bm:("
     for (var i = 0; i < arrayLength; i++) {
-      filter_query = filter_query + "job_bm:" + selected_countries[i];
+      filter_query = filter_query +"'"+  selected_jobs[i]+"'";
 
       if (i != arrayLength - 1)
-        filter_query = filter_query + " OR "
+        filter_query = filter_query + ","
     }
-    return filter_query
+
+    return filter_query + ")"
   }
 
   $scope.checkboxselected = function (id) {

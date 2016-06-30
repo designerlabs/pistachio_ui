@@ -29,9 +29,10 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
       L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; NSL | Mimos'
       }).addTo(map);
-      new L.SolrHeatmapLayer('http://10.4.104.176:8983/solr/immigration2', {
+      new L.SolrHeatmapLayer('http://'+solrHost+':8983/solr/immigration2', {
          field: 'loc',
-         colors: ['ffff00', 'ff0000']
+         query: {q:"job_en:Maid"},
+         colors: ['A34800','234800', 'ff0000']
       }).addTo(map);
     }
 

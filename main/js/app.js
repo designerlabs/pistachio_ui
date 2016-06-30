@@ -494,17 +494,17 @@ MetronicApp.directive('myEmpDirective', function() {
                     //scope.timelineChart();
                 }else{
                     if(currentValue){
-                        removeItem(scope.employeeArr, currentValue);    
-                        scope.timelineChart(); 
+                        removeItem(scope.employeeArr, currentValue);
+                        scope.timelineChart();
                     }else{
                         removeItem(scope.employeeArr, currentValueNext);
-                        //scope.timelineChart(); 
+                        //scope.timelineChart();
                     }
-                       
+
                 }
 
                 console.log(scope.employeeArr);
-                
+
 
             });
 
@@ -530,7 +530,7 @@ MetronicApp.directive('myEmpDirective', function() {
                 }
             };
 
-            
+
         }
     };
 });
@@ -962,6 +962,28 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
+    .state('myAudit', {
+        url: "/auditAnalysis.html",
+        templateUrl: "views/analysis/audit.html",
+        data: {
+            pageTitle: 'My Audit Analysis'
+        },
+        controller: "MyAuditController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/pistachio/myAudit/myaudit.css',
+                        'js/controllers/MyAuditController.js'
+                    ]
+                });
+            }]
+        }
+    })
+
+
     .state('countryAnalysis', {
         url: "/cntryAnalysis.html",
         templateUrl: "views/analysis/cntry.html",
@@ -1004,9 +1026,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pages/css/search.css',
                         'assets/pistachio/upload_doc/css/uploadfile.css',
                         'assets/pistachio/upload_doc/js/jquery.uploadfile.min.js'
-  
-                        
-                        
+
+
+
                     ]
                 });
             }]
