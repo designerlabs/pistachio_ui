@@ -494,17 +494,17 @@ MetronicApp.directive('myEmpDirective', function() {
                     //scope.timelineChart();
                 }else{
                     if(currentValue){
-                        removeItem(scope.employeeArr, currentValue);    
-                        scope.timelineChart(); 
+                        removeItem(scope.employeeArr, currentValue);
+                        scope.timelineChart();
                     }else{
                         removeItem(scope.employeeArr, currentValueNext);
-                        //scope.timelineChart(); 
+                        //scope.timelineChart();
                     }
-                       
+
                 }
 
                 console.log(scope.employeeArr);
-                
+
 
             });
 
@@ -530,7 +530,7 @@ MetronicApp.directive('myEmpDirective', function() {
                 }
             };
 
-            
+
         }
     };
 });
@@ -732,11 +732,11 @@ MetronicApp.service('fileUpload', ['$http', function($http) {
                 headers: { 'Content-Type': undefined }
             })
             .success(function(data) {
-                alert("successfully submitted!");
+              //  alert("successfully submitted!");
                 console.log(data);
             })
             .error(function() {
-                alert("error")
+             //   alert("error");
             });
     }
 }]);
@@ -953,8 +953,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pages/css/search.css',
                         'assets/pages/css/pricing.min.css',
                         'assets/pages/scripts/highstock.js',
-                        'assets/pistachio/fastsearch/leaflet/leaflet.css',
-                        'assets/pistachio/fastsearch/leaflet/leaflet.js',
                         'assets/pistachio/fastsearch/leaflet/leaflet_canvas_layer.js',
                         'assets/pistachio/fastsearch/leaflet/heatmap.js ',
                         'js/controllers/VAAController.js'
@@ -963,6 +961,28 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }]
         }
     })
+
+    .state('myAudit', {
+        url: "/auditAnalysis.html",
+        templateUrl: "views/analysis/audit.html",
+        data: {
+            pageTitle: 'My Audit Analysis'
+        },
+        controller: "MyAuditController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/pistachio/myAudit/myaudit.css',
+                        'js/controllers/MyAuditController.js'
+                    ]
+                });
+            }]
+        }
+    })
+
 
     .state('countryAnalysis', {
         url: "/cntryAnalysis.html",
@@ -1006,9 +1026,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pages/css/search.css',
                         'assets/pistachio/upload_doc/css/uploadfile.css',
                         'assets/pistachio/upload_doc/js/jquery.uploadfile.min.js'
-  
-                        
-                        
+
+
+
                     ]
                 });
             }]
@@ -1179,9 +1199,17 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     files: [
                         'assets/pages/css/search.css',
                         'assets/pages/css/pricing.min.css',
+                     
 
-                        'assets/admin/pages/scripts/index.js',
-                        'js/controllers/GlobalSearchController.js'
+                        'assets/pistachio/fastsearch/leaflet/leaflet_canvas_layer.js',
+                        //'assets/pistachio/map/heatmap.min.js',
+                        //'assets/pistachio/map/leaflet-heatmap.js',
+                        'assets/pistachio/fastsearch/leaflet/heatmap.js ',
+                        'assets/pistachio/map/singleclick.js',
+                        
+                        'js/controllers/GlobalSearchController.js',
+                        'assets/pistachio/range/range.css',
+                        'assets/pistachio/range/range.js'
                     ]
                 });
             }]

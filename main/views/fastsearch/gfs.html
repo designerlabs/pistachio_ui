@@ -14,48 +14,61 @@
         </div>
       </div>
     </div>
-    <div class="option-box col-md-12" style="padding:0px;" ng-if="option">
+    <div class="option-box col-md-12" style="padding:0px; min-height:380px" ng-show="option" >
       <div class=" mini-box col-md-3">
-      <h2> Country </h2>
+        <h4> Country </h4>
         <div class="todo-project-list">
           <ul class="list-group">
-            <li class="list-group-item" data-ng-repeat="cnt in countries" style="padding-left: 3px; padding-right: 1px;">
+            <li class="list-group-item" data-ng-repeat="cnt in countries" data-cntval="{{cnt.count}}" style="padding-left: 3px; padding-right: 1px;">
 
               <div class="md-checkbox" style="padding: 2px;">
-                <input type="checkbox" ng-click="checkboxselectedCountry(cnt.val)"  class="md-check" id={{cnt.val}}>
+                <input type="checkbox" ng-click="checkboxselectedCountry(cnt.val)" class="md-check" id={{cnt.val}}>
                 <label for={{cnt.val}}>
                   <span class="inc"></span>
                   <span class="check"></span>
-                  <span class="box"></span> {{cnt.val}}</label><span class="badge pull-right ng-binding"> {{cnt.count}} </span>
-                </div>
-              </li>
+                  <span class="box"></span> {{cnt.val}}</label>
+              </div>
+            </li>
 
-            </ul>
-          </div>
+          </ul>
         </div>
-        <div class=" mini-box col-md-3">
-          <h2> Jobs </h2>
-          <div class="todo-project-list">
-            <ul class="list-group">
-              <li class="list-group-item" data-ng-repeat="cnt in jobs" style="padding-left: 3px; padding-right: 1px;">
+      </div>
+      <div class=" mini-box col-md-3">
+        <h4> Jobs </h4>
+        <div class="todo-project-list">
+          <ul class="list-group">
+            <li class="list-group-item" data-ng-repeat="cnt in jobs" data-cntval="{{cnt.count}}" style="padding-left: 3px; padding-right: 1px;">
 
-                <div class="md-checkbox" style="padding: 2px;">
-                  <input type="checkbox" ng-click="jobBox(cnt.val)"  class="md-check" id={{cnt.val}}>
-                  <label for={{cnt.val}}>
+              <div class="md-checkbox" style="padding: 2px;">
+                <input type="checkbox" ng-click="jobBox(cnt.val)" class="md-check" id={{cnt.val}}>
+                <label for={{cnt.val}}>
                     <span class="inc"></span>
                     <span class="check"></span>
-                    <span class="box"></span> {{cnt.val}}</label><span class="badge pull-right ng-binding"> {{cnt.count}} </span>
-                  </div>
-                </li>
+                    <span class="box"></span> {{cnt.val}}</label>
+              </div>
+            </li>
 
-              </ul>
-            </div>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h4> Search by Map </h4>
+          <style>
+           #mapid {  width:100%; height: 250px; }
+          </style>
+          <div  id="mapid"></div>
+          
+          <div class="range-slider">
+            <h4>Select radius by Kilometer</h4>
+            <input class="range-slider__range" type="range" value="20" min="1" max="50">
+            <span class="range-slider__value">0</span>
           </div>
+        </div>
     </div>
     <div>
       <div class="row" style=>
-          <div class="col-md-12">
-            <div class='uib'>
+        <div class="col-md-12">
+          <div class='uib'>
             <div class='ui_box' ng-class="{selected: showApplication}" ng-click="showApplications()">
               <div class='ui_box__inner'>
                 <h2>{{'fastsearch.global.applications' | translate}}</h2>
@@ -87,7 +100,7 @@
               </div>
 
             </div>
-            <div class='ui_box' >
+            <div class='ui_box'>
               <div class='ui_box__inner'>
                 <h2>{{'fastsearch.global.blacklisted' | translate}}</h2>
                 <div class='stat'>
@@ -101,274 +114,276 @@
           </div>
         </div>
       </div>
-    <div class="search-page search-content-4" ng-if="showApplication">
+      <div class="search-page search-content-4" ng-if="showApplication">
         <div class="row">
-              <div class="col-md-12">
-                <div   class="search-table">
-                  <table class="table table-bordered table-striped table-condensed">
-                    <thead class="bg-table-gray">
-                      <tr>
-                        <th>
-                          <a href="javascript:;">Date</a>
-                        </th>
-                        <th>
-                          <a href="javascript:;">Job</a>
-                        </th>
-                        <th>
-                          <a href="javascript:;">Name</a>
-                        </th>
-                        <th>
-                          <a href="javascript:;">{{'fastsearch.global.country' | translate}}</a>
-                        </th>
-                        <th style="text-align: center;">
-                          <a href="javascript:;">Document No</a>
-                        </th>
-                        <th style="text-align: center;">
-                          <a href="javascript:;">{{'fastsearch.global.action' | translate}}</a>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr ng-repeat="x in items">
-                        <td  style="width:10%;"  class="table-title">
-                          <a href="javascript:;">{{formatDate(x.created)}}</a>
-                        </td>
-                        <td  style="width:25%;"  class="table-title">
-                          <a href="javascript:;">{{x.job_en}}</a>
-                        </td>
-                        <td style="width:25%;" class="table-title">
-                          {{x.name}}
-                        </td>
-                        <td style="width:5%;" class="table-desc"> {{x.country}} </td>
-                        <td style="width:5%;" class="table-download">
-                          {{x.doc_no}}
-                        </td>
-                        <td style="text-align: center; width:5%;" class="table-status">
-                          <a href="#/travelertracker/travelertracker.html" ng-click="viewReq(x.doc_no,x.country);">
-                            <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>{{'fastsearch.global.view' | translate}}</button>
-                          </a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="search-pagination">
-                  <ul class="pagination">
-                    <li >
-                      <button ng-click="previous()" class="btn btn-primary previousBtn" ><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
-                    </li>
-                    <li class="page-active">
-                      <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
+          <div class="col-md-12">
+            <div class="search-table">
+              <table class="table table-bordered table-striped table-condensed">
+                <thead class="bg-table-gray">
+                  <tr>
+                    <th>
+                      <a href="javascript:;">Date</a>
+                    </th>
+                    <th>
+                      <a href="javascript:;">Job</a>
+                    </th>
+                    <th>
+                      <a href="javascript:;">Name</a>
+                    </th>
+                    <th>
+                      <a href="javascript:;">{{'fastsearch.global.country' | translate}}</a>
+                    </th>
+                    <th style="text-align: center;">
+                      <a href="javascript:;">Document No</a>
+                    </th>
+                    <th style="text-align: center;">
+                      <a href="javascript:;">{{'fastsearch.global.action' | translate}}</a>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="x in items">
+                    <td style="width:10%;" class="table-title">
+                      <a href="javascript:;">{{formatDate(x.created)}}</a>
+                    </td>
+                    <td style="width:25%;" class="table-title">
+                      <a href="javascript:;">{{x.job_en}}</a>
+                    </td>
+                    <td style="width:25%;" class="table-title">
+                      {{x.name}}
+                    </td>
+                    <td style="width:5%;" class="table-desc"> {{x.country}} </td>
+                    <td style="width:5%;" class="table-download">
+                      {{x.doc_no}}
+                    </td>
+                    <td style="text-align: center; width:5%;" class="table-status">
+                      <a href="#/travelertracker/travelertracker.html" ng-click="viewReq(x.doc_no,x.country);">
+                        <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>{{'fastsearch.global.view' | translate}}</button>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="search-pagination">
+              <ul class="pagination">
+                <li>
+                  <button ng-click="previous()" class="btn btn-primary previousBtn"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+                </li>
+                <li class="page-active">
+                  <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+                </li>
+              </ul>
             </div>
           </div>
-          <div class="search-page search-content-4" ng-if="showCitizen">
-            <div class="row">
-              <div class="col-md-12">
-                <div   class="search-table">
-                  <table class="table table-bordered table-striped table-condensed">
-                    <thead class="bg-table-gray">
-                      <tr>
-                        <th>
-                          <a href="javascript:;">Date</a>
-                        </th>
-                        <th>
-                          <a href="javascript:;">Branch</a>
-                        </th>
-                        <th>
-                          <a href="javascript:;">Name</a>
-                        </th>
-                        <th>
-                          <a href="javascript:;">Doc Type</a>
-                        </th>
-                        <th style="text-align: center;">
-                          <a href="javascript:;">Document No</a>
-                        </th>
-                        <th style="text-align: center;">
-                          <a href="javascript:;">{{'fastsearch.global.action' | translate}}</a>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr ng-repeat="x in items">
-                        <td  style="width:10%;"  class="table-title">
-                          <a href="javascript:;">{{formatDate(x.xit_date)}}</a>
-                        </td>
-                        <td  style="width:25%;"  class="table-title">
-                          <a href="javascript:;">{{x.branch}}</a>
-                        </td>
-                        <td style="width:25%;" class="table-title">
-                          {{x.name}}
-                        </td>
-                        <td style="width:25%;"  class="table-desc"> {{x.doc_type}} </td>
-                        <td style="width:10%;"class="table-download">
-                          {{x.doc_no}}
-                        </td>
-                        <td style="text-align: center; width:5%;" class="table-status">
-                          <a href="#/travelertracker/travelertracker.html" ng-click="viewCitizen(x.doc_no);">
-                            <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>{{'fastsearch.global.view' | translate}}</button>
-                          </a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="search-pagination">
-                  <ul class="pagination">
-                    <li >
-                      <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="start==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
-                    </li>
-                    <li class="page-active">
-                      <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
-                    </li>
-                  </ul>
-                </div>
-                <div class="pageNum">( {{start}} / {{applicationsFound}} )</div>
+
+        </div>
+      </div>
+      <div class="search-page search-content-4" ng-if="showCitizen">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="search-table">
+              <table class="table table-bordered table-striped table-condensed">
+                <thead class="bg-table-gray">
+                  <tr>
+                    <th>
+                      <a href="javascript:;">Date</a>
+                    </th>
+                    <th>
+                      <a href="javascript:;">Branch</a>
+                    </th>
+                    <th>
+                      <a href="javascript:;">Name</a>
+                    </th>
+                    <th>
+                      <a href="javascript:;">Doc Type</a>
+                    </th>
+                    <th style="text-align: center;">
+                      <a href="javascript:;">Document No</a>
+                    </th>
+                    <th style="text-align: center;">
+                      <a href="javascript:;">{{'fastsearch.global.action' | translate}}</a>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="x in items">
+                    <td style="width:10%;" class="table-title">
+                      <a href="javascript:;">{{formatDate(x.xit_date)}}</a>
+                    </td>
+                    <td style="width:25%;" class="table-title">
+                      <a href="javascript:;">{{x.branch}}</a>
+                    </td>
+                    <td style="width:25%;" class="table-title">
+                      {{x.name}}
+                    </td>
+                    <td style="width:25%;" class="table-desc"> {{x.doc_type}} </td>
+                    <td style="width:10%;" class="table-download">
+                      {{x.doc_no}}
+                    </td>
+                    <td style="text-align: center; width:5%;" class="table-status">
+                      <a href="#/travelertracker/travelertracker.html" ng-click="viewCitizen(x.doc_no);">
+                        <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>{{'fastsearch.global.view' | translate}}</button>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+            <div class="search-pagination">
+              <ul class="pagination">
+                <li>
+                  <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="start==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+                </li>
+                <li class="page-active">
+                  <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+                </li>
+              </ul>
+            </div>
+            <div class="pageNum">( {{start}} / {{applicationsFound}} )</div>
           </div>
         </div>
-        <div class="search-page search-content-4" ng-if="showCitizen">
-          <div class="row">
+      </div>
+      <div class="search-page search-content-4" ng-if="showCitizen">
+        <div class="row">
 
-                <div class="col-md-12">
-                  <div   class="search-table">
-                    <table class="table table-bordered table-striped table-condensed">
-                      <thead class="bg-table-gray">
-                        <tr>
-                          <th>
-                            <a href="javascript:;">Date</a>
-                          </th>
-                          <th>
-                            <a href="javascript:;">Branch</a>
-                          </th>
-                          <th>
-                            <a href="javascript:;">Name</a>
-                          </th>
-                          <th>
-                            <a href="javascript:;">Doc Type</a>
-                          </th>
-                          <th style="text-align: center;">
-                            <a href="javascript:;">Document No</a>
-                          </th>
-                          <th style="text-align: center;">
-                            <a href="javascript:;">{{'fastsearch.global.action' | translate}}</a>
-                          </th>
-                        </tr>
-                      </thead>
+          <div class="col-md-12">
+            <div class="search-table">
+              <table class="table table-bordered table-striped table-condensed">
+                <thead class="bg-table-gray">
+                  <tr>
+                    <th>
+                      <a href="javascript:;">Date</a>
+                    </th>
+                    <th>
+                      <a href="javascript:;">Branch</a>
+                    </th>
+                    <th>
+                      <a href="javascript:;">Name</a>
+                    </th>
+                    <th>
+                      <a href="javascript:;">Doc Type</a>
+                    </th>
+                    <th style="text-align: center;">
+                      <a href="javascript:;">Document No</a>
+                    </th>
+                    <th style="text-align: center;">
+                      <a href="javascript:;">{{'fastsearch.global.action' | translate}}</a>
+                    </th>
+                  </tr>
+                </thead>
 
-                      <tbody>
-                        <tr ng-repeat="x in items">
-                          <td  style="width:10%;"  class="table-title">
-                            <a href="javascript:;">{{formatDate(x.xit_date)}}</a>
-                          </td>
-                          <td  style="width:25%;"  class="table-title">
-                            <a href="javascript:;">{{x.branch}}</a>
-                          </td>
-                          <td style="width:25%;" class="table-title">
-                            {{x.name}}
-                          </td>
-                          <td style="width:15%;" class="table-desc"> {{x.doc_type}} </td>
-                          <td class="table-download">
-                            {{x.doc_no}}
-                          </td>
-                          <td style="text-align: left; width:5%;" class="table-status">
-                            <a href="#/travelertracker/travelertracker.html" ng-click="viewCitizen(x.doc_no);">
-                              <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>{{'fastsearch.global.view' | translate}}</button>
-                            </a>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <div class="search-pagination">
-                    <ul class="pagination">
-                      <li >
-                        <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="start==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
-                      </li>
-                      <li class="page-active">
-                        <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="pageNum">( {{start}} / {{applicationsFound}} )</div>
-                </div>
+                <tbody>
+                  <tr ng-repeat="x in items">
+                    <td style="width:10%;" class="table-title">
+                      <a href="javascript:;">{{formatDate(x.xit_date)}}</a>
+                    </td>
+                    <td style="width:25%;" class="table-title">
+                      <a href="javascript:;">{{x.branch}}</a>
+                    </td>
+                    <td style="width:25%;" class="table-title">
+                      {{x.name}}
+                    </td>
+                    <td style="width:15%;" class="table-desc"> {{x.doc_type}} </td>
+                    <td class="table-download">
+                      {{x.doc_no}}
+                    </td>
+                    <td style="text-align: left; width:5%;" class="table-status">
+                      <a href="#/travelertracker/travelertracker.html" ng-click="viewCitizen(x.doc_no);">
+                        <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>{{'fastsearch.global.view' | translate}}</button>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+
+            <div class="search-pagination">
+              <ul class="pagination">
+                <li>
+                  <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="start==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+                </li>
+                <li class="page-active">
+                  <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+                </li>
+              </ul>
+            </div>
+            <div class="pageNum">( {{start}} / {{applicationsFound}} )</div>
           </div>
-          <div class="search-page search-content-4" ng-if="showVisitor">
-              <div class="row">
-  
-        <div class="col-md-12">
-         <div   class="search-table">
-           <table class="table table-bordered table-striped table-condensed">
-             <thead class="bg-table-gray">
-               <tr>
-                <th>
-                   <a href="javascript:;">Date</a>
-                 </th>
-                 <th>
-                   <a href="javascript:;">Branch</a>
-                 </th>
-                 <th>
-                   <a href="javascript:;">Name</a>
-                 </th>
-                 <th>
-                   <a href="javascript:;">{{'fastsearch.global.country' | translate}}</a>
-                 </th>
-                 <th style="text-align: center;">
-                   <a href="javascript:;">Document No</a>
-                 </th>
-                 <th style="text-align: left;">
-                   <a href="javascript:;">{{'fastsearch.global.action' | translate}}</a>
-                 </th>
-               </tr>
-             </thead>
-             <tbody>
+        </div>
+      </div>
+      <div class="search-page search-content-4" ng-if="showVisitor">
+        <div class="row">
+
+          <div class="col-md-12">
+            <div class="search-table">
+              <table class="table table-bordered table-striped table-condensed">
+                <thead class="bg-table-gray">
+                  <tr>
+                    <th>
+                      <a href="javascript:;">Date</a>
+                    </th>
+                    <th>
+                      <a href="javascript:;">Branch</a>
+                    </th>
+                    <th>
+                      <a href="javascript:;">Name</a>
+                    </th>
+                    <th>
+                      <a href="javascript:;">{{'fastsearch.global.country' | translate}}</a>
+                    </th>
+                    <th style="text-align: center;">
+                      <a href="javascript:;">Document No</a>
+                    </th>
+                    <th style="text-align: left;">
+                      <a href="javascript:;">{{'fastsearch.global.action' | translate}}</a>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
 
 
-               <tr ng-repeat="x in items">
-                <td  style="width:10%;"  class="table-title">
-                   <a href="javascript:;">{{formatDate(x.xit_date)}}</a>
-                 </td>
-                 <td  style="width:15%;"  class="table-title">
-                   <a href="javascript:;">{{x.branch}}</a>
-                 </td>
-                 <td class="table-title">
-                  {{x.name}}
-                </td>
-                <td style="width:5%;" class="table-desc"> {{x.country}} </td>
-                <td class="table-download">
-                  {{x.doc_no}}
-                </td>
-                <td style="text-align: left; width:5%;" class="table-status">
-                 <a href="#/travelertracker/travelertracker.html" ng-click="viewReq(x.doc_no,x.country);">
-                   <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>{{'fastsearch.global.view' | translate}}</button>
-                 </a>
-               </td>
-             </tr>
+                  <tr ng-repeat="x in items">
+                    <td style="width:10%;" class="table-title">
+                      <a href="javascript:;">{{formatDate(x.xit_date)}}</a>
+                    </td>
+                    <td style="width:15%;" class="table-title">
+                      <a href="javascript:;">{{x.branch}}</a>
+                    </td>
+                    <td class="table-title">
+                      {{x.name}}
+                    </td>
+                    <td style="width:5%;" class="table-desc"> {{x.country}} </td>
+                    <td class="table-download">
+                      {{x.doc_no}}
+                    </td>
+                    <td style="text-align: left; width:5%;" class="table-status">
+                      <a href="#/travelertracker/travelertracker.html" ng-click="viewReq(x.doc_no,x.country);">
+                        <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>{{'fastsearch.global.view' | translate}}</button>
+                      </a>
+                    </td>
+                  </tr>
 
-     </tbody>
-         </table>
+                </tbody>
+              </table>
 
-       </div>
-       <div class="search-pagination">
-         <ul class="pagination">
-           <li >
-             <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="start==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
-           </li>
-           <li class="page-active">
-             <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
-           </li>
+            </div>
+            <div class="search-pagination">
+              <ul class="pagination">
+                <li>
+                  <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="start==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+                </li>
+                <li class="page-active">
+                  <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+                </li>
 
-         </ul>
-       </div>
-       <div class="pageNum">( {{start}} / {{applicationsFound}} )</div>
-     </div>
-   </div>
- </div>
+              </ul>
+            </div>
+            <div class="pageNum">( {{start}} / {{applicationsFound}} )</div>
+          </div>
+        </div>
+      </div>
 
+    </div>
+  </div>
 </div>

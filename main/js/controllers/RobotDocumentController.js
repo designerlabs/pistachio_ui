@@ -5,26 +5,34 @@ MetronicApp.controller('RobotDocumentController', function ($rootScope, $scope, 
 
 
         var fileArr = [];
+        var count = 0;
         var extraObj = $("#fileuploader").uploadFile({
-            url: globalURL + "api/pistachio/upload?user=",
+            //url: globalURL + "api/pistachio/upload?user=",
             fileName: "myfile",
-            acceptFiles: ".pdf, .csv, .doc, .docx",
+            acceptFiles: ".pdf, .csv, .doc, .docx, .ppt, .html, image/*",
             autoSubmit: false,
             uploadStr: 'Browse',
-            returnType:"json",
-            showDelete: true,
+            cancelStr: '<i class="fa fa-times"></i>',
+            doneStr: '<i class="fa fa-check"></i>',
+            showProgress: true,
+            showDone:true,
+            //returnType:"json",
+            //showDelete: true,
             onSelect: function(files){
                 $scope.abb = {};
                 $scope.abb.name = files;
                 fileArr.push($scope.abb.name);
+                $("#cancelbutton").removeClass('hide');
+                $("#removebutton").addClass('hide');
+                
             },
             onSubmit: function (files) {
-               var uploadUrl = globalURL + "api/pistachio/upload?user=";
-                
-               for(var i=0; i < fileArr.length; i++){
-                   fileUpload.uploadFileToUrl(fileArr[i][0], uploadUrl);
-               }
-                return false;
+                var uploadUrl = globalURL + "api/pistachio/upload?user=";
+                fileUpload.uploadFileToUrl(fileArr[0][count], uploadUrl);
+                count++;
+                $('#cancelbutton').addClass('hide');
+                $("#removebutton").removeClass('hide');
+               //return false;
             }
 
         });
@@ -32,6 +40,18 @@ MetronicApp.controller('RobotDocumentController', function ($rootScope, $scope, 
         $scope.uploadFile = function () {
             extraObj.startUpload();
 
+        };
+
+        $scope.cancelAll = function (){
+            extraObj.cancelAll();
+            $('#cancelbutton').addClass('hide');
+            $('#removebutton').addClass('hide');
+        };
+
+        $scope.removeAll = function (){
+            extraObj.reset();
+            $('#removebutton').addClass('hide');
+            $('#cancelbutton').addClass('hide');
         };
 
 
