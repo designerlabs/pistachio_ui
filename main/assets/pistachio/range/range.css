@@ -18,6 +18,18 @@
   margin: 0;
   display: inline-block !important;
 }
+
+.range_fullscreen{
+    z-index: 2147483647;
+    position: absolute;
+    left: 0px;
+    padding: 10px;
+    width: 50%;
+    bottom: 40px;
+    background: #90b3b3;
+    margin: 20px;
+    box-shadow: #6e9898 4px 6px 15px 0px;
+}
 .range-slider__range::-webkit-slider-thumb {
   -webkit-appearance: none;
           appearance: none;

@@ -20,6 +20,10 @@
   box-shadow: none;
   border: 1px solid #eeeeee;
 }
+.mini-box{
+    height: 400px;
+    overflow: auto;
+}
 
 .option-box > .col-md-3 {
     padding: 0px 10px;
@@ -136,6 +140,8 @@ li.list-group-item:after {
   top: 24px;
   left: 200px;
 }
+
+
 
 
 .uib .selected {

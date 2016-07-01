@@ -8,7 +8,7 @@
             <span class="input-group-btn btn-grp-padding">
               <button class="btn green-soft uppercase bold" ng-click="search(search.text)" type="button"><i class="fa fa-search"></i>{{'fastsearch.global.search' | translate}}</button>
               <button class="btn btn-icon-only green" ng-click="reset()" type="button"><i class="fa fa-refresh"></i> </button>
-              <button class="btn btn-icon-only" ng-click="options()" type="button"><i class="fa fa-gear"></i> </button>
+              <button class="btn btn-icon-only" ng-disabled="!showApplication && !showVisitor"  ng-click="options()" type="button"><i class="fa fa-gear"></i> </button>
             </span>
           </div>
         </div>

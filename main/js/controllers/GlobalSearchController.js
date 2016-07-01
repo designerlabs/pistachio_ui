@@ -20,6 +20,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
       $scope.start = 0;
       $scope.users = 0;
       $scope.text = "";
+      $scope.fullscreen = false;
       $scope.go();
     }
     else {
@@ -96,10 +97,19 @@ $scope.$on('mapClick', function(event, e) {
 });
 
   $scope.drawHeatMap = function () {
-    var map = L.map("mapid").setView([4, 100], 7);
+    var map = L.map("mapid",{fullscreenControl: true}).setView([4, 100], 7);
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; NSL | Mimos'
     }).addTo(map);
+
+
+    map.on('fullscreenchange', function () {
+    if (map.isFullscreen()) {
+       $(".range-slider").addClass("range_fullscreen");
+    } else {
+        $(".range-slider").removeClass("range_fullscreen");
+    }
+});
 
 
     var clickCircle, clickMarker;
@@ -122,11 +132,14 @@ $scope.$on('mapClick', function(event, e) {
         color: 'red',
         fillColor: '#f03',
         fillOpacity: 0.5
-       }).addTo(map);
-      // L.popup().setLatLng(e.latlng)
-      //   .setContent('<p><code>clicked location</code> is ' + e.latlng)
-      //   .openOn(map);
-      //};
+      }).addTo(map);
+      //L.popup().setLatLng(e.latlng)
+      //  .setContent('<p><code>clicked location</code> is ' + e.latlng)
+      //  .openOn(map);
+         
+        
+       
+      };
 
       $scope.triggerFunc(20000);
     });
@@ -225,7 +238,9 @@ $scope.$on('mapClick', function(event, e) {
 
     //#geosearch
     if($scope.clicked) {
-      filter_query = filter_query + " AND {!geofilt sfield=loc}&pt="+$scope.latVal+","+$scope.lngVal+"&d=+"+$scope.kilom;
+       if (filter_query.length > 1)
+        filter_query = filter_query + " AND "
+      filter_query = filter_query + "{!geofilt sfield=loc}";
       console.log(filter_query);
     }
 
@@ -233,6 +248,12 @@ $scope.$on('mapClick', function(event, e) {
     return filter_query
   }
 
+ $scope.spatialSearch = function() {
+   if($scope.clicked)
+    return "&pt="+$scope.latVal+","+$scope.lngVal+"&d=+"+$scope.kilom
+   else
+    return ""
+ }
 
   $scope.jobBox = function (id) {
     var index = selected_jobs.indexOf(id);    // <-- Not supported in <IE9
@@ -359,6 +380,7 @@ $scope.$on('mapClick', function(event, e) {
     $scope.showApplication = false;
     $scope.showVisitor = false;
     $scope.showCitizen = false;
+    $scope.fullscreen = false
     $scope.go();
   };
 
@@ -382,12 +404,12 @@ $scope.$on('mapClick', function(event, e) {
 
   $scope.viewReq = function (docno, cntry) {
     cntry = cntry.replace(/ /g, "*");
-    window.location = "#/travelertracker/travelertracker.html?doc_no=" + docnos + "&country=" + cntry + "";
+    window.location = "#/travelertracker/travelertracker.html?doc_nos=" + docno + "&country=" + cntry + "";
   };
 
   $scope.viewCitizen = function (docno) {
 
-    window.location = "#/travelertracker/travelertracker.html?doc_no=" + docnos + "&citizen=true";
+    window.location = "#/travelertracker/travelertracker.html?doc_nos=" + docno + "&citizen=true";
   };
 
 
@@ -482,11 +504,12 @@ $scope.$on('mapClick', function(event, e) {
     json.facet.country = {};
     json.facet.country.type = "terms";
     json.facet.country.field = "country";
+    json.facet.country.limit = 20;
     json.facet.job = {};
     json.facet.job.type = "terms";
     json.facet.job.field = "job_bm";
     // json.facet.country.domain = "{excludeTags:COLOR}"
-    $http.get(sq + JSON.stringify(json)).
+    $http.get(sq + JSON.stringify(json)+$scope.spatialSearch()).
       success(function (data) {
         if (data.response.numFound == 0) {
           $scope.showApplication = false;
