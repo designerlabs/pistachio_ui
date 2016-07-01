@@ -42,22 +42,22 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
   var lowzoom = 7;
   var initzoom;
 
-  var rangeSlider = function () { 
-    var slider = $('.range-slider'), 
-        range = $('.range-slider__range'), 
-        value = $('.range-slider__value'); 
-        slider.each(function () { 
-        value.each(function () { 
+  var rangeSlider = function () {
+    var slider = $('.range-slider'),
+        range = $('.range-slider__range'),
+        value = $('.range-slider__value');
+        slider.each(function () {
+        value.each(function () {
           var value = $(this).prev().attr('value');
-          $(this).html(value+" KM"); 
+          $(this).html(value+" KM");
         });
         range.on('input', function () {
           $(this).next(value).html(this.value+" KM");
           $rootScope.triggerFunc(this.value+"000");
 
-        }); 
-    }); 
-  }; 
+        });
+    });
+  };
   rangeSlider();
   // don't forget to include leaflet-heatmap.js
 
@@ -98,7 +98,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
         .setContent('<p><code>clicked location</code> is ' + e.latlng)
         .openOn(map);
       };
-      
+
       $scope.triggerFunc(20000);
     });
 
@@ -164,74 +164,41 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
 
 
 
-
-
-  $scope.updateFilterQuery = function () {
-    filter_query = "&fq=";
-    var arrayLength = selected_countries.length;
-    for (var i = 0; i < arrayLength; i++) {
-      if (i == 0)
-        filter_query = filter_query + "ctry_issue:" + selected_countries[i];
-      else {
-        filter_query = filter_query + " OR ctry_issue:" + selected_countries[i];
-      }
-
-    }
-    arrayLength = selected_jobs.length;
-    job_filter = "&fq=";
-    for (var i = 0; i < arrayLength; i++) {
-      if (i == 0)
-        filter_query = filter_query + "job_bm:'" + selected_jobs[i] + "'";
-      else {
-        filter_query = filter_query + " OR job_bm:'" + selected_jobs[i] + "'";
-      }
-
-    }
-    return filter_query + job_filter
-  }
-
   $scope.updateFilterQuery_Country = function () {
     var filter_query = "";
     var arrayLength = selected_countries.length;
-    if (arrayLength == 0) return "";
-    filter_query = "country:( "
-    for (var i = 0; i < arrayLength; i++) {
-      filter_query = filter_query + selected_countries[i];
+    if (arrayLength > 0) {
+      filter_query = "country:( "
+      for (var i = 0; i < arrayLength; i++) {
+        filter_query = filter_query + selected_countries[i];
 
-      if (i != arrayLength - 1)
-        filter_query = filter_query + ","
+        if (i != arrayLength - 1)
+          filter_query = filter_query + " "
 
+      }
+      filter_query = filter_query + ')'
     }
+
     arrayLength = selected_jobs.length;
-    if (arrayLength == 0) return filter_query + ")"
-    if (arrayLength > 0 && filter_query.length > 1)
-      filter_query = filter_query + ") AND job_bm:("
-    for (var i = 0; i < arrayLength; i++) {
-      filter_query = filter_query +"'"+  selected_jobs[i]+"'";
+    if (arrayLength > 0) {
+      if (filter_query.length > 1)
+        filter_query = filter_query + " AND "
+      filter_query = filter_query + "job_bm:("
+      for (var i = 0; i < arrayLength; i++) {
+        filter_query = filter_query +"\""+  selected_jobs[i]+"\"";
 
-      if (i != arrayLength - 1)
-        filter_query = filter_query + ","
+        if (i != arrayLength - 1)
+          filter_query = filter_query + " "
+      }
+      filter_query = filter_query + ")"
     }
 
-    return filter_query + ")"
-  }
-
-  $scope.checkboxselected = function (id) {
-    var index = selected_countries.indexOf(id);    // <-- Not supported in <IE9
-    if (index !== -1) {
-      selected_countries.splice(index, 1);
+    #geosearch
+    if($scope.clicked) {
+      filter_query = filter_query + " AND {!geofilt sfield=loc}&pt=1.881,103.3957&d=+20"
     }
-    else {
-      selected_countries.push(id);
-    }
-    console.log(selected_countries);
-    $scope.start = 0;
-    //  alert($scope.text);
 
-    var search_text = $scope.text;
-    $scope.updateFilterQuery();
-    $scope.showApplications();
-
+    return filter_query
   }
 
 
@@ -383,12 +350,12 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
 
   $scope.viewReq = function (docno, cntry) {
     cntry = cntry.replace(/ /g, "*");
-    window.location = "#/travelertracker/travelertracker.html?doc_no=" + docno + "&country=" + cntry + "";
+    window.location = "#/travelertracker/travelertracker.html?doc_no=" + docnos + "&country=" + cntry + "";
   };
 
   $scope.viewCitizen = function (docno) {
 
-    window.location = "#/travelertracker/travelertracker.html?doc_no=" + docno + "&citizen=true";
+    window.location = "#/travelertracker/travelertracker.html?doc_no=" + docnos + "&citizen=true";
   };
 
 

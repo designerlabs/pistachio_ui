@@ -57,7 +57,7 @@
            #mapid {  width:100%; height: 250px; }
           </style>
           <div  id="mapid"></div>
-          
+
           <div class="range-slider">
             <h4>Select radius by Kilometer</h4>
             <input class="range-slider__range" type="range" value="20" min="1" max="50">
@@ -230,74 +230,6 @@
                 </tbody>
               </table>
             </div>
-            <div class="search-pagination">
-              <ul class="pagination">
-                <li>
-                  <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="start==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
-                </li>
-                <li class="page-active">
-                  <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
-                </li>
-              </ul>
-            </div>
-            <div class="pageNum">( {{start}} / {{applicationsFound}} )</div>
-          </div>
-        </div>
-      </div>
-      <div class="search-page search-content-4" ng-if="showCitizen">
-        <div class="row">
-
-          <div class="col-md-12">
-            <div class="search-table">
-              <table class="table table-bordered table-striped table-condensed">
-                <thead class="bg-table-gray">
-                  <tr>
-                    <th>
-                      <a href="javascript:;">Date</a>
-                    </th>
-                    <th>
-                      <a href="javascript:;">Branch</a>
-                    </th>
-                    <th>
-                      <a href="javascript:;">Name</a>
-                    </th>
-                    <th>
-                      <a href="javascript:;">Doc Type</a>
-                    </th>
-                    <th style="text-align: center;">
-                      <a href="javascript:;">Document No</a>
-                    </th>
-                    <th style="text-align: center;">
-                      <a href="javascript:;">{{'fastsearch.global.action' | translate}}</a>
-                    </th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <tr ng-repeat="x in items">
-                    <td style="width:10%;" class="table-title">
-                      <a href="javascript:;">{{formatDate(x.xit_date)}}</a>
-                    </td>
-                    <td style="width:25%;" class="table-title">
-                      <a href="javascript:;">{{x.branch}}</a>
-                    </td>
-                    <td style="width:25%;" class="table-title">
-                      {{x.name}}
-                    </td>
-                    <td style="width:15%;" class="table-desc"> {{x.doc_type}} </td>
-                    <td class="table-download">
-                      {{x.doc_no}}
-                    </td>
-                    <td style="text-align: left; width:5%;" class="table-status">
-                      <a href="#/travelertracker/travelertracker.html" ng-click="viewCitizen(x.doc_no);">
-                        <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>{{'fastsearch.global.view' | translate}}</button>
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
             <div class="search-pagination">
               <ul class="pagination">
                 <li>
