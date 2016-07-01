@@ -90,6 +90,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
 $scope.$on('mapClick', function(event, e) {
   $scope.clicked = true 
   $scope.latVal = e.latlng.lat; $scope.lngVal = e.latlng.lng;
+  $(".range-slider__range").val('20');
   $scope.kilom = $(".range-slider__range").val();
   $scope.show();
 });
