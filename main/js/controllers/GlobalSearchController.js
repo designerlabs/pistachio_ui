@@ -122,14 +122,11 @@ $scope.$on('mapClick', function(event, e) {
         color: 'red',
         fillColor: '#f03',
         fillOpacity: 0.5
-      }).addTo(map);
-      L.popup().setLatLng(e.latlng)
-        .setContent('<p><code>clicked location</code> is ' + e.latlng)
-        .openOn(map);
-         
-        
-       
-      };
+       }).addTo(map);
+      // L.popup().setLatLng(e.latlng)
+      //   .setContent('<p><code>clicked location</code> is ' + e.latlng)
+      //   .openOn(map);
+      //};
 
       $scope.triggerFunc(20000);
     });
