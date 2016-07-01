@@ -32,7 +32,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
       new L.SolrHeatmapLayer('http://'+solrHost+':8983/solr/immigration2', {
          field: 'loc',
          query: {q:"job_en:Maid"},
-         colors: ['A34800','234800', 'ff0000']
+         colors: ['feb24c','de2d26', 'ff0000']
       }).addTo(map);
     }
 
