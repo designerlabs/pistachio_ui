@@ -6,9 +6,20 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http) 
     });
 
     var margin = { top: 50, right: 0, bottom: 100, left: 30 };
+    var wWidth = window.innerWidth;
+    var auditChartWidth = '300';
+    var auditBarHeight = 10.5;
+    if(wWidth > 1040){
+      auditChartWidth = '300';
+      auditBarHeight = 10.5;
+    }else{
+      auditChartWidth = '50';
+      auditBarHeight = 13;
+    }
 
-    var width = document.getElementById('chart').offsetWidth - margin.left - margin.right + 120 ;
-    var height = (width*9/24 ) - margin.top - margin.bottom;
+
+    var width = document.getElementById('chart').offsetWidth - margin.left - margin.right-auditChartWidth;
+    var height = (width*auditBarHeight/24 ) - margin.top - margin.bottom;
     var gridSize = Math.floor(width / 24);
     var legendElementWidth = gridSize*2,
     buckets = 9,
@@ -120,6 +131,6 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http) 
 
             $rootScope.settings.layout.pageSidebarClosed = true;
             $rootScope.skipTitle = false;
-            $rootScope.settings.layout.setTitle("My Audit Analysis ");
+            $rootScope.settings.layout.setTitle("auditanalysis");
 
 })
