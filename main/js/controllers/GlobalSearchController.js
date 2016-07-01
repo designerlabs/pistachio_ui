@@ -33,6 +33,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
 
     }
     $scope.drawHeatMap();
+
   });
 
   var bigmapheight = 650;
@@ -41,6 +42,14 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
   var highzoom = 8;
   var lowzoom = 7;
   var initzoom;
+
+
+  $scope.triggerMap = function(){
+    $scope.clicked= true;
+    //$scope.showVisitor = true;
+    $scope.show();
+  };
+
 
   var rangeSlider = function () {
     var slider = $('.range-slider'),
@@ -52,12 +61,17 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
           $(this).html(value+" KM");
         });
         range.on('input', function () {
+          $scope.kilom = this.value;
+          $scope.clicked= true;
+          $scope.show();
+
           $(this).next(value).html(this.value+" KM");
           $rootScope.triggerFunc(this.value+"000");
 
         });
     });
   };
+
   rangeSlider();
   // don't forget to include leaflet-heatmap.js
 
@@ -72,22 +86,36 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     //popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 });
 
+
+$scope.$on('mapClick', function(event, e) {
+  $scope.clicked = true 
+  $scope.latVal = e.latlng.lat; $scope.lngVal = e.latlng.lng;
+  $scope.kilom = $(".range-slider__range").val();
+  $scope.show();
+});
+
   $scope.drawHeatMap = function () {
     var map = L.map("mapid").setView([4, 100], 7);
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; NSL | Mimos'
     }).addTo(map);
 
+
     var clickCircle, clickMarker;
     map.on('singleclick', function (e) {
+      $scope.$broadcast('mapClick', e);
       $(".range-slider__range").val('20');
       $(".range-slider__value").text('20 KM');
-      console.log('singleclick', e);
+
       $rootScope.triggerFunc = function(km){
+    
+        $scope.triggerMap();  
         if ($scope.clickCircle != undefined) {
         map.removeLayer($scope.clickCircle);
         map.removeLayer(clickMarker);
       };
+      
+ 
       clickMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
       $scope.clickCircle = L.circle([e.latlng.lat, e.latlng.lng], km, {
         color: 'red',
@@ -97,6 +125,9 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
       L.popup().setLatLng(e.latlng)
         .setContent('<p><code>clicked location</code> is ' + e.latlng)
         .openOn(map);
+         
+        
+       
       };
 
       $scope.triggerFunc(20000);
@@ -165,6 +196,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
 
 
   $scope.updateFilterQuery_Country = function () {
+    //alert('sdf');
     var filter_query = "";
     var arrayLength = selected_countries.length;
     if (arrayLength > 0) {
@@ -193,10 +225,12 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
       filter_query = filter_query + ")"
     }
 
-    #geosearch
+    //#geosearch
     if($scope.clicked) {
-      filter_query = filter_query + " AND {!geofilt sfield=loc}&pt=1.881,103.3957&d=+20"
+      filter_query = filter_query + " AND {!geofilt sfield=loc}&pt="+$scope.latVal+","+$scope.lngVal+"&d=+"+$scope.kilom;
+      console.log(filter_query);
     }
+
 
     return filter_query
   }
@@ -475,6 +509,9 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
       });
 
   }
+
+  
+
 
 
   $scope.$on('$locationChangeStart', function (event) {
