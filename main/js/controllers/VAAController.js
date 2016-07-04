@@ -41,7 +41,8 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
           },
           opens : "right",
           "alwaysShowCalendars": true,
-          showDropdowns: true
+          showDropdowns: true,
+          minDate : moment("20100101", "YYYYMMDD")
 
       }, cb);
 
@@ -65,7 +66,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
       if(fq.length < 3) {
         fq = "*:*"
       }
-      $scope.map = L.map("map").setView([4, 100], 7);
+      $scope.map = L.map("map",{fullscreenControl: true}).setView([4, 100], 7);
       L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; NSL | Mimos'
       }).addTo($scope.map);
@@ -133,6 +134,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
 
 
     $scope.reset = function(){
+      $scope.radioValue = "Overall"
       $scope.cntName = "";
       $scope.cntCode = "";
       $scope.cJobs = "";
@@ -157,88 +159,6 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
 
     }
 
-    $scope.loadMap = function(){
-     if($scope.analysiType != 'overall')
-      return;
-        var dataset = {};
-    // We need to colorize every country based on "numberOfWhatever"
-    // colors should be uniq for every value.
-    // For this purpose we create palette(using min/max series-value)
-    var onlyValues = $scope.countries.map(function(obj){ return obj["count"]; });
-    var minValue = Math.min.apply(null, onlyValues),
-            maxValue = Math.max.apply(null, onlyValues);
-    // create color palette function
-    // color can be whatever you wish
-    var paletteScale = d3.scale.linear()
-            .domain([minValue,maxValue])
-          //  .range(["#AFEFFF","#C2386F"]); // blue color
-          .range(["#E0F8E0","green"]); // blue color
-    // fill dataset in appropriate format
-    //$scope.countries.forEach(function(item){ //
-    //  alert("before");
-     // alert("from map" +$scope.countries.length);
-      var index;
-      for (index = $scope.countries.length - 1; index >= 0; --index) {
-         var iso = $scope.countries[index]["val"],
-                value = $scope.countries[index]["count"];
-               // alert(iso);
-        dataset[iso] = { numberOfThings: value, fillColor: paletteScale(value) };
-        //console.log(dataset[iso]);
-      };
-
-        $scope.mapObject = {
-        scope: 'world',
-        responsive: true,
-       // projection : 'mercator',
-        height: null,
-        width: null,
-        options : {legend : true},
-        fills: {
-            defaultFill: "#FBFAEA" //any hex, color name or rgb/rgba value
-        },
-        geographyConfig: {
-          highlighBorderColor: '#EAA9A8',
-          highlighBorderWidth: 2,
-          popupTemplate: function(geo, data) {
-                // don't show tooltip if country don't present in dataset
-                if (!data) { return ; }
-                // tooltip content
-                return ['<div class="hoverinfo">',
-                    '<strong>', geo.properties.name, '</strong>',
-                    '<br>Count: <strong>', data.numberOfThings, '</strong>',
-                    '</div>'].join('');
-            }
-        },
-        data: dataset,
-        highlightFillColor: function(geo) {
-                return geo['fillColor'] || '#F5F5F5';
-            },
-            // only change border
-            highlightBorderColor: '#C7C7B7'
-            // show desired information in tooltip
-
-
-
-        }
-        $scope.mapPlugins = {
-  bubbles: null,
-  customLegend: function(layer, data, options) {
-    var html = ['<ul class="list-inline">'],
-        label = '';
-    for (var fillKey in this.options.fills) {
-      html.push('<li class="key" ',
-                  'style="border-top: 10px solid ' + this.options.fills[fillKey] + '">',
-                  fillKey,
-                  '</li>');
-    }
-    html.push('</ul>');
-    d3.select(this.options.element).append('div')
-      .attr('class', 'datamaps-legend')
-      .html(html.join(''));
-  }
-};
-
-       }
 
         $scope.decopule2List = function(data,index) {
           if(index == 0)
@@ -293,6 +213,15 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
         data = data.replace(/\)/g,"\\\)");
           data = data.replace(/ /g,"*");
           return(data);
+       }
+
+       $scope.clickActive = function () {
+         if($scope.radioValue == 'Active')
+          $scope.addFilter("act","Active Visa/Pass","vend:[" +moment().format('YYYYMMDD')+" TO *]");
+         else {
+           $scope.updateFilter("act",false)
+         }
+         $scope.querySolr();
        }
 
        $scope.clickEmply = function(data) {
