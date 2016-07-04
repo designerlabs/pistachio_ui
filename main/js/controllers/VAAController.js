@@ -15,9 +15,50 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
         var getUser = localStorage.getItem("username");
 
         $scope.reset();
+        $scope.date_range();
 
 
     });
+    function cb(start, end) {
+      $('#vaa-range span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    }
+
+    $scope.date_range = function() {
+
+      cb(moment("20100101", "YYYYMMDD"), moment());
+
+      $('#vaa-range').daterangepicker({
+          ranges: {
+             'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+             '2016': [moment("20160101", "YYYYMMDD"), moment()],
+             '2015': [moment("20150101", "YYYYMMDD"), moment("20151231", "YYYYMMDD")],
+             '2014': [moment("20140101", "YYYYMMDD"), moment("20141231", "YYYYMMDD")],
+             '2013': [moment("20130101", "YYYYMMDD"), moment("20131231", "YYYYMMDD")],
+             '2012': [moment("20120101", "YYYYMMDD"), moment("20121231", "YYYYMMDD")],
+             '2011': [moment("20110101", "YYYYMMDD"), moment("20111231", "YYYYMMDD")],
+             '2010': [moment("20100101", "YYYYMMDD"), moment("20101231", "YYYYMMDD")]
+
+          },
+          opens : "right",
+          "alwaysShowCalendars": true,
+          showDropdowns: true
+
+      }, cb);
+
+      $('#vaa-range').on('apply.daterangepicker', function(ev, picker) {
+          $('#daterange').val('');
+          console.log($scope.filterButtons)
+          var range = '[ '+ moment(picker.startDate).format('YYYY-MM-DDT00:00:00')+'Z TO '+moment(picker.endDate).format('YYYY-MM-DDT00:00:00')+'Z ]'
+
+          var display = "[ "+ moment(picker.startDate).format('DD-MM-YYYY') +" TO "+ moment(picker.endDate).format('DD-MM-YYYY')+" ]";
+          $scope.time_filtered_max = moment(picker.endDate).format('YYYY-MM-DDT00:00:00')+'Z';
+          $scope.time_filtered_min = moment(picker.startDate).format('YYYY-MM-DDT00:00:00')+'Z'
+              $scope.addFilter("tim","Time :"+display,"created:"+range);
+
+              $scope.querySolr();
+      });
+
+    }
 
     $scope.drawHeatMap = function() {
       var fq = $scope.filterQuery();
@@ -110,7 +151,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
          $scope.dateRange = {};
          $scope.dateRange.min = "2010-01-01T00:00:00Z"
          $scope.dateRange.max = "2016-01-01T00:00:00Z"
-
+         cb(moment("20100101", "YYYYMMDD"), moment());
          //$scope.analysiType = 'overall';
         $scope.querySolr();
 
@@ -274,6 +315,11 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
         $scope.querySolr();
        }
 
+       $scope.clickCity = function(data) {
+        $scope.addFilter("cit","City :"+data,"city:"+$scope.cleanQuery(data));
+        $scope.querySolr();
+       }
+
        $scope.clickJobs = function(data) {
         $scope.addFilter("job","Job : "+data,"job_en:"+$scope.cleanQuery(data));
         $scope.querySolr();
@@ -383,12 +429,20 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
             json.facet.emp = {};
             json.facet.emp.type   = "terms";
             json.facet.emp.field  =  "employer";
+            json.facet.state = {};
+            json.facet.state.type   = "terms";
+            json.facet.state.field  =  "state";
+            json.facet.city = {};
+            json.facet.city.type   = "terms";
+            json.facet.city.field  =  "city";
             json.facet.skill = {};
             json.facet.skill.type   = "terms";
             json.facet.skill.field  =  "skill";
             json.facet.uJob  =  "unique(job_en)";
             json.facet.uEmp  =  "unique(employer)";
             json.facet.uVis  =  "unique(pass_type)";
+            json.facet.uSta  =  "unique(state)";
+            json.facet.uCity  =  "unique(city)";
 
 
             json.facet.date_range = {};
@@ -417,6 +471,8 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
                    $scope.employers = data.facets.emp.buckets
                    $scope.visas = data.facets.pass.buckets
                    $scope.skill = data.facets.skill.buckets
+                   $scope.states = data.facets.state.buckets
+                   $scope.cities = data.facets.city.buckets
                    var sex = data.facets.sex.buckets;
                    var i;
                    for(i = 0; i < sex.length; i++){
@@ -431,6 +487,9 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
                    $scope.uJob = data.facets.uJob;
                    $scope.uEmp = data.facets.uEmp;
                    $scope.uVis = data.facets.uVis;
+                   $scope.uSta = data.facets.uSta;
+                   $scope.uCity = data.facets.uCity;
+
                    //alert(data.facet_counts.facet_fields.sex.length);
                    console.log($scope.sex1);
                    $scope.pie();
