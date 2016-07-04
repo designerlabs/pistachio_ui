@@ -5,37 +5,37 @@
     <div class="tiles">
 
         <div ng-repeat="x in names">
-            <div class='tile double bounceIn image {{x.color}}' ng-click='go(x.url)' data-category='{{x.queryCategory}}'>
+            <div ng-if='x.ext' class='tile double bounceIn image {{x.color}}' ng-click='go(x.url)' data-category='{{x.queryCategory}}'>
                 <div class="tile-body">
 
-										<div class="tile-body">
-											<i class="fa {{x.icon}} "></i>
+                    <div class="tile-body">
+                        <i class="fa {{x.icon}} "></i>
 
 
-                </div>
-                <div class="tile-object">
-                    <div class="name">
-											<h4 style="line-height:20px;">{{x.title}}</h4>
+                    </div>
+                    <div class="tile-object">
+                        <div class="name">
+                            <h4 style="line-height:20px;">{{x.title}}</h4>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div id="iframeContainer" ng-style="{height: iframeHeight + 'px'} " style="line-height: 0;display:none; position: absolute; top: 20px; width: 95%; background: #FFFFFF;">
+            <span id="iframeCloseBtn"><i class="fa fa-times" style="font-size:25px;"></i></span>
+            <iframe src="" width="100%" height="100%" allowtransparency="true" frameborder="0"></iframe>
+        </div>
+        <!-- END DASHBOARD STATS -->
+
     </div>
-    <div id="iframeContainer" ng-style="{height: iframeHeight + 'px'} "  style="line-height: 0;display:none; position: absolute; top: 20px; width: 95%; background: #FFFFFF;" >
-    <span id="iframeCloseBtn"><i class="fa fa-times" style="font-size:25px;"></i></span>
-        <iframe src="" width="100%" height="100%" allowtransparency="true" frameborder="0"></iframe>
-    </div>
-    <!-- END DASHBOARD STATS -->
-
-</div>
 
 
-<!-- END MAIN CONTENT -->
-<!-- BEGIN MAIN JS & CSS -->
-<script>
+    <!-- END MAIN CONTENT -->
+    <!-- BEGIN MAIN JS & CSS -->
+    <script>
 Index.init();
 Tasks.initDashboardWidget();
 </script>
 
 
-<!-- BEGIN MAIN JS & CSS -->
+    <!-- BEGIN MAIN JS & CSS -->
