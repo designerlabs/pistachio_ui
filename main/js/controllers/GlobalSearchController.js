@@ -20,6 +20,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
       $scope.start = 0;
       $scope.users = 0;
       $scope.text = "";
+      $scope.fullscreen = false;
       $scope.go();
     }
     else {
@@ -33,6 +34,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
 
     }
     $scope.drawHeatMap();
+
   });
 
   var bigmapheight = 650;
@@ -42,22 +44,35 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
   var lowzoom = 7;
   var initzoom;
 
-  var rangeSlider = function () { 
-    var slider = $('.range-slider'), 
-        range = $('.range-slider__range'), 
-        value = $('.range-slider__value'); 
-        slider.each(function () { 
-        value.each(function () { 
+
+  $scope.triggerMap = function(){
+    $scope.clicked= true;
+    //$scope.showVisitor = true;
+    $scope.show();
+  };
+
+
+  var rangeSlider = function () {
+    var slider = $('.range-slider'),
+        range = $('.range-slider__range'),
+        value = $('.range-slider__value');
+        slider.each(function () {
+        value.each(function () {
           var value = $(this).prev().attr('value');
-          $(this).html(value+" KM"); 
+          $(this).html(value+" KM");
         });
         range.on('input', function () {
+          $scope.kilom = this.value;
+          $scope.clicked= true;
+          $scope.show();
+
           $(this).next(value).html(this.value+" KM");
           $rootScope.triggerFunc(this.value+"000");
 
-        }); 
-    }); 
-  }; 
+        });
+    });
+  };
+
   rangeSlider();
   // don't forget to include leaflet-heatmap.js
 
@@ -72,33 +87,60 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     //popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 });
 
+
+$scope.$on('mapClick', function(event, e) {
+  $scope.clicked = true 
+  $scope.latVal = e.latlng.lat; $scope.lngVal = e.latlng.lng;
+  $(".range-slider__range").val('20');
+  $scope.kilom = $(".range-slider__range").val();
+  $scope.show();
+});
+
   $scope.drawHeatMap = function () {
-    var map = L.map("mapid").setView([4, 100], 7);
+    var map = L.map("mapid",{fullscreenControl: true}).setView([4, 100], 7);
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; NSL | Mimos'
     }).addTo(map);
 
+
+    map.on('fullscreenchange', function () {
+    if (map.isFullscreen()) {
+       $(".range-slider").addClass("range_fullscreen");
+    } else {
+        $(".range-slider").removeClass("range_fullscreen");
+    }
+});
+
+
     var clickCircle, clickMarker;
     map.on('singleclick', function (e) {
+      $scope.$broadcast('mapClick', e);
       $(".range-slider__range").val('20');
       $(".range-slider__value").text('20 KM');
-      console.log('singleclick', e);
+
       $rootScope.triggerFunc = function(km){
+    
+        $scope.triggerMap();  
         if ($scope.clickCircle != undefined) {
         map.removeLayer($scope.clickCircle);
         map.removeLayer(clickMarker);
       };
+      
+ 
       clickMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
       $scope.clickCircle = L.circle([e.latlng.lat, e.latlng.lng], km, {
         color: 'red',
         fillColor: '#f03',
         fillOpacity: 0.5
       }).addTo(map);
-      L.popup().setLatLng(e.latlng)
-        .setContent('<p><code>clicked location</code> is ' + e.latlng)
-        .openOn(map);
+      //L.popup().setLatLng(e.latlng)
+      //  .setContent('<p><code>clicked location</code> is ' + e.latlng)
+      //  .openOn(map);
+         
+        
+       
       };
-      
+
       $scope.triggerFunc(20000);
     });
 
@@ -164,76 +206,54 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
 
 
 
-
-
-  $scope.updateFilterQuery = function () {
-    filter_query = "&fq=";
-    var arrayLength = selected_countries.length;
-    for (var i = 0; i < arrayLength; i++) {
-      if (i == 0)
-        filter_query = filter_query + "ctry_issue:" + selected_countries[i];
-      else {
-        filter_query = filter_query + " OR ctry_issue:" + selected_countries[i];
-      }
-
-    }
-    arrayLength = selected_jobs.length;
-    job_filter = "&fq=";
-    for (var i = 0; i < arrayLength; i++) {
-      if (i == 0)
-        filter_query = filter_query + "job_bm:'" + selected_jobs[i] + "'";
-      else {
-        filter_query = filter_query + " OR job_bm:'" + selected_jobs[i] + "'";
-      }
-
-    }
-    return filter_query + job_filter
-  }
-
   $scope.updateFilterQuery_Country = function () {
+    //alert('sdf');
     var filter_query = "";
     var arrayLength = selected_countries.length;
-    if (arrayLength == 0) return "";
-    filter_query = "country:( "
-    for (var i = 0; i < arrayLength; i++) {
-      filter_query = filter_query + selected_countries[i];
+    if (arrayLength > 0) {
+      filter_query = "country:( "
+      for (var i = 0; i < arrayLength; i++) {
+        filter_query = filter_query + selected_countries[i];
 
-      if (i != arrayLength - 1)
-        filter_query = filter_query + ","
+        if (i != arrayLength - 1)
+          filter_query = filter_query + " "
 
+      }
+      filter_query = filter_query + ')'
     }
+
     arrayLength = selected_jobs.length;
-    if (arrayLength == 0) return filter_query + ")"
-    if (arrayLength > 0 && filter_query.length > 1)
-      filter_query = filter_query + ") AND job_bm:("
-    for (var i = 0; i < arrayLength; i++) {
-      filter_query = filter_query +"'"+  selected_jobs[i]+"'";
+    if (arrayLength > 0) {
+      if (filter_query.length > 1)
+        filter_query = filter_query + " AND "
+      filter_query = filter_query + "job_bm:("
+      for (var i = 0; i < arrayLength; i++) {
+        filter_query = filter_query +"\""+  selected_jobs[i]+"\"";
 
-      if (i != arrayLength - 1)
-        filter_query = filter_query + ","
+        if (i != arrayLength - 1)
+          filter_query = filter_query + " "
+      }
+      filter_query = filter_query + ")"
     }
 
-    return filter_query + ")"
+    //#geosearch
+    if($scope.clicked) {
+       if (filter_query.length > 1)
+        filter_query = filter_query + " AND "
+      filter_query = filter_query + "{!geofilt sfield=loc}";
+      console.log(filter_query);
+    }
+
+
+    return filter_query
   }
 
-  $scope.checkboxselected = function (id) {
-    var index = selected_countries.indexOf(id);    // <-- Not supported in <IE9
-    if (index !== -1) {
-      selected_countries.splice(index, 1);
-    }
-    else {
-      selected_countries.push(id);
-    }
-    console.log(selected_countries);
-    $scope.start = 0;
-    //  alert($scope.text);
-
-    var search_text = $scope.text;
-    $scope.updateFilterQuery();
-    $scope.showApplications();
-
-  }
-
+ $scope.spatialSearch = function() {
+   if($scope.clicked)
+    return "&pt="+$scope.latVal+","+$scope.lngVal+"&d=+"+$scope.kilom
+   else
+    return ""
+ }
 
   $scope.jobBox = function (id) {
     var index = selected_jobs.indexOf(id);    // <-- Not supported in <IE9
@@ -360,6 +380,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     $scope.showApplication = false;
     $scope.showVisitor = false;
     $scope.showCitizen = false;
+    $scope.fullscreen = false
     $scope.go();
   };
 
@@ -383,12 +404,12 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
 
   $scope.viewReq = function (docno, cntry) {
     cntry = cntry.replace(/ /g, "*");
-    window.location = "#/travelertracker/travelertracker.html?doc_no=" + docno + "&country=" + cntry + "";
+    window.location = "#/travelertracker/travelertracker.html?doc_nos=" + docno + "&country=" + cntry + "";
   };
 
   $scope.viewCitizen = function (docno) {
 
-    window.location = "#/travelertracker/travelertracker.html?doc_no=" + docno + "&citizen=true";
+    window.location = "#/travelertracker/travelertracker.html?doc_nos=" + docno + "&citizen=true";
   };
 
 
@@ -483,11 +504,12 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     json.facet.country = {};
     json.facet.country.type = "terms";
     json.facet.country.field = "country";
+    json.facet.country.limit = 20;
     json.facet.job = {};
     json.facet.job.type = "terms";
     json.facet.job.field = "job_bm";
     // json.facet.country.domain = "{excludeTags:COLOR}"
-    $http.get(sq + JSON.stringify(json)).
+    $http.get(sq + JSON.stringify(json)+$scope.spatialSearch()).
       success(function (data) {
         if (data.response.numFound == 0) {
           $scope.showApplication = false;
@@ -508,6 +530,9 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
       });
 
   }
+
+  
+
 
 
   $scope.$on('$locationChangeStart', function (event) {

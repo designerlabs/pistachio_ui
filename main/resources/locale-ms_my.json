@@ -83,6 +83,7 @@
 	"audit.status" : "Status",
 
 	"audit.notes" : "Notes",
+	"auditanalysis.title":"My Audit Analysis",
 
 	"session.endmessage" :"Anda akan log di dalam",
 	"session.endmessageinsec": "saat",
