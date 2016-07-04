@@ -13,6 +13,7 @@ MetronicApp.controller('DashboardController', function($rootScope, $scope, $http
        });
 
 
+
     	$scope.go = function(data){
 
             $("#iframeContainer").show();
@@ -24,6 +25,10 @@ MetronicApp.controller('DashboardController', function($rootScope, $scope, $http
             //$scope.message = sharedService.categoryId;
 
     	};
+
+
+    
+
 
         $("#iframeCloseBtn").click(function(){
             $("#iframeContainer").hide();
