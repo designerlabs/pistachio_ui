@@ -5,7 +5,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http) 
     $scope.$on('$viewContentLoaded', function() {
     });
 
-    var margin = { top: 50, right: 0, bottom: 100, left: 30 };
+    var margin = { top: 50, right: 0, bottom: 100, left: 70 };
     var wWidth = window.innerWidth;
     var auditChartWidth = '300';
     var auditBarHeight = 10.5;
@@ -25,8 +25,8 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http) 
     var legendElementWidth = gridSize*2,
     buckets = 9,
     colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"], // alternatively colorbrewer.YlGnBu[9]
-    days = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
-    times = ["1AM", "2AM", "3AM", "4AM", "5AM", "6a", "7a", "8a", "9a", "10a", "11a", "12a", "1p", "2p", "3p", "4p", "5p", "6p", "7p", "8p", "9p", "10p", "11p", "12p"];
+    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    times = ["1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7a", "8AM", "9AM", "10AM", "11AM", "12AM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM", "12PM"];
     ;
     var datasets = ["data.tsv", "data2.tsv"];
 

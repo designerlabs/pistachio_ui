@@ -15,25 +15,30 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
         var getUser = localStorage.getItem("username");
 
         $scope.reset();
-        $scope.drawHeatMap();
-    //    $scope.getDateLimits();
-    //    $scope.formStates();
-
-      //  $scope.loading = true;
 
 
     });
 
     $scope.drawHeatMap = function() {
-      var map = L.map("map").setView([4, 100], 7);
+      var fq = $scope.filterQuery();
+      if(fq.length < 3) {
+        fq = "*:*"
+      }
+      $scope.map = L.map("map").setView([4, 100], 7);
       L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; NSL | Mimos'
-      }).addTo(map);
+      }).addTo($scope.map);
       new L.SolrHeatmapLayer('http://'+solrHost+':8983/solr/immigration2', {
          field: 'loc',
-         query: {q:"job_en:Maid"},
+         query: {q:fq},
+         blur : 15,
+         opacity : .8,
          colors: ['feb24c','de2d26', 'ff0000']
-      }).addTo(map);
+      }).addTo($scope.map);
+    }
+
+    $scope.reDrawHeatMap = function () {
+      $scope.map.remove();
     }
 
     $scope.queryType = 'active';
@@ -108,6 +113,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
 
          //$scope.analysiType = 'overall';
         $scope.querySolr();
+
     }
 
     $scope.loadMap = function(){
@@ -445,6 +451,10 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
                  console.log('config : ' + JSON.stringify(config));
                  console.log('data : ' + data); //Being logged as null
                });
+
+               if( typeof $scope.map != 'undefined')
+                $scope.reDrawHeatMap();
+               $scope.drawHeatMap();
 
     };
 

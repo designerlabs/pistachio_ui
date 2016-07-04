@@ -24,7 +24,7 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
        showReportTemplate(response.login);
       });
 
-   
+
 
     function showReportTemplate(login){
         $http.get(globalURL+"jasperreport/query/"+login+"?start=0&rows=8")
@@ -32,7 +32,7 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
             $scope.rptcontent = response.data;
           });
      }
-    
+
     $scope.tabs = [{
             title: 'Profile',
             url: 'edit.profile.html'
@@ -43,7 +43,7 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
             title: 'Change Password',
             url: 'change.password.html'
     }];
-    
+
     $scope.downloadReport = function(id) {
         window.location.href = globalURL + 'download/jasper/' + id;
       }
@@ -55,12 +55,12 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
         if(tab.title == 'Profile'){
            $http.get(globalURL+'auth/user?token=' + getToken)
           .success(function(response) {
-            $('.edit-form [name=editname]').val(response.firstName);    
+            $('.edit-form [name=editname]').val(response.firstName);
             $('.edit-form [name=editemail]').val(response.email);
             $('.edit-form #userselLang').val((response.lang == "en") ? "en" : "my");
            });
         }
-        
+
         $("#messageView div").hide();
     }
 
@@ -69,18 +69,18 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
     }
 
     $scope.edit = function(){
-      $scope.noedit = false;
+       $scope.noedit = false;
        $http.get(globalURL+'auth/user?token=' + getToken)
       .success(function(response) {
-        $('.edit-form [name=editname]').val(response.firstName);    
+        $('.edit-form [name=editname]').val(response.firstName);
         $('.edit-form [name=editemail]').val(response.email);
         $('.edit-form #userselLang').val((response.lang == "en") ? "en" : "my");
        });
     };
     $rootScope.editSaveChanges = function(){
-      var firstnameValue = $('.edit-form input[name=editname]').val();      
+      var firstnameValue = $('.edit-form input[name=editname]').val();
       var emailValue = $('.edit-form input[name=editemail]').val();
-      var userlangValue = $('.edit-form #userselLang').val(); 
+      var userlangValue = $('.edit-form #userselLang').val();
       $.ajax({
               url: globalURL + 'user',
               contentType: "application/json",
@@ -97,14 +97,14 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
                   "login": "null",
                   "password": "null",
                   "lang": userlangValue,
-                  "id": userId           
+                  "id": userId
               }),
           }).done(function (data) {
               console.log("successfully Saved Profile informations");
-              $("#messageView div span").html("Successfully Saved Profile informations");            
+              $("#messageView div span").html("Successfully Saved Profile informations");
               $("#messageView div").addClass('alert-success');
               $("#messageView div").show();
-          });       
+          });
     }
 
     $rootScope.OnChangePwd = function(){
@@ -113,15 +113,15 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
 
       $.get( globalURL + 'api/user/' + userId + '/change_password?opass='+ oldPsw +'&npass='+ newPsw, function( data ) {
         console.log("successfully Changed Password");
-        
+
       }).done(function() {
-        $("#messageView div span").html("Successfully Changed Password");            
+        $("#messageView div span").html("Successfully Changed Password");
         $("#messageView div").removeClass("alert-danger");
         $("#messageView div").addClass('alert-success');
         $("#messageView div").show();
       }).fail(function(data) {
-        $("#messageView div span").html(data.responseJSON.error);          
-        $("#messageView div").removeClass("alert-success");          
+        $("#messageView div span").html(data.responseJSON.error);
+        $("#messageView div").removeClass("alert-success");
         $("#messageView div").addClass('alert-danger');
         $("#messageView div").show();
   });
@@ -132,7 +132,7 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
        $scope.noedit =true;
       $http.get(globalURL+'auth/user?token=' + getToken)
      .success(function(response) {
-       $scope.setProfileInfo(response);      
+       $scope.setProfileInfo(response);
       });
     };
 
