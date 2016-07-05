@@ -64,24 +64,24 @@
                       <div class="row">
                         <div class="col-md-12">
                           <div class="portlet light ">
-                              <div class="portlet-body">
+                              <div class="portlet-body tabroles">
                                 <ul class="nav nav-tabs">
                                     <li class="active">
-                                        <a data-toggle="tab" data-target="#tab_Report" aria-expanded="expanded"> Report Permissions </a>
+                                        <a data-toggle="tab" class="tabRep" data-target="#tab_Report" aria-expanded="expanded"> Report Permissions </a>
                                     </li>
                                     <li class="">
-                                        <a data-toggle="tab" data-target="#tab_Dashboard" aria-expanded="expanded"> Dashboard Permissions </a>
+                                        <a data-toggle="tab" class="tabDashB" data-target="#tab_Dashboard" aria-expanded="expanded"> Dashboard Permissions </a>
                                     </li> 
                                     <li class="">
-                                        <a data-toggle="tab" data-target="#tab_Fastsearch" aria-expanded="expanded"> Fast Search Permissions </a>
+                                        <a data-toggle="tab" class="tabFS" data-target="#tab_Fastsearch" aria-expanded="expanded"> Fast Search Permissions </a>
                                     </li>   
                                     <li class="">
-                                        <a data-toggle="tab" data-target="#tab_Database" aria-expanded="expanded"> Database Permissions </a>
+                                        <a data-toggle="tab" class="tabDB" data-target="#tab_Database" aria-expanded="expanded"> Database Permissions </a>
                                     </li>                             
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane fade active in" id="tab_Report">
-                                     <div class="portlet-body  tab-content">
+                                     <div class="portlet-body  ">
                                         <div class="row">
                                             <div class="form-group col-md-6 col-xs-12 col-sm-12" style="float: left;">
                                              <label for="myParentSel" class="control-label">Parent Level Category Selection:</label>
@@ -114,7 +114,7 @@
                                       </div>  
                                     </div>
                                     <div class="tab-pane fade" id="tab_Dashboard">
-                                        <div class="portlet-body  tab-content">
+                                        <div class="portlet-body  ">
                                             <div class="row">
                                                 <div class="form-group col-md-6 col-xs-12 col-sm-12" style="float: left;">
                                                  <label for="myDashboardSel" class="control-label">Select Application to give access:</label>
@@ -124,16 +124,14 @@
                                                      <input type="checkbox" name="chkDashboard">
                                                  </div>
                                                  <br/> -->
-                                                  <select multiple="multiple" id="myDashboardSel">
-                                                    <option>Visa Application Analysis</option>
-                                                    <option>Tracking</option>
+                                                  <select multiple="multiple" id="myDashboardSel">   
                                                   </select>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="tab_Fastsearch">
-                                        <div class="portlet-body  tab-content">
+                                        <div class="portlet-body  ">
                                             <div class="row">
                                                 <div class="form-group col-md-6 col-xs-12 col-sm-12" style="float: left;">
                                                  <label for="myFastSearchSel" class="control-label">Select Application to give access:</label>
@@ -154,7 +152,7 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="tab_Database">
-                                        <div class="portlet-body  tab-content">
+                                        <div class="portlet-body  ">
                                             <div class="row">
                                                 <div class="form-group col-md-6 col-xs-12 col-sm-12" style="float: left;">
                                                  <label for="myDatabaseSel" class="control-label">Select Application to give access:</label>
@@ -237,8 +235,17 @@ $(function() {
         $("#roleMgtRequire").hide();
         $('#myDashboardSel option').remove();
         $('#myDashboardSel').multiSelect('refresh');      
+        // $('#myFastSearchSel option').remove();
+        $('#myFastSearchSel').multiSelect('refresh');
         $('#myDatabaseSel option').remove();
         $('#myDatabaseSel').multiSelect('refresh');
+
+        $('.nav-tabs li').removeClass('active');//remove opened tab
+        $('.nav-tabs .tabRep').parent().addClass('active'); //activate clicked tab
+        $(".tab-content").children().removeClass('active in'); //hide other tab contents
+        $('#tab_Report').addClass('active in'); //show relevant tab contents
+
+
 
         $.get( globalURL + "reportcat/", function( data ) {
         $.each(data, function (key, value) {
@@ -252,31 +259,37 @@ $(function() {
         $("#myParentSel").multiSelect('refresh');
       });
 
-
-    $.get( globalURL + "api/pistachio/secured/hadoop/db", function( data ) {
-        $.each(data, function (key, value) {
-            $('#myDatabaseSel').append(
-                $("<option></option>")
-                  .attr("value", value)
-                  .text(value)
-            );
-        });
-        $("#myDatabaseSel").multiSelect('refresh');
-    });
-
-    $.get( globalURL + "pistachio/dashboard", function( data ) {
-            $.each(data, function (key, value) {
-                $('#myDashboardSel').append(
-                    $("<option></option>")
-                      .attr("value", value.title)
-                      .text(value.title)
-                );
-            });
-            $("#myDashboardSel").multiSelect('refresh');
-    });
+        loaddb();
+        loadDashBoard();   
        
 
 });
+
+    function loaddb(){
+       $.get( globalURL + "api/pistachio/secured/hadoop/db", function( data ) {
+           $.each(data, function (key, value) {
+               $('#myDatabaseSel').append(
+                   $("<option></option>")
+                     .attr("value", value)
+                     .text(value)
+               );
+           });
+           $("#myDatabaseSel").multiSelect('refresh');
+       }); 
+    }
+        
+    function loadDashBoard(){
+        $.get( globalURL + "pistachio/dashboard", function( data ) {
+                $.each(data, function (key, value) {
+                    $('#myDashboardSel').append(
+                        $("<option></option>")
+                          .attr("value", value.title)
+                          .text(value.title)
+                    );
+                });
+                $("#myDashboardSel").multiSelect('refresh');
+        });
+    }
 
 $('#roleMgtAddForm').on('hidden.bs.modal', function () {
     triggerName = "";
