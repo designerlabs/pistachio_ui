@@ -9,17 +9,33 @@
     </div>
 </div>
 
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- The Close Button -->
+  <span class="closeBtn" onclick="document.getElementById('myModal').style.display='none'"><i class="fa fa-times"></i></span>
+
+  <!-- Modal Content (The Image) -->
+  <img class="modal-content" id="img01">
+
+  <!-- Modal Caption (Image Text) -->
+  <div id="caption"></div>
+</div>
+
+
+
 <div style="position: relative; z-index:9;">
     <div class="col-md-12" style="background: rgb(148, 187, 184); padding-top: 12px;">
         <!--width:85%;  style="position:fixed;"-->
-        <div class="col-md-2 col-xs-2 col-sm-2">
+        <div class="col-md-3 col-xs-4 col-sm-3 col-lg-2">
             <div class="invoice-logo">
                 <span class="loadimg" style="position: absolute; left: 14px; top: 75px;"><i class='fa fa-circle-o-notch fa-spin'></i> Loading image..</span>
-                <img width="180px" ng-src="{{imagetxt}}" style="border-radius:100px !important; box-shadow: #12524d 6px 6px 20px 0px;">
-
+                <div class="rad-circle" id="myImg" ng-style ="{'background-image': 'url(' + imagetxt + ')'}">
+                </div>
+ 
             </div>
         </div>
-        <div class="row invoice-cust-add col-md-10 col-xs-10 col-md-10" style="margin-bottom:0px;">
+        <div class="row invoice-cust-add col-md-9 col-lg-10 col-xs-8 col-sm-9" style="margin-bottom:0px;">
             <div class="col-md-10 col-sm-10 col-xs-10 form-group" style="padding-left:0px">
                 <small>NAME</small>
                 <div class="uppercase bold" style="font-size: 21px">
@@ -213,3 +229,31 @@ $('.options').click(function(e) {
 });
 // create a timeline with some data
 </script>
+
+
+<style>
+    
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (Image) */
+.modal-content {
+    margin: auto;
+    display: block;
+    width:20%;
+    max-width: 700px;
+}
+
+</style>
