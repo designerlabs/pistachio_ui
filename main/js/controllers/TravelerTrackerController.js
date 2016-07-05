@@ -13,7 +13,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
     $('.clkditem').hide();
     var chartvisadtls;
     $scope.dob = "";
-    $scope.imagetxt = "./assets/admin/layout2/img/avatar.png";
+    $scope.imagetxt = "./assets/admin/layout2/img/avatar3.png";
     $scope.citizen = false;
 
     $scope.$on('$viewContentLoaded', function() {
@@ -366,7 +366,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
             return false;
         });
 
-        var docno = Qparam.split('AND')[0].replace("doc_no:", "").trim();
+        var docno = Qparam.split('AND')[0].replace("doc_nos:", "").trim();
         $('.loadimg').show();
         $.get(globalURL + "api/image/docno/" + docno)
             .then(function(response) {
