@@ -950,11 +950,17 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     files: [
                         'assets/pages/scripts/angular-chart/angular-chart.css',
                         'assets/pages/scripts/datamaps/datamaps.world.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/moment.js',
+
                         'assets/pages/css/search.css',
                         'assets/pages/css/pricing.min.css',
                         'assets/pages/scripts/highstock.js',
                         'assets/pistachio/fastsearch/leaflet/leaflet_canvas_layer.js',
                         'assets/pistachio/fastsearch/leaflet/heatmap.js ',
+                        'assets/pistachio/map/Leaflet.fullscreen.min.js',
+                        'assets/pistachio/map/leaflet.fullscreen.css',
                         'js/controllers/VAAController.js'
                     ]
                 });
@@ -1199,7 +1205,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     files: [
                         'assets/pages/css/search.css',
                         'assets/pages/css/pricing.min.css',
-                     
+
 
                         'assets/pistachio/fastsearch/leaflet/leaflet_canvas_layer.js',
                         //'assets/pistachio/map/heatmap.min.js',
@@ -1208,7 +1214,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pistachio/map/singleclick.js',
                         'assets/pistachio/map/Leaflet.fullscreen.min.js',
                         'assets/pistachio/map/leaflet.fullscreen.css',
-                        
+
                         'js/controllers/GlobalSearchController.js',
                         'assets/pistachio/range/range.css',
                         'assets/pistachio/range/range.js'

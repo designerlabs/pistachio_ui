@@ -15,25 +15,72 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
         var getUser = localStorage.getItem("username");
 
         $scope.reset();
-        $scope.drawHeatMap();
-    //    $scope.getDateLimits();
-    //    $scope.formStates();
-
-      //  $scope.loading = true;
+        $scope.date_range();
 
 
     });
+    function cb(start, end) {
+      $('#vaa-range span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    }
+
+    $scope.date_range = function() {
+
+      cb(moment("20100101", "YYYYMMDD"), moment());
+
+      $('#vaa-range').daterangepicker({
+          ranges: {
+             'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+             '2016': [moment("20160101", "YYYYMMDD"), moment()],
+             '2015': [moment("20150101", "YYYYMMDD"), moment("20151231", "YYYYMMDD")],
+             '2014': [moment("20140101", "YYYYMMDD"), moment("20141231", "YYYYMMDD")],
+             '2013': [moment("20130101", "YYYYMMDD"), moment("20131231", "YYYYMMDD")],
+             '2012': [moment("20120101", "YYYYMMDD"), moment("20121231", "YYYYMMDD")],
+             '2011': [moment("20110101", "YYYYMMDD"), moment("20111231", "YYYYMMDD")],
+             '2010': [moment("20100101", "YYYYMMDD"), moment("20101231", "YYYYMMDD")]
+
+          },
+          opens : "right",
+          "alwaysShowCalendars": true,
+          showDropdowns: true,
+          minDate : moment("20100101", "YYYYMMDD")
+
+      }, cb);
+
+      $('#vaa-range').on('apply.daterangepicker', function(ev, picker) {
+          $('#daterange').val('');
+          console.log($scope.filterButtons)
+          var range = '[ '+ moment(picker.startDate).format('YYYY-MM-DDT00:00:00')+'Z TO '+moment(picker.endDate).format('YYYY-MM-DDT00:00:00')+'Z ]'
+
+          var display = "[ "+ moment(picker.startDate).format('DD-MM-YYYY') +" TO "+ moment(picker.endDate).format('DD-MM-YYYY')+" ]";
+          $scope.time_filtered_max = moment(picker.endDate).format('YYYY-MM-DDT00:00:00')+'Z';
+          $scope.time_filtered_min = moment(picker.startDate).format('YYYY-MM-DDT00:00:00')+'Z'
+              $scope.addFilter("tim","Time :"+display,"created:"+range);
+
+              $scope.querySolr();
+      });
+
+    }
 
     $scope.drawHeatMap = function() {
-      var map = L.map("map").setView([4, 100], 7);
+      var fq = $scope.filterQuery();
+      if(fq.length < 3) {
+        fq = "*:*"
+      }
+      $scope.map = L.map("map",{fullscreenControl: true}).setView([4, 100], 7);
       L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; NSL | Mimos'
-      }).addTo(map);
+      }).addTo($scope.map);
       new L.SolrHeatmapLayer('http://'+solrHost+':8983/solr/immigration2', {
          field: 'loc',
-         query: {q:"job_en:Maid"},
+         query: {q:fq},
+         blur : 15,
+         opacity : .8,
          colors: ['feb24c','de2d26', 'ff0000']
-      }).addTo(map);
+      }).addTo($scope.map);
+    }
+
+    $scope.reDrawHeatMap = function () {
+      $scope.map.remove();
     }
 
     $scope.queryType = 'active';
@@ -87,6 +134,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
 
 
     $scope.reset = function(){
+      $scope.radioValue = "Overall"
       $scope.cntName = "";
       $scope.cntCode = "";
       $scope.cJobs = "";
@@ -105,93 +153,12 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
          $scope.dateRange = {};
          $scope.dateRange.min = "2010-01-01T00:00:00Z"
          $scope.dateRange.max = "2016-01-01T00:00:00Z"
-
+         cb(moment("20100101", "YYYYMMDD"), moment());
          //$scope.analysiType = 'overall';
         $scope.querySolr();
+
     }
 
-    $scope.loadMap = function(){
-     if($scope.analysiType != 'overall')
-      return;
-        var dataset = {};
-    // We need to colorize every country based on "numberOfWhatever"
-    // colors should be uniq for every value.
-    // For this purpose we create palette(using min/max series-value)
-    var onlyValues = $scope.countries.map(function(obj){ return obj["count"]; });
-    var minValue = Math.min.apply(null, onlyValues),
-            maxValue = Math.max.apply(null, onlyValues);
-    // create color palette function
-    // color can be whatever you wish
-    var paletteScale = d3.scale.linear()
-            .domain([minValue,maxValue])
-          //  .range(["#AFEFFF","#C2386F"]); // blue color
-          .range(["#E0F8E0","green"]); // blue color
-    // fill dataset in appropriate format
-    //$scope.countries.forEach(function(item){ //
-    //  alert("before");
-     // alert("from map" +$scope.countries.length);
-      var index;
-      for (index = $scope.countries.length - 1; index >= 0; --index) {
-         var iso = $scope.countries[index]["val"],
-                value = $scope.countries[index]["count"];
-               // alert(iso);
-        dataset[iso] = { numberOfThings: value, fillColor: paletteScale(value) };
-        //console.log(dataset[iso]);
-      };
-
-        $scope.mapObject = {
-        scope: 'world',
-        responsive: true,
-       // projection : 'mercator',
-        height: null,
-        width: null,
-        options : {legend : true},
-        fills: {
-            defaultFill: "#FBFAEA" //any hex, color name or rgb/rgba value
-        },
-        geographyConfig: {
-          highlighBorderColor: '#EAA9A8',
-          highlighBorderWidth: 2,
-          popupTemplate: function(geo, data) {
-                // don't show tooltip if country don't present in dataset
-                if (!data) { return ; }
-                // tooltip content
-                return ['<div class="hoverinfo">',
-                    '<strong>', geo.properties.name, '</strong>',
-                    '<br>Count: <strong>', data.numberOfThings, '</strong>',
-                    '</div>'].join('');
-            }
-        },
-        data: dataset,
-        highlightFillColor: function(geo) {
-                return geo['fillColor'] || '#F5F5F5';
-            },
-            // only change border
-            highlightBorderColor: '#C7C7B7'
-            // show desired information in tooltip
-
-
-
-        }
-        $scope.mapPlugins = {
-  bubbles: null,
-  customLegend: function(layer, data, options) {
-    var html = ['<ul class="list-inline">'],
-        label = '';
-    for (var fillKey in this.options.fills) {
-      html.push('<li class="key" ',
-                  'style="border-top: 10px solid ' + this.options.fills[fillKey] + '">',
-                  fillKey,
-                  '</li>');
-    }
-    html.push('</ul>');
-    d3.select(this.options.element).append('div')
-      .attr('class', 'datamaps-legend')
-      .html(html.join(''));
-  }
-};
-
-       }
 
         $scope.decopule2List = function(data,index) {
           if(index == 0)
@@ -248,6 +215,15 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
           return(data);
        }
 
+       $scope.clickActive = function () {
+         if($scope.radioValue == 'Active')
+          $scope.addFilter("act","Active Visa/Pass","vend:[" +moment().format('YYYYMMDD')+" TO *]");
+         else {
+           $scope.updateFilter("act",false)
+         }
+         $scope.querySolr();
+       }
+
        $scope.clickEmply = function(data) {
         $scope.addFilter("emp","Employer :"+data,"employer:"+$scope.cleanQuery(data));
         $scope.querySolr();
@@ -265,6 +241,11 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
 
        $scope.clickState = function(data) {
         $scope.addFilter("sta","Negeri :"+data,"state:"+$scope.cleanQuery(data));
+        $scope.querySolr();
+       }
+
+       $scope.clickCity = function(data) {
+        $scope.addFilter("cit","City :"+data,"city:"+$scope.cleanQuery(data));
         $scope.querySolr();
        }
 
@@ -377,12 +358,20 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
             json.facet.emp = {};
             json.facet.emp.type   = "terms";
             json.facet.emp.field  =  "employer";
+            json.facet.state = {};
+            json.facet.state.type   = "terms";
+            json.facet.state.field  =  "state";
+            json.facet.city = {};
+            json.facet.city.type   = "terms";
+            json.facet.city.field  =  "city";
             json.facet.skill = {};
             json.facet.skill.type   = "terms";
             json.facet.skill.field  =  "skill";
             json.facet.uJob  =  "unique(job_en)";
             json.facet.uEmp  =  "unique(employer)";
             json.facet.uVis  =  "unique(pass_type)";
+            json.facet.uSta  =  "unique(state)";
+            json.facet.uCity  =  "unique(city)";
 
 
             json.facet.date_range = {};
@@ -411,6 +400,8 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
                    $scope.employers = data.facets.emp.buckets
                    $scope.visas = data.facets.pass.buckets
                    $scope.skill = data.facets.skill.buckets
+                   $scope.states = data.facets.state.buckets
+                   $scope.cities = data.facets.city.buckets
                    var sex = data.facets.sex.buckets;
                    var i;
                    for(i = 0; i < sex.length; i++){
@@ -425,6 +416,9 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
                    $scope.uJob = data.facets.uJob;
                    $scope.uEmp = data.facets.uEmp;
                    $scope.uVis = data.facets.uVis;
+                   $scope.uSta = data.facets.uSta;
+                   $scope.uCity = data.facets.uCity;
+
                    //alert(data.facet_counts.facet_fields.sex.length);
                    console.log($scope.sex1);
                    $scope.pie();
@@ -445,6 +439,10 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
                  console.log('config : ' + JSON.stringify(config));
                  console.log('data : ' + data); //Being logged as null
                });
+
+               if( typeof $scope.map != 'undefined')
+                $scope.reDrawHeatMap();
+               $scope.drawHeatMap();
 
     };
 

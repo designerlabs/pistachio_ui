@@ -36,7 +36,47 @@
                                     <h4 class="list-title">Filter</h4>
                                 </div>
                             </div>
+
                             <div class="mt-list-container list-simple ext-1 group">
+                              <a class="list-toggle-container" data-toggle="collapse" data-target="#active" aria-expanded="false">
+                                  <div class="list-toggle done uppercase col-md-12 col-sm-12 col-xs-12"> {{radioValue}}
+
+                                  </div>
+                              </a>
+                              <div style="" aria-expanded="false" ng-class="{{db_clicked}}" class="panel-collapse collapsed collapse" id="active">
+                                <div class="form-group form-md-radios" >
+                                    <div class="md-radio-list">
+                                  <ul>
+
+
+                                              <li class="mt-list-item  col-md-12 col-sm-12 col-xs-12" >
+                                                <div class="md-radio">
+                                                    <input type="radio" id="radio1" name="radio1" class="md-radiobtn" ng-model="radioValue" value="Overall" checked="true"
+                                                    ng-click="clickActive()"
+                                                    >
+                                                    <label for="radio1">
+                                                        <span class="inc"></span>
+                                                        <span class="check"></span>
+                                                        <span class="box"></span> Overall</label>
+                                                </div>
+                                              </li>
+                                              <li class="mt-list-item  col-md-12 col-sm-12 col-xs-12">
+                                                <div class="md-radio">
+                                                    <input type="radio" id="radio2" name="radio1" class="md-radiobtn" ng-model="radioValue" value="Active"
+                                                    ng-click="clickActive()"
+                                                    >
+                                                    <label for="radio2">
+                                                        <span class="inc"></span>
+                                                        <span class="check"></span>
+                                                        <span class="box"></span> Active</label>
+                                                </div>
+                                              </li>
+
+
+                                  </ul>
+                                </div>
+                            </div>
+                              </div>
                               <a class="list-toggle-container" data-toggle="collapse" data-target="#country" aria-expanded="false">
                                   <div class="list-toggle uppercase col-md-12 col-sm-12 col-xs-12"> Negara
                                       <!--  <span class="badge badge-default pull-right bg-white font-dark bold">{{uEmp}}</span>-->
@@ -105,7 +145,42 @@
                                         </li>
                                     </ul>
                                 </div>
+                                <a class="list-toggle-container" data-toggle="collapse" data-target="#state" aria-expanded="false">
+                                    <div class="list-toggle done uppercase col-md-12 col-sm-12 col-xs-12"> State
+                                        <span class="badge badge-default pull-right bg-white font-green bold">{{uSta}}</span>
+                                    </div>
+                                </a>
+                                <div style="" aria-expanded="false" ng-class="{{db_clicked}}" class="panel-collapse collapsed collapse" id="state">
+                                    <ul>
+                                        <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" style="padding-left:0px;" ng-repeat="cnt in states" ng-click="clickState(cnt.val)">
+                                            <div class="mt-list-title col-md-9 col-sm-9 col-xs-9" data-toggle="tooltip" title="{{cnt.val}}"> {{omitNa(cnt.val) |limitTo:25}}</div>
+                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count}} </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <a class="list-toggle-container" data-toggle="collapse" data-target="#city" aria-expanded="false">
+                                    <div class="list-toggle uppercase col-md-12 col-sm-12 col-xs-12"> City
+                                      <span class="badge badge-default pull-right bg-white font-green bold">{{uCity}}</span>
+                                        <!--  <span class="badge badge-default pull-right bg-white font-dark bold">{{uEmp}}</span>-->
+                                    </div>
+                                </a>
+                                <div style="" aria-expanded="false" class="panel-collapse collapsed collapse" id="city">
+                                    <ul>
+                                        <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" ng-repeat="cnt in cities" ng-click="clickCity(cnt.val)">
+                                            <div class="mt-list-title col-md-9 col-sm-9 col-xs-9" data-toggle="tooltip" title="{{cnt.val}}"> {{omitNa(cnt.val) |limitTo:25}}</div>
+                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count}} </div>
+                                        </li>
+                                    </ul>
+                                </div>
 
+                                  <div id="vaa-range" style="width: 100%;"
+                                    class="pull-right tooltips btn btn-fit-height green"
+                                    data-placement="top"
+                                    data-original-title="Change dashboard date range">
+                                      <i class="icon-calendar"></i>&nbsp;
+                                      <span class="thin uppercase hidden-xs">June 28, 2016 - July 4, 2016</span>&nbsp;
+                                      <i class="fa fa-angle-down"></i>
+                                  </div>
                             </div>
                         </div>
                     </div>
