@@ -15,6 +15,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
     $scope.dob = "";
     $scope.imagetxt = "./assets/admin/layout2/img/avatar3.png";
     $scope.citizen = false;
+    $scope.hideMisMatchTab = true;
 
     $scope.$on('$viewContentLoaded', function() {
         Metronic.initAjax(); // initialize core components
@@ -289,6 +290,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
             var timeline = new vis.Timeline(container, newitems, options);
             if (wrg.length >= 1) {
                 // $('.MismatchArea').show();
+                $scope.hideMisMatchTab = false;
                 $scope.MisMatchCnt = wrg.length;
                 $('#tblMisMatch').DataTable({
                     data: wrg,
@@ -296,7 +298,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                     columns: [{
                         "data": "ind",
                         "render": function(data, type, full, meta) {
-                            return (data == 'in' ? 'Entry' : 'Exit');
+                            return (data == 'in' ? 'Exit' : 'Entry');// both in == Exit is missing else Entry is missing
                         }
                     }, {
                         "data": "start",
