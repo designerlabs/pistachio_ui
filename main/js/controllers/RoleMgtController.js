@@ -201,15 +201,9 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
         $('#roleMgtdata').on('click', 'button.updateBtn', function() {
           // $('#myParentSel').multiSelect('deselect_all');
            // $("#roleMgtForm")[0].reset();
-          $("#roleMgtAddFormHeader").html("Update Role");
-          $("#roleMgtAddForm").modal('show');
 
-          selectedroleMgt = roleMgts.row($(this).parents('tr')).data();
-          //selectedroleMgtName = selectedroleMgt.name;
-          $("#roleMgtAddForm #roleMgtUISubmit").addClass('hide');
-          $("#roleMgtAddForm #roleMgtUIUpdate").removeClass('hide');
-          $("#roleMgtForm #roleMgt-name").val(selectedroleMgt.name);
 
+          
         triggerName = "update";
         triggerDataTableName = "update";
         SubReportAry = [];
@@ -217,12 +211,16 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
           dtable
                .clear()
                .draw();
+        flag_fastsearch=[];
+        flag_dashboard=[];
+        flag_database=[];
             //$("#loader").css('height', $(".page-content").height() + 140 + 'px');
+            selectedroleMgt = roleMgts.row($(this).parents('tr')).data();
             $("#loader .page-spinner-bar").removeClass('hide');
 
             $("#loader").show();
             $("#roleMgtRequire").hide();
-           
+            $("#roleMgtForm")[0].reset();
             $('#myParentSel option').remove();;
             $('#myParentSel').multiSelect('refresh');
             $('#mySubParentSel optgroup').remove();
@@ -256,7 +254,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                   //$('#myParentSel').multiSelect('refresh');
                   var resultMain = data;
                   $.each(resultMain, function(k,v){
-                    $('#myParentSel').multiSelect('select', v);
+                    $('#myParentSel').multiSelect('select', v.name);
                   });
                     $('#myParentSel').multiSelect('refresh');
                        $("#loader").hide();
@@ -319,6 +317,16 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                 });
             });
 
+            $("#roleMgtAddFormHeader").html("Update Role");
+            $("#roleMgtAddForm").modal('show');
+
+            
+            //selectedroleMgtName = selectedroleMgt.name;
+            $("#roleMgtAddForm #roleMgtUISubmit").addClass('hide');
+            $("#roleMgtAddForm #roleMgtUIUpdate").removeClass('hide');
+            $("#roleMgtForm #roleMgt-name").val(selectedroleMgt.name);
+
+
             
 
 
@@ -331,6 +339,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
 
             var selAryUpdate=[];
             var selObjUpdate=[];
+           
              $('#myParentSel :selected').each(function(){
                  var selObjUpdate = {
                     name: $(this).val(),
