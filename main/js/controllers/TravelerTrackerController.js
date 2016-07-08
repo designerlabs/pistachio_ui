@@ -13,7 +13,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
     $('.clkditem').hide();
     var chartvisadtls;
     $scope.dob = "";
-    $scope.imagetxt = "./assets/admin/layout2/img/avatar2.png";
+    $scope.imagetxt = "./assets/admin/layout2/img/avatar3.png";
     $scope.citizen = false;
 
     $scope.$on('$viewContentLoaded', function() {
@@ -39,7 +39,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
         }
 
 
-
+     
 
         $scope.fn_getBasicInfo = function() { //mad_pas_typ_cd
 
@@ -376,6 +376,25 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                 if (response.statusText == "OK") {
                     $scope.imagetxt = "data:image/bmp;base64," + response.responseText;
                     $scope.$apply();
+                    var modal = document.getElementById('myModal');
+                    var img = document.getElementById('myImg');
+                    var modalImg = document.getElementById("img01");
+                    var captionText = document.getElementById("caption");
+                    img.onclick = function(){
+                        modal.style.display = "block";
+                        modalImg.src = $scope.imagetxt;
+                        //modalImg.alt;
+                        //captionText.innerHTML;
+                    
+                    }
+
+                    // Get the <span> element that closes the modal
+                    var span = document.getElementsByClassName("closeBtn")[0];
+
+                    // When the user clicks on <span> (x), close the modal
+                    span.onclick = function() { 
+                        modal.style.display = "none";
+                    }
                 }
                 $('.loadimg').hide();
             });
