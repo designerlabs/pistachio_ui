@@ -143,24 +143,24 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                         $scope.DOB(result.response.docs[0].birth_date)
                         $scope.fn_personalInfo(result.response.docs[0]);
 
-                        $('#tblinout').DataTable({
-                            data: result.response.docs,
-                            columns: [{
-                                    "data": "xit_date",
-                                    "render": function(data, type, full, meta) {
-                                        var strdt = data.toString().substr(0, 10) + " " + data.toString().substr(11, 8);
-                                        return strdt;
-                                    }
-                                }, {
-                                    "data": "dy_action_ind",
-                                    "render": function(data, type, full, meta) {
-                                        return (data == 'in' ? 'Entry' : 'Exit');
-                                    }
-                                },
-                                { "data": "branch" },
-                                { "data": "branch" }
-                            ]
-                        });
+                        // $('#tblinout').DataTable({
+                        //     data: result.response.docs,
+                        //     columns: [{
+                        //             "data": "xit_date",
+                        //             "render": function(data, type, full, meta) {
+                        //                 var strdt = data.toString().substr(0, 10) + " " + data.toString().substr(11, 8);
+                        //                 return strdt;
+                        //             }
+                        //         }, {
+                        //             "data": "dy_action_ind",
+                        //             "render": function(data, type, full, meta) {
+                        //                 return (data == 'in' ? 'Entry' : 'Exit');
+                        //             }
+                        //         },
+                        //         { "data": "branch" },
+                        //         { "data": "branch" }
+                        //     ]
+                        // });
                         $scope.CreateInoutChart(result.response.docs);
                         $scope.$apply();
 
@@ -194,24 +194,24 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                         $scope.DOB(result.response.docs[0].birth_date)
 
 
-                        $('#tblinout').DataTable({
-                            data: result.response.docs,
-                            columns: [{
-                                    "data": "xit_date",
-                                    "render": function(data, type, full, meta) {
-                                        var strdt = data.toString().substr(0, 10) + " " + data.toString().substr(11, 8);
-                                        return strdt;
-                                    }
-                                }, {
-                                    "data": "dy_action_ind",
-                                    "render": function(data, type, full, meta) {
-                                        return (data == 'in' ? 'Entry' : 'Exit');
-                                    }
-                                },
-                                { "data": "branch" },
-                                { "data": "dy_create_id" }
-                            ]
-                        });
+                        // $('#tblinout').DataTable({
+                        //     data: result.response.docs,
+                        //     columns: [{
+                        //             "data": "xit_date",
+                        //             "render": function(data, type, full, meta) {
+                        //                 var strdt = data.toString().substr(0, 10) + " " + data.toString().substr(11, 8);
+                        //                 return strdt;
+                        //             }
+                        //         }, {
+                        //             "data": "dy_action_ind",
+                        //             "render": function(data, type, full, meta) {
+                        //                 return (data == 'in' ? 'Entry' : 'Exit');
+                        //             }
+                        //         },
+                        //         { "data": "branch" },
+                        //         { "data": "dy_create_id" }
+                        //     ]
+                        // });
                         $scope.CreateInoutChart(result.response.docs);
                         $scope.$apply();
 
@@ -254,6 +254,11 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                 if (k != 0 && e.dy_action_ind == newary[k - 1].dy_action_ind) {
                     tempwrg = [];
                     tempwrg = {
+                        xit_date: e.xit_date,
+                        dy_action_ind: '',
+                        branch: (e.dy_action_ind.toUpperCase()== 'IN' ? 'Exit' : 'Entry') + ' Record is Missing',
+                        mismatch:'yes',
+                        dy_create_id:'',
                         start: e.xit_date,
                         end: newary[k - 1].xit_date,
                         ind: e.dy_action_ind,
@@ -265,8 +270,6 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                 }
 
             });
-
-
 
             var container = document.getElementById('visualization');
             var newitems = $.merge(newary, wrg);
@@ -285,10 +288,11 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
 
             var timeline = new vis.Timeline(container, newitems, options);
             if (wrg.length >= 1) {
-                $('.MismatchArea').show();
+                // $('.MismatchArea').show();
                 $scope.MisMatchCnt = wrg.length;
                 $('#tblMisMatch').DataTable({
                     data: wrg,
+                    // mismatch,                    
                     columns: [{
                         "data": "ind",
                         "render": function(data, type, full, meta) {
@@ -304,9 +308,45 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                         "render": function(data, type, full, meta) {
                             return data.toString().substr(0, 10) + " " + data.toString().substr(11, 8);
                         }
-                    }]
-                });
+                    }],
+                    
+                });                
+
+                $scope.$apply();
             }
+
+            $('#tblinout').DataTable({
+                    // data: result.response.docs,
+                    data: newitems,
+                    "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                                if(aData['mismatch'] == 'yes'){
+                                     // $(nRow).css('color', 'red');
+                                     $(nRow).addClass('missingInd');
+                                }
+                    },
+                    columns: [{                           
+                            "data": "xit_date",
+                            "render": function(data, type, full, meta) {
+                                var strdt = data.toString().substr(0, 10) + " " + data.toString().substr(11, 8);
+                                return strdt;
+                            }
+                        },{
+                            "data": "dy_action_ind",
+                            "render": function(data, type, full, meta) {
+                                if (data=='in'){
+                                    return 'Entry';
+                                }else if(data == 'out'){
+                                    return 'Exit';
+                                }else if(data==''){
+                                    return '';
+                                }                               
+                            }
+                        },
+                        { "data": "branch" },
+                        { "data": "dy_create_id" }
+                    ]
+                });
+
 
             function move(percentage) {
                 var range = timeline.getWindow();
