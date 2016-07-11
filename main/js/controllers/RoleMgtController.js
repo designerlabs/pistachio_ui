@@ -4,6 +4,7 @@ var triggerName = "";
 var triggerDataTableName = "";
 var SubReportAry = [];
 var SubReportObj = [];
+var flag_dashboard=[], flag_fastsearch=[], flag_database=[], _nme;
 MetronicApp.controller('RoleMgtController', function($rootScope, $scope, settings, $http, $timeout) {
     $scope.$on('$viewContentLoaded', function() {
 
@@ -36,6 +37,8 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
         $.extend( true, $.fn.dataTable.defaults, {
          stateSave: true
         });
+
+
 
         function roleMgtDataFunc() {
             roleMgts = $('#roleMgtdata').DataTable({
@@ -108,27 +111,28 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                           });
 
                           //Add Dashboard details in role
-                         // console.log(flag_dashboard);
-                         // $http.post(globalURL + "api/role/dashboard", flag_dashboard)
-                         //  .then(function successCallback(result) {
-                         //  },
-                         //  function errorCallback(response) {
-                         //      console.log(data.responseJSON.error);
-                         //      $("#roleMgtRequire span").html(data.responseJSON.error);
-                         //      $("#roleMgtRequire").show();
-                         //  });
+                         console.log(flag_dashboard); 
+                         $http.post(globalURL + "api/role/" + roleMgtNameVal + "/dashboard", flag_dashboard)
+                          .then(function successCallback(result) {
+                            console.log("Successfully added dashboard in the role");
+                          },
+                          function errorCallback(response) {
+                              console.log(data.responseJSON.error);
+                              $("#roleMgtRequire span").html(data.responseJSON.error);
+                              $("#roleMgtRequire").show();
+                          });
 
                          //Add Database details in role
-                         // console.log(flag_database);
-                         // $http.post(globalURL + "api/role/editor", flag_database)
-                         //  .then(function successCallback(result) {
-                         //  },
-                         //  function errorCallback(response) {
-                         //      console.log(data.responseJSON.error);
-                         //      $("#roleMgtRequire span").html(data.responseJSON.error);
-                         //      $("#roleMgtRequire").show();
-                         //  });
-
+                         console.log(flag_database);                         
+                          $http.post(globalURL + "api/role/" + roleMgtNameVal + "/editor", flag_database)
+                          .then(function successCallback(result) {
+                            console.log("Successfully added editor/database in the role");
+                          },
+                          function errorCallback(response) {
+                              console.log(data.responseJSON.error);
+                              $("#roleMgtRequire span").html(data.responseJSON.error);
+                              $("#roleMgtRequire").show();
+                          });
                          console.log(selAry);
 
                           //Now adding Parent Reports to the newly created Role...
@@ -195,7 +199,11 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
         //Update click from Data Table
         var selectedroleMgtId = undefined;
         $('#roleMgtdata').on('click', 'button.updateBtn', function() {
+          // $('#myParentSel').multiSelect('deselect_all');
+           // $("#roleMgtForm")[0].reset();
 
+
+          
         triggerName = "update";
         triggerDataTableName = "update";
         SubReportAry = [];
@@ -203,7 +211,11 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
           dtable
                .clear()
                .draw();
+        flag_fastsearch=[];
+        flag_dashboard=[];
+        flag_database=[];
             //$("#loader").css('height', $(".page-content").height() + 140 + 'px');
+            selectedroleMgt = roleMgts.row($(this).parents('tr')).data();
             $("#loader .page-spinner-bar").removeClass('hide');
 
             $("#loader").show();
@@ -213,6 +225,12 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
             $('#myParentSel').multiSelect('refresh');
             $('#mySubParentSel optgroup').remove();
             $('#mySubParentSel').multiSelect('refresh');
+
+            $('#myDashboardSel option').remove();
+            $('#myDashboardSel').multiSelect('refresh');      
+            $('#myFastSearchSel').multiSelect('refresh');
+            $('#myDatabaseSel option').remove();
+            $('#myDatabaseSel').multiSelect('refresh');
 
             $.get( globalURL + "reportcat/", function( data ) {
               // debugger;
@@ -249,20 +267,63 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                 });
 
             });
+            //Load Fastsearch
+            $.get( globalURL + "api/role/" + selectedroleMgt.name +"/fastsearch", function( data ) {
+              // debugger;
+              $.each(data, function (key, value) {
+                  $('#myFastSearchSel').multiSelect('select', value);
+              });
+              $('#myFastSearchSel').multiSelect('refresh');
+            });
 
+            //Load database or Editor
+            $.get( globalURL + "api/pistachio/secured/hadoop/db", function( data ) {
+                $.each(data, function (key, value) {
+                    $('#myDatabaseSel').append(
+                        $("<option></option>")
+                          .attr("value", value)
+                          .text(value)
+                    );
+                });
+                $("#myDatabaseSel").multiSelect('refresh');
 
-            // $('#myParentSel').multiSelect('deselect_all');
+                $.get( globalURL + "api/role/" + selectedroleMgt.name +"/editor", function( data ) {
+                  // debugger;
+                  $.each(data, function (key, value) {
+                      $('#myDatabaseSel').multiSelect('select', value);
+                  });
+                  $('#myDatabaseSel').multiSelect('refresh');
+                });
+            }); 
+
+            //Load dashboard
+
+            $.get( globalURL + "pistachio/dashboard", function( data ) {
+                $.each(data, function (key, value) {
+                    $('#myDashboardSel').append(
+                        $("<option></option>")
+                          .attr("value", value.title)
+                          .text(value.title)
+                    );
+                });
+                $("#myDashboardSel").multiSelect('refresh');
+
+                $.get( globalURL + "api/role/" + selectedroleMgt.name +"/dashboard", function( data ) {
+                  // debugger;
+                  $.each(data, function (key, value) {
+                      $('#myDashboardSel').multiSelect('select', value);
+                  });
+                  $('#myDashboardSel').multiSelect('refresh');
+                });
+            });
+
             $("#roleMgtAddFormHeader").html("Update Role");
             $("#roleMgtAddForm").modal('show');
-
-            selectedroleMgt = roleMgts.row($(this).parents('tr')).data();
+            
             //selectedroleMgtName = selectedroleMgt.name;
             $("#roleMgtAddForm #roleMgtUISubmit").addClass('hide');
             $("#roleMgtAddForm #roleMgtUIUpdate").removeClass('hide');
             $("#roleMgtForm #roleMgt-name").val(selectedroleMgt.name);
-
-
-
         });
 
         //Update event on the Form
@@ -271,6 +332,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
 
             var selAryUpdate=[];
             var selObjUpdate=[];
+           
              $('#myParentSel :selected').each(function(){
                  var selObjUpdate = {
                     name: $(this).val(),
@@ -279,27 +341,88 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                  selAryUpdate.push(selObjUpdate);
               });
 
-            $.ajax({
-                    url: globalURL + "api/role/" + roleMgtUpdateNameVal + "/main",
-                    type: "PUT",
-                    dataType: 'json',
-                    contentType: "application/json; charset=utf-8",
-                    data:  JSON.stringify(selAryUpdate)
-                })
-                .done(function(data) {
-                  UpdateSubReportsCrud(roleMgtUpdateNameVal);
-                  // alert('after UpdateSubReportsCrud');
-                    roleMgts.destroy();
-                    roleMgtDataFunc();
-                    $("#roleMgtAddForm").modal('hide');
-                    $("#roleMgtRequire").hide();
-                })
-                .fail(function(data) {
-                    // alert('Failed!');
-                    console.log(data.responseJSON.error);
+             // $http.put(globalURL + "api/role/" + roleMgtNameVal + "/dashboard", flag_dashboard)
+             //  .then(function successCallback(result) {
+             //  },
+             //  function errorCallback(response) {
+                  
+             //  });
+
+             $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/main", JSON.stringify(selAryUpdate))
+              .then(function successCallback(data) {
+                UpdateSubReportsCrud(roleMgtUpdateNameVal);
+                // alert('after UpdateSubReportsCrud');
+                  roleMgts.destroy();
+                  roleMgtDataFunc();
+                  $("#roleMgtAddForm").modal('hide');
+                  $("#roleMgtRequire").hide();
+              },
+              function errorCallback(response) {
+                  console.log(data.responseJSON.error);
+                  $("#roleMgtRequire span").html(data.responseJSON.error);
+                  $("#roleMgtRequire").show();
+              });
+
+
+            // $.ajax({
+            //         url: globalURL + "api/role/" + roleMgtUpdateNameVal + "/main",
+            //         type: "PUT",
+            //         dataType: 'json',
+            //         contentType: "application/json; charset=utf-8",
+            //         data:  JSON.stringify(selAryUpdate)
+            //     })
+            //     .done(function(data) {
+            //       UpdateSubReportsCrud(roleMgtUpdateNameVal);
+            //       // alert('after UpdateSubReportsCrud');
+            //         roleMgts.destroy();
+            //         roleMgtDataFunc();
+            //         $("#roleMgtAddForm").modal('hide');
+            //         $("#roleMgtRequire").hide();
+            //     })
+            //     .fail(function(data) {
+            //         // alert('Failed!');
+            //         console.log(data.responseJSON.error);
+            //         $("#roleMgtRequire span").html(data.responseJSON.error);
+            //         $("#roleMgtRequire").show();
+            //     });
+                //Add Fast Search details in role
+
+                $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/fastsearch", flag_fastsearch)
+                 .then(function successCallback(result) {
+                   console.log("Successfully updated fastsearch in the role");
+                 },
+                 function errorCallback(response) {
+                  console.log(data.responseJSON.error);
+                   $("#roleMgtRequire span").html(data.responseJSON.error);
+                   $("#roleMgtRequire").show();                     
+                 });
+
+                               
+
+                 //Add Dashboard details in role
+
+                 $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/dashboard", flag_dashboard)
+                  .then(function successCallback(result) {
+                    console.log("Successfully updated dashboard in the role");
+                  },
+                  function errorCallback(response) {
+                   console.log(data.responseJSON.error);
                     $("#roleMgtRequire span").html(data.responseJSON.error);
-                    $("#roleMgtRequire").show();
-                });
+                    $("#roleMgtRequire").show();                     
+                  });                          
+
+                //Add Database details in role
+
+                $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/editor", flag_database)
+                 .then(function successCallback(result) {
+                   console.log("Successfully updated editor in the role");
+                 },
+                 function errorCallback(response) {
+                  console.log(data.responseJSON.error);
+                   $("#roleMgtRequire span").html(data.responseJSON.error);
+                   $("#roleMgtRequire").show();                     
+                 });                        
+
         });
 
 function UpdateSubReportsCrud(RoleName){
@@ -574,7 +697,7 @@ function UpdateSubReportsCrud(RoleName){
         }
     });
 
-var flag_dashboard=[], flag_fastsearch=[], flag_database=[], _nme;
+
 
  $('#myDashboardSel').multiSelect({
   afterSelect: function (value) {
@@ -583,7 +706,7 @@ var flag_dashboard=[], flag_fastsearch=[], flag_database=[], _nme;
   },
   afterDeselect: function(value){ 
    _nme="";
-   _nme = $(flag_dashboard).filter(function( k,v ) {
+   _nme = $(flag_dashboard).filter(function( k ) {
                   return flag_dashboard[k] == value;
               });
     console.log(_nme[0]); 
@@ -610,7 +733,7 @@ var flag_dashboard=[], flag_fastsearch=[], flag_database=[], _nme;
  $('#myDatabaseSel').multiSelect({
   afterSelect: function (value) {  
     flag_database.push(value[0]);
-    // console.log(flag_database); 
+    console.log(flag_database); 
 
   },
   afterDeselect: function(value){      
@@ -619,7 +742,7 @@ var flag_dashboard=[], flag_fastsearch=[], flag_database=[], _nme;
                   return flag_database[i] == value 
               });
     flag_database.splice($.inArray(_nme[0],flag_database),1);  
-    // console.log(flag_database); 
+    console.log(flag_database); 
   }
  });
 

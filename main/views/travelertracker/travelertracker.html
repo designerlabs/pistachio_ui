@@ -124,7 +124,7 @@
                         <div id="inouttab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
                             <a data-target="#inoutchart" class="btn btn-transparent grey-salsa btn-sm active" data-toggle="tab">Chart</a>
                             <a data-target="#inoutdatatbl" class="btn btn-transparent grey-salsa btn-sm" data-toggle="tab">Data</a>
-                            <a data-target="#mismatch" class="btn btn-transparent grey-salsa btn-sm" data-toggle="tab">Miss Match</a>
+                            <a data-target="#mismatch" ng-hide="hideMisMatchTab" class="btn btn-transparent grey-salsa btn-sm" data-toggle="tab">Miss Match</a>
                         </div>
                     </div>
                     <div class="portlet-body tab-content">
@@ -138,12 +138,27 @@
                             </div>
                             <div class="chart123" id="visualization">
                             </div>
+                            <div style="padding-left: 85%">
+                                <div>
+                                    <br/>
+                                    <div class="vis-item vis-box red vis-readonly">
+                                        <div class="vis-item-content"></div>
+                                    </div>
+                                </div>
+                                <div style="padding-left: 25px"> Exit </div>
+                                <div>
+                                    <div class="vis-item vis-box green vis-readonly">
+                                        <div class="vis-item-content"></div>
+                                    </div>
+                                </div>
+                                <div style="padding-left: 25px"> Entry </div>
+                            </div>                            
                         </div>
                         <div class="row number-stats margin-bottom-30 tab-pane" id="inoutdatatbl">
                             <div>
                                 <table id="tblinout" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
                                     <thead class="bg-table-gray">
-                                        <tr>
+                                        <tr>                                            
                                             <th>
                                                 Date & Time
                                             </th>
@@ -159,8 +174,30 @@
                                         </tr>
                                     </thead>
                                 </table>
+
                             </div>
                         </div>
+                        <div class="row number-stats margin-bottom-30 tab-pane" id="mismatch">
+                            <div>
+                                <table id="tblMisMatch" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                                    <thead class="bg-table-gray">
+                                        <tr>
+                                            <th>
+                                                Missing
+                                            </th>
+                                            <th>
+                                                Start From
+                                            </th>
+                                            <th>
+                                                End To
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                           
+                        </div>
+                        
                     </div>
                 </div>
                 <!-- END PORTLET -->
@@ -172,7 +209,9 @@
 <div class="row row2" ng-if="showVisa">
 </div>
 <div class="row row3" ng-if="showHistory">
+
 </div>
+
 <style type="text/css">
 a.hovertext {
     position: relative;
@@ -255,5 +294,7 @@ $('.options').click(function(e) {
     width:20%;
     max-width: 700px;
 }
-
+.missingInd{
+    color:red;
+}
 </style>
