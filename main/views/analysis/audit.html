@@ -1,4 +1,5 @@
-<div id="chart"></div>
-<div id="dataset-picker">
-  hi
-</div>
+
+<select ng-model='selectedBranch'  ng-change="branch_change(id)" ng-options='branch for branch in branches'></select>
+
+<select id='off_sel' ng-model='selectedOfficer' ng-show="showOfficer" ng-change="officer_change(id)" ng-options='officer for officer in officers'></select>
+<div id="chart" ng-show="showHeatMap"></div>

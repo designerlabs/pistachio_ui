@@ -172,8 +172,8 @@ $scope.$watch('files', function (files) {
 
   $timeout(function () {
     $scope.capture = localStorage.getItem('capture' + version) || 'camera';
-    $scope.pattern = localStorage.getItem('pattern' + version) || 'image/*,audio/*,video/*, .pdf';
-    $scope.acceptSelect = localStorage.getItem('acceptSelect' + version) || 'image/*,audio/*,video/*, .pdf';
+    $scope.pattern = localStorage.getItem('pattern' + version) || 'application/*,audio/*,video/*,image/*';
+    $scope.acceptSelect = localStorage.getItem('acceptSelect' + version) || 'application/*,audio/*,video/*,image/*';
     $scope.modelOptions = localStorage.getItem('modelOptions' + version) || '{debounce:100}';
     $scope.dragOverClass = localStorage.getItem('dragOverClass' + version) || '{accept:\'dragover\', reject:\'dragover-err\', pattern:\'image/*,audio/*,video/*, text/*\'}';
     $scope.disabled = localStorage.getItem('disabled' + version) == 'true' || false;
