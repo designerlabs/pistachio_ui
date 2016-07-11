@@ -319,18 +319,11 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
 
             $("#roleMgtAddFormHeader").html("Update Role");
             $("#roleMgtAddForm").modal('show');
-
             
             //selectedroleMgtName = selectedroleMgt.name;
             $("#roleMgtAddForm #roleMgtUISubmit").addClass('hide');
             $("#roleMgtAddForm #roleMgtUIUpdate").removeClass('hide');
             $("#roleMgtForm #roleMgt-name").val(selectedroleMgt.name);
-
-
-            
-
-
-
         });
 
         //Update event on the Form
@@ -348,80 +341,87 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                  selAryUpdate.push(selObjUpdate);
               });
 
-            $.ajax({
-                    url: globalURL + "api/role/" + roleMgtUpdateNameVal + "/main",
-                    type: "PUT",
-                    dataType: 'json',
-                    contentType: "application/json; charset=utf-8",
-                    data:  JSON.stringify(selAryUpdate)
-                })
-                .done(function(data) {
-                  UpdateSubReportsCrud(roleMgtUpdateNameVal);
-                  // alert('after UpdateSubReportsCrud');
-                    roleMgts.destroy();
-                    roleMgtDataFunc();
-                    $("#roleMgtAddForm").modal('hide');
-                    $("#roleMgtRequire").hide();
-                })
-                .fail(function(data) {
-                    // alert('Failed!');
-                    console.log(data.responseJSON.error);
-                    $("#roleMgtRequire span").html(data.responseJSON.error);
-                    $("#roleMgtRequire").show();
-                });
+             // $http.put(globalURL + "api/role/" + roleMgtNameVal + "/dashboard", flag_dashboard)
+             //  .then(function successCallback(result) {
+             //  },
+             //  function errorCallback(response) {
+                  
+             //  });
+
+             $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/main", JSON.stringify(selAryUpdate))
+              .then(function successCallback(data) {
+                UpdateSubReportsCrud(roleMgtUpdateNameVal);
+                // alert('after UpdateSubReportsCrud');
+                  roleMgts.destroy();
+                  roleMgtDataFunc();
+                  $("#roleMgtAddForm").modal('hide');
+                  $("#roleMgtRequire").hide();
+              },
+              function errorCallback(response) {
+                  console.log(data.responseJSON.error);
+                  $("#roleMgtRequire span").html(data.responseJSON.error);
+                  $("#roleMgtRequire").show();
+              });
+
+
+            // $.ajax({
+            //         url: globalURL + "api/role/" + roleMgtUpdateNameVal + "/main",
+            //         type: "PUT",
+            //         dataType: 'json',
+            //         contentType: "application/json; charset=utf-8",
+            //         data:  JSON.stringify(selAryUpdate)
+            //     })
+            //     .done(function(data) {
+            //       UpdateSubReportsCrud(roleMgtUpdateNameVal);
+            //       // alert('after UpdateSubReportsCrud');
+            //         roleMgts.destroy();
+            //         roleMgtDataFunc();
+            //         $("#roleMgtAddForm").modal('hide');
+            //         $("#roleMgtRequire").hide();
+            //     })
+            //     .fail(function(data) {
+            //         // alert('Failed!');
+            //         console.log(data.responseJSON.error);
+            //         $("#roleMgtRequire span").html(data.responseJSON.error);
+            //         $("#roleMgtRequire").show();
+            //     });
                 //Add Fast Search details in role
-                $.ajax({
-                        url: globalURL + "api/role/" + roleMgtUpdateNameVal + "/fastsearch",
-                        type: "PUT",
-                        // dataType: 'json',
-                        // contentType: "application/json; charset=utf-8",
-                        data:  flag_fastsearch
-                    })
-                .done(function(data) {
+
+                $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/fastsearch", flag_fastsearch)
+                 .then(function successCallback(result) {
                    console.log("Successfully updated fastsearch in the role");
-                })
-                .fail(function(data) {
-                   console.log(data.responseJSON.error);
-                    $("#roleMgtRequire span").html(data.responseJSON.error);
-                    $("#roleMgtRequire").show();
-                });
-                
+                 },
+                 function errorCallback(response) {
+                  console.log(data.responseJSON.error);
+                   $("#roleMgtRequire span").html(data.responseJSON.error);
+                   $("#roleMgtRequire").show();                     
+                 });
+
+                               
 
                  //Add Dashboard details in role
 
-                 $.ajax({
-                         url: globalURL + "api/role/" + roleMgtUpdateNameVal + "/dashboard",
-                         type: "PUT",
-                         // dataType: 'json',
-                         // contentType: "application/json; charset=utf-8",
-                         data:  flag_dashboard
-                     })
-                 .done(function(data) {
+                 $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/dashboard", flag_dashboard)
+                  .then(function successCallback(result) {
                     console.log("Successfully updated dashboard in the role");
-                 })
-                 .fail(function(data) {
-                    console.log(data.responseJSON.error);
-                     $("#roleMgtRequire span").html(data.responseJSON.error);
-                     $("#roleMgtRequire").show();
-                 });              
+                  },
+                  function errorCallback(response) {
+                   console.log(data.responseJSON.error);
+                    $("#roleMgtRequire span").html(data.responseJSON.error);
+                    $("#roleMgtRequire").show();                     
+                  });                          
 
                 //Add Database details in role
 
-                $.ajax({
-                        url: globalURL + "api/role/" + roleMgtUpdateNameVal + "/editor",
-                        type: "PUT",
-                        // dataType: 'json',
-                        // contentType: "application/json; charset=utf-8",
-                        data:  flag_database
-                    })
-                .done(function(data) {
+                $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/editor", flag_database)
+                 .then(function successCallback(result) {
                    console.log("Successfully updated editor in the role");
-                })
-                .fail(function(data) {
-                   console.log(data.responseJSON.error);
-                    $("#roleMgtRequire span").html(data.responseJSON.error);
-                    $("#roleMgtRequire").show();
-                });                
+                 },
+                 function errorCallback(response) {
+                  console.log(data.responseJSON.error);
+                   $("#roleMgtRequire span").html(data.responseJSON.error);
+                   $("#roleMgtRequire").show();                     
+                 });                        
 
         });
 
