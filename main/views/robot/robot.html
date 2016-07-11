@@ -1,13 +1,10 @@
 <div ng-controller="RobotDocumentController">
 
-
-
-
   <div class="row">&nbsp;</div>
   <div class="search-page search-content-4">
     <div class="search-bar bordered">
       <div class="row">
-        <div class="col-lg-8 col-sm-12">
+        <div class="col-lg-8 col-sm-12 col-md-8">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Search for...">
             <span class="input-group-btn">
@@ -15,28 +12,126 @@
             </span>
           </div>
         </div>
-        <div class="col-lg-2 extra-buttons col-sm-6">
+        <div class="col-lg-2 col-md-2 extra-buttons col-sm-6">
           <button class="btn grey-steel uppercase bold" type="button"><i class="fa fa-refresh"></i> Reset</button>
 
         </div>
-        <div class="col-lg-2 extra-buttons col-sm-6 text-right">
-          <button  data-toggle="collapse" data-target="#upload-container" class="btn btn-info uppercase bold" type="button"><i class="fa fa-upload"></i> Upload</button>
+        <div class="col-lg-2 col-md-2 extra-buttons col-sm-6 text-right">
+          <button data-toggle="collapse" data-target="#upload-container" class="btn btn-info uppercase bold" type="button"><i class="fa fa-upload"></i> Upload</button>
 
         </div>
 
       </div>
-      <div style="margin-top: 20px;" id='upload-container' class="collapse">
-        <div id="fileuploader">Browse</div>
-        <div id="extrabutton" class="btn btn-success uppercase bold" ng-click="uploadFile()">Start Submit</div>
-        <div id="cancelbutton" class="btn btn-danger uppercase bold hide" ng-click="cancelAll()">Cancel All</div>
-        <div id="removebutton" class="btn btn-danger uppercase bold hide" ng-click="removeAll()">Clear All</div>
-        
+      <div style="margin-top: 20px;" id='upload-container' class="collapse row">
+        <div class="upload-div">
+          <div class="upload-buttons">
+            <div id="editArea">
+              <div class="up-buttons">
+                <div ngf-select ngf-drop ng-model="files" ngf-model-invalid="invalidFiles" ng-model-options="modelOptionsObj" ngf-multiple="multiple = true"
+                  ngf-pattern="pattern" ngf-accept="acceptSelect" ng-disabled="disabled" ngf-capture="capture" ngf-drag-over-class="dragOverClassObj"
+                  ngf-validate="validateObj" ngf-resize="resizeObj" ngf-resize-if="resizeIfFn($file, $width, $height)" ngf-dimensions="dimensionsFn($file, $width, $height)"
+                  ngf-duration="durationFn($file, $duration)" ngf-keep="keepDistinct ? 'distinct' : keep" ngf-fix-orientation="orientation"
+                  ngf-allow-dir="allowDir" class="drop-box" ngf-drop-available="dropAvailable">Select File
+                  <span ng-show="dropAvailable"> or Drop File</span>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12 upload_container">
+            <ul style="clear:both" class="response">
+              <li class="" ng-repeat="f in files">
+                <div class="col-md-12 sel-file">
+                  <div class="col-md-1">
+                    <span ng-show="f.result" style="position: relative; top: 25px;">
+            <div class="progress_done">
+              <i class="fa fa-check"></i>
+            </div>
+          </span>
+                    <span ng-show="f.result == undefined" style="position: relative; top: 25px;">
+            <img src="assets/pistachio/ng-upload/progress.gif" />
+          </span>
+
+                  </div>
+                  <div class="col-md-11">
+                    <h3>{{f.name}} </h3>
+                    <h5>size: {{f.size}}B - type: {{f.type}}</h5>
+                  </div>
+
+                  <div ng-show="f.showDetail">
+                    <br/>
+                    <div data-ng-show="f.result.result == null">{{f.result}}</div>
+                    <ul>
+                      <li ng-repeat="item in f.result.result">
+                        <div data-ng-show="item.name">file name: {{item.name}}</div>
+                        <div data-ng-show="item.fieldName">name: {{item.fieldName}}</div>
+                        <div data-ng-show="item.size">size on the serve: {{item.size}}</div>
+                        <div data-ng-show="item.value">value: {{item.value}}</div>
+                      </li>
+                    </ul>
+                    <div data-ng-show="f.result.requestHeaders" class="reqh">request headers: {{f.result.requestHeaders}}</div>
+                  </div>
+                </div>
+              </li>
+
+              <li class="sel-file" ng-repeat="f in invalidFiles">
+                <div class="col-md-12 sel-file">
+                  <div class="col-md-1">
+
+                    <span style="position: relative; top: 25px;">
+            <div class="progress_fail">
+              <i class="fa fa-times"></i>
+            </div>
+          </span>
+
+
+                  </div>
+                  <div class="col-md-11">
+                    <h3>Invalid File: {{f.name}}</h3>
+                    <h5>{{f.$error}} {{f.$errorParam}}, size: {{f.size}}B - type: {{f.type}}
+                    </h5>
+                  </div>
+                </div>
+
+              </li>
+            </ul>
+          </div>
+          <br/>
+
+          <div style="clear:both" class="err" ng-show="errorMsg != null">{{errorMsg}}</div>
+        </div>
+
       </div>
     </div>
     <div class="search-table table-responsive">
 
     </div>
 
+  </div>
+
+
+
+
+  <div style="clear:both; display:none" class="server">
+    <div class="srv-title">How to upload to the server:</div>
+
+    <div class="howto">
+      <label><input type="radio" name="howToSend" ng-model="howToSend" value="1" ng-init="howToSend = 2">Upload.upload():
+      multipart/form-data upload cross browser</label>
+      <br/>
+      <label><input type="radio" name="howToSend" ng-model="howToSend" value="2"
+                  ng-disabled="usingFlash">Upload.http(): binary content with file's
+      Content-Type</label>
+
+
+      <div ng-show="howToSend != 3">
+        <input type="checkbox" ng-model="generateErrorOnServer">Return server error with http code:
+        <input type="text" ng-model="serverErrorCode" size="5"> and message: <input type="text" ng-model="serverErrorMsg">
+        <br/>
+      </div>
+      <br/>
+    </div>
   </div>
   <div class="col-md-12">
 

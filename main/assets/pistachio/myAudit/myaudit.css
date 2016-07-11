@@ -9,6 +9,10 @@ text.mono {
   fill: #aaa;
 }
 
+text.axis {
+  fill: red;
+}
+
 text.axis-workweek {
   fill: #000;
 }

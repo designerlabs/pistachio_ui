@@ -16,7 +16,8 @@ var MetronicApp = angular
         "datamaps",
         "chart.js",
         "ngIdle",
-        "ui.bootstrap"
+        "ui.bootstrap",
+        "ngFileUpload"
     ])
 
 // /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -386,7 +387,7 @@ MetronicApp.factory('httpRequestInterceptor', function() {
                 config.headers = { 'token': storeToken };
                 sendUpload = false;
             } else {
-                config.headers = { 'token': storeToken, 'Content-Type': 'application/json' };
+                config.headers = { 'token': storeToken };
             }
             return config;
         }
@@ -1030,9 +1031,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/morris/morris.css',
                         'assets/admin/pages/css/tasks.css',
                         'assets/pages/css/search.css',
-                        'assets/pistachio/upload_doc/css/uploadfile.css',
-                        'assets/pistachio/upload_doc/js/jquery.uploadfile.min.js'
-
+                        //'assets/pistachio/upload_doc/css/uploadfile.css',
+                        //'assets/pistachio/upload_doc/js/jquery.uploadfile.min.js'
+                        'assets/pistachio/ng-upload/common.css'
 
 
                     ]

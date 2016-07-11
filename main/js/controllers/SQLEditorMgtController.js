@@ -272,7 +272,6 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                 "bDestroy": true,
                 "bScrollCollapse": true,
                 "bJQueryUI": true,
-                "bScrollCollapse": true,
                 "bInfo": true,
                 "bFilter": true,
                 "bSort": true,

@@ -1,0 +1,232 @@
+
+
+
+.sel-file {
+    padding: 1px 5px;
+    font-size: 16px;
+    background:#fff;
+    border-bottom: 1px #a0ccea solid;
+    color: black;
+    padding: 5px 5px;
+}
+
+.search-bar{
+ overflow: auto;
+}
+
+.search-content-4 .search-bar .extra-buttons button:last-child {
+    margin-right: 0;
+    width: 140px !important;
+}
+
+.response {
+    padding: 0;
+    padding-top: 10px;
+    margin: 3px 0;
+    clear: both;
+    list-style: none;
+}
+
+.response .sel-file li, .response .reqh {
+    color: blue;
+    padding-bottom: 5px;
+}
+
+
+
+.progress {
+    display: inline-block;
+    width: 150px;
+    border: 1px dotted #cecece;
+}
+
+.progress div {
+    font-size: 16px;
+    background: #00ff00;
+    width: 0;
+}
+.upload_container{
+    max-height: 400px;
+    overflow: auto;
+}
+.drop-box {
+
+    background: #F8F8F8;
+    border: 1px dashed #DDD;
+    width: 300px;
+    text-align: center;
+    padding: 50px 10px;
+    margin-left: 10px;
+    color: #20ac70;
+    font-size: 18px;
+
+}
+
+
+.drop-box.dragover {
+    border: 5px dashed blue;
+}
+
+.drop-box.dragover-err {
+    border: 5px dashed red;
+}
+
+/* for IE*/
+.js-fileapi-wrapper {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+button {
+    padding: 1px 5px;
+    font-size: smaller;
+    margin: 0 3px;
+}
+
+.ng-v {
+    float: right;
+}
+
+.thumb {
+    float: left;
+    width: 18px;
+    height: 18px;
+    padding-right: 10px;
+}
+
+form .thumb {
+    width: 24px;
+    height: 24px;
+    float: none;
+    position: relative;
+    top: 7px;
+}
+
+form .progress {
+    line-height: 15px;
+}
+
+.edit-area {
+    font-size: 14px;
+    background: black;
+    color: #f9f9f9;
+    padding: 5px 1px;
+}
+
+#htmlEdit {
+    margin-bottom: 25px;
+}
+
+.edit-div {
+    font-size: smaller;
+}
+
+.CodeMirror {
+    font-size: 14px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+}
+
+form button {
+    padding: 3px 10px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.sub {
+    font-size: smaller;
+    color: #777;
+    padding-top: 5px;
+    padding-left: 25px;
+}
+
+.err {
+    font-size: 12px;
+    color: #C53F00;
+    margin: 15px;
+    padding: 15px;
+    background-color: #F0F0F0;
+    border: 1px solid black;
+}
+
+.progress_done{
+    width: 30px;
+    display: inline-block;
+    height: 30px;
+    background: #37c71c;
+    font-size: 20px;
+    color: #fff;
+    border-radius: 20px !important;
+}
+
+.progress_fail{
+    width: 30px;
+    display: inline-block;
+    height: 30px;
+    background: #ff0000;
+    font-size: 20px;
+    color: #fff;
+    border-radius: 20px !important;
+}
+
+.progress_done i, .progress_fail i{
+    position: relative;
+    bottom: 0px;
+    left: 6px;
+}
+
+.s3 {
+    font-size: smaller;
+    color: #333;
+    margin-left: 20px;
+}
+
+.s3 fieldset {
+    border: 1px solid #AAA;
+}
+
+.s3 label {
+    width: 180px;
+    display: inline-block;
+}
+
+.s3 input {
+    width: 300px;
+}
+
+.s3 .helper {
+    margin-left: 5px;
+}
+
+.howto {
+    margin-left: 10px;
+    line-height: 20px;
+}
+
+.server {
+    margin-bottom: 20px;
+}
+
+.srv-title {
+    font-weight: bold;
+    padding: 5px 0 10px 0;
+}
+
+:not(output):-moz-ui-invalid {
+    box-shadow: none;
+}
+
+.preview {
+    clear: both;
+}
+
+.preview img, .preview audio, .preview video {
+    max-width: 300px;
+    max-height: 150px;
+    float: right;
+}
+
+.custom {
+    font-size: 14px;
+    margin-left: 20px;
+}
