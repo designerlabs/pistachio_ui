@@ -6,9 +6,9 @@
       <div class="row">
         <div class="col-lg-8 col-sm-12 col-md-8">
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for...">
+            <input type="text"  ng-model="searchTxt" class="form-control" placeholder="Search for...">
             <span class="input-group-btn">
-              <button class="btn green-soft uppercase bold" type="button"><i class="fa fa-search"></i> Search</button>
+              <button class="btn green-soft uppercase bold" ng-click="search()" type="button"><i class="fa fa-search"></i> Search</button>
             </span>
           </div>
         </div>
@@ -105,7 +105,18 @@
       </div>
     </div>
     <div class="search-table table-responsive">
-
+      <ul>
+        <li ng-repeat="n in robotSearch">
+          {{n}}
+          <div>{{n.id}}</div>
+          <div>{{n.attrlogin[0]}}</div>
+          <div>{{n.contenttype[0]}}</div>
+          <div>{{n.attrstreamsize[0]}}</div>
+          <div>{{n.attrcontent}}</div>
+          	<a href="http://10.1.17.25:8080/api/secured/solr/download/{{n.id}}" download  class="btn"> button</a>
+        </li>
+        <div ng-if="robotSearch"></div>
+      </ul>
     </div>
 
   </div>

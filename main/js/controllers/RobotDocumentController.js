@@ -97,7 +97,15 @@ $scope.$watch('files', function (files) {
       // xhr.upload.addEventListener('abort', function(){console.log('abort complete')}, false);
     });
   }
+  var thisSolrAppUrl = 'http://10.1.17.25:8080/api/secured/solr/document?text='
 
+  $scope.search = function(){
+      $http.get(thisSolrAppUrl+$scope.searchTxt).
+           success(function(data) {
+              $scope.robotSearch = data;
+              //return data;
+            })
+    };
 
 
   function uploadUsing$http(file) {
