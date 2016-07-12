@@ -105,15 +105,20 @@
       </div>
     </div>
     <div class="search-table table-responsive">
-      <ul>
-        <li ng-repeat="n in robotSearch">
-          {{n}}
-          <div>{{n.id}}</div>
-          <div>{{n.attrlogin[0]}}</div>
-          <div>{{n.contenttype[0]}}</div>
-          <div>{{n.attrstreamsize[0]}}</div>
-          <div>{{n.attrcontent}}</div>
-          	<a href="http://10.1.17.25:8080/api/secured/solr/download/{{n.id}}" download  class="btn"> button</a>
+      <ul style="padding:0">
+        <li ng-repeat="n in robotSearch" class="robotSearchStyle col-md-12">
+
+            <div class="col-md-12 robotContent">
+              <h4 ng-bind-html="n.attrcontent.attr_content[0]"></h4>
+            </div>
+      
+              <div class="col-md-3" ng-show="n.contenttype"><small>FILE TYPE:</small><br>{{n.contenttype}}</div>
+              <div class="col-md-2" ng-show="n.attrstreamsize"><small>FILE SIZE:</small><br>{{n.attrstreamsize}}B</div>
+       
+              <div class="col-md-3"  ng-show="n.attrlogin"><small>UPLOADED BY:</small><br>{{n.attrlogin}} <span  ng-show="n.attrcreated">/ {{n.attrcreated}}</span></div>
+              <div  class="col-md-4 text-center"> <a href="{{globalDownloadURL}}{{n.id}}" download class="btn btn-primary btn-sm"><i class="fa fa-download"></i> download</a></div>
+       
+
         </li>
         <div ng-if="robotSearch"></div>
       </ul>

@@ -10,7 +10,8 @@ MetronicApp.controller('RobotDocumentController', ['$rootScope','$scope', '$http
     });
 
   $scope.invalidFiles = [];
-
+  $scope.globalDownloadURL = globalURL+"api/secured/solr/document/download/";
+  
 
 $scope.$watch('files', function (files) {
     $scope.formUpload = false;
