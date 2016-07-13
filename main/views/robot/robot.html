@@ -4,17 +4,13 @@
   <div class="search-page search-content-4">
     <div class="search-bar bordered">
       <div class="row">
-        <div class="col-lg-8 col-sm-12 col-md-8">
+        <div class="col-lg-10 col-sm-10 col-md-10">
           <div class="input-group">
-            <input type="text"  ng-model="searchTxt" class="form-control" placeholder="Search for...">
+            <input type="text" ng-focus="uploadCollapseHide()"  ng-model="searchTxt" class="form-control" placeholder="Search for...">
             <span class="input-group-btn">
               <button class="btn green-soft uppercase bold" ng-click="search()" type="button"><i class="fa fa-search"></i> Search</button>
             </span>
           </div>
-        </div>
-        <div class="col-lg-2 col-md-2 extra-buttons col-sm-6">
-          <button class="btn grey-steel uppercase bold" type="button"><i class="fa fa-refresh"></i> Reset</button>
-
         </div>
         <div class="col-lg-2 col-md-2 extra-buttons col-sm-6 text-right">
           <button data-toggle="collapse" data-target="#upload-container" class="btn btn-info uppercase bold" type="button"><i class="fa fa-upload"></i> Upload</button>
@@ -112,11 +108,13 @@
               <h4 ng-bind-html="n.attrcontent.attr_content[0]"></h4>
             </div>
       
-              <div class="col-md-3" ng-show="n.contenttype"><small>FILE TYPE:</small><br>{{n.contenttype}}</div>
+              <div class="col-md-3" ng-show="n.fileName"><small>FILE NAME:</small><br>{{n.fileName}}</div>
+              <div class="col-md-2" ng-show="n.contenttype"><small>FILE TYPE:</small><br>{{n.contenttype}}</div>
               <div class="col-md-2" ng-show="n.attrstreamsize"><small>FILE SIZE:</small><br>{{n.attrstreamsize}}B</div>
+              
        
-              <div class="col-md-3"  ng-show="n.attrlogin"><small>UPLOADED BY:</small><br>{{n.attrlogin}} <span  ng-show="n.attrcreated">/ {{n.attrcreated}}</span></div>
-              <div  class="col-md-4 text-center"> <a href="{{globalDownloadURL}}{{n.id}}" download class="btn btn-primary btn-sm"><i class="fa fa-download"></i> download</a></div>
+              <div class="col-md-3"  ng-show="n.attrlogin"><small>UPLOADED BY:</small><br>{{n.attrlogin}} <span  ng-show="n.attrcreated">/ <i class="fa fa-calendar"></i> {{n.attrcreated}}</span></div>
+              <div  class="col-md-2 text-center"> <a href="{{globalDownloadURL}}{{n.id}}" download class="btn btn-primary btn-sm"><i class="fa fa-download"></i> download</a></div>
        
 
         </li>

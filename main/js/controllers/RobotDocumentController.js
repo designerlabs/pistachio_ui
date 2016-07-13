@@ -57,6 +57,10 @@ $scope.$watch('files', function (files) {
     }
   };
 
+  $scope.uploadCollapseHide = function(){
+    $("#upload-container").collapse('hide');
+  }
+
   $scope.isResumeSupported = Upload.isResumeSupported();
 
   $scope.restart = function(file) {
@@ -104,6 +108,11 @@ $scope.$watch('files', function (files) {
       $http.get(thisSolrAppUrl+$scope.searchTxt).
            success(function(data) {
               $scope.robotSearch = data;
+              for (var i = 0; i < $scope.robotSearch.length; i++) {
+                 $scope.fileName  = $scope.robotSearch[i].attrfile.replace(/^.*[\\\/]/, '');
+                 $scope.robotSearch[i].fileName = $scope.fileName;
+              }
+    
               //return data;
             })
     };
