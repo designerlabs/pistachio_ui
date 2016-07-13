@@ -3,7 +3,7 @@
 // var solrHost1 = "10.23.124.220";
 
 var info_personal_loaded = false;
-
+var visadetails = [];
 MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope, $http, $timeout) {
 
 
@@ -65,6 +65,9 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                         $scope.titleDetails = "Visa details"
                         $scope.basicdetailsTbl = data.response.docs;
 
+                        //Assined to common variable
+                        visadetails = data.response.docs;
+
                         $('#tblvisa').DataTable({
                             data: data.response.docs,
                             columns: [{
@@ -91,10 +94,16 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                                     }
                                 },
 
-                                { "data": "created" }, {
-                                    "data": "created",
+                                { "data": "created",
+                                  "render": function(data,type,full,meta){
+                                    return(moment(data,"YYYY-MM-DDT00:00:00").format("YYYY-MM-DD"));
+                                  }
+                                 }, 
+
+                                {
+                                    "data": "vend",
                                     "render": function(data, type, full, meta) {
-                                        return (data.toString().substr(0, 10) == undefined ? "" : data.toString().substr(0, 10));
+                                       return(moment(data,"YYYYMMDD").format("YYYY-MM-DD"));
                                     }
                                 }
                             ]
@@ -272,8 +281,29 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
 
             });
 
+            var backgrd = [];
+            var itmbackgrd = [];
+            console.log('visadetails' + visadetails);
+            visadetails.forEach(function(k,v){
+                itmbackgrd = [];
+                itmbackgrd ={
+                    content : k.pass_type,
+                    start : moment(k.created,"YYYY-MM-DDT00:00:00").format("YYYY-MM-DD"),
+                    end : moment(k.vend,"YYYYMMDD").format("YYYY-MM-DD"),
+                    type : 'background'
+                }
+                backgrd.push(itmbackgrd);
+            });
+
             var container = document.getElementById('visualization');
-            var newitems = $.merge(newary, wrg);
+            // var newitems = $.merge(newary, wrg);
+            var newitems = newary.concat(wrg);
+            console.log(newitems);
+            console.log(backgrd);
+            if (backgrd.length>0){                
+                newitems = newitems.concat(backgrd);
+                console.log(newitems);
+            }
             var chart_height = (_data.length < 200 ? "300px" : "450px");
             console.log("chart_height=" + chart_height);
 
@@ -293,6 +323,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                 $scope.hideMisMatchTab = false;
                 $scope.MisMatchCnt = wrg.length;
                 $('#tblMisMatch').DataTable({
+                    order: [[ 1, "asc" ]],
                     data: wrg,
                     // mismatch,                    
                     columns: [{
@@ -319,7 +350,8 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
 
             $('#tblinout').DataTable({
                     // data: result.response.docs,
-                    data: newitems,
+                    order: [[ 0, "asc" ]],
+                    data: newary.concat(wrg),
                     "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
                                 if(aData['mismatch'] == 'yes'){
                                      // $(nRow).css('color', 'red');
@@ -382,11 +414,15 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
 
         }
         $scope.fn_processInput = function(str) {
+            visadetails=[];
             if (str.includes("citizen")) {
+                console.log('citizen');
                 $scope.fn_getCitizenInfo();
             } else {
-                $scope.fn_getPersonalInfo();
+                console.log('basic and personal');
+
                 $scope.fn_getBasicInfo();
+                $scope.fn_getPersonalInfo();                
             }
         }
 
