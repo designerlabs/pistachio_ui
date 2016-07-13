@@ -308,7 +308,8 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                   
              //  });
 
-             $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/main", JSON.stringify(selAryUpdate))
+             $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/main", JSON.stringify(selAryUpdate),
+                  {headers: { 'Content-Type': 'application/json' }})
               .then(function successCallback(data) {
                 UpdateSubReportsCrud(roleMgtUpdateNameVal);
                 // alert('after UpdateSubReportsCrud');
@@ -325,7 +326,8 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
             
                 //Add Fast Search details in role
 
-                $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/fastsearch", flag_fastsearch)
+                $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/fastsearch", flag_fastsearch,
+      {headers: { 'Content-Type': 'application/json' }})
                  .then(function successCallback(result) {
                    console.log("Successfully updated fastsearch in the role");
                  },
@@ -336,8 +338,8 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                  });
 
                  //Add Dashboard details in role
-
-                 $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/dashboard", flag_dashboard)
+                 $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/dashboard", flag_dashboard,
+      {headers: { 'Content-Type': 'application/json' }})
                   .then(function successCallback(result) {
                     console.log("Successfully updated dashboard in the role");
                   },
@@ -349,7 +351,8 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
 
                 //Add Database details in role
 
-                $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/editor", flag_database)
+                $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/editor", flag_database,
+      {headers: { 'Content-Type': 'application/json' }})
                  .then(function successCallback(result) {
                    console.log("Successfully updated editor in the role");
                  },

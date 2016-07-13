@@ -284,7 +284,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
 
 
         function fn_LoadDb() {
-            $http.get(globalURL + "api/pistachio/secured/hadoop/db")
+            $http.get(globalURL + "api/pistachio/secured/hadoop/db/role")
                 .then(function(response) {
                     $scope.databaseLength = response.data.length;
                     $scope.databaseList = response.data;

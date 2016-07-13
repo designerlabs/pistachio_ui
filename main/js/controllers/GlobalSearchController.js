@@ -1,7 +1,7 @@
 'use strict';
 var selected_countries = [];
 var selected_jobs = [];
-
+var clickCircle, clickMarker;
 var filter_query = "";
 // var solrHost = "localhost";
 //var solrHost = "pistachio_server";
@@ -45,7 +45,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
   var initzoom;
 
 
-  $scope.triggerMap = function(){
+  $rootScope.triggerMap = function(){
     $scope.clicked= true;
     //$scope.showVisitor = true;
     $scope.show();
@@ -112,22 +112,23 @@ $scope.$on('mapClick', function(event, e) {
 });
 
 
-    var clickCircle, clickMarker;
+
     map.on('singleclick', function (e) {
-      $scope.$broadcast('mapClick', e);
+      debugger;
+      $rootScope.$broadcast('mapClick', e);
       $(".range-slider__range").val('20');
       $(".range-slider__value").text('20 KM');
 
       $rootScope.triggerFunc = function(km){
     
-        $scope.triggerMap();  
+        $rootScope.triggerMap();  
         if ($scope.clickCircle != undefined) {
-        map.removeLayer($scope.clickCircle);
-        map.removeLayer(clickMarker);
-      };
+          map.removeLayer($scope.clickCircle);
+          map.removeLayer($scope.clickMarker);
+        };
       
  
-      clickMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+      $scope.clickMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
       $scope.clickCircle = L.circle([e.latlng.lat, e.latlng.lng], km, {
         color: 'red',
         fillColor: '#f03',
@@ -141,7 +142,7 @@ $scope.$on('mapClick', function(event, e) {
        
       };
 
-      $scope.triggerFunc(20000);
+      $rootScope.triggerFunc(20000);
     });
 
 
