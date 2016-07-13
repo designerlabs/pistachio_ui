@@ -338,7 +338,6 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                  });
 
                  //Add Dashboard details in role
-                 alert("hi")
                  $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/dashboard", flag_dashboard,
       {headers: { 'Content-Type': 'application/json' }})
                   .then(function successCallback(result) {
