@@ -152,11 +152,17 @@
                                     </div>
                                 </div>
                                 <div style="padding-left: 25px"> Entry </div>
+                                <div>
+                                    <div class="vis-item vis-background" style="height: 12px;width: 12px;border: 1px;   border-bottom-color: black;border-style: solid;">
+                                        <div class="vis-item-content"></div>
+                                    </div>
+                                </div>
+                                <div style="padding-left: 25px"> Visa Name </div>
                             </div>                            
                         </div>
                         <div class="row number-stats margin-bottom-30 tab-pane" id="inoutdatatbl">
                             <div>
-                                <table id="tblinout" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                                <table id="tblinout" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%" style="margin-top:20px;">
                                     <thead class="bg-table-gray">
                                         <tr>                                            
                                             <th>
@@ -241,6 +247,23 @@ a.hovertext:hover:after,
 a.hovertext:focus:after {
     opacity: 1.0;
 }
+.vis-item.vis-background {
+    border: none;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    background-image: url('./assets/admin/layout2/img/stripe-bg-yellow.png');
+    }
+
+    input[type=search]{
+        width: 20em !important;
+    }
+    #tblinout_wrapper{
+        margin-top: 20px;
+    }
+    #tblMisMatch_wrapper{
+        margin-top: 20px;
+    }
 </style>
 <script type="text/javascript">
 // $('#tabs').tab();
