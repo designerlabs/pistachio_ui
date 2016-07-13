@@ -1,28 +1,41 @@
 'use strict';
 
-MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http) {
+MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, sortable) {
 
     $scope.$on('$viewContentLoaded', function() {
        $scope.showOfficer = false;
        $scope.showHeatMap = false;
+       $scope.showPie = false;
        $http.get(globalURL+"api/secured/pistachio/myaudit/branch")
          .success(function(response) {
             console.log("branches "+response);
             $scope.branches = response;
-
+            console.log(branchgird);
          });
+        // $scope.pie();
     });
 
     $scope.branch_change = function(id) {
-      console.log($scope.selectedBranch);
-      
-      $http.get(globalURL+"api/secured/pistachio/myaudit/officer?branch="+$scope.selectedBranch)
+      console.log("Selected branch"+$scope.selectedBranch);
+      console.log("getting officers")
+      $http.get(globalURL+"api/secured/pistachio/myaudit/officer?branch="+$scope.selectedBranch,
+      {headers: { 'Content-Type': 'application/json' }})
          .success(function(response) {
              $scope.showOfficer = true;
             $scope.officers = response;
            
          });
-    };
+      console.log("Getting branch heatmap");
+      $http.get(globalURL+"api/secured/pistachio/myaudit/branch/heatmap?branch="+$scope.selectedBranch,
+      {headers: { 'Content-Type': 'application/json' }}
+
+        )
+        .success(function(response) {
+         console.log(response);
+         heatmapChart(response.heatmap);
+         $scope.showHeatMap = true;
+          });
+     };
 
     $scope.officer_change = function(id) {
       console.log($scope.selectedOfficer);
@@ -35,7 +48,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http) 
     };
     
 
-    var margin = { top: 50, right: 0, bottom: 100, left: 70 };
+    var margin = { top: 50, right: 0, bottom: 50, left: 70 };
     var wWidth = window.innerWidth;
     var auditChartWidth = '300';
     var auditBarHeight = 10.5;
@@ -49,12 +62,130 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http) 
       auditBarHeight = 13;
     }
 
+    $scope.pie = function () {
+      var dataset = [
+        { name: 'Login', percent: 39.10 },
+        { name: 'Logout', percent: 32.51 },
+        { name: 'Operations', percent: 13.68 }
+      ];
+
+        var pie=d3.layout.pie()
+                .value(function(d){return d.percent})
+                .sort(null)
+                .padAngle(.03);
+
+        var w=300,h=300;
+
+        var outerRadius=w/2;
+        var innerRadius=100;
+
+        var color = d3.scale.category10();
+
+        var arc=d3.svg.arc()
+                .outerRadius(outerRadius)
+                .innerRadius(innerRadius);
+
+        var svg=d3.select("#piechart")
+                .append("svg")
+                .attr({
+                    width:w,
+                    height:h,
+                    class:'shadow'
+                }).append('g')
+                .attr({
+                    transform:'translate('+w/2+','+h/2+')'
+                });
+        var path=svg.selectAll('path')
+                .data(pie(dataset))
+                .enter()
+                .append('path')
+                .attr({
+                    d:arc,
+                    fill:function(d,i){
+                        return color(d.data.name);
+                    }
+                });
+
+        path.transition()
+                .duration(1000)
+                .attrTween('d', function(d) {
+                    var interpolate = d3.interpolate({startAngle: 0, endAngle: 0}, d);
+                    return function(t) {
+                        return arc(interpolate(t));
+                    };
+                });
+
+
+        var restOfTheData=function(){
+            var text=svg.selectAll('text')
+                    .data(pie(dataset))
+                    .enter()
+                    .append("text")
+                    .transition()
+                    .duration(200)
+                    .attr("transform", function (d) {
+                        return "translate(" + arc.centroid(d) + ")";
+                    })
+                    .attr("dy", ".4em")
+                    .attr("text-anchor", "middle")
+                    .text(function(d){
+                        return d.data.percent+"%";
+                    })
+                    .style({
+                        fill:'#fff',
+                        'font-size':'10px'
+                    });
+
+            var legendRectSize=20;
+            var legendSpacing=7;
+            var legendHeight=legendRectSize+legendSpacing;
+
+
+            var legend=svg.selectAll('.legend')
+                    .data(color.domain())
+                    .enter()
+                    .append('g')
+                    .attr({
+                        class:'legend',
+                        transform:function(d,i){
+                            //Just a calculation for x & y position
+                            return 'translate(-35,' + ((i*legendHeight)-65) + ')';
+                        }
+                    });
+            legend.append('rect')
+                    .attr({
+                        width:legendRectSize,
+                        height:legendRectSize,
+                        rx:20,
+                        ry:20
+                    })
+                    .style({
+                        fill:color,
+                        stroke:color
+                    });
+
+            legend.append('text')
+                    .attr({
+                        x:30,
+                        y:15
+                    })
+                    .text(function(d){
+                        return d;
+                    }).style({
+                        fill:'#929DAF',
+                        'font-size':'14px'
+                    });
+        };
+
+        setTimeout(restOfTheData,1000);
+    }
+
 
 
     var width = document.getElementById('chart').offsetWidth - margin.left - margin.right-auditChartWidth;
 
     var gridSize = Math.floor(width / 24);
-    var height = (gridSize * 7 ) + margin.top - margin.bottom/2.4;
+    var height = (gridSize * 7 ) + margin.top - margin.bottom/1.2;
     var legendElementWidth = gridSize*2,
     buckets = 9,
     colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"], // alternatively colorbrewer.YlGnBu[9]
@@ -145,6 +276,27 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http) 
 
           };
 
+    $rootScope.query = '';
+    
+    $scope.gridToggle = true;
+
+    $scope.onQueryChange = function(val){
+       $rootScope.query = val;
+       $scope.search();
+    };
+    
+    var items = [
+      { 'icon' : 'm-munkey',  'name' : 'A Munkey Page',          'date' : 'Yesterday at Noon', 'user' : { 'name' : 'Munkey',  'color' : '#07D5E5'} },
+      { 'icon' : 'm-bug',     'name' : 'Mobile Splash Page',     'date' : 'Yesterday at 4:30pm', 'user' : { 'name' : 'Munkey',  'color' : '#07D5E5'} },
+      { 'icon' : 'm-photo',   'name' : 'Some Other Site',        'date' : 'Today at 3:35am', 'user' : { 'name' : 'Someone', 'color' : '#456183'} },
+      { 'icon' : 'm-desktop', 'name' : 'Jerry\'s Blog',          'date' : 'Thursday at 7:15pm', 'user' : { 'name' : 'Jerry',   'color' : '#4677A7'} },
+      { 'icon' : 'm-form',    'name' : 'Ape\'s Capture Form',    'date' : 'Today at Noon', 'user' : { 'name' : 'Ape',     'color' : '#09ABC5'} },
+      { 'icon' : 'm-phone',   'name' : 'Some Mobile Site',       'date' : 'Thursday at 1:27pm', 'user' : { 'name' : 'Someone', 'color' : '#456183'} },
+      { 'icon' : 'm-bell',    'name' : 'Fish\'s Wordpress Site', 'date' : 'Yesterday at Noon', 'user' : { 'name' : 'Fish',    'color' : '#1CB7BB'} },
+      { 'icon' : 'm-group',   'name' : 'Kitty Kat Kapture Form', 'date' : 'Wednesday at 7:15pm', 'user' : { 'name' : 'Kitty',   'color' : '#1D9D9D'} }
+    ];
+    
+    sortable($scope, items, 6, 'updated_at');
 
          
 
