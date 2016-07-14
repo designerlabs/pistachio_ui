@@ -170,6 +170,10 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
         $('#roleMgtdata').on('click', 'button.updateBtn', function() {
           // $('#myParentSel').multiSelect('deselect_all');
            // $("#roleMgtForm")[0].reset();
+           $('.nav-tabs li').removeClass('active');//remove opened tab
+           $('.nav-tabs .tabRep').parent().addClass('active'); //activate clicked tab
+           $(".tab-content").children().removeClass('active in'); //hide other tab contents
+           $('#tab_Report').addClass('active in'); //show relevant tab contents
           
         triggerName = "update";
         triggerDataTableName = "update";
