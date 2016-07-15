@@ -1,7 +1,7 @@
 <div class="app-container" ng-app="dateTimeApp" ng-controller="MyAlertController as ctrl" ng-cloak>
     
   <div date-picker
-     datepicker-title="Alerts"
+     datepicker-title="Branch Alerts"
      picktime="false"
      pickdate="true"
      pickpast="true"
@@ -60,37 +60,21 @@
                                                     
                                                     
                                                
-            <ul class="events-detail">
-              <li >
+            <ul class="events-detail" >
+              <li data-ng-repeat="entry in b_events">
                 <a href="#">
                    <div class="mt-comment" style="padding:0px;">
                                                         
                                                         <div class="mt-comment-body">
                                                             <div class="mt-comment-info">
-                                                                <span class="mt-comment-author">KLIA 2</span>
+                                                                <span class="mt-comment-author">{{entry.branch}}</span>
                                                                 <span class="mt-comment-date">26 Feb, 10:30AM</span>
                                                             </div>
-                                                            <div class="mt-comment-text"> No Records </div>
+                                                            <div class="mt-comment-text"> {{entry.info}} </div>
                                                         </div>
                                                     </div>
                 </a>
               </li>
-               
-               <li>
-                <a href="#">
-                                     <div class="mt-comment" style="padding:0px;">
-                                                        
-                                                        <div class="mt-comment-body">
-                                                            <div class="mt-comment-info">
-                                                                <span class="mt-comment-author">KLIA 2</span>
-                                                                <span class="mt-comment-date">26 Feb, 10:30AM</span>
-                                                            </div>
-                                                            <div class="mt-comment-text"> No Records </div>
-                                                        </div>
-                                                    </div>
-                </a>
-              </li>
-              
                
             </ul>
              </div>
