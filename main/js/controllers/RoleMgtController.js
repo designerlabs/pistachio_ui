@@ -262,7 +262,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
 
             //Load dashboard
 
-            $.get( globalURL + "pistachio/dashboard", function( data ) {
+            $.get( globalURL + "pistachio/dashboard",{headers: { 'Content-Type': 'application/json' }}, function( data ) {
                 $.each(data, function (key, value) {
                     $('#myDashboardSel').append(
                         $("<option></option>")
