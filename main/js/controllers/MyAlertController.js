@@ -4,7 +4,8 @@ MetronicApp.controller('MyAlertController', function($rootScope, $scope, $http) 
 
     $scope.$on('$viewContentLoaded', function() {
        $scope.showOfficer = false;
-      
+    
+
     });
 
  
@@ -12,12 +13,26 @@ MetronicApp.controller('MyAlertController', function($rootScope, $scope, $http) 
 	
 	ctrl.selected_date = new Date();
 	ctrl.selected_date.setHours(10);
+
 	ctrl.selected_date.setMinutes(0);
-	
+	  	var today = moment().format('YYYY-MM-DD');
+      	console.log(today);
+		$http.get(globalURL+"api/secured/pistachio/alert/branch/all")
+         .success(function(response) {
+   
+            ctrl.b_events = response;
+       
+          });
 	ctrl.updateDate = function (newdate) {
-		// Do something with the returned date here.
-		console.log(newdate);
-        
+
+		console.log(moment(newdate).format('YYYY-MM-DD'));
+		//Get Events
+		$http.get(globalURL+"api/secured/pistachio/alert/branch/?date="+moment(newdate).format('YYYY-MM-DD'))
+         .success(function(response) {
+        	$scope.b_events = response;
+        	console.log($scope.b_events);
+          });
+
 	};
 
     ctrl.updateDate.getDate;
@@ -29,7 +44,7 @@ MetronicApp.controller('MyAlertController', function($rootScope, $scope, $http) 
 
 
 // Date Picker
-MetronicApp.directive('datePicker', function ($timeout, $window) {
+MetronicApp.directive('datePicker', function ($timeout, $window,$http) {
     return {
         restrict: 'AE',
         scope: {
@@ -174,11 +189,16 @@ MetronicApp.directive('datePicker', function ($timeout, $window) {
 				scope.time = formatAMPM(scope.localdate);
 				//scope.setTimeBar(scope.localdate);
 				initializeDate();
-				scope.updateInputTime();
+				//scope.updateInputTime();
+                $http.get(globalURL+"api/secured/pistachio/alert/branch/all")
+                    .success(function(response) {
+   
+                        scope.b_events = response;
+       
+                    });
             });
 
             scope.selectDate = function (day) {
-
                 if (scope.pickdate == "true" && day.showday) {
                     for (var number in scope.month) {
                         var item = scope.month[number];
@@ -198,6 +218,10 @@ MetronicApp.directive('datePicker', function ($timeout, $window) {
                 if (scope.localdate) {
                     var newdate = getDateAndTime(scope.localdate);
                     scope.updatefn({newdate:newdate});
+                    	$http.get(globalURL+"api/secured/pistachio/alert/branch/?date="+moment(newdate).format('YYYY-MM-DD'))
+                        .success(function(response) {
+                            scope.b_events = response;
+                        });
                 }
             };
 
@@ -321,47 +345,6 @@ MetronicApp.directive('datePicker', function ($timeout, $window) {
 					return validity;
 				}
 				
-				function formatTime () {
-					var time = "";
-					if (scope.edittime.digits.length == 1) {
-						time = "--:-" + scope.edittime.digits[0];
-					} else if (scope.edittime.digits.length == 2) {
-						time = "--:" + scope.edittime.digits[0] + scope.edittime.digits[1];
-					} else if (scope.edittime.digits.length == 3) {
-						time = "-" + scope.edittime.digits[0] + ':' + scope.edittime.digits[1] + scope.edittime.digits[2];
-					} else if (scope.edittime.digits.length == 4) {
-						time = scope.edittime.digits[0] + scope.edittime.digits[1].toString() + ':' + scope.edittime.digits[2] + scope.edittime.digits[3];
-						console.log(time);
-					}
-					return time + ' ' + scope.timeframe;
-				};
-				
-				scope.changeInputTime = function (event) {
-					var numbers = {48:0,49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,57:9};
-					if (numbers[event.which] !== undefined) {
-						if (checkValidTime(numbers[event.which])) {
-							scope.edittime.digits.push(numbers[event.which]);
-							console.log(scope.edittime.digits);
-							scope.time_input = formatTime();
-							scope.time = numbers[event.which] + ':00';
-							scope.updateDate();
-							scope.setTimeBar();
-						}
-					} else if (event.which == 65) {
-						scope.timeframe = 'am';
-						scope.time_input = scope.time + ' ' + scope.timeframe;
-					} else if (event.which == 80) {
-						scope.timeframe = 'pm';
-						scope.time_input = scope.time + ' ' + scope.timeframe;
-					} else if (event.which == 8) {
-						scope.edittime.digits.pop();
-						scope.time_input = formatTime();
-						console.log(scope.edittime.digits);
-					}
-					scope.edittime.formatted = scope.time_input;
-					// scope.edittime.input = formatted;
-				};
-				
                 var pad2 = function (number) {
                     return (number < 10 ? '0' : '') + number;
                 };
@@ -388,157 +371,12 @@ MetronicApp.directive('datePicker', function ($timeout, $window) {
 					scope.checkWidth(true);
                 });
            
-                scope.setTimeBar = function (date) {
-					currenttime = $('.current-time');
-					var timeline_width = $('.timeline')[0].offsetWidth;
-                    var hours = scope.time.split(':')[0];
-					if (hours == 12) {
-						hours = 0;
-					}
-					var minutes = scope.time.split(':')[1];
-					var minutes_offset = (minutes / 60) * (timeline_width / 12);
-					var hours_offset = (hours / 12) * timeline_width;
-					scope.currentoffset = parseInt(hours_offset + minutes_offset - 1);
-                    currenttime.css({
-						transition: 'transform 0.4s ease',
-                        transform: 'translateX(' + scope.currentoffset + 'px)',
-                    });
-                };
 
-                scope.getTime = function () {
-                    // get hours
-                    var percenttime = (scope.currentoffset + 1) / timeline_width;
-                    var hour = Math.floor(percenttime * 12);
-                    var percentminutes = (percenttime * 12) - hour;
-					var minutes = Math.round((percentminutes * 60) / 5) * 5;
-                    if (hour === 0) {
-                        hour = 12;
-                    }
-					if (minutes == 60) {
-						hour += 1;
-						minutes = 0;
-					}
-
-                    scope.time = hour + ":" + pad2(minutes);
-					scope.updateInputTime();
-                    scope.updateDate();
-                };
            
                 var initialized = false;
 
-                element.on('touchstart', function() {
-                    if (!initialized) {
-                        element.find('.timeline-container').on('touchstart', function (event) {
-                            scope.timeSelectStart(event);
-                        });
-                        initialized = true;
-                    }
-                });
 
-                scope.timeSelectStart = function (event) {
-                    scope.initializeTimepicker();
-                    var timepicker_container = element.find('.timepicker-container-inner');
-					var timepicker_offset = timepicker_container.offset().left;
-                    if (event.type == 'mousedown') {
-                        scope.xinitial = event.clientX;
-                    } else if (event.type == 'touchstart') {
-                        scope.xinitial = event.originalEvent.touches[0].clientX;
-                    }
-                    scope.moving = true;
-                    scope.currentoffset = scope.xinitial - timepicker_container.offset().left;
-                    scope.totaloffset = scope.xinitial - timepicker_container.offset().left;
-					console.log(timepicker_container.width());
-					if (scope.currentoffset < 0) {
-						scope.currentoffset = 0;
-					} else if (scope.currentoffset > timepicker_container.width()) {
-						scope.currentoffset = timepicker_container.width();
-					}
-					currenttime.css({
-                        transform: 'translateX(' + scope.currentoffset + 'px)',
-                        transition: 'none',
-                        cursor: 'ew-resize',
-                    });
-                    scope.getTime();
-                };
-           
-                angular.element($window).on('mousemove touchmove', function (event) {
-                    if (scope.moving === true) {
-                        event.preventDefault();
-                        if (event.type == 'mousemove') {
-                            scope.offsetx = event.clientX - scope.xinitial;
-                        } else if (event.type == 'touchmove') {
-                            scope.offsetx = event.originalEvent.touches[0].clientX - scope.xinitial;
-                        }
-                        var movex = scope.offsetx + scope.totaloffset;
-                        if (movex >= 0 && movex <= timeline_width) {
-                            currenttime.css({
-                                transform: 'translateX(' + movex + 'px)',
-                            });
-                            scope.currentoffset = movex;
-                        } else if (movex < 0) {
-                            currenttime.css({
-                                transform: 'translateX(0)',
-                            });
-                            scope.currentoffset = 0;
-                        } else {
-                            currenttime.css({
-                                transform: 'translateX(' + timeline_width + 'px)',
-                            });
-                            scope.currentoffset = timeline_width;
-                        }
-                        scope.getTime();
-                        scope.$apply();
-                    }
-                });
-           
-                angular.element($window).on('mouseup touchend', function (event) {
-                    if (scope.moving) {
-                        // var roundsection = Math.round(scope.currentoffset / sectionlength);
-                        // var newoffset = roundsection * sectionlength;
-                        // currenttime.css({
-                        //     transition: 'transform 0.25s ease',
-                        //     transform: 'translateX(' + (newoffset - 1) + 'px)',
-                        //     cursor: 'pointer',
-                        // });
-                        // scope.currentoffset = newoffset;
-                        // scope.totaloffset = scope.currentoffset;
-                        // $timeout(function () {
-                        //     scope.getTime();
-                        // }, 250);
-                    }
-                    scope.moving = false;
-                });
-
-                scope.adjustTime = function (direction) {
-                    event.preventDefault();
-                    scope.initializeTimepicker();
-                    var newoffset;
-                    if (direction == 'decrease') {
-                        newoffset = scope.currentoffset - sectionlength;
-                    } else if (direction == 'increase') {
-                        newoffset = scope.currentoffset + sectionlength;
-                    }
-                    if (newoffset < 0 || newoffset > timeline_width) {
-                        if (newoffset < 0) {
-                            newoffset = timeline_width - sectionlength;
-                        } else if (newoffset > timeline_width) {
-                            newoffset = 0 + sectionlength;
-                        }
-                        if (scope.timeframe == 'am') {
-                            scope.timeframe = 'pm';
-                        }
-                        else if (scope.timeframe == 'pm') {
-                            scope.timeframe = 'am';
-                        }
-                    }
-                    currenttime.css({
-                        transition: 'transform 0.4s ease',
-                        transform: 'translateX(' + (newoffset - 1) + 'px)',
-                    });
-                    scope.currentoffset = newoffset;
-                    scope.totaloffset = scope.currentoffset;
-                    scope.getTime();
-                };
+ 
             }
 
             // End Timepicker Code //

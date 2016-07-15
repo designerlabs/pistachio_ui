@@ -226,8 +226,7 @@
 }
 /* timepicker styles */
 .timepicker-container-outer {
-  width: 50%;
-  max-width: 700px;
+  width: 70%;
   float: left;
   display: block;
   padding: 0px 30px 30px;
