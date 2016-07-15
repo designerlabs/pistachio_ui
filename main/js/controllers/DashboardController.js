@@ -1,5 +1,5 @@
 'use strict';
-
+var getToken = localStorage.getItem("token");
 MetronicApp.controller('DashboardController', function($rootScope, $scope, $http, $timeout, $sce) {
     $scope.$on('$viewContentLoaded', function() {
 
@@ -7,7 +7,8 @@ MetronicApp.controller('DashboardController', function($rootScope, $scope, $http
         Metronic.initAjax();
         $scope.iframeHeight = window.innerHeight;
         var getUser = localStorage.getItem("username");
-    	$http.get(globalURL+"pistachio/dashboard")
+    	//$http.get(globalURL+"pistachio/dashboard")
+        $http.get(globalURL+"pistachio/dashboard/role?user=" + getToken)
     	.success(function(response) {
     		$scope.names = response;
        });
