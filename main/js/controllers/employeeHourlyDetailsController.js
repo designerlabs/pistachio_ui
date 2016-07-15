@@ -24,6 +24,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         Layout.setSidebarMenuActiveLink('set', $('#trackerLink')); // set profile link active in sidebar menu 
 
         $scope.empName = myArr[1];
+        $scope.branchCode = myArr[3];
 
         $scope.employeeArr.push(myArr[1]);
 
@@ -462,7 +463,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
                 console.log($scope.getFromDtN, $scope.getToDtN);
                 //$http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "/1").success(function(data) {
-                $http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.getFromDtN+"/"+$scope.getToDtN  + "/1").success(function(data) {
+                $http.get(globalURL + "api/employee/"+$scope.branchCode+"/" + name + "/" + $scope.getFromDtN+"/"+$scope.getToDtN  + "/1").success(function(data) {
                     var start = +new Date();
                     if (data) {
                         //$scope.loading = true;
@@ -497,7 +498,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                 }).finally(function(){
                     //$scope.loading = false;
                     //$http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "/2").success(function(data) {
-                    $http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.getFromDtN+"/"+$scope.getToDtN  + "/2").success(function(data) {
+                    $http.get(globalURL + "api/employee/"+$scope.branchCode+"/" + name + "/" + $scope.getFromDtN+"/"+$scope.getToDtN  + "/2").success(function(data) {
                         //$.getJSON('jsonp_' + name + '.js', function(data) {
                         // Create a timer
                         console.log(data);
@@ -531,7 +532,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     }).finally(function(){
                     //    $scope.loading = false;
                         //$http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0]).success(function(data) {
-                        $http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.getFromDtN+"/"+$scope.getToDtN).success(function(data) {
+                        $http.get(globalURL + "api/employee/"+$scope.branchCode+"/" + name + "/" + $scope.getFromDtN+"/"+$scope.getToDtN).success(function(data) {
                     //$.getJSON('jsonp_' + name + '.js', function(data) {
                     // Create a timer
                     console.log(data);

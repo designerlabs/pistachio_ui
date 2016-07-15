@@ -746,6 +746,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                             console.log(data);
                             //alert('call-2');
                             //alert(startDt);
+                            $scope.branchCode = data.response.docs[0].branch_code;
                             var storeData = [];
                             if (data.facets.count == 0) {
                                 //console.log(data.facets.count.length);
@@ -1100,7 +1101,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             var currentSelectDate = this.$parent.$parent.subtitle;
             var currBranchName = this.$parent.$parent.getBranchVal.one;
             var currEmpName = this.$parent.value.brhName.name;
-            location.href = "index.html#/employeeHourlyDetails/employeeHourlyDetails.html?branch_name=" + currBranchName + "&emp_name=" + currEmpName + "&currDate=" + currentSelectDate;
+            location.href = "index.html#/employeeHourlyDetails/employeeHourlyDetails.html?branch_name=" + currBranchName + "&emp_name=" + currEmpName + "&currDate=" + currentSelectDate+"&branchCode="+$scope.branchCode;
         };
 
  });
