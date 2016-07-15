@@ -59,6 +59,31 @@ text.axis-worktime {
 }
 
 
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700);
+.no-select, .grid-toggle, ul.grid.grid-list .grid-head ul li {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+::-webkit-input-placeholder {
+  color: #5d7592;
+}
+
+:-moz-placeholder {
+  color: #5d7592;
+}
+
+::-moz-placeholder {
+  color: #5d7592;
+}
+
+:-ms-input-placeholder {
+  color: #5d7592;
+}
+
 .ma-m {
   font-size: 28px;
 }
@@ -97,25 +122,30 @@ text.axis-worktime {
   padding: 0 0.5em;
 }
 
-.ma-grid-toggle {
+.grid-toggle {
   cursor: pointer;
   float: right;
 }
-.ma-grid-toggle a span {
+.grid-toggle a span {
   color: #5d7592;
 }
-.ma-grid-toggle a span:first-child {
+.grid-toggle a span:first-child {
   color: #38405e;
   margin-right: 12px;
 }
-.ma-grid-toggle a.active span:first-child {
+.grid-toggle a.active span:first-child {
   color: #5d7592;
 }
-.ma-grid-toggle a.active span:last-child {
+.grid-toggle a.active span:last-child {
   color: #38405e;
 }
 
-
+.btn {
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #5d7592;
+}
 
 ul.grid .grid-body ul li span {
   display: inline-block;

@@ -10,15 +10,16 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
          .success(function(response) {
             console.log("branches "+response);
             $scope.branches = response;
-            console.log(branchgird);
+            sortable($scope, response, 16, 'updated_at');
          });
+
         // $scope.pie();
     });
 
     $scope.branch_change = function(id) {
-      console.log("Selected branch"+$scope.selectedBranch);
+      console.log("Selected branch"+$scope.selectedBranch.branch);
       console.log("getting officers")
-      $http.get(globalURL+"api/secured/pistachio/myaudit/officer?branch="+$scope.selectedBranch,
+      $http.get(globalURL+"api/secured/pistachio/myaudit/officer?branch="+$scope.selectedBranch.branch,
       {headers: { 'Content-Type': 'application/json' }})
          .success(function(response) {
              $scope.showOfficer = true;
@@ -26,7 +27,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
            
          });
       console.log("Getting branch heatmap");
-      $http.get(globalURL+"api/secured/pistachio/myaudit/branch/heatmap?branch="+$scope.selectedBranch,
+      $http.get(globalURL+"api/secured/pistachio/myaudit/branch/heatmap?branch="+$scope.selectedBranch.branch,
       {headers: { 'Content-Type': 'application/json' }}
 
         )
@@ -278,7 +279,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
 
     $rootScope.query = '';
     
-    $scope.gridToggle = true;
+    $scope.gridToggle = false;
 
     $scope.onQueryChange = function(val){
        $rootScope.query = val;
@@ -296,7 +297,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
       { 'icon' : 'm-group',   'name' : 'Kitty Kat Kapture Form', 'date' : 'Wednesday at 7:15pm', 'user' : { 'name' : 'Kitty',   'color' : '#1D9D9D'} }
     ];
     
-    sortable($scope, items, 6, 'updated_at');
+    
 
          
 
