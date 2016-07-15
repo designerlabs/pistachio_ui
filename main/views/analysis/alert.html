@@ -1,0 +1,136 @@
+<div class="app-container" ng-app="dateTimeApp" ng-controller="MyAlertController as ctrl" ng-cloak>
+    
+  <div date-picker
+     datepicker-title="Alerts"
+     picktime="false"
+     pickdate="true"
+     pickpast="true"
+
+     mondayfirst="false"
+     custom-message="You have selected"
+     selecteddate="ctrl.selected_date"
+     updatefn="ctrl.updateDate(newdate)">
+  
+    <div class="datepicker"
+       ng-class="{
+        'am': timeframe == 'am',
+        'pm': timeframe == 'pm',
+        'compact': compact
+      }">
+      <div class="datepicker-header">
+        <div class="datepicker-title" ng-if="datepicker_title">{{ datepickerTitle }}</div>
+        <div class="datepicker-subheader">{{ customMessage }} {{ selectedDay }} {{ monthNames[localdate.getMonth()] }} {{ localdate.getDate() }}, {{ localdate.getFullYear() }}</div>
+      </div>
+      <div class="datepicker-calendar">
+        <div class="calendar-header">
+          <div class="goback" ng-click="moveBack()" ng-if="pickdate">
+            <svg width="30" height="30">
+              <path fill="none" stroke="#0DAD83" stroke-width="3" d="M19,6 l-9,9 l9,9"/>
+            </svg>
+          </div>
+          <div class="current-month-container">{{ currentViewDate.getFullYear() }} {{ currentMonthName() }}</div>
+          <div class="goforward" ng-click="moveForward()" ng-if="pickdate">
+            <svg width="30" height="30">
+              <path fill="none" stroke="#0DAD83" stroke-width="3" d="M11,6 l9,9 l-9,9" />
+            </svg>
+          </div>
+        </div>
+        <div class="calendar-day-header">
+          <span ng-repeat="day in days" class="day-label">{{ day.short }}</span>
+        </div>
+        <div class="calendar-grid" ng-class="{false: 'no-hover'}[pickdate]">
+          <div
+            ng-class="{'no-hover': !day.showday}"
+            ng-repeat="day in month"
+            class="datecontainer"
+            ng-style="{'margin-left': calcOffset(day, $index)}"
+            track by $index>
+            <div class="datenumber" ng-class="{'day-selected': day.selected }" ng-click="selectDate(day)">
+              {{ day.daydate }}
+            </div>
+          </div>
+          
+        </div>
+
+      </div>
+     <div class= "events timepicker-container-outer">
+     <div class="mt-comments">
+                                                    <div class="mt-comment">
+                                                        
+                                                        <div class="mt-comment-body">
+                                                            <div class="mt-comment-info">
+                                                                <span class="mt-comment-author">Michael Baker</span>
+                                                                <span class="mt-comment-date">26 Feb, 10:30AM</span>
+                                                            </div>
+                                                            <div class="mt-comment-text"> Lorem  </div>
+                                                            <div class="mt-comment-details">
+                                                                <span class="mt-comment-status mt-comment-status-pending">Pending</span>
+                                                                <ul class="mt-comment-actions">
+                                                                    <li>
+                                                                        <a href="#">Quick Edit</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#">View</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#">Delete</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    
+                                                    
+                                                </div>
+            <ul class="events-detail">
+              <li >
+                <a href="#">
+                  <span class="event-time">KLIA 2</span>
+                  <span class="event-name">2PM</span>
+                  <br />
+                  <span class="event-location">No Records</span>
+                </a>
+              </li>
+               
+               <li>
+                <a href="#">
+                  <span class="event-time">2 - 3 PM </span>
+                  <span class="event-name">KLIA</span>
+                  <br />
+                  <span class="event-location">Records low</span>
+                </a>
+              </li>
+              
+                <li>
+                <a href="#">
+                  <span class="event-time">3 - 4 PM </span>
+                  <span class="event-name">KLIA</span>
+                  <br />
+                  <span class="event-location">No Records</span>
+                </a>
+              </li>
+              
+                <li>
+                <a href="#">
+                  <span class="event-time">4 - 5 PM </span>
+                  <span class="event-name">KLIA</span>
+                  <br />
+                  <span class="event-location">Records low</span>
+                </a>
+              </li>
+              
+                <li>
+                <a href="#">
+                  <span class="event-time">5- 6 PM </span>
+                  <span class="event-name">KLIA</span>
+                  <br />
+                  <span class="event-location">Records low</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+      
+    </div>
+  </div>
+</div>

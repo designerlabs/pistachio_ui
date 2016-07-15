@@ -1,5 +1,5 @@
 
-<select ng-model='selectedBranch'  ng-change="branch_change(id)" ng-options='branch for branch in branches'></select>
+<select ng-model='selectedBranch'  ng-change="branch_change(id)" ng-options='branch.branch for branch in branches'></select>
 
 <select id='off_sel' ng-model='selectedOfficer' ng-show="showOfficer" ng-change="officer_change(id)" ng-options='officer for officer in officers'></select>
 <div id="chart" ng-show="showHeatMap"></div>
@@ -20,8 +20,8 @@
 
       <div class="ma-grid-toggle">
         <a ng-click="gridToggle = !gridToggle" ng-class="{ 'active' : gridToggle }">
-          <span class="ma-m m-squares"></span>
-          <span class="ma-m m-form"></span>
+          <span class="ma-m fa fa-bars fa-2"></span>
+          <span class="ma-m fa fa-th-large fa-2"></span>
         </a>
       </div>
       
@@ -45,7 +45,7 @@
             <li>
               
               <span class="grid-icon m" ng-class="item.icon"></span>
-              <span class="grid-title"><a href="#">{{ item.name }}</a></span>
+              <span class="grid-title"><a href="#">{{ item.branch }}</a></span>
             </li>
             
 

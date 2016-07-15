@@ -1055,7 +1055,26 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }]
         }
     })
-
+    .state('myAlert', {
+        url: "/alertAnalysis.html",
+        templateUrl: "views/analysis/alert.html",
+        data: {
+            pageTitle: 'My Alerts'
+        },
+        controller: "MyAlertController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/pistachio/myAlert/myAlert.css',
+                        'js/controllers/MyAlertController.js'
+                    ]
+                });
+            }]
+        }
+    })
     .state('myAudit', {
         url: "/auditAnalysis.html",
         templateUrl: "views/analysis/audit.html",
