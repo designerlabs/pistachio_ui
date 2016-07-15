@@ -15,13 +15,12 @@ MetronicApp.controller('MyAlertController', function($rootScope, $scope, $http) 
 	ctrl.selected_date.setMinutes(0);
 	
 	ctrl.updateDate = function (newdate) {
-		
 		// Do something with the returned date here.
-		
 		console.log(newdate);
+        
 	};
-         
 
+    ctrl.updateDate.getDate;
             $rootScope.settings.layout.pageSidebarClosed = true;
             $rootScope.skipTitle = false;
             $rootScope.settings.layout.setTitle("auditanalysis");

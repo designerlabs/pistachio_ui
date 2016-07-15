@@ -8,7 +8,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
        $scope.showPie = false;
        $http.get(globalURL+"api/secured/pistachio/myaudit/branch")
          .success(function(response) {
-            console.log("branches "+response);
+            console.log(response);
             $scope.branches = response;
             sortable($scope, response, 16, 'updated_at');
          });
