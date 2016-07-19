@@ -114,7 +114,6 @@ $scope.$on('mapClick', function(event, e) {
 
 
     map.on('singleclick', function (e) {
-      debugger;
       $rootScope.$broadcast('mapClick', e);
       $(".range-slider__range").val('20');
       $(".range-slider__value").text('20 KM');

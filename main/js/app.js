@@ -416,7 +416,7 @@ MetronicApp.controller('sessionController', function($scope, Idle, Keepalive, $m
 
         var dt = new Date(localStorage.getItem("expireTime"));
         var sec = dt.getSeconds()
-        IdleProvider.idle(6000); //idle time dueration
+        IdleProvider.idle(900); //idle time dueration
         IdleProvider.timeout(30); // waiting time to refresh
         // KeepaliveProvider.interval(15);
     });
@@ -846,6 +846,8 @@ MetronicApp.controller('HeaderController', ['$scope', function($scope) {
 /* Setup Layout Part - Sidebar */
 MetronicApp.controller('SidebarController', ['$scope', '$http', 'authorities', function($scope, $http, authorities) {
     $scope.$on('$includeContentLoaded', function() {
+
+        
         var getToken = localStorage.getItem("token");
         var authoritiesArray, res = [];
         var authoritiesValue;
@@ -872,7 +874,28 @@ MetronicApp.controller('SidebarController', ['$scope', '$http', 'authorities', f
                 console.log("complete");
             });
 
+            $('a, li[class^="nav"], *[ng-click], .sub-menu li a').click(function(){
+                $.ajax({
 
+                    url: globalURL + 'auth/token?token=' + getToken,
+                    type: 'GET'
+                })
+                .done(function(data) {
+                    $scope.displayNames = data.reports;
+                    console.log(data.reports);
+                    console.log("success");
+
+                })
+                .fail(function() {
+                    localStorage.setItem("token", "");
+                    //location.href="#/login.html";
+                    window.location = "login.html";
+                    console.log("error");
+                })
+                .always(function() {
+                    console.log("complete");
+                });
+            });
         console.log(authoritiesArray);
 
         var flag = true;
