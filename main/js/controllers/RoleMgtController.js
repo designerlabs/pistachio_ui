@@ -5,6 +5,7 @@ var triggerDataTableName = "";
 var SubReportAry = [];
 var SubReportObj = [];
 var flag_dashboard=[], flag_fastsearch=[], flag_database=[], _nme;
+var getToken = localStorage.getItem("token");
 MetronicApp.controller('RoleMgtController', function($rootScope, $scope, settings, $http, $timeout) {
     $scope.$on('$viewContentLoaded', function() {
 
@@ -262,7 +263,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
 
             //Load dashboard
 
-            $.get( globalURL + "pistachio/dashboard",{headers: { 'Content-Type': 'application/json' }}, function( data ) {
+            $.get( globalURL + "pistachio/dashboard?user=" + getToken, function( data ) {
                 $.each(data, function (key, value) {
                     $('#myDashboardSel').append(
                         $("<option></option>")
