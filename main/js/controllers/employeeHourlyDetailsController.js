@@ -280,28 +280,22 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     },
 
                     chart: {
-                        type: 'spline',
-                        events: {
-                            load: function(event) {
-                                console.log(this);
-
-                            },
-                            redraw: function() {
-                                console.log('redraw');
-                            }
-                        }
-
+                        type: 'spline'
                     },
 
-                    navigator: {
-                        enabled: false
-                    },
-
+                   
                     rangeSelector: {
-                        selected: 5,
+                        selected: 4,
                         inputEnabled: false
                     },
 
+                    scrollbar : {
+                        enabled : false
+                    },
+
+                    navigator : {
+                        enabled : false
+                    },
 
                     yAxis: {
                         labels: {
@@ -336,25 +330,20 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     },
 
                     chart: {
-                        type: 'column',
-                        events: {
-                            load: function(event) {
-                                console.log(this);
-
-                            },
-                            redraw: function() {
-                                console.log('redraw');
-                            }
-                        }
+                        type: 'spline'
 
                     },
 
-                    navigator: {
-                        enabled: false
+                    scrollbar : {
+                        enabled : false
+                    },
+
+                    navigator : {
+                        enabled : false
                     },
 
                     rangeSelector: {
-                        selected: 5,
+                        selected: 4,
                         inputEnabled: false
                     },
 
@@ -407,12 +396,16 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     },
 
                     rangeSelector: {
-                        selected: 5,
+                        selected: 4,
                         inputEnabled: false
                     },
 
-                    navigator: {
-                        enabled: false
+                    scrollbar : {
+                        enabled : false
+                    },
+
+                    navigator : {
+                        enabled : false
                     },
 
 
