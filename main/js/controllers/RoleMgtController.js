@@ -267,7 +267,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                 $.each(data, function (key, value) {
                     $('#myDashboardSel').append(
                         $("<option></option>")
-                          .attr("value", value.title)
+                          .attr("value", value.id)
                           .text(value.title)
                     );
                 });
@@ -276,7 +276,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                 $.get( globalURL + "api/role/" + selectedroleMgt.name +"/dashboard", function( data ) {
                   // debugger;
                   $.each(data, function (key, value) {
-                      $('#myDashboardSel').multiSelect('select', value);
+                      $('#myDashboardSel').multiSelect('select', value.title);
                   });
                   $('#myDashboardSel').multiSelect('refresh');
                 });
