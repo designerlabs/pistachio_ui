@@ -285,7 +285,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
                    
                     rangeSelector: {
-                        selected: 4,
+                        selected: 5,
                         inputEnabled: false
                     },
 
@@ -343,7 +343,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     },
 
                     rangeSelector: {
-                        selected: 4,
+                        selected: 5,
                         inputEnabled: false
                     },
 
@@ -396,7 +396,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     },
 
                     rangeSelector: {
-                        selected: 4,
+                        selected: 5,
                         inputEnabled: false
                     },
 
