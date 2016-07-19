@@ -144,7 +144,9 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
             // }
             fn_ClearResultTbl();
 
+
         });
+
 
         $scope.aceLoaded = function(_editor) {
             $scope.aceSession = _editor.getSession();
@@ -343,13 +345,15 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
 
                     historyResult = response.data.content;
                     historyTbl = $('#tblHistory').DataTable({
+                        "order": [[ 2, "desc" ]],
+                        "select": true,                        
                         "processing": true,
                         "data": historyResult,
                         "paging": false,
                         "bInfo": false,
                         "columns": [{
                             "data": "query",
-                            "width": "70%"
+                            "width": "60%"
                         }, {
                             "data": "success",
                             "render": function(data, type, full, meta) {
@@ -361,18 +365,32 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                             }
                         }, {
                             "data": "runTime"
+                        },{
+                            "data": "action",
+                            "render":function(data, type, full, meta){
+                                return '<button class="btn btn-warning btn-sm copyto">Copy All</button>';  
+                            }
                         }]
                     });
-                    $('#tblHistory tbody').on('click', 'tr', function() {
-                        var data = historyTbl.row(this).data();
+                    $('#tblHistory tbody').on('click', 'tr td:first-child', function() {
+                        var data = window.getSelection().toString();
+                        if(data.length > 0){
+                            editor.session.setValue('');
+                            editor.session.setValue(data);      
+                        }               
+                    });
+                    $('#tblHistory tbody').on('click', 'button.copyto', function() {
+                        var data = historyTbl.row($(this).parents('tr')).data();
                         editor.session.setValue('');
                         editor.session.setValue(data.query);
-                        // $scope.btnExec = false;
-                        // $scope.Saveqry = false;
                     });
-                    //$(".page-content").height($(".profile-content").height() + 400);
+                    
                 });
+
+
         }
+
+
 
         function fn_showSavedQry() {
             var SavedQryResult;
@@ -384,6 +402,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
 
                     SavedQryResult = response.data.content;
                     SavedQryTbl = $('#tblSavedQuery').DataTable({
+                        "order": [[ 2, "desc" ]],
                         "processing": true,
                         "data": SavedQryResult,
                         "paging": false,
@@ -397,13 +416,28 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                         }, {
                             "data": "savedTime",
                             "width": "30%"
+                        },{
+                            "data": "action",
+                            "render":function(data, type, full, meta){
+                                return '<button class="btn btn-warning btn-sm sacopyto">Copy All</button>';  
+                            }
                         }]
                     });
-                    $('#tblSavedQuery tbody').on('click', 'tr', function() {
-                        var data = SavedQryTbl.row(this).data();
+                    $('#tblSavedQuery tbody').on('click', 'tr td:nth-child(2)', function() {
+                        var data = window.getSelection().toString();
+                        if(data.length > 0){
+                            editor.session.setValue('');
+                            editor.session.setValue(data);      
+                        }  
+                        // var data = SavedQryTbl.row(this).data();
+                        // editor.session.setValue('');
+                        // editor.session.setValue(data.query);
+                         // $scope.Saveqry = false;
+                    });
+                    $('#tblSavedQuery tbody').on('click', 'button.sacopyto', function() {
+                        var data = SavedQryTbl.row($(this).parents('tr')).data();
                         editor.session.setValue('');
                         editor.session.setValue(data.query);
-                         // $scope.Saveqry = false;
                     });
                     //$(".page-content").height($(".profile-content").height() + 400);
                     $("#mdlSaveQry").modal('hide');
