@@ -4,7 +4,7 @@ var triggerName = "";
 var triggerDataTableName = "";
 var SubReportAry = [];
 var SubReportObj = [];
-var flag_dashboard=[], flag_fastsearch=[], flag_database=[], _nme;
+var flag_dashboard=[], flag_dashboard_id=[], flag_fastsearch=[], flag_database=[], _nme;
 var getToken = localStorage.getItem("token");
 MetronicApp.controller('RoleMgtController', function($rootScope, $scope, settings, $http, $timeout) {
     $scope.$on('$viewContentLoaded', function() {
@@ -103,7 +103,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                          });
 
                        //Add Dashboard details in role
-                        $http.post(globalURL + "api/role/" + roleMgtNameVal + "/dashboard", flag_dashboard)
+                        $http.post(globalURL + "api/role/" + roleMgtNameVal + "/dashboard", flag_dashboard_id)
                          .then(function successCallback(result) {
                            console.log("Successfully added dashboard in the role");
                          },
@@ -186,6 +186,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
         flag_fastsearch=[];
         flag_dashboard=[];
         flag_database=[];
+        flag_dashboard_id =[];
             //$("#loader").css('height', $(".page-content").height() + 140 + 'px');
             selectedroleMgt = roleMgts.row($(this).parents('tr')).data();
             $("#loader .page-spinner-bar").removeClass('hide');
@@ -267,7 +268,8 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                 $.each(data, function (key, value) {
                     $('#myDashboardSel').append(
                         $("<option></option>")
-                          .attr("value", value.id)
+                          .attr("value", value.title)
+                          .attr("itm_id", value.id)
                           .text(value.title)
                     );
                 });
@@ -276,6 +278,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                 $.get( globalURL + "api/role/" + selectedroleMgt.name +"/dashboard", function( data ) {
                   // debugger;
                   $.each(data, function (key, value) {
+                      // $('#myDashboardSel').multiSelect('select', value.id);
                       $('#myDashboardSel').multiSelect('select', value.title);
                   });
                   $('#myDashboardSel').multiSelect('refresh');
@@ -343,7 +346,7 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                  });
 
                  //Add Dashboard details in role
-                 $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/dashboard", flag_dashboard,
+                 $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/dashboard", flag_dashboard_id,
       {headers: { 'Content-Type': 'application/json' }})
                   .then(function successCallback(result) {
                     console.log("Successfully updated dashboard in the role");
@@ -617,17 +620,19 @@ function UpdateSubReportsCrud(RoleName){
 
  $('#myDashboardSel').multiSelect({
   afterSelect: function (value) {
-    flag_dashboard.push(value[0]); 
-    // console.log(flag_dashboard); 
+    flag_dashboard_id.push($("#myDashboardSel option[value ='" + value[0] + "']").attr('itm_id')); 
+    // flag_dashboard.push(value[0]);
+    // console.log(flag_dashboard_id); 
   },
   afterDeselect: function(value){ 
+    var id = $("#myDashboardSel option[value ='" + value[0] + "']").attr('itm_id'); 
    _nme="";
-   _nme = $(flag_dashboard).filter(function( k ) {
-                  return flag_dashboard[k] == value;
+   _nme = $(flag_dashboard_id).filter(function( k ) {
+                  return flag_dashboard_id[k] == id;
               });
-    console.log(_nme[0]); 
-    flag_dashboard.splice($.inArray(_nme[0],flag_dashboard),1);  
-    // console.log(flag_dashboard); 
+    // console.log(_nme[0]); 
+    flag_dashboard_id.splice($.inArray(_nme[0],flag_dashboard_id),1);  
+    // console.log(flag_dashboard_id); 
   }
  });
 
