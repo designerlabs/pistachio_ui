@@ -89,6 +89,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
 
 
 $scope.$on('mapClick', function(event, e) {
+  
   $scope.clicked = true 
   $scope.latVal = e.latlng.lat; $scope.lngVal = e.latlng.lng;
   $(".range-slider__range").val('20');
@@ -104,6 +105,7 @@ $scope.$on('mapClick', function(event, e) {
 
 
     map.on('fullscreenchange', function () {
+      
     if (map.isFullscreen()) {
        $(".range-slider").addClass("range_fullscreen");
     } else {
@@ -114,7 +116,7 @@ $scope.$on('mapClick', function(event, e) {
 
 
     map.on('singleclick', function (e) {
-      debugger;
+     
       $rootScope.$broadcast('mapClick', e);
       $(".range-slider__range").val('20');
       $(".range-slider__value").text('20 KM');
@@ -150,7 +152,6 @@ $scope.$on('mapClick', function(event, e) {
       $("#mapid").css('height', bigmapheight);
       $("#mapid").css('height', bigmapheight);
     });
-
 
 
     }
@@ -455,7 +456,7 @@ $scope.$on('mapClick', function(event, e) {
 
   $scope.showCitizens = function () {
     var query = "";
-
+    $scope.option = false;
     $scope.showCitizen = true;
     $scope.showApplication = false;
     $scope.showVisitor = false;

@@ -401,3 +401,12 @@ Rounded Portlets
         width: 100%;
     }
 }
+
+meter::-webkit-meter-optimum-value {
+  -webkit-transition: width .5s;
+  transition: width .5s;
+}
+
+
+
+

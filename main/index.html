@@ -127,8 +127,9 @@ Website: http://www.mimos.com.my/
           <div class="modal-header">
            <h3>{{'session.idlemessage' | translate}}!</h3>
           </div>
-          <div idle-countdown="countdown" ng-init="countdown=30" class="modal-body">
-           <progressbar max="30" value="30" animate="true" id="progreesBarId" class="progress-striped active">{{'session.endmessage' | translate}} {{countdown}} {{'session.endmessageinsec' | translate}}.</progressbar>
+          <div idle-countdown="countdown" ng-init="countdown=30" class="modal-body text-center">
+           <h2 style="color:red">{{countdown}}</h2><meter value="{{countdown}}" max="30" style="width:400px; height:30px;"></meter>
+           <h4>{{'session.endmessage' | translate}} {{countdown}} {{'session.endmessageinsec' | translate}}.</h4>
           </div>
 
         </script>

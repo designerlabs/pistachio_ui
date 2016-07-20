@@ -4,7 +4,6 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
     $scope.$on('$viewContentLoaded', function() {   
         // initialize core components
         Metronic.initAjax();
-        
         $("#dashboard").show();
         $("#tableList").hide();
 
@@ -21,6 +20,7 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
             $('.sub-menu').hide();
             $(this).parent('li').addClass('active');
             console.log(this);
+
             //alert(this);
             $(this).parents('ul').parent('li').addClass("active");
         });
