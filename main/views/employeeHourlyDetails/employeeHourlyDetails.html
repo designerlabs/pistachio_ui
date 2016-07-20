@@ -37,7 +37,7 @@
         <div id="employeeList" style="height:500px; overflow-x: auto;">
             <ul class="customChk" style="list-style:none; padding:0px; margin:0px;">
                 <li ng-repeat="value  in storeData" my-emp-directive style="padding:0 5px 5px;">
-                    <input type="checkbox" name="check-box" class="{{value[0]}}" value="{{value[0]}}" />
+                    <input id="{{value[0]}}" type="checkbox" name="check-box" class="{{value[0]}}" value="{{value[0]}}" />
                     <span>{{value[0]}} ({{value[1]}})</span>
                 </li>
             </ul>
