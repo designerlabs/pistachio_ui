@@ -177,11 +177,13 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         var groupBy = "";
         var gap = "%2B1DAY";
         $scope.storeData = [];
+        
+        
 
-        $http.get("http://" + solrHost + ":8983/solr/" + immigrationSolr + "/query?json={query: '" + triggerOpt + "',filter : 'xit_date : [" + $scope.getFromDtEpoch + " TO " + $scope.getToDtEpoch + "]',limit: 0,facet: {officer: {type: terms,limit: 30,field: dy_create_id}}}")
+
+        $scope.getOfficersbyDate = function( from, to) {
+            $http.get("http://" + solrHost + ":8983/solr/" + immigrationSolr + "/query?json={query: '" + triggerOpt + "',filter : 'xit_date : [" + from + " TO " + to + "]',limit: 0,facet: {officer: {type: terms,limit: 30,field: dy_create_id}}}")
             .success(function(data) {
-                //console.log(data);
-                //$scope.loading = true;
                 if (data.facets.count == 0) {
                     //console.log(data.facets.count.length);
                 } else {
@@ -194,6 +196,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     }
                 }
                 $scope.storeData;
+                console.log( $scope.storeData)
 
             }).catch(function(err) {
 
@@ -201,14 +204,11 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
             .finally(function() {
                 //$scope.loading = false;
             });
+        }
 
-
-
-
-
+        $scope.getOfficersbyDate($scope.getFromDtEpoch,$scope.getToDtEpoch )
         $scope.timelineChart = function() {
-
-
+       
             $scope.seriesOptions = [];
             $scope.seriesOptions1 = [];
             $scope.seriesOptions2 = [];
@@ -217,49 +217,107 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
             $scope.seriesCounter2 = 0;
 
 
-            //Set Extreme function for Highchart timeline selection
-            (function(H) {
-                H.wrap(H.Axis.prototype, 'setExtremes', function(proceed) {
-                    var newMin = arguments[1],
-                        newMax = arguments[2];
-                    arguments[1] = (newMin + newMax) / 2;
-                    // Run original proceed method
-                    proceed.apply(this, [].slice.call(arguments, 1));
-                });
-            }(Highcharts));
-
-            function afterSetExtremes(e) {
-                $scope.loading = true;
-                var chart = $('#container').highcharts();
-                chart.showLoading('Loading data from server...');
-
-                //Formatting Date
-                var dateFormat = function(ele) {
-                    var myDate = new Date(ele);
-
-                    var yyyy = myDate.getFullYear().toString();
-
-                    var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
-                    var dd = myDate.getDate().toString();
-                    return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
-                };
-
-                //$scope.startDate = dateFormat(Math.round(e.min));
-                //$scope.endDate = dateFormat(Math.round(e.max));
-                $("#datetimeFrom").data('DateTimePicker').date($scope.changeDt(dateFormat(Math.round(e.min))));
-                $("#datetimeTo").data('DateTimePicker').date($scope.changeDt(dateFormat(Math.round(e.max))));
-
-                $scope.startDate = $scope.getFromDt;
-                $scope.endDate = $scope.getToDt;
-
-                $scope.subtitle = $scope.changeDt(dateFormat(Math.round(e.min))) + " - " + $scope.changeDt(dateFormat(Math.round(e.max)));
-            };
-
             /**
              * Create the chart when all data is loaded
              * @returns {undefined}
              */
             $scope.createChart = function() {
+                var charts = [],
+                options;
+                var chartType = "line";
+                function syncTooltip(container, p) {
+                    var i = 0;
+                    for (; i < charts.length; i++) {
+                        if (container.id != charts[i].container.id) {
+                            if(charts[i].tooltip.shared) {
+                                
+                                charts[i].tooltip.refresh([charts[i].series[0].data[p]]);
+                            }
+                            else {
+                                charts[i].tooltip.refresh(charts[i].series[0].data[p]);
+                            }
+                        }
+                    }
+                }
+
+
+                options = {
+                    plotOptions: {
+                        series: {
+                            point: {
+                                events: {
+                                    mouseOver: function () {
+                                        
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    xAxis: {
+                        type: 'datetime'
+                    }
+                };
+
+                charts[0] = new Highcharts.Chart($.extend(true, {}, options, {
+                    chart: {
+                        type: chartType,
+                        renderTo: 'container',
+                        zoomType: 'x'
+                    },
+
+                    title:{
+                        text: ''
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        shared: true,
+                       
+                    },
+                    series: $scope.seriesOptions
+                }));
+
+
+                charts[1] = new Highcharts.Chart($.extend(true, {}, options, {
+                    chart: {
+                        type: chartType,
+                        renderTo: 'container1',
+                        zoomType: 'x'
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        shared: true
+                    },
+                    title:{
+                        text: ''
+                    },
+                    series: $scope.seriesOptions1
+                }));
+                charts[2] = new Highcharts.Chart($.extend(true, {}, options, {
+                    chart: {
+                        type: chartType,
+                        renderTo: 'container2',
+                        zoomType: 'x'
+                    },
+                    title:{
+                        text: ''
+                    },
+                    tooltip: {
+                        shared: true
+                    },
+                    series: $scope.seriesOptions2
+                }));
+
+                Highcharts.setOptions({
+                    global: {
+                        useUTC: false
+                    }
+                });
+            }
+            $scope.createChart2 = function() {
 
                 Highcharts.setOptions({
                     global: {
@@ -267,9 +325,10 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     }
                 });
 
-                console.log($scope.startDtNEpoch);
+                
+                charts[0] = new Highcharts.Chart($.extend(true, {}, options, {
 
-                $('#container').highcharts('StockChart', {
+                //$('#container').highcharts('StockChart', {
                     xAxis: {
                         type: 'datetime',
                         tickInterval: 3600 * 1000,
@@ -280,7 +339,8 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     },
 
                     chart: {
-                        type: 'spline'
+                        type: 'spline',
+                        renderTo: 'container'
                     },
 
                    
@@ -315,10 +375,10 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     },
                     loading: true,
                     series: $scope.seriesOptions
-                });
+                }));
 
-                
-                $('#container1').highcharts('StockChart', {
+                charts[1] = new Highcharts.Chart($.extend(true, {}, options, {
+                //$('#container1').highcharts( {
                      
                     xAxis: {
                         type: 'datetime',
@@ -330,7 +390,8 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     },
 
                     chart: {
-                        type: 'spline'
+                        type: 'spline',
+                        renderTo: 'container1'
 
                     },
 
@@ -367,22 +428,24 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     loading: true,
 
                     series: $scope.seriesOptions1
-                });
+                }));
 
-
-                $('#container2').highcharts('StockChart', {
+                charts[2] = new Highcharts.Chart($.extend(true, {}, options, {
+               // $('#container2').highcharts({
 
                     xAxis: {
                         type: 'datetime',
+                        
                         tickInterval: 3600 * 1000,
-                        min: $scope.startDtNEpoch,
-                        max: $scope.endDtNEpoch,
+                        min: $scope.startDtNEpoch
                         /*min: Date.UTC(2008, 4, 22, 00, 00),
                         max: Date.UTC(2008, 4, 23, 00, 00),*/
                     },
 
                     chart: {
                         type: 'spline',
+                        renderTo: 'container2',
+                        zoom: 'x',
                         events: {
                             load: function(event) {
                                 console.log(this);
@@ -395,40 +458,24 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
                     },
 
-                    rangeSelector: {
-                        selected: 5,
-                        inputEnabled: false
-                    },
-
-                    scrollbar : {
-                        enabled : false
-                    },
-
-                    navigator : {
-                        enabled : false
-                    },
-
-
-                    yAxis: {
-                        labels: {
-                            formatter: function() {
-                                return (this.value > 0 ? ' + ' : '') + this.value + '%';
-                            }
-                        },
-                        plotLines: [{
-                            value: 0,
-                            width: 2,
-                            color: 'silver'
-                        }]
-                    },
-
                     plotOptions: {
-
+                        series: {
+                            dataLabels:{
+                                formatter:function(){
+                                    if(this.y > 0)
+                                        return this.y;
+                                }
+                            }
+                        }
                     },
-                    loading: true,
+                    tooltip: {
+                        shared: true
+                    },
+
+                             loading: true,
 
                     series: $scope.seriesOptions2
-                });
+                }));
 
 
             }
@@ -580,9 +627,13 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         $scope.submitDate = function(e) {
 
             console.log($scope.employeeArr);
+ $scope.storeData= [];
+
+        $scope.getOfficersbyDate($scope.getFromDtN+"T00:00:00Z", $scope.getToDtN +"T00:00:00Z")
 
             //$scope.createEmployeeChart($scope.employeeArr);
             //$scope.populateChart($scope.employeeArr);
+
             $scope.timelineChart();
             //$scope.createChart();
 
