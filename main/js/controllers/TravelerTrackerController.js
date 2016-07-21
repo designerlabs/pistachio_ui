@@ -6,7 +6,6 @@ var info_personal_loaded = false;
 var visadetails = [];
 MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope, $http, $timeout) {
 
-
     $scope.lock = 'true';
     $scope.res = "result";
     $('.MismatchArea').hide();
@@ -24,9 +23,6 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
         $scope.showHistory = true;
         info_personal_loaded = false;
 
-
-
-
         var inoutTbl = undefined;
 
         /*
@@ -37,10 +33,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                 $scope.res = info;
                 info_personal_loaded = true;
             }
-        }
-
-
-     
+        }     
 
         $scope.fn_getBasicInfo = function() { //mad_pas_typ_cd
 
@@ -67,46 +60,10 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
 
                         //Assined to common variable
                         visadetails = data.response.docs;
-
-                        $('#tblvisa').DataTable({
-                            data: data.response.docs,
-                            columns: [{
-                                    "data": "sticker",
-                                    "render": function(data, type, full, meta) {
-                                        return (data == undefined ? "" : data);
-                                    }
-                                }, {
-                                    "data": "pass_type",
-                                    "render": function(data, type, full, meta) {
-                                        return (data == undefined ? "" : data);
-                                    }
-                                },
-
-                                {
-                                    "data": "job_en",
-                                    "render": function(data, type, full, meta) {
-                                        return (data == undefined ? "" : data);
-                                    }
-                                }, {
-                                    "data": "address",
-                                    "render": function(data, type, full, meta) {
-                                        return (data == undefined ? "" : data);
-                                    }
-                                },
-
-                                { "data": "created",
-                                  "render": function(data,type,full,meta){
-                                    return(moment(data,"YYYY-MM-DDT00:00:00").format("YYYY-MM-DD"));
-                                  }
-                                 }, 
-
-                                {
-                                    "data": "vend",
-                                    "render": function(data, type, full, meta) {
-                                       return(moment(data,"YYYYMMDD").format("YYYY-MM-DD"));
-                                    }
-                                }
-                            ]
+                        $.get(globalURL +"api/image/solr/" + visadetails[0].fin_no)
+                        .then(function(data) {
+                            console.log(data);
+                            $scope.fn_loadVisaTbl(visadetails,data);
                         });
                         $scope.$apply();
 
@@ -151,26 +108,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                         $scope.showHistory = true;
                         result.response.docs[0].country = "Malaysia";
                         $scope.DOB(result.response.docs[0].birth_date)
-                        $scope.fn_personalInfo(result.response.docs[0]);
-
-                        // $('#tblinout').DataTable({
-                        //     data: result.response.docs,
-                        //     columns: [{
-                        //             "data": "xit_date",
-                        //             "render": function(data, type, full, meta) {
-                        //                 var strdt = data.toString().substr(0, 10) + " " + data.toString().substr(11, 8);
-                        //                 return strdt;
-                        //             }
-                        //         }, {
-                        //             "data": "dy_action_ind",
-                        //             "render": function(data, type, full, meta) {
-                        //                 return (data == 'in' ? 'Entry' : 'Exit');
-                        //             }
-                        //         },
-                        //         { "data": "branch" },
-                        //         { "data": "branch" }
-                        //     ]
-                        // });
+                        $scope.fn_personalInfo(result.response.docs[0]);                       
                         $scope.CreateInoutChart(result.response.docs);
                         $scope.$apply();
 
@@ -196,42 +134,17 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                             return n.dy_action_ind == 'out';
                         })
                     }
-
-
                     if (result.response.docs.length !== 0) {
-
                         $scope.fn_personalInfo(result.response.docs[0]);
-                        $scope.DOB(result.response.docs[0].birth_date)
-
-
-                        // $('#tblinout').DataTable({
-                        //     data: result.response.docs,
-                        //     columns: [{
-                        //             "data": "xit_date",
-                        //             "render": function(data, type, full, meta) {
-                        //                 var strdt = data.toString().substr(0, 10) + " " + data.toString().substr(11, 8);
-                        //                 return strdt;
-                        //             }
-                        //         }, {
-                        //             "data": "dy_action_ind",
-                        //             "render": function(data, type, full, meta) {
-                        //                 return (data == 'in' ? 'Entry' : 'Exit');
-                        //             }
-                        //         },
-                        //         { "data": "branch" },
-                        //         { "data": "dy_create_id" }
-                        //     ]
-                        // });
+                        $scope.DOB(result.response.docs[0].birth_date);
                         $scope.CreateInoutChart(result.response.docs);
                         $scope.$apply();
-
                     } else {
                         // alert('No date found in himove table');
                         $scope.showHistory = false;
                     }
                     $("#loader .page-spinner-bar").addClass('hide');
                     $("#loader").hide();
-
                 });
         }
 
@@ -426,6 +339,59 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
             }
         }
 
+        $scope.fn_loadVisaTbl= function(_visadata,_imgdata){
+            var visatbl = $('#tblvisa').DataTable({
+                data: _visadata,
+                columns: [{
+                        "data": "appl_no",
+                        "render": function(data, type, full, meta) {
+                            var result = $.grep(_imgdata, function(e){ return e.appl_no == data; });//Match Appl_no
+                            if(result.length > 0){
+                                return '<img src="data:image/bmp;base64,"'+ result[0].image +'"" width="70" height="70">';
+                            }else{
+                                return '<img src="./assets/admin/layout2/img/avatar3.png" width="70" height="70">';
+                            }                            
+                        }                        
+                    },{
+                        "data": "sticker",
+                        "render": function(data, type, full, meta) {
+                            return (data == undefined ? "" : data);
+                        }
+                    }, {
+                        "data": "pass_type",
+                        "render": function(data, type, full, meta) {
+                            return (data == undefined ? "" : data);
+                        }
+                    },
+                    {
+                        "data": "job_en",
+                        "render": function(data, type, full, meta) {
+                            return (data == undefined ? "" : data);
+                        }
+                    }, {
+                        "data": "address",
+                        "render": function(data, type, full, meta) {
+                            return (data == undefined ? "" : data);
+                        }
+                    },
+                    { "data": "created",
+                      "render": function(data,type,full,meta){
+                        return(moment(data,"YYYY-MM-DDT00:00:00").format("YYYY-MM-DD"));
+                      }
+                     }, 
+                    {
+                        "data": "vend",
+                        "render": function(data, type, full, meta) {
+                           return(moment(data,"YYYYMMDD").format("YYYY-MM-DD"));
+                        }
+                    }
+                ]
+            });
+            
+            var column = visatbl.column(0); //Disable visa image if nothing
+            column.visible( _imgdata.length > 0 ? true : false );            
+        }
+
         var Qstring = window.location.href;
         var Qparam = Qstring.replace('=', ':').replace('=', ':').replace('&', ' AND ').split('?')[1];
         $scope.fn_processInput(Qparam);
@@ -462,8 +428,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                         modal.style.display = "block";
                         modalImg.src = $scope.imagetxt;
                         //modalImg.alt;
-                        //captionText.innerHTML;
-                    
+                        //captionText.innerHTML;                    
                     }
 
                     // Get the <span> element that closes the modal
