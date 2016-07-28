@@ -77,7 +77,7 @@ $scope.$watch('files', function (files) {
   function uploadUsingUpload(file, resumable) {
     sendUpload = true;
     file.upload = Upload.upload({
-      url: 'http://10.1.17.25:8080/api/pistachio/upload?user=' + $scope.getReqParams(),
+      url: globalURL+'api/pistachio/upload?user=' + $scope.getReqParams(),
      
       headers: {
          'Content-Type': file.type
@@ -102,7 +102,7 @@ $scope.$watch('files', function (files) {
       // xhr.upload.addEventListener('abort', function(){console.log('abort complete')}, false);
     });
   }
-  var thisSolrAppUrl = 'http://10.1.17.25:8080/api/secured/solr/document?text='
+  var thisSolrAppUrl = globalURL+'api/secured/solr/document?text='
 
   $scope.search = function(){
       $http.get(thisSolrAppUrl+$scope.searchTxt).
@@ -125,7 +125,7 @@ $scope.$watch('files', function (files) {
 
     file.upload = Upload.http({
       //url: 'https://angular-file-upload-cors-srv.appspot.com/upload' + $scope.getReqParams(),
-      url: 'http://10.1.17.25:8080/api/pistachio/upload?user=sridhar' + $scope.getReqParams(),
+      url: globalURL+'api/pistachio/upload?user=sridhar' + $scope.getReqParams(),
       method: 'POST',
       headers: {
         'Content-Type': undefined

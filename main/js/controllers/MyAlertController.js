@@ -4,7 +4,7 @@ MetronicApp.controller('MyAlertController', function($rootScope, $scope, $http) 
 
     $scope.$on('$viewContentLoaded', function() {
        $scope.showOfficer = false;
-    
+       $scope.loading=true;
 
     });
 
@@ -22,23 +22,35 @@ MetronicApp.controller('MyAlertController', function($rootScope, $scope, $http) 
    
             ctrl.b_events = response;
        
-          });
+          })
+            .finally(function() {
+                $scope.loading = false;
+            });
 	ctrl.updateDate = function (newdate) {
-
+        //$scope.loading = true;
 		console.log(moment(newdate).format('YYYY-MM-DD'));
 		//Get Events
 		$http.get(globalURL+"api/secured/pistachio/alert/branch/?date="+moment(newdate).format('YYYY-MM-DD'))
          .success(function(response) {
-        	$scope.b_events = response;
-        	console.log($scope.b_events);
-          });
+            $scope.b_events = response;
+        	if($scope.b_events.length === 0){
+                //debugger;
+                $scope.checkList = true;
+            }else{
+                //debugger;
+                $scope.checkList = false;
+            }
+          })
+            .finally(function() {
+                $scope.loading = false;
+            });
 
 	};
 
     ctrl.updateDate.getDate;
             $rootScope.settings.layout.pageSidebarClosed = true;
             $rootScope.skipTitle = false;
-            $rootScope.settings.layout.setTitle("auditanalysis");
+            $rootScope.settings.layout.setTitle("alertnotify");
 
 })
 
@@ -192,11 +204,16 @@ MetronicApp.directive('datePicker', function ($timeout, $window,$http) {
 				//scope.updateInputTime();
                 $http.get(globalURL+"api/secured/pistachio/alert/branch/all")
                     .success(function(response) {
-   
                         scope.b_events = response;
+                        scope.checkList = false;
        
                     });
             });
+
+            scope.getDate = function(dt){
+                var convertDate = moment(dt).add(1, 'day').format('DD-MMM-YYYY');
+                return convertDate;
+            };
 
             scope.selectDate = function (day) {
                 if (scope.pickdate == "true" && day.showday) {
@@ -214,6 +231,7 @@ MetronicApp.directive('datePicker', function ($timeout, $window,$http) {
                 }
             };
 
+         
             scope.updateDate = function () {
                 if (scope.localdate) {
                     var newdate = getDateAndTime(scope.localdate);
@@ -221,6 +239,15 @@ MetronicApp.directive('datePicker', function ($timeout, $window,$http) {
                     	$http.get(globalURL+"api/secured/pistachio/alert/branch/?date="+moment(newdate).format('YYYY-MM-DD'))
                         .success(function(response) {
                             scope.b_events = response;
+                           
+                            if(scope.b_events.length === 0){
+                                scope.checkList = true;
+                            }else{
+                                scope.checkList = false;
+                            }
+                        })
+                        .finally(function() {
+                            $scope.loading = false;
                         });
                 }
             };

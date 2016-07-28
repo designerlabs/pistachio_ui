@@ -62,6 +62,14 @@ var MetronicApp = angular
     };
 })
 
+
+.filter('startFrom', function() {
+    return function(input, start) {
+        start = +start; //parse to int
+        return input.slice(start);
+    }
+})
+
 // Angular Translate
 
 .config(function($translateProvider, DEBUG_MODE, LOCALES) {
@@ -85,7 +93,7 @@ var MetronicApp = angular
 
     
     scope.sortingOrder = initSortingOrder;
-    scope.reverse = false;
+    scope.reverse = true;
     scope.filteredItems = [];
     scope.groupedItems = [];
     scope.itemsPerPage = itemsPerPage;
@@ -475,7 +483,7 @@ MetronicApp.factory('httpRequestInterceptor', function() {
         request: function(config) {
             var storeToken = localStorage.getItem("token");
             config.headers.token = storeToken;
-            
+            Metronic.initSlimScroll('.scroller');
             return config;
         }
     };
@@ -565,6 +573,8 @@ MetronicApp.directive('myEmpDirective', function() {
              this.attr('checked', !this.attr('checked'));
 
          }
+        
+        
 
         $.each($("#employeeList input"), function(i, k) {
             $(k).parent().parent('.check-box').on('click', function (e) {
@@ -576,17 +586,17 @@ MetronicApp.directive('myEmpDirective', function() {
                 var currentValueNext = $(e.target.innerHTML).val();
                 if($('.'+currentValue).prop('checked')){
                     scope.employeeArr.push(currentValue);
-                    //scope.timelineChart();
+                    scope.timelineChart();
                 }else if($('.'+currentValueNext).prop('checked')){
                     scope.employeeArr.push(currentValueNext);
-                    //scope.timelineChart();
+                    scope.timelineChart();
                 }else{
                     if(currentValue){
                         removeItem(scope.employeeArr, currentValue);
                         scope.timelineChart();
                     }else{
                         removeItem(scope.employeeArr, currentValueNext);
-                        //scope.timelineChart();
+                        scope.timelineChart();
                     }
 
                 }
@@ -597,7 +607,6 @@ MetronicApp.directive('myEmpDirective', function() {
             });
 
         });
-
             scope.$watch('empName', function(e){
                 console.log(e);
                 $("."+e).prop('checked', true);

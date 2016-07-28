@@ -635,6 +635,13 @@
   float: right;
 }
 
+.alertFail{
+  display: block;
+  height: 200px;
+  /* text-align: center; */
+  margin-top: 17%;
+  color: #ff0000;
+}
 
 .events {
   border-left: 1px solid #ccc;
@@ -642,6 +649,8 @@
 
 .events-detail {
   list-style: none;
+  height: 330px;
+  overflow: auto;
 }
 
 .events-detail li {

@@ -136,13 +136,8 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
 
         $('.newqry').click(function() {
             editor.session.setValue('');
-            fn_GotoResultTab();
-            // if(oResultTable != undefined){
-            //  oResultTable.destroy();
-            //  oResultTable.clear()
-            //               .draw();
-            // }
-            fn_ClearResultTbl();
+            // fn_GotoResultTab();            
+            // fn_ClearResultTbl();
 
 
         });
