@@ -57,10 +57,11 @@
     <thead>
         <tr>
             <th><i class="fa fa-plane"></i> {{ele2}} Name</th>
-            <th>{{ column2 }} <span ng-show="column2 == 'No. of Exit / Visitor(s)'"><button class="sortBtn1"><i class="fa fa-sort"></i></button></span></th>
-            <th>{{ column3 }}</th>
+            
             <th>{{ column4 }} <button class="sortBtn2"><i class="fa fa-sort"></i></button></th>
             <th>{{ column5 }} <span ng-show="column5 == 'No. of Entry'"><button class="sortBtn3"><i class="fa fa-sort"></i></button></span></th>
+            <th>{{ column2 }} <span ng-show="column2 == 'No. of Exit / Visitor(s)'"><button class="sortBtn1"><i class="fa fa-sort"></i></button></span></th>
+            <th>{{ column3 }}</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -69,14 +70,15 @@
     <tbody class="tbody-sparkline">
         <tr ng-if="value.brhName.name"  ng-repeat="value  in branchOut" my-repeat-directive>
             <td>{{ value.brhName.name }}</td>
+            
+            <td ng-if="value.entry.entryTotal">{{ value.entry.entryTotal }}  / {{ value.entry.uniqueVisitor }}</td>
+            <td ng-if="!value.entry.entryTotal">0</td>
+            <td class="entrySpark" data-sparkline="{{ value.entry.entry }}" />
             <td ng-if="value.exit.exitTotal"> {{ value.exit.exitTotal}} / {{ value.exit.uniqueVisitor}}</td>
             <td ng-if="!value.exit.exitTotal">0</td>
             <td ng-if="value.brhName.exit">{{value.brhName.numFound}}</td>
             <td ng-if="value.brhName.doc">{{ value.brhName.doc }}</td>
             <td data-sparkline="{{ value.exit.exit }}" />
-            <td ng-if="value.entry.entryTotal">{{ value.entry.entryTotal }}  / {{ value.entry.uniqueVisitor }}</td>
-            <td ng-if="!value.entry.entryTotal">0</td>
-            <td class="entrySpark" data-sparkline="{{ value.entry.entry }}" />
             <td ng-if="value.brhName.entry">{{value.brhName.numFound}}</td>
             <td ng-if="value.brhName.sex">{{ value.brhName.sex }}</td>
             <td><button class="btn btn-sm btn-success viewBtn" ng-click="viewBtn()">View</button><span ng-show="ele2 == 'Officer'"><button class="btn btn-sm btn-success viewBtn" ng-click="detBtn()">Details</button></span></td>
@@ -84,12 +86,13 @@
 
         <tr ng-if="value.vName.name"  ng-repeat="value  in branchOut">
             <td> {{ value.vName.name }}</td>
-            <td>{{ value.vName.sex }}</td>
-            <td ng-if="value.vName.doc">{{ value.vName.doc }}</td>
             <td ng-if="value.vName.exit"> {{ value.vName.numFound}}</td>
             <td ng-if="!value.vName.exit">0</td>
             <td ng-if="value.vName.entry"> {{ value.vName.numFound}}</td>
             <td ng-if="!value.vName.entry">0</td>
+            <td ng-if="value.vName.sex == 'LELAKI'"><i class="fa fa-male"></i>ss</td>
+            <td ng-if="value.vName.sex == 'PEREMPUAN'"><i class="fa fa-female">bb</i></td>
+            <td ng-if="value.vName.doc">{{ value.vName.doc }}</td>
             <td><button class="btn btn-sm btn-success viewBtn" ng-click="viewBtn()">View</button></td>
         </tr>
     </tbody>

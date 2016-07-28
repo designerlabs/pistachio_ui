@@ -150,8 +150,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
             $scope.seriesDet = {
                 "series": [
-                    { "name": "in", "title": "Entry", "color": "rgba(183,216,245,0.5)" },
-                    { "name": "out", "title": "Exit", "color": "rgba(245,183,188, 0.5)" }
+                    { "name": "in", "title": "Entry", "color": "rgb(135,206,235)" },
+                    { "name": "out", "title": "Exit", "color": "rgb(240,128,128)" }
                 ]
             };
 
@@ -479,7 +479,12 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     scrollbar: {
                         enabled: false
                     },
-
+                    legend: {
+                        enabled: true,
+                        floating: true,
+                        verticalAlign: 'top',
+                        align: 'right'
+                    },
 
                     rangeSelector: {
                         selected: 5,
