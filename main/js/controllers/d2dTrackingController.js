@@ -150,8 +150,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
             $scope.seriesDet = {
                 "series": [
-                    { "name": "in", "title": "Entry", "color": "#B7D8F5" },
-                    { "name": "out", "title": "Exit", "color": "#F5B7BC" }
+                    { "name": "in", "title": "Entry", "color": "rgba(183,216,245,0.5)" },
+                    { "name": "out", "title": "Exit", "color": "rgba(245,183,188, 0.5)" }
                 ]
             };
 

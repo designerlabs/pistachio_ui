@@ -55,16 +55,22 @@
       </div>
      <div class= "events timepicker-container-outer">
      <div class="mt-comments">
-                                              
+                                  
             <ul class="events-detail" >
+              <div  ng-model="checkList"  ng-show="checkList"  class="alertFail">
+                <h3 class="text-center"><i class="fa fa-warning"></i> Alerts not found!</h3>
+              </div>
+              
               <li ng-repeat="entry in b_events">
+                
                 <a href="#">
                    <div class="mt-comment" style="padding:0px;">
                                                         
                       <div class="mt-comment-body">
+                        
                           <div class="mt-comment-info">
                               <span class="mt-comment-author">{{entry.branch}}</span>
-                              <span class="mt-comment-date">{{entry.eventTime | date : format : timezone}}</span>
+                              <span class="mt-comment-date">{{getDate(entry.eventTime)}}</span>
                           </div>
                           <div class="mt-comment-text"> {{entry.info}} </div>
                       </div>
@@ -79,3 +85,13 @@
     </div>
   </div>
 </div>
+
+<div style="background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%; position:absolute; top:0px;" ng-show="loading">
+        <!--  BEGIN PAGE SPINNER -->
+        <div ng-spinner-bar class="page-spinner-bar show">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+        <!--    END PAGE SPINNER -->
+    </div>

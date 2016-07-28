@@ -63,6 +63,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                         $.get(globalURL +"api/image/solr/" + visadetails[0].fin_no)
                         .then(function(data) {
                             console.log(data);
+                            console.log('visa image');
                             $scope.fn_loadVisaTbl(visadetails,data);
                         });
                         $scope.$apply();
@@ -347,7 +348,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                         "render": function(data, type, full, meta) {
                             var result = $.grep(_imgdata, function(e){ return e.appl_no == data; });//Match Appl_no
                             if(result.length > 0){
-                                return '<img src="data:image/bmp;base64,"'+ result[0].image +'"" width="70" height="70">';
+                                return '<img src="data:image/bmp;base64,'+ result[0].image +'" width="70" height="70">';
                             }else{
                                 return '<img src="./assets/admin/layout2/img/avatar3.png" width="70" height="70">';
                             }                            

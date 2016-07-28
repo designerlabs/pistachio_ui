@@ -1,11 +1,10 @@
 rect.bordered {
-        stroke: #E6E6E6;
-        stroke-width:2px;
-      }
+  stroke: #E6E6E6;
+  stroke-width:2px;
+}
 
 text.mono {
   font-size: 9pt;
-  font-family: Consolas, courier;
   fill: #aaa;
 }
 
@@ -58,8 +57,6 @@ text.axis-worktime {
     filter: drop-shadow( 0px 3px 3px rgba(0,0,0,.5) );
 }
 
-
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700);
 .no-select, .grid-toggle, ul.grid.grid-list .grid-head ul li {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -100,9 +97,6 @@ text.axis-worktime {
 }
 
 .filter {
-  float: left;
-  width: 75%;
-  padding-left: 2.5em;
 }
 .filter .m {
   color: #5d7592;
@@ -110,9 +104,7 @@ text.axis-worktime {
   margin-left: -1.25em;
 }
 .filter input {
-  width: 100%;
   vertical-align: top;
-  height: 2em;
   border: none;
   background: #f9fcfe;
   font-size: 16px;
@@ -156,14 +148,16 @@ ul.grid .grid-body ul li span.grid-icon {
   color: #476283;
 }
 ul.grid .grid-body ul li span.grid-title a {
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 15px;
+  font-family: "Open Sans",sans-serif;
+  font-weight: 400;
   color: #38405e;
   text-decoration: none;
 }
 ul.grid .grid-body ul li span.grid-title a:hover {
   text-decoration: underline;
 }
+
 ul.grid .grid-body ul li span.grid-usericon {
   margin-right: 12px;
   font-size: 0;
@@ -197,28 +191,74 @@ ul.grid.grid-thumb .grid-head {
   display: none;
 }
 ul.grid.grid-thumb .grid-body {
-  width: 50%;
   float: left;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   margin-bottom: 2em;
+  cursor: pointer;
+}
+.selectpicker{
+    background: none !important;
+    border: none !important;
+    overflow-y: auto !important;
+}
+
+.selectpicker option{
+  font-size:16px;
+  padding:10px;
+}
+
+.selectedAuditUserList:before{
+  content: "\2713 ";
+}
+.selectedAuditUserList{
+  background: #b1cfac;
+  font-weight: 700;
+  color: #395635;
+}
+
+.selectpickerUser{
+  font-size: 16px;
+  padding: 10px;
+  list-style: none;
+  cursor: pointer;
+}
+
+.selectedAuditList:before{
+    border: 3px solid #639a5a !important;
+    content: "\2713 ";
+    position: absolute;
+    /* bottom: 0; */
+    height: 100%;
+    /* font-weight: 600; */
+    font-size: 100px;
+    text-align: center;
+    color: #fff;
+    width: 88%;
+    padding: 0px;
+    background: rgba(166,195,161,0.8);
+    z-index: 9;
+    margin: 0px;
 }
 ul.grid.grid-thumb .grid-body:nth-child(even) {
-  padding-right: 1em;
+  /*border:1px solid #ff0000;  */
 }
 ul.grid.grid-thumb .grid-body:nth-child(odd) {
-  padding-left: 1em;
+  /*border:1px solid #ff0;   */
 }
 ul.grid.grid-thumb .grid-body ul {
   -moz-box-sizing: border-box;
+  padding: 0px 0px 0px 0px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   background: white;
   border: 1px solid #dde8f0;
-  padding: 1em 1.5em .75em;
+  height: 188px;
+  list-style: none;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
+  border-bottom: #95f184 4px solid !important;
   border-radius: 5px;
   float: left;
   width: 100%;
@@ -239,6 +279,7 @@ ul.grid.grid-thumb .grid-body ul li span.grid-icon {
 ul.grid.grid-thumb .grid-body ul li span.grid-title {
   display: block;
   margin-bottom: 1em;
+  padding: 10px 0px 0px 0px;
 }
 ul.grid.grid-thumb .grid-body ul li span.grid-user {
   margin-bottom: 2px;
@@ -310,11 +351,11 @@ ul.grid.grid-list .grid-body ul li:nth-child(2) {
   width: 30%;
 }
 ul.grid.grid-list .grid-body ul li:nth-child(3) {
-  width: 15%;
+  width: 25%;
 }
 ul.grid.grid-list .grid-body ul li:last-child {
   text-align: right;
-  width: 15%;
+  width: 25%;
 }
 ul.grid.grid-list .grid-body ul li span.grid-icon {
   margin-right: 0.5em;

@@ -99,7 +99,7 @@ $scope.$on('mapClick', function(event, e) {
 
   $scope.drawHeatMap = function () {
     var map = L.map("mapid",{fullscreenControl: true}).setView([4, 100], 7);
-    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('http://10.23.124.233/osm_tiles/{z}/{x}/{y}.png', {
       attribution: '&copy; NSL | Mimos'
     }).addTo(map);
 
@@ -296,7 +296,7 @@ $scope.$on('mapClick', function(event, e) {
       success(function (data) {
         $scope.applicationsFound = data.response.numFound;
         $scope.qtime = data.responseHeader.QTime;
-
+        
       }).
       error(function (data, status, headers, config) {
         console.log('error');

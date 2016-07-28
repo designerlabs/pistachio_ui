@@ -1,69 +1,89 @@
+<div class="container">
 
-<select ng-model='selectedBranch'  ng-change="branch_change(id)" ng-options='branch.branch for branch in branches'></select>
 
-<select id='off_sel' ng-model='selectedOfficer' ng-show="showOfficer" ng-change="officer_change(id)" ng-options='officer for officer in officers'></select>
+
+
+<div class="ctrls col-md-12">
+
+    <div class="filter">
+      <span class="m m-search"></span>
+      <input type="text" ng-model="searchies" ng-change="onQueryChange(searchies)" class="form-control input-lg" placeholder="Filter">
+    </div>
+  </div>
+
+  
 <div id="chart" ng-show="showHeatMap"></div>
 
 <div ng-show="showPie" class="piewidget">
-    <div class="pieheader">Usage</div>
-    <div id="piechart" class="piechart-container">
-
-    </div>
-</div>	
-
-<div class="ctrls">
-      
-      <div class="filter">
-        <span class="m m-search"></span>
-        <input type="text" ng-model="searchies" ng-change="onQueryChange(searchies)" class="form-control" placeholder="Filter">
-      </div>
-
-      <div class="ma-grid-toggle">
-        <a ng-click="gridToggle = !gridToggle" ng-class="{ 'active' : gridToggle }">
-          <span class="ma-m fa fa-bars fa-2"></span>
-          <span class="ma-m fa fa-th-large fa-2"></span>
-        </a>
-      </div>
-      
-    </div>
-    
+  <div class="pieheader">Usage</div>
+  <div id="piechart" class="piechart-container"></div>
+</div>
+</div>
+<div class="container">
   
-    <div class="container">
-      
-      <ul class="grid" ng-class="{ 'grid-list' : gridToggle, 'grid-thumb' : !gridToggle }">
-        <li class="grid-head">
-          <ul>
-            <li style="width:40%"><a ng-click="sort_by('name')">Name</a></li>
-            <li style="width:30%"><a ng-click="sort_by('user.name')">User</a></li>
-              <li style="width:15%"><a ng-click="sort_by('date')">Date</a></li>
-            <li style="width:15%"></li>
-          </ul>
-        </li>
-        <li class="grid-body animate-repeat" ng-repeat="item in pagedItems[currentPage - 1] | orderBy:sortingOrder:reverse" ng-class="{'last':$last}">
-          
-          <ul>
-            <li>
-              
-              <span class="grid-icon m" ng-class="item.icon"></span>
-              <span class="grid-title"><a href="#">{{ item.branch }}</a></span>
-            </li>
-            
+  <ul class="grid col-md-8"  ng-class="{ 'grid-list' : gridToggle, 'grid-thumb' : !gridToggle }">
+    <h3><i class="fa fa-plane"></i> Branches</h3>
+    <div style="border: 1px solid #d4e4e3; padding: 20px 20px;">  
+    <li class="grid-head">
+      <ul>
+        <li style="width:40%"><a ng-click="sort_by('name')">Name</a></li>
+        <li style="width:30%"><a ng-click="sort_by('user.name')">User</a></li>
+        <li style="width:15%"><a ng-click="sort_by('date')">Date</a></li>
+        <li style="width:15%">{{item}}</li>
+      </ul>
+    </li>
 
-          </ul>
-          
-        </li>
-        
-        <li class="clear-fix"></li>
-        
-        <li class="pagination">
-          <pager total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()"></pager>
-          <p ng-if="itemsPerPage * currentPage < totalItems">
-            Showing {{ itemsPerPage * currentPage - itemsPerPage + 1 }} - {{ itemsPerPage * currentPage }} of {{ totalItems }} total items
-          </p>
-          <p ng-if="itemsPerPage * currentPage >= totalItems">
-            Showing {{ itemsPerPage * currentPage - itemsPerPage + 1 }} - {{ totalItems }} of {{ totalItems }} total items
-          </p>
+    <li class="col-md-4 grid grid-body animate-repeat" ng-repeat="item in pagedItems[currentPage - 1] | orderBy:myOrderBy" ng-class="{'last':$last}">
+      <ul ng-class="{selectedAuditList : activeBranch === item.branch}">
+        <li ng-click="branch_selected(item.branch)">
+          <div class="col-md-6 text-center" style="background: #e1ffdc; border-right: #95f184 solid 1px; padding: 4px;"><small>OFFICERS</small>
+            <h4 style="margin: 4px 0px 0px 0px;" class="ng-binding">{{item.officers}}</h4>
+          </div>
+          <div class="col-md-6 text-center" style="background: #e1ffdc; padding: 4px;"><small>ANOMALIES</small>
+           <h4 style="margin: 4px 0px 0px 0px;" class="ng-binding">{{item.anomalies}}</h4>
+          </div>
+          <div class="col-md-12" style="height:81px;">
+            <span class="grid-title">
+              <a href="#" class="ng-binding"><i class="fa fa-plane" aria-hidden="true"></i> {{ item.branch }} </a>
+            </span>
+          </div>
+          <div class="col-md-12" style="/* position: absolute; */text-align: center;top: 0px;/* display:inline; */padding: 4px; background:#e1ffdc;">
+            <small>ACTIVITIES</small>
+            <h4 style="margin: 4px 0px 0px 0px;"
+              class="ng-binding">{{item.count}}</h4>
+          </div>
         </li>
       </ul>
-      
+    </li>
+
+    <li class="clear-fix"></li>
     </div>
+  </ul>
+  <ul class="grid col-md-4" >
+ <h3><i class="fa fa-user"></i> Officers</h3>
+ <div style="border: 1px solid #d4e4e3; padding: 20px 20px;" ng-show="showOfficer">
+   <ul style="padding:0px;">
+     <li class="selectpickerUser">Select Officer</li>
+     <li ng-class="{selectedAuditUserList : activeUser === officer}" class="selectpickerUser" ng-click="officer_change(officer)" ng-repeat="officer in officers">
+       {{officer}}
+     </li>
+   </ul>
+
+  </div>   
+    
+    
+  </ul>
+  <ul class="col-md-12">
+
+    <li class="pagination">
+      <pager total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()"></pager>
+      <p ng-if="itemsPerPage * currentPage < totalItems">
+        Showing {{ itemsPerPage * currentPage - itemsPerPage + 1 }} - {{ itemsPerPage * currentPage }} of {{ totalItems }} total
+        items
+      </p>
+      <p ng-if="itemsPerPage * currentPage >= totalItems">
+        Showing {{ itemsPerPage * currentPage - itemsPerPage + 1 }} - {{ totalItems }} of {{ totalItems }} total items
+      </p>
+    </li>
+  </ul>
+</div>

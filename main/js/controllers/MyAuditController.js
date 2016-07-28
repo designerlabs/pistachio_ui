@@ -10,13 +10,39 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
          .success(function(response) {
             console.log(response);
             $scope.branches = response;
-            sortable($scope, response, 16, 'updated_at');
+            sortable($scope, response, 15, 'updated_at');
          });
+
+         $scope.orderByMe = function(x) {
+            $scope.myOrderBy = x;
+        }
 
         // $scope.pie();
     });
 
+    $scope.branch_selected = function(name){
+        $scope.activeBranch = name;
+        $http.get(globalURL+"api/secured/pistachio/myaudit/officer?branch="+name,
+        {headers: { 'Content-Type': 'application/json' }})
+         .success(function(response) {
+             $scope.showOfficer = true;
+            $scope.officers = response;
+           
+         });
+      console.log("Getting branch heatmap");
+      $http.get(globalURL+"api/secured/pistachio/myaudit/branch/heatmap?branch="+name,
+      {headers: { 'Content-Type': 'application/json' }}
+
+        )
+        .success(function(response) {
+         console.log(response);
+         heatmapChart(response.heatmap);
+         $scope.showHeatMap = true;
+          });
+    }
+
     $scope.branch_change = function(id) {
+        console.log(id);
       console.log("Selected branch"+$scope.selectedBranch.branch);
       console.log("getting officers")
       $http.get(globalURL+"api/secured/pistachio/myaudit/officer?branch="+$scope.selectedBranch.branch,
@@ -36,11 +62,13 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
          heatmapChart(response.heatmap);
          $scope.showHeatMap = true;
           });
+        
      };
 
-    $scope.officer_change = function(id) {
+    $scope.officer_change = function(name) {
+        $scope.activeUser = name;
       console.log($scope.selectedOfficer);
-      $http.get(globalURL+"api/secured/pistachio/myaudit?officer="+$scope.selectedOfficer)
+      $http.get(globalURL+"api/secured/pistachio/myaudit?officer="+name)
         .success(function(response) {
          console.log(response);
          heatmapChart(response.heatmap);

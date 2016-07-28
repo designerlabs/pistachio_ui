@@ -627,17 +627,18 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         $scope.submitDate = function(e) {
 
             console.log($scope.employeeArr);
- $scope.storeData= [];
+            $scope.storeData= [];
 
-        $scope.getOfficersbyDate($scope.getFromDtN+"T00:00:00Z", $scope.getToDtN +"T00:00:00Z")
+            $scope.getOfficersbyDate($scope.getFromDtN+"T00:00:00Z", $scope.getToDtN +"T00:00:00Z")
 
             //$scope.createEmployeeChart($scope.employeeArr);
             //$scope.populateChart($scope.employeeArr);
-
+            $scope.employeeArr = [];
+            //$scope.employeeArr.push(myArr[1]);
             $scope.timelineChart();
             //$scope.createChart();
 
-            //$scope.loading = false;
+            $scope.loading = false;
         }
 
         $scope.backBtn = function() {
