@@ -1,0 +1,231 @@
+.stats-widget {
+  width: 100%;
+  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.25);
+}
+.stats-widget::after {
+  clear: both;
+  content: "";
+  display: table;
+}
+.stats-widget header {
+  background: #144c88;
+  padding: 1em 1.5em;
+  border-top: 4px solid #7dd343;
+  color: #fff;
+}
+.stats-widget header h3 {
+  margin: 0;
+  font-size: 1.35em;
+  font-weight: 400;
+}
+.stats-widget .chart {
+  width: 100%;
+  height: auto;
+  background: #fff;
+}
+@media only screen and (min-width: 600px) {
+  .stats-widget .chart {
+    float: right;
+    width: 65%;
+  }
+}
+.stats-widget .chart .controls {
+  height: 50px;
+  border-bottom: 1px solid #ccc;
+}
+.stats-widget .chart .controls::after {
+  clear: both;
+  content: "";
+  display: table;
+}
+.stats-widget .chart .controls nav {
+  float: left;
+  width: 75%;
+  line-height: 50px;
+  border-right: 1px solid #ccc;
+}
+.stats-widget .chart .controls nav a {
+  display: block;
+  padding: 0 1.5em;
+  text-decoration: none;
+  color: #3c3c3c;
+}
+@media only screen and (min-width: 600px) {
+  .stats-widget .chart .controls nav a {
+    padding: 0 1em;
+  }
+}
+.stats-widget .chart .controls nav span {
+  display: inline-block;
+  float: right;
+  line-height: 50px;
+  color: #3797d3;
+}
+.stats-widget .chart .controls div {
+  float: left;
+  width: 25%;
+  line-height: 50px;
+  text-align: center;
+}
+.stats-widget .chart .controls div span:first-child {
+  color: #7dd343;
+}
+.stats-widget .chart .controls div span:nth-child(2) {
+  font-weight: 600;
+  font-size: 1.35em;
+  color: #3c3c3c;
+}
+.stats-widget .chart .canvas-container {
+  width: 100%;
+  text-align: center;
+}
+.stats-widget .chart .canvas-container canvas {
+  display: inline;
+  width: 370px;
+  height: 210px;
+  padding: 1em;
+}
+.stats-widget .info {
+  position: relative;
+  width: 100%;
+   display: inline-block;
+    height: 100%;
+  background: #20649b;
+}
+@media only screen and (min-width: 600px) {
+  .stats-widget .info {
+    float: left;
+    width: 35%;
+   
+  }
+}
+.stats-widget .info h4 {
+  margin: 0 0 0.35em;
+  padding: 1em 1.5em;
+  font-size: 1em;
+  font-weight: 300;
+  text-transform: uppercase;
+  color: #fff;
+}
+.stats-widget .info .info-module {
+  padding: 0 1.5em;
+  font-weight: 400;
+}
+.stats-widget .info .info-module .heading {
+  font-size: 0.85em;
+}
+.stats-widget .info .info-module .heading::after {
+  clear: both;
+  content: "";
+  display: table;
+}
+.stats-widget .info .info-module .heading span {
+  display: inline-block;
+  color: #fff;
+}
+.stats-widget .info .info-module .heading span:first-child {
+  float: left;
+}
+.stats-widget .info .info-module .heading span:nth-child(2) {
+  float: right;
+}
+.stats-widget .info .info-module .progress {
+  height: 5px;
+  margin: 0.35em 0 1em;
+  background: #0f3d77;
+  border-radius: 10px;
+}
+.stats-widget .info .info-module .progress:after {
+  content: '';
+  display: block;
+  height: 100%;
+  background: #45b0e6;
+  border-radius: 5px;
+}
+.stats-widget .info .info-module .undergraduate:after {
+  width: 65%;
+  -webkit-animation: undergraduate 2s ease-in-out forwards;
+  animation: undergraduate 2s ease-in-out forwards;
+}
+.stats-widget .info .info-module .graduate:after {
+  width: 30%;
+  -webkit-animation: graduate 2s ease-in-out forwards;
+  animation: graduate 2s ease-in-out forwards;
+}
+.stats-widget .info .info-module .transfer:after {
+  width: 5%;
+  -webkit-animation: transfer 2s ease-in-out forwards;
+  animation: transfer 2s ease-in-out forwards;
+}
+@-webkit-keyframes undergraduate {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 65%;
+  }
+}
+@keyframes undergraduate {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 65%;
+  }
+}
+@-webkit-keyframes graduate {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 30%;
+  }
+}
+@keyframes graduate {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 30%;
+  }
+}
+@-webkit-keyframes transfer {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 5%;
+  }
+}
+@keyframes transfer {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 5%;
+  }
+}
+.stats-widget .info nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.stats-widget .info nav a {
+  display: block;
+  line-height: 50px;
+  text-decoration: none;
+  text-align: center;
+  color: #fff;
+}
+.stats-widget .info nav span:first-child {
+  float: left;
+  width: 75%;
+  background: #49b4e8;
+}
+.stats-widget .info nav span:nth-child(2) {
+  float: left;
+  width: 25%;
+  line-height: 50px;
+  background: #3099dd;
+}

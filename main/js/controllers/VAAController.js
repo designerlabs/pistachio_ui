@@ -77,6 +77,8 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
          opacity : .8,
          colors: ['feb24c','de2d26', 'ff0000']
       }).addTo($scope.map);
+
+    
     }
 
     $scope.reDrawHeatMap = function () {
