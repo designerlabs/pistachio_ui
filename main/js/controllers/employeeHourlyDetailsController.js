@@ -2,7 +2,7 @@
 
 
 
-MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $scope, $http, $timeout) {
+MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $scope, $http, $timeout, stageUpdate) {
     $scope.$on('$viewContentLoaded', function() {
         // initialize core components
         Metronic.initAjax();
@@ -20,7 +20,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
             myArr.push(ki[1]);
         });
         console.log(myArr);
-
+        stageUpdate.addStage("Officer");
         Layout.setSidebarMenuActiveLink('set', $('#trackerLink')); // set profile link active in sidebar menu 
 
         $scope.empName = myArr[1];

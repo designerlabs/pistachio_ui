@@ -818,6 +818,25 @@ MetronicApp.directive('myRepeatDirective', function() {
     };
 });
 
+
+MetronicApp.service('stageUpdate', function() {
+  var stage = [];
+
+  var addStage = function(newObj) {
+      stage.push(newObj);
+  };
+
+  var getStage = function(){
+      return stage;
+  };
+
+  return {
+    addStage: addStage,
+    getStage: getStage
+  };
+
+});
+
 MetronicApp.service('fileUpload', ['$http', function($http) {
     this.uploadFileToUrl = function(file, uploadUrl) {
 
