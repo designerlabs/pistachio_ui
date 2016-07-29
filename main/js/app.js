@@ -703,7 +703,7 @@ MetronicApp.directive('myRepeatDirective', function() {
                                 lineWidth: 1,
                                 shadow: false,
                                 button: false,
-                                color: '#ff0000',
+                                color: '#F08080',
                                 states: {
                                     hover: {
                                         enabled: false
@@ -730,7 +730,7 @@ MetronicApp.directive('myRepeatDirective', function() {
                                         }
                                     }
                                 },
-                                fillOpacity: 0.25
+                                fillOpacity: 0.80
                             },
                             column: {
                                 negativeColor: '#910000',
@@ -804,9 +804,9 @@ MetronicApp.directive('myRepeatDirective', function() {
                     if (n === fullLen) {
                         $('#result').html('Generated ' + fullLen / 2 + ' Reports in ' + (new Date() - start) + ' ms');
                     }
-                    $('.entrySpark > div svg .highcharts-series-group path:nth-child(1)').attr('fill', '#4A8BF5');
-                    $('.entrySpark > div svg .highcharts-series-group path:nth-child(2)').attr('stroke', '#4A8BF5');
-                    $('.entrySpark > div svg .highcharts-series-group .highcharts-markers path').attr('stroke', '#4A8BF5 !important');
+                    $('.entrySpark > div svg .highcharts-series-group path:nth-child(1)').attr('fill', '#87CEEB');
+                    $('.entrySpark > div svg .highcharts-series-group path:nth-child(2)').attr('stroke', '#87CEEB');
+                    $('.entrySpark > div svg .highcharts-series-group .highcharts-markers path').attr('stroke', '#87CEEB !important');
 
                 }
             }
