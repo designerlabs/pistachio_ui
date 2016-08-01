@@ -818,6 +818,25 @@ MetronicApp.directive('myRepeatDirective', function() {
     };
 });
 
+
+MetronicApp.service('stageUpdate', function() {
+  var stage = [];
+
+  var addStage = function(newObj) {
+      stage.push(newObj);
+  };
+
+  var getStage = function(){
+      return stage;
+  };
+
+  return {
+    addStage: addStage,
+    getStage: getStage
+  };
+
+});
+
 MetronicApp.service('fileUpload', ['$http', function($http) {
     this.uploadFileToUrl = function(file, uploadUrl) {
 
@@ -1048,6 +1067,26 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/admin/pages/scripts/tasks.js',
 
                         'js/controllers/DashboardChartController.js'
+                    ]
+                });
+            }]
+        }
+    })
+    .state('statistics', {
+        url: "/stats.html",
+        templateUrl: "views/stats/stats.html",
+        data: {
+            pageTitle: 'Statistics'
+        },
+        controller: "StatsChartController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/pistachio/stats/stats.css',
+                        'js/controllers/StatsChartController.js'
                     ]
                 });
             }]

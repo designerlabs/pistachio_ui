@@ -1,6 +1,6 @@
 'use strict';
 
-MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $http, $timeout) {
+MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $http, $timeout, stageUpdate) {
     $scope.$on('$viewContentLoaded', function() {
         // initialize core components
         Metronic.initAjax();
@@ -14,8 +14,15 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             return newDate2;
         };
 
-       
+        var Qstring = window.location.href;
+        var Qparam = Qstring.split('?')[1];
+        if(Qparam){
+            Qparam = Qparam.split("=");
+            console.log(Qparam[1]);
+        }
 
+        $scope.getCurrentStage = stageUpdate.getStage();
+        console.log($scope.getCurrentStage);
 
         var resultDtFrom, resultDtTo;
         var dateNow = new Date();
@@ -92,7 +99,10 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
         var startDt, endDt, triggerOpt, triggerOptRow, branchQry, ubranch, mainFacet, offsetVal, triggerBt, groupBy, gap, count, sortValue, $widget; // Global variable
         var immigrationSolr = "hismove";
-        localStorage.removeItem('branchName'); // each time removing the branch and Emp name
+        if($scope.getCurrentStage.length == 0){
+            localStorage.removeItem('branchName'); // each time removing the branch and Emp name
+        }
+        
         localStorage.removeItem('empName');
         localStorage.removeItem('ctryName');
         localStorage.removeItem('countyName');
@@ -111,12 +121,15 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             } catch (err) {
                 console.log(err);
             }
-
             $scope.ele1 = ele1;
             $scope.ele2 = ele2;
-
+           
+        
+        // if($scope.getCurrentStage.length > 0){
+        //     $scope.ele2 = $scope.getCurrentStage[0];
+        // };
             if ($scope.ele2 == "Branch") {
-
+                
                 $scope.column2 = "No. of Exit / Visitor(s)";
                 $scope.column3 = "Exit Trend";
                 $scope.column4 = "No. of Entry / Visitor(s)";
@@ -995,8 +1008,17 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
 
         localStorage.stage = "Branch";
-
-        $scope.timelineChart("Inital", localStorage.stage);
+        console.log($scope.getCurrentStage.length);
+        if($scope.getCurrentStage.length == 0){
+            //localStorage.removeItem('branchName'); // each time removing the branch and Emp name
+            $scope.timelineChart("Inital", localStorage.stage);
+        }else{
+            $scope.timelineChart($.parseJSON(localStorage.getItem('branchName')).one, "Officer");
+            localStorage.stage = "Officer";
+           
+        }
+        
+       
 
         $scope.cleanQuery = function(data) {
             data = data.replace(/\(/g, "\\\(");
@@ -1032,6 +1054,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 $scope.timelineChart($scope.getBranchVal.one, "Officer");
                 //$scope.timelineChart($scope.getBranchVal.one, "Officer");
                 localStorage.stage = "Officer";
+                localStorage.removeItem('empName');
                 $scope.EmpName = false;
                 $scope.CtryName = false;
 
@@ -1040,6 +1063,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             if (branchN == "Visitor") {
                 $scope.timelineChart($scope.getCtryName.one, "Country");
                 localStorage.stage = "Country";
+                localStorage.removeItem('ctryName');
                 $scope.CtryName = false;
             }
         };
