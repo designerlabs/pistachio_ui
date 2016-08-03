@@ -1072,6 +1072,26 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }]
         }
     })
+    .state('statistics', {
+        url: "/stats.html",
+        templateUrl: "views/stats/stats.html",
+        data: {
+            pageTitle: 'Statistics'
+        },
+        controller: "StatsChartController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/pistachio/stats/stats.css',
+                        'js/controllers/StatsChartController.js'
+                    ]
+                });
+            }]
+        }
+    })
 
 
     .state('applAnalysis', {

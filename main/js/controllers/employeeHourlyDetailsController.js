@@ -39,33 +39,14 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
 
         $scope.subTitle = $scope.startDtNSplit[0] + "/" + $scope.startDtNSplit[1] + "/" + $scope.startDtNSplit[2] + " - " + $scope.endDtNSplit[0] + "/" + $scope.endDtNSplit[1] + "/" + $scope.endDtNSplit[2];
-        //$scope.startDtNEpoch = $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "-" + $scope.startDtNSplit[2];
-        //$scope.startDtNEpoch = moment($scope.startDtNEpoch).unix() * 1000;
 
-
-
-        //$scope.endDtNEpoch = $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "-" + $scope.endDtNSplit[2];
-        //$scope.endDtNEpoch = moment($scope.endDtNEpoch).unix() * 1000;
 
 
         $scope.getFromDtEpoch = $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "T00:00:00Z";
         $scope.getToDtEpoch = $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "T00:00:00Z";
 
 
-        /* startDtN = startDtN[0] + "-" + startDtN[1] + "-" + startDtN[2] + " 00:00:00";
-         endDtN = endDtN.split("/");
-         endDtN = endDtN[0] + "-" + endDtN[1] + "-" + endDtN[2] + " 00:00:00";
-         var startDtN1 = startDtN.split(" ")[0].split("-");
-         var formattedDays = startDtN.split(" ")[0].split("-");
-         var formattedTime = startDtN.split(" ")[1].split(":");
-         $scope.epochStart = new Date(formattedDays[2], formattedDays[1] - 1, formattedDays[0], formattedTime[0], formattedTime[1], formattedTime[2], 0).getTime() / 1000;
-         console.log($scope.epochStart);*/
-         /*
-            Custom checkbox and radio button - Jun 18, 2013
-            (c) 2013 @ElmahdiMahmoud 
-            license: http://www.opensource.org/licenses/mit-license.php
-         */   
-     
+      
 
         $scope.changeDt = function(format) { // for display purpose
             var newDate = format.split('T');
@@ -631,13 +612,9 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
             $scope.getOfficersbyDate($scope.getFromDtN+"T00:00:00Z", $scope.getToDtN +"T00:00:00Z")
 
-            //$scope.createEmployeeChart($scope.employeeArr);
-            //$scope.populateChart($scope.employeeArr);
-            $scope.employeeArr = [];
-            //$scope.employeeArr.push(myArr[1]);
-            $scope.timelineChart();
-            //$scope.createChart();
 
+            $scope.employeeArr = [];
+            $scope.timelineChart();
             $scope.loading = false;
         }
 
