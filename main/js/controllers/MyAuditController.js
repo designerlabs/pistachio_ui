@@ -235,7 +235,7 @@ angular.forEach(data, function(value, key) {
     var legendElementWidth = gridSize*2,
     buckets = 15,
     colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"], // alternatively colorbrewer.YlGnBu[9]
-    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    days = ["Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
     times = ["12AM","1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM", "12AM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM"];
           var svg = d3.select("#chart").append("svg")
               .attr("width", width + margin.left + margin.right)
@@ -278,7 +278,7 @@ angular.forEach(data, function(value, key) {
               
               cards.enter().append("rect")
                   .attr("x", function(d) { return (d.hour ) * gridSize; })
-                  .attr("y", function(d) { return (d.day - 1) * gridSize; })
+                  .attr("y", function(d) { return (d.day -1) * gridSize; })
                   .attr("rx", 4)
                   .attr("ry", 4)
                   .attr("class", "hour bordered")
