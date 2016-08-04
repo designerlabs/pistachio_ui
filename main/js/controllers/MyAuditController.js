@@ -226,124 +226,6 @@ angular.forEach(data, function(value, key) {
       auditBarHeight = 13;
     }
 
-    $scope.pie = function () {
-      var dataset = [
-        { name: 'Login', percent: 39.10 },
-        { name: 'Logout', percent: 32.51 },
-        { name: 'Operations', percent: 13.68 }
-      ];
-
-        var pie=d3.layout.pie()
-                .value(function(d){return d.percent})
-                .sort(null)
-                .padAngle(.03);
-
-        var w=300,h=300;
-
-        var outerRadius=w/2;
-        var innerRadius=100;
-
-        var color = d3.scale.category10();
-
-        var arc=d3.svg.arc()
-                .outerRadius(outerRadius)
-                .innerRadius(innerRadius);
-
-        var svg=d3.select("#piechart")
-                .append("svg")
-                .attr({
-                    width:w,
-                    height:h,
-                    class:'shadow'
-                }).append('g')
-                .attr({
-                    transform:'translate('+w/2+','+h/2+')'
-                });
-        var path=svg.selectAll('path')
-                .data(pie(dataset))
-                .enter()
-                .append('path')
-                .attr({
-                    d:arc,
-                    fill:function(d,i){
-                        return color(d.data.name);
-                    }
-                });
-
-        path.transition()
-                .duration(1000)
-                .attrTween('d', function(d) {
-                    var interpolate = d3.interpolate({startAngle: 0, endAngle: 0}, d);
-                    return function(t) {
-                        return arc(interpolate(t));
-                    };
-                });
-
-
-        var restOfTheData=function(){
-            var text=svg.selectAll('text')
-                    .data(pie(dataset))
-                    .enter()
-                    .append("text")
-                    .transition()
-                    .duration(200)
-                    .attr("transform", function (d) {
-                        return "translate(" + arc.centroid(d) + ")";
-                    })
-                    .attr("dy", ".4em")
-                    .attr("text-anchor", "middle")
-                    .text(function(d){
-                        return d.data.percent+"%";
-                    })
-                    .style({
-                        fill:'#fff',
-                        'font-size':'10px'
-                    });
-
-            var legendRectSize=20;
-            var legendSpacing=7;
-            var legendHeight=legendRectSize+legendSpacing;
-
-
-            var legend=svg.selectAll('.legend')
-                    .data(color.domain())
-                    .enter()
-                    .append('g')
-                    .attr({
-                        class:'legend',
-                        transform:function(d,i){
-                            //Just a calculation for x & y position
-                            return 'translate(-35,' + ((i*legendHeight)-65) + ')';
-                        }
-                    });
-            legend.append('rect')
-                    .attr({
-                        width:legendRectSize,
-                        height:legendRectSize,
-                        rx:20,
-                        ry:20
-                    })
-                    .style({
-                        fill:color,
-                        stroke:color
-                    });
-
-            legend.append('text')
-                    .attr({
-                        x:30,
-                        y:15
-                    })
-                    .text(function(d){
-                        return d;
-                    }).style({
-                        fill:'#929DAF',
-                        'font-size':'14px'
-                    });
-        };
-
-        setTimeout(restOfTheData,1000);
-    }
-
 
 
     var width = document.getElementById('chart').offsetWidth - margin.left - margin.right-auditChartWidth;
@@ -351,7 +233,7 @@ angular.forEach(data, function(value, key) {
     var gridSize = Math.floor(width / 24);
     var height = (gridSize * 7 ) + margin.top - margin.bottom/1.2;
     var legendElementWidth = gridSize*2,
-    buckets = 9,
+    buckets = 15,
     colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"], // alternatively colorbrewer.YlGnBu[9]
     days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
     times = ["12AM","1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM", "12AM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM"];
@@ -384,8 +266,9 @@ angular.forEach(data, function(value, key) {
           
 
         var heatmapChart = function(data) {
+          debugger;
               var colorScale = d3.scale.quantile()
-                  .domain([0, buckets - 1, d3.max(data, function (d) { return d.total; })])
+                  .domain([d3.min(data, function (d) { return d.total; }), d3.max(data, function (d) { return d.total; })])
                   .range(colors);
 
               var cards = svg.selectAll(".hour")
@@ -426,7 +309,7 @@ angular.forEach(data, function(value, key) {
               cards.select("title").text(function(d) { return d.total; });
 
               cards.exit().remove();
-
+              svg.selectAll(".legend").remove()
               var legend = svg.selectAll(".legend")
                   .data([0].concat(colorScale.quantiles()), function(d) { return d; });
 
@@ -458,21 +341,6 @@ angular.forEach(data, function(value, key) {
        $rootScope.query = val;
        $scope.search();
     };
-
-    var items = [
-      { 'icon' : 'm-munkey',  'name' : 'A Munkey Page',          'date' : 'Yesterday at Noon', 'user' : { 'name' : 'Munkey',  'color' : '#07D5E5'} },
-      { 'icon' : 'm-bug',     'name' : 'Mobile Splash Page',     'date' : 'Yesterday at 4:30pm', 'user' : { 'name' : 'Munkey',  'color' : '#07D5E5'} },
-      { 'icon' : 'm-photo',   'name' : 'Some Other Site',        'date' : 'Today at 3:35am', 'user' : { 'name' : 'Someone', 'color' : '#456183'} },
-      { 'icon' : 'm-desktop', 'name' : 'Jerry\'s Blog',          'date' : 'Thursday at 7:15pm', 'user' : { 'name' : 'Jerry',   'color' : '#4677A7'} },
-      { 'icon' : 'm-form',    'name' : 'Ape\'s Capture Form',    'date' : 'Today at Noon', 'user' : { 'name' : 'Ape',     'color' : '#09ABC5'} },
-      { 'icon' : 'm-phone',   'name' : 'Some Mobile Site',       'date' : 'Thursday at 1:27pm', 'user' : { 'name' : 'Someone', 'color' : '#456183'} },
-      { 'icon' : 'm-bell',    'name' : 'Fish\'s Wordpress Site', 'date' : 'Yesterday at Noon', 'user' : { 'name' : 'Fish',    'color' : '#1CB7BB'} },
-      { 'icon' : 'm-group',   'name' : 'Kitty Kat Kapture Form', 'date' : 'Wednesday at 7:15pm', 'user' : { 'name' : 'Kitty',   'color' : '#1D9D9D'} }
-    ];
-    
-    
-
-         
 
             $rootScope.settings.layout.pageSidebarClosed = true;
             $rootScope.skipTitle = false;
