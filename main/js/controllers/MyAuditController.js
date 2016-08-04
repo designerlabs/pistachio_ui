@@ -290,7 +290,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
     buckets = 9,
     colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"], // alternatively colorbrewer.YlGnBu[9]
     days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-    times = ["1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM", "12AM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM", "12PM"];
+    times = ["12AM","1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM", "12AM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM"];
     ;
     
 
@@ -333,7 +333,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
               cards.append("title");
               
               cards.enter().append("rect")
-                  .attr("x", function(d) { return (d.hour - 1) * gridSize; })
+                  .attr("x", function(d) { return (d.hour ) * gridSize; })
                   .attr("y", function(d) { return (d.day - 1) * gridSize; })
                   .attr("rx", 4)
                   .attr("ry", 4)
@@ -349,7 +349,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
                         $('#officerContainer').collapse('show');
                         $("#officerHeader span").html('<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>');
                         $(this).attr('class','hour bordered activeBox')
-                        $scope.getBranchDetails(d.total, times[d.hour-1], days[d.day-1]);
+                        $scope.getBranchDetails(d.total, times[d.hour], days[d.day-1]);
                         $('.selectedBox').show('200');
                         
                    })
