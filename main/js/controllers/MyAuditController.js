@@ -25,7 +25,8 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
        $scope.barChart = function(data){
            $('#summaryContainer').highcharts({
             chart: {
-                type: 'column'
+                type: 'bar',
+                zoomType: 'x'
             },
             title: {
                 text: ''
@@ -33,7 +34,6 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
             xAxis: {
                 type: 'category',
                 labels: {
-                    rotation: -45,
                     style: {
                         fontSize: '13px',
                         fontFamily: 'Verdana, sans-serif'
@@ -57,13 +57,11 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
                 data: data,
                 dataLabels: {
                     enabled: true,
-                    rotation: -90,
-                    color: '#FFFFFF',
+                    color: '#000',
                     align: 'right',
                     format: '{point.y}', // one decimal
-                    y: 10, // 10 pixels down from the top
                     style: {
-                        fontSize: '13px',
+                        fontSize: '12px',
                         fontFamily: 'Verdana, sans-serif'
                     }
                 }
@@ -298,7 +296,6 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
           
 
         var heatmapChart = function(data) {
-          debugger;
               var colorScale = d3.scale.quantile()
                   .domain([d3.min(data, function (d) { return d.total; }), d3.max(data, function (d) { return d.total; })])
                   .range(colors);
@@ -329,7 +326,6 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
                         $('#officerContainer').collapse('show');
                         $("#officerHeader span").html('<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>');
                         $(this).attr('class','hour bordered activeBox');
-                        debugger;
                         
                         $('.selectedBox').show('200');
                         
