@@ -26,7 +26,7 @@
 
 <div class="container-fluid">
 
-  <ul class="grid col-md-12" ng-class="{ 'grid-list' : gridToggle, 'grid-thumb' : !gridToggle }">
+  <ul class="grid col-md-12 col-lg-12 col-sm-12" ng-class="{ 'grid-list' : gridToggle, 'grid-thumb' : !gridToggle }">
     <div id="branchHeader" data-toggle="collapse" data-target="#branches"><h3><i class="fa fa-plane"></i> Branches</h3> <span><i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span></div>
     <div id="branches" class="collapse in" style="background: #fafcfb; padding: 20px 10px 0px 10px;">
       <li class="grid-head">
@@ -38,7 +38,7 @@
         </ul>
       </li>
 
-      <li class="col-md-3 col-lg-2 grid grid-body animate-repeat" ng-repeat="item in pagedItems[currentPage - 1] | orderBy:myOrderBy" ng-class="{'last':$last}">
+      <li class="col-md-3 col-lg-3 col-sm-3 grid grid-body animate-repeat" ng-repeat="item in pagedItems[currentPage - 1] | orderBy:myOrderBy" ng-class="{'last':$last}">
         <ul ng-class="{selectedAuditList : activeBranch === item.branch}">
           <li ng-click="branch_selected(item.branch)">
             <div class="col-md-6 text-center" style="background: #e1ffdc; border-right: #95f184 solid 1px; padding: 4px;"><small>OFFICERS</small>
@@ -94,6 +94,7 @@
     <div class="col-md-8  col-lg-10">
       <h3>Branch Activites from {{startdt}} - {{enddt}}</h3>
       <h5 class="selectedBox"></h5>
+      <div id="summaryContainer"></div>
     </div>
     </div>
 

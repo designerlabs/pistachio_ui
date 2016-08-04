@@ -106,6 +106,70 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
          console.log(response);
          heatmapChart(response.heatmap);
          $scope.showHeatMap = true;
+         var data = response.transaction;
+        
+        var log = [];
+angular.forEach(data, function(value, key) {
+  this.push([value.field, value.count]);
+}, log);
+   
+
+//    function sortFunction(b, a) {
+//     if (a[1] === b[1]) {
+//         return 0;
+//     }
+//     else {
+//         return (a[1] < b[1]) ? -1 : 1;
+//     }
+// }
+
+// log.sort(sortFunction);
+    $('#summaryContainer').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: ''
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -45,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Activities'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: 'No of Activity is <b>{point.y}</b>'
+        },
+        series: [{
+            name: 'Activities',
+            data: log,
+            dataLabels: {
+                enabled: true,
+                rotation: -90,
+                color: '#FFFFFF',
+                align: 'right',
+                format: '{point.y}', // one decimal
+                y: 10, // 10 pixels down from the top
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        }]
+    });
           });
     }
 /*
@@ -290,7 +354,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
     buckets = 9,
     colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"], // alternatively colorbrewer.YlGnBu[9]
     days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-    times = ["1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM", "12AM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM", "12PM"];
+    times = ["12AM", "1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM", "12AM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM"];
     ;
     
 
