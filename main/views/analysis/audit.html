@@ -81,7 +81,7 @@
     <div id="officerHeader" data-toggle="collapse" data-target="#officerContainer"><h3><i class="fa fa-user"></i> Officers in <b>{{activeBranch}}</b></h3><span><i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span></div>
     <div class="col-md-12 collapse in" id="officerContainer">
       
-      <div class="col-md-4  col-lg-2 filter" style="border: 1px solid #d4e4e3; padding: 20px 20px;">
+      <div class="col-md-4 col-sm-4  col-lg-3 filter" style="border: 1px solid #d4e4e3; padding: 20px 20px;">
       <input type="text" ng-model="officer" class="form-control" style="border: #ccc 1px solid; height: 50px;" placeholder="Search by Officer">
       <ul style="padding:0px;  height:300px; overflow:auto;">
         <li ng-class="{selectedAuditUserList : activeUser === officer}" class="selectpickerUser" ng-click="officer_change(officer)"
@@ -91,7 +91,7 @@
       </ul>
 
     </div>
-    <div class="col-md-8  col-lg-10">
+    <div class="col-md-8 col-sm-8  col-lg-9">
       <h3>Branch Activites from {{startdt}} - {{enddt}}</h3>
       <h5 class="selectedBox"></h5>
       <div id="summaryContainer"></div>

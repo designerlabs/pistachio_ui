@@ -6,10 +6,15 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
        $scope.showOfficer = false;
        $scope.showHeatMap = false;
        $scope.showPie = false;
-       $scope.branchList = function(start, end){
+       $scope.branchList = function(start, end, day, hour){
            this.start = start;
            this.end = end;
-           $http.get(globalURL+"api/secured/pistachio/myaudit/branch?from="+start+"&to="+end)
+           if((day == undefined) || (hour == undefined)){
+                $scope.triggerHourDt = "";
+            }else{
+                $scope.triggerHourDt = "&day="+day+"&hour="+hour;
+            }
+           $http.get(globalURL+"api/secured/pistachio/myaudit/branch?from="+start+"&to="+end+$scope.triggerHourDt)
          .success(function(response) {
             console.log(response);
             $scope.branches = response;
@@ -17,10 +22,73 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
          });
        };
 
+       $scope.barChart = function(data){
+           $('#summaryContainer').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: ''
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    rotation: -45,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Activities'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                pointFormat: 'No of Activity is <b>{point.y}</b>'
+            },
+            series: [{
+                name: 'Activities',
+                data: data,
+                dataLabels: {
+                    enabled: true,
+                    rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'right',
+                    format: '{point.y}', // one decimal
+                    y: 10, // 10 pixels down from the top
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            }]
+        });
+       }
+
        //$scope.branchList();
-        $scope.getBranchDetails = function(total, hour, day){
-            $('.selectedBox').html("On <b>"+day+"</b> @ "+hour+", total activity: <b>"+total+"</b>");
+        $scope.getBranchDetails = function(total, hour, day, branch){
+            var Hr = hour.split('&');
+            var Dt = day.split('&');
+            $('.selectedBox').html("On <b>"+Dt[0]+"</b> @ "+Hr[0]+", total activity: <b>"+total+"</b>");
+            $scope.branch_selected(branch, Dt[1], Hr[1]);
+            $scope.branchList(this.start, this.end, Dt[1], Hr[1]);
         };
+
+        $scope.getOfferDetails = function(total, hour, day, branch, officer){
+            var Hr = hour.split('&');
+            var Dt = day.split('&');
+            $('.selectedBox').html("On <b>"+Dt[0]+"</b> @ "+Hr[0]+", total activity: <b>"+total+"</b>");
+            $scope.officer_change(officer, Dt[1], Hr[1]);
+
+        }
+
+        
          $scope.orderByMe = function(x) {
             $scope.myOrderBy = x;
         }
@@ -83,13 +151,18 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
 
   
     //branch on select
-    $scope.branch_selected = function(name){
+    $scope.branch_selected = function(name, day, hour){
         $scope.activeBranch = name;
         $scope.activeUser = false;
         $('.selectedBox').hide('200');
         $('rect').removeAttr('class','activeBox');
         $('rect').attr('class','hour bordered');
-        $http.get(globalURL+"api/secured/pistachio/myaudit/officer?branch="+name+"&from="+$scope.startDt+"&to="+$scope.endDt,
+        if((day == undefined) || (hour == undefined)){
+            $scope.triggerHourDt = "";
+        }else{
+            $scope.triggerHourDt = "&day="+day+"&hour="+hour;
+        }
+        $http.get(globalURL+"api/secured/pistachio/myaudit/officer?branch="+name+"&from="+$scope.startDt+"&to="+$scope.endDt+$scope.triggerHourDt,
         {headers: { 'Content-Type': 'application/json' }})
          .success(function(response) {
             $scope.showOfficer = true;
@@ -98,78 +171,25 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
              $("#branchHeader span").html('<i class="fa fa-chevron-circle-up" aria-hidden="true"></i>');
          });
       console.log("Getting branch heatmap");
-      $http.get(globalURL+"api/secured/pistachio/myaudit/branch/heatmap?branch="+name+"&from="+$scope.startDt+"&to="+$scope.endDt,
+      $http.get(globalURL+"api/secured/pistachio/myaudit/branch/heatmap?branch="+name+"&from="+$scope.startDt+"&to="+$scope.endDt+$scope.triggerHourDt,
       {headers: { 'Content-Type': 'application/json' }}
 
         )
         .success(function(response) {
          console.log(response);
-         heatmapChart(response.heatmap);
-         $scope.showHeatMap = true;
+         if($scope.triggerHourDt == ""){
+             heatmapChart(response.heatmap);
+             $scope.showHeatMap = true;
+         };
+         
          var data = response.transaction;
         
         var log = [];
-angular.forEach(data, function(value, key) {
-  this.push([value.field, value.count]);
-}, log);
-   
-
-//    function sortFunction(b, a) {
-//     if (a[1] === b[1]) {
-//         return 0;
-//     }
-//     else {
-//         return (a[1] < b[1]) ? -1 : 1;
-//     }
-// }
-
-// log.sort(sortFunction);
-    $('#summaryContainer').highcharts({
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: ''
-        },
-        xAxis: {
-            type: 'category',
-            labels: {
-                rotation: -45,
-                style: {
-                    fontSize: '13px',
-                    fontFamily: 'Verdana, sans-serif'
-                }
-            }
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: 'Activities'
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        tooltip: {
-            pointFormat: 'No of Activity is <b>{point.y}</b>'
-        },
-        series: [{
-            name: 'Activities',
-            data: log,
-            dataLabels: {
-                enabled: true,
-                rotation: -90,
-                color: '#FFFFFF',
-                align: 'right',
-                format: '{point.y}', // one decimal
-                y: 10, // 10 pixels down from the top
-                style: {
-                    fontSize: '13px',
-                    fontFamily: 'Verdana, sans-serif'
-                }
-            }
-        }]
-    });
+        angular.forEach(data, function(value, key) {
+            this.push([value.field, value.count]);
+        }, log);
+        $scope.barChart(log);
+        
           });
     }
 /*
@@ -197,15 +217,27 @@ angular.forEach(data, function(value, key) {
         
      };
 */
-    $scope.officer_change = function(name) {
+    $scope.officer_change = function(name, day, hour) {
         $scope.activeUser = name;
         $('rect').removeAttr('class','activeBox');
         $('rect').attr('class','hour bordered');
         $('.selectedBox').hide('200');
       console.log($scope.activeBranch);
-      $http.get(globalURL+"api/secured/pistachio/myaudit?officer="+name+"&from="+$scope.startDt+"&to="+$scope.endDt)
+      if((day == undefined) || (hour == undefined)){
+            $scope.triggerHourDt = "";
+        }else{
+            $scope.triggerHourDt = "&day="+day+"&hour="+hour;
+        }
+      $http.get(globalURL+"api/secured/pistachio/myaudit?officer="+name.officerName+"&from="+$scope.startDt+"&to="+$scope.endDt+$scope.triggerHourDt)
         .success(function(response) {
          console.log(response);
+         var data = response.transaction;
+        
+        var log = [];
+        angular.forEach(data, function(value, key) {
+            this.push([value.field, value.count]);
+        }, log);
+        $scope.barChart(log);
          heatmapChart(response.heatmap);
          $scope.showHeatMap = true;
           });
@@ -403,14 +435,19 @@ angular.forEach(data, function(value, key) {
                   .attr("height", gridSize)
                   .on("click", function(d) {
                         if(!$scope.activeUser){
+                            $scope.getBranchDetails(d.total, times[d.hour]+'&'+d.hour, days[d.day-1]+'&'+d.day, $scope.activeBranch);
                             console.log('undefined');
+                        }else if($scope.activeUser){
+                            $scope.getOfferDetails(d.total, times[d.hour]+'&'+d.hour, days[d.day-1]+'&'+d.day, $scope.activeBranch, $scope.activeUser);
+                            console.log($scope.activeUser);
                         }
                         $('rect').removeAttr('class','activeBox');
                         $('rect').attr('class','hour bordered');
                         $('#officerContainer').collapse('show');
                         $("#officerHeader span").html('<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>');
-                        $(this).attr('class','hour bordered activeBox')
-                        $scope.getBranchDetails(d.total, times[d.hour], days[d.day-1]);
+                        $(this).attr('class','hour bordered activeBox');
+                        debugger;
+                        
                         $('.selectedBox').show('200');
                         
                    })
