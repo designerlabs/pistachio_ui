@@ -6,31 +6,99 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
        $scope.showOfficer = false;
        $scope.showHeatMap = false;
        $scope.showPie = false;
-       $http.get(globalURL+"api/secured/pistachio/myaudit/branch")
+       $scope.branchList = function(start, end){
+           this.start = start;
+           this.end = end;
+           $http.get(globalURL+"api/secured/pistachio/myaudit/branch?from="+start+"&to="+end)
          .success(function(response) {
             console.log(response);
             $scope.branches = response;
-            sortable($scope, response, 15, 'updated_at');
+            sortable($scope, response, 8, 'updated_at');
          });
+       };
 
+       //$scope.branchList();
+        $scope.getBranchDetails = function(total, hour, day){
+            $('.selectedBox').html("On <b>"+day+"</b> @ "+hour+", total activity: <b>"+total+"</b>");
+        };
          $scope.orderByMe = function(x) {
             $scope.myOrderBy = x;
         }
 
+        var start = moment().subtract(6, 'days');
+        var end = moment();
+        
+        function cb(start, end) {
+            $scope.branchList(start.format('YYYY-MM-DD'),end.format('YYYY-MM-DD'));
+            $scope.showOfficer = false;
+            $('#branches').collapse('show');
+            $scope.showHeatMap = false;
+            $('rect').removeAttr('class','activeBox');
+            $('rect').attr('class','hour bordered');
+            $scope.activeBranch = false;
+            $scope.startDt = start.format('YYYY-MM-DD');
+            $scope.endDt = end.format('YYYY-MM-DD');
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            $scope.startdt = start.format('MMMM D, YYYY');
+            $scope.enddt = end.format('MMMM D, YYYY');
+        }
+        
+        $("#branchHeader").click(function(){
+            if($(this).hasClass('collapsed')){
+                $("#branchHeader span").html('<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>');
+            }else{
+               $("#branchHeader span").html('<i class="fa fa-chevron-circle-up" aria-hidden="true"></i>');
+            }
+        });
+
+        $("#officerHeader").click(function(){
+            if($(this).hasClass('collapsed')){
+                $("#officerHeader span").html('<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>');
+            }else{
+               $("#officerHeader span").html('<i class="fa fa-chevron-circle-up" aria-hidden="true"></i>');
+            }
+        });
+
+        
+
+        $('#reportrange').daterangepicker({
+            startDate: start,
+            endDate: end,
+            "alwaysShowCalendars": false,
+             opens:'left',
+            ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb);
+
+        cb(start, end);
+        
         // $scope.pie();
     });
 
+  
+    //branch on select
     $scope.branch_selected = function(name){
         $scope.activeBranch = name;
-        $http.get(globalURL+"api/secured/pistachio/myaudit/officer?branch="+name,
+        $scope.activeUser = false;
+        $('.selectedBox').hide('200');
+        $('rect').removeAttr('class','activeBox');
+        $('rect').attr('class','hour bordered');
+        $http.get(globalURL+"api/secured/pistachio/myaudit/officer?branch="+name+"&from="+$scope.startDt+"&to="+$scope.endDt,
         {headers: { 'Content-Type': 'application/json' }})
          .success(function(response) {
-             $scope.showOfficer = true;
+            $scope.showOfficer = true;
             $scope.officers = response;
-           
+             $('#branches').collapse('hide');
+             $("#branchHeader span").html('<i class="fa fa-chevron-circle-up" aria-hidden="true"></i>');
          });
       console.log("Getting branch heatmap");
-      $http.get(globalURL+"api/secured/pistachio/myaudit/branch/heatmap?branch="+name,
+      $http.get(globalURL+"api/secured/pistachio/myaudit/branch/heatmap?branch="+name+"&from="+$scope.startDt+"&to="+$scope.endDt,
       {headers: { 'Content-Type': 'application/json' }}
 
         )
@@ -40,12 +108,12 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
          $scope.showHeatMap = true;
           });
     }
-
+/*
     $scope.branch_change = function(id) {
         console.log(id);
       console.log("Selected branch"+$scope.selectedBranch.branch);
       console.log("getting officers")
-      $http.get(globalURL+"api/secured/pistachio/myaudit/officer?branch="+$scope.selectedBranch.branch,
+      $http.get(globalURL+"api/secured/pistachio/myaudit/officer?branch="+$scope.selectedBranch.branch+"&from="+start+"&to="+end,
       {headers: { 'Content-Type': 'application/json' }})
          .success(function(response) {
              $scope.showOfficer = true;
@@ -53,7 +121,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
            
          });
       console.log("Getting branch heatmap");
-      $http.get(globalURL+"api/secured/pistachio/myaudit/branch/heatmap?branch="+$scope.selectedBranch.branch,
+      $http.get(globalURL+"api/secured/pistachio/myaudit/branch/heatmap?branch="+$scope.selectedBranch.branch+"&from="+start+"&to="+end,
       {headers: { 'Content-Type': 'application/json' }}
 
         )
@@ -64,11 +132,14 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
           });
         
      };
-
+*/
     $scope.officer_change = function(name) {
         $scope.activeUser = name;
-      console.log($scope.selectedOfficer);
-      $http.get(globalURL+"api/secured/pistachio/myaudit?officer="+name)
+        $('rect').removeAttr('class','activeBox');
+        $('rect').attr('class','hour bordered');
+        $('.selectedBox').hide('200');
+      console.log($scope.activeBranch);
+      $http.get(globalURL+"api/secured/pistachio/myaudit?officer="+name+"&from="+$scope.startDt+"&to="+$scope.endDt)
         .success(function(response) {
          console.log(response);
          heatmapChart(response.heatmap);
@@ -76,13 +147,13 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
           });
     };
     
-
-    var margin = { top: 50, right: 0, bottom: 50, left: 70 };
+   
+    var margin = { top: 50, right: 0, bottom: 50, left: 80 };
     var wWidth = window.innerWidth;
     var auditChartWidth = '300';
     var auditBarHeight = 10.5;
     if(wWidth > 1040){
-      auditChartWidth = wWidth - 1040;
+      auditChartWidth = wWidth - 1300;
       if(auditChartWidth> 300)
         auditChartWidth = 300;
       auditBarHeight = 13;
@@ -258,9 +329,9 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
 
               var cards = svg.selectAll(".hour")
                   .data(data, function(d) {return d.day+':'+d.hour;});
-
+            
               cards.append("title");
-
+              
               cards.enter().append("rect")
                   .attr("x", function(d) { return (d.hour - 1) * gridSize; })
                   .attr("y", function(d) { return (d.day - 1) * gridSize; })
@@ -269,7 +340,20 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
                   .attr("class", "hour bordered")
                   .attr("width", gridSize)
                   .attr("height", gridSize)
-                  .style("fill", colors[0]);
+                  .on("click", function(d) {
+                        if(!$scope.activeUser){
+                            console.log('undefined');
+                        }
+                        $('rect').removeAttr('class','activeBox');
+                        $('rect').attr('class','hour bordered');
+                        $('#officerContainer').collapse('show');
+                        $("#officerHeader span").html('<i class="fa fa-chevron-circle-down" aria-hidden="true"></i>');
+                        $(this).attr('class','hour bordered activeBox')
+                        $scope.getBranchDetails(d.total, times[d.hour-1], days[d.day-1]);
+                        $('.selectedBox').show('200');
+                        
+                   })
+                  .style({"fill": colors[0], "cursor":"pointer"});
 
               cards.transition().duration(1000)
                   .style("fill", function(d) { 
@@ -313,7 +397,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
        $rootScope.query = val;
        $scope.search();
     };
-    
+
     var items = [
       { 'icon' : 'm-munkey',  'name' : 'A Munkey Page',          'date' : 'Yesterday at Noon', 'user' : { 'name' : 'Munkey',  'color' : '#07D5E5'} },
       { 'icon' : 'm-bug',     'name' : 'Mobile Splash Page',     'date' : 'Yesterday at 4:30pm', 'user' : { 'name' : 'Munkey',  'color' : '#07D5E5'} },

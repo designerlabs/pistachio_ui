@@ -8,6 +8,62 @@ text.mono {
   fill: #aaa;
 }
 
+#branchHeader, #officerHeader {
+    background: rgba(27, 188, 107, 0.71);
+    padding: 14px;
+    color: #fff;
+    margin: 0px;
+    cursor: pointer;
+}
+
+#officerContainer{
+    background: #fafcfb;
+    padding: 15px;
+}
+
+#branchHeader h3{
+   display: inline-block;
+   margin:0px !important;
+   width:14%;
+}
+
+
+#officerHeader h3{
+   display: inline-block;
+   margin:0px !important;
+   width:80%;
+}
+
+#branchHeader h3 + span{
+    width: 85%;
+    text-align: right;
+    display: inline-block;
+}
+
+
+#officerHeader h3 + span{
+    width: 19.5%;
+    text-align: right;
+    display: inline-block;
+}
+
+#branchHeader h3 + span i, #officerHeader h3 + span i{
+  font-size:20px;
+}
+rect.activeBox{
+ fill: #f3565d !important;
+}
+#reportrange{
+    vertical-align: top;
+    border: none  !important;
+    background: #f9fcfe !important;
+    font-size: 16px;
+    font-weight: 300;
+    color: #5d7592;
+    outline: none;
+    padding: 0.75em 1em 0.75em 1em !important;
+}
+
 text.axis {
   fill: red;
 }
@@ -370,7 +426,8 @@ li.clear-fix {
 }
 
 li.pagination {
-  padding: 1em 0 2em;
+  padding: 0px !important;
+  margin:0px !important;
 }
 li.pagination p {
   font-size: 14px;

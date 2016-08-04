@@ -2,7 +2,7 @@
 
 
 
-MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $scope, $http, $timeout, stageUpdate) {
+MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $scope, $http, $timeout, stageUpdate, $q) {
     $scope.$on('$viewContentLoaded', function() {
         // initialize core components
         Metronic.initAjax();
@@ -177,8 +177,8 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     }
                 }
                 $scope.storeData;
-                console.log( $scope.storeData)
-
+                console.log( $scope.storeData);
+             
             }).catch(function(err) {
 
             })
@@ -189,7 +189,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
         $scope.getOfficersbyDate($scope.getFromDtEpoch,$scope.getToDtEpoch )
         $scope.timelineChart = function() {
-       
+            
             $scope.seriesOptions = [];
             $scope.seriesOptions1 = [];
             $scope.seriesOptions2 = [];
@@ -243,7 +243,8 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     chart: {
                         type: chartType,
                         renderTo: 'container',
-                        zoomType: 'x'
+                        zoomType: 'x',
+                        addSeries:$scope.seriesOptions
                     },
 
                     title:{
@@ -264,7 +265,9 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     chart: {
                         type: chartType,
                         renderTo: 'container1',
-                        zoomType: 'x'
+                        zoomType: 'x',
+                        addSeries:$scope.seriesOptions1
+                        
                     },
                     legend: {
                         enabled: false
@@ -281,7 +284,8 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     chart: {
                         type: chartType,
                         renderTo: 'container2',
-                        zoomType: 'x'
+                        zoomType: 'x',
+                        addSeries:$scope.seriesOptions2
                     },
                     title:{
                         text: ''
@@ -460,12 +464,9 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
 
             }
-
-            $scope.createChartExit = function() {
-
-            }
-
+            
             $scope.populateChart($scope.employeeArr);
+            
             // Set the datepicker's date format
 
         };
@@ -479,12 +480,13 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
             $scope.loading = true;
             console.log(ele);
-
+           
             $.each(ele, function(i, name) {
-
                 console.log($scope.getFromDtN, $scope.getToDtN);
                 //$http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "/1").success(function(data) {
-                $http.get(globalURL + "api/employee/"+$scope.branchCode+"/" + name + "/" + $scope.getFromDtN+"/"+$scope.getToDtN  + "/1").success(function(data) {
+                $http.get(globalURL + "api/employee/"+$scope.branchCode+"/" + name + "/" + $scope.getFromDtN+"/"+$scope.getToDtN  + "/1")
+                .success(function(data) {
+                    console.log(name +" ---"+data.data.length+"----"+"Entry");
                     var start = +new Date();
                     if (data) {
                         //$scope.loading = true;
@@ -502,12 +504,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
                         $scope.seriesCounter += 1;
                         // Create the chart
-                        console.log($scope.seriesCounter === ele.length);
-                        if ($scope.seriesCounter === ele.length) {
-
-                            $scope.createChart();
-                        }
-
+ 
                     } else {
                         return false;
                     }
@@ -522,7 +519,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     $http.get(globalURL + "api/employee/"+$scope.branchCode+"/" + name + "/" + $scope.getFromDtN+"/"+$scope.getToDtN  + "/2").success(function(data) {
                         //$.getJSON('jsonp_' + name + '.js', function(data) {
                         // Create a timer
-                        console.log(data);
+                        console.log(name +" ---"+data.data.length+"----"+"Exit");
                         var start = +new Date();
                         if (data) {
                             $scope.seriesOptions1[i] = {
@@ -538,12 +535,6 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                             };
 
                             $scope.seriesCounter1 += 1;
-                            // Create the chart
-                            console.log($scope.seriesCounter1 === ele.length);
-                            if ($scope.seriesCounter1 === ele.length) {
-
-                                $scope.createChart();
-                            }
                         } else {
                             return false;
                         }
@@ -556,7 +547,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                         $http.get(globalURL + "api/employee/"+$scope.branchCode+"/" + name + "/" + $scope.getFromDtN+"/"+$scope.getToDtN).success(function(data) {
                     //$.getJSON('jsonp_' + name + '.js', function(data) {
                     // Create a timer
-                    console.log(data);
+                    console.log(name +" ---"+data.data.length+"----"+"OverAll");
                     var start = +new Date();
                     if (data) {
                         $scope.seriesOptions2[i] = {
@@ -575,10 +566,9 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                         // Create the chart
                         console.log($scope.seriesCounter2 === ele.length);
                         if ($scope.seriesCounter2 === ele.length) {
-
                             $scope.createChart();
-                            return false;
                         }
+                        
                     } else {
                         return false;
                     }
@@ -596,7 +586,10 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
 
 
-
+        
+        // returns a promise for an object like:
+        // { abo: resultFromAbo, ser: resultFromSer, ... }
+        
 
             /*$.each(ele, function(i, name) {
 
@@ -605,16 +598,38 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
         }
 
+        $scope.removeChart = function(){
+            var chart1 = $('#container').highcharts();
+            var seriesLength = chart1.series.length;
+            for(var i = seriesLength -1; i > -1; i--) {
+                chart1.series[i].remove();
+            }
+
+            var chart2 = $('#container1').highcharts();
+            var seriesLength2 = chart2.series.length;
+            for(var j = seriesLength2 -1; j > -1; j--) {
+                chart2.series[j].remove();
+            }
+
+            var chart3 = $('#container2').highcharts();
+            var seriesLength3 = chart3.series.length;
+            for(var k = seriesLength3 -1; k > -1; k--) {
+                chart3.series[k].remove();
+            }
+        }
+
         $scope.submitDate = function(e) {
 
             console.log($scope.employeeArr);
             $scope.storeData= [];
 
+          
             $scope.getOfficersbyDate($scope.getFromDtN+"T00:00:00Z", $scope.getToDtN +"T00:00:00Z")
-
-
+            $scope.empName = [];
+            $scope.removeChart();
             $scope.employeeArr = [];
             $scope.timelineChart();
+            
             $scope.loading = false;
         }
 
