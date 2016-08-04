@@ -8,7 +8,7 @@
     <div id="piechart" class="piechart-container"></div>
   </div>
 </div>
-<div class="container">
+<div class="container-fluid">
     <div class="filter col-md-8">
       <span class="m m-search"></span>
       <input type="text" ng-model="searchies" ng-change="onQueryChange(searchies)" class="form-control input-lg" placeholder="Search by Branch">
@@ -24,7 +24,7 @@
 </div>
 
 
-<div class="container">
+<div class="container-fluid">
 
   <ul class="grid col-md-12" ng-class="{ 'grid-list' : gridToggle, 'grid-thumb' : !gridToggle }">
     <div id="branchHeader" data-toggle="collapse" data-target="#branches"><h3><i class="fa fa-plane"></i> Branches</h3> <span><i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span></div>
@@ -38,7 +38,7 @@
         </ul>
       </li>
 
-      <li class="col-md-3 grid grid-body animate-repeat" ng-repeat="item in pagedItems[currentPage - 1] | orderBy:myOrderBy" ng-class="{'last':$last}">
+      <li class="col-md-3 col-lg-2 grid grid-body animate-repeat" ng-repeat="item in pagedItems[currentPage - 1] | orderBy:myOrderBy" ng-class="{'last':$last}">
         <ul ng-class="{selectedAuditList : activeBranch === item.branch}">
           <li ng-click="branch_selected(item.branch)">
             <div class="col-md-6 text-center" style="background: #e1ffdc; border-right: #95f184 solid 1px; padding: 4px;"><small>OFFICERS</small>
@@ -81,17 +81,17 @@
     <div id="officerHeader" data-toggle="collapse" data-target="#officerContainer"><h3><i class="fa fa-user"></i> Officers in <b>{{activeBranch}}</b></h3><span><i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span></div>
     <div class="col-md-12 collapse in" id="officerContainer">
       
-      <div class="col-md-4 filter" style="border: 1px solid #d4e4e3; padding: 20px 20px;">
+      <div class="col-md-4  col-lg-2 filter" style="border: 1px solid #d4e4e3; padding: 20px 20px;">
       <input type="text" ng-model="officer" class="form-control" style="border: #ccc 1px solid; height: 50px;" placeholder="Search by Officer">
       <ul style="padding:0px;  height:300px; overflow:auto;">
         <li ng-class="{selectedAuditUserList : activeUser === officer}" class="selectpickerUser" ng-click="officer_change(officer)"
           ng-repeat="officer in officers | filter:officer">
-          {{officer.officerName}}
+          {{officer.officerName}} <strong>({{officer.count}})</strong>
         </li>
       </ul>
 
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8  col-lg-10">
       <h3>Branch Activites from {{startdt}} - {{enddt}}</h3>
       <h5 class="selectedBox"></h5>
     </div>
