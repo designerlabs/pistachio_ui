@@ -29,15 +29,15 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
         var end = moment();
         
         function cb(start, end) {
-            $scope.branchList(start.format('DD-MM-YYYY'),end.format('DD-MM-YYYY'));
+            $scope.branchList(start.format('YYYY-MM-DD'),end.format('YYYY-MM-DD'));
             $scope.showOfficer = false;
             $('#branches').collapse('show');
             $scope.showHeatMap = false;
             $('rect').removeAttr('class','activeBox');
             $('rect').attr('class','hour bordered');
             $scope.activeBranch = false;
-            $scope.startDt = start.format('DD-MM-YYYY');
-            $scope.endDt = end.format('DD-MM-YYYY');
+            $scope.startDt = start.format('YYYY-MM-DD');
+            $scope.endDt = end.format('YYYY-MM-DD');
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             $scope.startdt = start.format('MMMM D, YYYY');
             $scope.enddt = end.format('MMMM D, YYYY');

@@ -86,7 +86,7 @@
       <ul style="padding:0px;  height:300px; overflow:auto;">
         <li ng-class="{selectedAuditUserList : activeUser === officer}" class="selectpickerUser" ng-click="officer_change(officer)"
           ng-repeat="officer in officers | filter:officer">
-          {{officer}}
+          {{officer.officerName}}
         </li>
       </ul>
 

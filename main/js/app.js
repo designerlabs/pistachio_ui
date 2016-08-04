@@ -265,7 +265,7 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 /* Global hosting details */
 
 //var globalURL = "http://10.23.124.243:8080/";
-var globalURL = "http://10.1.17.25:8080/";
+var globalURL = "http://10.1.17.25:8081/";
 //var globalURL = "http://pistachio_server:8080/";
 //var solrHost = "10.23.124.220";
 var solrHost = "10.4.104.176";
@@ -609,8 +609,11 @@ MetronicApp.directive('myEmpDirective', function() {
         });
             scope.$watch('empName', function(e){
                 console.log(e);
-                $("."+e).prop('checked', true);
-                $('.'+e).parent().parent('.check-box').toggleClass('checkedBox');
+                if(e.length > 0){
+                    $("."+e).prop('checked', true);
+                    $('.'+e).parent().parent('.check-box').toggleClass('checkedBox');
+                }
+                
             });
             scope.$watch('employeeArr', function(e) {
                 console.log(e);
