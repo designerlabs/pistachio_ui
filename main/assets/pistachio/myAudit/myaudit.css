@@ -506,9 +506,15 @@ li.pagination ul.pager li a {
   font-weight: bold;
   padding: 12px;
   background: rgba(0, 0, 0, 0.8);
-  color: #fff;
+  color: #000;
   border-radius: 2px;
   pointer-events: none;
+}
+
+.d3-tip.n{
+  background: rgba(255,255 ,255, 0.9);
+  border: 1px solid #000;
+
 }
 
 /* Creates a small triangle extender for the tooltip */

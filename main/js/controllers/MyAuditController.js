@@ -60,6 +60,11 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
             tooltip: {
                 pointFormat: 'No of Activity is <b>{point.y}</b>'
             },
+            plotOptions:{
+              series:{
+                allowPointSelect: true
+              }
+            },
             series: [{
                 name: 'Activities',
                 data: data,
