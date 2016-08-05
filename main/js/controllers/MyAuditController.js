@@ -315,7 +315,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
                 .attr('class', 'd3-tip')
                 .offset([-10, 0])
                 .html(function(d) {
-                  return "<strong>Transaction:</strong> <span style='color:red'>" + d.total + "</span>";
+                  return "<strong>Activities:</strong> <span style='color:red'>" + d.total + "</span>";
                 })
               var colorScale = d3.scale.quantile()
                   .domain([d3.min(data, function (d) { return d.total; }), d3.max(data, function (d) { return d.total; })])
