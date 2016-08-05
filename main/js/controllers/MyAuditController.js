@@ -18,7 +18,15 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
          .success(function(response) {
             console.log(response);
             $scope.branches = response;
+            if($scope.branches.length === 0){
+                $scope.checkList = true;
+            }else{
+                $scope.checkList = false;
+            }
             sortable($scope, response, 8, 'updated_at');
+         })
+         .error(function(response){
+             debugger;
          });
        };
 
@@ -51,6 +59,11 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
             },
             tooltip: {
                 pointFormat: 'No of Activity is <b>{point.y}</b>'
+            },
+            plotOptions:{
+              series:{
+                allowPointSelect: true
+              }
             },
             series: [{
                 name: 'Activities',
@@ -175,6 +188,8 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
         )
         .success(function(response) {
          console.log(response);
+         var hmap = response.heatmap;
+         console.log(hmap);
          if($scope.triggerHourDt == ""){
              heatmapChart(response.heatmap);
              $scope.showHeatMap = true;
@@ -226,7 +241,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
         }else{
             $scope.triggerHourDt = "&day="+day+"&hour="+hour;
         }
-      $http.get(globalURL+"api/secured/pistachio/myaudit?officer="+name.officerName+"&from="+$scope.startDt+"&to="+$scope.endDt+$scope.triggerHourDt)
+      $http.get(globalURL+"api/secured/pistachio/myaudit?officer="+name.field+"&from="+$scope.startDt+"&to="+$scope.endDt+$scope.triggerHourDt)
         .success(function(response) {
          console.log(response);
          var data = response.transaction;
@@ -255,7 +270,6 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
       auditChartWidth = '50';
       auditBarHeight = 13;
     }
-
 
 
     var width = document.getElementById('chart').offsetWidth - margin.left - margin.right-auditChartWidth;
