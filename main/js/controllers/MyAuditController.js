@@ -236,7 +236,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
         }else{
             $scope.triggerHourDt = "&day="+day+"&hour="+hour;
         }
-      $http.get(globalURL+"api/secured/pistachio/myaudit?officer="+name.officerName+"&from="+$scope.startDt+"&to="+$scope.endDt+$scope.triggerHourDt)
+      $http.get(globalURL+"api/secured/pistachio/myaudit?officer="+name.field+"&from="+$scope.startDt+"&to="+$scope.endDt+$scope.triggerHourDt)
         .success(function(response) {
          console.log(response);
          var data = response.transaction;
