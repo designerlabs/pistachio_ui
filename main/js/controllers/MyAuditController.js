@@ -18,7 +18,15 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
          .success(function(response) {
             console.log(response);
             $scope.branches = response;
+            if($scope.branches.length === 0){
+                $scope.checkList = true;
+            }else{
+                $scope.checkList = false;
+            }
             sortable($scope, response, 8, 'updated_at');
+         })
+         .error(function(response){
+             debugger;
          });
        };
 
@@ -175,6 +183,8 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
         )
         .success(function(response) {
          console.log(response);
+         var hmap = response.heatmap;
+         console.log(hmap);
          if($scope.triggerHourDt == ""){
              heatmapChart(response.heatmap);
              $scope.showHeatMap = true;
@@ -255,7 +265,6 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
       auditChartWidth = '50';
       auditBarHeight = 13;
     }
-
 
 
     var width = document.getElementById('chart').offsetWidth - margin.left - margin.right-auditChartWidth;

@@ -637,9 +637,9 @@
 
 .alertFail{
   display: block;
-  height: 200px;
+  height: 100px;
   /* text-align: center; */
-  margin-top: 17%;
+  margin-top: 0px;
   color: #ff0000;
 }
 

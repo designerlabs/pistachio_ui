@@ -27,6 +27,10 @@ text.mono {
    width:14%;
 }
 
+.recordFail{
+  padding: 0px 10px 20px 0px;
+  color:red;
+}
 
 #officerHeader h3{
    display: inline-block;
