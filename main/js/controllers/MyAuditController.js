@@ -103,13 +103,33 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
         var end = moment();
         
         function cb(start, end) {
-            $scope.branchList(start.format('YYYY-MM-DD'),end.format('YYYY-MM-DD'));
-            $scope.showOfficer = false;
-            $('#branches').collapse('show');
-            $scope.showHeatMap = false;
+
+
+            // if(($scope.activeBranch) && ($scope.activeUser)){
+            //     $scope.startDt = start.format('YYYY-MM-DD');
+            //     $scope.endDt  = end.format('YYYY-MM-DD');
+            //     $scope.branch_selected($scope.activeBranch);
+            //     $scope.officer_change($scope.activeUser);
+                
+            // }else  
+           if($scope.activeBranch){
+                 //$scope.branchList(start.format('YYYY-MM-DD'),end.format('YYYY-MM-DD'));
+                $scope.startDt = start.format('YYYY-MM-DD');
+                $scope.endDt  = end.format('YYYY-MM-DD');
+                $scope.branch_selected($scope.activeBranch);
+            }else{
+                $scope.branchList(start.format('YYYY-MM-DD'),end.format('YYYY-MM-DD'));
+                $('#branches').collapse('show');
+            }
+
+            
+            
+            //$scope.showOfficer = false;
+            
+            //$scope.showHeatMap = false;
             $('rect').removeAttr('class','activeBox');
             $('rect').attr('class','hour bordered');
-            $scope.activeBranch = false;
+            //$scope.activeBranch = false;
             $scope.startDt = start.format('YYYY-MM-DD');
             $scope.endDt = end.format('YYYY-MM-DD');
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));

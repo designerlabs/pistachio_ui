@@ -1169,7 +1169,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     files: [
                         'assets/pistachio/myAudit/myaudit.css',
                          'assets/global/plugins/highcharts/js/highcharts.js',
-                         'assets/global/plugins/highcharts/js/modules/treemap.js',
+                         //'assets/global/plugins/highcharts/js/modules/treemap.js',
                         'js/controllers/MyAuditController.js',
                         
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
