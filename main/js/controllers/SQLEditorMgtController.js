@@ -199,11 +199,15 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                                     i++;
                                 });
                                 fn_ClearResultTbl();
-                                queryResultFunc(myArrayRow, myArrayColumn);
+                                if(myArrayRow.length > 0){
+                                    queryResultFunc(myArrayRow, myArrayColumn);                                    
+                                }
+                                 $btn.button('reset');
                                 //$(".page-content").height($(".profile-content").height() + 400);
-                                setTimeout(function() {
-                                    $btn.button('reset');
-                                }, 1000);
+                                // setTimeout(function() {
+                                //     $btn.button('reset');
+                                // }, 1000);
+
                             } else {
                                 fn_ClearResultTbl();
                                 $("#messageView div span").html('No Data to Show...');
