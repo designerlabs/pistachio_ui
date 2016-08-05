@@ -1168,8 +1168,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
                         'assets/pistachio/myAudit/myaudit.css',
-                         'assets/pages/scripts/highstock.js',
-                       
+                         'assets/global/plugins/highcharts/js/highcharts.js',
+                         'assets/global/plugins/highcharts/js/modules/treemap.js',
                         'js/controllers/MyAuditController.js',
                         
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',

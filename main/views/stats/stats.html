@@ -4,16 +4,17 @@
   </header>
   <div class='chart'>
     <div class='controls'>
-      <nav>
-        <a href='javascript:void(0);'>This week<span class='fa fa-angle-down fa-lg'></span></a>
-      </nav>
-      <div>
-        <span class='fa fa-caret-up fa-lg'>&nbsp;&nbsp;</span>
-        <span>27%</span>
-      </div>
+       <div id="vaa-range" style="width: 100%;"
+                                    class="pull-right tooltips btn btn-fit-height green"
+                                    data-placement="top"
+                                    data-original-title="Change dashboard date range">
+                                      <i class="icon-calendar"></i>&nbsp;
+                                      <span class="thin uppercase hidden-xs">June 28, 2016 - July 4, 2016</span>&nbsp;
+                                      <i class="fa fa-angle-down"></i>
+                                  </div>
     </div>
     <div class='canvas-container'>
-      <canvas id='c1'></canvas>
+      <div id="highchart_col"></div>
     </div>
   </div>
   <div class='info'>

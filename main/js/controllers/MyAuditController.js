@@ -305,6 +305,13 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
           
 
         var heatmapChart = function(data) {
+
+              var tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .offset([-10, 0])
+                .html(function(d) {
+                  return "<strong>Transaction:</strong> <span style='color:red'>" + d.total + "</span>";
+                })
               var colorScale = d3.scale.quantile()
                   .domain([d3.min(data, function (d) { return d.total; }), d3.max(data, function (d) { return d.total; })])
                   .range(colors);
@@ -313,7 +320,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
                   .data(data, function(d) {return d.day+':'+d.hour;});
             
               cards.append("title");
-              
+              svg.call(tip);
               cards.enter().append("rect")
                   .attr("x", function(d) { return (d.hour ) * gridSize; })
                   .attr("y", function(d) { return (d.day -1) * gridSize; })
@@ -339,6 +346,8 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
                         $('.selectedBox').show('200');
                         
                    })
+                  .on('mouseover', tip.show)
+                  .on('mouseout', tip.hide)
                   .style({"fill": colors[0], "cursor":"pointer"});
 
               cards.transition().duration(1000)
