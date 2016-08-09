@@ -216,7 +216,10 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
          };
          
          var data = response.transaction;
-        $scope.userGraph(response.nodes,response.links);
+         if(response.nodes){
+             $scope.userGraph(response.nodes,response.links);
+         };
+        
         var log = [];
         angular.forEach(data, function(value, key) {
             this.push([value.field, value.count]);
@@ -265,7 +268,10 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
         .success(function(response) {
          console.log(response);
          var data = response.transaction;
-        $scope.userGraph(response.nodes,response.links)
+         if(response.nodes){
+             $scope.userGraph(response.nodes,response.links);
+         }
+        
         var log = [];
         angular.forEach(data, function(value, key) {
             this.push([value.field, value.count]);
@@ -419,14 +425,14 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
         var width = 960,
           height = 700
 
-          if($scope.svg_network != undefined)
-            $scope.svg_network.remove();
-            var tip = d3.tip()
-                .attr('class', 'd3-tip')
-                .offset([-10, 0])
-                .html(function(d) {
-                  return "<strong>Activities:</strong> <span style='color:red'>" + d.name + "</span>";
-                })
+        //   if($scope.svg_network != undefined)
+        //     $scope.svg_network.remove();
+        //     var tip = d3.tip()
+        //         .attr('class', 'd3-tip')
+        //         .offset([-10, 0])
+        //         .html(function(d) {
+        //           return "<strong>Activities:</strong> <span style='color:red'>" + d.name + "</span>";
+        //         })
 
           $scope.svg_network = d3.select("#usergraph").append("svg")
               .attr("width", width)
