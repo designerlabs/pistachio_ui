@@ -271,7 +271,11 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
             this.push([value.field, value.count]);
         }, log);
         $scope.barChart(log);
-         heatmapChart(response.heatmap);
+        if(!day){
+            debugger;
+            heatmapChart(response.heatmap);
+         }
+         
          $scope.showHeatMap = true;
           });
     };

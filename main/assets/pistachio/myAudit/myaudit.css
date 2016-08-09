@@ -56,7 +56,15 @@ text.mono {
 }
 rect.activeBox{
  fill: #f3565d !important;
+ fill: url('cross.png');
 }
+
+
+rect.activeBox::active{
+   content: "Email address: ";
+}
+
+
 #reportrange{
     vertical-align: top;
     border: none  !important;
