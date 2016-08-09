@@ -2,7 +2,7 @@
   
 
   <div id="chart" ng-show="showHeatMap"></div>
-
+  
   <div ng-show="showPie" class="piewidget">
     <div class="pieheader">Usage</div>
     <div id="piechart" class="piechart-container"></div>
@@ -100,8 +100,16 @@
       <div id="summaryContainer"></div>
     </div>
     </div>
-
-
   </ul>
+
+  <ul class="grid col-md-12" ng-show="showOfficer">
+    <div id="officerHeader" data-toggle="collapse" data-target="#userMap"><h3><i class="fa fa-user"></i> Officers graph <b>{{activeBranch}}</b></h3><span><i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span></div>
+    <div class="col-md-12 collapse in" id="userMap">
+      <div>
+        <div id="usergraph"></div>
+        <!--<div id="usergraph" ></div> -->
+      </div>
+  </ul>
+
 
 </div>

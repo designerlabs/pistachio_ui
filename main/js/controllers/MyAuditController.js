@@ -216,7 +216,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
          };
          
          var data = response.transaction;
-        
+        $scope.userGraph(response.nodes,response.links);
         var log = [];
         angular.forEach(data, function(value, key) {
             this.push([value.field, value.count]);
@@ -265,7 +265,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
         .success(function(response) {
          console.log(response);
          var data = response.transaction;
-        
+        $scope.userGraph(response.nodes,response.links)
         var log = [];
         angular.forEach(data, function(value, key) {
             this.push([value.field, value.count]);
@@ -414,6 +414,69 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
           };
 
     $rootScope.query = '';
+
+    $scope.userGraph = function (nodes,links) {
+        var width = 960,
+          height = 700
+
+          if($scope.svg_network != undefined)
+            $scope.svg_network.remove();
+            var tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .offset([-10, 0])
+                .html(function(d) {
+                  return "<strong>Activities:</strong> <span style='color:red'>" + d.name + "</span>";
+                })
+
+          $scope.svg_network = d3.select("#usergraph").append("svg")
+              .attr("width", width)
+              .attr("height", height);
+          
+
+      var force = d3.layout.force()
+          .gravity(.05)
+          .distance(100)
+          .charge(-100)
+          .size([width, height]);
+
+        force
+            .nodes(nodes)
+            .links(links)
+            .start();
+            console.log(links)
+        var link = $scope.svg_network.selectAll("link")
+            .data(links)
+            .enter().append('line')
+            .attr('class', 'link')
+            .style('stroke-width', 1);
+
+        var node = $scope.svg_network.selectAll(".node")
+            .data(nodes)
+          .enter().append("g")
+            .attr("class", "node")
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide)
+            .call(force.drag);
+
+        node.append("circle")
+            .attr("r","5");
+
+        node.append("text")
+            .attr("dx", 12)
+            .attr("dy", ".35em")
+            .text(function(d) { return d.name });
+
+        force.on("tick", function() {
+          link.attr("x1", function(d) { return d.source.x; })
+              .attr("y1", function(d) { return d.source.y; })
+              .attr("x2", function(d) { return d.target.x; })
+              .attr("y2", function(d) { return d.target.y; });
+
+          node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+        });
+
+
+    }
     
     $scope.gridToggle = false;
 

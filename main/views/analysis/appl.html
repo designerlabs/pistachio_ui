@@ -189,6 +189,14 @@
             </div>
         </div>
         <div class="col-md-9">
+            <div class="container-fluid">
+            <ul class="grid col-md-12 col-lg-12 col-sm-12" ng-class="{ 'grid-list' : gridToggle, 'grid-thumb' : !gridToggle }">
+            <div id="branchHeader" data-toggle="collapse" data-target="#branches"><h3><i class="fa fa-plane"></i> Branches</h3> <span><i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span>
+            </div>
+            </ul>
+            </div>
+            
+
             <div class="row">
                 <div class="portlet light bordered ">
                     <div class="portlet-title tabbable-line">
@@ -199,14 +207,18 @@
                         </div>
                         <ul class="nav nav-tabs">
                             <li class="active">
-                                <a data-target="#overal_analysis"   data-toggle="tab"> Overall Analysis </a>
+                                <a data-target="#overal_analysis"  ng-click="overallTab()" data-toggle="tab"> Overall Analysis </a>
+                            </li>
+                             <li >
+                                <a data-target="#state_analysis" ng-click="stateTab()"  data-toggle="tab"> State Analysis </a>
                             </li>
                            
                         </ul>
                     </div>
                     <div class="portlet-body">
                         <div class="tab-content">
-                            <div class="tab-pane" id="job_analysis">
+                            <div class="tab-pane" id="state_analysis">
+                            <div id="highchart_col"> </div>
                             </div>
                             <div class="tab-pane active" id="overal_analysis">
                                 <div class="row">

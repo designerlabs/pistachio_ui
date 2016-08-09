@@ -6,7 +6,7 @@ var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/immigration2/query?json='
 
 MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
     $scope.$on('$viewContentLoaded', function() {
-
+        scope.firstTime = true;
         // initialize core components
         Metronic.initAjax();
         $(".page-sidebar-menu > li").removeClass('active');
@@ -162,53 +162,6 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
     }
 
 
-        $scope.decopule2List = function(data,index) {
-          if(index == 0)
-            index = data.length;
-          var keys = ["field","count"];
-          var decopuledObj= {};
-          var field = [];
-          var count = [];
-          for (var j = 0; j < index/2; j++) {
-
-                 var i = j*2;
-                 if(data[i+1] == 0) break;
-                 if(data[i].length == 0)
-                    field.push("NA");
-                 else
-                  field.push(data[i]);
-                 if(data[i+1] == 0) continue;
-
-                 count.push(data[i+1]);
-
-
-               }
-               decopuledObj[keys[0]] = field;
-               decopuledObj[keys[1]] = count;
-               return decopuledObj;
-       }
-
-       $scope.decopule = function(data,index,keys) {
-          if(index == 0)
-            index = data.length;
-
-          var objList= [];
-          for (var j = 0; j < index/2; j++) {
-                 var country= {};
-                 var i = j*2;
-                 if(data[i+1] == 0) break;
-                 if(data[i].length == 0)
-                   country[keys[0]]="NA";
-                 else
-                  country[keys[0]]=data[i];
-                 if(data[i+1] == 0) continue;
-
-                 country[keys[1]]=data[i+1];
-                 objList.push(country);
-
-               }
-               return (objList);
-       }
 
        $scope.cleanQuery = function(data) {
         data = data.replace(/\(/g,"\\\(");
@@ -414,7 +367,8 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
                     }
                     console.log(sex);
                    $scope.sex = sex;
-                   $scope.state = data.facets.job.buckets
+                   $scope.state = data.facets.state.buckets
+
                    $scope.uJob = data.facets.uJob;
                    $scope.uEmp = data.facets.uEmp;
                    $scope.uVis = data.facets.uVis;
@@ -423,15 +377,16 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
 
                    //alert(data.facet_counts.facet_fields.sex.length);
                    console.log($scope.sex1);
-                   $scope.pie();
-                //   $scope.column();
-                //   $scope.date_query();
-                   //$scope.chartjs();
-
-                   $scope.timelineChart(data.facets.date_range.buckets)
+                  
+                   if($scope.firstTime)
+                   {
+                    $scope.overallTab();
+                    $scope.firstTime = false;
+                   }
+                    
                    $scope.loading = false;
                  }
-                 $scope.timelineChart(data.facets.date_range.buckets)
+                 
 
                }).
                error(function(data, status, headers, config) {
@@ -442,11 +397,22 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
                  console.log('data : ' + data); //Being logged as null
                });
 
-               if( typeof $scope.map != 'undefined')
-                $scope.reDrawHeatMap();
-               $scope.drawHeatMap();
+               
 
     };
+
+        $scope.stateTab = function() {
+         $scope.column()
+        }
+
+
+    $scope.overallTab = function() {
+      $scope.pie();
+      if( typeof $scope.map != 'undefined')
+                $scope.reDrawHeatMap();
+      $scope.timelineChart(data.facets.date_range.buckets)
+      $scope.drawHeatMap();
+    }
 
     $scope.pie = function() {
       Highcharts.chart('highchart_pie',{
@@ -506,18 +472,19 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
 
     $scope.column = function() {
 
-
+      console.log("state")
        var _state = $scope.state;
-       console.log($scope.stateObject);
-       console.log(_state);
-    //  for (var i =0,l=_state.length; i < l; i++) {
-    //        _state[i].name = $scope.stateObject[_state[i].name];
-    //        alert(_state[i].name);
 
+       var stateName = [];
+       var stateData = [];
 
-    //    }
-    //    console.log(_state);
-
+      for (var i =0,l=_state.length; i < l; i++) {
+           stateName.push(_state[i].val)
+           stateData.push(_state[i].count)
+        }
+        console.log(stateName);
+console.log(stateData);
+debugger;
     //    console.log("--------")
 
 
@@ -535,6 +502,10 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
             }
         }
         },
+        xAxis: {
+            categories: stateName
+        },
+
         exporting: { enabled: false },
             title: {
               text: 'negeri',
@@ -543,7 +514,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
             series: [{
             name: 'negeri',
             colorByPoint: true,
-            data: _state,
+            data: stateData,
           point:{
               events:{
                   click: function (event) {
@@ -554,6 +525,9 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
         }]
           });
     };
+
+
+    
 
     $scope.yyyymmdd = function(date) {
       var yyyy = date.getFullYear().toString();
