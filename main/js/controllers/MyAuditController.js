@@ -26,7 +26,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
             sortable($scope, response, 8, 'updated_at');
          })
          .error(function(response){
-             debugger;
+             //debugger;
          });
        };
 
@@ -278,7 +278,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
         }, log);
         $scope.barChart(log);
         if(!day){
-            debugger;
+            //debugger;
             heatmapChart(response.heatmap);
          }
          
@@ -425,14 +425,14 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
         var width = 960,
           height = 700
 
-        //   if($scope.svg_network != undefined)
-        //     $scope.svg_network.remove();
-        //     var tip = d3.tip()
-        //         .attr('class', 'd3-tip')
-        //         .offset([-10, 0])
-        //         .html(function(d) {
-        //           return "<strong>Activities:</strong> <span style='color:red'>" + d.name + "</span>";
-        //         })
+          if($scope.svg_network != undefined)
+            $scope.svg_network.remove();
+            var tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .offset([-10, 0])
+                .html(function(d) {
+                  return "<strong>Activities:</strong> <span style='color:red'>" + d.name + "</span>";
+                })
 
           $scope.svg_network = d3.select("#usergraph").append("svg")
               .attr("width", width)
