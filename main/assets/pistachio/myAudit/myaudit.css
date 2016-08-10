@@ -56,7 +56,6 @@ text.mono {
 }
 rect.activeBox{
  fill: #f3565d !important;
- fill: url('cross.png');
 }
 
 
