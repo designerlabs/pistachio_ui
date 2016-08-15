@@ -391,6 +391,82 @@ var Login = function () {
         });
     }
 
+    var handleResetPassword = function () {
+        $('.resetpswd-form').validate({
+            errorElement: 'span', //default input error message container
+            errorClass: 'help-block', // default input error message class
+            focusInvalid: false, // do not focus the last invalid input
+            ignore: "",
+            rules: {
+                newPassword: {
+                    required: true
+                },
+                 confirmPassword: {
+                    required: true,
+                    equalTo: "#newPswd"
+                }
+            },
+
+            messages: {
+                newPassword: {
+                    required: "New Password is required"
+                },
+                confirmPassword: {
+                    required: "Confirm Password is required"
+                }
+            },
+
+            invalidHandler: function (event, validator) { //display error alert on form submit
+
+            },
+
+            highlight: function (element) { // hightlight error inputs
+                $(element)
+                    .closest('.form-group').addClass('has-error'); // set error class to the control group
+            },
+
+            success: function (label) {
+                label.closest('.form-group').removeClass('has-error');
+                label.remove();
+            },
+
+            errorPlacement: function (error, element) {
+                error.insertAfter(element.closest('.input-icon'));
+            },
+
+            submitHandler: function (form) {
+               var newPswdValue = $('.resetpswd-form input[name=newPassword]').val();
+               var qStr = window.location.href.split('?')[1];
+               var userid = qStr.split('&')[0].split('=')[1];
+               var _token = qStr.split('&')[1].split('=')[1];
+
+               // $.ajax({
+               //         url: globalURL + 'auth/login?lang=' + selectedLang,
+               //         type: 'POST',
+               //         data: {
+               //             id: userid,
+               //             token: _token,
+               //             password:newPswdValue
+               //         },
+               //     }).done(function (data) {
+               //      // console.log("Your Password has been reset successfully");
+               //     }).fail(function () {
+               //        // console.log("error");
+               //  });
+            }
+        });
+
+        $('.resetpswd-form input').keypress(function (e) {
+            if (e.which == 13) {
+                if ($('.resetpswd-form').validate().form()) {
+                    $('.resetpswd-form').submit();
+                }
+                return false;
+            }
+        });
+
+   }
+
     return {
         //main function to initiate the module
         init: function () {
@@ -399,6 +475,7 @@ var Login = function () {
             handleForgetPassword();
             handleRegister();
             handleLanguage();
+            handleResetPassword();
         }
 
     };
