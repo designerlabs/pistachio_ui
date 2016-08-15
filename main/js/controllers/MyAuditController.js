@@ -166,7 +166,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
             //$scope.activeBranch = false;
             $scope.startDt = start.format('YYYY-MM-DD');
             $scope.endDt = end.format('YYYY-MM-DD');
-            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            $('#reportrange span').html(start.format('MMM DD, YYYY') + ' - ' + end.format('MMM DD, YYYY'));
             $scope.startdt = start.format('MMMM D, YYYY');
             $scope.enddt = end.format('MMMM D, YYYY');
         }
