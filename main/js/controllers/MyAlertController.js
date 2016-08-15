@@ -100,7 +100,8 @@ MetronicApp.directive('datePicker', function ($timeout, $window,$http) {
 			}
 
             scope.monthNames = [
-                "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+
+                {month: "January", num: 1}, {month: "February", num: 2}, {month: "March", num:3}, {month: "April", num:4}, {month: "May", num:5}, {month: "June", num:6}, {month: "July", num:7}, {month: "August", num:8}, {month: "September", num:9}, {month: "October", num:10}, {month: "November", num:11}, {month: "December", num: 12}
             ];
 
             function getSelected() {
@@ -150,7 +151,10 @@ MetronicApp.directive('datePicker', function ($timeout, $window,$http) {
             function initializeDate() {
                 scope.currentViewDate = new Date(scope.localdate);
                 scope.currentMonthName = function () {
-                    return scope.monthNames[scope.currentViewDate.getMonth()];
+                    return scope.monthNames[scope.currentViewDate.getMonth()].month;
+                };
+                scope.currentMonthNum = function () {
+                    return scope.monthNames[scope.currentViewDate.getMonth()].num;
                 };
                 getDaysInMonth();
                 getSelected();

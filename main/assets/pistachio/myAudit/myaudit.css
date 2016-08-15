@@ -28,8 +28,9 @@ text.mono {
 }
 
 .recordFail{
-  padding: 0px 10px 20px 0px;
-  color:red;
+  padding: 10px 10px 20px 0px;
+  color: red;
+  background: #fff;
 }
 
 #officerHeader h3{
@@ -44,6 +45,30 @@ text.mono {
     display: inline-block;
 }
 
+li.list-group-item:after {
+    content: attr(data-cntval);
+    position: absolute;
+    top: 9px;
+    right: 0px;
+    padding: 0 5px;
+    background: #b1ffb7;
+}
+
+.list-group-item {
+    padding: 5px 10px !important;
+    margin-bottom: 0px !important;
+    border: 1px solid #ececec !important;
+}
+
+.list-group {
+    padding-left: 0;
+    margin-bottom: 20px;
+    height: 400px;
+    overflow: auto;
+    padding: 12px;
+    /* margin: 10px; */
+    background: #fff;
+}
 
 #officerHeader h3 + span{
     width: 19.5%;
@@ -292,13 +317,12 @@ ul.grid.grid-thumb .grid-body {
   cursor: pointer;
 }
 
-.selectedAuditList:before{
+/*.selectedAuditList:before{
     border: 3px solid #639a5a !important;
     content: "\2713 ";
     position: absolute;
-    /* bottom: 0; */
     height: 100%;
-    /* font-weight: 600; */
+   
     font-size: 100px;
     text-align: center;
     color: #fff;
@@ -307,13 +331,36 @@ ul.grid.grid-thumb .grid-body {
     background: rgba(166,195,161,0.8);
     z-index: 9;
     margin: 0px;
+}*/
+
+.selectedAuditList:before{
+      /* border: 3px solid #639a5a !important; */
+    /*content: "\2713 ";*/
+    content: "";
+    position: absolute;
+    /* bottom: 0; */
+    height: 100%;
+    font-weight: 600;
+    /* font-size: 100px; */
+    text-align: center;
+    color: #fff;
+    width: 100%;
+    padding-left: 5px;
+    background: rgba(166,195,161,0.8);
+    z-index: 9;
+    margin: 0px;
+    left: 0px;
+    top: 0px;
+    padding-top: 4px;
+    text-align: left;
+    color: #076700;
 }
-ul.grid.grid-thumb .grid-body:nth-child(even) {
-  /*border:1px solid #ff0000;  */
+/*ul.grid.grid-thumb .grid-body:nth-child(even) {
+
 }
 ul.grid.grid-thumb .grid-body:nth-child(odd) {
-  /*border:1px solid #ff0;   */
-}
+
+}*/
 ul.grid.grid-thumb .grid-body ul {
   -moz-box-sizing: border-box;
   padding: 0px 0px 0px 0px;
