@@ -480,7 +480,8 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
             $scope.loading = true;
             console.log(ele);
-           
+
+             $scope.loading = true;
             $.each(ele, function(i, name) {
                 console.log($scope.getFromDtN, $scope.getToDtN);
                 //$http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "/1").success(function(data) {
@@ -545,39 +546,39 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                     //    $scope.loading = false;
                         //$http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0]).success(function(data) {
                         $http.get(globalURL + "api/employee/"+$scope.branchCode+"/" + name + "/" + $scope.getFromDtN+"/"+$scope.getToDtN).success(function(data) {
-                    //$.getJSON('jsonp_' + name + '.js', function(data) {
-                    // Create a timer
-                    console.log(name +" ---"+data.data.length+"----"+"OverAll");
-                    var start = +new Date();
-                    if (data) {
-                        $scope.seriesOptions2[i] = {
-                            name: name,
-                            data: data.data,
-                            pointStart: $scope.startDtNEpoch,
-                            //pointStart: 1211414400000,
-                            //pointStart: Date.UTC(2008, 04, 22),
-                            pointInterval: 3600 * 1000,
-                            tooltip: {
-                                valueDecimals: 0
+                            //$.getJSON('jsonp_' + name + '.js', function(data) {
+                            // Create a timer
+                            console.log(name +" ---"+data.data.length+"----"+"OverAll");
+                            var start = +new Date();
+                            if (data) {
+                                $scope.seriesOptions2[i] = {
+                                    name: name,
+                                    data: data.data,
+                                    pointStart: $scope.startDtNEpoch,
+                                    //pointStart: 1211414400000,
+                                    //pointStart: Date.UTC(2008, 04, 22),
+                                    pointInterval: 3600 * 1000,
+                                    tooltip: {
+                                        valueDecimals: 0
+                                    }
+                                };
+
+                                $scope.seriesCounter2 += 1;
+                                // Create the chart
+                                console.log($scope.seriesCounter2 === ele.length);
+                                if ($scope.seriesCounter2 === ele.length) {
+                                    $scope.createChart();
+                                }
+                                
+                            } else {
+                                return false;
                             }
-                        };
 
-                        $scope.seriesCounter2 += 1;
-                        // Create the chart
-                        console.log($scope.seriesCounter2 === ele.length);
-                        if ($scope.seriesCounter2 === ele.length) {
-                            $scope.createChart();
-                        }
-                        
-                    } else {
-                        return false;
-                    }
+                        }).catch(function(err) {
 
-                }).catch(function(err) {
-
-                }).finally(function(){
-                    $scope.loading = false;
-                });
+                        }).finally(function(){
+                            $scope.loading = false;
+                        });
                     });
                 });
                     

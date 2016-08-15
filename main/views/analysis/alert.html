@@ -37,6 +37,7 @@
         </div>
         <div class="calendar-day-header">
           <span ng-repeat="day in days" class="day-label">{{ day.short }}</span>
+          
         </div>
         <div class="calendar-grid" ng-class="{false: 'no-hover'}[pickdate]">
           <div
@@ -47,6 +48,7 @@
             track by $index>
             <div class="datenumber" ng-class="{'day-selected': day.selected }" ng-click="selectDate(day)">
               {{ day.daydate }}
+              
             </div>
           </div>
           
