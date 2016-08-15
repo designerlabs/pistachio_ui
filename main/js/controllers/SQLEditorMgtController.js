@@ -202,7 +202,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                                 if(myArrayRow.length > 0){
                                     queryResultFunc(myArrayRow, myArrayColumn);                                    
                                 }
-                                if(result.data.rowLength == 0 &&& result.statusText == "OK"){
+                                if(result.data.rowLength == 0 && result.statusText == "OK"){
                                  $btn.button('reset');
                                  $("#messageView div span").html('Successfully Executed...');
                                  $("#messageView div").removeClass("alert-danger");
