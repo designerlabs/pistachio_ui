@@ -199,11 +199,21 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                                     i++;
                                 });
                                 fn_ClearResultTbl();
-                                queryResultFunc(myArrayRow, myArrayColumn);
+                                if(myArrayRow.length > 0){
+                                    queryResultFunc(myArrayRow, myArrayColumn);                                    
+                                }
+                                if(result.data.rowLength == 0 && result.statusText == "OK"){
+                                 $btn.button('reset');
+                                 $("#messageView div span").html('Successfully Executed...');
+                                 $("#messageView div").removeClass("alert-danger");
+                                 $("#messageView div").addClass('alert-success');
+                                 $("#messageView div").show().delay(5000).fadeOut();
+                                }
                                 //$(".page-content").height($(".profile-content").height() + 400);
-                                setTimeout(function() {
-                                    $btn.button('reset');
-                                }, 1000);
+                                // setTimeout(function() {
+                                //     $btn.button('reset');
+                                // }, 1000);
+
                             } else {
                                 fn_ClearResultTbl();
                                 $("#messageView div span").html('No Data to Show...');
@@ -307,22 +317,26 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                 });
         }
         $scope.next = function() {
-            $scope.start++;
+            $scope.start = $scope.start + 1;
             fn_showHistory()
         }
 
         $scope.previous = function() {
-            $scope.start--;
+            $scope.start = $scope.start - 1;
+            if($scope.start < 0)
+            $scope.start = 0;
             fn_showHistory();
         }
 
         $scope.svdnext = function() {
-            $scope.svdstart++;
+            $scope.svdstart = $scope.svdstart + 1;
             fn_showSavedQry()
         }
 
         $scope.svdprevious = function() {
-            $scope.svdstart--;
+            $scope.svdstart = $scope.svdstart - 1;
+            if($scope.svdstart < 0)
+            $scope.svdstart = 0;
             fn_showSavedQry();
         }
 
@@ -334,6 +348,8 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
             var historyResult;
             $http.get(globalURL + "api/pistachio/secured/hist?start=" + $scope.start + "&rows=" + $scope.rows)
                 .then(function(response) {
+                    $scope.first = response.data.first;  
+                    $scope.last = response.data.last; 
                     if (historyTbl != undefined) {
                         historyTbl.destroy();
                     }
@@ -391,6 +407,8 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
             var SavedQryResult;
             $http.get(globalURL + "api/pistachio/secured/save?start=" + $scope.svdstart + "&rows=" + $scope.svdrows)
                 .then(function(response) {
+                    $scope.firstsve = response.data.first; 
+                    $scope.lastsve = response.data.last;
                     if (SavedQryTbl != undefined) {
                         SavedQryTbl.destroy();
                     }
