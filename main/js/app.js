@@ -1119,7 +1119,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/bootstrap-daterangepicker/moment.js',
-
+                        'assets/pistachio/myAudit/myaudit.css',
                         'assets/pages/css/search.css',
                         'assets/pages/css/pricing.min.css',
                         'assets/pages/scripts/highstock.js',
@@ -1169,7 +1169,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     files: [
                         'assets/pistachio/myAudit/myaudit.css',
                          'assets/global/plugins/highcharts/js/highcharts.js',
-                         'assets/global/plugins/highcharts/js/modules/treemap.js',
+                         'assets/global/plugins/d3/d3-force.v1.min.js',
+                         
+                         //'assets/global/plugins/highcharts/js/modules/treemap.js',
                         'js/controllers/MyAuditController.js',
                         
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',

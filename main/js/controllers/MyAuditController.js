@@ -26,7 +26,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
             sortable($scope, response, 8, 'updated_at');
          })
          .error(function(response){
-             debugger;
+             //debugger;
          });
        };
 
@@ -108,13 +108,33 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
         var end = moment();
         
         function cb(start, end) {
-            $scope.branchList(start.format('YYYY-MM-DD'),end.format('YYYY-MM-DD'));
-            $scope.showOfficer = false;
-            $('#branches').collapse('show');
-            $scope.showHeatMap = false;
+
+
+            // if(($scope.activeBranch) && ($scope.activeUser)){
+            //     $scope.startDt = start.format('YYYY-MM-DD');
+            //     $scope.endDt  = end.format('YYYY-MM-DD');
+            //     $scope.branch_selected($scope.activeBranch);
+            //     $scope.officer_change($scope.activeUser);
+                
+            // }else  
+           if($scope.activeBranch){
+                 //$scope.branchList(start.format('YYYY-MM-DD'),end.format('YYYY-MM-DD'));
+                $scope.startDt = start.format('YYYY-MM-DD');
+                $scope.endDt  = end.format('YYYY-MM-DD');
+                $scope.branch_selected($scope.activeBranch);
+            }else{
+                $scope.branchList(start.format('YYYY-MM-DD'),end.format('YYYY-MM-DD'));
+                $('#branches').collapse('show');
+            }
+
+            
+            
+            //$scope.showOfficer = false;
+            
+            //$scope.showHeatMap = false;
             $('rect').removeAttr('class','activeBox');
             $('rect').attr('class','hour bordered');
-            $scope.activeBranch = false;
+            //$scope.activeBranch = false;
             $scope.startDt = start.format('YYYY-MM-DD');
             $scope.endDt = end.format('YYYY-MM-DD');
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
@@ -196,6 +216,9 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
          };
          
          var data = response.transaction;
+         if(response.nodes){
+             $scope.userGraph(response.nodes,response.links);
+         };
         
         var log = [];
         angular.forEach(data, function(value, key) {
@@ -245,13 +268,20 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
         .success(function(response) {
          console.log(response);
          var data = response.transaction;
+         if(response.nodes){
+             $scope.userGraph(response.nodes,response.links);
+         }
         
         var log = [];
         angular.forEach(data, function(value, key) {
             this.push([value.field, value.count]);
         }, log);
         $scope.barChart(log);
-         heatmapChart(response.heatmap);
+        if(!day){
+            //debugger;
+            heatmapChart(response.heatmap);
+         }
+         
          $scope.showHeatMap = true;
           });
     };
@@ -315,7 +345,7 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
                 .attr('class', 'd3-tip')
                 .offset([-10, 0])
                 .html(function(d) {
-                  return "<strong>Transaction:</strong> <span style='color:red'>" + d.total + "</span>";
+                  return "<strong>Activities:</strong> <span style='color:red'>" + d.total + "</span>";
                 })
               var colorScale = d3.scale.quantile()
                   .domain([d3.min(data, function (d) { return d.total; }), d3.max(data, function (d) { return d.total; })])
@@ -390,6 +420,69 @@ MetronicApp.controller('MyAuditController', function($rootScope, $scope, $http, 
           };
 
     $rootScope.query = '';
+
+    $scope.userGraph = function (nodes,links) {
+        var width = 960,
+          height = 700
+
+          if($scope.svg_network != undefined)
+            $scope.svg_network.remove();
+            var tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .offset([-10, 0])
+                .html(function(d) {
+                  return "<strong>Activities:</strong> <span style='color:red'>" + d.name + "</span>";
+                })
+
+          $scope.svg_network = d3.select("#usergraph").append("svg")
+              .attr("width", width)
+              .attr("height", height);
+          
+
+      var force = d3.layout.force()
+          .gravity(.05)
+          .distance(100)
+          .charge(-100)
+          .size([width, height]);
+
+        force
+            .nodes(nodes)
+            .links(links)
+            .start();
+            console.log(links)
+        var link = $scope.svg_network.selectAll("link")
+            .data(links)
+            .enter().append('line')
+            .attr('class', 'link')
+            .style('stroke-width', 1);
+
+        var node = $scope.svg_network.selectAll(".node")
+            .data(nodes)
+          .enter().append("g")
+            .attr("class", "node")
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide)
+            .call(force.drag);
+
+        node.append("circle")
+            .attr("r","5");
+
+        node.append("text")
+            .attr("dx", 12)
+            .attr("dy", ".35em")
+            .text(function(d) { return d.name });
+
+        force.on("tick", function() {
+          link.attr("x1", function(d) { return d.source.x; })
+              .attr("y1", function(d) { return d.source.y; })
+              .attr("x2", function(d) { return d.target.x; })
+              .attr("y2", function(d) { return d.target.y; });
+
+          node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+        });
+
+
+    }
     
     $scope.gridToggle = false;
 

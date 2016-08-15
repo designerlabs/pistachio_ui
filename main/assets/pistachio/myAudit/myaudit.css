@@ -57,6 +57,13 @@ text.mono {
 rect.activeBox{
  fill: #f3565d !important;
 }
+
+
+rect.activeBox::active{
+   content: "Email address: ";
+}
+
+
 #reportrange{
     vertical-align: top;
     border: none  !important;
@@ -295,7 +302,7 @@ ul.grid.grid-thumb .grid-body {
     font-size: 100px;
     text-align: center;
     color: #fff;
-    width: 88%;
+    width: 93%;
     padding: 0px;
     background: rgba(166,195,161,0.8);
     z-index: 9;
@@ -562,3 +569,4 @@ li.pagination ul.pager li a {
   top: 50%;
   left: 100%;
 }
+
