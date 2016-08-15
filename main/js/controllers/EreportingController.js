@@ -515,12 +515,18 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
                 $(".cityGroup").toggle(row.data().city);
                 $(".sectorGroup").toggle(row.data().sector);
                 $(".sexGroup").toggle(row.data().sex);
-
+                $(".myuserGroup").toggle(row.data().myuser);
 
                 tr.addClass('shown');
                 // $('#reportrange').daterangepicker();
 
                  createCalenderCtrl();
+
+                $.getJSON(globalURL + "api/report/reference/myuser", function (json) {
+                     $.each(json, function(k, v){
+                        $("#temp-myuser").append('<option value='+k+'>'+v+'</option>');
+                     });
+                 });
 
                   $.getJSON(globalURL + "api/report/reference/state", function (json) { //api/user/reference/
                      $.each(json, function(k, v){
@@ -633,6 +639,14 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
                 '<select id="temp-state" class="form-control"></select>' +
                 '</div></div>' +
                 //State dropdown end
+
+                //My User dropdown
+                '<div class=" col-md-4 col-sm-6 col-xs-12 myuserGroup">'+
+                '<div class="form-group" >' +
+                '<label class="control-label">Create User </label>' +
+                '<select id="temp-myuser" class="form-control"></select>' +
+                '</div></div>' +
+                //My User dropdown end
 
                 //Branch dropdown
                 '<div class=" col-md-4 col-sm-6 col-xs-12 branchGroup">'+
@@ -849,6 +863,7 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
             var _city = $('#temp-city option:selected').text();
             var _sector = $("#temp-sector option:selected").text();
             var _sex = $("temp-sex option:selected").text();
+            var _myuser = $('#temp-myuser option:selected').text();
 
             // console.log( globalURL+ 'jasperreport/' + fileformat + '/' + reportid);
             var selTemplateVal = JSON.stringify({
@@ -866,7 +881,8 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
                 applicationtype: _applicationType.substr(0, _applicationType.indexOf(' - ')),
                 city: _city.substr(0, _city.indexOf(' - ')),
                 sector: _sector.substr(0, _sector.indexOf(' - ')),
-                sex: _sex.substr(0, _sex.indexOf(' - '))
+                sex: _sex.substr(0, _sex.indexOf(' - ')),
+                myuser: _myuser
             });
             localStorage.setItem("selTemplateVal", selTemplateVal);
 
