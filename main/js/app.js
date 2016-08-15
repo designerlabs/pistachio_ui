@@ -1127,6 +1127,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pistachio/fastsearch/leaflet/heatmap.js ',
                         'assets/pistachio/map/Leaflet.fullscreen.min.js',
                         'assets/pistachio/map/leaflet.fullscreen.css',
+                        'assets/global/plugins/highcharts/js/modules/treemap.js',
                         'js/controllers/VAAController.js'
                     ]
                 });

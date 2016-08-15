@@ -6,7 +6,7 @@ var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/immigration2/query?json='
 
 MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
     $scope.$on('$viewContentLoaded', function() {
-        scope.firstTime = true;
+        $scope.firstTime = true;
         // initialize core components
         Metronic.initAjax();
         $(".page-sidebar-menu > li").removeClass('active');
@@ -25,7 +25,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
 
     $scope.date_range = function() {
 
-      cb(moment("20100101", "YYYYMMDD"), moment());
+      cb(moment("20120101", "YYYYMMDD"), moment());
 
       $('#vaa-range').daterangepicker({
           ranges: {
@@ -34,15 +34,15 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
              '2015': [moment("20150101", "YYYYMMDD"), moment("20151231", "YYYYMMDD")],
              '2014': [moment("20140101", "YYYYMMDD"), moment("20141231", "YYYYMMDD")],
              '2013': [moment("20130101", "YYYYMMDD"), moment("20131231", "YYYYMMDD")],
-             '2012': [moment("20120101", "YYYYMMDD"), moment("20121231", "YYYYMMDD")],
-             '2011': [moment("20110101", "YYYYMMDD"), moment("20111231", "YYYYMMDD")],
-             '2010': [moment("20100101", "YYYYMMDD"), moment("20101231", "YYYYMMDD")]
+             '2012': [moment("20120101", "YYYYMMDD"), moment("20121231", "YYYYMMDD")]//,
+           //  '2011': [moment("20110101", "YYYYMMDD"), moment("20111231", "YYYYMMDD")],
+           //  '2010': [moment("20100101", "YYYYMMDD"), moment("20101231", "YYYYMMDD")]
 
           },
           opens : "right",
           "alwaysShowCalendars": true,
           showDropdowns: true,
-          minDate : moment("20100101", "YYYYMMDD")
+          minDate : moment("20120101", "YYYYMMDD")
 
       }, cb);
 
@@ -55,10 +55,29 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
           $scope.time_filtered_max = moment(picker.endDate).format('YYYY-MM-DDT00:00:00')+'Z';
           $scope.time_filtered_min = moment(picker.startDate).format('YYYY-MM-DDT00:00:00')+'Z'
               $scope.addFilter("tim","Time :"+display,"created:"+range);
-
+              $scope.pickDayRange(picker.endDate.diff(picker.startDate,'days'))
               $scope.querySolr();
       });
 
+    }
+
+    $scope.pickDayRange = function(days) {
+      debugger;
+      if(days < 2) {
+        $scope.period = "%2B1HOUR"
+      }
+      else if (days < 14) {
+        $scope.period = "%2B1DAY"
+      }
+      else if (days < 60) {
+       $scope.period = "%2B7DAY" 
+      }
+      else if(days < 500 ) {
+        $scope.period = "%2B1MONTH"
+      }
+      else if(days > 500 ) {
+        $scope.period = "%2B1YEAR"
+      }
     }
 
     $scope.drawHeatMap = function() {
@@ -112,29 +131,6 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
 
     }
 
-
-    $scope.changeAnalysis = function (data) {
-        if(data == $scope.analysiType)
-          return;
-        else
-          $scope.analysiType = data;
-       if($scope.needRefresh ==  false)
-        return;
-       if(data == 'overall')
-       {
-          $scope.querySolr();
-       }
-       else if(data == 'timeline')
-       {
-          //$scope.timelineChart();
-          $scope.date_query();
-       }
-      // $scope.querySolr();
-      $scope.needRefresh =  false;
-    };
-
-
-
     $scope.reset = function(){
       $scope.radioValue = "Overall"
       $scope.cntName = "";
@@ -149,11 +145,11 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
          $scope.loadTimeline = true;
          $scope.time_filtered_max = "";
          $scope.time_filtered_min = "";
-
+        $scope.period = "%2B1YEAR"
          $scope.jobCount = 10;
-
+$scope.stateSelected = false;
          $scope.dateRange = {};
-         $scope.dateRange.min = "2010-01-01T00:00:00Z"
+         $scope.dateRange.min = "2012-01-01T00:00:00Z"
          $scope.dateRange.max = "2016-01-01T00:00:00Z"
          cb(moment("20100101", "YYYYMMDD"), moment());
          //$scope.analysiType = 'overall';
@@ -164,8 +160,8 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
 
 
        $scope.cleanQuery = function(data) {
-        data = data.replace(/\(/g,"\\\(");
-        data = data.replace(/\)/g,"\\\)");
+          data = data.replace(/\(/g,"\\\(");
+          data = data.replace(/\)/g,"\\\)");
           data = data.replace(/ /g,"*");
           return(data);
        }
@@ -195,7 +191,8 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
        }
 
        $scope.clickState = function(data) {
-        $scope.addFilter("sta","Negeri :"+data,"state:"+$scope.cleanQuery(data));
+        $scope.stateSelected = true;
+        $scope.addFilter("sta","Negeri :"+data,"{!tag=STATE}state:"+$scope.cleanQuery(data));
         $scope.querySolr();
        }
 
@@ -256,21 +253,21 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
 
        $scope.formQuery = function() {
 
-        var query = "*:*";
-        return query;
+          var query = "*:*";
+          return query;
        }
 
        $scope.filterQuery = function () {
-        var query = "";
-        if($scope.filterButtons.length == 0)
-          return query;
-        query = $scope.filterButtons[0]["query"];
-        if($scope.filterButtons.length > 1)
-          for (var i = 1; i < $scope.filterButtons.length; i++) {
-              query = query+" AND "+$scope.filterButtons[i]["query"];
-          }
+          var query = "";
+          if($scope.filterButtons.length == 0)
+            return query;
+          query = $scope.filterButtons[0]["query"];
+          if($scope.filterButtons.length > 1)
+            for (var i = 1; i < $scope.filterButtons.length; i++) {
+                query = query+" AND "+$scope.filterButtons[i]["query"];
+            }
 
-        return query;
+          return query;
        }
 
        $scope.analysisSolr = function() {
@@ -316,6 +313,9 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
             json.facet.state = {};
             json.facet.state.type   = "terms";
             json.facet.state.field  =  "state";
+            json.facet.state.domain = {};
+            json.facet.state.domain.excludeTags ="STATE"
+            json.facet.state.limit  =  20;
             json.facet.city = {};
             json.facet.city.type   = "terms";
             json.facet.city.field  =  "city";
@@ -342,13 +342,14 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
               json.facet.date_range.start  = $scope.dateRange.min;
               json.facet.date_range.end    = $scope.dateRange.max;
             }
-
-            json.facet.date_range.gap    = "%2B1MONTH";
+            debugger
+            json.facet.date_range.gap    = $scope.period;
 
           }
 
           $http.get(thisSolrAppUrl+JSON.stringify(json)).
              success(function(data) {
+              $scope.numFound = data.response.numFound;
                  if(selected_countries == 0) {
                    $scope.countries = data.facets.country.buckets;
                    $scope.jobs = data.facets.job.buckets
@@ -377,13 +378,10 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
 
                    //alert(data.facet_counts.facet_fields.sex.length);
                    console.log($scope.sex1);
-                  
-                   if($scope.firstTime)
-                   {
-                    $scope.overallTab();
-                    $scope.firstTime = false;
-                   }
-                    
+                   $scope.column();
+                   $scope.pie();
+                   $scope.timelineChart(data.facets.date_range.buckets);
+                   $scope.activeOverall();
                    $scope.loading = false;
                  }
                  
@@ -401,48 +399,45 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
 
     };
 
-        $scope.stateTab = function() {
-         $scope.column()
-        }
-
-
-    $scope.overallTab = function() {
-      $scope.pie();
-      if( typeof $scope.map != 'undefined')
-                $scope.reDrawHeatMap();
-      $scope.timelineChart(data.facets.date_range.buckets)
-      $scope.drawHeatMap();
-    }
+       
 
     $scope.pie = function() {
       Highcharts.chart('highchart_pie',{
         chart : {
             type : 'pie',
+            height : 260,
             style: {
                 fontFamily: 'Open Sans'
             }
         },
-         plotOptions: {
-        pie: {
-            dataLabels: {
-                distance: -45
+        legend: {
+                layout: 'vertical',
+                align: 'left',
+                x: 120,
+                verticalAlign: 'top',
+                y: 80,
+                floating: true,
+                backgroundColor: '#FFFFFF'
+        },
+        
+        xAxis: {
+            categories: $scope.sex.val
+        },
+        yAxis: {
+
+            title: {
+                text: null
             }
-        }
         },
         exporting: { enabled: false },
             title: {
               text: 'mengikut jantina',
               x: -20 //center
             },
-            legend: {
-              layout: 'vertical',
-              align: 'right',
-              verticalAlign: 'middle',
-              borderWidth: 0
-            },
             series: [{
             name: 'jantina',
             colorByPoint: true,
+           // showInLegend:false,
             data: $scope.sex,
           point:{
               events:{
@@ -470,7 +465,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
       }
     }
 
-    $scope.column = function() {
+    $scope.activeOverall = function () {
 
       console.log("state")
        var _state = $scope.state;
@@ -482,11 +477,66 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
            stateName.push(_state[i].val)
            stateData.push(_state[i].count)
         }
-        console.log(stateName);
-console.log(stateData);
-debugger;
-    //    console.log("--------")
 
+      Highcharts.chart('highchart_active',{
+        colorAxis: {
+            minColor: '#FFFFFF',
+            maxColor: Highcharts.getOptions().colors[0]
+        },
+        series: [{
+            type: 'treemap',
+            layoutAlgorithm: 'squarified',
+            data: [{
+                name: 'A',
+                value: 6,
+                colorValue: 1
+            }, {
+                name: 'B',
+                value: 6,
+                colorValue: 2
+            }, {
+                name: 'C',
+                value: 4,
+                colorValue: 3
+            }, {
+                name: 'D',
+                value: 3,
+                colorValue: 4
+            }, {
+                name: 'E',
+                value: 2,
+                colorValue: 5
+            }, {
+                name: 'F',
+                value: 2,
+                colorValue: 6
+            }, {
+                name: 'G',
+                value: 1,
+                colorValue: 7
+            }]
+        }],
+        title: {
+            text: 'Highcharts Treemap'
+        }
+    });
+        
+    }
+
+    $scope.column = function() {
+      if($scope.stateSelected == true) {
+        $scope.stateSelected = false;
+        return;
+      } 
+       var _state = $scope.state;
+
+       var stateName = [];
+       var stateData = [];
+
+      for (var i =0,l=_state.length; i < l; i++) {
+           stateName.push(_state[i].val)
+           stateData.push(_state[i].count)
+        }
 
       Highcharts.chart('highchart_col',{
         chart : {
@@ -505,7 +555,11 @@ debugger;
         xAxis: {
             categories: stateName
         },
-
+        plotOptions:{
+          series:{
+            allowPointSelect: true
+          }
+        },
         exporting: { enabled: false },
             title: {
               text: 'negeri',
@@ -515,16 +569,17 @@ debugger;
             name: 'negeri',
             colorByPoint: true,
             data: stateData,
+            showInLegend:false,
           point:{
               events:{
                   click: function (event) {
-                      $scope.clickState(this.name);
+                      $scope.clickState(event.point.category);
                   }
               }
           }
         }]
           });
-    };
+    }
 
 
     
@@ -617,19 +672,38 @@ debugger;
       //alert(data_range[1][0]);
       //console.log(data_range.facets.date_range.buckets);
       var data = [];
+      var change = [];
+      var initial = 0;
        for( var i=0,l = data_range.length;i<l; i++){
          var obj = data_range[i];
          var element =[];
+         var changeObj =[];
          element.push(new Date(obj.val).getTime());
+         changeObj.push(new Date(obj.val).getTime());
          element.push(obj.count);
+         if(initial == 0)
+         {
+            initial = obj.count;
+             changeObj.push(0);
+         }
+        else {
+          changeObj.push(
+            parseInt(parseFloat(((obj.count - initial)/initial) * 100).toFixed(2))
+            )
+          initial = obj.count;
+          
+        }
+
+    change.push(changeObj);
          data.push(element);
+         
        }
 
         console.log(data);
-
       Highcharts.chart('highchart_timeline',{
             chart: {
                 zoomType: 'x',
+                height:405,
                 events: {
                 selection: function (event) {
                     if (event.xAxis) {
@@ -648,6 +722,18 @@ debugger;
                   }
                 }
             },
+            tooltip: {
+            shared: true
+        },
+            legend: {
+                layout: 'vertical',
+                align: 'left',
+                x: 120,
+                verticalAlign: 'top',
+                y: 80,
+                floating: true,
+                backgroundColor: '#FFFFFF'
+            },
             title: {
                 text: 'Visa Application over time'
             },
@@ -658,47 +744,68 @@ debugger;
             xAxis: {
                 type: 'datetime'
             },
-            yAxis: {
+            yAxis:  [{ // Primary yAxis
                 title: {
-                    text: 'No of Applications'
-                }
-            },
-            legend: {
-                enabled: false
-            },
+                        text: 'No of Applications'
+                    },
+                    style: {
+                        color: Highcharts.getOptions().colors[0]
+                    },
+                    min:0,
+                    verticalAlign: 'middle', // Position them vertically in the middle
+                    align: 'bottom' 
+                }, { // Secondary yAxis
+                  title: {
+                      text: 'Rage of Change',
+                      style: {
+                          color: Highcharts.getOptions().colors[1]
+                      }
+                  },
+                  labels: {
+                      format: '{value} %',
+                      style: {
+                          color: Highcharts.getOptions().colors[1]
+                      }
+                  },
+                opposite: true
+            }],
             exporting: { enabled: false },
             plotOptions: {
-                area: {
-                    fillColor: {
-                        linearGradient: {
-                            x1: 0,
-                            y1: 0,
-                            x2: 0,
-                            y2: 1
+                column: {
+                  stacking:'normal',
+                    dataLabels: {
+                        enabled: true,
+                        crop: false,
+                        overflow: 'none',
+                        verticalAlign:'bottom'//,
+                       // y:40
+                    }
+                },
+                line: {
+                    dataLabels: {
+                        formatter: function () {
+                            return this.y + '%'
                         },
-                        stops: [
-                            [0, Highcharts.getOptions().colors[0]],
-                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                        ]
-                    },
-                    marker: {
-                        radius: 2
-                    },
-                    lineWidth: 1,
-                    states: {
-                        hover: {
-                            lineWidth: 1
-                        }
-                    },
-                    threshold: null
+                        enabled: true,
+                        crop: false,
+                        overflow: 'none'
+                    }
                 }
             },
 
             series: [{
-                type: 'area',
-                name: 'Total',
+                type: 'column',
+                name: 'State wise distribution',
                 data: data
-            }]
+                
+            },
+            {
+                type: 'line',
+                name: 'Rate of Change',
+                yAxis: 1,
+                data: change
+            }
+            ]
         });
     };
 

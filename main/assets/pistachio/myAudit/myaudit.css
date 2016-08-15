@@ -8,7 +8,7 @@ text.mono {
   fill: #aaa;
 }
 
-#branchHeader, #officerHeader {
+#branchHeader, #officerHeader,#negaraHeader {
     background: rgba(27, 188, 107, 0.71);
     padding: 14px;
     color: #fff;
@@ -32,7 +32,7 @@ text.mono {
   color:red;
 }
 
-#officerHeader h3{
+#officerHeader h3, #negaraHeader h3{
    display: inline-block;
    margin:0px !important;
    width:80%;
@@ -45,7 +45,7 @@ text.mono {
 }
 
 
-#officerHeader h3 + span{
+#officerHeader h3 + span, #negaraHeader h3 + span {
     width: 19.5%;
     text-align: right;
     display: inline-block;
