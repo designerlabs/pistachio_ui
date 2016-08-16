@@ -27,10 +27,19 @@ text.mono {
    width:14%;
 }
 
+
+.titleHeader{
+      background: #3daf85;
+    display: inline-block;
+    width: 100%;
+    margin-top: 10px;
+    color: #fff;
+    padding: 0px 10px 6px 10px;
+}
 .recordFail{
   padding: 10px 10px 20px 0px;
   color: red;
-  background: #fff;
+  background: #f1f0f0;
 }
 
 #officerHeader h3, #negaraHeader h3{
@@ -50,24 +59,48 @@ li.list-group-item:after {
     position: absolute;
     top: 9px;
     right: 0px;
-    padding: 0 5px;
+    font-weight: 600;
+    padding: 0 10px;
     background: #b1ffb7;
 }
 
-.list-group-item {
-    padding: 5px 10px !important;
-    margin-bottom: 0px !important;
-    border: 1px solid #ececec !important;
+li.officer-group-item:after {
+    content: attr(data-officerCnt);
+    top: 9px;
+    right: 0px;
+    font-weight: 600;
+    padding: 0 10px;
+    background: #b1ffb7;
+    position: absolute;
 }
+
+.officer-group-item {
+    padding: 10px !important;
+    margin-bottom: 0px !important;
+    background:#f1f0f0 !important;
+    border: 0px solid #ececec !important;
+    font-size: 16px !important;
+    position: relative;
+}
+
+.list-group-item {
+    padding: 10px !important;
+    margin-bottom: 0px !important;
+    background:#f1f0f0 !important;
+    border: 0px solid #ececec !important;
+    font-size: 16px !important;
+}
+
+
 
 .list-group {
     padding-left: 0;
     margin-bottom: 20px;
     height: 400px;
     overflow: auto;
-    padding: 12px;
+    padding: 0px;
     /* margin: 10px; */
-    background: #fff;
+    background: #f1f0f0;
 }
 
 #officerHeader h3 + span, #negaraHeader h3 + span {
@@ -114,6 +147,7 @@ text.axis-worktime {
 
 #chart{
   text-align: center;
+  background: #fff;
 }
 
 .piewidget {
@@ -296,18 +330,46 @@ ul.grid.grid-thumb .grid-body {
     overflow-y: auto !important;
 }
 
+.officerExtra{
+    padding: 7px 8px;
+    margin-left: 10px;
+    background: #c7ffeb;
+    display: inline-block;
+    margin-bottom: 0px;
+    margin-top: 7px;
+    bottom: 0px;
+
+}
 .selectpicker option{
   font-size:16px;
   padding:10px;
 }
 
 .selectedAuditUserList:before{
-  content: "\2713 ";
+      /* border: 3px solid #639a5a !important; */
+    /* content: "\2713 "; */
+    content: "";
+    position: absolute;
+    /* bottom: 0; */
+    height: 100%;
+    font-weight: 600;
+    /* font-size: 100px; */
+    text-align: center;
+    color: #fff;
+    width: 100%;
+    padding-left: 5px;
+    background: rgba(166,195,161,0.8);
+    z-index: 9;
+    margin: 0px;
+    left: 0px;
+    top: 0px;
+    padding-top: 4px;
+    text-align: left;
+    color: #076700;
 }
 .selectedAuditUserList{
-  background: #b1cfac;
-  font-weight: 700;
-  color: #395635;
+  /*background: #b1cfac !important;*/
+  color: #9fa68a !important;
 }
 
 .selectpickerUser{
@@ -315,6 +377,17 @@ ul.grid.grid-thumb .grid-body {
   padding: 10px;
   list-style: none;
   cursor: pointer;
+}
+
+#summaryContainer{
+  background: #fff;
+}
+
+.summaryTitle{
+    display: inline-block;
+    background: #a8e2cd;
+    width: 100%;
+    padding: 0px 10px;
 }
 
 /*.selectedAuditList:before{

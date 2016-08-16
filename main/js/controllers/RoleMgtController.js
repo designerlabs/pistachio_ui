@@ -7,7 +7,7 @@ var SubReportObj = [];
 var SubReportDelAry = [];
 var flag_dashboard=[], flag_dashboard_id=[], flag_fastsearch=[], flag_database=[], _nme;
 var getToken = localStorage.getItem("token");
-MetronicApp.controller('RoleMgtController', function($rootScope, $scope, settings, $http, $timeout) {
+MetronicApp.controller('RoleMgtController', function($rootScope, $scope, settings, $http, $timeout, $filter, $translate) {
     $scope.$on('$viewContentLoaded', function() {
 
       // initialize core components
@@ -46,7 +46,10 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                           "data": "action",
                           "width": "25%",
                           "render": function(data, type, full, meta) {
-                              return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
+                            var editBtn = $filter('translate')('editBtn');
+                            var delBtn = $filter('translate')('delBtn');
+                              return '<button  class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> '+editBtn+'</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> '+delBtn+'</button>';
+                             
                           }
                 }]
               });
@@ -691,4 +694,5 @@ function UpdateCrud(_data){
     $rootScope.settings.layout.pageSidebarClosed = false;
     $rootScope.skipTitle = false;
     $rootScope.settings.layout.setTitle("rolemgt");
+    var a = $rootScope.settings.layout.setTitle("rolemgt");
 });
