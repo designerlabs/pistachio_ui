@@ -29,12 +29,12 @@ text.mono {
 
 
 .titleHeader{
-      background: #3daf85;
+    background: #3daf85;
     display: inline-block;
     width: 100%;
     margin-top: 10px;
     color: #fff;
-    padding: 0px 10px 6px 10px;
+    padding: 10px;
 }
 .recordFail{
   padding: 10px 10px 20px 0px;
@@ -75,28 +75,31 @@ li.officer-group-item:after {
 }
 
 .officer-group-item {
-    padding: 10px !important;
+    padding: 8px 8px !important;
     margin-bottom: 0px !important;
     background:#f1f0f0 !important;
     border: 0px solid #ececec !important;
-    font-size: 16px !important;
+    font-size: 14px !important;
     position: relative;
 }
 
 .list-group-item {
-    padding: 10px !important;
+    padding: 8px 8px !important;
     margin-bottom: 0px !important;
     background:#f1f0f0 !important;
     border: 0px solid #ececec !important;
-    font-size: 16px !important;
+    font-size: 14px !important;
 }
 
-
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
 
 .list-group {
     padding-left: 0;
-    margin-bottom: 20px;
-    height: 400px;
+    margin-bottom: 0px;
+    height: 300px;
     overflow: auto;
     padding: 0px;
     /* margin: 10px; */

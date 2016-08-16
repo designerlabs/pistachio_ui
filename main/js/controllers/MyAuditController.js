@@ -449,10 +449,11 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
             .attr("y", function (d) { return (d.day - 1) * gridSize; })
             .attr("rx", 4)
             .attr("ry", 4)
-            .attr("class", "hour bordered")
+            .attr("class", function (d) { console.log(d); return "hour bordered"; })
             .attr("width", gridSize)
             .attr("height", gridSize)
             .on("click", function (d) {
+                debugger;
                 if (!$scope.activeUser) {
                     if($scope.activityName){    
                         $scope.getBranchDetails(d.total, times[d.hour] + '&' + d.hour, days[d.day - 1] + '&' + d.day, $scope.activeBranch, $scope.activityName);
@@ -463,8 +464,6 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                         console.log('undefined');
                         console.log($scope.selectedOfficer);
                     }
-                    
-                    debugger;
                 } else if ($scope.activeUser) {
                     $scope.getOfficerDetails(d.total, times[d.hour] + '&' + d.hour, days[d.day - 1] + '&' + d.day, $scope.activeBranch, $scope.activeUser);
                     $scope.getBranchDetails(d.total, times[d.hour] + '&' + d.hour, days[d.day - 1] + '&' + d.day, $scope.activeBranch);
