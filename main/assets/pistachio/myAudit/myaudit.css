@@ -330,16 +330,45 @@ ul.grid.grid-thumb .grid-body {
     overflow-y: auto !important;
 }
 
+.officerExtra{
+    padding: 7px 8px;
+    margin-left: 10px;
+    background: #c7ffeb;
+    display: inline-block;
+    margin-bottom: 0px;
+    margin-top: 7px;
+    bottom: 0px;
+
+}
 .selectpicker option{
   font-size:16px;
   padding:10px;
 }
 
 .selectedAuditUserList:before{
-  content: "";
+      /* border: 3px solid #639a5a !important; */
+    /* content: "\2713 "; */
+    content: "";
+    position: absolute;
+    /* bottom: 0; */
+    height: 100%;
+    font-weight: 600;
+    /* font-size: 100px; */
+    text-align: center;
+    color: #fff;
+    width: 100%;
+    padding-left: 5px;
+    background: rgba(166,195,161,0.8);
+    z-index: 9;
+    margin: 0px;
+    left: 0px;
+    top: 0px;
+    padding-top: 4px;
+    text-align: left;
+    color: #076700;
 }
 .selectedAuditUserList{
-  background: #b1cfac !important;
+  /*background: #b1cfac !important;*/
   color: #9fa68a !important;
 }
 

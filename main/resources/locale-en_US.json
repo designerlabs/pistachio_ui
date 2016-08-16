@@ -104,6 +104,9 @@
 	"profile.lang" : "Language",
 	"profile.recentactivities" : "Recent Activities",
 	"profile.acc" : "Profile Account",
+	"editBtn": "Edit",
+	"delBtn": "Delete",
+
 
 	"profile.edit.name" : "Name",
 	"profile.edit.email" : "E-Mail",

@@ -71,6 +71,8 @@
 	"ereporting.delete.message" : "Adakah anda pasti anda mahu memadam rekod ini",
 	"ereporting.delete.no" : "Tiada",
 	"ereporting.delete.yes" : "Ya",
+	"editBtn": "Edit",
+	"delBtn": "Delete",
 
 
 
