@@ -43,7 +43,9 @@ MetronicApp.config(['$translateProvider', function ($translateProvider) {
         'login.state': 'State',
         'login.branch': 'Branch',
         'login.department': 'Department',
-        'login.unit': 'Unit'
+        'login.unit': 'Unit',
+
+        'login.resetpassword' : 'Reset Password'
 
 
     });
@@ -79,7 +81,9 @@ MetronicApp.config(['$translateProvider', function ($translateProvider) {
         'login.state': 'Negeri',
         'login.branch': 'Cawangan',
         'login.department': 'Bahagian',
-        'login.unit': 'Unit'
+        'login.unit': 'Unit',
+
+        'login.resetpassword' : 'Reset Password'
 
     });
 
