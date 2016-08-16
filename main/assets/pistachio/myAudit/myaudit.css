@@ -147,6 +147,7 @@ text.axis-worktime {
 
 #chart{
   text-align: center;
+  background: #fff;
 }
 
 .piewidget {
@@ -347,6 +348,10 @@ ul.grid.grid-thumb .grid-body {
   padding: 10px;
   list-style: none;
   cursor: pointer;
+}
+
+#summaryContainer{
+  background: #fff;
 }
 
 .summaryTitle{
