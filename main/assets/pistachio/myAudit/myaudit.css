@@ -349,6 +349,13 @@ ul.grid.grid-thumb .grid-body {
   cursor: pointer;
 }
 
+.summaryTitle{
+    display: inline-block;
+    background: #a8e2cd;
+    width: 100%;
+    padding: 0px 10px;
+}
+
 /*.selectedAuditList:before{
     border: 3px solid #639a5a !important;
     content: "\2713 ";
