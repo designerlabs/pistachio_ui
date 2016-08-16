@@ -158,6 +158,23 @@ License: You must have a valid license purchased only from themeforest(the above
             <!-- BEGIN FORGOT PASSWORD FORM  action="index.html" method="post"-->
             <form class="forget-form">
                 <h3>{{'login.forgetpassword' | translate}} ?</h3>
+
+                <div class="alert alert-danger display-hide" id="msgResetError">
+                    <button class="close" data-close="alert"></button>
+                    <span>{{'forgetpswd.requiremessage'| translate}}.</span>
+                </div>
+
+                <!-- <div class="alert alert-danger display-hide" id="loginRequire">
+                <button class="close" data-close="alert"></button>
+                <span>
+            {{'login.requiremessage'| translate}}. </span>
+            </div>
+
+            <div class="alert alert-danger display-hide" id="loginError">
+                <button class="close" data-close="alert"></button>
+                <span></span>
+            </div> -->
+
                 <p>
                     {{'login.forgetpassword' | translate}}.
                 </p>
@@ -167,6 +184,11 @@ License: You must have a valid license purchased only from themeforest(the above
                 <div class="form-actions">
                     <button type="button" id="back-btn" class="btn btn-default">{{'login.back' | translate}}</button>
                     <button type="submit" class="btn btn-success uppercase pull-right">{{'login.submit' | translate}}</button>
+                </div>
+                <div class="alert alert-success display-hide" id="msgResetSuccess">
+                    <!-- <button class="close" data-close="alert"></button> -->
+                    <span>Your IC number submitted successfully. We will send reset password email to your registered email address.<br/>
+                    Please <a href="" class="toLogin">Click Here</a> to go Login page</span>
                 </div>
             </form>
             <!-- END FORGOT PASSWORD FORM -->

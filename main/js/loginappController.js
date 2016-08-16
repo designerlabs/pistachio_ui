@@ -8,6 +8,26 @@ var MetronicApp = angular.module("at", [
     "pascalprecht.translate"
 ]);
 
+MetronicApp.controller('loginappController', ['$translate', '$scope', '$http', function ($translate, $scope, $http) {
+
+    $scope.update = function () {
+        console.log($scope.item.toString());
+        // $translateProvider.preferredLanguage($scope.item.toString());
+        $translate.use($scope.item.toString());
+    }
+    function ResetPswd(icno){
+        alert('Password resetted');
+        $('#msgResetSuccess', $('.forget-form')).show();
+        $http.post('/someUrl', data, config)
+        .success(function(res){
+              $('#msgResetSuccess', $('.forget-form')).show();
+        })
+        .fail(function(res){
+
+        });
+    }
+}]);
+
 
 
 MetronicApp.config(['$translateProvider', function ($translateProvider) {
@@ -45,7 +65,8 @@ MetronicApp.config(['$translateProvider', function ($translateProvider) {
         'login.department': 'Department',
         'login.unit': 'Unit',
 
-        'login.resetpassword' : 'Reset Password'
+        'login.resetpassword' : 'Reset Password',
+        'forgetpswd.requiremessage' : 'IC Required'
 
 
     });
@@ -83,7 +104,8 @@ MetronicApp.config(['$translateProvider', function ($translateProvider) {
         'login.department': 'Bahagian',
         'login.unit': 'Unit',
 
-        'login.resetpassword' : 'Reset Password'
+        'login.resetpassword' : 'Reset Password',
+        'forgetpswd.requiremessage' : 'IC Required'
 
     });
 
@@ -91,11 +113,3 @@ MetronicApp.config(['$translateProvider', function ($translateProvider) {
     // $translateProvider.uses('en');
 }]);
 
-MetronicApp.controller('loginappController', ['$translate', '$scope', function ($translate, $scope) {
-
-    $scope.update = function () {
-        console.log($scope.item.toString());
-        // $translateProvider.preferredLanguage($scope.item.toString());
-        $translate.use($scope.item.toString());
-    }
-}]);

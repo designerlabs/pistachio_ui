@@ -154,26 +154,29 @@ var Login = function () {
     }
 
     var handleForgetPassword = function () {
+        $('#msgResetError', $('.forget-form')).hide();
+        $('#msgResetSuccess', $('.forget-form')).hide();
         $('.forget-form').validate({
             errorElement: 'span', //default input error message container
             errorClass: 'help-block', // default input error message class
-            focusInvalid: false, // do not focus the last invalid input
-            ignore: "",
+            focusInvalid: false, // do not focus the last invalid input           
             rules: {
-                email: {
-                    required: true,
-                    email: true
+                ic: {
+                    required: true                    
                 }
             },
 
             messages: {
-                email: {
-                    required: "Email is required."
+                ic: {
+                    required: "IC is required."
                 }
             },
 
             invalidHandler: function (event, validator) { //display error alert on form submit
-
+                $('#msgResetError', $('.forget-form')).show();
+                $('#msgResetSuccess', $('.forget-form')).hide();
+                // $('#loginRequire', $('.forget-form')).show();
+                // $('#loginError', $('.forget-form')).hide();
             },
 
             highlight: function (element) { // hightlight error inputs
@@ -191,7 +194,21 @@ var Login = function () {
             },
 
             submitHandler: function (form) {
-                form.submit();
+                // form.submit();
+                var icValue = $('.forget-form input[name=ic]').val();
+                $.ajax({
+                        url: globalURL + 'api/user/'+ icValue +'/reset_password',
+                        type: 'POST'                        
+                    }).done(function (data) {
+                        console.log("success");                       
+                        $('#msgResetSuccess', $('.forget-form')).show();
+                    })
+                    .fail(function (data) {
+                        console.log("error"); 
+                        $('#msgResetSuccess', $('.forget-form')).hide();
+                        $('#msgResetError span').html(data.responseText);
+                        $('#msgResetError', $('.forget-form')).show();
+                    });
             }
         });
 
@@ -212,6 +229,11 @@ var Login = function () {
         jQuery('#back-btn').click(function () {
             jQuery('.login-form').show();
             jQuery('.forget-form').hide();
+        });
+        $('.toLogin').click(function(){
+            $('.login-form').show();
+            $('.forget-form').hide();
+            $('#msgResetSuccess', $('.forget-form')).hide();
         });
 
     }
