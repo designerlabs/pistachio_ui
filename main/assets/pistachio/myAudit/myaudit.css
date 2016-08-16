@@ -27,10 +27,19 @@ text.mono {
    width:14%;
 }
 
+
+.titleHeader{
+      background: #3daf85;
+    display: inline-block;
+    width: 100%;
+    margin-top: 10px;
+    color: #fff;
+    padding: 0px 10px 6px 10px;
+}
 .recordFail{
   padding: 10px 10px 20px 0px;
   color: red;
-  background: #fff;
+  background: #f1f0f0;
 }
 
 #officerHeader h3{
@@ -50,24 +59,48 @@ li.list-group-item:after {
     position: absolute;
     top: 9px;
     right: 0px;
-    padding: 0 5px;
+    font-weight: 600;
+    padding: 0 10px;
     background: #b1ffb7;
 }
 
-.list-group-item {
-    padding: 5px 10px !important;
-    margin-bottom: 0px !important;
-    border: 1px solid #ececec !important;
+li.officer-group-item:after {
+    content: attr(data-officerCnt);
+    top: 9px;
+    right: 0px;
+    font-weight: 600;
+    padding: 0 10px;
+    background: #b1ffb7;
+    position: absolute;
 }
+
+.officer-group-item {
+    padding: 10px !important;
+    margin-bottom: 0px !important;
+    background:#f1f0f0 !important;
+    border: 0px solid #ececec !important;
+    font-size: 16px !important;
+    position: relative;
+}
+
+.list-group-item {
+    padding: 10px !important;
+    margin-bottom: 0px !important;
+    background:#f1f0f0 !important;
+    border: 0px solid #ececec !important;
+    font-size: 16px !important;
+}
+
+
 
 .list-group {
     padding-left: 0;
     margin-bottom: 20px;
     height: 400px;
     overflow: auto;
-    padding: 12px;
+    padding: 0px;
     /* margin: 10px; */
-    background: #fff;
+    background: #f1f0f0;
 }
 
 #officerHeader h3 + span{
@@ -302,12 +335,11 @@ ul.grid.grid-thumb .grid-body {
 }
 
 .selectedAuditUserList:before{
-  content: "\2713 ";
+  content: "";
 }
 .selectedAuditUserList{
-  background: #b1cfac;
-  font-weight: 700;
-  color: #395635;
+  background: #b1cfac !important;
+  color: #9fa68a !important;
 }
 
 .selectpickerUser{
