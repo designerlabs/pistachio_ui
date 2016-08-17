@@ -8,7 +8,8 @@
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-userpic">
 
-					<img src="assets/admin/layout2/img/mimos_logo_small.png" class="img-responsive" alt=""> </div>
+					<img src="assets/admin/layout2/img/mimos_logo_small.png" class="img-responsive" alt=""> 
+				</div>
 					<!-- END SIDEBAR USERPIC -->
 					<!-- SIDEBAR USER TITLE -->
 					<div class="profile-usertitle">
@@ -26,315 +27,282 @@
 						<ul class="nav">
 							<li ng-class="{active:noedit}">
 								<a href="" ng-click="overview()">
-
 									<i class="icon-home"></i> {{'profile.overview' | translate}} </a>
-								</li>
-								<li ng-class="{active:!noedit}">
-									<a href="" ng-click="edit()">
-										<i class="icon-settings"></i> {{'profile.edit' | translate}} </a>
-									</li>
-
-								</ul>
+							</li>
+							<li ng-class="{active:!noedit}">
+								<a href="" ng-click="edit()">
+									<i class="icon-settings"></i> {{'profile.edit' | translate}} </a>
+							</li>
+						</ul>
+					</div>							
+			</div>						
+		</div>					
+		<div class="profile-content" >
+			<div ng-if="overall">
+				<div class="row" >
+					<div class="col-md-6 col-xs-12">
+						<div class="portlet light ">
+							<div class="portlet-title">
+								<div class="caption caption-md">
+									<span class="caption-subject font-blue-madison bold uppercase">{{'profile.userinfo' | translate}}</span>
+								</div>
 							</div>
-							<!-- END MENU -->
-						</div>
-						<!-- END PORTLET MAIN -->
-						<!-- PORTLET MAIN -->
-						<!-- END PORTLET MAIN -->
-					</div>
-					<!-- END BEGIN PROFILE SIDEBAR -->
-					<!-- BEGIN PROFILE CONTENT -->
-					<div class="profile-content">
-						<div class="row" ng-if="noedit">
-							<div class="col-md-6 col-xs-12">
-								<div class="portlet light ">
-									<div class="portlet-title">
-										<div class="caption caption-md">
-											<i class="icon-bar-chart theme-font hide"></i>
+							<div class="portlet-body form">
+								<form class="form-horizontal" role="form" id="ProInfo">
+									<div class="form-body">
+										<div class="form-group">
 
-											<span class="caption-subject font-blue-madison bold uppercase">{{'profile.userinfo' | translate}}</span>
-											<span class="caption-helper hide">weekly stats...</span>
+											<label class="col-md-3 control-label">{{'profile.name' | translate}}</label>
+											<div class="col-md-9">
+												<input type="text" class="form-control" id="myprofileDsp-firstname"
+												 ng-value="ProInfoVal.firstName" readonly="true">
+											</div>
+										</div>
+										<div class="form-group">
+
+											<label class="col-md-3 control-label">{{'profile.email' | translate}}</label>
+
+											<div class="col-md-9">
+												<input type="text" class="form-control" id="myprofileDsp-email"
+												 ng-value="ProInfoVal.email" readonly="true">
+											</div>
+										</div>
+										<div class="form-group">
+
+											<label class="col-md-3 control-label">{{'profile.unit' | translate}}</label>
+											<div class="col-md-9">
+												<input type="text" class="form-control" id="myprofileDsp-unit" 
+												ng-value="ProInfoVal.unit" readonly="true">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-3 control-label">{{'profile.rank' | translate}}</label>
+											<div class="col-md-9">
+												<input type="text" class="form-control" id="myprofileDsp-rank" 
+												ng-value="ProInfoVal.rank" readonly="true">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-3 control-label">{{'profile.branch' | translate}}</label>
+											<div class="col-md-9">
+												<input type="text" class="form-control" id="myprofileDsp-branch" 
+												ng-value="ProInfoVal.branch" readonly="true">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-3 control-label">{{'profile.department' | translate}}</label>
+											<div class="col-md-9">
+												<input type="text" class="form-control" id="myprofileDsp-dept" 
+												ng-value="ProInfoVal.department" readonly="true">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-md-3 control-label">{{'profile.lang' | translate}}</label>
+											<div class="col-md-9">
+												<input type="text" class="form-control" id="myprofileDsp-lang" 
+												 ng-value="(ProInfoVal.department == 'en') ? 'English' : 'Bahasa Malayu'"
+												 readonly="true">
+											</div>
 										</div>
 									</div>
-									<div class="portlet-body form">
-										<form class="form-horizontal" role="form">
-											<div class="form-body">
-												<div class="form-group">
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="portlet light ">
+							<div class="portlet-title">
+								<div class="caption caption-md">
+									<i class="icon-bar-chart theme-font hide"></i>
+									<span class="caption-subject font-blue-madison bold uppercase">{{'profile.recentactivities' | translate}}</span>
+								</div>
+							</div>
+							<div class="portlet-body">
+								<div class="table-scrollable table-scrollable-borderless">
+									<table class="table table-hover table-light">
+										<thead >
+											<tr>
+												<th>
+													<a href="javascript:;">{{'audit.eventTime' | translate}}</a>
+												</th>
+												<th>
+													<a href="javascript:;">{{'audit.status' | translate}}</a>
+												</th>
+												<th>
+													<a href="javascript:;">{{'audit.notes' | translate}}</a>
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="x in contents">
+												<td  style="width:45%;"  class="table-title">
+													<a href="javascript:;">{{x.eventTime}}</a>
+												</td>
+												<td style="width:25%;" class="table-desc"> {{x.status}} </td>
+												<td class="table-download">
+												{{x.notes}}
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="portlet light ">
+							<div class="portlet-title">
+								<div class="caption caption-md">
+									<i class="icon-bar-chart theme-font hide"></i>
 
-													<label class="col-md-3 control-label">{{'profile.name' | translate}}</label>
-													<div class="col-md-9">
-														<input type="text" class="form-control" id="myprofileDsp-firstname" readonly="true">
-													</div>
-												</div>
-												<div class="form-group">
+									<span class="caption-subject font-blue-madison bold uppercase">{{'report.template' | translate}}</span>
+								</div>
+							</div>
+							<div class="portlet-body">
+								<div class="table-scrollable table-scrollable-borderless">
+									<table class="table table-hover table-light">
+										<thead >
+											<tr>
+												<th>
+													<a href="javascript:;">{{'report.query' | translate}}</a>
+												</th>
+												<th>
+													<a href="javascript:;">{{'report.queryName' | translate}}</a>
+												</th>
+												<th>
+													<a href="javascript:;">{{'report.download' | translate}}</a>
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="y in rptcontent">
+												<td  style="width:45%;"  class="table-title">
+													<a href="javascript:;">{{y.queryName}}</a>
+												</td>
+												<td style="width:25%;" class="table-desc"> {{y.reportFileName}} </td>
+												<td class="action-column">
+																								<button type="button" class="btn btn-info btn-sm downloadBtn" ng-click="downloadReport(y.id)"><i class="fa fa-download"></i>Template</button>
+																							</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="portlet light ">
+							<div class="portlet-title">
+								<div class="caption caption-md">
+									<i class="icon-bar-chart theme-font hide"></i>
 
-													<label class="col-md-3 control-label">{{'profile.email' | translate}}</label>
+									<span class="caption-subject font-blue-madison bold uppercase">{{'report.favourite' | translate}}</span>
+									<span class="caption-helper hide">weekly stats...</span>
+								</div>
+							</div>
+							<div class="portlet-body form">
 
-													<div class="col-md-9">
-														<input type="text" class="form-control" id="myprofileDsp-email" readonly="true">
-													</div>
-												</div>
-												<div class="form-group">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div ng-if="editonly">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="portlet light " style="padding-bottom: 35px;">
+							<div class="portlet-title tabbable-line">
+								<div class="caption caption-md">
+									<i class="icon-globe theme-font hide"></i>
 
-													<label class="col-md-3 control-label">{{'profile.unit' | translate}}</label>
-													<div class="col-md-9">
-														<input type="text" class="form-control" id="myprofileDsp-unit" readonly="true">
-													</div>
-												</div>
-												<div class="form-group">
+									<span class="caption-subject font-blue-madison bold uppercase">{{'profile.acc' | translate}}</span>
+								</div>
+									<ul class="nav nav-tabs">
+										<li ng-repeat="tab in tabs"	ng-class="{active:isActiveTab(tab.url)}" ng-click="onClickTab(tab)">
+											<a data-toggle="tab" aria-expanded="true">{{tab.title}}</a>
+										</li>
+									</ul>
+							</div>
+							<div class="portlet-body">
+								<div class="tab-content">
+									<!-- PERSONAL INFO TAB -->
+									<div id="mainView">
+										<div ng-include="currentTab"></div>
+									</div>
+									<div id="messageView" style="margin-top:20px">
+										<div class="alert display-hide" id="Profile.errorinfo">
+											<button class="close" data-close="alert"></button>
+											<span>Hello im here</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+							<script type="text/ng-template" id="edit.profile.html">
+								<div class="tab-pane active" id="tab_1_1">
+									<form role="form" class="edit-form">
+										<div class="form-group">
 
-													<label class="col-md-3 control-label">{{'profile.rank' | translate}}</label>
-													<div class="col-md-9">
-														<input type="text" class="form-control" id="myprofileDsp-rank" readonly="true">
-													</div>
-												</div>
-												<div class="form-group">
+											<label class="control-label">{{'profile.edit.name' | translate}}</label>
+											<input type="text" name="editname" class="form-control">
+										</div>
+										<div class="form-group">
+											<label class="control-label">{{'profile.edit.email' | translate}}</label>
+											<input type="text" name="editemail" class="form-control">
+										</div>
+										<div class="form-group">
+											<label class="control-label">{{'profile.edit.lang' | translate}}</label>
+											<!-- <input type="text" name="editlang" class="form-control">  -->
+											<select id="userselLang" class="valid form-control">
+												<option value="" selected>{{'profile.edit.selLang' | translate}}</option>
+												<option value="en">{{'profile.edit.english' | translate}}</option>
+												<option value="my">{{'profile.edit.malay' | translate}}</option>
 
-													<label class="col-md-3 control-label">{{'profile.branch' | translate}}</label>
+											</select>
+										</div>
 
-													<div class="col-md-9">
-														<input type="text" class="form-control" id="myprofileDsp-branch" readonly="true">
-													</div>
-												</div>
-												<div class="form-group">
+										<div class="margin-top-10">
 
-													<label class="col-md-3 control-label">{{'profile.department' | translate}}</label>
-													<div class="col-md-9">
-														<input type="text" class="form-control" id="myprofileDsp-dept" readonly="true">
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-md-3 control-label">{{'profile.lang' | translate}}</label>
-													<div class="col-md-9">
-														<input type="text" class="form-control" id="myprofileDsp-lang" readonly="true">
-													</div>
-												</div>
-											</div>
+											<button class="btn green" ng-click="editSaveChanges()">{{'profile.edit.save' | translate}} </button>
+											<button class="btn default">{{'profile.edit.cancel' | translate}} </button>
+										</div>
 										</form>
 									</div>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<!-- BEGIN PORTLET -->
-								<div class="portlet light ">
-                                    <div class="portlet-title">
-										<div class="caption caption-md">
-											<i class="icon-bar-chart theme-font hide"></i>
-											<span class="caption-subject font-blue-madison bold uppercase">{{'profile.recentactivities' | translate}}</span>
-										</div>
-									</div>
-									<div class="portlet-body">
-										<div class="table-scrollable table-scrollable-borderless">
-                                            <table class="table table-hover table-light">
-                                                <thead >
-                                                    <tr>
-                                                        <th>
-                                                            <a href="javascript:;">{{'audit.eventTime' | translate}}</a>
-                                                        </th>
-                                                        <th>
-                                                            <a href="javascript:;">{{'audit.status' | translate}}</a>
-                                                        </th>
-                                                        <th>
-                                                            <a href="javascript:;">{{'audit.notes' | translate}}</a>
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr ng-repeat="x in contents">
-                                                        <td  style="width:45%;"  class="table-title">
-                                                            <a href="javascript:;">{{x.eventTime}}</a>
-                                                        </td>
-                                                        <td style="width:25%;" class="table-desc"> {{x.status}} </td>
-                                                        <td class="table-download">
-                                                        {{x.notes}}
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-									</div>
-								</div>
-																						<!-- END PORTLET -->
-						  </div>
-						</div>
-						<div class="row" ng-if="noedit">
-						  <div class="col-md-6">
-								<div class="portlet light ">
-									<div class="portlet-title">
-										<div class="caption caption-md">
-											<i class="icon-bar-chart theme-font hide"></i>
-
-											<span class="caption-subject font-blue-madison bold uppercase">{{'report.template' | translate}}</span>
-										</div>
-									</div>
-									<div class="portlet-body">
-										<div class="table-scrollable table-scrollable-borderless">
-                                            <table class="table table-hover table-light">
-                                                <thead >
-                                                    <tr>
-                                                        <th>
-                                                            <a href="javascript:;">{{'report.query' | translate}}</a>
-                                                        </th>
-                                                        <th>
-                                                            <a href="javascript:;">{{'report.queryName' | translate}}</a>
-                                                        </th>
-                                                        <th>
-                                                            <a href="javascript:;">{{'report.download' | translate}}</a>
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr ng-repeat="y in rptcontent">
-
-                                                        <td  style="width:45%;"  class="table-title">
-                                                            <a href="javascript:;">{{y.queryName}}</a>
-                                                        </td>
-                                                        <td style="width:25%;" class="table-desc"> {{y.reportFileName}} </td>
-                                                        <!--<td class="table-download"><button class="btn btn-warning btn-sm downloadBtn"><i class="fa fa-download"></i> {{y.download}}</button></td>-->
-                                                        <td class="action-column">
-																						                <button type="button" class="btn btn-info btn-sm downloadBtn" ng-click="downloadReport(y.id)"><i class="fa fa-download"></i>Template</button>
-																						            </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-									</div>
-								</div>
-						  </div>
-						  <div class="col-md-6">
-								<div class="portlet light ">
-									<div class="portlet-title">
-										<div class="caption caption-md">
-											<i class="icon-bar-chart theme-font hide"></i>
-
-											<span class="caption-subject font-blue-madison bold uppercase">{{'report.favourite' | translate}}</span>
-											<span class="caption-helper hide">weekly stats...</span>
-										</div>
-									</div>
-									<div class="portlet-body form">
-
-									</div>
-								</div>
-						  </div>
-						<div>
-					</div>
-					<!--Edit Profile -->
-		<div class="profile-content" ng-if="!noedit">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="portlet light ">
-						<div class="portlet-title tabbable-line">
-							<div class="caption caption-md">
-								<i class="icon-globe theme-font hide"></i>
-
-								<span class="caption-subject font-blue-madison bold uppercase">{{'profile.acc' | translate}}</span>
-							</div>
-								<ul class="nav nav-tabs">
-									<li ng-repeat="tab in tabs"	ng-class="{active:isActiveTab(tab.url)}" ng-click="onClickTab(tab)">
-										<a data-toggle="tab" aria-expanded="true">{{tab.title}}</a>
-									</li>
-								</ul>
-						</div>
-						<div class="portlet-body">
-							<div class="tab-content">
-								<!-- PERSONAL INFO TAB -->
-								<div id="mainView">
-									<div ng-include="currentTab"></div>
-								</div>
-								<div id="messageView" style="margin-top:20px">
-									<div class="alert display-hide" id="Profile.errorinfo">
-									    <button class="close" data-close="alert"></button>
-									    <span>Hello im here</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-						<script type="text/ng-template" id="edit.profile.html">
-							<div class="tab-pane active" id="tab_1_1">
-								<form role="form" class="edit-form">
+							</script>									
+							<script type="text/ng-template" id="change.password.html">
+								<form role="form" class="PwdChangeform" id="formPwd">
 									<div class="form-group">
 
-										<label class="control-label">{{'profile.edit.name' | translate}}Name</label>
-										<input type="text" name="editname" class="form-control">
+										<label class="control-label">{{'profile.edit.currentPswd' | translate}}</label>
+										<input type="password" name="CurrentPwd" class="form-control">
 									</div>
 									<div class="form-group">
-										<label class="control-label">{{'profile.edit.email' | translate}}Email</label>
-										<input type="text" name="editemail" class="form-control">
+										<label class="control-label">{{'profile.edit.newPswd' | translate}}</label>
+										<input type="password" name="NewPwd" class="form-control">
 									</div>
 									<div class="form-group">
-										<label class="control-label">{{'profile.edit.lang' | translate}}</label>
-										<!-- <input type="text" name="editlang" class="form-control">  -->
-										<select id="userselLang" class="valid form-control">
-										    <option value="" selected>{{'profile.edit.selLang' | translate}}</option>
-										    <option value="en">{{'profile.edit.english' | translate}}</option>
-										    <option value="my">{{'profile.edit.malay' | translate}}Bahasa Malaysia</option>
-
-										</select>
+											<label class="control-label">{{'profile.edit.retypenewPswd' | translate}} </label>
+											<input type="password" name="ReTypePwd" class="form-control">
 									</div>
-
 									<div class="margin-top-10">
+										<button class="btn green" ng-click="OnChangePwd()"> {{'profile.edit.changePswd' | translate}} </button>
+										<button class="btn default"> {{'profile.edit.cancelPswd' | translate}} </button>
 
-										<button class="btn green" ng-click="editSaveChanges()">{{'profile.edit.save' | translate}} </button>
-										<button class="btn default">{{'profile.edit.cancel' | translate}} </button>
 									</div>
-									</form>
-								</div>
-						</script>
-						<!-- <script type="text/ng-template" id="edit.avatar.html">
-							<form action="#" role="form">
-								<div class="form-group">
-									<div class="fileinput fileinput-new" data-provides="fileinput">
-										<div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-											<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt=""> </div>
-											<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"> </div>
-											<div>
-												<span class="btn default btn-file">
-													<span class="fileinput-new"> Select image </span>
-													<span class="fileinput-exists"> Change </span>
-													<input type="file" name="..."> </span>
-													<a href="javascript:;" class="btn default fileinput-exists" data-dismiss="fileinput"> Remove </a>
-												</div>
-											</div>
-											<div class="clearfix margin-top-10">
-												<span class="label label-danger">NOTE! </span>
-												<span>Attached image thumbnail is supported in Latest Firefox, Chrome, Opera, Safari and Internet Explorer 10 only </span>
-											</div>
-										</div>
-										<div class="margin-top-10">
-											<a href="javascript:;" class="btn green"> Submit </a>
-											<a href="javascript:;" class="btn default"> Cancel </a>
-										</div>
-									</form>
-								</script> -->
-								<script type="text/ng-template" id="change.password.html">
-									<form role="form" class="PwdChangeform" id="formPwd">
-										<div class="form-group">
-
-											<label class="control-label">{{'profile.edit.currentPswd' | translate}}</label>
-											<input type="password" name="CurrentPwd" class="form-control">
-										</div>
-										<div class="form-group">
-											<label class="control-label">{{'profile.edit.newPswd' | translate}}</label>
-											<input type="password" name="NewPwd" class="form-control">
-										</div>
-										<div class="form-group">
-												<label class="control-label">{{'profile.edit.retypenewPswd' | translate}} </label>
-												<input type="password" name="ReTypePwd" class="form-control">
-										</div>
-										<div class="margin-top-10">
-											<button class="btn green" ng-click="OnChangePwd()"> {{'profile.edit.changePswd' | translate}} </button>
-											<button class="btn default"> {{'profile.edit.cancelPswd' | translate}} </button>
-
-										</div>
-									</form>
-								</script>
-							</div>
-						</div>
-									<!-- END PROFILE CONTENT -->
+								</form>
+							</script>
 					</div>
+				</div>
+			</div>
+		</div>
+		<!--Edit Profile -->
+		<div class="profile-content" >
+												<!-- END PROFILE CONTENT -->
+		</div>
 												<!-- END MAIN CONTENT -->
-												<!-- BEGIN MAIN JS & CSS -->
+	</div>											<!-- BEGIN MAIN JS & CSS -->
 <script>
 	// $(document).ajaxStart(function() {
 	//     $("#loader").hide();
@@ -350,3 +318,5 @@
 	// });
 </script>
 <!-- BEGIN MAIN JS & CSS -->
+
+	
