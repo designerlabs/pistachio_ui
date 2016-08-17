@@ -198,6 +198,7 @@ var Login = function () {
                 var icValue = $('.forget-form input[name=ic]').val();
                 $.ajax({
                         url: globalURL + 'api/user/'+ icValue +'/reset_password',
+			contentType: "application/json",
                         type: 'POST'                        
                     }).done(function (data) {
                         console.log("success");                       
