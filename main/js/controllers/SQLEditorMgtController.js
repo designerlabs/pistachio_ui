@@ -209,6 +209,10 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                                  $("#messageView div").addClass('alert-success');
                                  $("#messageView div").show().delay(5000).fadeOut();
                                 }
+                                else
+                                {
+                                    $btn.button('reset');
+                                }
                                 //$(".page-content").height($(".profile-content").height() + 400);
                                 // setTimeout(function() {
                                 //     $btn.button('reset');

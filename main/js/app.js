@@ -1184,7 +1184,35 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
-
+.state('myUser', {
+        url: "/userAnalysis.html",
+        templateUrl: "views/analysis/user.html",
+        data: {
+            pageTitle: 'My User Analysis'
+        },
+        controller: "MyUserController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/pistachio/myUser/myUser.css',
+                        'assets/pistachio/myAudit/myaudit.css',
+                         'assets/global/plugins/highcharts/js/highcharts.js',
+                         'assets/global/plugins/d3/d3-force.v1.min.js',
+                         
+                         //'assets/global/plugins/highcharts/js/modules/treemap.js',
+                        'js/controllers/MyUserController.js',
+                        
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js'
+                        
+                    ]
+                });
+            }]
+        }
+    })
     .state('countryAnalysis', {
         url: "/cntryAnalysis.html",
         templateUrl: "views/analysis/cntry.html",

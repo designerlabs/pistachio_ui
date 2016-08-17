@@ -449,7 +449,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
             .attr("y", function (d) { return (d.day - 1) * gridSize; })
             .attr("rx", 4)
             .attr("ry", 4)
-            .attr("class", "hour bordered")
+            .attr("class", function (d) { return "hour bordered" } )
             .attr("width", gridSize)
             .attr("height", gridSize)
             .on("click", function (d) {
