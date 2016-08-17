@@ -1,7 +1,7 @@
 'use strict';
 var getToken, userId = undefined;
 MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http, $timeout) {
-    $scope.noedit =true;
+    $scope.noedit =true;    
     $scope.$on('$viewContentLoaded', function() {
         Metronic.initAjax(); // initialize core components
 
@@ -11,22 +11,30 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
   //   alert(getToken);
      $http.get(globalURL+'auth/user?token=' + getToken)
      .success(function(response) {
+       $scope.noedit =true; 
+       $scope.overall = true;
+       $scope.editonly = false;  
+
+       $scope.ProInfoVal = response;
        $scope.firstName_1 = response.firstName;
        $scope.rank = response.rank;
        $scope.email = response.email;
-        $http.get(globalURL+"api/pistachio/audit/"+response.login+"?start=0&rows=5")
-         .success(function(response) {
-           $scope.contents = response.content;
-          });
-       $scope.setProfileInfo(response);
-       $scope.noedit =true;
+        
+      //  $scope.setProfileInfo(response);
+                 
        userId = response.id;
-       showReportTemplate(response.login);
+       $scope.showAudit(response.login);
+       $scope.showReportTemplate(response.login);
       });
 
+    $scope.showAudit = function(login){
+      $http.get(globalURL+"api/pistachio/audit/"+login+"?start=0&rows=5")
+            .success(function(response) {
+              $scope.contents = response.content;
+              });
+    }
 
-
-    function showReportTemplate(login){
+    $scope.showReportTemplate = function(login){
         $http.get(globalURL+"jasperreport/query/"+login+"?start=0&rows=8")
           .then(function(response) {
             $scope.rptcontent = response.data;
@@ -70,6 +78,9 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
 
     $scope.edit = function(){
        $scope.noedit = false;
+      //  $scope.FirstHide = false; 
+       $scope.overall = false;
+       $scope.editonly = true; 
        $http.get(globalURL+'auth/user?token=' + getToken)
       .success(function(response) {
         $('.edit-form [name=editname]').val(response.firstName);
@@ -124,30 +135,33 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
         $("#messageView div").removeClass("alert-success");
         $("#messageView div").addClass('alert-danger');
         $("#messageView div").show();
-  });
+    });
     }
 
 
     $scope.overview = function(){
        $scope.noedit =true;
+       $scope.overall = true;
+       $scope.editonly = false;
       $http.get(globalURL+'auth/user?token=' + getToken)
      .success(function(response) {
-       $scope.setProfileInfo(response);
+      //  $scope.setProfileInfo(response);
+       $scope.ProInfoVal = response;
       });
     };
 
     $scope.setProfileInfo = function(info){
       // userId = infor.id;
-      $('#myprofileDsp-firstname').val(info.firstName);
-      $('#myprofileDsp-email').val(info.email);
-      $('#myprofileDsp-unit').val(info.unit);
-      $('#myprofileDsp-rank').val(info.rank);
+      $('#myprofileDsp-firstname',$('.ProInfo')).val(info.firstName);
+      $('#myprofileDsp-email',$('.ProInfo')).val(info.email);
+      $('#myprofileDsp-unit',$('.ProInfo')).val(info.unit);
+      $('#myprofileDsp-rank',$('.ProInfo')).val(info.rank);
       // $('#myprofileDsp-state').val(info.state);
-      $('#myprofileDsp-branch').val(info.branch);
-      $('#myprofileDsp-dept').val(info.department);
-    //  $('#myprofile-authority').val(getAuthority);
+      $('#myprofileDsp-branch',$('.ProInfo')).val(info.branch);
+      $('#myprofileDsp-dept'),$('.ProInfo').val(info.department);
+      //  $('#myprofile-authority').val(getAuthority);
       var langval = (info.lang == "en") ? "English" : "Bahasa Malayu";
-      $('#myprofileDsp-lang').val(langval);
+      $('#myprofileDsp-lang',$('.ProInfo')).val(langval);
     };
 
     // set sidebar closed and body solid layout mode
