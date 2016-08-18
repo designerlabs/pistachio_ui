@@ -86,6 +86,7 @@
 
 	"audit.notes" : "Notes",
 	"auditanalysis.title":"My Audit Analysis",
+	"myuseranalysis.title": "My User",
 	"alertnotify.title":"Transcation Notification",
 	"session.endmessage" :"Anda akan log di dalam",
 	"session.endmessageinsec": "saat",

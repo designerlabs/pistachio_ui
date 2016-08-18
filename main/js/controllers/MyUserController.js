@@ -1,37 +1,241 @@
 'use strict';
 
-MetronicApp.controller('MyUserController', function($rootScope, $scope, $http) {
+MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, sortable) {
 
     $scope.$on('$viewContentLoaded', function () {
-        $scope.requestData();
-   //   $scope.test();
-        $scope.pname = "test"
+        //$scope.requestData();
+        //$scope.pname = "test";
+        $scope.showOfficer = false;
+        $scope.activeGraph = false;
+        $scope.showPie = false;
+        $scope.selectedDayTime = false;
+        $scope.ErrorMsg = false;
+        $scope.branchList = function (start, end, day, hour) {
+            this.start = start;
+            this.end = end;
+            if ((day == undefined) || (hour == undefined)) {
+                $scope.triggerHourDt = "";
+            } else {
+                $scope.triggerHourDt = "&day=" + day + "&hour=" + hour;
+            }
+            $http.get(globalURL + "api/secured/pistachio/myaudit/branch?from=" + start + "&to=" + end + $scope.triggerHourDt)
+                .success(function (response) {
+                    console.log(response);
+                    $scope.branches = response;
+                    if ($scope.branches.length === 0) {
+                        $scope.checkList = true;
+                        $scope.activeBranch = false;
+                        $scope.showOfficer = false;
+                    } else {
+                        $scope.checkList = false;
+                    }
+                    sortable($scope, response, 8, 'updated_at');
+                    $scope.loading = false;
+                })
+                .error(function (response) {
+                    //debugger;
+                });
+        };
+        //$scope.branchList();
+        $scope.getBranchDetails = function (total, hour, day, branch, activityName) {
+            $scope.loading = true;
+            //$scope.activityName = undefined;
+            var Hr = hour.split('&');
+            var Dt = day.split('&');
+            console.log( $('rect').hasClass('activeBox'));
+            if(hour){
+                $scope.Hr = Hr[1];
+                $scope.Dt = Dt[1];
+            }else{
+                $scope.Hr = undefined;
+                $scope.Dt = undefined;
+            }
+            
+            $('.selectedBox').html("On <b>" + Dt[0] + "</b> @ " + Hr[0] + ", total activity: <b>" + total + "</b>");
+            $scope.branch_selected(branch, Dt[1], Hr[1], activityName);
+            $scope.branchList(this.start, this.end, Dt[1], Hr[1]);
+        };
+
+
+         var start = moment().subtract(6, 'days');
+        var end = moment();
+
+        function cb(start, end) {
+
+
+            // if(($scope.activeBranch) && ($scope.activeUser)){
+            //     $scope.startDt = start.format('YYYY-MM-DD');
+            //     $scope.endDt  = end.format('YYYY-MM-DD');
+            //     $scope.branch_selected($scope.activeBranch);
+            //     $scope.officer_change($scope.activeUser);
+
+            // }else  
+            if ($scope.activeBranch) {
+                //$scope.branchList(start.format('YYYY-MM-DD'),end.format('YYYY-MM-DD'));
+                $scope.startDt = start.format('YYYY-MM-DD');
+                $scope.endDt = end.format('YYYY-MM-DD');
+                $scope.branch_selected($scope.activeBranch);
+                $scope.branchList(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+                
+            } else {
+                $scope.branchList(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+                $('#branches').collapse('show');
+            }
+
+
+
+            //$scope.showOfficer = false;
+
+            //$scope.showHeatMap = false;
+            $('rect').removeAttr('class', 'activeBox');
+            $('rect').attr('class', 'hour bordered');
+            //$scope.activeBranch = false;
+            $scope.startDt = start.format('YYYY-MM-DD');
+            $scope.endDt = end.format('YYYY-MM-DD');
+            $('#reportrange span').html(start.format('MMM DD, YYYY') + ' - ' + end.format('MMM DD, YYYY'));
+            $scope.startdt = start.format('MMMM D, YYYY');
+            $scope.enddt = end.format('MMMM D, YYYY');
+        }
+
+        
+        $('#reportrange').daterangepicker({
+            startDate: start,
+            endDate: end,
+            "alwaysShowCalendars": false,
+            opens: 'left',
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb);
+
+        cb(start, end);
+
+        
+        $("#zoomInOut").change(function(){
+            var newValue = this.value;
+            $("#newValue").html(newValue);
+            $('#usergraph svg g:nth(0)').css({
+                '-webkit-transform' : 'scale(' + newValue + ')',
+                '-moz-transform'    : 'scale(' + newValue + ')',
+                '-ms-transform'     : 'scale(' + newValue + ')',
+                '-o-transform'      : 'scale(' + newValue + ')',
+                'transform'         : 'scale(' + newValue + ')',
+                'transform-origin'  : '50% 50%'
+            });
+        });
+
+        $('body').on('mousedown', '#tooltip', function() {
+            $(this).addClass('draggable').parents().on('mousemove', function(e) {
+                $('.draggable').offset({
+                    top: e.pageY - $('.draggable').outerHeight() / 2,
+                    left: e.pageX - $('.draggable').outerWidth() / 2
+                }).on('mouseup', function() {
+                    $(this).removeClass('draggable');
+                });
+                 e.preventDefault();
+            });
+           
+        }).on('mouseup', function() {
+            $('.draggable').removeClass('draggable');
+        });
     });
 
-    $scope.requestData = function () {
-        $http.get(globalURL + "api/secured/pistachio/myaudit/branch/usermap?branch=LTA KUCHING" ,
+
+    $scope.branch_selected = function (name, day, hour, activityName) {
+  
+        $scope.activeBranch = name;
+        $scope.activeUser = false;
+        $scope.loading = true;
+        $scope.selectedDayTime = false;
+        $('.selectedBox').hide('200');
+        $('rect').removeAttr('class', 'activeBox');
+        $('rect').attr('class', 'hour bordered');
+        if(activityName == undefined){
+            $scope.activityName = undefined;
+            $scope.activity = "";
+        }else{
+            $scope.activity = "&txn="+activityName;
+        }
+
+        if ((day == undefined) || (hour == undefined)) {
+            $scope.triggerHourDt = "";
+        } else {
+            $scope.triggerHourDt = "&day=" + day + "&hour=" + hour;
+        }
+        $http.get(globalURL + "api/secured/pistachio/myaudit/officer?branch=" + name + "&from=" + $scope.startDt + "&to=" + $scope.endDt + $scope.triggerHourDt + $scope.activity,
+            { headers: { 'Content-Type': 'application/json' } })
+            .success(function (response) {
+                //$scope.loading = false;
+                
+                $scope.officers = response;
+                if ($scope.officers.length === 0) {
+                    $scope.showOfficer = false;
+                } else {
+                    $scope.showOfficer = true;
+                }
+                $('#branches').collapse('hide');
+                $("#branchHeader span").html('<i class="fa fa-chevron-circle-up" aria-hidden="true"></i>');
+            });
+        console.log("Getting branch heatmap");
+         //$scope.loading = true;
+        $http.get(globalURL + "api/secured/pistachio/myaudit/branch/heatmap?branch=" + name + "&from=" + $scope.startDt + "&to=" + $scope.endDt + $scope.triggerHourDt + $scope.activity,
             { headers: { 'Content-Type': 'application/json' } }
 
         )
             .success(function (response) {
+                $scope.ErrorMsg = false;
+                $scope.loading = false;
+                $scope.requestData(name, $scope.startDt, $scope.endDt);
+                
+            }).error(function (data, status, headers, config) {
+                $scope.loading = false;
+                $scope.ErrorMsg = true;
+                return status;
+            });
+    }
 
-                    $scope.test(response.nodes, response.links);
+    $scope.requestData = function (bName, fDate, tDate) {
+        $("#usergraph").html("");
+        $http.get(globalURL + "api/secured/pistachio/myaudit/branch/usermap?branch="+ bName +"&from="+fDate+"&to="+tDate,
+            { headers: { 'Content-Type': 'application/json' } }
+
+        )
+            .success(function (response) {
+                    if(response.links){
+                        $("#zoomInOut").val(1);
+                        
+                        $scope.activeGraph = true;
+                        $scope.test(response.nodes, response.links);
+                    }else{
+                        $scope.ErrorMsg = true;
+                        $scope.activeGraph = false;
+                    }
+                    
              
             });
     }
 
 
-    $scope.test = function (nodes,links) {
 
-var margin = {top: -5, right: -5, bottom: -5, left: -5};
+
+
+
+$scope.test = function (nodes,links) {
+
+    var margin = {top: -5, right: -5, bottom: -5, left: -5};
     var width = Metronic.getViewPort().width - margin.left - margin.right;
     width = width *.7;
     var height = Metronic.getViewPort().height- margin.top - margin.bottom;
-    height = height*.5;
+    height = height*0.8;
     console.log( "height :"+height)
     console.log( "width :"+width)
 
-        var color = d3.scale.category20();
+    var color = d3.scale.category20();
     
     var force = d3.layout.force()
             .charge(-200)
@@ -59,7 +263,8 @@ var margin = {top: -5, right: -5, bottom: -5, left: -5};
             .call(zoom);
 
         var container = svg.append("g");
-
+        
+       
 //d3.json('http://blt909.free.fr/wd/map2.json', function(error, graph) {
                 
                 force
@@ -117,6 +322,7 @@ var margin = {top: -5, right: -5, bottom: -5, left: -5};
 
                     node.on("mouseover", function(d){
                         $scope.pname = d.name;
+            
                         console.log($scope.pname)
                         node.classed("node-active", function(o) {
                             var thisOpacity = isConnected(d, o) ? true : false;
@@ -127,19 +333,33 @@ var margin = {top: -5, right: -5, bottom: -5, left: -5};
                         link.classed("link-active", function(o) {
                             return o.source === d || o.target === d ? true : false;
                         });
-                        
+                        var formatDate = d3.time.format("%d / %m / %Y"), parseDate = d3.time.format("%Y-%m-%d").parse;
                         d3.select(this).classed("node-active", true);
                         d3.select(this).select("circle").transition()
                                 .duration(750)
                                 .attr("r", 25);
                           d3.select("#tooltip")
-                            
                             .select("#info")
-                            .text(function(e) {  return d.name})
-                              d3.select("#tooltip")
+                            .text(function(e) {  return d.name});
+                          d3.select("#tooltip")
                             .select("#rank")
-                            .text(function(e) {  return d.validdays});
-                            d3.select("#tooltip").classed("hidden", false);
+                            .text(function(e) {  return d.rank});
+                          d3.select("#tooltip")
+                            .select("#createDt")
+                            .text(function(e) {  return formatDate(parseDate(d.createDate))});
+                          d3.select("#tooltip")
+                            .select("#endDt")
+                            .text(function(e) {  return formatDate(parseDate(d.endDate))});
+                         d3.select("#tooltip")
+                            .select("#validity")
+                            .text(function(e) {  return d.validDays+" Day(s)"});
+                         d3.select("#tooltip")
+                            .select("#usrId")
+                            .text(function(e) {  return d.usrId});
+                        d3.select("#tooltip")
+                            .select("#adminId")
+                            .text(function(e) {  return d.crtId});
+                          d3.select("#tooltip").classed("hidden", false);
                 })
         
         .on("mouseout", function(d){
@@ -150,10 +370,11 @@ var margin = {top: -5, right: -5, bottom: -5, left: -5};
                         d3.select(this).select("circle").transition()
                                 .duration(750)
                                 .attr("r", 15);
-                        d3.select("#tooltip").classed("hidden", true);
+                        $("#tooltip .summaryTitle p span").html('<span style="color:red;"></span>');
+                        //d3.select("#tooltip").classed("hidden", true);
                 });
 
-
+                
         function dottype(d) {
           d.x = +d.x;
           d.y = +d.y;
@@ -187,7 +408,7 @@ var margin = {top: -5, right: -5, bottom: -5, left: -5};
 
     $scope.userGraph = function (nodes, links) {
         var width = 960,
-            height = 700
+            height = 900
             //debugger;
         if ($scope.svg_network != undefined)
             $scope.svg_network.remove();
@@ -262,11 +483,10 @@ var margin = {top: -5, right: -5, bottom: -5, left: -5};
                         d3.select(this).select("circle").transition()
                                 .duration(750)
                                 .attr("r", 15);
-                d3.select("#tooltip").classed("hidden", true);
+                //d3.select("#tooltip").classed("hidden", true);
           });
 
         
-
         force.on("tick", function () {
             link.attr("x1", function (d) { return d.source.x; })
                 .attr("y1", function (d) { return d.source.y; })
@@ -275,6 +495,8 @@ var margin = {top: -5, right: -5, bottom: -5, left: -5};
 
             node.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
         });
+
+ 
         function isConnected(a, b) {
                         console.log("checking connected")
                         return linkedByIndex[a.index + "," + b.index] || linkedByIndex[b.index + "," + a.index] || a.index == b.index;
@@ -301,5 +523,10 @@ var margin = {top: -5, right: -5, bottom: -5, left: -5};
                     }
 
     }
+
+    
+    $rootScope.settings.layout.pageSidebarClosed = true;
+    $rootScope.skipTitle = false;
+    $rootScope.settings.layout.setTitle("myuseranalysis");
 
 });

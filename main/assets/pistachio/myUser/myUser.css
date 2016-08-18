@@ -28,3 +28,82 @@
     width:500px;
     height:400px;
 }
+
+.hidden{
+  opacity: 1  !important;
+   transition: opacity .25s ease-in-out !important;
+}
+
+.summaryTitle > p > span:first-of-type{
+  float: right;
+  font-weight:600;
+
+}
+.summaryTitle > p{
+  margin: 0px;
+  padding: 6px 10px;
+}
+
+.usrName{
+  font-weight:300 !important;
+  display:inline-block;
+  background:#6cb99d;
+  width:100%;
+  padding:10px;
+  font-size:17px;
+   color:#fff;
+}
+
+.usrName span{
+  font-weight:300 !important;
+  float: none !important;
+  padding-left: 5px;
+  color:#fff;
+}
+
+
+#tooltip{
+    position: absolute;
+    top: 58px;
+    right: 0px;
+    width: 355px;
+    z-index: 999;
+    cursor:move !important;
+}
+
+
+.draggable{
+  border:2px solid #032B6B;
+  cursor: move !important;
+}
+
+
+#newValue{
+  text-align: center;
+  width: 200px;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.zoomIcon i{
+  font-size: 20px !important;
+  color: #7b7773;
+  padding: 7px 0;
+}
+
+.zoomPan{
+    background: #83dcbb;
+    position: absolute;
+    z-index: 9999;
+    width:200px;
+    height: 46px;
+    top: 0;
+    right: 15px;
+    padding: 10px;
+}
+
+#zoomInOut{
+  display: inline-block !important;
+  width:150px;
+}

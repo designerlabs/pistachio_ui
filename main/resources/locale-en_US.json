@@ -82,6 +82,7 @@
 	"audit.status" : "Status",
 	"audit.notes" : "Notes",
 	"auditanalysis.title":"My Audit Analysis",
+	"myuseranalysis.title": "My User",
 	"alertnotify.title":"Transcation Notification",
 	"session.endmessage" :"You'll be logged out in",
 	"session.endmessageinsec": "second(s)",
