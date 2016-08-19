@@ -208,7 +208,7 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
             .success(function (response) {
                     if(response.links){
                         $("#zoomInOut").val(1);
-                        
+                        $scope.officersCount = response.nodes.length;
                         $scope.activeGraph = true;
                         $scope.test(response.nodes, response.links);
                     }else{
@@ -231,7 +231,7 @@ $scope.test = function (nodes,links) {
     var width = Metronic.getViewPort().width - margin.left - margin.right;
     width = width *.7;
     var height = Metronic.getViewPort().height- margin.top - margin.bottom;
-    height = height*0.8;
+    height = height*1;
     console.log( "height :"+height)
     console.log( "width :"+width)
 
@@ -322,13 +322,17 @@ $scope.test = function (nodes,links) {
 
                     node.on("mouseover", function(d){
                         $scope.pname = d.name;
-            
                         console.log($scope.pname)
                         node.classed("node-active", function(o) {
+                            
                             var thisOpacity = isConnected(d, o) ? true : false;
                             this.setAttribute('fill-opacity', thisOpacity);
+                            
                             return thisOpacity;
                         });
+
+                        $scope.connectedOfficer = $(".node-active").length;
+            
 
                         link.classed("link-active", function(o) {
                             return o.source === d || o.target === d ? true : false;
@@ -359,6 +363,9 @@ $scope.test = function (nodes,links) {
                         d3.select("#tooltip")
                             .select("#adminId")
                             .text(function(e) {  return d.crtId});
+                        d3.select("#tooltip")
+                            .select("#connectedOfficer")
+                            .text(function(e) {  return $scope.connectedOfficer});
                           d3.select("#tooltip").classed("hidden", false);
                 })
         

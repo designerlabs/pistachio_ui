@@ -23,6 +23,25 @@
   pointer-events: all;
 }
 
+.officerCount{
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 10px !important;
+    background: #0f7952;
+    padding: 6px;
+    font-size: 22px;
+    font-weight: 600;
+    margin-left: 5px;
+    top: 0px;
+    border: #6ee6ba;
+    border-right-style: solid;
+}
+
+.groupIcon{
+    font-size: 22px !important;
+    color: #93e6c8;
+}
+
 #map{
     border: 2px #555 dashed;
     width:500px;
@@ -51,7 +70,8 @@
   width:100%;
   padding:10px;
   font-size:17px;
-   color:#fff;
+  color:#fff;
+  border-radius: 15px 15px 0px 0px !important;
 }
 
 .usrName span{
@@ -69,6 +89,7 @@
     width: 355px;
     z-index: 999;
     cursor:move !important;
+    border-radius: 15px !important;
 }
 
 
