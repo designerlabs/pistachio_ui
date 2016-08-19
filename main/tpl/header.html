@@ -63,7 +63,7 @@
     $("#logoutBtn").click(function (event) {
         var getToken = localStorage.getItem("token");
         $.getJSON(globalURL + 'auth/logout?token=' + getToken);
-
+        localStorage.setItem('lastLocation',window.location.hash);
         localStorage.removeItem("token");
         localStorage.removeItem("sideMenuValue");
         localStorage.removeItem("username");

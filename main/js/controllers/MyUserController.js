@@ -222,7 +222,9 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
 
 
 
-
+Date.prototype.days=function(to){
+    return  Math.round(Math.floor( to.getTime() / (3600*24*1000)) -  Math.floor( this.getTime() / (3600*24*1000)))
+};
 
 
 $scope.test = function (nodes,links) {
@@ -327,7 +329,6 @@ $scope.test = function (nodes,links) {
                             
                             var thisOpacity = isConnected(d, o) ? true : false;
                             this.setAttribute('fill-opacity', thisOpacity);
-                            
                             return thisOpacity;
                         });
 
@@ -338,6 +339,17 @@ $scope.test = function (nodes,links) {
                             return o.source === d || o.target === d ? true : false;
                         });
                         var formatDate = d3.time.format("%d / %m / %Y"), parseDate = d3.time.format("%Y-%m-%d").parse;
+                       
+
+                        var currentDate = new Date();
+                        var day = currentDate.getDate();
+                        var month = currentDate.getMonth() + 1;
+                        var year = currentDate.getFullYear();
+                        var todayDt = year+"/" + month + "/" +day;
+
+                        
+                        var remainingValidity = new Date(todayDt).days(new Date(d.endDate));
+                      
                         d3.select(this).classed("node-active", true);
                         d3.select(this).select("circle").transition()
                                 .duration(750)
@@ -356,7 +368,19 @@ $scope.test = function (nodes,links) {
                             .text(function(e) {  return formatDate(parseDate(d.endDate))});
                          d3.select("#tooltip")
                             .select("#validity")
-                            .text(function(e) {  return d.validDays+" Day(s)"});
+                            .text(function(e) {
+                             
+                                if(isNaN(Math.log(remainingValidity))){
+                                    $("#validity").parent('p').removeClass();
+                                    $("#validity").parent('p').addClass('bg_danger');
+                                }else if(remainingValidity <= 60){
+                                    $("#validity").parent('p').removeClass();
+                                    $("#validity").parent('p').addClass('bg_warning');
+                                }else{
+                                    $("#validity").parent('p').removeClass();
+                                    $("#validity").parent('p').addClass('bg_success');
+                                };
+                                return remainingValidity+" Day(s)"});
                          d3.select("#tooltip")
                             .select("#usrId")
                             .text(function(e) {  return d.usrId});
@@ -373,7 +397,7 @@ $scope.test = function (nodes,links) {
                         
                         node.classed("node-active", false);
                         link.classed("link-active", false);
-                    
+                         $("#validity").parent('p').removeClass();
                         d3.select(this).select("circle").transition()
                                 .duration(750)
                                 .attr("r", 15);
@@ -451,6 +475,7 @@ $scope.test = function (nodes,links) {
         node.append("circle")
             .attr("r", "15")
             .attr("fill", function(d) { 
+                
                 if(d.validDays <30 ) return "#FB572F"
                 else return "#D3FAF2"
                  })

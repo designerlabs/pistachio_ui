@@ -318,7 +318,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
         $scope.activeUser = name;
         $scope.selectedOfficer = name;
         $scope.selectedDayTime = false;
-        debugger;
+        //debugger;
         $('rect').removeAttr('class', 'activeBox');
         $('rect').attr('class', 'hour bordered');
         $('.selectedBox').hide('200');
@@ -340,6 +340,20 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
         } else {
             $scope.triggerHourDt = "&day=" + day + "&hour=" + hour;
         }
+
+
+         Date.prototype.days=function(to){
+            return  Math.round(Math.floor( to.getTime() / (3600*24*1000)) -  Math.floor( this.getTime() / (3600*24*1000)))
+        };
+
+        var currentDate = new Date();
+        var day = currentDate.getDate();
+        var month = currentDate.getMonth() + 1;
+        var year = currentDate.getFullYear();
+        var todayDt = year+"/" + month + "/" +day;
+                        
+
+
         $http.get(globalURL + "api/secured/pistachio/myaudit?officer=" + name.field + "&from=" + $scope.startDt + "&to=" + $scope.endDt + $scope.triggerHourDt + $scope.activity)
             .success(function (response) {
                 $scope.loading = false;
@@ -351,7 +365,8 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                     $scope.officerDuration = response.officer.rank;
                     $scope.activeDate = response.officer.createDate;
                     $scope.expiryDate = response.officer.endDate;
-                    $scope.validity = response.officer.validDays;
+                    //$scope.validity = response.officer.validDays;
+                    $scope.validity = new Date(todayDt).days(new Date($scope.expiryDate));
                 }
 
 
@@ -449,11 +464,11 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
             .attr("y", function (d) { return (d.day - 1) * gridSize; })
             .attr("rx", 4)
             .attr("ry", 4)
-            .attr("class", function (d) { return "hour bordered" } )
+            .attr("class", "hour bordered")
             .attr("width", gridSize)
             .attr("height", gridSize)
             .on("click", function (d) {
-                debugger;
+                //debugger;
                 if (!$scope.activeUser) {
                     if($scope.activityName){    
                         $scope.getBranchDetails(d.total, times[d.hour] + '&' + d.hour, days[d.day - 1] + '&' + d.day, $scope.activeBranch, $scope.activityName);

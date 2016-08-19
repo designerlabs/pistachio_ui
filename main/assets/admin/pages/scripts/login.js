@@ -102,7 +102,13 @@ var Login = function () {
                                 // localStorage.setItem("authorities",data.roles);
 
                                 //form.submit();
-                                window.location = "index.html#/myprofile.html";
+                               var getLastLocation =  localStorage.getItem('lastLocation');
+                                if(getLastLocation){
+                                    window.location = "index.html"+getLastLocation;
+                                }else{
+                                    window.location = "index.html#/myprofile.html";
+                                }
+                                
                                 console.log("success");
                             })
                             .fail(function () {

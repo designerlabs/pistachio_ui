@@ -78,7 +78,7 @@
 <div class="col-md-9" ng-show="activeBranch">
   <div class="summaryTitle">
     <h3 ng-show="activeBranch"><i style="font-size: 20px;" class="fa fa-plane"></i> {{activeBranch}} <span ng-show="activeUser">&mdash; <i  style="font-size: 20px;"  class="fa fa-user"></i> {{activeUser.field}}</span></h3>
-    <h6>Branch Activites from {{startdt}} - {{enddt}}<span class="officerExtra" ng-show="officerDetails"><i class="fa fa-user"></i> <strong>{{officerDetails}}</strong> | Rank: <strong>{{officerDuration}}</strong> | Active from: <strong>{{activeDate | date:'dd/MM/yyyy' }}</strong>&nbsp;&nbsp;to&nbsp;&nbsp;<strong>{{expiryDate | date:'dd/MM/yyyy'}}</strong> | Validity: <strong>{{validity}} Days</strong></span></h6>
+    <h6>Branch Activites from {{startdt}} - {{enddt}}<span class="officerExtra" ng-show="activeUser"><i class="fa fa-user"></i> <strong>{{officerDetails}}</strong> | Rank: <strong>{{officerDuration}}</strong> | Active from: <strong>{{activeDate | date:'dd/MM/yyyy' }}</strong>&nbsp;&nbsp;to&nbsp;&nbsp;<strong>{{expiryDate | date:'dd/MM/yyyy'}}</strong> | Validity: <strong>{{validity}} Days</strong></span></h6>
   </div>
   
   <div id="chart" ng-show="showHeatMap"></div>
