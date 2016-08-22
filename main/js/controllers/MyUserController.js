@@ -16,9 +16,10 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
             if ((day == undefined) || (hour == undefined)) {
                 $scope.triggerHourDt = "";
             } else {
-                $scope.triggerHourDt = "&day=" + day + "&hour=" + hour;
+                $scope.triggerHourDt = "?day=" + day + "&hour=" + hour;
             }
-            $http.get(globalURL + "api/secured/pistachio/myaudit/branch?from=" + start + "&to=" + end + $scope.triggerHourDt)
+          //  api/secured/pistachio/myuser/branch
+            $http.get(globalURL + "api/secured/pistachio/myuser/branch" + $scope.triggerHourDt)
                 .success(function (response) {
                     console.log(response);
                     $scope.branches = response;
@@ -200,12 +201,14 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
     }
 
     $scope.requestData = function (bName, fDate, tDate) {
+         $scope.loading = true;
         $("#usergraph").html("");
         $http.get(globalURL + "api/secured/pistachio/myaudit/branch/usermap?branch="+ bName +"&from="+fDate+"&to="+tDate,
             { headers: { 'Content-Type': 'application/json' } }
 
         )
             .success(function (response) {
+                    $scope.loading = false;
                     if(response.links){
                         $("#zoomInOut").val(1);
                         $scope.officersCount = response.nodes.length;
@@ -241,9 +244,9 @@ $scope.test = function (nodes,links) {
     
     var force = d3.layout.force()
             .charge(-200)
-            .gravity(.35)
-            .linkDistance(50)
-            .alpha(0.1) 
+            .gravity(.65)
+            .linkDistance(80)
+           // .alpha(0.1) 
             .size([width + margin.left + margin.right, height + margin.top + margin.bottom]);
 
         var zoom = d3.behavior.zoom()
@@ -256,7 +259,7 @@ $scope.test = function (nodes,links) {
             .on("drag", dragged)
             .on("dragend", dragended);
 
-
+   d3.select("#usergraph.svg").remove();
         var svg = d3.select("#usergraph").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
@@ -274,7 +277,7 @@ $scope.test = function (nodes,links) {
                     .links(links)
                     .start();
                 
-      
+      $scope.click = false;
         
         var link = container.append("g")
                         .attr("class", "links")
@@ -294,13 +297,15 @@ $scope.test = function (nodes,links) {
                         .attr("cy", function(d) { return d.y; })
                         .call(drag);
           
-        node.append("circle")
+        var circle = node.append("circle")
             .attr("r", function(d) { return 12 })
             .style("stroke",function(e) {
                 return color(e.rank)
             })
             .style("fill", function(d) { 
+
                 if(d.validDays <30 ) return "#FB572F";
+                else if(d.status == "In-Active") return "grey"
                 else return "#6AABF7" });
          
                 
@@ -323,11 +328,15 @@ $scope.test = function (nodes,links) {
                 }
 
                     node.on("mouseover", function(d){
+                        if($scope.click ==  true) {
+                            return
+                        }
                         $scope.pname = d.name;
-                        console.log($scope.pname)
+                        console.log($scope.pname);
+                        
                         node.classed("node-active", function(o) {
-                            
                             var thisOpacity = isConnected(d, o) ? true : false;
+                            
                             this.setAttribute('fill-opacity', thisOpacity);
                             return thisOpacity;
                         });
@@ -350,23 +359,31 @@ $scope.test = function (nodes,links) {
                         
                         var remainingValidity = new Date(todayDt).days(new Date(d.endDate));
                       
-                        d3.select(this).classed("node-active", true);
+                        d3.select(this).classed("node-active", 0.1);
+                        //debugger;
+                        $(".nodes > .node").not('.node-active').children('circle').attr({
+                            'fill-opacity': 0.2,
+                            'stroke-opacity': 0.2
+                        });
+
+                        $(".links > .link").not('.link-active').attr('style', 'stroke-opacity : 0.15 !important');
+
                         d3.select(this).select("circle").transition()
-                                .duration(750)
-                                .attr("r", 25);
-                          d3.select("#tooltip")
+                            .duration(750)
+                            .attr("r", 25);
+                        d3.select("#tooltip")
                             .select("#info")
                             .text(function(e) {  return d.name});
-                          d3.select("#tooltip")
+                        d3.select("#tooltip")
                             .select("#rank")
                             .text(function(e) {  return d.rank});
-                          d3.select("#tooltip")
+                        d3.select("#tooltip")
                             .select("#createDt")
                             .text(function(e) {  return formatDate(parseDate(d.createDate))});
-                          d3.select("#tooltip")
+                        d3.select("#tooltip")
                             .select("#endDt")
                             .text(function(e) {  return formatDate(parseDate(d.endDate))});
-                         d3.select("#tooltip")
+                        d3.select("#tooltip")
                             .select("#validity")
                             .text(function(e) {
                              
@@ -380,7 +397,12 @@ $scope.test = function (nodes,links) {
                                     $("#validity").parent('p').removeClass();
                                     $("#validity").parent('p').addClass('bg_success');
                                 };
-                                return remainingValidity+" Day(s)"});
+                                return remainingValidity+" Day(s)"
+                            });
+
+                        d3.select("#tooltip")
+                            .select("#duration")
+                            .text(function(e){ return d.validDays });
                          d3.select("#tooltip")
                             .select("#usrId")
                             .text(function(e) {  return d.usrId});
@@ -394,7 +416,15 @@ $scope.test = function (nodes,links) {
                 })
         
         .on("mouseout", function(d){
-                        
+            if($scope.click == false) {
+                $(".nodes > .node").children('circle').attr({
+                            'fill-opacity': 1,
+                            'stroke-opacity': 1
+                        });
+
+                        $(".links > .link").attr('style', 'stroke-opacity : 1 !important');
+
+                        $(".nodes > .node").attr('fill-opacity', 1);
                         node.classed("node-active", false);
                         link.classed("link-active", false);
                          $("#validity").parent('p').removeClass();
@@ -402,15 +432,69 @@ $scope.test = function (nodes,links) {
                                 .duration(750)
                                 .attr("r", 15);
                         $("#tooltip .summaryTitle p span").html('<span style="color:red;"></span>');
+            }
+                       
                         //d3.select("#tooltip").classed("hidden", true);
+                })
+        .on("click", function(d){
+            if($scope.click)
+                $scope.click = false;
+            else
+                $scope.click = true;
+            //alert("click")
+            //d3.select("#tooltip").classed("hidden", fa);
                 });
-
-                
         function dottype(d) {
           d.x = +d.x;
           d.y = +d.y;
           return d;
         }
+        createFilter();
+
+        // Method to create the filter, generate checkbox options on fly
+        function createFilter() {
+            d3.select(".filterContainer").selectAll("div").remove();
+            d3.select(".filterContainer").selectAll("div")
+              .data(["Active", "In-Active"])
+              .enter()  
+              .append("div")
+              .attr("class", "checkbox-container")
+              .append("label")
+              .each(function (d) {
+                    // create checkbox for each data
+                    d3.select(this).append("input")
+                      .attr("type", "checkbox")
+                      .attr("id", function (d) {
+                          return "chk_" + d;
+                       })
+                      .attr("checked", true)
+                      .on("click", function (d, i) {
+
+                          var lVisibility = this.checked ? "visible" : "hidden";
+                          filterGraph(d, lVisibility);
+                       })
+                    d3.select(this).append("span")
+                        .text(function (d) {
+                            return d;
+                        });
+            });
+            $("#sidebar").show();
+        }
+        function filterGraph(aType, aVisibility) {
+        // change the visibility of the connection path
+        var lOriginalVisibility = $(this).css("visibility");
+
+        circle.style("visibility", function (o) {
+            return o.status === aType ? aVisibility : lOriginalVisibility;
+        });
+        link.style("visibility", function (o) {
+          //  debugger;
+            
+            return o.source.status === aType ||o.target.status === aType ? aVisibility : lOriginalVisibility;
+        });
+
+        
+    }
 
         function zoomed() {
           container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");

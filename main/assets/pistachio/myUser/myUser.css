@@ -15,7 +15,7 @@
 
 .link-active {
   stroke-opacity: 1;
-  stroke-width :4px;
+  stroke-width :2px;
 }
 
 .overlay {
@@ -95,15 +95,20 @@
 .bg_success{
   background:green;
   color: #fff;
+  margin-top: 10px !important;
 }
-
+.circleMadeOpacity{
+  fill-opacity: 0.1 !important;
+}
 .bg_warning{
   background:darkorange;
+  margin-top: 10px !important;
 }
 
 .bg_danger{
   background:indianred;
   color: #fff;
+  margin-top: 10px !important;
 }
 
 .draggable{
