@@ -453,7 +453,7 @@ $scope.test = function (nodes,links) {
 
         // Method to create the filter, generate checkbox options on fly
         function createFilter() {
-           // d3.select(".filterContainer").remove("div");
+            d3.select(".filterContainer").selectAll("div").remove();
             d3.select(".filterContainer").selectAll("div")
               .data(["Active", "In-Active"])
               .enter()  
