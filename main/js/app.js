@@ -409,6 +409,7 @@ MetronicApp.controller('sessionController', function($scope, Idle, Keepalive, $m
                 })
                 .success(function(data) {
                     localStorage.setItem("token", "");
+                    localStorage.setItem('lastLocation',window.location.hash);
                     window.location = "login.html";
                     console.log(data);
                 })
