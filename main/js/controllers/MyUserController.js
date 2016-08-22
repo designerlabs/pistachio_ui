@@ -16,9 +16,10 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
             if ((day == undefined) || (hour == undefined)) {
                 $scope.triggerHourDt = "";
             } else {
-                $scope.triggerHourDt = "&day=" + day + "&hour=" + hour;
+                $scope.triggerHourDt = "?day=" + day + "&hour=" + hour;
             }
-            $http.get(globalURL + "api/secured/pistachio/myaudit/branch?from=" + start + "&to=" + end + $scope.triggerHourDt)
+          //  api/secured/pistachio/myuser/branch
+            $http.get(globalURL + "api/secured/pistachio/myuser/branch" + $scope.triggerHourDt)
                 .success(function (response) {
                     console.log(response);
                     $scope.branches = response;
@@ -200,12 +201,14 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
     }
 
     $scope.requestData = function (bName, fDate, tDate) {
+         $scope.loading = true;
         $("#usergraph").html("");
         $http.get(globalURL + "api/secured/pistachio/myaudit/branch/usermap?branch="+ bName +"&from="+fDate+"&to="+tDate,
             { headers: { 'Content-Type': 'application/json' } }
 
         )
             .success(function (response) {
+                    $scope.loading = false;
                     if(response.links){
                         $("#zoomInOut").val(1);
                         $scope.officersCount = response.nodes.length;
@@ -324,10 +327,11 @@ $scope.test = function (nodes,links) {
 
                     node.on("mouseover", function(d){
                         $scope.pname = d.name;
-                        console.log($scope.pname)
+                        console.log($scope.pname);
+                        
                         node.classed("node-active", function(o) {
-                            
                             var thisOpacity = isConnected(d, o) ? true : false;
+                            
                             this.setAttribute('fill-opacity', thisOpacity);
                             return thisOpacity;
                         });
@@ -350,23 +354,31 @@ $scope.test = function (nodes,links) {
                         
                         var remainingValidity = new Date(todayDt).days(new Date(d.endDate));
                       
-                        d3.select(this).classed("node-active", true);
+                        d3.select(this).classed("node-active", 0.1);
+                        //debugger;
+                        $(".nodes > .node").not('.node-active').children('circle').attr({
+                            'fill-opacity': 0.2,
+                            'stroke-opacity': 0.2
+                        });
+
+                        $(".links > .link").not('.link-active').attr('style', 'stroke-opacity : 0.15 !important');
+
                         d3.select(this).select("circle").transition()
-                                .duration(750)
-                                .attr("r", 25);
-                          d3.select("#tooltip")
+                            .duration(750)
+                            .attr("r", 25);
+                        d3.select("#tooltip")
                             .select("#info")
                             .text(function(e) {  return d.name});
-                          d3.select("#tooltip")
+                        d3.select("#tooltip")
                             .select("#rank")
                             .text(function(e) {  return d.rank});
-                          d3.select("#tooltip")
+                        d3.select("#tooltip")
                             .select("#createDt")
                             .text(function(e) {  return formatDate(parseDate(d.createDate))});
-                          d3.select("#tooltip")
+                        d3.select("#tooltip")
                             .select("#endDt")
                             .text(function(e) {  return formatDate(parseDate(d.endDate))});
-                         d3.select("#tooltip")
+                        d3.select("#tooltip")
                             .select("#validity")
                             .text(function(e) {
                              
@@ -380,7 +392,12 @@ $scope.test = function (nodes,links) {
                                     $("#validity").parent('p').removeClass();
                                     $("#validity").parent('p').addClass('bg_success');
                                 };
-                                return remainingValidity+" Day(s)"});
+                                return remainingValidity+" Day(s)"
+                            });
+
+                        d3.select("#tooltip")
+                            .select("#duration")
+                            .text(function(e){ return d.validDays });
                          d3.select("#tooltip")
                             .select("#usrId")
                             .text(function(e) {  return d.usrId});
@@ -394,7 +411,15 @@ $scope.test = function (nodes,links) {
                 })
         
         .on("mouseout", function(d){
-                        
+
+                        $(".nodes > .node").children('circle').attr({
+                            'fill-opacity': 1,
+                            'stroke-opacity': 1
+                        });
+
+                        $(".links > .link").attr('style', 'stroke-opacity : 1 !important');
+
+                        $(".nodes > .node").attr('fill-opacity', 1);
                         node.classed("node-active", false);
                         link.classed("link-active", false);
                          $("#validity").parent('p').removeClass();

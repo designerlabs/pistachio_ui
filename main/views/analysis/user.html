@@ -10,16 +10,16 @@
 <!--    END PAGE SPINNER -->
 </div>
 
-  <div class="col-md-3" style="background: #48545d; padding: 10px">
+  <div class="col-md-3" style="background: #48545d; padding: 5px">
     <div class=" filter" style="padding:0px; border-bottom: 0px;">
-      <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;">
+      <div id="reportrange" style="background: #fff; cursor: pointer; padding:0px; border: 1px solid #ccc; display:none;">
         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
         <span></span> <b class="caret"></b>
       </div>
 
 
       <div class="row"></div>
-      <div class="titleHeader">
+      <div class="titleHeader" style="margin-top: 0px;">
         <h3 class="nopadding"><i style="font-size: 20px;" class="fa fa-plane"></i> Branch List</h3>
       </div>
       <div style="padding-top:0px;">
@@ -29,9 +29,10 @@
         <h5 class="text-center"><i class="fa fa-warning"></i> Records not found!</h5>
       </div>
       <ul class="list-group" style="height: 600px;">
-        <li class="list-group-item" ng-repeat="b in branches | filter:searchBranch" data-cntval="{{b.count}}" style="padding-left: 3px; padding-right: 1px;"
-          ng-class="{selectedAuditList : activeBranch === b.branch}" ng-click="branch_selected(b.branch)">
-          {{b.branch}}
+         <!-- data-cntval="{{b.count}}" -->
+        <li class="list-group-item" ng-repeat="b in branches | filter:searchBranch" data-cntval="{{b.officers}}" style="padding-left: 3px; padding-right: 1px;"
+          ng-class="{selectedAuditList : activeBranch === b.name}" ng-click="branch_selected(b.name)">
+          {{b.name}}
         </li>
       </ul>
     </div>
@@ -47,7 +48,8 @@
         <p>Created by: <span id="adminId"></span></p>
         <p>Created on: <span id="createDt"></span></p>
         <p>Valid until: <span id="endDt"></span></p>
-        <p>Total no. of validity: <span id="validity"></span></p>
+        <p style="font-size:20px; border: 1px solid #3daf85;">Duration: <span id="duration"></span></p>
+        <p>Remaining days of validity: <span id="validity"></span></p>
         <p>No. of connected officers: <span id="connectedOfficer"></span></p>
       </div>
     </div>
