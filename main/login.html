@@ -150,31 +150,20 @@ License: You must have a valid license purchased only from themeforest(the above
                 </p>
             </div>
         </form>
-
-
-
         <div>
             <!-- END LOGIN FORM -->
             <!-- BEGIN FORGOT PASSWORD FORM  action="index.html" method="post"-->
             <form class="forget-form">
                 <h3>{{'login.forgetpassword' | translate}} ?</h3>
 
-                <div class="alert alert-danger display-hide" id="msgResetError">
+                <div class="alert alert-danger display-hide" id="msgResetRequir">
                     <button class="close" data-close="alert"></button>
                     <span>{{'forgetpswd.requiremessage'| translate}}.</span>
                 </div>
-
-                <!-- <div class="alert alert-danger display-hide" id="loginRequire">
-                <button class="close" data-close="alert"></button>
-                <span>
-            {{'login.requiremessage'| translate}}. </span>
-            </div>
-
-            <div class="alert alert-danger display-hide" id="loginError">
-                <button class="close" data-close="alert"></button>
-                <span></span>
-            </div> -->
-
+                <div class="alert alert-danger display-hide" id="msgResetError">
+                    <button class="close" data-close="alert"></button>
+                    <span>{{'forgetpswd.errormsg'| translate}}.</span>
+                </div>
                 <p>
                     {{'login.forgetpassword' | translate}}.
                 </p>
@@ -187,8 +176,8 @@ License: You must have a valid license purchased only from themeforest(the above
                 </div>
                 <div class="alert alert-success display-hide" id="msgResetSuccess">
                     <!-- <button class="close" data-close="alert"></button> -->
-                    <span>Your IC number submitted successfully. We will send reset password email to your registered email address.<br/>
-                    Please <a href="" class="toLogin">Click Here</a> to go Login page</span>
+                    <span>{{'forgetpswd.successful' | translate}}.<br/>
+                    {{'reset.please' | translate}} <a href="" class="toLogin"> {{'reset.clickhere' | translate}}</a> {{'reset.loginpage' | translate}}</span>
                 </div>
             </form>
             <!-- END FORGOT PASSWORD FORM -->
@@ -202,44 +191,27 @@ License: You must have a valid license purchased only from themeforest(the above
                     <label class="control-label visible-ie8 visible-ie9">{{'login.firstname' | translate}}</label>
                     <input class="form-control placeholder-no-fix" type="text" placeholder="{{'login.firstname' | translate}}" name="firstname" />
                 </div>
-                <!--<div class="form-group">
-                    <label class="control-label visible-ie8 visible-ie9">{{'login.lastname' | translate}}</label>
-                    <input class="form-control placeholder-no-fix" type="text" placeholder="{{'login.lastname' | translate}}" name="lastname" />
-                </div>-->
                 <div class="form-group">
                     <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
                     <label class="control-label visible-ie8 visible-ie9">{{'login.email' | translate}}</label>
                     <input class="form-control placeholder-no-fix" type="text" placeholder="{{'login.email' | translate}}" name="email" />
-                </div>
-                <!-- 		<div class="form-group">
-			<label class="control-label visible-ie8 visible-ie9">{{'login.department' | translate}}</label>
-			<input class="form-control placeholder-no-fix" type="text" placeholder="{{'login.department' | translate}}" name="department"/>
-		</div> -->
-
+                </div>         
                 <div class="form-group">
-
                     <label class="control-label visible-ie8 visible-ie9">Rank</label>
                     <select class="select-form-control rank" name="Rrank">
                         <option value="" selected="selected">{{'login.rank' | translate}}</option>
-
                     </select>
                 </div>
-
                 <div class="form-group">
-
                     <label class="control-label visible-ie8 visible-ie9">State</label>
                     <select class="select-form-control state" name="Rstate">
                         <option value="" selected="selected">{{'login.state' | translate}}</option>
-
                     </select>
                 </div>
-
                 <div class="form-group">
-
                     <label class="control-label visible-ie8 visible-ie9">Branch</label>
                     <select class="select-form-control branch" name="Rbranch">
                         <option value="" selected="selected">{{'login.branch' | translate}}</option>
-
                     </select>
                 </div>
 
@@ -258,22 +230,6 @@ License: You must have a valid license purchased only from themeforest(the above
                         <option value="" selected="selected">{{'login.unit' | translate}}</option>
                     </select>
                 </div>
-
-
-
-
-
-
-                    <!-- <label class="control-label visible-ie8 visible-ie9">{{'login.sellanguage' | translate}}</label> -->
-
-<!--                 <div class="form-group">
-                    <select id="userselLang" class="valid form-control">
-                        <option value="" selected>{{'login.sellanguage' | translate}}</option>
-                        <option value="en">English</option>
-                        <option value="my">Bahasa Malaysia</option>
-                    </select>
-                </div>
- -->
 
                 <p class="hint">
                     {{'login.accdetails' | translate}}:

@@ -15,17 +15,17 @@ MetronicApp.controller('loginappController', ['$translate', '$scope', '$http', f
         // $translateProvider.preferredLanguage($scope.item.toString());
         $translate.use($scope.item.toString());
     }
-    function ResetPswd(icno){
-        alert('Password resetted');
-        $('#msgResetSuccess', $('.forget-form')).show();
-        $http.post('/someUrl', data, config)
-        .success(function(res){
-              $('#msgResetSuccess', $('.forget-form')).show();
-        })
-        .fail(function(res){
+    // function ResetPswd(icno){
+    //     alert('Password resetted');
+    //     $('#msgResetSuccess', $('.forget-form')).show();
+    //     $http.post('/someUrl', data, config)
+    //     .success(function(res){
+    //           $('#msgResetSuccess', $('.forget-form')).show();
+    //     })
+    //     .fail(function(res){
 
-        });
-    }
+    //     });
+    // }
 }]);
 
 
@@ -66,7 +66,19 @@ MetronicApp.config(['$translateProvider', function ($translateProvider) {
         'login.unit': 'Unit',
 
         'login.resetpassword' : 'Reset Password',
-        'forgetpswd.requiremessage' : 'IC Required'
+        'forgetpswd.requiremessage' : 'IC Required',
+        'forgetpswd.successful': 'Your details submitted successfully. We will send reset password email to your registered email address',
+        'forgetpswd.errormsg' : 'Can not find user records',
+
+        'reset.newpassword' : 'New Password',
+        'reset.confirmpswd' : 'Confirm Password',
+        'reset.requiremessage': 'Enter New password and Confirm password',
+        'reset.notEqualto': 'New password and Confirm password not matching',
+        'reset.error': 'Server error. Please try again with correct details',
+        'reset.successful': 'Your password has been changed successfully',
+        'reset.please' : 'Please',
+        'reset.clickhere' : 'Click Here',
+        'reset.loginpage' : 'to go Login page'
 
 
     });
@@ -104,8 +116,20 @@ MetronicApp.config(['$translateProvider', function ($translateProvider) {
         'login.department': 'Bahagian',
         'login.unit': 'Unit',
 
-        'login.resetpassword' : 'Reset Password',
-        'forgetpswd.requiremessage' : 'IC Required'
+        'login.resetpassword' : 'Menetapkan semula kata laluan',
+        'forgetpswd.requiremessage' : 'IC Diperlukan',
+        'forgetpswd.successful' : 'Maklumat anda berjaya dihantar. Kami akan menghantar e-mel kata laluan diset semula kepada alamat e-mel berdaftar anda',
+        'forgetpswd.errormsg' : 'Tidak dapat mencari rekod pengguna',
+
+        'reset.newpassword' : 'Kata laluan baru',
+        'reset.confirmpswd' : 'Sahkan Kata laluan',
+        'reset.requiremessage': 'Masukkan kata laluan baru dan Sahkan kata laluan',
+        'reset.notEqualto': 'Baru kata laluan dan Sahkan kata laluan tidak sepadan',
+        'reset.error': 'Ralat pelayan. Sila cuba lagi dengan butiran yang betul',
+        'reset.successful': 'Kata laluan anda ditukar dengan jayanya',
+        'reset.please' : 'Sila',
+        'reset.clickhere' : 'Tekan di sini',
+        'reset.loginpage' : 'untuk pergi halaman Login'
 
     });
 
