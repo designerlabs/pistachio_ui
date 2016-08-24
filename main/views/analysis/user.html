@@ -53,15 +53,15 @@
         <p>No. of connected officers: <span id="connectedOfficer"></span></p>
       </div>
     </div>
-    <div id="sidebar" style="display: none;">
-        <div class="item-group">
-            <label class="item-label">Filter</label>
-            <div id="filterContainer" class="filterContainer checkbox-interaction-group"></div>
-        </div>
-    </div>
+
     <div class="titleHeader" ng-show="activeBranch" style="margin-top: 0px;">
       <h3 class="nopadding"><i style="font-size: 20px;" class="fa fa-plane"></i> {{activeBranch}}
       <span  ng-show="activeGraph">&nbsp;<span class="officerCount"><i class="fa fa-group groupIcon"></i> {{officersCount}}</span></span></h3>
+    </div>
+    <div id="sidebar" style="display: none;">
+      <div class="item-group">
+        <div id="filterContainer" class="filterContainer checkbox-interaction-group"></div>
+      </div>
     </div>
     <div ng-model="ErrorMsg" ng-show="ErrorMsg" class="recordFail">
       <h3 class="text-center"><i class="fa fa-warning"></i>Server Error! Please try again.</h3>

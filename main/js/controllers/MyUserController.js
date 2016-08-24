@@ -458,7 +458,7 @@ $scope.test = function (nodes,links) {
               .data(["Active", "In-Active"])
               .enter()  
               .append("div")
-              .attr("class", "checkbox-container")
+              .attr("class", "checkbox-inline")
               .append("label")
               .each(function (d) {
                     // create checkbox for each data
