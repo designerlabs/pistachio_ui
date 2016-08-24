@@ -67,7 +67,7 @@ MetronicApp.config(['$translateProvider', function ($translateProvider) {
 
         'login.resetpassword' : 'Reset Password',
         'forgetpswd.requiremessage' : 'IC Required',
-        'forgetpswd.successful': 'Your details submitted successfully. We will send reset password email to your registered email address',
+        'forgetpswd.successful': 'Your details has been submitted successfully. We will send reset password email to your registered email address',
         'forgetpswd.errormsg' : 'Can not find user records',
 
         'reset.newpassword' : 'New Password',

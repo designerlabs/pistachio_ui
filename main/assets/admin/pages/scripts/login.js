@@ -103,11 +103,16 @@ var Login = function () {
 
                                 //form.submit();
                                var getLastLocation =  localStorage.getItem('lastLocation');
-                                if(getLastLocation){
+                               if(sessionStorage.length > 0){
+                                   if(getLastLocation){
                                     window.location = "index.html"+getLastLocation;
                                 }else{
                                     window.location = "index.html#/myprofile.html";
                                 }
+                               }else{
+                                    window.location = "index.html#/myprofile.html";
+                                }
+                                
                                 
                                 console.log("success");
                             })
@@ -205,6 +210,11 @@ var Login = function () {
 
             submitHandler: function (form) {
                 // form.submit();
+                $('#msgResetRequir', $('.forget-form')).hide();
+                $('#msgResetError', $('.forget-form')).hide();
+                $('#msgResetSuccess', $('.forget-form')).hide();
+                $('.forget-form [type=submit] span').addClass('fa fa-spinner fa-spin');
+
                 var icValue = $('.forget-form input[name=ic]').val();
                 $.ajax({
                         url: globalURL + 'api/user/'+ icValue +'/reset_password',
@@ -212,11 +222,16 @@ var Login = function () {
                         type: 'POST'                        
                     }).done(function (data) {
                         console.log("success");
-                        $('.forget-form :input').prop('disabled',true).addClass("disabled");
-                        $('.forget-form :button').prop('disabled',true).addClass("disabled"); 
+                        // $('.forget-form :input').prop('disabled',true).addClass("disabled");
+                        // $('.forget-form :button').prop('disabled',true).addClass("disabled"); 
+                        $('.forget-form [type=submit] span').removeClass('fa fa-spinner fa-spin');
+                        $('.forget-form :input').hide();
+                        $('.forget-form :button').hide();
+                        $('#ForgetUsrMsg h2', $('.forget-form')).text('Hi '+ icValue);
                         $('#msgResetSuccess', $('.forget-form')).show();
                     })
                     .fail(function (data) {
+                        $('.forget-form [type=submit] span').removeClass('fa fa-spinner fa-spin');
                         console.log("error"); 
                         $('#msgResetSuccess', $('.forget-form')).hide();
                         // $('#msgResetError span').html(data.responseText);
@@ -236,7 +251,10 @@ var Login = function () {
 
         jQuery('#forget-password').click(function () {
             jQuery('.login-form').hide();
+            $('.forget-form :input').show();
+            $('.forget-form :button').show();
             jQuery('.forget-form').show();
+
         });
 
         jQuery('#back-btn').click(function () {
@@ -485,6 +503,7 @@ var Login = function () {
             },
 
             submitHandler: function (form) {
+                 $('#resetSub span', $('.resetpswd-form')).addClass('fa fa-spinner fa-spin');
                  $('#ResetEqualto', $('.resetpswd-form')).hide();
                  $('#ResetRequire', $('.resetpswd-form')).hide();
                  $('#ResetError', $('.resetpswd-form')).hide();
@@ -500,12 +519,18 @@ var Login = function () {
                        contentType: "application/json"                      
                    }).done(function (data) {
                     // console.log("Your Password has been reset successfully");
-                    $('.resetpswd-form :input').prop('disabled',true).addClass("disabled");
-                    $('.resetpswd-form :button').prop('disabled',true).addClass("disabled");
+                    // $('.resetpswd-form :input').prop('disabled',true).addClass("disabled");
+                    // $('.resetpswd-form :button').prop('disabled',true).addClass("disabled");
+                    $('#resetSub span', $('.resetpswd-form')).removeClass('fa fa-spinner fa-spin');
+                    $('.resetpswd-form :input').hide();
+                    $('.resetpswd-form :button').hide();
+                    $('#ResetUsrMsg h2', $('.resetpswd-form')).text('Hi '+ userid);
                     $('#ResetSuccess', $('.resetpswd-form')).show();
                    }).fail(function () {
+                    $('#resetSub span', $('.resetpswd-form')).removeClass('fa fa-spinner fa-spin');
+                    $('#ResetSuccess', $('.resetpswd-form')).hide();
                     $('#ResetError', $('.resetpswd-form')).show(); 
-                      // console.log("error");
+                      console.log("error");
                 });
             }
         });

@@ -393,8 +393,10 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
             column.visible( _imgdata.length > 0 ? true : false );            
         }
 
-        var Qstring = window.location.href;
-        var Qparam = Qstring.replace('=', ':').replace('=', ':').replace('&', ' AND ').split('?')[1];
+        // var Qstring = window.location.href;
+        // var Qparam = Qstring.replace('=', ':').replace('=', ':').replace('&', ' AND ').split('?')[1];
+        // var Qparam = $rootScope.Qparam;
+        var Qparam = sessionStorage.getItem('Qparam');
         $scope.fn_processInput(Qparam);
 
         $('.tool').tooltip();
@@ -407,7 +409,8 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
 
         $('.bck').click(function() {
             $rootScope.fastsearch.load = true;
-            parent.history.back();
+            location.href ="index.html#/fastsearch/gfs.html";
+            //parent.history.back();
             return false;
         });
 

@@ -122,6 +122,13 @@ License: You must have a valid license purchased only from themeforest(the above
                 <button class="close" data-close="alert"></button>
                 <span>{{'reset.error'| translate}}. </span>
             </div>
+            <div class="alert alert-success display-hide" id="ResetSuccess">
+            <!-- <button class="close" data-close="alert"></button> -->
+            <div id='ResetUsrMsg'><h2></h2></div>
+                <span>{{'reset.successful' | translate}}.<br/>
+                {{'reset.please' | translate}} <a href="" class="toResetLogin"> 
+                    {{'reset.clickhere' | translate}}</a> {{'reset.loginpage' | translate}}.</span>
+            </div>
             <div class="form-group">
                 <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
                 <!--<label class="control-label visible-ie8 visible-ie9">{{'login.username' | translate}}</label>-->
@@ -136,7 +143,7 @@ License: You must have a valid license purchased only from themeforest(the above
            
             <div class="text-center" style="margin-bottom:5px;">
                 <button type="submit" id="resetSub" class="btn btn-lg btn-success uppercase">
-                    <i class="fa fa-lock-o"></i> {{'login.resetpassword' | translate}}</button>
+                    <span> </span> {{'login.resetpassword' | translate}}</button>
             </div>
             <div class="form-group" style="padding:10px 0 10px 0">
                 <select id="selLang" class="valid form-control" ng-model="item" ng-change="update()">
@@ -145,12 +152,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     <option value="my" name="my">Bahasa Malaysia</option>
                 </select>
             </div> 
-            <div class="alert alert-success display-hide" id="ResetSuccess">
-            <!-- <button class="close" data-close="alert"></button> -->
-                <span>{{'reset.successful' | translate}}.<br/>
-                {{'reset.please' | translate}} <a href="" class="toResetLogin"> 
-                    {{'reset.clickhere' | translate}}</a> {{'reset.loginpage' | translate}}.</span>
-            </div>          
+                      
         </form>   
     </div>
 
