@@ -103,11 +103,16 @@ var Login = function () {
 
                                 //form.submit();
                                var getLastLocation =  localStorage.getItem('lastLocation');
-                                if(getLastLocation){
+                               if(sessionStorage.length > 0){
+                                   if(getLastLocation){
                                     window.location = "index.html"+getLastLocation;
                                 }else{
                                     window.location = "index.html#/myprofile.html";
                                 }
+                               }else{
+                                    window.location = "index.html#/myprofile.html";
+                                }
+                                
                                 
                                 console.log("success");
                             })
