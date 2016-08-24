@@ -393,8 +393,9 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
             column.visible( _imgdata.length > 0 ? true : false );            
         }
 
-        var Qstring = window.location.href;
-        var Qparam = Qstring.replace('=', ':').replace('=', ':').replace('&', ' AND ').split('?')[1];
+        // var Qstring = window.location.href;
+        // var Qparam = Qstring.replace('=', ':').replace('=', ':').replace('&', ' AND ').split('?')[1];
+        var Qparam = $rootScope.Qparam;
         $scope.fn_processInput(Qparam);
 
         $('.tool').tooltip();
