@@ -37,6 +37,9 @@
     border-right-style: solid;
 }
 
+.filter input{
+    border: #0f7952 1px solid !important
+}
 .groupIcon{
     font-size: 22px !important;
     color: #93e6c8;
@@ -111,10 +114,51 @@
     background: #d4e8e1;
 }
 
+.dataBtn{
+    position: absolute !important;
+    top: 0px;
+    right: 212px;
+    width: 120px !important;
+    width: 100px ;
+    height: 46px;
+}
 .bg_danger{
   background:indianred;
   color: #fff;
   margin-top: 10px !important;
+}
+
+
+.activeState{
+  background:#dff0d8;
+}
+
+.activeState:before{
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #64a54a;
+    position: relative;
+    margin-right: 7px;
+    margin-bottom: -5px;
+}
+
+.inactiveState{
+ background:#f2dede;
+}
+
+.inactiveState:before{
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #f3565d;
+    position: relative;
+    margin-right: 7px;
+    margin-bottom: -5px;
 }
 
 .draggable{
@@ -140,7 +184,7 @@
 .zoomPan{
     background: #83dcbb;
     position: absolute;
-    z-index: 9999;
+    z-index: 9;
     width:200px;
     height: 46px;
     top: 0;
@@ -151,4 +195,41 @@
 #zoomInOut{
   display: inline-block !important;
   width:150px;
+}
+
+#myUserData .modal-dialog {
+  width: 80%;
+  height: 80%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+#myUserData .modal-content {
+  height: auto;
+  min-height: 70%;
+  border-radius: 0;
+}
+
+
+*[ng-table-pagination="params"] {
+    width: 90%;
+    position: relative;
+    margin: 0 auto;
+}
+
+.totalCt{
+padding:10px;
+text-align: center;
+}
+
+
+.ng-table-sort-header{
+    height: 60px;
+    vertical-align: middle;
+    position: relative;
+    background: #3daf85;
+    font-weight: 300;
+    font-size: 15px;
+    font-family: "Open Sans",sans-serif;
+    color: #fff;
 }

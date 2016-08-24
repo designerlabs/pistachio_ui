@@ -1115,7 +1115,11 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
             if (getStage == "Visitor") {
                 //location.href="/travelertracker/travelertracker.html?doc_no="+passportNo+"&country="+countryName;
-                location.href = "index.html#/travelertracker/travelertracker.html?doc_no=" + this.$parent.value.vName.doc + "&country=" + $scope.CtryQueryName;
+                window.location = "#/travelertracker/travelertracker.html?session=true";    
+                sessionStorage.setItem('Qparam','doc_nos:'+ this.$parent.value.vName.doc +' AND country:'+ $scope.CtryQueryName);
+                // sessionStorage.setItem('hourlyDocNo', this.$parent.value.vName.doc);
+                // sessionStorage.setItem('hourlyCountry', $scope.CtryQueryName);
+                // location.href = "index.html#/travelertracker/travelertracker.html?doc_no=" + this.$parent.value.vName.doc + "&country=" + $scope.CtryQueryName;
                 return false;
             }
 
@@ -1134,7 +1138,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             sessionStorage.setItem('hourlyEmplyName', currEmpName);
             sessionStorage.setItem('hourlycurrDate', currentSelectDate);
             sessionStorage.setItem('hourlybranchCode', $scope.branchCode);
-            location.href = "index.html#/employeeHourlyDetails/employeeHourlyDetails.html";
+            location.href = "index.html#/employeeHourlyDetails/employeeHourlyDetails.html?session=true";
         };
 
  });

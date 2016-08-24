@@ -64,72 +64,83 @@ var Login = function () {
                 var passwordValue = $('.login-form input[name=password]').val();
                 var token = undefined;
                 $.ajax({
-                        url: globalURL + 'auth/login?lang=' + selectedLang,
+                    url: globalURL + 'auth/login?lang=' + selectedLang,
+                    type: 'GET',
+                    data: {
+                        login: usernameValue,
+                        password: passwordValue
+                    },
+                }).done(function (data) {
+                    console.log("success");
+                    token = data.value;
+                    localStorage.setItem("username", usernameValue);
+                    localStorage.setItem("token", token);
+                    localStorage.setItem("expireTime", data.expireTime);
+
+                    //var getToken = localStorage.getItem("token");
+                    var authoritiesArray = [];
+                    $.ajax({
+                        url: globalURL + 'auth/token?token=' + token,
                         type: 'GET',
-                        data: {
-                            login: usernameValue,
-                            password: passwordValue
-                        },
-                    }).done(function (data) {
-                        console.log("success");
-                        token = data.value;
-                        localStorage.setItem("username", usernameValue);
-                        localStorage.setItem("token", token);
-                        localStorage.setItem("expireTime", data.expireTime);
-
-                        //var getToken = localStorage.getItem("token");
-                        var authoritiesArray = [];
-                        $.ajax({
-                                url: globalURL + 'auth/token?token=' + token,
-                                type: 'GET',
-                            })
-                            .done(function (data) {
-                                var displayNames = data.reports;
-                                console.log(data.reports);
-                                //authoritiesValue = data.user.authorities;
-                                //console.log(authoritiesValue);
-                                localStorage.setItem("authorities", data.roles);
-                                localStorage.setItem("lang", data.lang);
-                                localStorage.setItem("langDB", data.lang);
-                                localStorage.setItem("firstName", data.firstName);
-                                /*for(var i=0; i<authoritiesValue.length;i++){
-                                    console.log(authoritiesValue[i].name);
-                                    authoritiesArray.push(authoritiesValue[i].name);
-                                    //alert(authorities[i].name);
-                                    //return true;
-                                }*/
-
-                                // localStorage.setItem("authorities",data.roles);
-
-                                //form.submit();
-                               var getLastLocation =  localStorage.getItem('lastLocation');
-                               if(sessionStorage.length > 0){
-                                   if(getLastLocation){
-                                    window.location = "index.html"+getLastLocation;
-                                }else{
-                                    window.location = "index.html#/myprofile.html";
-                                }
-                               }else{
-                                    window.location = "index.html#/myprofile.html";
-                                }
-                                
-                                
-                                console.log("success");
-                            })
-                            .fail(function () {
-                                console.log("error");
-                            })
-                            .always(function () {
-                                console.log("complete");
-                            });
-
-
-                        console.log(authoritiesArray);
-                        //console.log(data);
-                        //console.log(data);
-                        //return false;
-
                     })
+                        .done(function (data) {
+                            var displayNames = data.reports;
+                            console.log(data.reports);
+                            //authoritiesValue = data.user.authorities;
+                            //console.log(authoritiesValue);
+                            localStorage.setItem("authorities", data.roles);
+                            localStorage.setItem("lang", data.lang);
+                            localStorage.setItem("langDB", data.lang);
+                            localStorage.setItem("firstName", data.firstName);
+                            /*for(var i=0; i<authoritiesValue.length;i++){
+                                console.log(authoritiesValue[i].name);
+                                authoritiesArray.push(authoritiesValue[i].name);
+                                //alert(authorities[i].name);
+                                //return true;
+                            }*/
+
+                            // localStorage.setItem("authorities",data.roles);
+
+                            //form.submit();
+                            var getLastLocation = localStorage.getItem('lastLocation');
+
+                            var splitURL = getLastLocation.split('?');
+
+                            if (splitURL.length > 1) {
+                                if (splitURL[1] == "session=true") {
+                                    if (sessionStorage.length > 0) {
+                                        window.location = "index.html" + getLastLocation;
+                                    } else {
+                                        window.location = "index.html#/myprofile.html";
+                                    }
+                                }
+
+                            } else {
+                                if (getLastLocation) {
+                                    window.location = "index.html" + getLastLocation;
+                                } else {
+                                    window.location = "index.html#/myprofile.html";
+                                }
+
+                            };
+
+
+                            console.log("success");
+                        })
+                        .fail(function () {
+                            console.log("error");
+                        })
+                        .always(function () {
+                            console.log("complete");
+                        });
+
+
+                    console.log(authoritiesArray);
+                    //console.log(data);
+                    //console.log(data);
+                    //return false;
+
+                })
                     .fail(function (data) {
                         console.log("error");
                         console.log(data);
@@ -173,7 +184,7 @@ var Login = function () {
             focusInvalid: false, // do not focus the last invalid input           
             rules: {
                 ic: {
-                    required: true                    
+                    required: true
                 }
             },
 
@@ -187,11 +198,11 @@ var Login = function () {
                 $('#msgResetRequir', $('.forget-form')).hide();
                 $('#msgResetError', $('.forget-form')).hide();
                 $('#msgResetSuccess', $('.forget-form')).hide();
-                if(validator.errorList[0].method == "required"){
-                    $('#msgResetRequir', $('.forget-form')).show();               
-                }else {
-                    $('#msgResetError', $('.forget-form')).show();     
-                } 
+                if (validator.errorList[0].method == "required") {
+                    $('#msgResetRequir', $('.forget-form')).show();
+                } else {
+                    $('#msgResetError', $('.forget-form')).show();
+                }
             },
 
             highlight: function (element) { // hightlight error inputs
@@ -217,22 +228,22 @@ var Login = function () {
 
                 var icValue = $('.forget-form input[name=ic]').val();
                 $.ajax({
-                        url: globalURL + 'api/user/'+ icValue +'/reset_password',
-			            contentType: "application/json",
-                        type: 'POST'                        
-                    }).done(function (data) {
-                        console.log("success");
-                        // $('.forget-form :input').prop('disabled',true).addClass("disabled");
-                        // $('.forget-form :button').prop('disabled',true).addClass("disabled"); 
-                        $('.forget-form [type=submit] span').removeClass('fa fa-spinner fa-spin');
-                        $('.forget-form :input').hide();
-                        $('.forget-form :button').hide();
-                        $('#ForgetUsrMsg h2', $('.forget-form')).text('Hi '+ icValue);
-                        $('#msgResetSuccess', $('.forget-form')).show();
-                    })
+                    url: globalURL + 'api/user/' + icValue + '/reset_password',
+                    contentType: "application/json",
+                    type: 'POST'
+                }).done(function (data) {
+                    console.log("success");
+                    // $('.forget-form :input').prop('disabled',true).addClass("disabled");
+                    // $('.forget-form :button').prop('disabled',true).addClass("disabled"); 
+                    $('.forget-form [type=submit] span').removeClass('fa fa-spinner fa-spin');
+                    $('.forget-form :input').hide();
+                    $('.forget-form :button').hide();
+                    $('#ForgetUsrMsg h2', $('.forget-form')).text('Hi ' + icValue);
+                    $('#msgResetSuccess', $('.forget-form')).show();
+                })
                     .fail(function (data) {
                         $('.forget-form [type=submit] span').removeClass('fa fa-spinner fa-spin');
-                        console.log("error"); 
+                        console.log("error");
                         $('#msgResetSuccess', $('.forget-form')).hide();
                         // $('#msgResetError span').html(data.responseText);
                         $('#msgResetError', $('.forget-form')).show();
@@ -264,14 +275,14 @@ var Login = function () {
             $('.forget-form :text').val('');
             jQuery('.forget-form').hide();
         });
-        $('.toLogin').click(function(){
-           jQuery('.login-form').show();
+        $('.toLogin').click(function () {
+            jQuery('.login-form').show();
             $('#msgResetError', $('.forget-form')).hide();
             $('#msgResetSuccess', $('.forget-form')).hide();
             $('.forget-form :text').val('');
             jQuery('.forget-form').hide();
         });
-        
+
 
     }
 
@@ -375,30 +386,30 @@ var Login = function () {
                 var userlangValue = $('.register-form #userselLang').val();
 
                 $.ajax({
-                        url: globalURL + 'user',
-                        contentType: "application/json",
-                        type: 'POST',
-                        dataType: "json",
-                        data: JSON.stringify({
-                            "firstName": firstnameValue,
-                            "lastName": lastnameValue,
-                            "email": emailValue,
-                            "unit": unitValue,
-                            "branch": branchValue,
-                            "rank": rankValue,
-                            "department": departmentValue,
-                            "login": usernameValue,
-                            "password": passwordValue,
-                            "lang": userlangValue,
-                            "id": "0"
-                        }),
-                    }).done(function (data) {
-                        console.log("success");
-                        //  localStorage.setItem("username", usernameValue);
-                        console.log(data);
-                        form.submit();
-                        window.location = "login.html";
-                    })
+                    url: globalURL + 'user',
+                    contentType: "application/json",
+                    type: 'POST',
+                    dataType: "json",
+                    data: JSON.stringify({
+                        "firstName": firstnameValue,
+                        "lastName": lastnameValue,
+                        "email": emailValue,
+                        "unit": unitValue,
+                        "branch": branchValue,
+                        "rank": rankValue,
+                        "department": departmentValue,
+                        "login": usernameValue,
+                        "password": passwordValue,
+                        "lang": userlangValue,
+                        "id": "0"
+                    }),
+                }).done(function (data) {
+                    console.log("success");
+                    //  localStorage.setItem("username", usernameValue);
+                    console.log(data);
+                    form.submit();
+                    window.location = "login.html";
+                })
                     .fail(function (data) {
                         console.log("error");
                         console.log(data);
@@ -460,7 +471,7 @@ var Login = function () {
                 newPassword: {
                     required: true
                 },
-                 confirmPassword: {
+                confirmPassword: {
                     required: true,
                     equalTo: "#newPswd"
                 }
@@ -477,15 +488,15 @@ var Login = function () {
 
             invalidHandler: function (event, validator) { //display error alert on form submit
                 $('#ResetError', $('.resetpswd-form')).hide();
-                 $('#ResetSuccess', $('.resetpswd-form')).hide();
-                 $('#ResetRequire', $('.resetpswd-form')).hide();
-                 $('#ResetEqualto', $('.resetpswd-form')).hide();
-                 console.log(validator.errorList[0].method);
-                if(validator.errorList[0].method == "required"){
-                    $('#ResetRequire', $('.resetpswd-form')).show();               
-                }else if(validator.errorList[0].method == "equalTo"){
-                    $('#ResetEqualto', $('.resetpswd-form')).show();     
-                }                
+                $('#ResetSuccess', $('.resetpswd-form')).hide();
+                $('#ResetRequire', $('.resetpswd-form')).hide();
+                $('#ResetEqualto', $('.resetpswd-form')).hide();
+                console.log(validator.errorList[0].method);
+                if (validator.errorList[0].method == "required") {
+                    $('#ResetRequire', $('.resetpswd-form')).show();
+                } else if (validator.errorList[0].method == "equalTo") {
+                    $('#ResetEqualto', $('.resetpswd-form')).show();
+                }
             },
 
             highlight: function (element) { // hightlight error inputs
@@ -503,34 +514,34 @@ var Login = function () {
             },
 
             submitHandler: function (form) {
-                 $('#resetSub span', $('.resetpswd-form')).addClass('fa fa-spinner fa-spin');
-                 $('#ResetEqualto', $('.resetpswd-form')).hide();
-                 $('#ResetRequire', $('.resetpswd-form')).hide();
-                 $('#ResetError', $('.resetpswd-form')).hide();
+                $('#resetSub span', $('.resetpswd-form')).addClass('fa fa-spinner fa-spin');
+                $('#ResetEqualto', $('.resetpswd-form')).hide();
+                $('#ResetRequire', $('.resetpswd-form')).hide();
+                $('#ResetError', $('.resetpswd-form')).hide();
 
-               var newPswdValue = $('.resetpswd-form input[name=newPassword]').val();
-               var qStr = window.location.href.split('?')[1];
-               var userid = qStr.split('&')[0].split('=')[1];
-               var _token = qStr.split('&')[1].split('=')[1];
+                var newPswdValue = $('.resetpswd-form input[name=newPassword]').val();
+                var qStr = window.location.href.split('?')[1];
+                var userid = qStr.split('&')[0].split('=')[1];
+                var _token = qStr.split('&')[1].split('=')[1];
 
-               $.ajax({
-                       url: globalURL + 'api/user/update_password?login='+ userid +'&token='+ _token +'&npass='+ newPswdValue,
-                       type: 'GET',
-                       contentType: "application/json"                      
-                   }).done(function (data) {
+                $.ajax({
+                    url: globalURL + 'api/user/update_password?login=' + userid + '&token=' + _token + '&npass=' + newPswdValue,
+                    type: 'GET',
+                    contentType: "application/json"
+                }).done(function (data) {
                     // console.log("Your Password has been reset successfully");
                     // $('.resetpswd-form :input').prop('disabled',true).addClass("disabled");
                     // $('.resetpswd-form :button').prop('disabled',true).addClass("disabled");
                     $('#resetSub span', $('.resetpswd-form')).removeClass('fa fa-spinner fa-spin');
                     $('.resetpswd-form :input').hide();
                     $('.resetpswd-form :button').hide();
-                    $('#ResetUsrMsg h2', $('.resetpswd-form')).text('Hi '+ userid);
+                    $('#ResetUsrMsg h2', $('.resetpswd-form')).text('Hi ' + userid);
                     $('#ResetSuccess', $('.resetpswd-form')).show();
-                   }).fail(function () {
+                }).fail(function () {
                     $('#resetSub span', $('.resetpswd-form')).removeClass('fa fa-spinner fa-spin');
                     $('#ResetSuccess', $('.resetpswd-form')).hide();
-                    $('#ResetError', $('.resetpswd-form')).show(); 
-                      console.log("error");
+                    $('#ResetError', $('.resetpswd-form')).show();
+                    console.log("error");
                 });
             }
         });
@@ -545,14 +556,14 @@ var Login = function () {
                 return false;
             }
         });
-        $('.toResetLogin').click(function(){
-          window.location = "login.html";         
+        $('.toResetLogin').click(function () {
+            window.location = "login.html";
             // $('.login-form').show();
             // $('.resetpswd-form').hide();
             // $('#ResetSuccess', $('.resetpswd-form')).hide();
         });
 
-   }
+    }
 
     return {
         //main function to initiate the module
@@ -569,7 +580,7 @@ var Login = function () {
 
 
 
-}();
+} ();
 
 // MetronicApp.module('MetronicApplogin').controller(, ['$translate', '$scope', function ($translate, $scope) {
 //     $scope.$on('$viewContentLoaded', function() {

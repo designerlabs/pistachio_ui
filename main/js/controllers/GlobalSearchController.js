@@ -407,13 +407,13 @@ $scope.$on('mapClick', function(event, e) {
   $scope.viewReq = function (docno, cntry) {
     cntry = cntry.replace(/ /g, "*");
     // window.location = "#/travelertracker/travelertracker.html?doc_nos=" + docno + "&country=" + cntry + "";
-    window.location = "#/travelertracker/travelertracker.html";
+    window.location = "#/travelertracker/travelertracker.html?session=true";
     sessionStorage.setItem('Qparam','doc_nos:'+ docno +' AND country:'+ cntry);
   };
 
   $scope.viewCitizen = function (docno) {
     // window.location = "#/travelertracker/travelertracker.html?doc_nos=" + docno + "&citizen=true";
-    window.location = "#/travelertracker/travelertracker.html";    
+    window.location = "#/travelertracker/travelertracker.html?session=true";    
     sessionStorage.setItem('Qparam','doc_nos:'+ docno +' AND citizen:'+ true);
   };
 

@@ -1446,6 +1446,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pistachio/map/singleclick.js',
                         'assets/pistachio/map/Leaflet.fullscreen.min.js',
                         'assets/pistachio/map/leaflet.fullscreen.css',
+                        'assets/pistachio/fastsearch/ui_box.css',
 
                         'js/controllers/GlobalSearchController.js',
                         'assets/pistachio/range/range.css',
