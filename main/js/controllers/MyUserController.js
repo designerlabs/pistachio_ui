@@ -221,8 +221,7 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
                             }
                             unique[response.nodes[i].status] = 0;
                         }
-                        debugger;
-                       
+                        
                         $("#zoomInOut").val(1);
                         $scope.tableParams = new NgTableParams({page: 1, count: 10}, { dataset: response.nodes});
                         $scope.officersCount = response.nodes.length;
