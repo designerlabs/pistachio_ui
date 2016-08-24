@@ -212,8 +212,11 @@ var Login = function () {
                         type: 'POST'                        
                     }).done(function (data) {
                         console.log("success");
-                        $('.forget-form :input').prop('disabled',true).addClass("disabled");
-                        $('.forget-form :button').prop('disabled',true).addClass("disabled"); 
+                        // $('.forget-form :input').prop('disabled',true).addClass("disabled");
+                        // $('.forget-form :button').prop('disabled',true).addClass("disabled"); 
+                        $('.forget-form :input').hide();
+                        $('.forget-form :button').hide();
+                        $('#ForgetUsrMsg h2', $('.forget-form')).text('Hi '+ icValue);
                         $('#msgResetSuccess', $('.forget-form')).show();
                     })
                     .fail(function (data) {
@@ -236,7 +239,10 @@ var Login = function () {
 
         jQuery('#forget-password').click(function () {
             jQuery('.login-form').hide();
+            $('.forget-form :input').show();
+            $('.forget-form :button').show();
             jQuery('.forget-form').show();
+
         });
 
         jQuery('#back-btn').click(function () {
@@ -500,12 +506,15 @@ var Login = function () {
                        contentType: "application/json"                      
                    }).done(function (data) {
                     // console.log("Your Password has been reset successfully");
-                    $('.resetpswd-form :input').prop('disabled',true).addClass("disabled");
-                    $('.resetpswd-form :button').prop('disabled',true).addClass("disabled");
+                    // $('.resetpswd-form :input').prop('disabled',true).addClass("disabled");
+                    // $('.resetpswd-form :button').prop('disabled',true).addClass("disabled");
+                    $('.resetpswd-form :input').hide();
+                    $('.resetpswd-form :button').hide();
+                    $('#ResetUsrMsg h2', $('.resetpswd-form')).text('Hi '+ userid);
                     $('#ResetSuccess', $('.resetpswd-form')).show();
                    }).fail(function () {
                     $('#ResetError', $('.resetpswd-form')).show(); 
-                      // console.log("error");
+                      console.log("error");
                 });
             }
         });

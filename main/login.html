@@ -164,18 +164,19 @@ License: You must have a valid license purchased only from themeforest(the above
                     <button class="close" data-close="alert"></button>
                     <span>{{'forgetpswd.errormsg'| translate}}.</span>
                 </div>
-                <p>
+                <!--<p>
                     {{'login.forgetpassword' | translate}}.
-                </p>
+                </p>-->
                 <div class="form-group">
                     <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="IC No" name="ic" />
                 </div>
                 <div class="form-actions">
                     <button type="button" id="back-btn" class="btn btn-default">{{'login.back' | translate}}</button>
-                    <button type="submit" class="btn btn-success uppercase pull-right">{{'login.submit' | translate}}</button>
+                    <button type="submit" data-loading-text="Please Wait" class="btn btn-success uppercase pull-right">{{'login.submit' | translate}}</button>
                 </div>
                 <div class="alert alert-success display-hide" id="msgResetSuccess">
                     <!-- <button class="close" data-close="alert"></button> -->
+                    <div id='ForgetUsrMsg'><h2></h2></div>
                     <span>{{'forgetpswd.successful' | translate}}.<br/>
                     {{'reset.please' | translate}} <a href="" class="toLogin"> {{'reset.clickhere' | translate}}</a> {{'reset.loginpage' | translate}}</span>
                 </div>
