@@ -179,10 +179,14 @@ var Login = function () {
             },
 
             invalidHandler: function (event, validator) { //display error alert on form submit
-                $('#msgResetError', $('.forget-form')).show();
+                $('#msgResetRequir', $('.forget-form')).hide();
+                $('#msgResetError', $('.forget-form')).hide();
                 $('#msgResetSuccess', $('.forget-form')).hide();
-                // $('#loginRequire', $('.forget-form')).show();
-                // $('#loginError', $('.forget-form')).hide();
+                if(validator.errorList[0].method == "required"){
+                    $('#msgResetRequir', $('.forget-form')).show();               
+                }else {
+                    $('#msgResetError', $('.forget-form')).show();     
+                } 
             },
 
             highlight: function (element) { // hightlight error inputs
@@ -204,16 +208,18 @@ var Login = function () {
                 var icValue = $('.forget-form input[name=ic]').val();
                 $.ajax({
                         url: globalURL + 'api/user/'+ icValue +'/reset_password',
-			contentType: "application/json",
+			            contentType: "application/json",
                         type: 'POST'                        
                     }).done(function (data) {
-                        console.log("success");                       
+                        console.log("success");
+                        $('.forget-form :input').prop('disabled',true).addClass("disabled");
+                        $('.forget-form :button').prop('disabled',true).addClass("disabled"); 
                         $('#msgResetSuccess', $('.forget-form')).show();
                     })
                     .fail(function (data) {
                         console.log("error"); 
                         $('#msgResetSuccess', $('.forget-form')).hide();
-                        $('#msgResetError span').html(data.responseText);
+                        // $('#msgResetError span').html(data.responseText);
                         $('#msgResetError', $('.forget-form')).show();
                     });
             }
@@ -235,13 +241,19 @@ var Login = function () {
 
         jQuery('#back-btn').click(function () {
             jQuery('.login-form').show();
+            $('#msgResetError', $('.forget-form')).hide();
+            $('#msgResetSuccess', $('.forget-form')).hide();
+            $('.forget-form :text').val('');
             jQuery('.forget-form').hide();
         });
         $('.toLogin').click(function(){
-            $('.login-form').show();
-            $('.forget-form').hide();
+           jQuery('.login-form').show();
+            $('#msgResetError', $('.forget-form')).hide();
             $('#msgResetSuccess', $('.forget-form')).hide();
+            $('.forget-form :text').val('');
+            jQuery('.forget-form').hide();
         });
+        
 
     }
 
@@ -446,7 +458,16 @@ var Login = function () {
             },
 
             invalidHandler: function (event, validator) { //display error alert on form submit
-
+                $('#ResetError', $('.resetpswd-form')).hide();
+                 $('#ResetSuccess', $('.resetpswd-form')).hide();
+                 $('#ResetRequire', $('.resetpswd-form')).hide();
+                 $('#ResetEqualto', $('.resetpswd-form')).hide();
+                 console.log(validator.errorList[0].method);
+                if(validator.errorList[0].method == "required"){
+                    $('#ResetRequire', $('.resetpswd-form')).show();               
+                }else if(validator.errorList[0].method == "equalTo"){
+                    $('#ResetEqualto', $('.resetpswd-form')).show();     
+                }                
             },
 
             highlight: function (element) { // hightlight error inputs
@@ -464,34 +485,46 @@ var Login = function () {
             },
 
             submitHandler: function (form) {
+                 $('#ResetEqualto', $('.resetpswd-form')).hide();
+                 $('#ResetRequire', $('.resetpswd-form')).hide();
+                 $('#ResetError', $('.resetpswd-form')).hide();
+
                var newPswdValue = $('.resetpswd-form input[name=newPassword]').val();
                var qStr = window.location.href.split('?')[1];
                var userid = qStr.split('&')[0].split('=')[1];
                var _token = qStr.split('&')[1].split('=')[1];
 
-               // $.ajax({
-               //         url: globalURL + 'auth/login?lang=' + selectedLang,
-               //         type: 'POST',
-               //         data: {
-               //             id: userid,
-               //             token: _token,
-               //             password:newPswdValue
-               //         },
-               //     }).done(function (data) {
-               //      // console.log("Your Password has been reset successfully");
-               //     }).fail(function () {
-               //        // console.log("error");
-               //  });
+               $.ajax({
+                       url: globalURL + 'api/user/update_password?login='+ userid +'&token='+ _token +'&npass='+ newPswdValue,
+                       type: 'GET',
+                       contentType: "application/json"                      
+                   }).done(function (data) {
+                    // console.log("Your Password has been reset successfully");
+                    $('.resetpswd-form :input').prop('disabled',true).addClass("disabled");
+                    $('.resetpswd-form :button').prop('disabled',true).addClass("disabled");
+                    $('#ResetSuccess', $('.resetpswd-form')).show();
+                   }).fail(function () {
+                    $('#ResetError', $('.resetpswd-form')).show(); 
+                      // console.log("error");
+                });
             }
         });
 
         $('.resetpswd-form input').keypress(function (e) {
             if (e.which == 13) {
+                $('#ResetEqualto', $('.resetpswd-form')).hide();
+                $('#ResetRequire', $('.resetpswd-form')).hide();
                 if ($('.resetpswd-form').validate().form()) {
                     $('.resetpswd-form').submit();
                 }
                 return false;
             }
+        });
+        $('.toResetLogin').click(function(){
+          window.location = "login.html";         
+            // $('.login-form').show();
+            // $('.resetpswd-form').hide();
+            // $('#ResetSuccess', $('.resetpswd-form')).hide();
         });
 
    }

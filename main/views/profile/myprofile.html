@@ -4,12 +4,18 @@
 		<!-- BEGIN PROFILE SIDEBAR -->
 		<div class="profile-sidebar">
 			<!-- PORTLET MAIN -->
-			<div class="portlet light profile-sidebar-portlet ">
+			<!--<div class="portlet light profile-sidebar-portlet">-->
+			<div class="portlet green-sharp box">				
 				<!-- SIDEBAR USERPIC -->
-				<div class="profile-userpic">
-
-					<img src="assets/admin/layout2/img/mimos_logo_small.png" class="img-responsive" alt=""> 
+				<div class="portlet-title">
+					<div class="caption caption-md">
+						<span class="caption-subject bold uppercase">{{'profile.userinfo' | translate}}</span>
+					</div>
 				</div>
+				<div class="portlet-body" style="height: 438px;">
+					<div class="profile-userpic">
+						<img src="assets/admin/layout2/img/mimos_logo_small.png" class="img-responsive" alt=""> 
+					</div>
 					<!-- END SIDEBAR USERPIC -->
 					<!-- SIDEBAR USER TITLE -->
 					<div class="profile-usertitle">
@@ -34,24 +40,24 @@
 									<i class="icon-settings"></i> {{'profile.edit' | translate}} </a>
 							</li>
 						</ul>
-					</div>							
+					</div>
+				</div>							
 			</div>						
 		</div>					
 		<div class="profile-content" >
 			<div ng-if="overall">
 				<div class="row" >
 					<div class="col-md-6 col-xs-12">
-						<div class="portlet light ">
+						<div class="portlet blue-hoki box ">
 							<div class="portlet-title">
 								<div class="caption caption-md">
-									<span class="caption-subject font-blue-madison bold uppercase">{{'profile.userinfo' | translate}}</span>
+									<span class="caption-subject bold uppercase">{{'profile.moredetail' | translate}}</span>
 								</div>
 							</div>
 							<div class="portlet-body form">
 								<form class="form-horizontal" role="form" id="ProInfo">
-									<div class="form-body">
+									<div class="form-body" style="height: 438px;">
 										<div class="form-group">
-
 											<label class="col-md-3 control-label">{{'profile.name' | translate}}</label>
 											<div class="col-md-9">
 												<input type="text" class="form-control" id="myprofileDsp-firstname"
@@ -59,9 +65,7 @@
 											</div>
 										</div>
 										<div class="form-group">
-
 											<label class="col-md-3 control-label">{{'profile.email' | translate}}</label>
-
 											<div class="col-md-9">
 												<input type="text" class="form-control" id="myprofileDsp-email"
 												 ng-value="ProInfoVal.email" readonly="true">
@@ -109,12 +113,12 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-6">
-						<div class="portlet light ">
+					<div class="col-md-6 col-xs-12">
+						<div class="portlet green-meadow box ">
 							<div class="portlet-title">
 								<div class="caption caption-md">
 									<i class="icon-bar-chart theme-font hide"></i>
-									<span class="caption-subject font-blue-madison bold uppercase">{{'profile.recentactivities' | translate}}</span>
+									<span class="caption-subject bold uppercase">{{'profile.recentactivities' | translate}}</span>
 								</div>
 							</div>
 							<div class="portlet-body">
@@ -152,12 +156,11 @@
 				</div>
 				<div class="row">
 					<div class="col-md-6">
-						<div class="portlet light ">
+						<div class="portlet red-sunglo box">
 							<div class="portlet-title">
 								<div class="caption caption-md">
 									<i class="icon-bar-chart theme-font hide"></i>
-
-									<span class="caption-subject font-blue-madison bold uppercase">{{'report.template' | translate}}</span>
+									<span class="caption-subject uppercase">{{'report.template' | translate}}</span>
 								</div>
 							</div>
 							<div class="portlet-body">
@@ -193,12 +196,11 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<div class="portlet light ">
+						<div class="portlet grey-cascade box">
 							<div class="portlet-title">
 								<div class="caption caption-md">
 									<i class="icon-bar-chart theme-font hide"></i>
-
-									<span class="caption-subject font-blue-madison bold uppercase">{{'report.favourite' | translate}}</span>
+									<span class="caption-subject bold uppercase">{{'report.favourite' | translate}}</span>
 									<span class="caption-helper hide">weekly stats...</span>
 								</div>
 							</div>
@@ -212,23 +214,21 @@
 			<div ng-if="editonly">
 				<div class="row">
 					<div class="col-md-12">
-						<div class="portlet light " style="padding-bottom: 35px;">
+						<div class="portlet grey-cascade box" >
 							<div class="portlet-title tabbable-line">
 								<div class="caption caption-md">
-									<i class="icon-globe theme-font hide"></i>
-
-									<span class="caption-subject font-blue-madison bold uppercase">{{'profile.acc' | translate}}</span>
+									<span class="caption-subject bold uppercase">{{'profile.acc' | translate}}</span>
 								</div>
-									<ul class="nav nav-tabs">
-										<li ng-repeat="tab in tabs"	ng-class="{active:isActiveTab(tab.url)}" ng-click="onClickTab(tab)">
-											<a data-toggle="tab" aria-expanded="true">{{tab.title}}</a>
-										</li>
-									</ul>
+								<ul class="nav nav-tabs">
+									<li ng-repeat="tab in tabs"	ng-class="{active:isActiveTab(tab.url)}" ng-click="onClickTab(tab)">
+										<a data-toggle="tab" aria-expanded="true">{{tab.title}}</a>
+									</li>
+								</ul>
 							</div>
-							<div class="portlet-body">
+							<div class="portlet-body" style="height: 417px;">
 								<div class="tab-content">
 									<!-- PERSONAL INFO TAB -->
-									<div id="mainView">
+									<div id="mainView" class="margin-top-20">
 										<div ng-include="currentTab"></div>
 									</div>
 									<div id="messageView" style="margin-top:20px">
@@ -244,7 +244,6 @@
 								<div class="tab-pane active" id="tab_1_1">
 									<form role="form" class="edit-form">
 										<div class="form-group">
-
 											<label class="control-label">{{'profile.edit.name' | translate}}</label>
 											<input type="text" name="editname" class="form-control">
 										</div>
@@ -259,22 +258,18 @@
 												<option value="" selected>{{'profile.edit.selLang' | translate}}</option>
 												<option value="en">{{'profile.edit.english' | translate}}</option>
 												<option value="my">{{'profile.edit.malay' | translate}}</option>
-
 											</select>
 										</div>
-
-										<div class="margin-top-10">
-
+										<div class="margin-top-20">
 											<button class="btn green" ng-click="editSaveChanges()">{{'profile.edit.save' | translate}} </button>
 											<button class="btn default">{{'profile.edit.cancel' | translate}} </button>
 										</div>
-										</form>
-									</div>
+									</form>
+								</div>
 							</script>									
 							<script type="text/ng-template" id="change.password.html">
 								<form role="form" class="PwdChangeform" id="formPwd">
 									<div class="form-group">
-
 										<label class="control-label">{{'profile.edit.currentPswd' | translate}}</label>
 										<input type="password" name="CurrentPwd" class="form-control">
 									</div>
@@ -286,10 +281,9 @@
 											<label class="control-label">{{'profile.edit.retypenewPswd' | translate}} </label>
 											<input type="password" name="ReTypePwd" class="form-control">
 									</div>
-									<div class="margin-top-10">
+									<div class="margin-top-20">
 										<button class="btn green" ng-click="OnChangePwd()"> {{'profile.edit.changePswd' | translate}} </button>
 										<button class="btn default"> {{'profile.edit.cancelPswd' | translate}} </button>
-
 									</div>
 								</form>
 							</script>
@@ -316,7 +310,36 @@
 	//     $("#loaderTableView .page-spinner-bar").addClass('hide');
 	//     $("#loaderTableView").hide();
 	// });
+	
 </script>
 <!-- BEGIN MAIN JS & CSS -->
+<style>	
+	.portlet.box.blue-hoki {
+    border: 1px solid #869ab3 !important;
+    border-top: 0 !important;
+}
+.portlet.box.green-meadow {
+    border: 1px solid #2ae0bb !important;
+    border-top: 0 !important;
+}
+.portlet.box.grey-cascade {
+    border: 1px solid #b1bdbd !important;
+    border-top: 0 !important;
+}
+.portlet.box.yellow-crusta {
+    border: 1px solid #ffd327 !important;
+    border-top: 0 !important;
+}
+.portlet.box.red-sunglo {
+    border: 1px solid #ea9595 !important;
+    border-top: 0 !important;
+}
+.portlet.box.green-sharp {
+    border: 1px solid #2ab4c0 !important;
+    border-top: 0 !important;
+}
+
+
+</style>
 
 	
