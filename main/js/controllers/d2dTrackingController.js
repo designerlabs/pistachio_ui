@@ -1130,7 +1130,11 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             var currentSelectDate = this.$parent.$parent.subtitle;
             var currBranchName = this.$parent.$parent.getBranchVal.one;
             var currEmpName = this.$parent.value.brhName.name;
-            location.href = "index.html#/employeeHourlyDetails/employeeHourlyDetails.html?branch_name=" + currBranchName + "&emp_name=" + currEmpName + "&currDate=" + currentSelectDate+"&branchCode="+$scope.branchCode;
+            sessionStorage.setItem('hourlyBranchName', currBranchName);
+            sessionStorage.setItem('hourlyEmplyName', currEmpName);
+            sessionStorage.setItem('hourlycurrDate', currentSelectDate);
+            sessionStorage.setItem('hourlybranchCode', $scope.branchCode);
+            location.href = "index.html#/employeeHourlyDetails/employeeHourlyDetails.html";
         };
 
  });

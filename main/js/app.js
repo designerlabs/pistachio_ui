@@ -1200,6 +1200,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     files: [
                         'assets/pistachio/myUser/myUser.css',
                         'assets/pistachio/myAudit/myaudit.css',
+                        //'https://cdn.rawgit.com/esvit/ng-table/1.0.0/dist/ng-table.min.css'
                          'assets/global/plugins/highcharts/js/highcharts.js',
                          'assets/global/plugins/d3/d3-force.v1.min.js',
                          
@@ -1208,6 +1209,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js'
+                        //'https://cdn.rawgit.com/esvit/ng-table/1.0.0/dist/ng-table.js'
                         
                     ]
                 });

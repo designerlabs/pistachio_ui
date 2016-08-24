@@ -39,6 +39,9 @@
 
   </div>
   <div id="user-map" class="col-md-9">
+    <div id="graphContainer">
+
+ 
     <div id="tooltip" ng-show="activeGraph">
     
       <div class="summaryTitle" style="font-size: 16px; border: 1px solid #3daf85; padding:0px; border-radius: 15px !important;">
@@ -72,6 +75,23 @@
     </div>
     
     <div id="usergraph"  style="background: #fff;"> </div>
+       </div>
+       <div id="tableContainer">
+            <table ng-table="tableParams" class="table" show-filter="true">
+              <tr ng-class="{true:'bg-danger'}" ng-repeat="x in $data">
+                <td title="'Name'" filter="{ name: 'text'}" sortable="'name'">{{ x.name }}</td>
+                <td title="'User ID'">{{ x.usrId }}</td>
+                <td title="'Rank'">{{ x.rank }}</td>
+                <td title="'Created By'">{{ x.crtId }}</td>
+                <td title="'Valid Days'" sortable="'validDays'">{{ x.validDays }}</td>
+                <td title="'Created on'">{{ x.createDate | date : format : timezone }}</td>
+                <td title="'Valid until'">{{ x.endDate | date : format : timezone }}</td>
+                <td data-title="'Status'" filter="{status: 'select'}"  filter-data="getStatus" sortable="'status'">{{ x.status }}</td>
+              </tr>
+            </table>
+            <h3>{{ tableParams.total() }}</h3>
+       </div>
+
   </div>
 
 

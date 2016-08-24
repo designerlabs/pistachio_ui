@@ -1,6 +1,6 @@
 'use strict';
 
-MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, sortable) {
+MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, sortable, NgTableParams, $filter, $q) {
 
     $scope.$on('$viewContentLoaded', function () {
         //$scope.requestData();
@@ -199,7 +199,7 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
                 return status;
             });
     }
-
+    $scope.getStatus = [{id: "", title: ""}, {id: 'Active', title: 'Active'}, {id: 'In-Active', title: 'In-Active'}];
     $scope.requestData = function (bName, fDate, tDate) {
          $scope.loading = true;
         $("#usergraph").html("");
@@ -209,8 +209,22 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
         )
             .success(function (response) {
                     $scope.loading = false;
+                    
                     if(response.links){
+                        var unique = {};
+                        var distinct = [];
+                        $scope.getStat = [];
+                        for( var i in response.nodes){
+                            if( typeof(unique[response.nodes[i].status]) == "undefined"){
+                                distinct.push(response.nodes[i].status);
+                                $scope.getStat.id = response.nodes[i].status;
+                            }
+                            unique[response.nodes[i].status] = 0;
+                        }
+                        debugger;
+                       
                         $("#zoomInOut").val(1);
+                        $scope.tableParams = new NgTableParams({page: 1, count: 10}, { dataset: response.nodes});
                         $scope.officersCount = response.nodes.length;
                         $scope.activeGraph = true;
                         $scope.test(response.nodes, response.links);

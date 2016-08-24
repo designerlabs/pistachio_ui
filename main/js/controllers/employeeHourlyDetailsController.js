@@ -9,34 +9,34 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         $scope.drawSparkline = 0;
         $scope.employeeArr = [];
         $scope.loading = true;
-        console.log(window.location.href);
-        var Qstring = window.location.href;
-        var Qparam = Qstring.split('?')[1];
-        Qparam = Qparam.split('&');
-        var obj = {};
-        var myArr = [];
-        $.each(Qparam, function(i, k) {
-            var ki = k.split("=");
-            myArr.push(ki[1]);
-        });
-        console.log(myArr);
+        // console.log(window.location.href);
+        // var Qstring = window.location.href;
+        // var Qparam = Qstring.split('?')[1];
+        // Qparam = Qparam.split('&');
+        // var obj = {};
+        // var myArr = [];
+        // $.each(Qparam, function(i, k) {
+        //     var ki = k.split("=");
+        //     myArr.push(ki[1]);
+        // });
+        // console.log(myArr);
         stageUpdate.addStage("Officer");
         Layout.setSidebarMenuActiveLink('set', $('#trackerLink')); // set profile link active in sidebar menu 
+       
+        $scope.empName = sessionStorage.getItem('hourlyEmplyName');
+        $scope.branchCode = sessionStorage.getItem('hourlybranchCode');
 
-        $scope.empName = myArr[1];
-        $scope.branchCode = myArr[3];
+        $scope.employeeArr.push(sessionStorage.getItem('hourlyEmplyName'));
 
-        $scope.employeeArr.push(myArr[1]);
-
-        var CurrentDate = myArr[2];
+        var CurrentDate = sessionStorage.getItem('hourlycurrDate');
         CurrentDate = CurrentDate.replace(/%2F/g, "\/");
         CurrentDate = CurrentDate.replace(/%20-%20/g, " ");
         CurrentDate = CurrentDate.split(" ");
         var startDtN = CurrentDate[0];
-        var endDtN = CurrentDate[1];
+        var endDtN = CurrentDate[2];
         $scope.startDtNSplit = startDtN.split("/");
         $scope.endDtNSplit = endDtN.split("/");
-
+       
 
         $scope.subTitle = $scope.startDtNSplit[0] + "/" + $scope.startDtNSplit[1] + "/" + $scope.startDtNSplit[2] + " - " + $scope.endDtNSplit[0] + "/" + $scope.endDtNSplit[1] + "/" + $scope.endDtNSplit[2];
 
@@ -152,7 +152,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         var immigrationSolr = "hismove";
         var limitValue = 15;
 
-        var triggerOpt = "branch:" + myArr[0];
+        var triggerOpt = "branch:" + sessionStorage.getItem('hourlyBranchName');
         var mainFacet = "branches";
         var branchQry = "dy_create_id";
         var groupBy = "";
