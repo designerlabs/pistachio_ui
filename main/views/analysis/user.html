@@ -42,7 +42,7 @@
       <div class="titleHeader" ng-show="activeBranch" style="margin-top: 0px; position:relative;">
       <h3 class="nopadding"><i style="font-size: 20px;" class="fa fa-plane"></i> {{activeBranch}}
       <span  ng-show="activeGraph">&nbsp;<span class="officerCount"><i class="fa fa-group groupIcon"></i> {{officersCount}}</span></span></h3>
-      <button class="dataBtn btn btn-block btn-default" data-toggle="modal" data-target=".myUserData"><i class="fa fa-database"></i> Datatable</button>
+      <button class="dataBtn btn btn-block btn-default" data-toggle="modal" data-target=".myUserData"><i class="fa fa-table"></i> Datatable</button>
     </div>
     <div id="graphContainer">
 
@@ -86,19 +86,24 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div id="tableContainer">
+        <div style="padding: 1px 12px;">
+          <h3><i style="font-size: 20px;" class="fa fa-plane"></i> <strong>{{activeBranch}}</strong></h3>
+          <div class="totalCt"><h3>Total <strong>{{ tableParams.total() }}</strong> officer(s) found.</h3></div>
+          </div>
+        
             <table ng-table="tableParams" class="table" show-filter="true">
               <tr ng-class="{'bg-danger' : x.validDays <= 0}" ng-repeat="x in $data">
-                <td title="'Name'" filter="{ name: 'text'}" sortable="'name'">{{ x.name }}</td>
+                <td title="'Name'" filter="{ name: 'text'}" sortable="'name'"><a href="">{{ x.name }}</a></td>
                 <td title="'User ID'">{{ x.usrId }}</td>
                 <td title="'Rank'">{{ x.rank }}</td>
                 <td title="'Created By'">{{ x.crtId }}</td>
-                <td title="'Valid Days'" sortable="'validDays'">{{ x.validDays }}</td>
+                <td title="'Duration'" sortable="'validDays'">{{ x.validDays }}</td>
                 <td title="'Created on'">{{ x.createDate | date : format : timezone }}</td>
                 <td title="'Valid until'">{{ x.endDate | date : format : timezone }}</td>
                 <td data-title="'Status'" filter="{status: 'select'}"  filter-data="getStatus" sortable="'status'" ng-class="{'activeState': x.status == 'Active', 'inactiveState': x.status == 'In-Active'}">{{ x.status }}</td>
               </tr>
             </table>
-            <div class="totalCt"><h3>Total <strong>{{ tableParams.total() }}</strong> records.</h3></div>
+            
        </div>
     </div>
   </div>

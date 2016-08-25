@@ -218,8 +218,9 @@
 }
 
 .totalCt{
-padding:10px;
-text-align: center;
+    position: absolute;
+    top: 0px;
+    right: 10px;
 }
 
 

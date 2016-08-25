@@ -199,7 +199,7 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
                 return status;
             });
     }
-    $scope.getStatus = [{id: "", title: ""}, {id: 'Active', title: 'Active'}, {id: 'In-Active', title: 'In-Active'}];
+    $scope.getStatus = [{id: "", title: "All"}, {id: 'Active', title: 'Active'}, {id: 'In-Active', title: 'In-Active'}];
     $scope.requestData = function (bName, fDate, tDate) {
          $scope.loading = true;
         $("#usergraph").html("");
@@ -213,16 +213,16 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
                     if(response.links){
                         var unique = {};
                         var distinct = [];
-                        $scope.getStat = [];
                         for( var i in response.nodes){
                             if( typeof(unique[response.nodes[i].status]) == "undefined"){
                                 distinct.push(response.nodes[i].status);
-                                $scope.getStat.id = response.nodes[i].status;
                             }
                             unique[response.nodes[i].status] = 0;
                         }
                         
                         $("#zoomInOut").val(1);
+                        $('select[name="status"] option[label="All"]').attr('selected', 'selected');
+                        $('input[name="name"]').attr('placeholder', 'Search by name');
                         $scope.tableParams = new NgTableParams({page: 1, count: 10}, { dataset: response.nodes});
                         $scope.officersCount = response.nodes.length;
                         $scope.activeGraph = true;
