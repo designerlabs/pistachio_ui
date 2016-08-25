@@ -24,7 +24,7 @@
 </div>
 
 
-<div class="col-md-3" style="background: #48545d; padding: 10px">
+<div class="col-md-3" style="background: #48545d; padding: 5px">
   
   <div class=" filter" style="padding:0px; border-bottom: 0px;">
     <div id="reportrange"  style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;">
@@ -77,8 +77,14 @@
 
 <div class="col-md-9" ng-show="activeBranch">
   <div class="summaryTitle">
-    <h3 ng-show="activeBranch"><i style="font-size: 20px;" class="fa fa-plane"></i> {{activeBranch}} <span ng-show="activeUser">&mdash; <i  style="font-size: 20px;"  class="fa fa-user"></i> {{activeUser.field}}</span></h3>
-    <h6>Branch Activites from {{startdt}} - {{enddt}}<span class="officerExtra" ng-show="activeUser"><i class="fa fa-user"></i> <strong>{{officerDetails}}</strong> | Rank: <strong>{{officerDuration}}</strong> | Active from: <strong>{{activeDate | date:'dd/MM/yyyy' }}</strong>&nbsp;&nbsp;to&nbsp;&nbsp;<strong>{{expiryDate | date:'dd/MM/yyyy'}}</strong> | Validity: <strong>{{validity}} Days</strong></span></h6>
+    <div class="col-md-10">
+       <h3 ng-show="activeBranch"><i style="font-size: 20px;" class="fa fa-plane"></i> {{activeBranch}} <span ng-show="activeUser">&mdash; <i  style="font-size: 20px;"  class="fa fa-user"></i> {{activeUser.field}}</span></h3>
+      <h6>Branch Activites from {{startdt}} - {{enddt}}<span class="officerExtra" ng-show="activeUser"><i class="fa fa-user"></i> <strong>{{officerDetails}}</strong> | Rank: <strong>{{officerDuration}}</strong> | Active from: <strong>{{activeDate | date:'dd/MM/yyyy' }}</strong>&nbsp;&nbsp;to&nbsp;&nbsp;<strong>{{expiryDate | date:'dd/MM/yyyy'}}</strong> | Validity: <strong>{{validity}} Days</strong></span></h6>
+    </div>
+   
+    <div  style="position: absolute; margin: 20px; right: 0px;" class="col-md-2">
+      <button class="btn btn-block btn-default" data-toggle="modal" data-target=".myAuditData"><i class="fa fa-table"></i> Datatable</button>
+    </div>
   </div>
   
   <div id="chart" ng-show="showHeatMap"></div>
@@ -98,6 +104,30 @@
     
     <div id="summaryContainer"></div>
   </div>
+
+  <div class="modal fade myAuditData" id="myAuditData" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div id="tableAuditContainer" style="padding:10px;">
+        <div style="padding: 1px 12px;">
+          <h3><i style="font-size: 20px;" class="fa fa-plane"></i> <strong>{{activeBranch}}</strong></h3>
+          <div class="totalCt"><h3>Total <strong>{{ tableAuditParams.total() }}</strong> record(s) found.</h3></div>
+          </div>
+        
+            <table ng-table="tableAuditParams" class="table" show-filter="true">
+              <tr ng-repeat="x in $data">
+                <td title="'Officer'" filter="{ officer: 'text'}" sortable="'officer'">{{ x.officer }}</td>
+                <td title="'Activity'" sortable="'txnCode'">{{ x.txnCode }}</td>
+                <td title="'Date'" sortable="'txnDate'">{{x.txnDate | date: 'd MMM, y - HH:mm:ss' : 'UTC' }}</td>
+                
+                <!--<td data-title="'Status'" filter="{status: 'select'}"  filter-data="getStatus" sortable="'status'" ng-class="{'activeState': x.status == 'Active', 'inactiveState': x.status == 'In-Active'}">{{ x.status }}</td>-->
+              </tr>
+            </table>
+            
+       </div>
+    </div>
+  </div>
+</div>
 </div>
 
 <div ng-model="ErrorMsg" ng-show="ErrorMsg" class="recordFail">

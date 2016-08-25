@@ -1,6 +1,6 @@
 'use strict';
 
-MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http, sortable) {
+MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http, sortable, NgTableParams, $filter, $q) {
 
     $scope.$on('$viewContentLoaded', function () {
         $scope.showOfficer = false;
@@ -268,6 +268,10 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                     heatmapChart(response.heatmap);
                     $scope.showHeatMap = true;
                 };
+
+                if(response.data){
+                     $scope.tableAuditParams = new NgTableParams({page: 1, count: 10}, { dataset: response.data});
+                }
 
                 var data = response.transaction;
                 if (response.nodes) {

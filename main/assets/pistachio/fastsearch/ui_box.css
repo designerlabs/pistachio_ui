@@ -107,7 +107,7 @@ li.list-group-item:after {
 }
 
 .list-group-item {
-    padding: 1px 10px !important;
+    padding: 1px 10px;
     margin-bottom: 0px !important;
     border: 1px solid #ececec !important;
 }
