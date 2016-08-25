@@ -104,25 +104,31 @@ var Login = function () {
                             //form.submit();
                             var getLastLocation = localStorage.getItem('lastLocation');
 
-                            var splitURL = getLastLocation.split('?');
+                            if(getLastLocation){
+                                var splitURL = getLastLocation.split('?');
+                                if (splitURL.length > 1) {
+                                    if (splitURL[1] == "session=true") {
+                                        if (sessionStorage.length > 0) {
+                                            window.location = "index.html" + getLastLocation;
+                                        } else {
+                                            window.location = "index.html#/myprofile.html";
+                                        }
+                                    }
 
-                            if (splitURL.length > 1) {
-                                if (splitURL[1] == "session=true") {
-                                    if (sessionStorage.length > 0) {
+                                } else {
+                                    if (getLastLocation) {
                                         window.location = "index.html" + getLastLocation;
                                     } else {
                                         window.location = "index.html#/myprofile.html";
                                     }
-                                }
 
-                            } else {
-                                if (getLastLocation) {
-                                    window.location = "index.html" + getLastLocation;
-                                } else {
-                                    window.location = "index.html#/myprofile.html";
-                                }
+                                };
+                            }else {
+                                window.location = "index.html#/myprofile.html";
+                            }
 
-                            };
+                            
+                            
 
 
                             console.log("success");
