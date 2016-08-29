@@ -14708,3 +14708,9 @@ Transparent Button
   background: transparent;
   color: #888;
 }
+
+
+#msgResetSuccess{
+  padding:10px;
+  color: #097B41;
+}

@@ -67,7 +67,7 @@ MetronicApp.config(['$translateProvider', function ($translateProvider) {
 
         'login.resetpassword' : 'Reset Password',
         'forgetpswd.requiremessage' : 'IC Required',
-        'forgetpswd.successful': 'Your details has been submitted successfully. We will send reset password email to your registered email address',
+        'forgetpswd.successful': 'Your details has been submitted successfully. We will send reset password email to your registered email address.',
         'forgetpswd.errormsg' : 'Can not find user records',
 
         'reset.newpassword' : 'New Password',
@@ -77,7 +77,7 @@ MetronicApp.config(['$translateProvider', function ($translateProvider) {
         'reset.error': 'Server error. Please try again with correct details',
         'reset.successful': 'Your password has been changed successfully',
         'reset.please' : 'Please',
-        'reset.clickhere' : 'Click Here',
+        'reset.clickhere' : 'Continue to login',
         'reset.loginpage' : 'to go Login page'
 
 
@@ -128,7 +128,7 @@ MetronicApp.config(['$translateProvider', function ($translateProvider) {
         'reset.error': 'Ralat pelayan. Sila cuba lagi dengan butiran yang betul',
         'reset.successful': 'Kata laluan anda ditukar dengan jayanya',
         'reset.please' : 'Sila',
-        'reset.clickhere' : 'Tekan di sini',
+        'reset.clickhere' : 'Terus login',
         'reset.loginpage' : 'untuk pergi halaman Login'
 
     });

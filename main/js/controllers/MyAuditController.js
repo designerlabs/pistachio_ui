@@ -71,9 +71,11 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                         allowPointSelect: true,
                         point: {
                     events: {
-                        click: function () {
+                        click: function (e) {
                             $scope.activityName = this.name;
                             $scope.branch_selected($scope.activeBranch, undefined, undefined, this.name);
+                            
+                  
                         }
                     }
                 }
@@ -269,6 +271,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                     $scope.showHeatMap = true;
                 };
 
+
                 if(response.data){
                      $scope.tableAuditParams = new NgTableParams({page: 1, count: 10}, { dataset: response.data});
                 }
@@ -382,11 +385,15 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                 if($scope.activity == ""){
                     $scope.barChart(log);
                 }
+
+                if(response.data){
+                     $scope.tableAuditParams = new NgTableParams({page: 1, count: 10}, { dataset: response.data});
+                }
                 //$scope.barChart(log);
-                if (!day) {
-                    //debugger;
+                if (day) {
                     heatmapChart(response.heatmap);
                 }
+                
 
                 $scope.showHeatMap = true;
             });

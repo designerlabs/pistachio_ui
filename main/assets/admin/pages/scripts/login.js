@@ -242,9 +242,12 @@ var Login = function () {
                     // $('.forget-form :input').prop('disabled',true).addClass("disabled");
                     // $('.forget-form :button').prop('disabled',true).addClass("disabled"); 
                     $('.forget-form [type=submit] span').removeClass('fa fa-spinner fa-spin');
-                    $('.forget-form :input').hide();
-                    $('.forget-form :button').hide();
-                    $('#ForgetUsrMsg h2', $('.forget-form')).text('Hi ' + icValue);
+                    $('.forget-form > h3').hide();
+                    $('.forget-form > .form-group').hide();
+                    $('.forget-form > .form-actions').hide();
+                    //$('.forget-form :input').hide();
+                    //$('.forget-form :button').hide();
+                    $('#ForgetUsrMsg h2', $('.forget-form')).text('Hi ' + icValue+",");
                     $('#msgResetSuccess', $('.forget-form')).show();
                 })
                     .fail(function (data) {
@@ -267,10 +270,14 @@ var Login = function () {
         });
 
         jQuery('#forget-password').click(function () {
-            jQuery('.login-form').hide();
-            $('.forget-form :input').show();
-            $('.forget-form :button').show();
-            jQuery('.forget-form').show();
+            $('#msgResetError', $('.forget-form')).hide();
+            $('.login-form').hide();
+            $('.forget-form > h3').show();
+            $('.forget-form > .form-group').show();
+            $('.forget-form > .form-actions').show();
+            //$('.forget-form :input').show();
+            //$('.forget-form :button').show();
+            $('.forget-form').show();
 
         });
 
