@@ -425,7 +425,7 @@ MetronicApp.controller('sessionController', function($scope, Idle, Keepalive, $m
 
         var dt = new Date(localStorage.getItem("expireTime"));
         var sec = dt.getSeconds()
-        IdleProvider.idle(900); //idle time dueration
+        IdleProvider.idle(900); //idle time duration
         IdleProvider.timeout(30); // waiting time to refresh
         // KeepaliveProvider.interval(15);
     });

@@ -100,7 +100,7 @@
                 <td title="'Duration'" sortable="'validDays'">{{ x.validDays }}</td>
                 <td title="'Created on'">{{ x.createDate | date : format : timezone }}</td>
                 <td title="'Valid until'">{{ x.endDate | date : format : timezone }}</td>
-                <td data-title="'Status'" filter="{status: 'select'}"  filter-data="getStatus" sortable="'status'" ng-class="{'activeState': x.status == 'Active', 'inactiveState': x.status == 'In-Active'}">{{ x.status }}</td>
+                <td data-title="'Status'" filter="{status: 'select'}"  filter-data="getStatus" sortable="'status'" ng-class="{'activeState': x.status == 'Active', 'inactiveState': x.status == 'Expired'}">{{ x.status }}</td>
               </tr>
             </table>
             

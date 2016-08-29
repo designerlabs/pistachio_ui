@@ -52,8 +52,8 @@
 }
 
 .hidden{
-  opacity: 1  !important;
-   transition: opacity .25s ease-in-out !important;
+    opacity: 1  !important;
+    transition: opacity .25s ease-in-out !important;
 }
 
 .summaryTitle > p > span:first-of-type{

@@ -73,7 +73,11 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                     events: {
                         click: function (e) {
                             $scope.activityName = this.name;
-                            $scope.branch_selected($scope.activeBranch, undefined, undefined, this.name);
+                            if($scope.triggerHourDt){
+                                $scope.branch_selected($scope.activeBranch, $scope.Dt, $scope.Hr, this.name);
+                            }else{
+                                $scope.branch_selected($scope.activeBranch, undefined, undefined, this.name);
+                            }
                             
                   
                         }
@@ -219,12 +223,14 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
 
 
     //branch on select
+        $scope.getWorkingHour = [{id: "", title: "All"}, {id: 'Normal', title: 'Normal'}, {id: 'After', title: 'After'}, {id: 'Before', title: 'Before'}, {id: 'Holiday', title: 'Holiday'}];
     $scope.branch_selected = function (name, day, hour, activityName) {
         
         $scope.activeBranch = name;
         $scope.activeUser = false;
         $scope.loading = true;
         $scope.selectedDayTime = false;
+      
         $('.selectedBox').hide('200');
         $('rect').removeAttr('class', 'activeBox');
         $('rect').attr('class', 'hour bordered');
@@ -236,10 +242,15 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
         }
 
         if ((day == undefined) || (hour == undefined)) {
-            $scope.triggerHourDt = "";
+            if ($scope.selectedDayTime) {
+                $scope.triggerHourDt = "&day=" + $scope.Dt + "&hour=" + $scope.Hr;
+            } else {
+                $scope.triggerHourDt = "";
+            }
         } else {
             $scope.triggerHourDt = "&day=" + day + "&hour=" + hour;
         }
+        
         $http.get(globalURL + "api/secured/pistachio/myaudit/officer?branch=" + name + "&from=" + $scope.startDt + "&to=" + $scope.endDt + $scope.triggerHourDt + $scope.activity,
             { headers: { 'Content-Type': 'application/json' } })
             .success(function (response) {
@@ -256,6 +267,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
             });
         console.log("Getting branch heatmap");
          //$scope.loading = true;
+    
         $http.get(globalURL + "api/secured/pistachio/myaudit/branch/heatmap?branch=" + name + "&from=" + $scope.startDt + "&to=" + $scope.endDt + $scope.triggerHourDt + $scope.activity,
             { headers: { 'Content-Type': 'application/json' } }
 
@@ -267,7 +279,10 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                 var hmap = response.heatmap;
                 console.log(hmap);
                 if ($scope.triggerHourDt == "") {
-                    heatmapChart(response.heatmap);
+                    if(!$scope.activityName){
+                        heatmapChart(response.heatmap);
+                    }
+                    
                     $scope.showHeatMap = true;
                 };
 
@@ -323,9 +338,13 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
     $scope.officer_change = function (name, day, hour, activityName) {
         $scope.loading = true;
         $scope.activeUser = name;
+        //debugger;
         $scope.selectedOfficer = name;
         $scope.selectedDayTime = false;
-        //debugger;
+        if($scope.triggerHourDt){
+            $scope.selectedDayTime = true;
+        }
+        debugger;
         $('rect').removeAttr('class', 'activeBox');
         $('rect').attr('class', 'hour bordered');
         $('.selectedBox').hide('200');
@@ -360,7 +379,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
         var todayDt = year+"/" + month + "/" +day;
                         
 
-
+        //debugger;
         $http.get(globalURL + "api/secured/pistachio/myaudit?officer=" + name.field + "&from=" + $scope.startDt + "&to=" + $scope.endDt + $scope.triggerHourDt + $scope.activity)
             .success(function (response) {
                 $scope.loading = false;
@@ -390,10 +409,12 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                      $scope.tableAuditParams = new NgTableParams({page: 1, count: 10}, { dataset: response.data});
                 }
                 //$scope.barChart(log);
-                if (day) {
+       
+                if ($scope.triggerHourDt == "") {
+                    debugger;
                     heatmapChart(response.heatmap);
-                }
-                
+                    $scope.showHeatMap = true;
+                };
 
                 $scope.showHeatMap = true;
             });
@@ -439,7 +460,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
         .attr("y", function (d, i) { return i * gridSize; })
         .style("text-anchor", "end")
         .attr("transform", "translate(-6," + gridSize / 1.5 + ")")
-        .attr("class", function (d, i) { return ((i >= 0 && i <= 4) ? "dayLabel mono axis axis-workweek" : "dayLabel mono axis"); });
+        .attr("class", function (d, i) { return ((i >= 1 && i <= 5) ? "dayLabel mono axis axis-workweek" : "dayLabel mono axis"); });
 
     var timeLabels = svg.selectAll(".timeLabel")
         .data(times)
@@ -449,7 +470,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
         .attr("y", 0)
         .style("text-anchor", "middle")
         .attr("transform", "translate(" + gridSize / 2 + ", -6)")
-        .attr("class", function (d, i) { return ((i >= 7 && i <= 16) ? "timeLabel mono axis axis-worktime" : "timeLabel mono axis"); });
+        .attr("class", function (d, i) { return ((i >= 8 && i <= 17) ? "timeLabel mono axis axis-worktime" : "timeLabel mono axis"); });
 
 
 
@@ -486,13 +507,14 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                         $scope.selectedDayTime = true;
                     }else{
                         $scope.getBranchDetails(d.total, times[d.hour] + '&' + d.hour, days[d.day - 1] + '&' + d.day, $scope.activeBranch);
+                        $scope.getOfficerDetails(d.total, times[d.hour] + '&' + d.hour, days[d.day - 1] + '&' + d.day, $scope.activeBranch, "");
                         $scope.selectedDayTime = true;
                         console.log('undefined');
                         console.log($scope.selectedOfficer);
                     }
                 } else if ($scope.activeUser) {
                     $scope.getOfficerDetails(d.total, times[d.hour] + '&' + d.hour, days[d.day - 1] + '&' + d.day, $scope.activeBranch, $scope.activeUser);
-                    $scope.getBranchDetails(d.total, times[d.hour] + '&' + d.hour, days[d.day - 1] + '&' + d.day, $scope.activeBranch);
+                    //$scope.getBranchDetails(d.total, times[d.hour] + '&' + d.hour, days[d.day - 1] + '&' + d.day, $scope.activeBranch);
                     //$scope.selectedDayTime = true;
                     console.log($scope.activeUser);
                 }

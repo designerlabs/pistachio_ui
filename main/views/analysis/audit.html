@@ -119,7 +119,8 @@
                 <td ng-if="!activeUser" title="'Officer'" filter="{ officer: 'text'}" sortable="'officer'">{{ x.officer }}</td>
                 <td title="'Activity'" sortable="'txnCode'">{{ x.txnCode }}</td>
                 <td title="'Date'" sortable="'txnDate'">{{x.txnDate | date: 'dd MMM, y - HH:mm:ss' : 'UTC' }}</td>
-                
+                <!--<td title="'Working Hour'" sortable="'workingHour'">{{x.workingHour}}</td>-->
+                <td data-title="'Working Hour'" filter="{workingHour: 'select'}"  filter-data="getWorkingHour" sortable="'workingHour'" ng-class="{'normalHour': x.workingHour == 'Normal', 'afterHour': x.workingHour == 'After', 'beforeHour': x.workingHour == 'Before', 'Holiday': x.workingHour == 'Holiday'}">{{ x.workingHour }}</td>
                 <!--<td data-title="'Status'" filter="{status: 'select'}"  filter-data="getStatus" sortable="'status'" ng-class="{'activeState': x.status == 'Active', 'inactiveState': x.status == 'In-Active'}">{{ x.status }}</td>-->
               </tr>
             </table>

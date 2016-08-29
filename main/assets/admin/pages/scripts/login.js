@@ -123,6 +123,7 @@ var Login = function () {
                                     }
 
                                 };
+                                localStorage.removeItem('lastLocation');
                             }else {
                                 window.location = "index.html#/myprofile.html";
                             }

@@ -199,7 +199,7 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
                 return status;
             });
     }
-    $scope.getStatus = [{id: "", title: "All"}, {id: 'Active', title: 'Active'}, {id: 'In-Active', title: 'In-Active'}];
+    $scope.getStatus = [{id: "", title: "All"}, {id: 'Active', title: 'Active'}, {id: 'Expired', title: 'Expired'}];
     $scope.requestData = function (bName, fDate, tDate) {
          $scope.loading = true;
         $("#usergraph").html("");
@@ -318,7 +318,7 @@ $scope.test = function (nodes,links) {
             .style("fill", function(d) { 
 
                 if(d.validDays <30 ) return "#FB572F";
-                else if(d.status == "In-Active") return "grey"
+                else if(d.status == "Expired") return "grey"
                 else return "#6AABF7" });
          
                 
@@ -468,7 +468,7 @@ $scope.test = function (nodes,links) {
         function createFilter() {
             d3.select(".filterContainer").selectAll("div").remove();
             d3.select(".filterContainer").selectAll("div")
-              .data(["Active", "In-Active"])
+              .data(["Active", "Expired"])
               .enter()  
               .append("div")
               .attr("class", "checkbox-inline")
