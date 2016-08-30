@@ -31,10 +31,7 @@ function onResize1() {
 /* ConfigController starts */
 MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'settings', 'authorities', 'fileUpload', function($rootScope, $scope, $http, settings, authorities, fileUpload) {
 
-
-
     $scope.$on('$viewContentLoaded', function() {
-
         // initialize core components
         Metronic.initAjax();
 
@@ -46,9 +43,6 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
             fileUpload.uploadFileToUrl(file, uploadUrl);
         };
 
-
-
-
         $.extend(true, $.fn.dataTable.defaults, {
             stateSave: true
         });
@@ -56,8 +50,6 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
         $scope.chkRole = authorities.checkRole;
         $scope.getReportPrivilege = localStorage.getItem('reportPrivilege');
         $scope.reportPrivilege = JSON.parse($scope.getReportPrivilege);
-
-
 
         $("#sidebarMenu li").click(function() {
             $("#sidebarMenu li").removeClass("active");
@@ -67,8 +59,6 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
             //alert(this);
             $(this).parents('ul').parent('li').addClass("active");
         });
-
-
 
         $scope.authoritiesValue = localStorage.getItem('authorities');
 
@@ -89,39 +79,31 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
         $scope.reporttitle = localStorage.getItem("selSystemDisplayName"); //Display parent name in e-reporting.html
         $('#lblReportTitle').text(localStorage.getItem('reportCategoryTitle'));
 
-
-
         // configuration
         var configuration;
         configurationDataFunc = function() {
-            configuration = $('#config').DataTable({
-
-                "ajax": {
-                    "processing": true,
-                    "serverSide": true,
-                    "url": globalURL + "config",
-                    "dataSrc": ""
-                },
-                "columns": [{
-                    "data": "id"
-                }, {
-                    "data": "configName"
-                }, {
-                    "data": "configValue"
-                }, {
-                    "data": "application"
-                }, {
-                    "data": "action",
-                    "width": "22%",
-                    "render": function(data, type, full, meta) {
-                        return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
-                    }
-                }]
-            });
+            $http.get(globalURL + "config")
+                .then(function successCallback(result) {
+                    configuration = $('#config').DataTable({
+                        data :result.data,   
+                        columns: [{
+                            "data": "id"
+                        }, {
+                            "data": "configName"
+                        }, {
+                            "data": "configValue"
+                        }, {
+                            "data": "application"
+                        }, {
+                            "data": "action",
+                            "width": "22%",
+                            "render": function(data, type, full, meta) {
+                                return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
+                            }
+                        }]
+                    });                    
+                }); 
         }
-
-
-
 
         formInputValidation("#configForm");
         $("#configUISubmit").click(function(event) {
@@ -131,29 +113,24 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
             inputValidation("#configForm", configAjax);
 
             function configAjax() {
-                $.ajax({
-                        url: globalURL + "config/",
-                        type: "POST",
-                        dataType: 'json',
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify({
+               var param_data = JSON.stringify({
                             configName: configNameVal,
                             configValue: configVal,
                             application: configApp
-                        })
-                    })
-                    .done(function() {
-                        configuration.destroy();
-                        configurationDataFunc();
-                        //$("#configForm input").parent('.form-group').removeClass('has-error');
-                        $("#configAddForm").modal('hide');
-                        $("#configRequire").hide();
-                    })
-                    .fail(function(data) {
-                        //console.log(data.responseJSON.error);
-                        $("#configRequire span").html(data.responseJSON.error);
-                        $("#configRequire").show();
-                    });
+                        });
+
+               $http.post(globalURL + "config/", param_data)
+                   .then(function successCallback(result) {
+                       configuration.destroy();
+                       configurationDataFunc();
+                       //$("#configForm input").parent('.form-group').removeClass('has-error');
+                       $("#configAddForm").modal('hide');
+                       $("#configRequire").hide();
+                   },
+                   function errorCallback(response) {
+                       $("#configRequire span").html(response.responseJSON.error);
+                       $("#configRequire").show();
+                   });                
             }
 
         });
@@ -181,27 +158,45 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
             var configVal = $("#configForm #config-value").val();
             var configApp = $("#configForm #config-application").val();
             //alert(selectedQueryId);
-            $.ajax({
-                    url: globalURL + "config/",
-                    type: "PUT",
-                    dataType: 'json',
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify({
+           var param_data = JSON.stringify({
                         id: selectedConfigId,
                         configName: configNameVal,
                         configValue: configVal,
                         application: configApp
-                    })
-                })
-                .done(function(data) {
-                    configuration.destroy();
-                    configurationDataFunc();
-                    $("#configAddForm").modal('hide');
-                    //selectedQueryId = null;
-                })
-                .fail(function(e) {
-                    console.log(e);
-                });
+                    });
+
+            $http.put(globalURL + "config/", param_data)
+              .then(function successCallback(data) {
+                configuration.destroy();
+                configurationDataFunc();
+                $("#configAddForm").modal('hide');
+                //selectedQueryId = null;
+              },
+              function errorCallback(response) {
+                 console.log(response);
+              });
+
+            // $.ajax({
+            //         url: globalURL + "config/",
+            //         type: "PUT",
+            //         dataType: 'json',
+            //         contentType: "application/json; charset=utf-8",
+            //         data: JSON.stringify({
+            //             id: selectedConfigId,
+            //             configName: configNameVal,
+            //             configValue: configVal,
+            //             application: configApp
+            //         })
+            //     })
+            //     .done(function(data) {
+            //         configuration.destroy();
+            //         configurationDataFunc();
+            //         $("#configAddForm").modal('hide');
+            //         //selectedQueryId = null;
+            //     })
+            //     .fail(function(e) {
+            //         console.log(e);
+            //     });
         });
 
         var selectedConfigForDelete;
@@ -213,81 +208,145 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
 
         $('#configDataDeleteBtn').click(function(event) {
 
-            $.ajax({
-                url: globalURL + 'config/' + selectedConfigForDelete.id,
-                type: 'DELETE',
-                success: function(result) {
+            $http.delete(globalURL + 'config/' + selectedConfigForDelete.id)
+                .then(function successCallback(result) {
                     // Do something with the result
                     configuration.destroy();
                     configurationDataFunc();
                     $("#configDelete").modal('hide');
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    $("#configErrorTitle").html(XMLHttpRequest.responseJSON.error);
+                function errorCallback(response) {
+                    console.log(response.data.error);
+                    $("#configErrorTitle").html(response.data.error);
                     $("#configDeleteErrorMsg").modal('show');
-                    $("#configDelete").modal('hide');
-                }
-            });
+                    $("#configDelete").modal('hide');                    
+                });
+
+            // $.ajax({
+            //     url: globalURL + 'config/' + selectedConfigForDelete.id,
+            //     type: 'DELETE',
+            //     success: function(result) {
+            //         // Do something with the result
+            //         configuration.destroy();
+            //         configurationDataFunc();
+            //         $("#configDelete").modal('hide');
+            //     },
+            //     error: function(XMLHttpRequest, textStatus, errorThrown) {
+            //         $("#configErrorTitle").html(XMLHttpRequest.responseJSON.error);
+            //         $("#configDeleteErrorMsg").modal('show');
+            //         $("#configDelete").modal('hide');
+            //     }
+            // });
 
         });
 
 
         var jobsData;
         jobsDataFunc = function() {
-            jobsData = $('#jobsContainer').DataTable({
 
-                "ajax": {
-                    "processing": true,
-                    "serverSide": true,
-                    "url": globalURL + "etl/jobs",
-                    "dataSrc": ""
-                },
-                "columns": [{
-                    "data": "jobName"
-                }, {
-                    "data": "dbId"
-                }, {
-                    "data": "status"
-                }, {
-                    "data": "progress",
-                    "render": function(data, type, full, meta) {
-                        /*return '<div class="progress progress-striped">'
-                                    +'<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="'+data+'" aria-valuemin="0" aria-valuemax="100" style="width: '+data+'%">'
-                                        +'<span class="sr-only">'
-                                        +data+'% Complete (success) </span>'
-                                    +'</div>'
-                                +'</div>';*/
-                        if (data == 0) {
-                            return '<div class="progress">' + '<div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" aria-valuenow="' + data + '" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:' + data + '%">' + data + '%' + '</div>' + '</div>';
-                        } else if (data == 100) {
-                            return '<div class="progress">' + '<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="' + data + '" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:' + data + '%">' + data + '%' + '</div>' + '</div>';
-                        } else {
-                            return '<div class="progress">' + '<div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="' + data + '" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:' + data + '%">' + data + '%' + '</div>' + '</div>';
-                        }
+            $http.get(globalURL + "etl/jobs")
+                .then(function successCallback(result) {
+                     jobsData = $('#jobsContainer').DataTable({
+                        data :result.data,
+                        columns : [{
+                                "data": "jobName"
+                            }, {
+                                "data": "dbId"
+                            }, {
+                                "data": "status"
+                            }, {
+                                "data": "progress",
+                                "render": function(data, type, full, meta) {
+                                    /*return '<div class="progress progress-striped">'
+                                                +'<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="'+data+'" aria-valuemin="0" aria-valuemax="100" style="width: '+data+'%">'
+                                                    +'<span class="sr-only">'
+                                                    +data+'% Complete (success) </span>'
+                                                +'</div>'
+                                            +'</div>';*/
+                                    if (data == 0) {
+                                        return '<div class="progress">' + '<div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" aria-valuenow="' + data + '" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:' + data + '%">' + data + '%' + '</div>' + '</div>';
+                                    } else if (data == 100) {
+                                        return '<div class="progress">' + '<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="' + data + '" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:' + data + '%">' + data + '%' + '</div>' + '</div>';
+                                    } else {
+                                        return '<div class="progress">' + '<div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="' + data + '" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:' + data + '%">' + data + '%' + '</div>' + '</div>';
+                                    }
+                                }
+                            }, {
+                                "data": "noOfJobs"
+                            }, {
+                                "data": "jobsCompleted"
+                            }, {
+                                "data": "status",
+                                "width": "52%",
+                                "render": function(data, type, full, meta) {
+                                    //if ((data == "JOB_RUNNING") || (data == "JOB_COMPLETED")) {
+                                    //return '<button class="btn btn-success btn-sm" disabled><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm" disabled><i class="fa fa-times"></i> Delete</button>';
+                                    //} else {
 
-                    }
-                }, {
-                    "data": "noOfJobs"
+                                    if (data == "JOB_CREATED") {
+                                        return '<button class="btn btn-success btn-sm btn1"><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm btn2"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-info btn-sm btn3"><i class="fa fa-clock-o"></i> Schedule</button>';
+                                    } else {
+                                        return '<button class="btn btn-success btn-sm btn1"><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm btn2"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-info btn-sm btn3" disabled><i class="fa fa-clock-o"></i> Schedule</button>';
+                                    }
+                                }
+                        }]                           
+                    });                    
+                }); 
 
-                }, {
-                    "data": "jobsCompleted"
-                }, {
-                    "data": "status",
-                    "width": "52%",
-                    "render": function(data, type, full, meta) {
-                        //if ((data == "JOB_RUNNING") || (data == "JOB_COMPLETED")) {
-                        //return '<button class="btn btn-success btn-sm" disabled><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm" disabled><i class="fa fa-times"></i> Delete</button>';
-                        //} else {
+            // jobsData = $('#jobsContainer').DataTable({
 
-                        if (data == "JOB_CREATED") {
-                            return '<button class="btn btn-success btn-sm btn1"><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm btn2"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-info btn-sm btn3"><i class="fa fa-clock-o"></i> Schedule</button>';
-                        } else {
-                            return '<button class="btn btn-success btn-sm btn1"><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm btn2"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-info btn-sm btn3" disabled><i class="fa fa-clock-o"></i> Schedule</button>';
-                        }
-                    }
+            //     "ajax": {
+            //         "processing": true,
+            //         "serverSide": true,
+            //         "url": globalURL + "etl/jobs",
+            //         "dataSrc": ""
+            //     },
+            //     "columns": [{
+            //         "data": "jobName"
+            //     }, {
+            //         "data": "dbId"
+            //     }, {
+            //         "data": "status"
+            //     }, {
+            //         "data": "progress",
+            //         "render": function(data, type, full, meta) {
+            //             /*return '<div class="progress progress-striped">'
+            //                         +'<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="'+data+'" aria-valuemin="0" aria-valuemax="100" style="width: '+data+'%">'
+            //                             +'<span class="sr-only">'
+            //                             +data+'% Complete (success) </span>'
+            //                         +'</div>'
+            //                     +'</div>';*/
+            //             if (data == 0) {
+            //                 return '<div class="progress">' + '<div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" aria-valuenow="' + data + '" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:' + data + '%">' + data + '%' + '</div>' + '</div>';
+            //             } else if (data == 100) {
+            //                 return '<div class="progress">' + '<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="' + data + '" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:' + data + '%">' + data + '%' + '</div>' + '</div>';
+            //             } else {
+            //                 return '<div class="progress">' + '<div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="' + data + '" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:' + data + '%">' + data + '%' + '</div>' + '</div>';
+            //             }
 
-                }]
-            });
+            //         }
+            //     }, {
+            //         "data": "noOfJobs"
+
+            //     }, {
+            //         "data": "jobsCompleted"
+            //     }, {
+            //         "data": "status",
+            //         "width": "52%",
+            //         "render": function(data, type, full, meta) {
+            //             //if ((data == "JOB_RUNNING") || (data == "JOB_COMPLETED")) {
+            //             //return '<button class="btn btn-success btn-sm" disabled><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm" disabled><i class="fa fa-times"></i> Delete</button>';
+            //             //} else {
+
+            //             if (data == "JOB_CREATED") {
+            //                 return '<button class="btn btn-success btn-sm btn1"><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm btn2"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-info btn-sm btn3"><i class="fa fa-clock-o"></i> Schedule</button>';
+            //             } else {
+            //                 return '<button class="btn btn-success btn-sm btn1"><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm btn2"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-info btn-sm btn3" disabled><i class="fa fa-clock-o"></i> Schedule</button>';
+            //             }
+            //         }
+
+            //     }]
+            // });
         }
 
         jobsDataFunc();
@@ -311,64 +370,117 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
 
             //if($scope.chkRole('ROLE_ADMIN')){
             if ($scope.reportPrivilege) {
-                queryData = $('#queryContainer').DataTable({
 
-                    "ajax": {
-                        "processing": true,
-                        "serverSide": true,
-                        "url": globalURL + queryString + "?" + categoryName + "=" + reportCategoryID,
-                        "dataSrc": ""
-                    },
-                    "columns": [{
-                        "data": "id"
-                    }, {
-                        "data": "queryName"
-                    }, {
-                        "data": "query"
-                    }, {
-                        "data": "reportFileName",
-                        "render": function(data, type, full, meta) {
-                            // alert(data);
-                            if (data == null) {
-                                return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-eye"></i> View</button></a>';
-                            } else {
-                                return '<button class="btn btn-success btn-sm TemplateBtn details-control"><i class="fa fa-plus-circle"></i> Expand</button>';
+                $http.get(globalURL + queryString + "?" + categoryName + "=" + reportCategoryID)
+                .then(function successCallback(result) {
+                    queryData = $('#queryContainer').DataTable({
+                        data :result.data,   
+                        columns: [{
+                            "data": "id"
+                        }, {
+                            "data": "queryName"
+                        }, {
+                            "data": "query"
+                        }, {
+                            "data": "reportFileName",
+                            "render": function(data, type, full, meta) {
+                                // alert(data);
+                                if (data == null) {
+                                    return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-eye"></i> View</button></a>';
+                                } else {
+                                    return '<button class="btn btn-success btn-sm TemplateBtn details-control"><i class="fa fa-plus-circle"></i> Expand</button>';
+                                }
                             }
-                        }
-                    }, {
-                        "data": "action",
-                        "width": "29%",
-                        "render": function(data, type, full, meta) {
-                            return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-warning btn-sm downloadBtn"><i class="fa fa-download"></i> Template</button>';
-                        }
-                    }]
-                })
+                        }, {
+                            "data": "action",
+                            "width": "29%",
+                            "render": function(data, type, full, meta) {
+                                return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-warning btn-sm downloadBtn"><i class="fa fa-download"></i> Template</button>';
+                            }
+                        }]
+                    });                    
+                }); 
+
+                // queryData = $('#queryContainer').DataTable({
+                //     "ajax": {
+                //         "processing": true,
+                //         "serverSide": true,
+                //         "url": globalURL + queryString + "?" + categoryName + "=" + reportCategoryID,
+                //         "dataSrc": ""
+                //     },
+                //     "columns": [{
+                //         "data": "id"
+                //     }, {
+                //         "data": "queryName"
+                //     }, {
+                //         "data": "query"
+                //     }, {
+                //         "data": "reportFileName",
+                //         "render": function(data, type, full, meta) {
+                //             // alert(data);
+                //             if (data == null) {
+                //                 return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-eye"></i> View</button></a>';
+                //             } else {
+                //                 return '<button class="btn btn-success btn-sm TemplateBtn details-control"><i class="fa fa-plus-circle"></i> Expand</button>';
+                //             }
+                //         }
+                //     }, {
+                //         "data": "action",
+                //         "width": "29%",
+                //         "render": function(data, type, full, meta) {
+                //             return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-warning btn-sm downloadBtn"><i class="fa fa-download"></i> Template</button>';
+                //         }
+                //     }]
+                // })
             } else {
-                queryData = $('#queryContainerAdmin').DataTable({
 
-                    "ajax": {
-                        "processing": true,
-                        "serverSide": true,
-                        "url": globalURL + queryString + "?" + categoryName + "=" + reportCategoryID,
-                        "dataSrc": ""
-                    },
-                    "columns": [{
-                        "data": "queryName"
-                    }, {
-                        "data": "execute",
-                        "render": function(data, type, full, meta) {
-
-                                return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
-
+                $http.get(globalURL + queryString + "?" + categoryName + "=" + reportCategoryID)
+                .then(function successCallback(result) {
+                    queryData = $('#queryContainerAdmin').DataTable({
+                        data :result.data,   
+                        columns : [{
+                            "data": "id"
+                        }, {
+                            "data": "configName"
+                        }, {
+                            "data": "configValue"
+                        }, {
+                            "data": "application"
+                        }, {
+                            "data": "action",
+                            "width": "22%",
+                            "render": function(data, type, full, meta) {
+                                return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
                             }
-                            /* "render": function(data, type, full, meta) {
-                                 return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
-                             }*/
-                    }]
-                })
-            };
+                        }]
+                    });                    
+                }); 
 
-        };
+                // queryData = $('#queryContainerAdmin').DataTable({
+
+                //     "ajax": {
+                //         "processing": true,
+                //         "serverSide": true,
+                //         "url": globalURL + queryString + "?" + categoryName + "=" + reportCategoryID,
+                //         "dataSrc": ""
+                //     },
+                //     "columns": [{
+                //         "data": "queryName"
+                //     }, {
+                //         "data": "execute",
+                //         "render": function(data, type, full, meta) {
+
+                //                 return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
+
+                //             }
+                //             /* "render": function(data, type, full, meta) {
+                //                  return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
+                //              }*/
+                //     }]
+                // })
+            }
+
+        }
 
         // Add event listener for opening and closing details
         $('#queryContainer').on('click', '.details-control', function() {
@@ -659,36 +771,58 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
 
         var reportPermitMasukData;
         queryMasukFunc = function() {
-            reportPermitMasukData = $('#reportPermitMasukContainer').DataTable({
 
-                "ajax": {
-                    "processing": true,
-                    "serverSide": true,
-                    "url": globalURL + queryString + "?cat=masuk",
-                    "dataSrc": ""
-                },
-                "columns": [{
-                    "data": "id"
-                }, {
-                    "data": "queryName"
-                }, {
-                    "data": "query"
-                }, {
-                    "data": "execute",
-                    "render": function(data, type, full, meta) {
-                        return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
-                    }
+            $http.get(globalURL + queryString + "?cat=masuk")
+                .then(function successCallback(result) {
+                    reportPermitMasukData = $('#reportPermitMasukContainer').DataTable({
+                        data: result.data,
+                        columns: [{
+                                "data": "id"
+                            }, {
+                                "data": "queryName"
+                            }, {
+                                "data": "query"
+                            }, {
+                                "data": "execute",
+                                "render": function (data, type, full, meta) {
+                                    return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
+                                }
+                            }, {
+                                "data": "action",
+                                "width": "22%",
+                                "render": function (data, type, full, meta) {
+                                    return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
+                                }
+                            }]
+                    });
+                }); 
 
-
-                }, {
-                    "data": "action",
-                    "width": "22%",
-                    "render": function(data, type, full, meta) {
-                        return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
-                    }
-                }]
-            });
-
+            // reportPermitMasukData = $('#reportPermitMasukContainer').DataTable({
+            //     "ajax": {
+            //         "processing": true,
+            //         "serverSide": true,
+            //         "url": globalURL + queryString + "?cat=masuk",
+            //         "dataSrc": ""
+            //     },
+            //     "columns": [{
+            //         "data": "id"
+            //     }, {
+            //         "data": "queryName"
+            //     }, {
+            //         "data": "query"
+            //     }, {
+            //         "data": "execute",
+            //         "render": function(data, type, full, meta) {
+            //             return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
+            //         }
+            //     }, {
+            //         "data": "action",
+            //         "width": "22%",
+            //         "render": function(data, type, full, meta) {
+            //             return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
+            //         }
+            //     }]
+            // });
         }
 
         function createCalenderCtrl() {
@@ -789,21 +923,14 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
             });
             localStorage.setItem("selTemplateVal", selTemplateVal);
 
-
-            $.ajax({
-                url: globalURL + queryString + '/' + reportid + "/exec",
-                type: "POST",
-                dataType: 'json',
-                contentType: "application/json; charset=utf-8",
-                data: selTemplateVal,
-                success: function(result) {
-
+            $http.post(globalURL + queryString + '/' + reportid + "/exec", selTemplateVal)
+                .then(function successCallback(res) {
+                    var result = res.data;
                     queryData.destroy();
                     queryDataFunc();
 
                     resultOutputCol = jQuery.parseJSON(result.columns);
                     resultOutput = jQuery.parseJSON(result.results);
-
 
                     if (resultOutput != null && resultOutput.length > 0) {
                         var myArrayColumn = [];
@@ -839,7 +966,6 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                                 "bDestroy": true,
                                 "bScrollCollapse": true,
                                 "bJQueryUI": true,
-                                "bScrollCollapse": true,
                                 "bInfo": true,
                                 "bFilter": true,
                                 "bSort": true,
@@ -853,15 +979,83 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                         queryUIFunc();
 
                     }
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    console.log(XMLHttpRequest, textStatus, errorThrown);
-                }
-            }).done(function() {
-                // alert("Post done successfully");
-            }).fail(function(data) {
-                // alert("Poset exec url falied");
-            });
+                },                
+                function errorCallback(response) {
+                    console.log(response.data.error);                            
+                });
+
+            // $.ajax({
+            //     url: globalURL + queryString + '/' + reportid + "/exec",
+            //     type: "POST",
+            //     dataType: 'json',
+            //     contentType: "application/json; charset=utf-8",
+            //     data: selTemplateVal,
+            //     success: function(result) {
+
+            //         queryData.destroy();
+            //         queryDataFunc();
+
+            //         resultOutputCol = jQuery.parseJSON(result.columns);
+            //         resultOutput = jQuery.parseJSON(result.results);
+
+
+            //         if (resultOutput != null && resultOutput.length > 0) {
+            //             var myArrayColumn = [];
+            //             var i = 0;
+
+            //             $.each(resultOutputCol, function(index, val) {
+            //                 //console.log(val);
+            //                 var obj = {
+            //                     sTitle: val
+            //                 };
+            //                 myArrayColumn[i] = obj;
+            //                 i++;
+            //             });
+
+            //             var myArrayRow = [];
+            //             var i = 0;
+
+            //             $.each(resultOutput, function(index, val) {
+            //                 var rowData = [];
+            //                 var j = 0;
+            //                 $.each(resultOutput[i], function(index, val) {
+            //                     //console.log(val);
+            //                     rowData[j] = val;
+            //                     j++;
+            //                 });
+
+            //                 myArrayRow[i] = rowData;
+            //                 i++;
+            //             });
+
+            //             function queryUIFunc() {
+            //                 queryUI = $("#jqueryRunData").dataTable({
+            //                     "bDestroy": true,
+            //                     "bScrollCollapse": true,
+            //                     "bJQueryUI": true,
+            //                     "bScrollCollapse": true,
+            //                     "bInfo": true,
+            //                     "bFilter": true,
+            //                     "bSort": true,
+            //                     "aaData": myArrayRow,
+            //                     "aoColumns": myArrayColumn,
+            //                     "scrollCollapse": true,
+            //                     "paging": true
+            //                 });
+            //             }
+
+            //             queryUIFunc();
+
+            //         }
+            //     },
+            //     error: function(XMLHttpRequest, textStatus, errorThrown) {
+            //         console.log(XMLHttpRequest, textStatus, errorThrown);
+            //     }
+            // }).done(function() {
+            //     // alert("Post done successfully");
+            // }).fail(function(data) {
+            //     // alert("Poset exec url falied");
+            // });
 
             // $.ajax({
             //     url: globalURL+ 'jasperreport/' + fileformat + '/' + reportid,
@@ -884,12 +1078,7 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
             // .fail(function(data) {
 
             // });
-
-
         });
-
-
-
 
         formInputValidation("#queryForm");
         formInputValidation("#queryFormTemplate");
@@ -902,42 +1091,62 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
             inputValidation("#queryForm", queryAjax);
 
             function queryAjax() {
-                $.ajax({
-                        url: globalURL + queryString + "/",
-                        type: "POST",
-                        dataType: 'json',
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify({
+
+                var param_data = JSON.stringify({
                             queryName: queryNameVal,
                             query: queryTextVal,
                             category: reportCategoryID,
                             cached: null,
                             login: localStorage.username
-                        })
-                    })
-                    .done(function() {
-                        queryData.destroy();
-                        queryDataFunc();
-                        queryMasukFunc();
-                        $("#queryAddForm").modal('hide');
-                        $("#queryRequire").hide();
-                    })
-                    .fail(function(data) {
-                        //console.log(data.responseJSON.error);
-                        $("#queryRequire span").html(data.responseJSON.error);
-                        $("#queryRequire").show();
-                        //alert('Failed!');
-                    });
+                        });
+
+                $http.post(globalURL + queryString + "/", param_data)
+                         .then(function successCallback(result) {
+                            queryData.destroy();
+                            queryDataFunc();
+                            queryMasukFunc();
+                            $("#queryAddForm").modal('hide');
+                            $("#queryRequire").hide();
+                         },
+                         function errorCallback(response) {
+                            $("#queryRequire span").html(response.data.error);
+                            $("#queryRequire").show();
+                         });
+
+                // $.ajax({
+                //         url: globalURL + queryString + "/",
+                //         type: "POST",
+                //         dataType: 'json',
+                //         contentType: "application/json; charset=utf-8",
+                //         data: JSON.stringify({
+                //             queryName: queryNameVal,
+                //             query: queryTextVal,
+                //             category: reportCategoryID,
+                //             cached: null,
+                //             login: localStorage.username
+                //         })
+                //     })
+                //     .done(function() {
+                //         queryData.destroy();
+                //         queryDataFunc();
+                //         queryMasukFunc();
+                //         $("#queryAddForm").modal('hide');
+                //         $("#queryRequire").hide();
+                //     })
+                //     .fail(function(data) {
+                //         //console.log(data.responseJSON.error);
+                //         $("#queryRequire span").html(data.responseJSON.error);
+                //         $("#queryRequire").show();
+                //         //alert('Failed!');
+                //     });
             }
-
-
         });
+
         var templateFileName;
         $("#templateBrowse").change(function() {
             var getVal = $('input[type=file]').val();
             templateFileName = getVal.split(/(\\|\/)/g).pop();
         });
-
 
         $("#queryUISubmitTemplate").click(function(event) {
             var queryNameValTemp = $("#queryFormTemplate #query-name").val();
@@ -952,12 +1161,8 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
             inputValidation("#queryFormTemplate", setTimeout(queryAjax, 1000));
 
             function queryAjax() {
-                $.ajax({
-                        url: globalURL + queryString + "/",
-                        type: "POST",
-                        dataType: 'json',
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify({
+
+               var param_data = JSON.stringify({
                             queryName: queryNameValTemp,
                             /* dtRange:dtRange,
                              state:stateVal,
@@ -968,24 +1173,53 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                             query: 'NA',
                             cached: null,
                             login: localStorage.username
-                        })
-                    })
-                    .done(function() {
-                        queryData.destroy();
-                        queryDataFunc();
-                        queryMasukFunc();
-                        $("#queryAddForm").modal('hide');
-                        $("#queryRequire").hide();
-                    })
-                    .fail(function(data) {
-                        //console.log(data.responseJSON.error);
-                        $("#queryRequire span").html(data.responseJSON.error);
-                        $("#queryRequire").show();
-                        //alert('Failed!');
-                    });
+                        });
+
+                $http.post(globalURL + queryString + "/", param_data)
+                         .then(function successCallback(result) {
+                            queryData.destroy();
+                            queryDataFunc();
+                            queryMasukFunc();
+                            $("#queryAddForm").modal('hide');
+                            $("#queryRequire").hide();
+                         },
+                         function errorCallback(response) {
+                            $("#queryRequire span").html(response.data.error);
+                            $("#queryRequire").show();
+                         });
+
+                // $.ajax({
+                //         url: globalURL + queryString + "/",
+                //         type: "POST",
+                //         dataType: 'json',
+                //         contentType: "application/json; charset=utf-8",
+                //         data: JSON.stringify({
+                //             queryName: queryNameValTemp,
+                //             /* dtRange:dtRange,
+                //              state:stateVal,
+                //              branch:branchVal,
+                //              dept:deptVal,*/
+                //             category: reportCategoryID,
+                //             reportFileName: templateFileName,
+                //             query: 'NA',
+                //             cached: null,
+                //             login: localStorage.username
+                //         })
+                //     })
+                //     .done(function() {
+                //         queryData.destroy();
+                //         queryDataFunc();
+                //         queryMasukFunc();
+                //         $("#queryAddForm").modal('hide');
+                //         $("#queryRequire").hide();
+                //     })
+                //     .fail(function(data) {
+                //         //console.log(data.responseJSON.error);
+                //         $("#queryRequire span").html(data.responseJSON.error);
+                //         $("#queryRequire").show();
+                //         //alert('Failed!');
+                //     });
             }
-
-
         });
 
 
@@ -1003,45 +1237,64 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
             inputValidation("#queryFormTemplate", setTimeout(queryAjax, 1000));
 
             function queryAjax() {
-                $.ajax({
-                        url: globalURL + queryString + "/",
-                        type: "PUT",
-                        dataType: 'json',
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify({
-                            queryName: queryNameValTemp,
-                            /*dtRange:dtRange,
-                            state:stateVal,
-                            branch:branchVal,
-                            dept:deptVal,*/
+
+                var param_data = JSON.stringify({
+                            queryName: queryNameValTemp,                            
                             id: selectedQueryId,
                             category: reportCategoryID,
                             reportFileName: templateFileName,
                             query: 'NA',
                             cached: null,
                             login: localStorage.username
-                        })
-                    })
-                    .done(function() {
+                        });
+
+                $http.put(globalURL + queryString + "/", param_data)
+                 .then(function successCallback(result) {
                         queryData.destroy();
                         queryDataFunc();
                         queryMasukFunc();
                         $("#queryAddForm").modal('hide');
                         $("#queryRequire").hide();
-                    })
-                    .fail(function(data) {
-                        //console.log(data.responseJSON.error);
-                        $("#queryRequire span").html(data.responseJSON.error);
-                        $("#queryRequire").show();
-                        //alert('Failed!');
-                    });
+                 },
+                 function errorCallback(response) {
+                     $("#queryRequire span").html(response.data.error);
+                     $("#queryRequire").show();                   
+                 });
+
+                // $.ajax({
+                //         url: globalURL + queryString + "/",
+                //         type: "PUT",
+                //         dataType: 'json',
+                //         contentType: "application/json; charset=utf-8",
+                //         data: JSON.stringify({
+                //             queryName: queryNameValTemp,
+                //             /*dtRange:dtRange,
+                //             state:stateVal,
+                //             branch:branchVal,
+                //             dept:deptVal,*/
+                //             id: selectedQueryId,
+                //             category: reportCategoryID,
+                //             reportFileName: templateFileName,
+                //             query: 'NA',
+                //             cached: null,
+                //             login: localStorage.username
+                //         })
+                //     })
+                //     .done(function() {
+                //         queryData.destroy();
+                //         queryDataFunc();
+                //         queryMasukFunc();
+                //         $("#queryAddForm").modal('hide');
+                //         $("#queryRequire").hide();
+                //     })
+                //     .fail(function(data) {
+                //         //console.log(data.responseJSON.error);
+                //         $("#queryRequire span").html(data.responseJSON.error);
+                //         $("#queryRequire").show();
+                //         //alert('Failed!');
+                //     });
             }
-
-
         });
-
-
-
 
         queryDataFunc();
         queryMasukFunc();
@@ -1113,53 +1366,53 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
 
         $('#queryDataDeleteBtn').click(function(event) {
 
-            $.ajax({
-                url: globalURL + queryString + '/' + selectedQueryForDelete.id,
-                type: 'DELETE',
-                success: function(result) {
-                    // Do something with the result
+            $http.delete(globalURL + queryString + '/' + selectedQueryForDelete.id)
+                .then(function successCallback(result) {
                     queryData.destroy();
                     queryDataFunc();
                     $("#queryDataDelete").modal('hide');
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    //alert("Status: " + textStatus);
-                    //alert("Error: " + errorThrown);
-                    $("#queryErrorTitle").html(XMLHttpRequest.responseJSON.error);
+                function errorCallback(response) {
+                    $("#queryErrorTitle").html(response.data.error);
                     $("#queryDeleteErrorMsg").modal('show');
-                    $("#queryDataDelete").modal('hide');
-                }
-            });
+                    $("#queryDataDelete").modal('hide');                    
+                });
+
+            // $.ajax({
+            //     url: globalURL + queryString + '/' + selectedQueryForDelete.id,
+            //     type: 'DELETE',
+            //     success: function(result) {
+            //         // Do something with the result
+            //         queryData.destroy();
+            //         queryDataFunc();
+            //         $("#queryDataDelete").modal('hide');
+            //     },
+            //     error: function(XMLHttpRequest, textStatus, errorThrown) {
+            //         //alert("Status: " + textStatus);
+            //         //alert("Error: " + errorThrown);
+            //         $("#queryErrorTitle").html(XMLHttpRequest.responseJSON.error);
+            //         $("#queryDeleteErrorMsg").modal('show');
+            //         $("#queryDataDelete").modal('hide');
+            //     }
+            // });
 
         });
         var queryUI, resultOutput;
 
-        $('#queryContainer').on('click', 'button.runBtn', function() {
-            //$("#jqueryRunData").remove();
-            var selectedQueryForExecute = queryData.row($(this).parents('tr')).data();
-            $.ajax({
-                    url: globalURL + queryString + '/' + selectedQueryForExecute.id + "/exec",
-                    type: 'GET',
-                    timeout: 50000000,
-                    success: function(result) {
-                        //$("#QueryUIList").hide();
-                        //$("#QueryUIListRun, #jqueryRunData").show();
-                        // Do something with the result
-                        //debugger;
+        function QuryExecGet(execid){
+            $http.get(globalURL + queryString + '/' + execid + "/exec")
+                .then(function successCallback(res) {
+                        var result = res.data;
                         queryData.destroy();
-                        queryDataFunc();
-                        //console.log(result);
-                        //resultOutput = null;
+                        queryDataFunc();                        
                         resultOutputCol = jQuery.parseJSON(result.columns);
                         resultOutput = jQuery.parseJSON(result.results);
-
 
                         if (resultOutput != null && resultOutput.length > 0) {
                             var myArrayColumn = [];
                             var i = 0;
 
                             $.each(resultOutputCol, function(index, val) {
-                                //console.log(val);
                                 var obj = {
                                     sTitle: val
                                 };
@@ -1174,7 +1427,6 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                                 var rowData = [];
                                 var j = 0;
                                 $.each(resultOutput[i], function(index, val) {
-                                    //console.log(val);
                                     rowData[j] = val;
                                     j++;
                                 });
@@ -1187,8 +1439,7 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                                 queryUI = $("#jqueryRunData").dataTable({
                                     "bDestroy": true,
                                     "bScrollCollapse": true,
-                                    "bJQueryUI": true,
-                                    "bScrollCollapse": true,
+                                    "bJQueryUI": true,                                    
                                     "bInfo": true,
                                     "bFilter": true,
                                     "bSort": true,
@@ -1198,22 +1449,87 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                                     "paging": true
                                 });
                             }
-
                             queryUIFunc();
-
-                        }
-                    },
-                    error: function(XMLHttpRequest, textStatus, errorThrown) {
-                        console.log(XMLHttpRequest, textStatus, errorThrown);
-                    }
-                })
-                .done(function() {
-                    queryData.destroy();
-                    queryDataFunc();
-                })
-                .fail(function(e) {
-                    console.log(e);
+                        }                                       
+                },
+                function errorCallback(response) {
+                  console.log(response.data.error);                                     
                 });
+        }
+
+        $('#queryContainer').on('click', 'button.runBtn', function() {
+            //$("#jqueryRunData").remove();
+            var selectedQueryForExecute = queryData.row($(this).parents('tr')).data();
+            QuryExecGet(selectedQueryForExecute.id);
+            
+            // $.ajax({
+            //         url: globalURL + queryString + '/' + selectedQueryForExecute.id + "/exec",
+            //         type: 'GET',
+            //         timeout: 50000000,
+            //         success: function(result) {                        
+            //             queryData.destroy();
+            //             queryDataFunc();                        
+            //             resultOutputCol = jQuery.parseJSON(result.columns);
+            //             resultOutput = jQuery.parseJSON(result.results);
+
+            //             if (resultOutput != null && resultOutput.length > 0) {
+            //                 var myArrayColumn = [];
+            //                 var i = 0;
+
+            //                 $.each(resultOutputCol, function(index, val) {
+            //                     var obj = {
+            //                         sTitle: val
+            //                     };
+            //                     myArrayColumn[i] = obj;
+            //                     i++;
+            //                 });
+
+            //                 var myArrayRow = [];
+            //                 var i = 0;
+
+            //                 $.each(resultOutput, function(index, val) {
+            //                     var rowData = [];
+            //                     var j = 0;
+            //                     $.each(resultOutput[i], function(index, val) {
+            //                         rowData[j] = val;
+            //                         j++;
+            //                     });
+
+            //                     myArrayRow[i] = rowData;
+            //                     i++;
+            //                 });
+
+            //                 function queryUIFunc() {
+            //                     queryUI = $("#jqueryRunData").dataTable({
+            //                         "bDestroy": true,
+            //                         "bScrollCollapse": true,
+            //                         "bJQueryUI": true,
+            //                         "bScrollCollapse": true,
+            //                         "bInfo": true,
+            //                         "bFilter": true,
+            //                         "bSort": true,
+            //                         "aaData": myArrayRow,
+            //                         "aoColumns": myArrayColumn,
+            //                         "scrollCollapse": true,
+            //                         "paging": true
+            //                     });
+            //                 }
+
+            //                 queryUIFunc();
+
+            //             }
+            //         },
+            //         error: function(XMLHttpRequest, textStatus, errorThrown) {
+            //             console.log(XMLHttpRequest, textStatus, errorThrown);
+            //         }
+            //     })
+            //     .done(function() {
+            //         queryData.destroy();
+            //         queryDataFunc();
+            //     })
+            //     .fail(function(e) {
+            //         console.log(e);
+            //     });
         });
 
 
@@ -1221,117 +1537,130 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
         $('#queryContainerAdmin').on('click', 'button.runBtn', function() {
             //$("#jqueryRunData").remove();
             var selectedQueryForExecute = queryData.row($(this).parents('tr')).data();
+            QuryExecGet(selectedQueryForExecute.id);
+            // $.ajax({
+            //         url: globalURL + queryString + '/' + selectedQueryForExecute.id + "/exec",
+            //         type: 'GET',
+            //         success: function(result) {
+            //             //$("#QueryUIList").hide();
+            //             //$("#QueryUIListRun, #jqueryRunData").show();
+            //             // Do something with the result
+            //             //debugger;
+            //             queryData.destroy();
+            //             queryDataFunc();
+            //             //console.log(result);
+            //             //resultOutput = null;
+            //             resultOutputCol = jQuery.parseJSON(result.columns);
+            //             resultOutput = jQuery.parseJSON(result.results);
 
-            $.ajax({
-                    url: globalURL + queryString + '/' + selectedQueryForExecute.id + "/exec",
-                    type: 'GET',
-                    success: function(result) {
-                        //$("#QueryUIList").hide();
-                        //$("#QueryUIListRun, #jqueryRunData").show();
-                        // Do something with the result
-                        //debugger;
-                        queryData.destroy();
-                        queryDataFunc();
-                        //console.log(result);
-                        //resultOutput = null;
-                        resultOutputCol = jQuery.parseJSON(result.columns);
-                        resultOutput = jQuery.parseJSON(result.results);
 
+            //             if (resultOutput != null && resultOutput.length > 0) {
+            //                 var myArrayColumn = [];
+            //                 var i = 0;
 
-                        if (resultOutput != null && resultOutput.length > 0) {
-                            var myArrayColumn = [];
-                            var i = 0;
+            //                 $.each(resultOutputCol, function(index, val) {
+            //                     console.log(val);
+            //                     var obj = {
+            //                         sTitle: val
+            //                     };
+            //                     myArrayColumn[i] = obj;
+            //                     i++;
+            //                 });
 
-                            $.each(resultOutputCol, function(index, val) {
-                                console.log(val);
-                                var obj = {
-                                    sTitle: val
-                                };
-                                myArrayColumn[i] = obj;
-                                i++;
-                            });
+            //                 var myArrayRow = [];
+            //                 var i = 0;
 
-                            var myArrayRow = [];
-                            var i = 0;
+            //                 $.each(resultOutput, function(index, val) {
+            //                     var rowData = [];
+            //                     var j = 0;
+            //                     $.each(resultOutput[i], function(index, val) {
+            //                         rowData[j] = val;
+            //                         j++;
+            //                     });
 
-                            $.each(resultOutput, function(index, val) {
-                                var rowData = [];
-                                var j = 0;
-                                $.each(resultOutput[i], function(index, val) {
-                                    rowData[j] = val;
-                                    j++;
-                                });
+            //                     myArrayRow[i] = rowData;
+            //                     i++;
+            //                 });
 
-                                myArrayRow[i] = rowData;
-                                i++;
-                            });
+            //                 function queryUIFunc() {
+            //                     queryUI = $("#jqueryRunData").dataTable({
+            //                         "bDestroy": true,
+            //                         "bScrollCollapse": true,
+            //                         "bJQueryUI": true,
+            //                         "bInfo": true,
+            //                         "bFilter": true,
+            //                         "bSort": true,
+            //                         "aaData": myArrayRow,
+            //                         "aoColumns": myArrayColumn,
+            //                         "scrollCollapse": true,
+            //                         "paging": true
+            //                     });
+            //                 }
 
-                            function queryUIFunc() {
-                                queryUI = $("#jqueryRunData").dataTable({
-                                    "bDestroy": true,
-                                    "bScrollCollapse": true,
-                                    "bJQueryUI": true,
-                                    "bScrollCollapse": true,
-                                    "bInfo": true,
-                                    "bFilter": true,
-                                    "bSort": true,
-                                    "aaData": myArrayRow,
-                                    "aoColumns": myArrayColumn,
-                                    "scrollCollapse": true,
-                                    "paging": true
-                                });
-                            }
+            //                 queryUIFunc();
 
-                            queryUIFunc();
+            //             }
+            //         },
+            //         error: function(XMLHttpRequest, textStatus, errorThrown) {
+            //             console.log(XMLHttpRequest, textStatus, errorThrown);
+            //             //alert("Execution falied, Please re-try after some time!");
+            //             //alert("Error: " + errorThrown);
+            //         }
+            //     })
+            //     .done(function() {
+            //         queryData.destroy();
+            //         queryDataFunc();
+            //     })
+            //     .fail(function() {
 
-                        }
-                    },
-                    error: function(XMLHttpRequest, textStatus, errorThrown) {
-                        console.log(XMLHttpRequest, textStatus, errorThrown);
-                        //alert("Execution falied, Please re-try after some time!");
-                        //alert("Error: " + errorThrown);
-                    }
-                })
-                .done(function() {
-                    queryData.destroy();
-                    queryDataFunc();
-                })
-                .fail(function() {
-
-                });
-        });
-
-        /* $("#queryUIUpdateTemplate").click(function (event){
-             var queryNameValTempUpdated = $("#queryForm #query-name-update").val();
-         });*/
+            //     });
+        });       
 
         $("#queryUIUpdate").click(function(event) {
             var queryNameValUpdated = $("#queryForm #query-name").val();
 
             var queryTextValUpdated = $("#queryForm #query-text").val();
             //alert(selectedQueryId);
-            $.ajax({
-                    url: globalURL + queryString + "/",
-                    type: "PUT",
-                    dataType: 'json',
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify({
+
+           var param_data = JSON.stringify({
                         id: selectedQueryId,
                         queryName: queryNameValUpdated,
                         query: queryTextValUpdated,
                         cached: null,
                         login: localStorage.username
-                    })
-                })
-                .done(function(data) {
+                    });
+
+            $http.put(globalURL + queryString + "/", param_data)
+                 .then(function successCallback(result) {
                     queryData.destroy();
                     queryDataFunc();
-                    //selectedQueryId = null;
-                })
-                .fail(function(e) {
-                    console.log(e);
-                    //alert('Failed!');
-                });
+                 },
+                 function errorCallback(response) {
+                    console.log(response.data.error);                     
+                 });
+
+            // $.ajax({
+            //         url: globalURL + queryString + "/",
+            //         type: "PUT",
+            //         dataType: 'json',
+            //         contentType: "application/json; charset=utf-8",
+            //         data: JSON.stringify({
+            //             id: selectedQueryId,
+            //             queryName: queryNameValUpdated,
+            //             query: queryTextValUpdated,
+            //             cached: null,
+            //             login: localStorage.username
+            //         })
+            //     })
+            //     .done(function(data) {
+            //         queryData.destroy();
+            //         queryDataFunc();
+            //         //selectedQueryId = null;
+            //     })
+            //     .fail(function(e) {
+            //         console.log(e);
+            //         //alert('Failed!');
+            //     });
         });
 
 
@@ -1368,12 +1697,8 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
             var databaseUpdatePwdVal = $("#databaseForm #database-pwd").val();
             var databaseUpdateDriverVal = $("#databaseForm #database-driver").val();
             //alert(selectedQueryId);
-            $.ajax({
-                    url: globalURL + "etl/databases/",
-                    type: "PUT",
-                    dataType: 'json',
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify({
+
+            var param_data = JSON.stringify({
                         id: selectedDatabaseId,
                         dbName: databaseUpdateNameVal,
                         dbType: databaseUpdateTypeVal,
@@ -1384,16 +1709,43 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                         dbDriver: databaseUpdateDriverVal,
                         active: "active",
                         username: "admin"
-                    })
-                })
-                .done(function(data) {
+                    });
+
+            $http.put(globalURL + "etl/databases/", param_data)
+                 .then(function successCallback(result) {
                     databases.destroy();
                     databaseDataFunc();
-                    //selectedQueryId = null;
-                })
-                .fail(function(e) {
-                    console.log(e);
-                });
+                 },
+                 function errorCallback(response) {
+                  console.log(response.data.error);                                      
+                 });
+
+            // $.ajax({
+            //         url: globalURL + "etl/databases/",
+            //         type: "PUT",
+            //         dataType: 'json',
+            //         contentType: "application/json; charset=utf-8",
+            //         data: JSON.stringify({
+            //             id: selectedDatabaseId,
+            //             dbName: databaseUpdateNameVal,
+            //             dbType: databaseUpdateTypeVal,
+            //             dbUrl: databaseUpdateURLVal,
+            //             dbSchemaName: databaseSchemaVal,
+            //             dbUsername: databaseUpdateUserVal,
+            //             dbPassword: databaseUpdatePwdVal,
+            //             dbDriver: databaseUpdateDriverVal,
+            //             active: "active",
+            //             username: "admin"
+            //         })
+            //     })
+            //     .done(function(data) {
+            //         databases.destroy();
+            //         databaseDataFunc();
+            //         //selectedQueryId = null;
+            //     })
+            //     .fail(function(e) {
+            //         console.log(e);
+            //     });
         });
 
         var selectedDatabaseForDelete;
@@ -1407,28 +1759,42 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
         $('#databaseDataDeleteBtn').click(function(event) {
             //$('#databaseData').on('click', 'button.deleteBtn', function() {
             //var selectedDatabaseForDelete = databases.row($(this).parents('tr')).data();
-            $.ajax({
-                url: globalURL + 'etl/databases/' + selectedDatabaseForDelete.id,
-                type: 'DELETE',
-                success: function(result) {
-                    // Do something with the result
+
+            $http.delete(globalURL + 'etl/databases/' + selectedDatabaseForDelete.id)
+                .then(function successCallback(result) {
                     databases.destroy();
                     databaseDataFunc();
                     $("#databaseDelete").modal('hide');
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    //alert("Status: " + textStatus);
-                    //alert("Error: " + errorThrown);
-                    //alert("request: " + XMLHttpRequest);
-                    if (errorThrown) {
-                        $("#errorTitle").html(XMLHttpRequest.responseJSON.error);
-                        $("#databaseDeleteErrorMsg").modal('show');
-                        //console.log(XMLHttpRequest.responseJSON.error);
-                    }
-                    //console.log(XMLHttpRequest);
+                function errorCallback(response) {
+                    console.log(response.data.error);
+                    $("#errorTitle").html(response.data.error);
+                    $("#databaseDeleteErrorMsg").modal('show');
                     $("#databaseDelete").modal('hide');
-                }
-            });
+                });
+
+            // $.ajax({
+            //     url: globalURL + 'etl/databases/' + selectedDatabaseForDelete.id,
+            //     type: 'DELETE',
+            //     success: function(result) {
+            //         // Do something with the result
+            //         databases.destroy();
+            //         databaseDataFunc();
+            //         $("#databaseDelete").modal('hide');
+            //     },
+            //     error: function(XMLHttpRequest, textStatus, errorThrown) {
+            //         //alert("Status: " + textStatus);
+            //         //alert("Error: " + errorThrown);
+            //         //alert("request: " + XMLHttpRequest);
+            //         if (errorThrown) {
+            //             $("#errorTitle").html(XMLHttpRequest.responseJSON.error);
+            //             $("#databaseDeleteErrorMsg").modal('show');
+            //             //console.log(XMLHttpRequest.responseJSON.error);
+            //         }
+            //         //console.log(XMLHttpRequest);
+            //         $("#databaseDelete").modal('hide');
+            //     }
+            // });
 
         });
 
@@ -1449,34 +1815,63 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                     "retrieve": true
                 });
                 tables.destroy();
-                tables = $('#example12').DataTable({
-                    "paginate": true,
-                    "retrieve": true,
-                    "ajax": {
-                        "url": globalURL + "etl/databases/" + data.id + "/tables",
-                        "dataSrc": ""
-                    },
-                    "columns": [{
-                        "data": "tableName"
-                    }, {
-                        "data": "status"
-                    }, {
-                        "data": "progress"
-                    }, {
-                        "data": "status",
-                        "render": function(data, type, full, meta) {
-                            if ((data == "NOT_SYNCED") || (data == "NEVER_EXECUTED")) {
-                                return '<button class="btn btn-success btn-sm sqoopBtn"><i class="fa fa-compress"></i> Sqoop</button>';
-                            } else
-                            if (data == "COMPLETED") {
-                                return '<button class="btn btn-default btn-sm dailysqoopBtn" disabled><i class="fa fa-compress"></i> Sqooped</button><button class="btn btn-success btn-sm"><i class="fa fa-compress"></i> Daily Sqoop</button>';
-                            } else {
-                                return '<button class="btn btn-default btn-sm dailysqoopBtn" disabled><i class="fa fa-compress"></i> Sqooped</button><button class="btn btn-danger btn-sm"><i class="fa fa-compress"></i> Daily Sqoop</button>';
-                            }
-                        }
-                    }],
 
+                $http.get(globalURL + "etl/databases/" + data.id + "/tables")
+                    .then(function successCallback(result) {
+                        tables = $('#example12').DataTable({
+                            data :result.data,
+                            paginate :true,
+                            retrieve : true,   
+                            columns :[{
+                                "data": "tableName"
+                            }, {
+                                "data": "status"
+                            }, {
+                                "data": "progress"
+                            }, {
+                                "data": "status",
+                                "render": function(data, type, full, meta) {
+                                    if ((data == "NOT_SYNCED") || (data == "NEVER_EXECUTED")) {
+                                        return '<button class="btn btn-success btn-sm sqoopBtn"><i class="fa fa-compress"></i> Sqoop</button>';
+                                    } else
+                                    if (data == "COMPLETED") {
+                                        return '<button class="btn btn-default btn-sm dailysqoopBtn" disabled><i class="fa fa-compress"></i> Sqooped</button><button class="btn btn-success btn-sm"><i class="fa fa-compress"></i> Daily Sqoop</button>';
+                                    } else {
+                                        return '<button class="btn btn-default btn-sm dailysqoopBtn" disabled><i class="fa fa-compress"></i> Sqooped</button><button class="btn btn-danger btn-sm"><i class="fa fa-compress"></i> Daily Sqoop</button>';
+                                    }
+                                }
+                            }]
+                        });                    
                 });
+
+                // tables = $('#example12').DataTable({
+                //     "paginate": true,
+                //     "retrieve": true,
+                //     "ajax": {
+                //         "url": globalURL + "etl/databases/" + data.id + "/tables",
+                //         "dataSrc": ""
+                //     },
+                //     "columns": [{
+                //         "data": "tableName"
+                //     }, {
+                //         "data": "status"
+                //     }, {
+                //         "data": "progress"
+                //     }, {
+                //         "data": "status",
+                //         "render": function(data, type, full, meta) {
+                //             if ((data == "NOT_SYNCED") || (data == "NEVER_EXECUTED")) {
+                //                 return '<button class="btn btn-success btn-sm sqoopBtn"><i class="fa fa-compress"></i> Sqoop</button>';
+                //             } else
+                //             if (data == "COMPLETED") {
+                //                 return '<button class="btn btn-default btn-sm dailysqoopBtn" disabled><i class="fa fa-compress"></i> Sqooped</button><button class="btn btn-success btn-sm"><i class="fa fa-compress"></i> Daily Sqoop</button>';
+                //             } else {
+                //                 return '<button class="btn btn-default btn-sm dailysqoopBtn" disabled><i class="fa fa-compress"></i> Sqooped</button><button class="btn btn-danger btn-sm"><i class="fa fa-compress"></i> Daily Sqoop</button>';
+                //             }
+                //         }
+                //     }],
+
+                // });
             }
 
             tableFunc();
@@ -1484,20 +1879,29 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
 
             $('#example12 tbody').on('click', 'button.sqoopBtn', function() {
                 var tableList = tables.row($(this).parents('tr')).data();
-                $.ajax({
-                    url: globalURL + "etl/databases/" + tableList.dbId + "/sync?table=" + tableList.tableName + "&hdfs=11",
-                    type: 'GET',
-                    success: function(result) {
-                        // Do something with the result
-                        //alert('done');
-                        tableFunc();
+
+                $http.get(globalURL + "etl/databases/" + tableList.dbId + "/sync?table=" + tableList.tableName + "&hdfs=11")
+                    .then(function successCallback(result) {
+                        tableFunc();                    
                     },
-                    error: function(XMLHttpRequest, textStatus, errorThrown) {
-                        console.log(XMLHttpRequest, textStatus, errorThrown);
-                    }
-                }).error(function(e) {
-                    console.log(e);
-                });
+                    function errorCallback(response) {
+                        console.log(response.data.error);
+                    });
+
+                // $.ajax({
+                //     url: globalURL + "etl/databases/" + tableList.dbId + "/sync?table=" + tableList.tableName + "&hdfs=11",
+                //     type: 'GET',
+                //     success: function(result) {
+                //         // Do something with the result
+                //         //alert('done');
+                //         tableFunc();
+                //     },
+                //     error: function(XMLHttpRequest, textStatus, errorThrown) {
+                //         console.log(XMLHttpRequest, textStatus, errorThrown);
+                //     }
+                // }).error(function(e) {
+                //     console.log(e);
+                // });
 
             });
 
@@ -1524,19 +1928,28 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
             //alert('start');
             var jobData = jobsData.row($(this).parents('tr')).data();
 
-            $.ajax({
-                url: globalURL + 'etl/jobs/' + jobData.id + '/start',
-                type: 'GET',
-                success: function(result) {
-                    // Do something with the result
-                    //alert('done');
+            $http.get(globalURL + 'etl/jobs/' + jobData.id + '/start')
+                .then(function successCallback(result) {
                     jobsData.destroy();
-                    jobsDataFunc();
+                    jobsDataFunc();                   
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    console.log(XMLHttpRequest, textStatus, errorThrown);
-                }
-            });
+                function errorCallback(response) {
+                    console.log(response.data.error);                            
+                }); 
+
+            // $.ajax({
+            //     url: globalURL + 'etl/jobs/' + jobData.id + '/start',
+            //     type: 'GET',
+            //     success: function(result) {
+            //         // Do something with the result
+            //         //alert('done');
+            //         jobsData.destroy();
+            //         jobsDataFunc();
+            //     },
+            //     error: function(XMLHttpRequest, textStatus, errorThrown) {
+            //         console.log(XMLHttpRequest, textStatus, errorThrown);
+            //     }
+            // });
         });
 
 
@@ -1545,19 +1958,28 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
 
             var jobData = jobsData.row($(this).parents('tr')).data();
 
-            $.ajax({
-                url: globalURL + 'etl/jobs/' + jobData.id + '/schedule',
-                type: 'GET',
-                success: function(result) {
-                    // Do something with the result
-                    //alert('done');
+            $http.get(globalURL + 'etl/jobs/' + jobData.id + '/schedule')
+                .then(function successCallback(result) {
                     jobsData.destroy();
-                    jobsDataFunc();
+                    jobsDataFunc();                   
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    console.log(XMLHttpRequest, textStatus, errorThrown);
-                }
-            });
+                function errorCallback(response) {
+                    console.log(response.data.error);                            
+                });
+
+            // $.ajax({
+            //     url: globalURL + 'etl/jobs/' + jobData.id + '/schedule',
+            //     type: 'GET',
+            //     success: function(result) {
+            //         // Do something with the result
+            //         //alert('done');
+            //         jobsData.destroy();
+            //         jobsDataFunc();
+            //     },
+            //     error: function(XMLHttpRequest, textStatus, errorThrown) {
+            //         console.log(XMLHttpRequest, textStatus, errorThrown);
+            //     }
+            // });
         });
 
 
@@ -1571,23 +1993,36 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
 
         $('#jobDataDeleteBtn').click(function(event) {
 
-            $.ajax({
-                url: globalURL + 'etl/jobs/' + jobData.id + '/delete',
-                type: 'DELETE',
-                success: function(result) {
-                    // Do something with the result
+            $http.delete(globalURL + 'etl/jobs/' + jobData.id + '/delete')
+                .then(function successCallback(result) {
                     jobsData.destroy();
                     jobsDataFunc();
                     $("#jobDataDelete").modal('hide');
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    //alert("Status: " + textStatus);
-                    //alert("Error: " + errorThrown);
-                    $("#jobErrorTitle").html(XMLHttpRequest.responseJSON.error);
+                function errorCallback(response) {
+                    console.log(response.data.error);
+                    $("#jobErrorTitle").html(response.data.error);
                     $("#jobDataDelete").modal('hide');
-                    $("#jobDeleteErrorMsg").modal('show');
-                }
-            });
+                    $("#jobDeleteErrorMsg").modal('show');                    
+                });
+
+            // $.ajax({
+            //     url: globalURL + 'etl/jobs/' + jobData.id + '/delete',
+            //     type: 'DELETE',
+            //     success: function(result) {
+            //         // Do something with the result
+            //         jobsData.destroy();
+            //         jobsDataFunc();
+            //         $("#jobDataDelete").modal('hide');
+            //     },
+            //     error: function(XMLHttpRequest, textStatus, errorThrown) {
+            //         //alert("Status: " + textStatus);
+            //         //alert("Error: " + errorThrown);
+            //         $("#jobErrorTitle").html(XMLHttpRequest.responseJSON.error);
+            //         $("#jobDataDelete").modal('hide');
+            //         $("#jobDeleteErrorMsg").modal('show');
+            //     }
+            // });
 
         });
 
