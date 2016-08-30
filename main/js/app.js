@@ -1205,10 +1205,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                          'assets/global/plugins/d3/d3-force.v1.min.js',
                          
                          //'assets/global/plugins/highcharts/js/modules/treemap.js',
-                        'js/controllers/MyUserController.js',
+                        'js/controllers/MyUserController.js'
                         
-                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
-                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js'
+                        //'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
+                        //'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js'
                         //'https://cdn.rawgit.com/esvit/ng-table/1.0.0/dist/ng-table.js'
                         
                     ]
@@ -1924,8 +1924,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'bower_components/moment/min/moment.min.js',
                         'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
                         'bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
-
-
+                        
                         'js/controllers/d2dTrackingController.js'
                     ]
                 });

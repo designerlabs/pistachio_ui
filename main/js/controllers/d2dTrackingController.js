@@ -44,6 +44,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
         var toDt = $('#datetimeTo').data('date');
 
+        
+
         frmDt = frmDt.split('/');
         toDt = toDt.split('/');
 
@@ -441,7 +443,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                             gap = "%2B1DAY";
                         }
 
-                        var query = 'q=dy_action_ind:' + k.name + '&' + triggerOptRow + 'json.facet={in_outs:{type : range,field : xit_date,start :"' + startDt + '",end :"' + dateFormat(Math.round(e.max)) + '",gap:"' + gap + '"},passport: "unique(doc_no)"}'
+                        var query = 'q=dy_action_ind:' + k.name + '&fq=xit_date:['+startDt+' TO '+dateFormat(Math.round(e.max))+']&' + triggerOptRow + 'json.facet={in_outs:{type : range,field : xit_date,start :"' + startDt + '",end :"' + dateFormat(Math.round(e.max)) + '",gap:"' + gap + '"},passport: "unique(doc_no)"}'
                         var sq = "http://" + solrHost + ":8983/solr/" + immigrationSolr + "/query?"
                         $http.get(sq + query).
                         success(function(data) {
@@ -452,6 +454,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                                     //console.log(data.facets.count.length);
                                 } else {
                                     for (var i = 0, l = data.facets.in_outs.buckets.length; i < l; i++) {
+                                        //debugger;
                                         var obj = data.facets.in_outs.buckets[i];
                                         var element = [];
                                         element.push(new Date(obj.val).getTime());
@@ -651,7 +654,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
              }else{*/
             endDt = $scope.getToDt;
             /*};*/
-
+            $scope.totalInOut = [];
             //alert(count + " first");
             $.each($scope.seriesDet, function(j, valu) {
 
@@ -746,7 +749,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
                     }
 
-                    var query = 'q=dy_action_ind:' + k.name + '&' + triggerOptRow + 'json.facet={in_outs:{type : range,field : xit_date,start : "' + startDt + '",end :"' + endDt + '",gap:"' + gap + '"},passport: "unique(doc_no)"}' // "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
+                    var query = 'q=dy_action_ind:' + k.name + '&fq=xit_date:['+startDt+' TO '+ endDt+']&' + triggerOptRow + 'json.facet={in_outs:{type : range,field : xit_date,start : "' + startDt + '",end :"' + endDt + '",gap:"' + gap + '"},passport: "unique(doc_no)"}' // "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
 
                     var query_spark = '{query: "' + triggerOpt + '",filter : "xit_date : [' + startDt + ' TO ' + endDt + ']", limit: ' + limitValue + ',' + offsetVal +
                         'facet: {' + ubranch + ',  in_outs: {type: terms,limit: ' + limitValue + ',field: dy_action_ind,' +
@@ -765,10 +768,13 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                             //alert('call-2');
                             //alert(startDt);
                             $scope.branchCode = data.response.docs[0].branch_code;
+                            
+                            
                             var storeData = [];
                             if (data.facets.count == 0) {
                                 //console.log(data.facets.count.length);
                             } else {
+                                
                                 for (var i = 0, l = data.facets.in_outs.buckets.length; i < l; i++) {
                                     var obj = data.facets.in_outs.buckets[i];
                                     var element = [];
@@ -776,6 +782,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                                     element.push(obj.count);
                                     storeData.push(element);
                                 }
+                                
                             }
 
                             $scope.seriesOptions[m] = {
@@ -785,7 +792,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                                 type: 'areaspline',
                                 threshold: null
                             };
-
+                            $scope.totalInOut.push(data.response.numFound);
 
 
                             // As we're loading the data asynchronously, we don't know what order it will arrive. So
