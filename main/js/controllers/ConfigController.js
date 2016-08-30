@@ -174,29 +174,7 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
               },
               function errorCallback(response) {
                  console.log(response);
-              });
-
-            // $.ajax({
-            //         url: globalURL + "config/",
-            //         type: "PUT",
-            //         dataType: 'json',
-            //         contentType: "application/json; charset=utf-8",
-            //         data: JSON.stringify({
-            //             id: selectedConfigId,
-            //             configName: configNameVal,
-            //             configValue: configVal,
-            //             application: configApp
-            //         })
-            //     })
-            //     .done(function(data) {
-            //         configuration.destroy();
-            //         configurationDataFunc();
-            //         $("#configAddForm").modal('hide');
-            //         //selectedQueryId = null;
-            //     })
-            //     .fail(function(e) {
-            //         console.log(e);
-            //     });
+              });            
         });
 
         var selectedConfigForDelete;
@@ -220,23 +198,7 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                     $("#configErrorTitle").html(response.data.error);
                     $("#configDeleteErrorMsg").modal('show');
                     $("#configDelete").modal('hide');                    
-                });
-
-            // $.ajax({
-            //     url: globalURL + 'config/' + selectedConfigForDelete.id,
-            //     type: 'DELETE',
-            //     success: function(result) {
-            //         // Do something with the result
-            //         configuration.destroy();
-            //         configurationDataFunc();
-            //         $("#configDelete").modal('hide');
-            //     },
-            //     error: function(XMLHttpRequest, textStatus, errorThrown) {
-            //         $("#configErrorTitle").html(XMLHttpRequest.responseJSON.error);
-            //         $("#configDeleteErrorMsg").modal('show');
-            //         $("#configDelete").modal('hide');
-            //     }
-            // });
+                });           
 
         });
 
@@ -291,62 +253,7 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                                 }
                         }]                           
                     });                    
-                }); 
-
-            // jobsData = $('#jobsContainer').DataTable({
-
-            //     "ajax": {
-            //         "processing": true,
-            //         "serverSide": true,
-            //         "url": globalURL + "etl/jobs",
-            //         "dataSrc": ""
-            //     },
-            //     "columns": [{
-            //         "data": "jobName"
-            //     }, {
-            //         "data": "dbId"
-            //     }, {
-            //         "data": "status"
-            //     }, {
-            //         "data": "progress",
-            //         "render": function(data, type, full, meta) {
-            //             /*return '<div class="progress progress-striped">'
-            //                         +'<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="'+data+'" aria-valuemin="0" aria-valuemax="100" style="width: '+data+'%">'
-            //                             +'<span class="sr-only">'
-            //                             +data+'% Complete (success) </span>'
-            //                         +'</div>'
-            //                     +'</div>';*/
-            //             if (data == 0) {
-            //                 return '<div class="progress">' + '<div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" aria-valuenow="' + data + '" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:' + data + '%">' + data + '%' + '</div>' + '</div>';
-            //             } else if (data == 100) {
-            //                 return '<div class="progress">' + '<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="' + data + '" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:' + data + '%">' + data + '%' + '</div>' + '</div>';
-            //             } else {
-            //                 return '<div class="progress">' + '<div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="' + data + '" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:' + data + '%">' + data + '%' + '</div>' + '</div>';
-            //             }
-
-            //         }
-            //     }, {
-            //         "data": "noOfJobs"
-
-            //     }, {
-            //         "data": "jobsCompleted"
-            //     }, {
-            //         "data": "status",
-            //         "width": "52%",
-            //         "render": function(data, type, full, meta) {
-            //             //if ((data == "JOB_RUNNING") || (data == "JOB_COMPLETED")) {
-            //             //return '<button class="btn btn-success btn-sm" disabled><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm" disabled><i class="fa fa-times"></i> Delete</button>';
-            //             //} else {
-
-            //             if (data == "JOB_CREATED") {
-            //                 return '<button class="btn btn-success btn-sm btn1"><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm btn2"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-info btn-sm btn3"><i class="fa fa-clock-o"></i> Schedule</button>';
-            //             } else {
-            //                 return '<button class="btn btn-success btn-sm btn1"><i class="fa fa-play"></i> Start</button><button class="btn btn-danger btn-sm btn2"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-info btn-sm btn3" disabled><i class="fa fa-clock-o"></i> Schedule</button>';
-            //             }
-            //         }
-
-            //     }]
-            // });
+                });             
         }
 
         jobsDataFunc();
@@ -354,7 +261,6 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
         $('#btnProduction').click(function() {
             $.get(globalURL + 'etl/jobs/prod');
             alert('Prod');
-
         });
 
         $('#btnStage').click(function() {
@@ -401,37 +307,7 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                     });                    
                 }); 
 
-                // queryData = $('#queryContainer').DataTable({
-                //     "ajax": {
-                //         "processing": true,
-                //         "serverSide": true,
-                //         "url": globalURL + queryString + "?" + categoryName + "=" + reportCategoryID,
-                //         "dataSrc": ""
-                //     },
-                //     "columns": [{
-                //         "data": "id"
-                //     }, {
-                //         "data": "queryName"
-                //     }, {
-                //         "data": "query"
-                //     }, {
-                //         "data": "reportFileName",
-                //         "render": function(data, type, full, meta) {
-                //             // alert(data);
-                //             if (data == null) {
-                //                 return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-eye"></i> View</button></a>';
-                //             } else {
-                //                 return '<button class="btn btn-success btn-sm TemplateBtn details-control"><i class="fa fa-plus-circle"></i> Expand</button>';
-                //             }
-                //         }
-                //     }, {
-                //         "data": "action",
-                //         "width": "29%",
-                //         "render": function(data, type, full, meta) {
-                //             return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-warning btn-sm downloadBtn"><i class="fa fa-download"></i> Template</button>';
-                //         }
-                //     }]
-                // })
+                
             } else {
 
                 $http.get(globalURL + queryString + "?" + categoryName + "=" + reportCategoryID)
@@ -454,32 +330,8 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                             }
                         }]
                     });                    
-                }); 
-
-                // queryData = $('#queryContainerAdmin').DataTable({
-
-                //     "ajax": {
-                //         "processing": true,
-                //         "serverSide": true,
-                //         "url": globalURL + queryString + "?" + categoryName + "=" + reportCategoryID,
-                //         "dataSrc": ""
-                //     },
-                //     "columns": [{
-                //         "data": "queryName"
-                //     }, {
-                //         "data": "execute",
-                //         "render": function(data, type, full, meta) {
-
-                //                 return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
-
-                //             }
-                //             /* "render": function(data, type, full, meta) {
-                //                  return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
-                //              }*/
-                //     }]
-                // })
+                });                 
             }
-
         }
 
         // Add event listener for opening and closing details
@@ -497,8 +349,6 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
             //     tr.addClass('shown');
             //     createCalenderCtrl();
             // }
-
-
 
             if (row.child.isShown()) {
 
@@ -531,7 +381,6 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                     tr.removeClass('shown');
                 }
 
-
                 row.child(format(row.data())).show();
                 $(".dtRangeGroup").toggle(row.data().dtRange);
                 $(".branchGroup").toggle(row.data().branch);
@@ -546,7 +395,6 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                 $(".cityGroup").toggle(row.data().city);
                 $(".sectorGroup").toggle(row.data().sector);
                 $(".sexGroup").toggle(row.data().sex);
-
 
                 tr.addClass('shown');
                 // $('#reportrange').daterangepicker();
@@ -795,34 +643,7 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                                 }
                             }]
                     });
-                }); 
-
-            // reportPermitMasukData = $('#reportPermitMasukContainer').DataTable({
-            //     "ajax": {
-            //         "processing": true,
-            //         "serverSide": true,
-            //         "url": globalURL + queryString + "?cat=masuk",
-            //         "dataSrc": ""
-            //     },
-            //     "columns": [{
-            //         "data": "id"
-            //     }, {
-            //         "data": "queryName"
-            //     }, {
-            //         "data": "query"
-            //     }, {
-            //         "data": "execute",
-            //         "render": function(data, type, full, meta) {
-            //             return '<a href="#/queryExe.html"><button class="btn btn-success btn-sm runBtn"><i class="fa fa-play"></i> RUN</button></a>';
-            //         }
-            //     }, {
-            //         "data": "action",
-            //         "width": "22%",
-            //         "render": function(data, type, full, meta) {
-            //             return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
-            //         }
-            //     }]
-            // });
+                });             
         }
 
         function createCalenderCtrl() {
@@ -982,102 +803,7 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                 },                
                 function errorCallback(response) {
                     console.log(response.data.error);                            
-                });
-
-            // $.ajax({
-            //     url: globalURL + queryString + '/' + reportid + "/exec",
-            //     type: "POST",
-            //     dataType: 'json',
-            //     contentType: "application/json; charset=utf-8",
-            //     data: selTemplateVal,
-            //     success: function(result) {
-
-            //         queryData.destroy();
-            //         queryDataFunc();
-
-            //         resultOutputCol = jQuery.parseJSON(result.columns);
-            //         resultOutput = jQuery.parseJSON(result.results);
-
-
-            //         if (resultOutput != null && resultOutput.length > 0) {
-            //             var myArrayColumn = [];
-            //             var i = 0;
-
-            //             $.each(resultOutputCol, function(index, val) {
-            //                 //console.log(val);
-            //                 var obj = {
-            //                     sTitle: val
-            //                 };
-            //                 myArrayColumn[i] = obj;
-            //                 i++;
-            //             });
-
-            //             var myArrayRow = [];
-            //             var i = 0;
-
-            //             $.each(resultOutput, function(index, val) {
-            //                 var rowData = [];
-            //                 var j = 0;
-            //                 $.each(resultOutput[i], function(index, val) {
-            //                     //console.log(val);
-            //                     rowData[j] = val;
-            //                     j++;
-            //                 });
-
-            //                 myArrayRow[i] = rowData;
-            //                 i++;
-            //             });
-
-            //             function queryUIFunc() {
-            //                 queryUI = $("#jqueryRunData").dataTable({
-            //                     "bDestroy": true,
-            //                     "bScrollCollapse": true,
-            //                     "bJQueryUI": true,
-            //                     "bScrollCollapse": true,
-            //                     "bInfo": true,
-            //                     "bFilter": true,
-            //                     "bSort": true,
-            //                     "aaData": myArrayRow,
-            //                     "aoColumns": myArrayColumn,
-            //                     "scrollCollapse": true,
-            //                     "paging": true
-            //                 });
-            //             }
-
-            //             queryUIFunc();
-
-            //         }
-            //     },
-            //     error: function(XMLHttpRequest, textStatus, errorThrown) {
-            //         console.log(XMLHttpRequest, textStatus, errorThrown);
-            //     }
-            // }).done(function() {
-            //     // alert("Post done successfully");
-            // }).fail(function(data) {
-            //     // alert("Poset exec url falied");
-            // });
-
-            // $.ajax({
-            //     url: globalURL+ 'jasperreport/' + fileformat + '/' + reportid,
-            //     type: "POST",
-            //     dataType: 'json',
-            //     contentType: "application/json; charset=utf-8",
-            //     data: JSON.stringify({
-            //         fromDt: fromDate,
-            //         toDt : toDate,
-            //         state : "tst",
-            //         dept  : "hello",
-            //         branch : "bb"
-
-            //     })
-            // })
-            // .done(function() {
-
-
-            // })
-            // .fail(function(data) {
-
-            // });
+                });            
         });
 
         formInputValidation("#queryForm");
@@ -1112,33 +838,7 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                             $("#queryRequire span").html(response.data.error);
                             $("#queryRequire").show();
                          });
-
-                // $.ajax({
-                //         url: globalURL + queryString + "/",
-                //         type: "POST",
-                //         dataType: 'json',
-                //         contentType: "application/json; charset=utf-8",
-                //         data: JSON.stringify({
-                //             queryName: queryNameVal,
-                //             query: queryTextVal,
-                //             category: reportCategoryID,
-                //             cached: null,
-                //             login: localStorage.username
-                //         })
-                //     })
-                //     .done(function() {
-                //         queryData.destroy();
-                //         queryDataFunc();
-                //         queryMasukFunc();
-                //         $("#queryAddForm").modal('hide');
-                //         $("#queryRequire").hide();
-                //     })
-                //     .fail(function(data) {
-                //         //console.log(data.responseJSON.error);
-                //         $("#queryRequire span").html(data.responseJSON.error);
-                //         $("#queryRequire").show();
-                //         //alert('Failed!');
-                //     });
+                
             }
         });
 
@@ -1186,39 +886,7 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                          function errorCallback(response) {
                             $("#queryRequire span").html(response.data.error);
                             $("#queryRequire").show();
-                         });
-
-                // $.ajax({
-                //         url: globalURL + queryString + "/",
-                //         type: "POST",
-                //         dataType: 'json',
-                //         contentType: "application/json; charset=utf-8",
-                //         data: JSON.stringify({
-                //             queryName: queryNameValTemp,
-                //             /* dtRange:dtRange,
-                //              state:stateVal,
-                //              branch:branchVal,
-                //              dept:deptVal,*/
-                //             category: reportCategoryID,
-                //             reportFileName: templateFileName,
-                //             query: 'NA',
-                //             cached: null,
-                //             login: localStorage.username
-                //         })
-                //     })
-                //     .done(function() {
-                //         queryData.destroy();
-                //         queryDataFunc();
-                //         queryMasukFunc();
-                //         $("#queryAddForm").modal('hide');
-                //         $("#queryRequire").hide();
-                //     })
-                //     .fail(function(data) {
-                //         //console.log(data.responseJSON.error);
-                //         $("#queryRequire span").html(data.responseJSON.error);
-                //         $("#queryRequire").show();
-                //         //alert('Failed!');
-                //     });
+                         });                
             }
         });
 
@@ -1259,40 +927,7 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                  function errorCallback(response) {
                      $("#queryRequire span").html(response.data.error);
                      $("#queryRequire").show();                   
-                 });
-
-                // $.ajax({
-                //         url: globalURL + queryString + "/",
-                //         type: "PUT",
-                //         dataType: 'json',
-                //         contentType: "application/json; charset=utf-8",
-                //         data: JSON.stringify({
-                //             queryName: queryNameValTemp,
-                //             /*dtRange:dtRange,
-                //             state:stateVal,
-                //             branch:branchVal,
-                //             dept:deptVal,*/
-                //             id: selectedQueryId,
-                //             category: reportCategoryID,
-                //             reportFileName: templateFileName,
-                //             query: 'NA',
-                //             cached: null,
-                //             login: localStorage.username
-                //         })
-                //     })
-                //     .done(function() {
-                //         queryData.destroy();
-                //         queryDataFunc();
-                //         queryMasukFunc();
-                //         $("#queryAddForm").modal('hide');
-                //         $("#queryRequire").hide();
-                //     })
-                //     .fail(function(data) {
-                //         //console.log(data.responseJSON.error);
-                //         $("#queryRequire span").html(data.responseJSON.error);
-                //         $("#queryRequire").show();
-                //         //alert('Failed!');
-                //     });
+                 });                
             }
         });
 
@@ -1376,25 +1011,7 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                     $("#queryErrorTitle").html(response.data.error);
                     $("#queryDeleteErrorMsg").modal('show');
                     $("#queryDataDelete").modal('hide');                    
-                });
-
-            // $.ajax({
-            //     url: globalURL + queryString + '/' + selectedQueryForDelete.id,
-            //     type: 'DELETE',
-            //     success: function(result) {
-            //         // Do something with the result
-            //         queryData.destroy();
-            //         queryDataFunc();
-            //         $("#queryDataDelete").modal('hide');
-            //     },
-            //     error: function(XMLHttpRequest, textStatus, errorThrown) {
-            //         //alert("Status: " + textStatus);
-            //         //alert("Error: " + errorThrown);
-            //         $("#queryErrorTitle").html(XMLHttpRequest.responseJSON.error);
-            //         $("#queryDeleteErrorMsg").modal('show');
-            //         $("#queryDataDelete").modal('hide');
-            //     }
-            // });
+                });            
 
         });
         var queryUI, resultOutput;
@@ -1460,76 +1077,8 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
         $('#queryContainer').on('click', 'button.runBtn', function() {
             //$("#jqueryRunData").remove();
             var selectedQueryForExecute = queryData.row($(this).parents('tr')).data();
-            QuryExecGet(selectedQueryForExecute.id);
+            QuryExecGet(selectedQueryForExecute.id);           
             
-            // $.ajax({
-            //         url: globalURL + queryString + '/' + selectedQueryForExecute.id + "/exec",
-            //         type: 'GET',
-            //         timeout: 50000000,
-            //         success: function(result) {                        
-            //             queryData.destroy();
-            //             queryDataFunc();                        
-            //             resultOutputCol = jQuery.parseJSON(result.columns);
-            //             resultOutput = jQuery.parseJSON(result.results);
-
-            //             if (resultOutput != null && resultOutput.length > 0) {
-            //                 var myArrayColumn = [];
-            //                 var i = 0;
-
-            //                 $.each(resultOutputCol, function(index, val) {
-            //                     var obj = {
-            //                         sTitle: val
-            //                     };
-            //                     myArrayColumn[i] = obj;
-            //                     i++;
-            //                 });
-
-            //                 var myArrayRow = [];
-            //                 var i = 0;
-
-            //                 $.each(resultOutput, function(index, val) {
-            //                     var rowData = [];
-            //                     var j = 0;
-            //                     $.each(resultOutput[i], function(index, val) {
-            //                         rowData[j] = val;
-            //                         j++;
-            //                     });
-
-            //                     myArrayRow[i] = rowData;
-            //                     i++;
-            //                 });
-
-            //                 function queryUIFunc() {
-            //                     queryUI = $("#jqueryRunData").dataTable({
-            //                         "bDestroy": true,
-            //                         "bScrollCollapse": true,
-            //                         "bJQueryUI": true,
-            //                         "bScrollCollapse": true,
-            //                         "bInfo": true,
-            //                         "bFilter": true,
-            //                         "bSort": true,
-            //                         "aaData": myArrayRow,
-            //                         "aoColumns": myArrayColumn,
-            //                         "scrollCollapse": true,
-            //                         "paging": true
-            //                     });
-            //                 }
-
-            //                 queryUIFunc();
-
-            //             }
-            //         },
-            //         error: function(XMLHttpRequest, textStatus, errorThrown) {
-            //             console.log(XMLHttpRequest, textStatus, errorThrown);
-            //         }
-            //     })
-            //     .done(function() {
-            //         queryData.destroy();
-            //         queryDataFunc();
-            //     })
-            //     .fail(function(e) {
-            //         console.log(e);
-            //     });
         });
 
 
@@ -1537,83 +1086,7 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
         $('#queryContainerAdmin').on('click', 'button.runBtn', function() {
             //$("#jqueryRunData").remove();
             var selectedQueryForExecute = queryData.row($(this).parents('tr')).data();
-            QuryExecGet(selectedQueryForExecute.id);
-            // $.ajax({
-            //         url: globalURL + queryString + '/' + selectedQueryForExecute.id + "/exec",
-            //         type: 'GET',
-            //         success: function(result) {
-            //             //$("#QueryUIList").hide();
-            //             //$("#QueryUIListRun, #jqueryRunData").show();
-            //             // Do something with the result
-            //             //debugger;
-            //             queryData.destroy();
-            //             queryDataFunc();
-            //             //console.log(result);
-            //             //resultOutput = null;
-            //             resultOutputCol = jQuery.parseJSON(result.columns);
-            //             resultOutput = jQuery.parseJSON(result.results);
-
-
-            //             if (resultOutput != null && resultOutput.length > 0) {
-            //                 var myArrayColumn = [];
-            //                 var i = 0;
-
-            //                 $.each(resultOutputCol, function(index, val) {
-            //                     console.log(val);
-            //                     var obj = {
-            //                         sTitle: val
-            //                     };
-            //                     myArrayColumn[i] = obj;
-            //                     i++;
-            //                 });
-
-            //                 var myArrayRow = [];
-            //                 var i = 0;
-
-            //                 $.each(resultOutput, function(index, val) {
-            //                     var rowData = [];
-            //                     var j = 0;
-            //                     $.each(resultOutput[i], function(index, val) {
-            //                         rowData[j] = val;
-            //                         j++;
-            //                     });
-
-            //                     myArrayRow[i] = rowData;
-            //                     i++;
-            //                 });
-
-            //                 function queryUIFunc() {
-            //                     queryUI = $("#jqueryRunData").dataTable({
-            //                         "bDestroy": true,
-            //                         "bScrollCollapse": true,
-            //                         "bJQueryUI": true,
-            //                         "bInfo": true,
-            //                         "bFilter": true,
-            //                         "bSort": true,
-            //                         "aaData": myArrayRow,
-            //                         "aoColumns": myArrayColumn,
-            //                         "scrollCollapse": true,
-            //                         "paging": true
-            //                     });
-            //                 }
-
-            //                 queryUIFunc();
-
-            //             }
-            //         },
-            //         error: function(XMLHttpRequest, textStatus, errorThrown) {
-            //             console.log(XMLHttpRequest, textStatus, errorThrown);
-            //             //alert("Execution falied, Please re-try after some time!");
-            //             //alert("Error: " + errorThrown);
-            //         }
-            //     })
-            //     .done(function() {
-            //         queryData.destroy();
-            //         queryDataFunc();
-            //     })
-            //     .fail(function() {
-
-            //     });
+            QuryExecGet(selectedQueryForExecute.id);            
         });       
 
         $("#queryUIUpdate").click(function(event) {
@@ -1637,30 +1110,7 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                  },
                  function errorCallback(response) {
                     console.log(response.data.error);                     
-                 });
-
-            // $.ajax({
-            //         url: globalURL + queryString + "/",
-            //         type: "PUT",
-            //         dataType: 'json',
-            //         contentType: "application/json; charset=utf-8",
-            //         data: JSON.stringify({
-            //             id: selectedQueryId,
-            //             queryName: queryNameValUpdated,
-            //             query: queryTextValUpdated,
-            //             cached: null,
-            //             login: localStorage.username
-            //         })
-            //     })
-            //     .done(function(data) {
-            //         queryData.destroy();
-            //         queryDataFunc();
-            //         //selectedQueryId = null;
-            //     })
-            //     .fail(function(e) {
-            //         console.log(e);
-            //         //alert('Failed!');
-            //     });
+                 });            
         });
 
 
@@ -1718,34 +1168,7 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                  },
                  function errorCallback(response) {
                   console.log(response.data.error);                                      
-                 });
-
-            // $.ajax({
-            //         url: globalURL + "etl/databases/",
-            //         type: "PUT",
-            //         dataType: 'json',
-            //         contentType: "application/json; charset=utf-8",
-            //         data: JSON.stringify({
-            //             id: selectedDatabaseId,
-            //             dbName: databaseUpdateNameVal,
-            //             dbType: databaseUpdateTypeVal,
-            //             dbUrl: databaseUpdateURLVal,
-            //             dbSchemaName: databaseSchemaVal,
-            //             dbUsername: databaseUpdateUserVal,
-            //             dbPassword: databaseUpdatePwdVal,
-            //             dbDriver: databaseUpdateDriverVal,
-            //             active: "active",
-            //             username: "admin"
-            //         })
-            //     })
-            //     .done(function(data) {
-            //         databases.destroy();
-            //         databaseDataFunc();
-            //         //selectedQueryId = null;
-            //     })
-            //     .fail(function(e) {
-            //         console.log(e);
-            //     });
+                 });            
         });
 
         var selectedDatabaseForDelete;
@@ -1771,30 +1194,7 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                     $("#errorTitle").html(response.data.error);
                     $("#databaseDeleteErrorMsg").modal('show');
                     $("#databaseDelete").modal('hide');
-                });
-
-            // $.ajax({
-            //     url: globalURL + 'etl/databases/' + selectedDatabaseForDelete.id,
-            //     type: 'DELETE',
-            //     success: function(result) {
-            //         // Do something with the result
-            //         databases.destroy();
-            //         databaseDataFunc();
-            //         $("#databaseDelete").modal('hide');
-            //     },
-            //     error: function(XMLHttpRequest, textStatus, errorThrown) {
-            //         //alert("Status: " + textStatus);
-            //         //alert("Error: " + errorThrown);
-            //         //alert("request: " + XMLHttpRequest);
-            //         if (errorThrown) {
-            //             $("#errorTitle").html(XMLHttpRequest.responseJSON.error);
-            //             $("#databaseDeleteErrorMsg").modal('show');
-            //             //console.log(XMLHttpRequest.responseJSON.error);
-            //         }
-            //         //console.log(XMLHttpRequest);
-            //         $("#databaseDelete").modal('hide');
-            //     }
-            // });
+                });           
 
         });
 
@@ -1842,36 +1242,7 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                                 }
                             }]
                         });                    
-                });
-
-                // tables = $('#example12').DataTable({
-                //     "paginate": true,
-                //     "retrieve": true,
-                //     "ajax": {
-                //         "url": globalURL + "etl/databases/" + data.id + "/tables",
-                //         "dataSrc": ""
-                //     },
-                //     "columns": [{
-                //         "data": "tableName"
-                //     }, {
-                //         "data": "status"
-                //     }, {
-                //         "data": "progress"
-                //     }, {
-                //         "data": "status",
-                //         "render": function(data, type, full, meta) {
-                //             if ((data == "NOT_SYNCED") || (data == "NEVER_EXECUTED")) {
-                //                 return '<button class="btn btn-success btn-sm sqoopBtn"><i class="fa fa-compress"></i> Sqoop</button>';
-                //             } else
-                //             if (data == "COMPLETED") {
-                //                 return '<button class="btn btn-default btn-sm dailysqoopBtn" disabled><i class="fa fa-compress"></i> Sqooped</button><button class="btn btn-success btn-sm"><i class="fa fa-compress"></i> Daily Sqoop</button>';
-                //             } else {
-                //                 return '<button class="btn btn-default btn-sm dailysqoopBtn" disabled><i class="fa fa-compress"></i> Sqooped</button><button class="btn btn-danger btn-sm"><i class="fa fa-compress"></i> Daily Sqoop</button>';
-                //             }
-                //         }
-                //     }],
-
-                // });
+                });                
             }
 
             tableFunc();
@@ -1886,27 +1257,8 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                     },
                     function errorCallback(response) {
                         console.log(response.data.error);
-                    });
-
-                // $.ajax({
-                //     url: globalURL + "etl/databases/" + tableList.dbId + "/sync?table=" + tableList.tableName + "&hdfs=11",
-                //     type: 'GET',
-                //     success: function(result) {
-                //         // Do something with the result
-                //         //alert('done');
-                //         tableFunc();
-                //     },
-                //     error: function(XMLHttpRequest, textStatus, errorThrown) {
-                //         console.log(XMLHttpRequest, textStatus, errorThrown);
-                //     }
-                // }).error(function(e) {
-                //     console.log(e);
-                // });
-
+                    });              
             });
-
-
-
         });
 
         $(document).ajaxStart(function() {
@@ -1921,9 +1273,6 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
             $("#loader").hide();
         });
 
-
-
-
         $('#jobsContainer').on('click', 'button.btn1', function() {
             //alert('start');
             var jobData = jobsData.row($(this).parents('tr')).data();
@@ -1935,24 +1284,8 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                 },
                 function errorCallback(response) {
                     console.log(response.data.error);                            
-                }); 
-
-            // $.ajax({
-            //     url: globalURL + 'etl/jobs/' + jobData.id + '/start',
-            //     type: 'GET',
-            //     success: function(result) {
-            //         // Do something with the result
-            //         //alert('done');
-            //         jobsData.destroy();
-            //         jobsDataFunc();
-            //     },
-            //     error: function(XMLHttpRequest, textStatus, errorThrown) {
-            //         console.log(XMLHttpRequest, textStatus, errorThrown);
-            //     }
-            // });
+                });             
         });
-
-
 
         $('#jobsContainer').on('click', 'button.btn3', function() {
 
@@ -1965,24 +1298,8 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                 },
                 function errorCallback(response) {
                     console.log(response.data.error);                            
-                });
-
-            // $.ajax({
-            //     url: globalURL + 'etl/jobs/' + jobData.id + '/schedule',
-            //     type: 'GET',
-            //     success: function(result) {
-            //         // Do something with the result
-            //         //alert('done');
-            //         jobsData.destroy();
-            //         jobsDataFunc();
-            //     },
-            //     error: function(XMLHttpRequest, textStatus, errorThrown) {
-            //         console.log(XMLHttpRequest, textStatus, errorThrown);
-            //     }
-            // });
+                });            
         });
-
-
 
         var jobData;
         $('#jobsContainer').on('click', 'button.btn2', function() {
@@ -2004,26 +1321,7 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
                     $("#jobErrorTitle").html(response.data.error);
                     $("#jobDataDelete").modal('hide');
                     $("#jobDeleteErrorMsg").modal('show');                    
-                });
-
-            // $.ajax({
-            //     url: globalURL + 'etl/jobs/' + jobData.id + '/delete',
-            //     type: 'DELETE',
-            //     success: function(result) {
-            //         // Do something with the result
-            //         jobsData.destroy();
-            //         jobsDataFunc();
-            //         $("#jobDataDelete").modal('hide');
-            //     },
-            //     error: function(XMLHttpRequest, textStatus, errorThrown) {
-            //         //alert("Status: " + textStatus);
-            //         //alert("Error: " + errorThrown);
-            //         $("#jobErrorTitle").html(XMLHttpRequest.responseJSON.error);
-            //         $("#jobDataDelete").modal('hide');
-            //         $("#jobDeleteErrorMsg").modal('show');
-            //     }
-            // });
-
+                });            
         });
 
         /*
@@ -2054,18 +1352,11 @@ MetronicApp.controller('ConfigController', ['$rootScope', '$scope', '$http', 'se
             $.get(globalURL + 'etl/databases/' + $scope.SelectedViewID + '/refresh');
         });
 
-
-
-
         /*
                 $("#backBtnQuery").click(function(event) {
                     $("#QueryUIList").show();
                     $("#QueryUIListRun, #jqueryRunData").hide();
                 });*/
-
-
-
-
 
         // set sidebar closed and body solid layout mode
         $rootScope.settings.layout.pageSidebarClosed = true;
