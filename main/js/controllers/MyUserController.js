@@ -199,9 +199,9 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
                 return status;
             });
     }
-    $scope.getStatus = [{id: "", title: "All"}, {id: 'Active', title: 'Active'}, {id: 'Expired', title: 'Expired'}];
+    $scope.getStatus = [];
     $scope.requestData = function (bName, fDate, tDate) {
-         $scope.loading = true;
+        $scope.loading = true;
         $("#usergraph").html("");
         $http.get(globalURL + "api/secured/pistachio/myaudit/branch/usermap?branch="+ bName +"&from="+fDate+"&to="+tDate,
             { headers: { 'Content-Type': 'application/json' } }
@@ -211,19 +211,28 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
                     $scope.loading = false;
                     
                     if(response.links){
-                        var unique = {};
-                        var distinct = [];
-                        for( var i in response.nodes){
-                            if( typeof(unique[response.nodes[i].status]) == "undefined"){
-                                distinct.push(response.nodes[i].status);
-                            }
-                            unique[response.nodes[i].status] = 0;
+                        var fieldArray = [];
+                        $scope.getStatus.length = 0;
+                        $.each(response.nodes, function(i, item){
+                        if ($.inArray(item.status,fieldArray) === -1){
+                            fieldArray.push(item.status);
                         }
+                        });
+                        $scope.getStatus.push({id:"", title:"All"});
+                        $.each(fieldArray, function(i,k){
+                            console.log(i,k);
+                            $scope.getStatus.push({id:k, title:k});
+                        });
+
+                        //$scope.getStatus.shift();
                         
                         $("#zoomInOut").val(1);
                         $('select[name="status"] option[label="All"]').attr('selected', 'selected');
                         $('input[name="name"]').attr('placeholder', 'Search by name');
                         $scope.tableParams = new NgTableParams({page: 1, count: 10}, { dataset: response.nodes});
+                    
+                        //$scope.getStatus.push({id: "", title: "All"}, {id: 'Active', title: 'Active'}, {id: 'Expired', title: 'Expired'},{id:'Anomaly', title: 'Anomaly'});
+                        debugger;
                         $scope.officersCount = response.nodes.length;
                         $scope.activeGraph = true;
                         $scope.test(response.nodes, response.links);
@@ -312,9 +321,9 @@ $scope.test = function (nodes,links) {
           
         var circle = node.append("circle")
             .attr("r", function(d) { return 12 })
-            .style("stroke",function(e) {
-                return color(e.rank)
-            })
+            // .style("stroke",function(e) {
+            //     return color(e.rank)
+            // })
             .style("fill", function(d) { 
 
                 if(d.validDays <30 ) return "#FB572F";
@@ -464,6 +473,8 @@ $scope.test = function (nodes,links) {
         }
         createFilter();
 
+        $(".filterContainer span:contains('Active')").prepend('<div class="activeCircle"></div>');
+        $(".filterContainer span:contains('Expired')").prepend('<div class="expiredCircle"></div>');
         // Method to create the filter, generate checkbox options on fly
         function createFilter() {
             d3.select(".filterContainer").selectAll("div").remove();

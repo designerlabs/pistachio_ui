@@ -344,7 +344,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
         if($scope.triggerHourDt){
             $scope.selectedDayTime = true;
         }
-        debugger;
+        //debugger;
         $('rect').removeAttr('class', 'activeBox');
         $('rect').attr('class', 'hour bordered');
         $('.selectedBox').hide('200');
@@ -410,8 +410,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                 }
                 //$scope.barChart(log);
        
-                if ($scope.triggerHourDt == "") {
-                    debugger;
+                if (!hour) {
                     heatmapChart(response.heatmap);
                     $scope.showHeatMap = true;
                 };

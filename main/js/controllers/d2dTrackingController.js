@@ -33,7 +33,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         if (tDate < 10) tDate = '0' + tDate;
         var lastDate = tDate + "/" + tmonth + "/" + tyear;
 
-        $('#datetimeFrom').datetimepicker({ format: 'DD/MM/YYYY', defaultDate: '"' + tmonth + '"/"' + tDate + '"/"' + tyear + '"' });
+        $('#datetimeFrom').datetimepicker({ format: 'DD/MM/YYYY', defaultDate: tyear+'-'+tmonth+'-'+tDate+'T00:00:00' });
         $('#datetimeTo').datetimepicker({
             useCurrent: false,
             defaultDate: dateNow,

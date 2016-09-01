@@ -1,11 +1,14 @@
 .node {
-  stroke: #032B6B;
-  stroke-width: 4px;
+  stroke: #3c3c3c;
+  stroke-width: 2px;
+
+  /*stroke: #032B6B;
+  stroke-width: 4px;*/
 }
 
 .node-active{
   stroke: #360D64;
-  stroke-width: 5px;
+  stroke-width: 2px;
 }
 
 .link {
@@ -15,13 +18,36 @@
 
 .link-active {
   stroke-opacity: 1;
-  stroke-width :2px;
+  stroke-width :1px;
 }
 
 .overlay {
   fill: none;
   pointer-events: all;
 }
+
+.modal-closebtn{
+  position: absolute;
+  right: 0px;
+  z-index: 0;
+  width: 40px;
+  height: 40px;
+  margin: 40px -40px;
+  background: #f36d6d;
+  box-shadow: 0px 0px 15px;
+}
+
+.modal-closebtn:before{
+    content: '×';
+    font-size: 35px;
+    padding: 10px;
+    top: -5px;
+    position: relative;
+    font-family: arial;
+    font-weight: 700;
+    color: #fff;
+}
+
 
 .officerCount{
     width: 40px !important;
@@ -37,6 +63,31 @@
     border-right-style: solid;
 }
 
+.activeCircle{
+    width: 20px;
+    height: 20px;
+    background: #6aabf7;
+    border-radius: 20px !important;
+    display: inline-block;
+    /* border: 1px solid; */
+    /* padding-top: 23px !important; */
+    top: 4px;
+    position: relative;
+    margin-right: 6px;
+}
+
+.expiredCircle{
+    width: 20px;
+    height: 20px;
+    background: #808080;
+    border-radius: 20px !important;
+    display: inline-block;
+    /* border: 1px solid; */
+    /* padding-top: 23px !important; */
+    top: 4px;
+    position: relative;
+    margin-right: 6px;
+}
 .filter input{
     border: #ddd 1px solid !important
 }
@@ -130,7 +181,7 @@
 
 
 .activeState{
-  background:#dff0d8;
+  background:#d7e6f7;
 }
 
 .activeState:before{
@@ -139,14 +190,14 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #64a54a;
+  background: #6aabf7;
     position: relative;
     margin-right: 7px;
     margin-bottom: -5px;
 }
 
 .inactiveState{
- background:#f2dede;
+ background:#dad4d4;
 }
 
 .inactiveState:before{
@@ -155,7 +206,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #f3565d;
+  background: #808080;
     position: relative;
     margin-right: 7px;
     margin-bottom: -5px;
