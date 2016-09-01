@@ -24,15 +24,42 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         $scope.getCurrentStage = stageUpdate.getStage();
         console.log($scope.getCurrentStage);
 
+        var getmydata = function() {
+            var query = "q=-created%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(created)\",\"max_date\":\"max(created)\"}}";
+            var sq = "http://"+solrHost+":8983/solr/immigration2/query?";
+            return $http.get(sq+query)
+                .success(function(data) 
+                {
+                    $scope.mydata = data.facets.max_date;
+
+                });
+
+        };
+
+
+        getmydata().then(function(data) {
+            // stuff is now in our scope, I can alert it
+           // alert($scope.mydata);
+            $scope.dateNow = new Date($scope.mydata);
+
+        });
+        
+
+
+
+        
+        //console.log(getDateLimits.call().hello);
+        
         var resultDtFrom, resultDtTo;
         var dateNow = new Date();
+        //alert(dateNow);
         var tDate = dateNow.getDate();
         var tmonth = dateNow.getMonth() + 1
         var tyear = dateNow.getFullYear() - 1;
         if (tmonth < 10) tmonth = '0' + tmonth;
         if (tDate < 10) tDate = '0' + tDate;
         var lastDate = tDate + "/" + tmonth + "/" + tyear;
-
+        console.log(dateNow);
         $('#datetimeFrom').datetimepicker({ format: 'DD/MM/YYYY', defaultDate: tyear+'-'+tmonth+'-'+tDate+'T00:00:00' });
         $('#datetimeTo').datetimepicker({
             useCurrent: false,
