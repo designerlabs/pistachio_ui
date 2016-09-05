@@ -558,7 +558,12 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
 
                     plotOptions: {
-
+                        series:{
+                            threshold: 100
+                        },
+                        area:{
+                            threshold: 100
+                        }
                     },
 
                     tooltip: {
