@@ -788,47 +788,52 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
 
         function createCalenderCtrl() {
             $("#reportrange").daterangepicker({
-                     // opens: App.isRTL() ? "left" : "right",
-                     startDate: moment().subtract(29,"days"),
-                     endDate: moment(),
-                     minDate: "01/01/1900",
-                     maxDate: "12/31/2900",
-                     dateLimit: {
-                         days: 60
-                     },
-                     showDropdowns: !0,
-                     showWeekNumbers: !0,
-                     timePicker: !1,
-                     timePickerIncrement: 1,
-                     timePicker12Hour: !0,
-                     ranges: {
-                         Today: [moment(), moment()],
-                         Yesterday: [moment().subtract(1,"days"), moment().subtract(1,"days")],
-                         "Last 7 Days": [moment().subtract(6,"days"), moment()],
-                         "Last 30 Days": [moment().subtract(29,"days"), moment()],
-                         "This Month": [moment().startOf("month"), moment().endOf("month")],
-                         "Last Month": [moment().subtract("month", 1).startOf("month"), moment().subtract(1,"month").endOf("month")]
-                     },
-                     buttonClasses: ["btn"],
-                     applyClass: "green",
-                     cancelClass: "default",
-                     format: "MM/DD/YYYY",
-                     separator: " to ",
-                     locale: {
-                         applyLabel: "Apply",
-                         fromLabel: "From",
-                         toLabel: "To",
-                         customRangeLabel: "Custom Range",
-                         daysOfWeek: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-                         monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-                         firstDay: 1
-                     }
+                   
+                    //  startDate: moment().subtract(29,"days"),
+                    //  endDate: moment(),
+                    //  minDate: "01/01/1900",
+                    //  maxDate: "12/31/2900",
+                    //  dateLimit: {
+                    //      days: 60
+                    //  },
+                    //  showDropdowns: !0,
+                    //  showWeekNumbers: !0,
+                    //  timePicker: !1,
+                    //  timePickerIncrement: 1,
+                    //  timePicker12Hour: !0,
+                    //  ranges: {
+                    //      Today: [moment(), moment()],
+                    //      Yesterday: [moment().subtract(1,"days"), moment().subtract(1,"days")],
+                    //      "Last 7 Days": [moment().subtract(6,"days"), moment()],
+                    //      "Last 30 Days": [moment().subtract(29,"days"), moment()],
+                    //      "This Month": [moment().startOf("month"), moment().endOf("month")],
+                    //      "Last Month": [moment().subtract("month", 1).startOf("month"), moment().subtract(1,"month").endOf("month")]
+                    //  },
+                    //  buttonClasses: ["btn"],
+                    //  applyClass: "green",
+                    //  cancelClass: "default",
+                    //  format: "MM/DD/YYYY",
+                    //  separator: " to ",
+                    //  locale: {
+                    //      applyLabel: "Apply",
+                    //      fromLabel: "From",
+                    //      toLabel: "To",
+                    //      customRangeLabel: "Custom Range",
+                    //      daysOfWeek: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+                    //      monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                    //      firstDay: 1
+                    //  }
+
+                    startDate: moment(),
+                    endDate: moment(),
+                    "alwaysShowCalendars": false                    
                  },
                   function(startdt, enddt) {
                      $("#reportrange span").html(startdt.format("MMM DD, YYYY") + " - " + enddt.format("MMM DD, YYYY"))
                      fromDate=startdt;
                      toDate=enddt;
                  }),
+                 //for initial date range details. 
                   $("#reportrange span").html(moment().subtract(29,"days").format("MMM DD YYYY") + " - " + moment().format("MMM DD YYYY"));
 
             // $('#reportrange').daterangepicker({
