@@ -32,7 +32,7 @@ angular.module('MetronicApp')
         $scope.changeLanguage = function (locale) {
           console.log(locale);
           LocaleService.setLocaleByDisplayName(locale);
-          $rootScope.editBtn = $translate.instant('editBtn');
+          // $rootScope.editBtn = $translate.instant('editBtn');
         };
       }
     };
