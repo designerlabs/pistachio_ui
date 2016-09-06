@@ -200,6 +200,9 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
             });
     }
     $scope.getStatus = [];
+    $scope.getBranch = [];
+
+
     $scope.requestData = function (bName, fDate, tDate) {
         $scope.loading = true;
         $("#usergraph").html("");
@@ -212,27 +215,29 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
                     
                     if(response.links){
                         var fieldArray = [];
+                        var branchArray = [];
                         $scope.getStatus.length = 0;
+                        $scope.getBranch.length = 0;
                         $.each(response.nodes, function(i, item){
-                        if ($.inArray(item.status,fieldArray) === -1){
-                            fieldArray.push(item.status);
-                        }
+                            if ($.inArray(item.status,fieldArray) === -1){
+                                fieldArray.push(item.status);
+                            }
+                            if ($.inArray(item.branch,branchArray) === -1){
+                                branchArray.push(item.branch);
+                            }
                         });
-                        $scope.getStatus.push({id:"", title:"All"});
-                        $.each(fieldArray, function(i,k){
-                            console.log(i,k);
-                            $scope.getStatus.push({id:k, title:k});
-                        });
+
+                        filterOpt($scope.getStatus, fieldArray);
+                        filterOpt($scope.getBranch, branchArray);
+
 
                         //$scope.getStatus.shift();
                         
                         $("#zoomInOut").val(1);
+                        $scope.tableParams = new NgTableParams({page: 1, count: 10}, { dataset: response.nodes});
+                        
                         $('select[name="status"] option[label="All"]').attr('selected', 'selected');
                         $('input[name="name"]').attr('placeholder', 'Search by name');
-                        $scope.tableParams = new NgTableParams({page: 1, count: 10}, { dataset: response.nodes});
-                    
-                        //$scope.getStatus.push({id: "", title: "All"}, {id: 'Active', title: 'Active'}, {id: 'Expired', title: 'Expired'},{id:'Anomaly', title: 'Anomaly'});
-                        debugger;
                         $scope.officersCount = response.nodes.length;
                         $scope.activeGraph = true;
                         $scope.test(response.nodes, response.links);

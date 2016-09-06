@@ -144,7 +144,7 @@
                 <tbody>
                   <tr ng-repeat="x in items">
                     <td style="width:10%;" class="table-title">
-                      <a href="javascript:;">{{formatDate(x.created)}}</a>
+                      <a href="javascript:;">{{formatDate(x.created) | cmdate:'dd/MM/yyyy hh:mm:ss'}}</a>
                     </td>
                     <td style="width:25%;" class="table-title">
                       <a href="javascript:;">{{x.job_en}}</a>
@@ -209,7 +209,7 @@
                 <tbody>
                   <tr ng-repeat="x in items">
                     <td style="width:10%;" class="table-title">
-                      <a href="javascript:;">{{formatDate(x.xit_date)}}</a>
+                      <a href="javascript:;">{{formatDate(x.xit_date) | cmdate:'dd/MM/yyyy hh:mm:ss'}}</a>
                     </td>
                     <td style="width:25%;" class="table-title">
                       <a href="javascript:;">{{x.branch}}</a>
@@ -277,7 +277,7 @@
 
                   <tr ng-repeat="x in items">
                     <td style="width:10%;" class="table-title">
-                      <a href="javascript:;">{{formatDate(x.xit_date)}}</a>
+                      <a href="javascript:;">{{formatDate(x.xit_date) | cmdate:'dd/MM/yyyy hh:mm:ss'}}</a>
                     </td>
                     <td style="width:15%;" class="table-title">
                       <a href="javascript:;">{{x.branch}}</a>

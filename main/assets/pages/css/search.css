@@ -280,3 +280,27 @@ Search Page
 @media (max-width: 767px) {
   .search-content-2 .search-container .search-item > .search-content {
     text-align: center; } }
+
+
+
+.filter input{
+    border: #ddd 1px solid !important
+}
+
+.totalCt{
+    position: absolute;
+    top: 0px;
+    right: 10px;
+}
+
+
+.ng-table-sort-header{
+    height: 60px;
+    vertical-align: middle;
+    position: relative;
+    background: #3daf85;
+    font-weight: 300;
+    font-size: 15px;
+    font-family: "Open Sans",sans-serif;
+    color: #fff;
+}

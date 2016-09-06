@@ -97,6 +97,7 @@
                 <td title="'Name'" filter="{ name: 'text'}" sortable="'name'"><a href="">{{ x.name }}</a></td>
                 <td title="'User ID'">{{ x.usrId }}</td>
                 <td title="'Rank'">{{ x.rank }}</td>
+                <td filter="{branch: 'select'}" title="'Branch'" filter-data="getBranch" sortable="'branch'">{{ x.branch }}</td>
                 <td title="'Created By'">{{ x.crtId }}</td>
                 <td title="'Duration'" sortable="'validDays'">{{ x.validDays }}</td>
                 <td title="'Created on'">{{ x.createDate | date : format : timezone }}</td>
