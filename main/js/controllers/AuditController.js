@@ -3,31 +3,40 @@
 var stats = ["LOGIN", "LOGOUT", "ERROR"];
 var selected_filter = [];
 
-MetronicApp.controller('AuditController', function($rootScope, $scope, $http) {
+MetronicApp.controller('AuditController', function($rootScope, $scope, $http, sortable, NgTableParams, $filter, $q) {
     $scope.$on('$viewContentLoaded', function() {
 
         // initialize core components
         Metronic.initAjax();
         $scope.start = 0;
-        $scope.rows = 10;
+        $scope.rows = 100;
         $scope.status = stats;
         $scope.go();
        });
-
+        $scope.getStatus = [];
        $scope.go = function(data){
          if (typeof data == 'undefined') {
             data = "";
           }
          $http.get(globalURL+"api/pistachio/audit?start="+$scope.start+"&rows="+$scope.rows+"&filter="+data)
          .success(function(response) {
-           $scope.contents = response.content;
-           $scope.totalPages = response.totalPages;
-           $scope.first = response.first;
-           $scope.last = response.last;
-           $scope.currentPage = response.number+1;
-           $scope.totalRecs = response.numberOfElements;
-           $(".previousBtn").prop( "disabled", $scope.first);
-           $(".nextBtn").prop("disabled", response.last);
+            var workStatus = [];
+            $scope.getStatus.length = 0;
+            $.each(response.content, function(i, item){
+                      if ($.inArray(item.status,workStatus) === -1){
+                          workStatus.push(item.status);
+                      }
+                  });
+                  filterOpt($scope.getStatus, workStatus);
+            $scope.tableAuditParams = new NgTableParams({page: 1, count: 10}, { dataset: response.content});
+          //  $scope.contents = response.content;
+          //  $scope.totalPages = response.totalPages;
+          //  $scope.first = response.first;
+          //  $scope.last = response.last;
+          //  $scope.currentPage = response.number+1;
+          //  $scope.totalRecs = response.numberOfElements;
+          //  $(".previousBtn").prop( "disabled", $scope.first);
+          //  $(".nextBtn").prop("disabled", response.last);
           });
 
        }

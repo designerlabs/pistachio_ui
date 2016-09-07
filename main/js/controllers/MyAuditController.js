@@ -223,7 +223,8 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
 
 
     //branch on select
-        $scope.getWorkingHour = [{id: "", title: "All"}, {id: 'Normal', title: 'Normal'}, {id: 'After', title: 'After'}, {id: 'Before', title: 'Before'}, {id: 'Holiday', title: 'Holiday'}];
+    $scope.getWorkingHour = [];
+        //$scope.getWorkingHour = [{id: "", title: "All"}, {id: 'Normal', title: 'Normal'}, {id: 'After', title: 'After'}, {id: 'Before', title: 'Before'}, {id: 'Holiday', title: 'Holiday'}];
     $scope.branch_selected = function (name, day, hour, activityName) {
         
         $scope.activeBranch = name;
@@ -288,7 +289,15 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
 
 
                 if(response.data){
-                     $scope.tableAuditParams = new NgTableParams({page: 1, count: 10}, { dataset: response.data});
+                    var workStatus = [];
+                    $scope.getWorkingHour.length = 0;
+                     $.each(response.data, function(i, item){
+                        if ($.inArray(item.workingHour,workStatus) === -1){
+                            workStatus.push(item.workingHour);
+                        }
+                    });
+                    filterOpt($scope.getWorkingHour, workStatus);
+                    $scope.tableAuditParams = new NgTableParams({page: 1, count: 10}, { dataset: response.data});
                 }
 
                 var data = response.transaction;

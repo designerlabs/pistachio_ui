@@ -70,6 +70,14 @@ var MetronicApp = angular
     }
 })
 
+.filter('cmdate', [
+    '$filter', function($filter) {
+        return function(input, format) {
+            return $filter('date')(new Date(input), format);
+        };
+    }
+])
+
 // Angular Translate
 
 .config(function($translateProvider, DEBUG_MODE, LOCALES) {
@@ -326,7 +334,14 @@ function inputValidation(id, callback) {
     });
 }
 
-
+//reusable filter function for ng-table
+function filterOpt(ele, newArr){
+    ele.push({id:"", title:"All"});
+    $.each(newArr, function(i,k){
+        console.log(i,k);
+        ele.push({id:k, title:k});
+    });
+}
 
 
 //AngularJS v1.3.x workaround for old style controller declarition in HTML
