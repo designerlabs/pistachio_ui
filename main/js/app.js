@@ -1091,8 +1091,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     files: [
                         'assets/pistachio/stats/stats.css',
                         'assets/global/plugins/highcharts/js/highcharts.js',
-                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
-                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        // 'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
+                        // 'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/bootstrap-daterangepicker/moment.js',
                         'js/controllers/StatsChartController.js'
                     ]
@@ -1117,8 +1117,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     files: [
                         'assets/pages/scripts/angular-chart/angular-chart.css',
                         'assets/pages/scripts/datamaps/datamaps.world.js',
-                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
-                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        // 'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
+                        // 'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/bootstrap-daterangepicker/moment.js',
                         'assets/pistachio/myAudit/myaudit.css',
                         'assets/pages/css/search.css',
@@ -1176,8 +1176,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                          
                          //'assets/global/plugins/highcharts/js/modules/treemap.js',
                          
-                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
-                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        // 'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
+                        // 'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/bootstrap-daterangepicker/moment.js',
                         'js/controllers/MyAuditController.js'
                         
@@ -1689,13 +1689,16 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                             'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
                             'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
                             'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
-                            'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
+                            
                             'assets/global/plugins/select2/select2.min.js',
                             'assets/global/plugins/datatables/all.min.js',
                             'js/scripts/table-advanced.js',
 
 
-                            'js/controllers/EreportingController.js'
+                            'js/controllers/EreportingController.js',
+                            'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                            'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
+                            
                         ]
                     });
                 }]
@@ -1893,7 +1896,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
                         'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
                         'assets/global/plugins/datatables/all.min.js',
-
                         'bower_components/ace-builds/src-min-noconflict/ext-language_tools.js',
                         'js/controllers/SQLEditorMgtController.js'
                     ]
@@ -1916,19 +1918,21 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
-                        'assets/pages/scripts/angular-chart/angular-chart.css',
-
-                        'assets/pages/scripts/datamaps/datamaps.world.js',
-                        'assets/pages/css/search.css',
+                        // 'assets/pages/scripts/angular-chart/angular-chart.css',
+                        // 'assets/pages/scripts/datamaps/datamaps.world.js',
+                        // 'assets/pages/css/search.css',
                         'assets/pages/scripts/jquery-ui.min.js',
-                        'assets/pages/css/pricing.min.css',
+                        // 'assets/pages/css/pricing.min.css',
                         'assets/pages/scripts/highstock.js',
-                        'assets/pages/css/jquery-ui.css',
-                        'bower_components/moment/min/moment.min.js',
-                        'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
-                        'bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
+                        // 'assets/pages/css/jquery-ui.css',
+                    'bower_components/moment/min/moment.min.js',
+                        // 'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+                        // 'bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
                         
-                        'js/controllers/d2dTrackingController.js'
+                        
+                        'js/controllers/d2dTrackingController.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
                     ]
                 });
             }]

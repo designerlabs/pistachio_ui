@@ -45,7 +45,11 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         });
         
 
-
+        // function cb(start, end) {
+        //     $('#trackingrange span').html(start.format('MMM DD, YYYY') + ' - ' + end.format('MMM DD, YYYY'));
+        //     frmDt = start.format('DD/MM/YYYY');
+        //     toDt = end.format('DD/MM/YYYY');
+        // }
 
         
         //console.log(getDateLimits.call().hello);
@@ -60,33 +64,59 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         if (tDate < 10) tDate = '0' + tDate;
         var lastDate = tDate + "/" + tmonth + "/" + tyear;
         console.log(dateNow);
-        $('#datetimeFrom').datetimepicker({ format: 'DD/MM/YYYY', defaultDate: tyear+'-'+tmonth+'-'+tDate+'T00:00:00' });
-        $('#datetimeTo').datetimepicker({
-            useCurrent: false,
-            defaultDate: dateNow,
-            format: 'DD/MM/YYYY' //Important! See issue #1075
+        // $('#datetimeFrom').datetimepicker({ format: 'DD/MM/YYYY', defaultDate: tyear+'-'+tmonth+'-'+tDate+'T00:00:00' });
+        // $('#datetimeTo').datetimepicker({
+        //     useCurrent: false,
+        //     defaultDate: dateNow,
+        //     format: 'DD/MM/YYYY' //Important! See issue #1075
+        // });
+        var frmDt;
+        // var frmDt = $('#datetimeFrom').data('date');
+        var toDt;
+        // var toDt = $('#datetimeTo').data('date');
+
+        $('#trackingrange').daterangepicker({
+            startDate: moment().subtract(1,"year"),
+            endDate: moment(),           
+            "alwaysShowCalendars": false                     
+        },
+        function(startdt, enddt) {
+            $('#trackingrange span').html(startdt.format('MMM DD, YYYY') + ' - ' + enddt.format('MMM DD, YYYY'));
+            frmDt = startdt.format('DD/MM/YYYY');
+            toDt = enddt.format('DD/MM/YYYY');
         });
 
-        var frmDt = $('#datetimeFrom').data('date');
+        // cb(frmDt, enddt);
 
-        var toDt = $('#datetimeTo').data('date');
+        $("#trackingrange span").html(moment().subtract(1,"year").format("MMM DD YYYY") + " - " + moment().format("MMM DD YYYY"));
 
+        $scope.getFromDt = moment().subtract(1,"year").format("YYYY-MM-DD") + "T00:00:00Z";
+        $scope.getToDt = moment().format("YYYY-MM-DD") + "T00:00:00Z";
+
+        $('.daterangecont').on('apply.daterangepicker', function (ev, picker) {
+            // $("#trackingrange span").html(picker.startDate.format("MMM DD, YYYY") + " - " + picker.endDate.format("MMM DD, YYYY"))
+            $scope.getFromDt = picker.startDate.format("YYYY-MM-DD") + "T00:00:00Z";
+            $scope.getToDt = picker.endDate.format("YYYY-MM-DD") + "T00:00:00Z";
+
+            console.log($scope.ele1, $scope.ele2);
+            $scope.timelineChart($scope.ele1, $scope.ele2);
+            $scope.populateChart();
+            $scope.createChart();
+
+        });
         
 
-        frmDt = frmDt.split('/');
-        toDt = toDt.split('/');
+        // frmDt = frmDt.split('/');
+        // toDt = toDt.split('/');        
 
-        //$scope.utcFromDt = frmDt[2]+"-"+frmDt[1]+"-"+frmDt[0];
-        // $scope.utcToDt = toDt[2]+"-"+toDt[1]+"-"+toDt[0];
-
-        $scope.getFromDt = frmDt[2] + "-" + frmDt[1] + "-" + frmDt[0] + "T00:00:00Z";
-        $scope.getToDt = toDt[2] + "-" + toDt[1] + "-" + toDt[0] + "T00:00:00Z";
+        // $scope.getFromDt = frmDt[2] + "-" + frmDt[1] + "-" + frmDt[0] + "T00:00:00Z";
+        // $scope.getToDt = toDt[2] + "-" + toDt[1] + "-" + toDt[0] + "T00:00:00Z";
 
 
-        var utcFromDt = new Date(frmDt[2] + "-" + frmDt[1] + "-" + frmDt[0] + "T00:00:00Z");
-        var utcToDt = new Date(toDt[2] + "-" + toDt[1] + "-" + toDt[0] + "T00:00:00Z");
-        $scope.utcFromDt = parseInt(utcFromDt.getTime());
-        $scope.utcToDt = parseInt(utcToDt.getTime());
+        // var utcFromDt = new Date(frmDt[2] + "-" + frmDt[1] + "-" + frmDt[0] + "T00:00:00Z");
+        // var utcToDt = new Date(toDt[2] + "-" + toDt[1] + "-" + toDt[0] + "T00:00:00Z");
+        // $scope.utcFromDt = parseInt(utcFromDt.getTime());
+        // $scope.utcToDt = parseInt(utcToDt.getTime());
         //alert($scope.utcFromDt);
 
         $("#datetimeFrom").on("dp.change", function(e) {
@@ -799,22 +829,18 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                             console.log(data);
                             //alert('call-2');
                             //alert(startDt);
-                            $scope.branchCode = data.response.docs[0].branch_code;
-                            
-                            
                             var storeData = [];
                             if (data.facets.count == 0) {
                                 //console.log(data.facets.count.length);
                             } else {
-                                
+                                $scope.branchCode = data.response.docs[0].branch_code;    
                                 for (var i = 0, l = data.facets.in_outs.buckets.length; i < l; i++) {
                                     var obj = data.facets.in_outs.buckets[i];
                                     var element = [];
                                     element.push(new Date(obj.val).getTime());
                                     element.push(obj.count);
                                     storeData.push(element);
-                                }
-                                
+                                }                                
                             }
 
                             $scope.seriesOptions[m] = {
@@ -826,7 +852,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                             };
                             $scope.totalInOut.push(data.response.numFound);
 
-
                             // As we're loading the data asynchronously, we don't know what order it will arrive. So
                             // we keep a counter and create the chart when all the data is loaded.
                             $scope.seriesCounter += 1;
@@ -834,7 +859,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                             if ($scope.seriesCounter === $scope.seriesDet.series.length) {
                                 $scope.createChart();
                             }
-
                         })
                         .catch(function(err) {
 
