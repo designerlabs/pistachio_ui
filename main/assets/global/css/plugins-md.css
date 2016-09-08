@@ -2703,3 +2703,8 @@ AngularJS UI-select
 .minicolors-swatch {
   border: 0;
 }
+
+.daterangepicker.dropdown-menu {
+    padding: 5px;
+    right: inherit !important;
+}

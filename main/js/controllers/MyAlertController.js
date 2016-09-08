@@ -8,6 +8,8 @@ MetronicApp.controller('MyAlertController', function($rootScope, $scope, $http) 
 
     });
 
+    $(".page-sidebar-menu > li").removeClass('active');
+    $("#dashboardLink").addClass('active');
  
 	var ctrl = this;
 	

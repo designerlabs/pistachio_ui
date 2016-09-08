@@ -1,7 +1,8 @@
 'use strict';
 
 MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http, sortable, NgTableParams, $filter, $q) {
-
+     $(".page-sidebar-menu > li").removeClass('active');
+        $("#dashboardLink").addClass('active');
     $scope.$on('$viewContentLoaded', function () {
         $scope.showOfficer = false;
         $scope.showHeatMap = false;
