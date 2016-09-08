@@ -1105,11 +1105,11 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
                         'assets/pistachio/stats/stats.css',
-                        'assets/global/plugins/highcharts/js/highcharts.js',
-                        // 'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
-                        // 'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/highcharts/js/highcharts.js',                        
                         'assets/global/plugins/bootstrap-daterangepicker/moment.js',
-                        'js/controllers/StatsChartController.js'
+                        'js/controllers/StatsChartController.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
                     ]
                 });
             }]
@@ -1131,9 +1131,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
                         'assets/pages/scripts/angular-chart/angular-chart.css',
-                        'assets/pages/scripts/datamaps/datamaps.world.js',
-                        // 'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
-                        // 'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/pages/scripts/datamaps/datamaps.world.js',                        
                         'assets/global/plugins/bootstrap-daterangepicker/moment.js',
                         'assets/pistachio/myAudit/myaudit.css',
                         'assets/pages/css/search.css',
@@ -1144,7 +1142,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pistachio/map/Leaflet.fullscreen.min.js',
                         'assets/pistachio/map/leaflet.fullscreen.css',
                         'assets/global/plugins/highcharts/js/modules/treemap.js',
-                        'js/controllers/VAAController.js'
+                        'js/controllers/VAAController.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
                     ]
                 });
             }]
@@ -1189,12 +1189,11 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                          'assets/pages/scripts/highstock.js',
                          'assets/global/plugins/d3/d3-force.v1.min.js',
                          
-                         //'assets/global/plugins/highcharts/js/modules/treemap.js',
-                         
-                        // 'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
-                        // 'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                         //'assets/global/plugins/highcharts/js/modules/treemap.js',                         
                         'assets/global/plugins/bootstrap-daterangepicker/moment.js',
-                        'js/controllers/MyAuditController.js'
+                        'js/controllers/MyAuditController.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
                         
                         
                     ]
@@ -1223,10 +1222,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                          'assets/global/plugins/d3/d3-force.v1.min.js',
                          
                          //'assets/global/plugins/highcharts/js/modules/treemap.js',
-                        'js/controllers/MyUserController.js'
-                        
-                        //'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
-                        //'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js'
+                        'js/controllers/MyUserController.js',                        
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
                         //'https://cdn.rawgit.com/esvit/ng-table/1.0.0/dist/ng-table.js'
                         
                     ]
@@ -1940,7 +1938,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         // 'assets/pages/css/pricing.min.css',
                         'assets/pages/scripts/highstock.js',
                         // 'assets/pages/css/jquery-ui.css',
-                    'bower_components/moment/min/moment.min.js',
+                        // 'bower_components/moment/min/moment.min.js',
                         // 'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
                         // 'bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
                         
@@ -1948,6 +1946,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'js/controllers/d2dTrackingController.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
+                        
                     ]
                 });
             }]
@@ -1968,20 +1967,21 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
                         'assets/pages/scripts/angular-chart/angular-chart.css',
-
                         'assets/pages/scripts/datamaps/datamaps.world.js',
                         'assets/pages/css/search.css',
                         'assets/pages/scripts/jquery-ui.min.js',
                         'assets/pages/css/pricing.min.css',
                        /* 'assets/pages/scripts/highstock.js',*/
-                       'assets/global/plugins/highcharts/js/highcharts.js',
+                        'assets/global/plugins/highcharts/js/highcharts.js',
                         'assets/pages/css/jquery-ui.css',
                         'bower_components/moment/min/moment.min.js',
-                        'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
-                        'bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
+                        // 'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+                        // 'bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
 
                         'assets/pistachio/hourlyReport/hourlyReport.css',
-                        'js/controllers/employeeHourlyDetailsController.js'
+                        'js/controllers/employeeHourlyDetailsController.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
                     ]
                 });
             }]

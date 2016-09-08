@@ -64,89 +64,136 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         if (tDate < 10) tDate = '0' + tDate;
         var lastDate = tDate + "/" + tmonth + "/" + tyear;
 
-        $('#datetimeFrom').datetimepicker({
-            format: 'DD/MM/YYYY',
-            defaultDate: '"' + $scope.startDtNSplit[1] + '"/"' + $scope.startDtNSplit[0] + '"/"' + $scope.startDtNSplit[2] + '"'
+        // $('#datetimeFrom').datetimepicker({
+        //     format: 'DD/MM/YYYY',
+        //     defaultDate: '"' + $scope.startDtNSplit[1] + '"/"' + $scope.startDtNSplit[0] + '"/"' + $scope.startDtNSplit[2] + '"'
+        // });
+        // $('#datetimeTo').datetimepicker({
+        //     useCurrent: false,
+        //     defaultDate: '"'+$scope.endDtNSplit[1] +'"/"'+$scope.endDtNSplit[0] + '"/"' + $scope.endDtNSplit[2] + '"',
+        //     format: 'DD/MM/YYYY' //Important! See issue #1075
+        // });
+
+        var frmDt;
+        // = $('#datetimeFrom').data('date');
+
+        var toDt;
+        // = $('#datetimeTo').data('date');
+
+        $('#Hourlygrange').daterangepicker({
+            startDate: moment().subtract(1,"year"),
+            endDate: moment(),           
+            "alwaysShowCalendars": false                     
+        },
+        function(startdt, enddt) {
+            $('#Hourlygrange span').html(startdt.format('MMM DD, YYYY') + ' - ' + enddt.format('MMM DD, YYYY'));
+            frmDt = startdt.format('DD/MM/YYYY');
+            toDt = enddt.format('DD/MM/YYYY');
         });
-        $('#datetimeTo').datetimepicker({
-            useCurrent: false,
-            defaultDate: '"'+$scope.endDtNSplit[1] +'"/"'+$scope.endDtNSplit[0] + '"/"' + $scope.endDtNSplit[2] + '"',
-            format: 'DD/MM/YYYY' //Important! See issue #1075
+
+        // cb(frmDt, enddt);
+
+         if($rootScope.commonFrm == undefined ||  $rootScope.commonTo == undefined){
+            $("#Hourlygrange span").html(moment().subtract(1,"year").format("MMM DD YYYY") + " - " + moment().format("MMM DD YYYY"));
+            $scope.getFromDt = moment().subtract(1,"year").format("YYYY-MM-DD") + "T00:00:00Z";
+            $scope.getToDt = moment().format("YYYY-MM-DD") + "T00:00:00Z";            
+         }else{
+            $("#Hourlygrange span").html($rootScope.commonFrm + " - " + $rootScope.commonTo);
+            $scope.getFromDt = moment($rootScope.commonFrm).format("YYYY-MM-DD") + "T00:00:00Z";
+            $scope.getToDt = moment($rootScope.commonTo).format("YYYY-MM-DD") + "T00:00:00Z";
+         }
+
+        $('.daterangecont').on('apply.daterangepicker', function (ev, picker) {
+            $("#trackingrange span").html(picker.startDate.format("MMM DD, YYYY") + " - " + picker.endDate.format("MMM DD, YYYY"))
+            $scope.getFromDt = picker.startDate.format("YYYY-MM-DD") + "T00:00:00Z";
+            $scope.getToDt = picker.endDate.format("YYYY-MM-DD") + "T00:00:00Z";
+
+            $scope.startDtNEpoch =  moment($scope.getFromDt).format('MM-DD-YYYY'); 
+            $scope.startDtNEpoch = moment($scope.startDtNEpoch).unix() * 1000;
+
+            $scope.endDtNEpoch = moment($scope.getToDt).format('MM-DD-YYYY'); 
+            $scope.endDtNEpoch = (moment($scope.endDtNEpoch).unix() + 86400 - 60) * 1000;
+
+            $scope.getFromDtN = moment($scope.getFromDt).format('YYYY-MM-DD');      
+            $scope.getToDtN = moment($scope.getToDt).format('YYYY-MM-DD');    
+
+            $rootScope.commonFrm = picker.startDate.format("MMM DD YYYY");
+            $rootScope.commonTo = picker.endDate.format("MMM DD YYYY");
+
+            $scope.submitDate();
         });
 
-        var frmDt = $('#datetimeFrom').data('date');
 
-        var toDt = $('#datetimeTo').data('date');
-
-        frmDt = frmDt.split('/');
-        toDt = toDt.split('/');
+        // frmDt = frmDt.split('/');
+        // toDt = toDt.split('/');
 
         //$scope.utcFromDt = frmDt[2]+"-"+frmDt[1]+"-"+frmDt[0];
         // $scope.utcToDt = toDt[2]+"-"+toDt[1]+"-"+toDt[0];
 
-        $scope.getFromDt = frmDt[2] + "-" + frmDt[1] + "-" + frmDt[0] + "T00:00:00Z";
-        $scope.getToDt = toDt[2] + "-" + toDt[1] + "-" + toDt[0] + "T00:00:00Z";
+        // $scope.getFromDt = frmDt[2] + "-" + frmDt[1] + "-" + frmDt[0] + "T00:00:00Z";
+        // $scope.getToDt = toDt[2] + "-" + toDt[1] + "-" + toDt[0] + "T00:00:00Z";
 
-        $scope.getFromDtN = frmDt[2] + "-" + frmDt[1] + "-" + frmDt[0];
-        $scope.getToDtN = toDt[2] + "-" + toDt[1] + "-" + toDt[0];
+        $scope.getFromDtN = moment($scope.getFromDt).format('YYYY-MM-DD');      
+        $scope.getToDtN = moment($scope.getToDt).format('YYYY-MM-DD');    
 
 
-        $scope.startDtNEpoch = frmDt[1] + "-" + frmDt[0] + "-" + frmDt[2];
+        // $scope.startDtNEpoch = frmDt[1] + "-" + frmDt[0] + "-" + frmDt[2];
+        $scope.startDtNEpoch = moment($scope.getFromDt).format('MM-DD-YYYY');      
         $scope.startDtNEpoch = moment($scope.startDtNEpoch).unix() * 1000;
 
-        $scope.endDtNEpoch = toDt[1] + "-" + toDt[0] + "-" + toDt[2];
+        $scope.endDtNEpoch = moment($scope.getToDt).format('MM-DD-YYYY');  
         $scope.endDtNEpoch = moment($scope.endDtNEpoch).unix() * 1000;
 
        // $scope.endDtNEpoch = $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "-" + $scope.endDtNSplit[2];
         //$scope.endDtNEpoch = moment($scope.endDtNEpoch).unix() * 1000;
 
-        var utcFromDt = new Date(frmDt[2] + "-" + frmDt[1] + "-" + frmDt[0] + "T00:00:00Z");
-        var utcToDt = new Date(toDt[2] + "-" + toDt[1] + "-" + toDt[0] + "T00:00:00Z");
-        $scope.utcFromDt = parseInt(utcFromDt.getTime());
-        $scope.utcToDt = parseInt(utcToDt.getTime());
+        // var utcFromDt = new Date(frmDt[2] + "-" + frmDt[1] + "-" + frmDt[0] + "T00:00:00Z");
+        // var utcToDt = new Date(toDt[2] + "-" + toDt[1] + "-" + toDt[0] + "T00:00:00Z");
+        // $scope.utcFromDt = parseInt(utcFromDt.getTime());
+        // $scope.utcToDt = parseInt(utcToDt.getTime());
         //alert($scope.utcFromDt);
 
-        $("#datetimeFrom").on("dp.change", function(e) {
-            var myDate = new Date(e.date);
+        // $("#datetimeFrom").on("dp.change", function(e) {
+        //     var myDate = new Date(e.date);
 
-            var yyyy = myDate.getFullYear().toString();
+        //     var yyyy = myDate.getFullYear().toString();
 
-            var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
-            var dd = myDate.getDate().toString();
-            resultDtFrom = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
-            chDtFrom = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]);
-            $scope.fromYr = yyyy;
-            $scope.fromMo = mm;
-            $scope.fromDd = dd;
+        //     var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
+        //     var dd = myDate.getDate().toString();
+        //     resultDtFrom = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
+        //     chDtFrom = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]);
+        //     $scope.fromYr = yyyy;
+        //     $scope.fromMo = mm;
+        //     $scope.fromDd = dd;
 
-            $scope.getFromDt = resultDtFrom;
-            $scope.getFromDtN = chDtFrom;
-            $scope.startDtNEpoch =  (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "-" + yyyy;
-            $scope.startDtNEpoch = moment($scope.startDtNEpoch).unix() * 1000;
-            //alert($scope.getFromDt);
-            // return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
-            $('#datetimeTo').data("DateTimePicker").minDate(e.date);
-        });
+        //     $scope.getFromDt = resultDtFrom;
+        //     $scope.getFromDtN = chDtFrom;
+        //     $scope.startDtNEpoch =  (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "-" + yyyy;
+        //     $scope.startDtNEpoch = moment($scope.startDtNEpoch).unix() * 1000;
+        //     //alert($scope.getFromDt);
+        //     // return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
+        //     $('#datetimeTo').data("DateTimePicker").minDate(e.date);
+        // });
 
-        $("#datetimeTo").on("dp.change", function(e) {
-            var myDate = new Date(e.date);
-            var yyyy = myDate.getFullYear().toString();
-            var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
-            var dd = myDate.getDate().toString();
+        // $("#datetimeTo").on("dp.change", function(e) {
+        //     var myDate = new Date(e.date);
+        //     var yyyy = myDate.getFullYear().toString();
+        //     var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
+        //     var dd = myDate.getDate().toString();
 
-            $scope.toYr = yyyy;
-            $scope.toMo = mm;
-            $scope.toDd = dd;
+        //     $scope.toYr = yyyy;
+        //     $scope.toMo = mm;
+        //     $scope.toDd = dd;
 
-            resultDtTo = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
-            chDtTo = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]);
-            $scope.getToDt = resultDtTo;
-            $scope.getToDtN = chDtTo;
-            $scope.endDtNEpoch = (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "-" + yyyy;
-            $scope.endDtNEpoch = (moment($scope.endDtNEpoch).unix() + 86400 - 60) * 1000;
-            //alert($scope.getToDt);
-            $('#datetimeFrom').data("DateTimePicker").maxDate(e.date);
-        });
+        //     resultDtTo = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
+        //     chDtTo = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]);
+        //     $scope.getToDt = resultDtTo;
+        //     $scope.getToDtN = chDtTo;
+        //     $scope.endDtNEpoch = (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "-" + yyyy;
+        //     $scope.endDtNEpoch = (moment($scope.endDtNEpoch).unix() + 86400 - 60) * 1000;
+        //     //alert($scope.getToDt);
+        //     $('#datetimeFrom').data("DateTimePicker").maxDate(e.date);
+        // });
 
 
         var immigrationSolr = "hismove";
@@ -622,9 +669,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         $scope.submitDate = function(e) {
 
             console.log($scope.employeeArr);
-            $scope.storeData= [];
-
-          
+            $scope.storeData= [];          
             $scope.getOfficersbyDate($scope.getFromDtN+"T00:00:00Z", $scope.getToDtN +"T00:00:00Z")
             $scope.empName = [];
             $scope.removeChart();

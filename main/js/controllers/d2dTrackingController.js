@@ -87,16 +87,25 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         });
 
         // cb(frmDt, enddt);
+        if($rootScope.commonFrm == undefined ||  $rootScope.commonTo == undefined){
+            $("#trackingrange span").html(moment().subtract(1,"year").format("MMM DD YYYY") + " - " + moment().format("MMM DD YYYY"));
+            $scope.getFromDt = moment().subtract(1,"year").format("YYYY-MM-DD") + "T00:00:00Z";
+            $scope.getToDt = moment().format("YYYY-MM-DD") + "T00:00:00Z";
+        }else{
+            $("#trackingrange span").html($rootScope.commonFrm + " - " + $rootScope.commonTo);
+            $scope.getFromDt = moment($rootScope.commonFrm).format("YYYY-MM-DD") + "T00:00:00Z";
+            $scope.getToDt = moment($rootScope.commonTo).format("YYYY-MM-DD") + "T00:00:00Z";       
+        }
 
-        $("#trackingrange span").html(moment().subtract(1,"year").format("MMM DD YYYY") + " - " + moment().format("MMM DD YYYY"));
-
-        $scope.getFromDt = moment().subtract(1,"year").format("YYYY-MM-DD") + "T00:00:00Z";
-        $scope.getToDt = moment().format("YYYY-MM-DD") + "T00:00:00Z";
+        
 
         $('.daterangecont').on('apply.daterangepicker', function (ev, picker) {
             // $("#trackingrange span").html(picker.startDate.format("MMM DD, YYYY") + " - " + picker.endDate.format("MMM DD, YYYY"))
             $scope.getFromDt = picker.startDate.format("YYYY-MM-DD") + "T00:00:00Z";
             $scope.getToDt = picker.endDate.format("YYYY-MM-DD") + "T00:00:00Z";
+
+            $rootScope.commonFrm = picker.startDate.format("MMM DD YYYY");
+            $rootScope.commonTo = picker.endDate.format("MMM DD YYYY");
 
             console.log($scope.ele1, $scope.ele2);
             $scope.timelineChart($scope.ele1, $scope.ele2);
@@ -119,40 +128,40 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         // $scope.utcToDt = parseInt(utcToDt.getTime());
         //alert($scope.utcFromDt);
 
-        $("#datetimeFrom").on("dp.change", function(e) {
-            var myDate = new Date(e.date);
+        // $("#datetimeFrom").on("dp.change", function(e) {
+        //     var myDate = new Date(e.date);
 
-            var yyyy = myDate.getFullYear().toString();
+        //     var yyyy = myDate.getFullYear().toString();
 
-            var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
-            var dd = myDate.getDate().toString();
-            resultDtFrom = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
+        //     var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
+        //     var dd = myDate.getDate().toString();
+        //     resultDtFrom = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
 
-            $scope.fromYr = yyyy;
-            $scope.fromMo = mm;
-            $scope.fromDd = dd;
+        //     $scope.fromYr = yyyy;
+        //     $scope.fromMo = mm;
+        //     $scope.fromDd = dd;
 
-            $scope.getFromDt = resultDtFrom;
-            //alert($scope.getFromDt);
-            // return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
-            $('#datetimeTo').data("DateTimePicker").minDate(e.date);
-        });
+        //     $scope.getFromDt = resultDtFrom;
+        //     //alert($scope.getFromDt);
+        //     // return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
+        //     $('#datetimeTo').data("DateTimePicker").minDate(e.date);
+        // });
 
-        $("#datetimeTo").on("dp.change", function(e) {
-            var myDate = new Date(e.date);
-            var yyyy = myDate.getFullYear().toString();
-            var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
-            var dd = myDate.getDate().toString();
+        // $("#datetimeTo").on("dp.change", function(e) {
+        //     var myDate = new Date(e.date);
+        //     var yyyy = myDate.getFullYear().toString();
+        //     var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
+        //     var dd = myDate.getDate().toString();
 
-            $scope.toYr = yyyy;
-            $scope.toMo = mm;
-            $scope.toDd = dd;
+        //     $scope.toYr = yyyy;
+        //     $scope.toMo = mm;
+        //     $scope.toDd = dd;
 
-            resultDtTo = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
-            $scope.getToDt = resultDtTo;
-            //alert($scope.getToDt);
-            $('#datetimeFrom').data("DateTimePicker").maxDate(e.date);
-        });
+        //     resultDtTo = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
+        //     $scope.getToDt = resultDtTo;
+        //     //alert($scope.getToDt);
+        //     $('#datetimeFrom').data("DateTimePicker").maxDate(e.date);
+        // });
 
 
 
@@ -257,8 +266,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
 
 
-                $("#datetimeFrom").data('DateTimePicker').date($scope.changeDt(dateFormat(Math.round(e.min))));
-                $("#datetimeTo").data('DateTimePicker').date($scope.changeDt(dateFormat(Math.round(e.max))));
+                // $("#datetimeFrom").data('DateTimePicker').date($scope.changeDt(dateFormat(Math.round(e.min))));
+                // $("#datetimeTo").data('DateTimePicker').date($scope.changeDt(dateFormat(Math.round(e.max))));
 
                 $scope.startDate = dateFormat(Math.round(e.min));
                 $scope.endDate = dateFormat(Math.round(e.max));
@@ -266,7 +275,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                   $scope.endDate = $scope.getToDt;*/
 
 
-                $scope.subtitle = $scope.changeDt(dateFormat(Math.round(e.min))) + " - " + $scope.changeDt(dateFormat(Math.round(e.max)));
+                // $scope.subtitle = $scope.changeDt(dateFormat(Math.round(e.min))) + " - " + $scope.changeDt(dateFormat(Math.round(e.max)));
+                $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).format('DD/MM/YYYY');
 
                 if ($scope.ele1 == "Inital") {
                     triggerOpt = "*:*";
@@ -731,7 +741,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         mainFacet = "branches";
                         triggerOptRow = "rows=2&";
                         groupBy, offsetVal = "";
-                        $scope.subtitle = $('#datetimeFrom').data('date') + " - " + $('#datetimeTo').data('date');
+                        // $scope.subtitle = $('#datetimeFrom').data('date') + " - " + $('#datetimeTo').data('date');
+                        $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).format('DD/MM/YYYY');                        
                         branchQry = 'branch';
                         ubranch = 'ubranch: "unique(' + branchQry + ')"';
                         gap = "%2B1DAY";
@@ -750,7 +761,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         mainFacet = "branches";
                         groupBy, offsetVal = "";
                         gap = "%2B1DAY";
-                        $scope.subtitle = $('#datetimeFrom').data('date') + " - " + $('#datetimeTo').data('date');
+                        // $scope.subtitle = $('#datetimeFrom').data('date') + " - " + $('#datetimeTo').data('date');
+                        $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).format('DD/MM/YYYY');                        
                         branchQry = 'dy_create_id';
                         ubranch = 'ubranch: "unique(' + branchQry + ')"';
 
@@ -766,7 +778,9 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         triggerOpt = "branch:" + $scope.getBranchVal.one + " AND  dy_create_id:" + $scope.getEmpName.one;
                         triggerOptRow = "rows=2&fq=branch:" + $scope.getBranchVal.one + "&fq=dy_create_id:" + $scope.getEmpName.one + "&";
                         mainFacet = "country";
-                        $scope.subtitle = $('#datetimeFrom').data('date') + " - " + $('#datetimeTo').data('date');
+                        // $scope.subtitle = $('#datetimeFrom').data('date') + " - " + $('#datetimeTo').data('date');
+                        $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).format('DD/MM/YYYY');
+                        
                         branchQry = "country";
                         ubranch = 'ubranch: "unique(' + branchQry + ')"';
                         groupBy, offsetVal = "";
@@ -785,7 +799,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         triggerOpt = "branch:" + $scope.getBranchVal.one + " AND  dy_create_id:" + $scope.getEmpName.one + " AND country:" + $scope.getCtryName.one;
                         triggerOptRow = "rows=2&fq=branch:" + $scope.getBranchVal.one + "&fq=dy_create_id:" + $scope.getEmpName.one + "&fq=country:" + $scope.getCtryName.one + "&";
                         mainFacet = "country";
-                        $scope.subtitle = $('#datetimeFrom').data('date') + " - " + $('#datetimeTo').data('date');
+                        // $scope.subtitle = $('#datetimeFrom').data('date') + " - " + $('#datetimeTo').data('date');
+                        $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).format('DD/MM/YYYY');                        
                         branchQry = "country";
                         ubranch = 'ubranch: "unique(doc_no)"';
                         offsetVal = 'offset:' + $scope.branchOffset + ',';
@@ -804,7 +819,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         triggerOptRow = "rows=2&fq=branch:" + $scope.ele1 + "&";
                         groupBy, offsetVal = "";
                         gap = "%2B1DAY";
-                        $scope.subtitle = $('#datetimeFrom').data('date') + " - " + $('#datetimeTo').data('date');
+                        // $scope.subtitle = $('#datetimeFrom').data('date') + " - " + $('#datetimeTo').data('date');
+                        $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).format('DD/MM/YYYY');                        
                         branchQry = 'dy_create_id';
                         ubranch = 'ubranch: "unique(' + branchQry + ')"';
 
