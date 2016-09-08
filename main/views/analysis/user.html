@@ -41,7 +41,7 @@
   <div id="user-map" class="col-md-9">
       <div class="titleHeader" ng-show="activeBranch" style="margin-top: 0px; position:relative;">
       <h3 class="nopadding"><i style="font-size: 20px;" class="fa fa-plane"></i> {{activeBranch}}
-      <span  ng-show="activeGraph">&nbsp;<span class="officerCount"><i class="fa fa-group groupIcon"></i> {{officersCount}}</span></span></h3>
+      <!--<span  ng-show="activeGraph">&nbsp;<span class="officerCount"><i class="fa fa-group groupIcon"></i> {{officersCount}}</span></span></h3>-->
       <button class="dataBtn btn btn-block btn-default" data-toggle="modal" data-target=".myUserData"><i class="fa fa-table"></i> Datatable</button>
     </div>
     <div id="graphContainer">
@@ -84,7 +84,7 @@
 
        <div class="modal fade myUserData" id="myUserData" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
   <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-closebtn bg-danger"></div>
+    <div class="modal-closebtn bg-danger" data-dismiss="modal"></div>
     <div class="modal-content">
       <div id="tableContainer" style="padding:10px;">
         <div style="padding: 1px 12px;">

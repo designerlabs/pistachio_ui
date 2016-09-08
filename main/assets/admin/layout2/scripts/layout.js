@@ -61,7 +61,7 @@ var Layout = function() {
             console.log(height);
 
             
-            content.attr('style', 'min-height:' + height + 'px');
+            content.attr('style', 'min-height:' + (height-10) + 'px');
         }
     };
 
