@@ -80,24 +80,35 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         var toDt;
         // = $('#datetimeTo').data('date');
 
-        $('#Hourlygrange').daterangepicker({
-            startDate: moment().subtract(1,"year"),
-            endDate: moment(),           
-            "alwaysShowCalendars": false                     
-        },
-        function(startdt, enddt) {
-            $('#Hourlygrange span').html(startdt.format('MMM DD, YYYY') + ' - ' + enddt.format('MMM DD, YYYY'));
-            frmDt = startdt.format('DD/MM/YYYY');
-            toDt = enddt.format('DD/MM/YYYY');
-        });
+        
 
         // cb(frmDt, enddt);
 
          if($rootScope.commonFrm == undefined ||  $rootScope.commonTo == undefined){
+             $('#Hourlygrange').daterangepicker({
+                startDate: moment().subtract(1,"year"),
+                endDate: moment(),           
+                "alwaysShowCalendars": false                     
+            },
+            function(startdt, enddt) {
+                $('#Hourlygrange span').html(startdt.format('MMM DD, YYYY') + ' - ' + enddt.format('MMM DD, YYYY'));
+                frmDt = startdt.format('DD/MM/YYYY');
+                toDt = enddt.format('DD/MM/YYYY');
+            });
             $("#Hourlygrange span").html(moment().subtract(1,"year").format("MMM DD YYYY") + " - " + moment().format("MMM DD YYYY"));
             $scope.getFromDt = moment().subtract(1,"year").format("YYYY-MM-DD") + "T00:00:00Z";
             $scope.getToDt = moment().format("YYYY-MM-DD") + "T00:00:00Z";            
          }else{
+             $('#Hourlygrange').daterangepicker({
+                startDate: moment($rootScope.commonFrm),
+                endDate: moment($rootScope.commonTo),           
+                "alwaysShowCalendars": false                     
+            },
+            function(startdt, enddt) {
+                $('#Hourlygrange span').html(startdt.format('MMM DD, YYYY') + ' - ' + enddt.format('MMM DD, YYYY'));
+                frmDt = startdt.format('DD/MM/YYYY');
+                toDt = enddt.format('DD/MM/YYYY');
+            });
             $("#Hourlygrange span").html($rootScope.commonFrm + " - " + $rootScope.commonTo);
             $scope.getFromDt = moment($rootScope.commonFrm).format("YYYY-MM-DD") + "T00:00:00Z";
             $scope.getToDt = moment($rootScope.commonTo).format("YYYY-MM-DD") + "T00:00:00Z";
