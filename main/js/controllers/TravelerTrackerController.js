@@ -98,12 +98,10 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
         $scope.fn_getCitizenInfo = function() {
             $scope.showVisa = false;
             var qry = Qparam.substring(0, Qparam.length - 17);
-
             $.get("http://" + solrHost + ":8983/solr/cit/query?sort=xit_date desc&json={query:'" + qry + "',limit:100000}")
                 .then(function(result) {
                     console.log(result);
-
-
+                   
                     if (result.response.docs.length !== 0) {
 
                         $scope.showHistory = true;
@@ -200,6 +198,12 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
             console.log('visadetails' + visadetails);
             visadetails.forEach(function(k,v){
                 itmbackgrd = [];
+                debugger;
+                    var str = k.vend;
+                    var res = str.substr(0, 4);
+                    var res1 = str.substr(4, 2);
+                    var res2 = str.substr(6, 2);
+                  
                 itmbackgrd ={
                     content : k.pass_type,
                     start : moment(k.created,"YYYY-MM-DDT00:00:00").format("YYYY-MM-DD"),

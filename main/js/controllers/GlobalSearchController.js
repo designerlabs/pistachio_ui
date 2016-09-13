@@ -414,7 +414,7 @@ $scope.$on('mapClick', function(event, e) {
   $scope.viewCitizen = function (docno) {
     // window.location = "#/travelertracker/travelertracker.html?doc_nos=" + docno + "&citizen=true";
     window.location = "#/travelertracker/travelertracker.html?session=true";    
-    sessionStorage.setItem('Qparam','doc_nos:'+ docno +' AND citizen:'+ true);
+    sessionStorage.setItem('Qparam','doc_no:'+ docno +' AND citizen:'+ true);
   };
 
 
