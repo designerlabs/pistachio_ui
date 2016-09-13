@@ -1115,7 +1115,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         $scope.cleanQuery = function(data) {
             data = data.replace(/\(/g, "\\\(");
             data = data.replace(/\)/g, "\\\)");
-            data = data.replace(/ /g, "*");
+            data = data.replace(/ /g, "?");
             return (data);
         };
 
