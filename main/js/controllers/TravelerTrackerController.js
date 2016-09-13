@@ -168,9 +168,9 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                 }
 
                 if (cnt <= 10) {
-                    e.content = moment(e.xit_date).format('DD-MM-YYYY HH:mm:ss') + ' , ' + e.branch + ' , ' + e.dy_create_id;
+                    e.content = moment.utc(e.xit_date).format('DD-MM-YYYY HH:mm:ss') + ' , ' + e.branch + ' , ' + e.dy_create_id;
                 } else {
-                    e.title = moment(e.xit_date).format('DD-MM-YYYY HH:mm:ss') + ' , ' + e.branch + ' , ' + e.dy_create_id;
+                    e.title = moment.utc(e.xit_date).format('DD-MM-YYYY HH:mm:ss') + ' , ' + e.branch + ' , ' + e.dy_create_id;
                 }
 
                 if (k != 0 && e.dy_action_ind == newary[k - 1].dy_action_ind) {
@@ -206,8 +206,8 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                   
                 itmbackgrd ={
                     content : k.pass_type,
-                    start : moment(k.created,"YYYY-MM-DDT00:00:00").format("YYYY-MM-DD"),
-                    end : moment(k.vend,"YYYYMMDD").format("YYYY-MM-DD"),
+                    start : moment.utc(k.created,"YYYY-MM-DDT00:00:00").format("YYYY-MM-DD"),
+                    end : moment.utc(k.vend,"YYYYMMDD").format("YYYY-MM-DD"),
                     type : 'background'
                 }
                 backgrd.push(itmbackgrd);
@@ -253,13 +253,13 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                         "data": "start",
                         "render": function(data, type, full, meta) {
                             // return data.toString().substr(0, 10) + " " + data.toString().substr(11, 8);
-                            return moment(data).format('DD-MM-YYYY');
+                            return moment.utc(data).format('DD-MM-YYYY');
                         }
                     }, {
                         "data": "end",
                         "render": function(data, type, full, meta) {
                             // return data.toString().substr(0, 10) + " " + data.toString().substr(11, 8);
-                            return moment(data).format('DD-MM-YYYY');
+                            return moment.utc(data).format('DD-MM-YYYY');
                             
                         }
                     }],
@@ -283,7 +283,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                             "data": "xit_date",
                             "render": function(data, type, full, meta) {
                                 // var strdt = data.toString().substr(0, 10) + " " + data.toString().substr(11, 8);
-                                var strdt = moment(data).format('DD-MM-YYYY');
+                                var strdt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
                                 return strdt;
                             }
                         },{
@@ -386,14 +386,13 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                     { "data": "created",
                       "render": function(data,type,full,meta){
                         // return(moment(data,"YYYY-MM-DDT00:00:00").format("YYYY-MM-DD"));
-                        return(moment(data).format("DD-MM-YYYY"));
+                        return(moment.utc(data).format("DD-MM-YYYY"));
                       }
                      }, 
                     {
                         "data": "vend",
                         "render": function(data, type, full, meta) {
-                        // return(moment(data,"YYYYMMDD").format("YYYY-MM-DD"));
-                           return(moment(data).format("DD-MM-YYYY"));                        
+                           return(moment.utc(data,"YYYYMMDD").format("DD-MM-YYYY"));                        
                         }
                     }
                 ]
