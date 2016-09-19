@@ -86,20 +86,20 @@
                                   <ul>
                                       <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" ng-repeat="cnt in countries" ng-click="clickCountry(cnt.val)">
                                           <div class="mt-list-title col-md-9 col-sm-9 col-xs-9" data-toggle="tooltip" title="{{cnt.val}}"> {{omitNa(cnt.val) |limitTo:25}}</div>
-                                          <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count}} </div>
+                                          <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count | number:0}} </div>
                                       </li>
                                   </ul>
                               </div>
                                 <a class="list-toggle-container" data-toggle="collapse" data-target="#jobs" aria-expanded="false">
                                     <div class="list-toggle done uppercase col-md-12 col-sm-12 col-xs-12"> Jobs
-                                        <span class="badge badge-default pull-right bg-white font-green bold">{{uJob}}</span>
+                                        <span class="badge badge-default pull-right bg-white font-green bold">{{uJob | number:0}}</span>
                                     </div>
                                 </a>
                                 <div style="" aria-expanded="false" ng-class="{{db_clicked}}" class="panel-collapse collapsed collapse" id="jobs">
                                     <ul>
                                         <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" style="padding-left:0px;" ng-repeat="cnt in jobs" ng-click="clickJobs(cnt.val)">
                                             <div class="mt-list-title col-md-9 col-sm-9 col-xs-9" data-toggle="tooltip" title="{{cnt.val}}"> {{omitNa(cnt.val) |limitTo:25}}</div>
-                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count}} </div>
+                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count | number:0}} </div>
                                         </li>
                                         <li class="mt-list-item  col-md-12 col-sm-12 col-xs-12 show-more-btn" ng-click="moreJobs()">
                                             <div class="mt-list-title  col-md-12 col-sm-12 col-xs-12"><label class="btn red btn-outline btn-circle btn-sm active">show more</label> </div>
@@ -108,27 +108,27 @@
                                 </div>
                                 <a class="list-toggle-container" data-toggle="collapse" data-target="#employers" aria-expanded="false">
                                     <div class="list-toggle uppercase col-md-12 col-sm-12 col-xs-12"> employer
-                                        <span class="badge badge-default pull-right bg-white font-dark bold">{{uEmp}}</span>
+                                        <span class="badge badge-default pull-right bg-white font-dark bold">{{uEmp | number:0}}</span>
                                     </div>
                                 </a>
                                 <div style="" aria-expanded="false" class="panel-collapse collapsed collapse" id="employers">
                                     <ul>
                                         <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" style="padding-left:0px;" ng-repeat="cnt in employers" ng-click="clickEmply(cnt.val)">
                                             <div class="mt-list-title col-md-9 col-sm-9 col-xs-9" data-toggle="tooltip" title="{{cnt.val}}"> {{omitNa(cnt.val) |limitTo:25}}</div>
-                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count}} </div>
+                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count | number:0}} </div>
                                         </li>
                                     </ul>
                                 </div>
                                 <a class="list-toggle-container" data-toggle="collapse" data-target="#visa" aria-expanded="false">
                                     <div class="list-toggle done uppercase col-md-12 col-sm-12 col-xs-12"> Visa
-                                        <span class="badge badge-default pull-right bg-white font-green bold">{{uVis}}</span>
+                                        <span class="badge badge-default pull-right bg-white font-green bold">{{uVis | number:0}}</span>
                                     </div>
                                 </a>
                                 <div style="" aria-expanded="false" ng-class="{{db_clicked}}" class="panel-collapse collapsed collapse" id="visa">
                                     <ul>
                                         <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" style="padding-left:0px;" ng-repeat="cnt in visas" ng-click="clickVisa(cnt.val)">
                                             <div class="mt-list-title col-md-9 col-sm-9 col-xs-9" data-toggle="tooltip" title="{{cnt.val}}"> {{omitNa(cnt.val) |limitTo:25}}</div>
-                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count}} </div>
+                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count | number:0}} </div>
                                         </li>
                                     </ul>
                                 </div>
@@ -141,26 +141,26 @@
                                     <ul>
                                         <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" ng-repeat="cnt in skill" ng-click="clickSkill(cnt.val)">
                                             <div class="mt-list-title col-md-9 col-sm-9 col-xs-9" data-toggle="tooltip" title="{{cnt.val}}"> {{omitNa(cnt.val) |limitTo:25}}</div>
-                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count}} </div>
+                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count | number:0}} </div>
                                         </li>
                                     </ul>
                                 </div>
                                 <a class="list-toggle-container" data-toggle="collapse" data-target="#state" aria-expanded="false">
                                     <div class="list-toggle done uppercase col-md-12 col-sm-12 col-xs-12"> State
-                                        <span class="badge badge-default pull-right bg-white font-green bold">{{uSta}}</span>
+                                        <span class="badge badge-default pull-right bg-white font-green bold">{{uSta | number:0}}</span>
                                     </div>
                                 </a>
                                 <div style="" aria-expanded="false" ng-class="{{db_clicked}}" class="panel-collapse collapsed collapse" id="state">
                                     <ul>
                                         <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" style="padding-left:0px;" ng-repeat="cnt in states" ng-click="clickState(cnt.val)">
                                             <div class="mt-list-title col-md-9 col-sm-9 col-xs-9" data-toggle="tooltip" title="{{cnt.val}}"> {{omitNa(cnt.val) |limitTo:25}}</div>
-                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count}} </div>
+                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count | number:0}} </div>
                                         </li>
                                     </ul>
                                 </div>
                                 <a class="list-toggle-container" data-toggle="collapse" data-target="#city" aria-expanded="false">
                                     <div class="list-toggle uppercase col-md-12 col-sm-12 col-xs-12"> City
-                                      <span class="badge badge-default pull-right bg-white font-green bold">{{uCity}}</span>
+                                      <span class="badge badge-default pull-right bg-white font-green bold">{{uCity | number:0}}</span>
                                         <!--  <span class="badge badge-default pull-right bg-white font-dark bold">{{uEmp}}</span>-->
                                     </div>
                                 </a>
@@ -168,7 +168,7 @@
                                     <ul>
                                         <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" ng-repeat="cnt in cities" ng-click="clickCity(cnt.val)">
                                             <div class="mt-list-title col-md-9 col-sm-9 col-xs-9" data-toggle="tooltip" title="{{cnt.val}}"> {{omitNa(cnt.val) |limitTo:25}}</div>
-                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count}} </div>
+                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count | number:0}} </div>
                                         </li>
                                     </ul>
                                 </div>
@@ -219,7 +219,7 @@
                                     <div class="display">
                                         <div class="number">
                                             <h3 class="font-green-sharp">
-                                                <span data-counter="counterup" data-value="7800">{{numFound}}</span>
+                                                <span data-counter="counterup" data-value="7800">{{numFound | number:0}}</span>
                                                 
                                             </h3>
                                             <small>Total Issued Visa</small>

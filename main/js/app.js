@@ -302,8 +302,10 @@ function formInputValidation(id) {
     });
 }
 
-
-
+//format number
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
 
 //validation before ajax
 function inputValidation(id, callback) {
@@ -1404,7 +1406,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         //    'assets/global/plugins/cubeportfolio/js/jquery.cubeportfolio.min.js',
                         'assets/global/plugins/cubeportfolio/css/cubeportfolio.css',
 
-                        'js/controllers/FastSearchController.js'
+                        'js/controllers/FastSearchController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
 
                     ]
                 });
@@ -1490,6 +1493,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pages/css/search.css',
                         'assets/pages/css/pricing.min.css',
 
+                        
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
 
                         'assets/pistachio/fastsearch/leaflet/leaflet_canvas_layer.js',
                         //'assets/pistachio/map/heatmap.min.js',
@@ -2130,6 +2135,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
                         'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
                         'assets/global/plugins/datatables/all.min.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'assets/pages/css/invoice-2.css',
                         'assets/global/plugins/vis/vis.js',
                         'assets/global/plugins/vis/vis.css',

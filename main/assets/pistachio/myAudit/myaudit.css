@@ -767,3 +767,10 @@ li.pagination ul.pager li a {
     font-weight: 700;
     color: #fff;
 }
+
+.auditCount{
+    background: #187d58;
+    padding: 2px 8px;
+    float: right;
+    font-size: 20px;
+}

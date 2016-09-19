@@ -19,7 +19,7 @@
         <h4> Country </h4>
         <div class="todo-project-list">
           <ul class="list-group">
-            <li class="list-group-item" data-ng-repeat="cnt in countries" data-cntval="{{cnt.count}}" style="padding-left: 3px; padding-right: 1px;">
+            <li class="list-group-item" data-ng-repeat="cnt in countries" data-cntval="{{cnt.count |  number:0}}" style="padding-left: 3px; padding-right: 1px;">
 
               <div class="md-checkbox" style="padding: 2px;">
                 <input type="checkbox" ng-click="checkboxselectedCountry(cnt.val)" class="md-check" id={{cnt.val}}>
@@ -37,7 +37,7 @@
         <h4> Jobs </h4>
         <div class="todo-project-list">
           <ul class="list-group">
-            <li class="list-group-item" data-ng-repeat="cnt in jobs" data-cntval="{{cnt.count}}" style="padding-left: 3px; padding-right: 1px;">
+            <li class="list-group-item" data-ng-repeat="cnt in jobs" data-cntval="{{cnt.count |  number:0}}" style="padding-left: 3px; padding-right: 1px;">
 
               <div class="md-checkbox" style="padding: 2px;">
                 <input type="checkbox" ng-click="jobBox(cnt.val)" class="md-check" id={{cnt.val}}>
@@ -73,7 +73,7 @@
               <div class='ui_box__inner'>
                 <h2>{{'fastsearch.global.applications' | translate}}</h2>
                 <div class='stat'>
-                  <span>{{applicationsFound}}</span>
+                  <span>{{applicationsFound |  number:0}}</span>
                 </div>
                 <p>permohonan found in {{qtime}} milliseconds</p>
 
@@ -84,7 +84,7 @@
               <div class='ui_box__inner'>
                 <h2>{{'fastsearch.global.users' | translate}}</h2>
                 <div class='stat'>
-                  <span>{{users}}</span>
+                  <span>{{users |  number:0}}</span>
                 </div>
                 <p>{{'fastsearch.global.usersfound' | translate}}</p>
               </div>
@@ -94,7 +94,7 @@
               <div class='ui_box__inner'>
                 <h2>{{'fastsearch.global.stickers' | translate}}</h2>
                 <div class='stat'>
-                  <span>{{employers}}</span>
+                  <span>{{employers |  number:0}}</span>
                 </div>
                 <p>{{'fastsearch.global.employersfound' | translate}} in {{vtime}} milliseconds</p>
               </div>
@@ -144,10 +144,10 @@
                 <tbody>
                   <tr ng-repeat="x in items">
                     <td style="width:10%;" class="table-title">
-                      <a href="javascript:;">{{formatDate(x.created) | cmdate:'dd/MM/yyyy hh:mm:ss'}}</a>
+                      {{formatDate(x.created) | cmdate:'dd/MM/yyyy hh:mm:ss'}}
                     </td>
                     <td style="width:25%;" class="table-title">
-                      <a href="javascript:;">{{x.job_en}}</a>
+                      {{x.job_en}}
                     </td>
                     <td style="width:25%;" class="table-title">
                       {{x.name}}

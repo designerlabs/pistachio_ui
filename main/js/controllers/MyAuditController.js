@@ -20,6 +20,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
             $http.get(globalURL + "api/secured/pistachio/myaudit/branch?from=" + start + "&to=" + end + $scope.triggerHourDt)
                 .success(function (response) {
                     console.log(response);
+                    $scope.branchCount = response.length;
                     $scope.branches = response;
                     if ($scope.branches.length === 0) {
                         $scope.checkList = true;
@@ -65,7 +66,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                     enabled: false
                 },
                 tooltip: {
-                    pointFormat: 'No of Activity is <b>{point.y}</b>'
+                    pointFormat: 'No of Activity is <b>{point.y:,.0f}</b>'
                 },
                 plotOptions: {
                     series: {
@@ -74,13 +75,14 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                     events: {
                         click: function (e) {
                             $scope.activityName = this.name;
+                            $scope.triggerHourDt = "";
+                            
                             if($scope.triggerHourDt){
                                 $scope.branch_selected($scope.activeBranch, $scope.Dt, $scope.Hr, this.name);
                             }else{
                                 $scope.branch_selected($scope.activeBranch, undefined, undefined, this.name);
                             }
-                            
-                  
+               
                         }
                     }
                 }
@@ -120,6 +122,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
             
             $('.selectedBox').html("On <b>" + Dt[0] + "</b> @ " + Hr[0] + ", total activity: <b>" + total + "</b>");
             $scope.branch_selected(branch, Dt[1], Hr[1], activityName);
+            //$scope.activeUser = undefined;
             $scope.branchList(this.start, this.end, Dt[1], Hr[1]);
         };
 
@@ -228,8 +231,12 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
         //$scope.getWorkingHour = [{id: "", title: "All"}, {id: 'Normal', title: 'Normal'}, {id: 'After', title: 'After'}, {id: 'Before', title: 'Before'}, {id: 'Holiday', title: 'Holiday'}];
     $scope.branch_selected = function (name, day, hour, activityName) {
         
+        console.log(event);
         $scope.activeBranch = name;
-        $scope.activeUser = false;
+        if(!event.point){
+            $scope.activeUser = undefined;
+        }
+        
         $scope.loading = true;
         $scope.selectedDayTime = false;
       
@@ -240,7 +247,9 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
             $scope.activityName = undefined;
             $scope.activity = "";
         }else{
-            $scope.activity = "&txn="+activityName;
+            var ampstr = activityName;
+            var repstr = ampstr.replace("&","%26");
+            $scope.activity = "&txn="+repstr;
         }
 
         if ((day == undefined) || (hour == undefined)) {
@@ -252,13 +261,16 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
         } else {
             $scope.triggerHourDt = "&day=" + day + "&hour=" + hour;
         }
-        
-        $http.get(globalURL + "api/secured/pistachio/myaudit/officer?branch=" + name + "&from=" + $scope.startDt + "&to=" + $scope.endDt + $scope.triggerHourDt + $scope.activity,
+
+        var triggerOfficerData = function(){
+            $scope.activityName = undefined;
+            $http.get(globalURL + "api/secured/pistachio/myaudit/officer?branch=" + name + "&from=" + $scope.startDt + "&to=" + $scope.endDt + $scope.triggerHourDt + $scope.activity,
             { headers: { 'Content-Type': 'application/json' } })
             .success(function (response) {
                 //$scope.loading = false;
 
                 $scope.officers = response;
+                $scope.officerCount = response.length;
                 if ($scope.officers.length === 0) {
                     $scope.showOfficer = false;
                 } else {
@@ -267,7 +279,14 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                 $('#branches').collapse('hide');
                 $("#branchHeader span").html('<i class="fa fa-chevron-circle-up" aria-hidden="true"></i>');
             });
-        console.log("Getting branch heatmap");
+            console.log("Getting branch heatmap");
+        };
+        if(!$scope.activeUser){
+            triggerOfficerData();
+        }
+        
+        
+        
          //$scope.loading = true;
     
         $http.get(globalURL + "api/secured/pistachio/myaudit/branch/heatmap?branch=" + name + "&from=" + $scope.startDt + "&to=" + $scope.endDt + $scope.triggerHourDt + $scope.activity,
@@ -280,8 +299,13 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                 console.log(response);
                 var hmap = response.heatmap;
                 console.log(hmap);
+                
                 if ($scope.triggerHourDt == "") {
-                    if(!$scope.activityName){
+
+                    if($scope.activeBranch && !$scope.activityName){
+                        heatmapChart(response.heatmap);
+                    }
+                    if($scope.activityName){
                         heatmapChart(response.heatmap);
                     }
                     
@@ -348,6 +372,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
     $scope.officer_change = function (name, day, hour, activityName) {
         $scope.loading = true;
         $scope.activeUser = name;
+        $scope.activityName = undefined;    
         //debugger;
         $scope.selectedOfficer = name;
         $scope.selectedDayTime = false;
@@ -363,7 +388,9 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
             $scope.activityName = undefined;
             $scope.activity = "";
         }else{
-            $scope.activity = "&txn="+activityName;
+            var ampstr = activityName;
+            var repstr = ampstr.replace("&","%26");
+            $scope.activity = "&txn="+repstr;
         }
 
         console.log($scope.activeBranch);
@@ -411,9 +438,10 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                     this.push([value.field, value.count]);
                 }, log);
 
-                if($scope.activity == ""){
-                    $scope.barChart(log);
-                }
+                 $scope.barChart(log);
+                // if($scope.activity == ""){
+                //     $scope.barChart(log);
+                // }
 
                 if(response.data){
                      $scope.tableAuditParams = new NgTableParams({page: 1, count: 10}, { dataset: response.data});

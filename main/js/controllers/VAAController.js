@@ -62,7 +62,6 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
     }
 
     $scope.pickDayRange = function(days) {
-      debugger;
       if(days < 2) {
         $scope.period = "%2B1HOUR"
       }
@@ -342,7 +341,6 @@ $scope.stateSelected = false;
               json.facet.date_range.start  = $scope.dateRange.min;
               json.facet.date_range.end    = $scope.dateRange.max;
             }
-            debugger
             json.facet.date_range.gap    = $scope.period;
 
           }
@@ -736,6 +734,7 @@ $scope.stateSelected = false;
             },
             title: {
                 text: 'Visa Applications'
+
             },
             subtitle: {
                 text: document.ontouchstart === undefined ?

@@ -20,7 +20,7 @@
 
     <div class="row"></div>
     <div class="titleHeader">
-    <h3 class="nopadding"><i style="font-size: 20px;" class="fa fa-plane"></i>  Branch List</h3>
+    <h3 class="nopadding"><i style="font-size: 20px;" class="fa fa-plane"></i>  Branch List <span  ng-show="branchCount">&nbsp;<span class="auditCount">{{branchCount}}</span></span></h3>
     </div>
     <div style="padding-top:0px;">
       <input type="text" ng-model="searchBranch" class="form-control input-md" placeholder="&#128269; Search by Branch" style="border:1px solid #ccc">
@@ -29,7 +29,7 @@
         <h5 class="text-center"><i class="fa fa-warning"></i> Records not found!</h5>
     </div>
     <ul class="list-group">
-      <li class="list-group-item" ng-repeat="b in branches | filter:searchBranch" data-cntval="{{b.count}}" style="padding-left: 3px; padding-right: 1px;"
+      <li class="list-group-item" ng-repeat="b in branches | filter:searchBranch" data-cntval="{{b.count |  number:0}}" style="padding-left: 3px; padding-right: 1px;"
         ng-class="{selectedAuditList : activeBranch === b.branch}" ng-click="branch_selected(b.branch)">
         {{b.branch}}
       </li>
@@ -39,7 +39,7 @@
 
   <div ng-show="showOfficer" class=" filter" style="padding: 0px 0px; border-top: 0px;">
     <div  class="titleHeader">
-      <h3 class="nopadding"><i style="font-size: 20px;" class="fa fa-user"></i> Officers</h3>
+      <h3 class="nopadding"><i style="font-size: 20px;" class="fa fa-user"></i> Officers <span  ng-show="officerCount">&nbsp;<span class="auditCount">{{officerCount}}</span></span></h3>
     </div>
     <div class="input-group" style="margin-bottom:0px;">
 
@@ -51,7 +51,7 @@
 
     <!--<input type="text" ng-model="officer" class="form-control" style="border: #ccc 1px solid; height: 50px; width: 90%; display:inline-block;" placeholder="Search by Officer"><button class="btn btn-danger"><i class="fa fa-refresh" aria-hidden="true"></i></button>-->
     <ul class="officer-group" style="padding:0px;  height:300px; overflow:auto; clear:both; background:#f1f0f0; margin-bottom:0px;">
-      <li ng-class="{selectedAuditUserList : activeUser === officer}" class="selectpickerUser officer-group-item" data-officerCnt={{officer.count}} ng-click="officer_change(officer)"
+      <li ng-class="{selectedAuditUserList : activeUser === officer}" class="selectpickerUser officer-group-item" data-officerCnt="{{officer.count |  number:0}}" ng-click="officer_change(officer)"
         ng-repeat="officer in officers | filter:officer">
         {{officer.field}}
       </li>
@@ -91,13 +91,13 @@
   </div>
 
   <div class="modal fade myAuditData" id="myAuditData" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-  <div class="modal-dialog modal-lg" role="document">\
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-closebtn bg-danger" data-dismiss="modal"></div>
     <div class="modal-content">
       <div id="tableAuditContainer" style="padding:10px;">
         <div style="padding: 1px 12px;">
           <h3><i style="font-size: 20px;" class="fa fa-plane"></i> <strong>{{activeBranch}}</strong> <span ng-show="activeUser">&mdash; {{activeUser.field}}</span></h3>
-          <div class="totalCt"><h3>Total <strong>{{ tableAuditParams.total() }}</strong> record(s) found.</h3></div>
+          <div class="totalCt"><h3><span ng-show="tableAuditParams.total() == '50'">Limited by <strong>{{ tableAuditParams.total() }}</strong> record(s). <button class="btn btn-success" onclick="alert('work in progress')">View All</button></span><span ng-show="tableAuditParams.total() != '50'">Total <strong>{{ tableAuditParams.total() }}</strong> record(s) found.</span></h3></div>
           </div>
         
             <table ng-table="tableAuditParams" class="table" show-filter="true">

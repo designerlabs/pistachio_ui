@@ -211,24 +211,24 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         // };
             if ($scope.ele2 == "Branch") {
                 
-                $scope.column2 = "No. of Exit / Visitor(s)";
+                $scope.column2 = "No. of Exit";
                 $scope.column3 = "Exit Trend";
-                $scope.column4 = "No. of Entry / Visitor(s)";
+                $scope.column4 = "No. of Entry";
                 $scope.column5 = " Entry Trend";
             }
 
             if ($scope.ele2 == "Officer") {
                 $scope.BranchName = $scope.getBranchVal.two;
-                $scope.column2 = "No. of Exit / Visitor(s)";
+                $scope.column2 = "No. of Exit";
                 $scope.column3 = "Exit Trend";
-                $scope.column4 = "No. of Entry / Visitor(s)";
+                $scope.column4 = "No. of Entry";
                 $scope.column5 = " Entry Trend";
             }
             if ($scope.ele2 == "Country") {
                 $scope.EmpName = $scope.getEmpName.two;
-                $scope.column2 = "No. of Exit / Visitor(s)";
+                $scope.column2 = "No. of Exit";
                 $scope.column3 = "Exit Trend";
-                $scope.column4 = "No. of Entry / Visitor(s)";
+                $scope.column4 = "No. of Entry";
                 $scope.column5 = " Entry Trend";
             }
             if ($scope.ele2 == "Visitor") {
@@ -336,9 +336,46 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 var sq_b = "http://" + solrHost + ":8983/solr/" + immigrationSolr + "/query?json="; //jsonQ;
                 $http.get(sq_b + query_c).success(function(data) {
                         //alert('call-1');
-
                         var storeBranchData = [];
-                        //debugger;
+                        
+                       /* NEED TO CHECK AND UNCOMMENT IN PRODUCTION */
+                        var chk1 = data.facets.in_outs.buckets[0].val;
+                            console.log(data);
+                           
+                           if(chk1){
+
+                                if(chk1 == 'in'){
+                                    $scope.totalEntry = data.facets.in_outs.buckets[0].count;
+                                }else{
+                                    if(data.facets.in_outs.buckets[1]){
+                                        $scope.totalEntry = data.facets.in_outs.buckets[1].count;
+                                    }else{
+                                        $scope.totalExit = data.facets.in_outs.buckets[0].count;
+                                        $scope.totalEntry = 0;
+                                    }
+                                }
+                            }
+                            if(data.facets.in_outs.buckets[1]){
+                                var chk2 = data.facets.in_outs.buckets[1].val;
+                                if(chk2){
+                                    if(chk2 == 'out'){
+                                        $scope.totalExit = data.facets.in_outs.buckets[1].count;
+                                    }else{
+                                   
+                                        $scope.totalExit = data.facets.in_outs.buckets[0].count;
+                                    }
+                                }
+                            }else{
+                                if(chk1 == 'in'){
+                                    $scope.totalExit = 0;
+                                }else{
+                                    $scope.totalEntry = 0;
+                                }
+                                
+                            }
+                           
+                        
+                        // end
                         if ($scope.ele2 == "Country") {
 
                             if (data.facets.count == 0) {
@@ -879,6 +916,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                                 type: 'areaspline',
                                 threshold: null
                             };
+                            
                             $scope.totalInOut.push(data.response.numFound);
 
                             // As we're loading the data asynchronously, we don't know what order it will arrive. So
@@ -898,18 +936,60 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     //$scope.loading = true;
                     $http.get(sq_spark + query_spark)
                         .success(function(data) {
-
                             if (($scope.totalCount - $scope.branchOffset) < 15) {
                                 $("#bNextBtn").prop('disabled', true);
                             } else {
                                 $("#bNextBtn").prop('disabled', false);
                             }
+                            //debugger;
+                            /* NEED TO CHECK AND UNCOMMENT IN PRODUCTION*/
+                           
+                 
+                          
+                            var chk1 = data.facets.in_outs.buckets[0].val;
+                            console.log(data);
+                           
+                           if(chk1){
 
+                                if(chk1 == 'in'){
+                                    $scope.totalEntry = data.facets.in_outs.buckets[0].count;
+                                }else{
+                                    if(data.facets.in_outs.buckets[1]){
+                                        $scope.totalEntry = data.facets.in_outs.buckets[1].count;
+                                    }else{
+                                        $scope.totalExit = data.facets.in_outs.buckets[0].count;
+                                        $scope.totalEntry = 0;
+                                    }
+                                }
+                            }
+                            if(data.facets.in_outs.buckets[1]){
+                                var chk2 = data.facets.in_outs.buckets[1].val;
+                                if(chk2){
+                                    if(chk2 == 'out'){
+                                        $scope.totalExit = data.facets.in_outs.buckets[1].count;
+                                    }else{
+                                   
+                                        $scope.totalExit = data.facets.in_outs.buckets[0].count;
+                                    }
+                                }
+                            }else{
+                                if(chk1 == 'in'){
+                                    $scope.totalExit = 0;
+                                }else{
+                                    $scope.totalEntry = 0;
+                                }
+                                
+                            }
+                           
 
+                            
+                            //end
+                    
                             $scope.totalCount = data.facets.ubranch;
                             $scope.numofpage = Math.ceil($scope.totalCount / limitValue);
 
                             console.log(data);
+                            //$scope.totalInOut.push(data.facets.in_outs.buckets);
 
                             var storeBranchData = [];
 
