@@ -338,7 +338,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         //alert('call-1');
                         var storeBranchData = [];
                         
-                       /* NEED TO CHECK AND UNCOMMENT IN PRODUCTION
+                       /* NEED TO CHECK AND UNCOMMENT IN PRODUCTION */
                         var chk1 = data.facets.in_outs.buckets[0].val;
                         var chk2 = data.facets.in_outs.buckets[1].val;
                         if(chk1 == 'in'){
@@ -352,7 +352,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         }else{
                             $scope.totalExit = data.facets.in_outs.buckets[0].count;
                         }
-                        */
+                        
+                        // end
                         if ($scope.ele2 == "Country") {
 
                             if (data.facets.count == 0) {
@@ -753,7 +754,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
              }else{*/
             endDt = $scope.getToDt;
             /*};*/
-            //$scope.totalInOut = [];
+            $scope.totalInOut = [];
             //alert(count + " first");
             $.each($scope.seriesDet, function(j, valu) {
 
@@ -894,7 +895,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                                 threshold: null
                             };
                             
-                            //$scope.totalInOut.push(data.response.numFound);
+                            $scope.totalInOut.push(data.response.numFound);
 
                             // As we're loading the data asynchronously, we don't know what order it will arrive. So
                             // we keep a counter and create the chart when all the data is loaded.
@@ -918,8 +919,14 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                             } else {
                                 $("#bNextBtn").prop('disabled', false);
                             }
-
-                            /* NEED TO CHECK AND UNCOMMENT IN PRODUCTION
+                            //debugger;
+                            /* NEED TO CHECK AND UNCOMMENT IN PRODUCTION*/
+                            if(data.facets.in_outs.buckets[0].val == undefined){
+                                debugger;
+                            }
+                            if(data.facets.in_outs.buckets[1].val == undefined){
+                                debugger;
+                            }
                             var chk1 = data.facets.in_outs.buckets[0].val;
                             var chk2 = data.facets.in_outs.buckets[1].val;
                             if(chk1 == 'in'){
@@ -933,7 +940,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                             }else{
                                 $scope.totalExit = data.facets.in_outs.buckets[0].count;
                             }
-                            */
+                            //end
+                            
                             $scope.totalCount = data.facets.ubranch;
                             $scope.numofpage = Math.ceil($scope.totalCount / limitValue);
 
