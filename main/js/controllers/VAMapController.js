@@ -4,7 +4,7 @@ var filter_query = "";
 
 var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/immigration2/query?json='
 
-MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
+MetronicApp.controller('VAMapController', function($rootScope, $scope, $http) {
     $scope.$on('$viewContentLoaded', function() {
         $scope.firstTime = true;
         // initialize core components
@@ -16,7 +16,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
 
         $scope.reset();
         $scope.date_range();
-
+      
 
     });
     function cb(start, end) {
@@ -85,7 +85,12 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
       if(fq.length < 3) {
         fq = "*:*"
       }
-      $scope.map = L.map("map",{fullscreenControl: true}).setView([4, 100], 7);
+      debugger;
+      if($scope.map != null)
+      {
+        $scope.reDrawHeatMap();
+      }
+      $scope.map = L.map("map",{fullscreenControl: true}).setView([3.9, 102.3], 7);
       L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; NSL | Mimos'
       }).addTo($scope.map);
@@ -98,6 +103,48 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
       }).addTo($scope.map);
 
     
+    }
+
+    $scope.drawHeatMap1 = function() {
+      var fq = $scope.filterQuery();
+      if(fq.length < 3) {
+        fq = "*:*"
+      }
+      debugger;
+      if($scope.map != null)
+      {
+        $scope.reDrawHeatMap();
+      }
+      $scope.map = L.map("map",{fullscreenControl: true}).setView([3.9, 102.3], 7);
+      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; NSL | Mimos'
+      }).addTo($scope.map);
+      function onEachFeature(feature, layer) {
+        var count = feature.properties.count.toLocaleString();
+        layer.bindPopup(count);
+      }
+
+      var solr = L.solrHeatmap('http://'+solrHost+':8983/solr/immigration2', {
+        // Solr field with geospatial data (should be type Spatial Recursive Prefix Tree)
+        field: 'loc',
+        maxSampleSize:600,
+        // Set type of visualization. Allowed types: 'geojsonGrid', 'clusters' Note: 'clusters' requires LeafletMarkerClusterer
+        type: 'geojsonGrid',
+        // type: 'clusters',
+
+        // Inherited from L.GeoJSON
+        onEachFeature: onEachFeature
+      }).addTo($scope.map);
+
+    
+    }
+
+    $scope.showWest = function(){
+      $scope.map.setView([3.9, 114], 7)
+    }
+
+    $scope.showEast = function(){
+      $scope.map.setView([3.9, 102.3], 7)
     }
 
     $scope.reDrawHeatMap = function () {
@@ -378,11 +425,12 @@ $scope.stateSelected = false;
 
                    //alert(data.facet_counts.facet_fields.sex.length);
                    console.log($scope.sex1);
-                   $scope.column();
-                   $scope.pie();
-                   $scope.timelineChart(data.facets.date_range.buckets);
-                   $scope.activeOverall();
+                   //$scope.column();
+                   //$scope.pie();
+                   //$scope.timelineChart(data.facets.date_range.buckets);
+                   //$scope.activeOverall();
                    $scope.loading = false;
+                     $scope.drawHeatMap();
                  }
                  
 
