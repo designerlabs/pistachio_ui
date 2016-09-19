@@ -336,9 +336,23 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 var sq_b = "http://" + solrHost + ":8983/solr/" + immigrationSolr + "/query?json="; //jsonQ;
                 $http.get(sq_b + query_c).success(function(data) {
                         //alert('call-1');
-
                         var storeBranchData = [];
-                        //debugger;
+                        
+                       /* NEED TO CHECK AND UNCOMMENT IN PRODUCTION
+                        var chk1 = data.facets.in_outs.buckets[0].val;
+                        var chk2 = data.facets.in_outs.buckets[1].val;
+                        if(chk1 == 'in'){
+                            $scope.totalEntry = data.facets.in_outs.buckets[0].count;
+                        }else{
+                            $scope.totalEntry = data.facets.in_outs.buckets[1].count;
+                        }
+
+                        if(chk2 == 'out'){
+                            $scope.totalExit = data.facets.in_outs.buckets[1].count;
+                        }else{
+                            $scope.totalExit = data.facets.in_outs.buckets[0].count;
+                        }
+                        */
                         if ($scope.ele2 == "Country") {
 
                             if (data.facets.count == 0) {
@@ -739,7 +753,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
              }else{*/
             endDt = $scope.getToDt;
             /*};*/
-            $scope.totalInOut = [];
+            //$scope.totalInOut = [];
             //alert(count + " first");
             $.each($scope.seriesDet, function(j, valu) {
 
@@ -879,7 +893,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                                 type: 'areaspline',
                                 threshold: null
                             };
-                            $scope.totalInOut.push(data.response.numFound);
+                            
+                            //$scope.totalInOut.push(data.response.numFound);
 
                             // As we're loading the data asynchronously, we don't know what order it will arrive. So
                             // we keep a counter and create the chart when all the data is loaded.
@@ -898,18 +913,32 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     //$scope.loading = true;
                     $http.get(sq_spark + query_spark)
                         .success(function(data) {
-
                             if (($scope.totalCount - $scope.branchOffset) < 15) {
                                 $("#bNextBtn").prop('disabled', true);
                             } else {
                                 $("#bNextBtn").prop('disabled', false);
                             }
 
+                            /* NEED TO CHECK AND UNCOMMENT IN PRODUCTION
+                            var chk1 = data.facets.in_outs.buckets[0].val;
+                            var chk2 = data.facets.in_outs.buckets[1].val;
+                            if(chk1 == 'in'){
+                                $scope.totalEntry = data.facets.in_outs.buckets[0].count;
+                            }else{
+                                $scope.totalEntry = data.facets.in_outs.buckets[1].count;
+                            }
 
+                            if(chk2 == 'out'){
+                                $scope.totalExit = data.facets.in_outs.buckets[1].count;
+                            }else{
+                                $scope.totalExit = data.facets.in_outs.buckets[0].count;
+                            }
+                            */
                             $scope.totalCount = data.facets.ubranch;
                             $scope.numofpage = Math.ceil($scope.totalCount / limitValue);
 
                             console.log(data);
+                            //$scope.totalInOut.push(data.facets.in_outs.buckets);
 
                             var storeBranchData = [];
 

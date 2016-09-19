@@ -97,7 +97,7 @@
       <div id="tableAuditContainer" style="padding:10px;">
         <div style="padding: 1px 12px;">
           <h3><i style="font-size: 20px;" class="fa fa-plane"></i> <strong>{{activeBranch}}</strong> <span ng-show="activeUser">&mdash; {{activeUser.field}}</span></h3>
-          <div class="totalCt"><h3>Total <strong>{{ tableAuditParams.total() }}</strong> record(s) found.</h3></div>
+          <div class="totalCt"><h3><span ng-show="tableAuditParams.total() == '50'">Limited by <strong>{{ tableAuditParams.total() }}</strong> record(s). <button class="btn btn-success" onclick="alert('work in progress')">View All</button></span><span ng-show="tableAuditParams.total() != '50'">Total <strong>{{ tableAuditParams.total() }}</strong> record(s) found.</span></h3></div>
           </div>
         
             <table ng-table="tableAuditParams" class="table" show-filter="true">

@@ -66,7 +66,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                             console.log('visa image');
                             $scope.fn_loadVisaTbl(visadetails,data);
                         });
-                        $scope.$apply();
+                        //$scope.$apply();
 
                     } else {
                         // alert('No data find in immigration2 table');
@@ -198,12 +198,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
             console.log('visadetails' + visadetails);
             visadetails.forEach(function(k,v){
                 itmbackgrd = [];
-                debugger;
-                    var str = k.vend;
-                    var res = str.substr(0, 4);
-                    var res1 = str.substr(4, 2);
-                    var res2 = str.substr(6, 2);
-                  
+                //debugger;
                 itmbackgrd ={
                     content : k.pass_type,
                     start : moment.utc(k.created,"YYYY-MM-DDT00:00:00").format("YYYY-MM-DD"),
@@ -425,7 +420,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
 
         var docno = Qparam.split('AND')[0].replace("doc_nos:", "").trim();
         $('.loadimg').show();
-        $.get(globalURL + "api/image/docno/" + docno)
+        $.get(globalURL + "api/image/solr/docno/" + docno)
             .then(function(response) {
                 console.log(response);
                 $('.loadimg').hide();

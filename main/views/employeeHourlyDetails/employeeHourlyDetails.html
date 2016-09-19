@@ -1,6 +1,6 @@
 <div id="mainContainer1" ng-controller="employeeHourlyDetailsController">
-    <div class="page-toolbar row daterangecont" style="padding-right: 15px; padding-bottom: 15px; padding-left: 30px">
-        <button class="btn btn-danger btn-md" ng-click="backBtn()"><i class="fa fa-arrow-left"></i></button>
+    <div class="page-toolbar row daterangecont" style="padding-right: 15px; padding-bottom: 15px; padding-left: 13px">
+        <button class="btn btn-danger btn-md" ng-click="backBtn()"><i class="fa fa-arrow-left"></i> Back</button>
 
         <div id="Hourlygrange" class="pull-right btn btn-fit-height green">
             <i class="icon-calendar"></i>&nbsp;
@@ -8,17 +8,20 @@
             <i class="fa fa-angle-down"></i>
         </div>                
     </div>
-    <div class="col-md-2">            
+    <div  class="col-md-3" style="background: #48545d; padding: 5px">
+        <div class="titleHeader" style="margin-top: 0px;">
+            <h3 class="nopadding"><i style="font-size: 20px;" class="fa fa-user"></i> Officer List</h3>
+        </div>            
         <div id="employeeList" style="height:500px; overflow-x: auto;">
-            <ul class="customChk" style="list-style:none; padding:0px; margin:0px;">
-                <li ng-repeat="value  in storeData" my-emp-directive style="padding:0 5px 5px;">
+            <ul class="customChk list-group" style="list-style:none; padding:0px; margin:0px; height: 600px;">
+                <li class="list-group-item"  ng-repeat="value  in storeData" my-emp-directive style="padding:0 5px 5px;">
                     <input id="{{value[0]}}" type="checkbox" name="check-box" class="{{value[0]}}" value="{{value[0]}}" />
                     <span>{{value[0]}} ({{value[1]}})</span>
                 </li>
             </ul>
         </div>
     </div>
-    <div class="col-md-10">
+    <div  class="col-md-9" style="background:#fff;">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-6">
@@ -55,5 +58,23 @@
 .daterangepicker.dropdown-menu {
     right: 35px !important;
     top: 125px;
+}
+
+.titleHeader {
+    background: #3daf85;
+    display: inline-block;
+    width: 100%;
+    margin-top: 5px;
+    color: #fff;
+    padding: 10px;
+}
+
+.nopadding {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.highcharts-container{
+    border:1px solid #000;
 }
 </style>

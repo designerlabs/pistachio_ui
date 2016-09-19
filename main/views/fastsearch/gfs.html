@@ -144,10 +144,10 @@
                 <tbody>
                   <tr ng-repeat="x in items">
                     <td style="width:10%;" class="table-title">
-                      <a href="javascript:;">{{formatDate(x.created) | cmdate:'dd/MM/yyyy hh:mm:ss'}}</a>
+                      {{formatDate(x.created) | cmdate:'dd/MM/yyyy hh:mm:ss'}}
                     </td>
                     <td style="width:25%;" class="table-title">
-                      <a href="javascript:;">{{x.job_en}}</a>
+                      {{x.job_en}}
                     </td>
                     <td style="width:25%;" class="table-title">
                       {{x.name}}
