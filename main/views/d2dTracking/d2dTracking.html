@@ -46,8 +46,8 @@
     </div>
 <!--</div>-->
 <div class="col-md-5" style="position: absolute; z-index: 9; right: 100px; top: 60px;">
-    <h3 style="display:inline; margin-right:10px; color:#87ceeb;">Entry: <strong>{{totalEntry}}</strong></h3><h3 style="display:inline;"> / </h3>
-    <h3  style="display:inline; margin-left:10px; color:#f08080;">Exit: <strong>{{totalExit}}</strong></h3>
+    <h3 style="display:inline; margin-right:10px; color:#87ceeb;">Entry: <strong>{{totalEntry | number:0}}</strong></h3><h3 style="display:inline;"> / </h3>
+    <h3  style="display:inline; margin-left:10px; color:#f08080;">Exit: <strong>{{totalExit | number:0}}</strong></h3>
     <!-- {{totalInOut[1] ? totalInOut[1] : "0"}}
     {{totalInOut[0] ? totalInOut[0] : "0"}} -->
 </div>
@@ -76,7 +76,7 @@
             
             <th>{{ column4 }} <button class="sortBtn2"><i class="fa fa-sort"></i></button></th>
             <th>{{ column5 }} <span ng-show="column5 == 'No. of Entry'"><button class="sortBtn3"><i class="fa fa-sort"></i></button></span></th>
-            <th>{{ column2 }} <span ng-show="column2 == 'No. of Exit / Visitor(s)'"><button class="sortBtn1"><i class="fa fa-sort"></i></button></span></th>
+            <th>{{ column2 }} <span ng-show="column2 == 'No. of Exit'"><button class="sortBtn1"><i class="fa fa-sort"></i></button></span></th>
             <th>{{ column3 }}</th>
             <th>Action</th>
         </tr>
@@ -87,10 +87,10 @@
         <tr ng-if="value.brhName.name"  ng-repeat="value  in branchOut" my-repeat-directive>
             <td>{{ value.brhName.name }}</td>
             
-            <td ng-if="value.entry.entryTotal">{{ value.entry.entryTotal }}  / {{ value.entry.uniqueVisitor }}</td>
+            <td ng-if="value.entry.entryTotal">{{ value.entry.entryTotal | number:0 }}</td>
             <td ng-if="!value.entry.entryTotal">0</td>
             <td class="entrySpark" data-sparkline="{{ value.entry.entry }}" />
-            <td ng-if="value.exit.exitTotal"> {{ value.exit.exitTotal}} / {{ value.exit.uniqueVisitor}}</td>
+            <td ng-if="value.exit.exitTotal"> {{ value.exit.exitTotal | number:0}}</td>
             <td ng-if="!value.exit.exitTotal">0</td>
             <td ng-if="value.brhName.exit">{{value.brhName.numFound}}</td>
             <td ng-if="value.brhName.doc">{{ value.brhName.doc }}</td>
