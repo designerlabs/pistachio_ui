@@ -73,6 +73,9 @@
 	"ereporting.delete.no" : "No",
 	"ereporting.delete.yes" : "Yes",
 
+	"heatmapFW.title" : "Foreign Worker HeatMap",
+	"heatmapCit.title" : "Citizen HeatMap",
+
  	"report.title" : "Federal Advanced Profiling Report",
  	"reportmgt.title":"Manage System Reports",
 	"audit.title" : "Audit",

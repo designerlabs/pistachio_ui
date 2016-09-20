@@ -60,6 +60,10 @@
 	"fastsearch.global.applicationno" : "Nombor Aplikasi",
 	"fastsearch.global.action" : "Tindakan",
 	"queryeditor.title" : "Query Editor",
+
+	"heatmapFW.title" : "Foreign Worker HeatMap",
+	"heatmapCit.title" : "Warganegara HeatMap",
+	
 	"ereporting.add" : "Tambah",
 	"ereporting.back" : "Kembali",
 	"ereporting.name" : "Nama",

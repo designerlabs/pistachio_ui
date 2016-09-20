@@ -81,15 +81,27 @@ MetronicApp.controller('VAMapController', function($rootScope, $scope, $http) {
     }
 
     $scope.drawHeatMap = function() {
-      var fq = $scope.filterQuery();
-      if(fq.length < 3) {
-        fq = "*:*"
-      }
-      debugger;
       if($scope.map != null)
       {
         $scope.reDrawHeatMap();
       }
+
+      if($scope.heatMapType == "Grid")
+        $scope.drawGridMap()
+      else
+        $scope.drawHeatMapLayer()
+    }
+
+    $scope.selectHeatMap=function() {
+      $scope.drawHeatMap();
+    }
+
+    $scope.drawHeatMapLayer = function() {
+      var fq = $scope.filterQuery();
+      if(fq.length < 3) {
+        fq = "*:*"
+      }
+      
       $scope.map = L.map("map",{fullscreenControl: true}).setView([3.9, 102.3], 7);
       L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; NSL | Mimos'
@@ -105,15 +117,10 @@ MetronicApp.controller('VAMapController', function($rootScope, $scope, $http) {
     
     }
 
-    $scope.drawHeatMap1 = function() {
+    $scope.drawGridMap = function() {
       var fq = $scope.filterQuery();
       if(fq.length < 3) {
         fq = "*:*"
-      }
-      debugger;
-      if($scope.map != null)
-      {
-        $scope.reDrawHeatMap();
       }
       $scope.map = L.map("map",{fullscreenControl: true}).setView([3.9, 102.3], 7);
       L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -131,7 +138,7 @@ MetronicApp.controller('VAMapController', function($rootScope, $scope, $http) {
         // Set type of visualization. Allowed types: 'geojsonGrid', 'clusters' Note: 'clusters' requires LeafletMarkerClusterer
         type: 'geojsonGrid',
         // type: 'clusters',
-
+        colors: ['#f0875d', '#ed703e', '#ea591f', '#e35015', '#c44512','#a53a0f'],
         // Inherited from L.GeoJSON
         onEachFeature: onEachFeature
       }).addTo($scope.map);
@@ -179,7 +186,8 @@ MetronicApp.controller('VAMapController', function($rootScope, $scope, $http) {
     }
 
     $scope.reset = function(){
-      $scope.radioValue = "Overall"
+      $scope.radioValue = "Overall";
+      $scope.heatMapType = "HeatMap"
       $scope.cntName = "";
       $scope.cntCode = "";
       $scope.cJobs = "";
@@ -194,7 +202,7 @@ MetronicApp.controller('VAMapController', function($rootScope, $scope, $http) {
          $scope.time_filtered_min = "";
         $scope.period = "%2B1YEAR"
          $scope.jobCount = 10;
-$scope.stateSelected = false;
+        $scope.stateSelected = false;
          $scope.dateRange = {};
          $scope.dateRange.min = "2012-01-01T00:00:00Z"
          $scope.dateRange.max = "2016-01-01T00:00:00Z"
@@ -212,6 +220,7 @@ $scope.stateSelected = false;
           data = data.replace(/ /g,"*");
           return(data);
        }
+
 
        $scope.clickActive = function () {
          if($scope.radioValue == 'Active')
@@ -865,5 +874,5 @@ $scope.stateSelected = false;
     // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.pageSidebarClosed = true;
     $rootScope.skipTitle = false;
-    $rootScope.settings.layout.setTitle("");
+    $rootScope.settings.layout.setTitle("heatmapFW");
 });

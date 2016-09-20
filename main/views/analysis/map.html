@@ -158,12 +158,12 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <a class="list-toggle-container" data-toggle="collapse" data-target="#active" aria-expanded="false">
-                                  <div class="list-toggle done uppercase col-md-12 col-sm-12 col-xs-12">HeatMap Option
+                                <a class="list-toggle-container" data-toggle="collapse" data-target="#heatMapOptn" aria-expanded="false">
+                                  <div class="list-toggle uppercase col-md-12 col-sm-12 col-xs-12">HeatMap Option
 
                                   </div>
                               </a>
-                              <div style="" aria-expanded="false" ng-class="{{hdb_clicked}}" class="panel-collapse collapsed collapse" id="active">
+                              <div style="" aria-expanded="false" ng-class="{{hdb_clicked}}" class="panel-collapse collapsed collapse" id="heatMapOptn">
                                 <div class="form-group form-md-radios" >
                                     <div class="md-radio-list">
                                   <ul>
@@ -171,24 +171,24 @@
 
                                               <li class="mt-list-item  col-md-12 col-sm-12 col-xs-12" >
                                                 <div class="md-radio">
-                                                    <input type="radio" id="hradio1" name="hradio1" class="md-radiobtn" ng-model="heatMapType" value="Overall" checked="true"
-                                                    ng-click="clickActive()"
+                                                    <input type="radio" id="hradio1" name="hradio1" class="md-radiobtn" ng-model="heatMapType" value="HeatMap"  checked="true"
+                                                    ng-click="selectHeatMap()"
                                                     >
                                                     <label for="hradio1">
                                                         <span class="inc"></span>
                                                         <span class="check"></span>
-                                                        <span class="box"></span> Overall</label>
+                                                        <span class="box"></span> HeatMap</label>
                                                 </div>
                                               </li>
                                               <li class="mt-list-item  col-md-12 col-sm-12 col-xs-12">
                                                 <div class="md-radio">
-                                                    <input type="radio" id="hradio2" name="hradio1" class="md-radiobtn" ng-model="heatMapType" value="Active"
-                                                    ng-click="clickActive()"
+                                                    <input type="radio" id="hradio2" name="hradio1" class="md-radiobtn" ng-model="heatMapType" value="Grid"
+                                                    ng-click="selectHeatMap()"
                                                     >
                                                     <label for="hradio2">
                                                         <span class="inc"></span>
                                                         <span class="check"></span>
-                                                        <span class="box"></span> Active</label>
+                                                        <span class="box"></span> Grid</label>
                                                 </div>
                                               </li>
 
