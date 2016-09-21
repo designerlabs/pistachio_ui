@@ -1152,6 +1152,77 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }]
         }
     })
+
+.state('heatMapAnalysis', {
+        url: "/heatMapAnalysis.html",
+        templateUrl: "views/analysis/map.html",
+        data: {
+            pageTitle: 'Heat Map Analysis'
+        },
+        controller: "VAMapController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/global/plugins/bootstrap-daterangepicker/moment.js',
+                        'assets/pistachio/myAudit/myaudit.css',
+                        'assets/pages/css/search.css',
+                        'assets/pages/css/pricing.min.css',
+                        'assets/pistachio/fastsearch/leaflet/leaflet_canvas_layer.js',
+                        'assets/pistachio/fastsearch/leaflet/heatmap.js ',
+                        'assets/pistachio/map/Leaflet.fullscreen.min.js',
+                        'assets/pistachio/map/leaflet.fullscreen.css',
+                        'assets/pistachio/map/leafletSolrHeatmap.js',
+                        'assets/pistachio/map/geostats.min.js',
+                        'assets/pistachio/map/leaflet.markercluster-src.js',
+                        'assets/pistachio/map/MarkerCluster.Default.css',
+                        'js/controllers/VAMapController.js',
+                        'assets/pages/scripts/highstock.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
+                    ]
+                });
+            }]
+        }
+    })
+
+.state('CitizenAnalysis', {
+        url: "/citizenAnalysis.html",
+        templateUrl: "views/analysis/citizen.html",
+        data: {
+            pageTitle: 'Citizen Analysis'
+        },
+        controller: "CAController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/global/plugins/bootstrap-daterangepicker/moment.js',
+                        'assets/pistachio/myAudit/myaudit.css',
+                        'assets/pages/css/search.css',
+                        'assets/pages/css/pricing.min.css',
+                        'assets/pistachio/fastsearch/leaflet/leaflet_canvas_layer.js',
+                        'assets/pistachio/fastsearch/leaflet/heatmap.js ',
+                        'assets/pistachio/map/Leaflet.fullscreen.min.js',
+                        'assets/pistachio/map/leaflet.fullscreen.css',
+                        'assets/pistachio/map/leafletSolrHeatmap.js',
+                        'assets/pistachio/map/geostats.min.js',
+                        'assets/pistachio/map/leaflet.markercluster-src.js',
+                        'assets/pistachio/map/MarkerCluster.Default.css',
+                        'js/controllers/CAController.js',
+                        'assets/pages/scripts/highstock.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
+                    ]
+                });
+            }]
+        }
+    })
+
     .state('myAlert', {
         url: "/alertAnalysis.html",
         templateUrl: "views/analysis/alert.html",

@@ -1,0 +1,166 @@
+<div ng-controller="CAController">
+    <div style="background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%; position:absolute; top:0px;" ng-show="loading">
+        <!--  BEGIN PAGE SPINNER -->
+        <div ng-spinner-bar class="page-spinner-bar show">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+        <!--    END PAGE SPINNER -->
+    </div>
+    <div class="page-bar" ng-if="filterButtons.length>0">
+        <ul class="page-breadcrumb" data-ng-repeat="filter in filterButtons">
+            <li>
+                <div class="custom-alerts alert alert-success fade in" style="margin:0;padding:5px">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button" style="padding-top: 5px; margin-top: 4px; margin-left: 5px;" ng-click="updateFilter(filter.id,true)"></button> {{filter.value}}</div>
+            </li>
+        </ul>
+        <ul class="page-breadcrumb">
+            <li>
+                <div ng-click="reset()" class="btn btn-primary previousBtn" style="padding: 5px;"><i class="fa fa-refresh"></i> Reset </div>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+
+        <div class="col-md-12" style="padding-right: 0px;">
+            <div class="container-fluid" style="
+                                            padding-left: 0px;
+                                            padding-right: 0px;
+                                        ">
+            <ul class="grid col-md-12 col-lg-12 col-sm-12" style="padding: 0px;" ng-class="{ 'grid-list' : gridToggle, 'grid-thumb' : !gridToggle }">
+            <div id="branchHeader" data-toggle="collapse" data-target="#timelinebar"><h3>HeatMap({{numFound}})</h3>
+
+            <span><i class="fa fa-chevron-circle-down" aria-hidden="true"> </i></span>
+
+            </div>
+            <div id="timelinebar" > 
+             <div class="col-md-6" style="padding-left: 0px; padding-right: 0px; ">
+                <button class="btn blue btn-block col-md-6" ng-click="showEast()" style="margin-left: 0px;">East Malaysia</button>
+             </div>
+             <div class="col-md-6" style="padding-left: 1px; padding-right: 0px; ">
+                <button class="btn blue btn-block col-md-6 selected" ng-click="showWest()" style="margin-left: 0px;">West Malaysia</button>
+             </div>
+             <div class = "col-md-12 col-lg-12 col-sm-12" style="
+                                            padding-left: 0px;
+                                            padding-right: 0px;
+
+                                        ">
+            
+             <style>
+                                        #map {
+                                          width: 100%;
+                                          height: 600px;
+                                        }
+                                        </style>
+                                   <div id="map"></div>
+                                   <div class = "col-md-3 col-lg-3 col-sm-3" style="
+                                            padding-right: 0px;
+                                            padding-left: 0px;
+                                            padding-top: 0px;
+                                        ">
+                                    <div id="highchart_pie"></div>
+                                  </div>
+                                   <div class = "col-md-9 col-lg-9 col-sm-9" style="
+                                                    padding-left: 0px;
+                                                    padding-right: 0px;
+                                                ">
+                     <div id="highchart_col"></div>
+                    </div>
+             </div>
+                 
+                 <div class = "col-md-4 col-lg-4 col-sm-4" style="
+                                            padding-right: 0px;
+                                            padding-left: 10px;
+                                            padding-top: 3px;
+                                        ">
+                 <div id="highchart_pie"></div>
+                 </div>
+            </div>
+            </ul>
+            
+              <!--
+              <ul class="grid col-md-12 col-lg-12 col-sm-12" style="padding: 0px;">
+                <div id="negaraHeader" data-toggle="collapse" data-target="#jobBar">
+                  <h3><i class="fa fa-user"></i>Negara</h3>
+                  </div>
+                <div id="negaraBar" > 
+                     <div class = "col-md-12 col-lg-12 col-sm-12" style="
+                                                    padding-left: 0px;
+                                                    padding-right: 0px;
+                                                ">
+                      <div id="highchart_active"></div>
+                    </div>
+                </div>
+              </ul>-->
+            </div>
+
+<!--
+            <div class="row">
+                <div class="portlet light bordered ">
+                    <div class="portlet-title tabbable-line">
+                        <div class="caption caption-md">
+                            <i class="icon-settings font-green"></i>
+                            <span class="caption-subject font-green bold uppercase">Distribution</span>
+                            <span class="caption-helper hide">Applications by country</span>
+                        </div>
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a data-target="#overal_analysis"  ng-click="overallTab()" data-toggle="tab"> Overall Analysis </a>
+                            </li>
+                             <li >
+                                <a data-target="#state_analysis" ng-click="stateTab()"  data-toggle="tab"> State Analysis </a>
+                            </li>
+                           
+                        </ul>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="tab-content">
+                            <div class="tab-pane" id="state_analysis">
+                            <div id="highchart_col"> </div>
+                            </div>
+                            <div class="tab-pane active" id="overal_analysis">
+                               <-- <div class="row">
+                                  <div class="col-md-6" style="height:350px;width:100%">
+                                    <style>
+                                        #map {
+                                          width: 100%;
+                                          height: 350px;
+                                        }
+                                        </style>
+                                   <div id="map"></div>
+                                  </div>
+
+                                </div>
+                                --!>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        
+                                    </div>
+                                    <div class="col-md-8">
+                                        <!--
+                  <div id="highchart_col"></div>--!>
+                                        <div id="highchart_timeline"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            <!--
+            <div class="tab-pane active" id="timeline_analysis">
+              <div id="highchart_timeline1"></div>
+            </div>
+          --!>
+
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+<style>
+    .daterangepicker.dropdown-menu {
+        top: 593px !important;
+        left: 78px;
+    }
+    
+</style>

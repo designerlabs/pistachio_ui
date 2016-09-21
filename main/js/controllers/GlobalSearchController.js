@@ -322,6 +322,7 @@ $scope.$on('mapClick', function(event, e) {
 
   $scope.citizen_box = function () {
     $http.get('http://' + solrHost + ':8983/solr/cit/select?q=' + $scope.getQuery() + '&wt=json&start=0&rows=0').
+    //$http.get('http://' + solrHost + ':8983/solr/citizen/select?q=' + $scope.getQuery() + '&wt=json&start=0&rows=0').
       success(function (data) {
         $('#searchbox').val($scope.text);
         $scope.users = data.response.numFound;
@@ -466,6 +467,7 @@ $scope.$on('mapClick', function(event, e) {
     $scope.showVisitor = false;
     var query = ""
     var sq = "http://" + solrHost + ":8983/solr/cit/query?json=";
+    //var sq = "http://" + solrHost + ":8983/solr/citizen/query?json=";
 
     var json = {};
     json.limit = 10;

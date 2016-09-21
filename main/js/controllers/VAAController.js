@@ -475,7 +475,7 @@ $scope.stateSelected = false;
            stateName.push(_state[i].val)
            stateData.push(_state[i].count)
         }
-
+/*
       Highcharts.chart('highchart_active',{
         colorAxis: {
             minColor: '#FFFFFF',
@@ -518,7 +518,7 @@ $scope.stateSelected = false;
             text: 'Highcharts Treemap'
         }
     });
-        
+  */      
     }
 
     $scope.column = function() {
@@ -733,7 +733,8 @@ $scope.stateSelected = false;
                 backgroundColor: '#FFFFFF'
             },
             title: {
-                text: 'Visa Application'
+                text: 'Visa Applications'
+
             },
             subtitle: {
                 text: document.ontouchstart === undefined ?
@@ -793,7 +794,7 @@ $scope.stateSelected = false;
 
             series: [{
                 type: 'column',
-                name: 'State wise distribution',
+                name: 'distribution',
                 data: data
                 
             },

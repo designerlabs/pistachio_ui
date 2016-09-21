@@ -54,6 +54,12 @@ text.mono {
     display: inline-block;
 }
 
+#branchHeader button{
+    width: 10%;
+    text-align: right;
+    display: inline-block;
+}
+
 li.list-group-item:after {
     content: attr(data-cntval);
     position: absolute;
