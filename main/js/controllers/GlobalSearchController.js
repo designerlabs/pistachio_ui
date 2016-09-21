@@ -294,6 +294,7 @@ $scope.$on('mapClick', function(event, e) {
   $scope.application_box = function () {
     $http.get('http://' + solrHost + ':8983/solr/immigration2/select?q=' + $scope.getQuery() + '&wt=json&start=0&rows=0').
       success(function (data) {
+       console.log(data);
         $scope.applicationsFound = data.response.numFound;
         $scope.qtime = data.responseHeader.QTime;
         
@@ -392,7 +393,6 @@ $scope.$on('mapClick', function(event, e) {
   $scope.next = function () {
     $scope.start = $scope.start + 10;
     $scope.show();
-
   }
 
   $scope.previous = function () {
@@ -440,6 +440,7 @@ $scope.$on('mapClick', function(event, e) {
     // json.facet.country.domain = "{excludeTags:COLOR}"
     $http.get(sq + JSON.stringify(json)).
       success(function (data) {
+        $scope.startCount = data.response.start + 10;
         if (data.response.numFound == 0) {
           $scope.showVisitor = false;
         }
@@ -473,6 +474,7 @@ $scope.$on('mapClick', function(event, e) {
     json.sort = "xit_date desc"
     $http.get(sq + JSON.stringify(json)).
       success(function (data) {
+         $scope.startCount = data.response.start + 10;
         if (data.response.numFound == 0) {
           $scope.showCitizen = false;
         }
@@ -516,6 +518,9 @@ $scope.$on('mapClick', function(event, e) {
     // json.facet.country.domain = "{excludeTags:COLOR}"
     $http.get(sq + JSON.stringify(json)+$scope.spatialSearch()).
       success(function (data) {
+        
+        console.log(data);
+        $scope.startCount = data.response.start + 10;
         if (data.response.numFound == 0) {
           $scope.showApplication = false;
         }

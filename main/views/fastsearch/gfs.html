@@ -175,6 +175,7 @@
                 </li>
               </ul>
             </div>
+             <div class="pageNum">( {{startCount}} / {{applicationsFound}} )</div>
           </div>
 
         </div>
@@ -233,14 +234,14 @@
             <div class="search-pagination">
               <ul class="pagination">
                 <li>
-                  <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="start==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+                  <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="startCount==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
                 </li>
                 <li class="page-active">
                   <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
                 </li>
               </ul>
             </div>
-            <div class="pageNum">( {{start}} / {{applicationsFound}} )</div>
+            <div class="pageNum">( {{startCount}} / {{applicationsFound}} )</div>
           </div>
         </div>
       </div>
@@ -303,7 +304,7 @@
             <div class="search-pagination">
               <ul class="pagination">
                 <li>
-                  <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="start==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+                  <button ng-click="previous(this)" class="btn btn-primary previousBtn" ng-disabled="startCount==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
                 </li>
                 <li class="page-active">
                   <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
@@ -311,7 +312,7 @@
 
               </ul>
             </div>
-            <div class="pageNum">( {{start}} / {{applicationsFound}} )</div>
+            <div class="pageNum">( {{startCount}} / {{applicationsFound}} )</div>
           </div>
         </div>
       </div>
