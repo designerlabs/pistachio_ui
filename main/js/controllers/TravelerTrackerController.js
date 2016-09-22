@@ -39,6 +39,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
 
             $.get("http://" + solrHost + ":8983/solr/immigration2/query?sort=created desc&json={query :'" + Qparam + "',limit:20000,facet: {visa : {type: terms,field: pass_type},employers : {type: terms,field: employer}}}") //mad_pas_typ_cd - pass_type
                 .then(function(data) {
+                    debugger;
                     chartvisadtls = data.response.docs;
                     if (data.response.docs.length !== 0) {
                         $scope.fn_personalInfo(data.response.docs[0]);
@@ -62,6 +63,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                         visadetails = data.response.docs;
                         $.get(globalURL +"api/image/solr/" + visadetails[0].fin_no)
                         .then(function(data) {
+                            debugger;
                             console.log(data);
                             console.log('visa image');
                             $scope.fn_loadVisaTbl(visadetails,data);
@@ -100,6 +102,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
             var qry = Qparam.substring(0, Qparam.length - 17);
             $.get("http://" + solrHost + ":8983/solr/cit/query?sort=xit_date desc&json={query:'" + qry + "',limit:100000}")
                 .then(function(result) {
+                    debugger;
                     console.log(result);
                    
                     if (result.response.docs.length !== 0) {
@@ -124,6 +127,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
         $scope.fn_getPersonalInfo = function() {
             $.get("http://" + solrHost + ":8983/solr/hismove/query?sort=xit_date desc&json={query:'" + Qparam + "',limit:100000}")
                 .then(function(result) {
+                    debugger;
                     console.log(result);
                     $scope.summary = {
                         entry: $.grep(result.response.docs, function(n, i) {
@@ -422,6 +426,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
         $('.loadimg').show();
         $.get(globalURL + "api/image/solr/docno/" + docno)
             .then(function(response) {
+                debugger;
                 console.log(response);
                 $('.loadimg').hide();
             }).fail(function(response) {
