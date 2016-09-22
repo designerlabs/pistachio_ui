@@ -1,4 +1,4 @@
-<div ng-controller="VAAController">
+<div ng-controller="VAMapController">
     <div style="background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%; position:absolute; top:0px;" ng-show="loading">
         <!--  BEGIN PAGE SPINNER -->
         <div ng-spinner-bar class="page-spinner-bar show">
@@ -86,20 +86,20 @@
                                   <ul>
                                       <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" ng-repeat="cnt in countries" ng-click="clickCountry(cnt.val)">
                                           <div class="mt-list-title col-md-9 col-sm-9 col-xs-9" data-toggle="tooltip" title="{{cnt.val}}"> {{omitNa(cnt.val) |limitTo:25}}</div>
-                                          <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count | number:0}} </div>
+                                          <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count}} </div>
                                       </li>
                                   </ul>
                               </div>
                                 <a class="list-toggle-container" data-toggle="collapse" data-target="#jobs" aria-expanded="false">
                                     <div class="list-toggle done uppercase col-md-12 col-sm-12 col-xs-12"> Jobs
-                                        <span class="badge badge-default pull-right bg-white font-green bold">{{uJob | number:0}}</span>
+                                        <span class="badge badge-default pull-right bg-white font-green bold">{{uJob}}</span>
                                     </div>
                                 </a>
                                 <div style="" aria-expanded="false" ng-class="{{db_clicked}}" class="panel-collapse collapsed collapse" id="jobs">
                                     <ul>
                                         <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" style="padding-left:0px;" ng-repeat="cnt in jobs" ng-click="clickJobs(cnt.val)">
                                             <div class="mt-list-title col-md-9 col-sm-9 col-xs-9" data-toggle="tooltip" title="{{cnt.val}}"> {{omitNa(cnt.val) |limitTo:25}}</div>
-                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count | number:0}} </div>
+                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count}} </div>
                                         </li>
                                         <li class="mt-list-item  col-md-12 col-sm-12 col-xs-12 show-more-btn" ng-click="moreJobs()">
                                             <div class="mt-list-title  col-md-12 col-sm-12 col-xs-12"><label class="btn red btn-outline btn-circle btn-sm active">show more</label> </div>
@@ -108,27 +108,27 @@
                                 </div>
                                 <a class="list-toggle-container" data-toggle="collapse" data-target="#employers" aria-expanded="false">
                                     <div class="list-toggle uppercase col-md-12 col-sm-12 col-xs-12"> employer
-                                        <span class="badge badge-default pull-right bg-white font-dark bold">{{uEmp | number:0}}</span>
+                                        <span class="badge badge-default pull-right bg-white font-dark bold">{{uEmp}}</span>
                                     </div>
                                 </a>
                                 <div style="" aria-expanded="false" class="panel-collapse collapsed collapse" id="employers">
                                     <ul>
                                         <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" style="padding-left:0px;" ng-repeat="cnt in employers" ng-click="clickEmply(cnt.val)">
                                             <div class="mt-list-title col-md-9 col-sm-9 col-xs-9" data-toggle="tooltip" title="{{cnt.val}}"> {{omitNa(cnt.val) |limitTo:25}}</div>
-                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count | number:0}} </div>
+                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count}} </div>
                                         </li>
                                     </ul>
                                 </div>
                                 <a class="list-toggle-container" data-toggle="collapse" data-target="#visa" aria-expanded="false">
                                     <div class="list-toggle done uppercase col-md-12 col-sm-12 col-xs-12"> Visa
-                                        <span class="badge badge-default pull-right bg-white font-green bold">{{uVis | number:0}}</span>
+                                        <span class="badge badge-default pull-right bg-white font-green bold">{{uVis}}</span>
                                     </div>
                                 </a>
                                 <div style="" aria-expanded="false" ng-class="{{db_clicked}}" class="panel-collapse collapsed collapse" id="visa">
                                     <ul>
                                         <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" style="padding-left:0px;" ng-repeat="cnt in visas" ng-click="clickVisa(cnt.val)">
                                             <div class="mt-list-title col-md-9 col-sm-9 col-xs-9" data-toggle="tooltip" title="{{cnt.val}}"> {{omitNa(cnt.val) |limitTo:25}}</div>
-                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count | number:0}} </div>
+                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count}} </div>
                                         </li>
                                     </ul>
                                 </div>
@@ -141,37 +141,62 @@
                                     <ul>
                                         <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" ng-repeat="cnt in skill" ng-click="clickSkill(cnt.val)">
                                             <div class="mt-list-title col-md-9 col-sm-9 col-xs-9" data-toggle="tooltip" title="{{cnt.val}}"> {{omitNa(cnt.val) |limitTo:25}}</div>
-                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count | number:0}} </div>
+                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count}} </div>
                                         </li>
                                     </ul>
                                 </div>
                                 <a class="list-toggle-container" data-toggle="collapse" data-target="#state" aria-expanded="false">
                                     <div class="list-toggle done uppercase col-md-12 col-sm-12 col-xs-12"> State
-                                        <span class="badge badge-default pull-right bg-white font-green bold">{{uSta | number:0}}</span>
+                                        <span class="badge badge-default pull-right bg-white font-green bold">{{uSta}}</span>
                                     </div>
                                 </a>
                                 <div style="" aria-expanded="false" ng-class="{{db_clicked}}" class="panel-collapse collapsed collapse" id="state">
                                     <ul>
                                         <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" style="padding-left:0px;" ng-repeat="cnt in states" ng-click="clickState(cnt.val)">
                                             <div class="mt-list-title col-md-9 col-sm-9 col-xs-9" data-toggle="tooltip" title="{{cnt.val}}"> {{omitNa(cnt.val) |limitTo:25}}</div>
-                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count | number:0}} </div>
+                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count}} </div>
                                         </li>
                                     </ul>
                                 </div>
-                                <a class="list-toggle-container" data-toggle="collapse" data-target="#city" aria-expanded="false">
-                                    <div class="list-toggle uppercase col-md-12 col-sm-12 col-xs-12"> City
-                                      <span class="badge badge-default pull-right bg-white font-green bold">{{uCity | number:0}}</span>
-                                        <!--  <span class="badge badge-default pull-right bg-white font-dark bold">{{uEmp}}</span>-->
-                                    </div>
-                                </a>
-                                <div style="" aria-expanded="false" class="panel-collapse collapsed collapse" id="city">
-                                    <ul>
-                                        <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" ng-repeat="cnt in cities" ng-click="clickCity(cnt.val)">
-                                            <div class="mt-list-title col-md-9 col-sm-9 col-xs-9" data-toggle="tooltip" title="{{cnt.val}}"> {{omitNa(cnt.val) |limitTo:25}}</div>
-                                            <div class="list-datetime col-md-3 col-sm-3 col-xs-3"> {{cnt.count | number:0}} </div>
-                                        </li>
-                                    </ul>
+                                <a class="list-toggle-container" data-toggle="collapse" data-target="#heatMapOptn" aria-expanded="false">
+                                  <div class="list-toggle uppercase col-md-12 col-sm-12 col-xs-12">HeatMap Option
+
+                                  </div>
+                              </a>
+                              <div style="" aria-expanded="false" ng-class="{{hdb_clicked}}" class="panel-collapse collapsed collapse" id="heatMapOptn">
+                                <div class="form-group form-md-radios" >
+                                    <div class="md-radio-list">
+                                  <ul>
+
+
+                                              <li class="mt-list-item  col-md-12 col-sm-12 col-xs-12" >
+                                                <div class="md-radio">
+                                                    <input type="radio" id="hradio1" name="hradio1" class="md-radiobtn" ng-model="heatMapType" value="HeatMap"  checked="true"
+                                                    ng-click="selectHeatMap()"
+                                                    >
+                                                    <label for="hradio1">
+                                                        <span class="inc"></span>
+                                                        <span class="check"></span>
+                                                        <span class="box"></span> HeatMap</label>
+                                                </div>
+                                              </li>
+                                              <li class="mt-list-item  col-md-12 col-sm-12 col-xs-12">
+                                                <div class="md-radio">
+                                                    <input type="radio" id="hradio2" name="hradio1" class="md-radiobtn" ng-model="heatMapType" value="Grid"
+                                                    ng-click="selectHeatMap()"
+                                                    >
+                                                    <label for="hradio2">
+                                                        <span class="inc"></span>
+                                                        <span class="check"></span>
+                                                        <span class="box"></span> Grid</label>
+                                                </div>
+                                              </li>
+
+
+                                  </ul>
                                 </div>
+                            </div>
+                              </div>
 
                                   <div id="vaa-range" style="width: 100%;"
                                     class="pull-right tooltips btn btn-fit-height green"
@@ -194,43 +219,33 @@
                                             padding-right: 0px;
                                         ">
             <ul class="grid col-md-12 col-lg-12 col-sm-12" style="padding: 0px;" ng-class="{ 'grid-list' : gridToggle, 'grid-thumb' : !gridToggle }">
-            <div id="branchHeader" data-toggle="collapse" data-target="#timelinebar"><h3><i class="fa fa-plane"></i> Timeline</h3>
-            <span><i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span>
+            <div id="branchHeader" data-toggle="collapse" data-target="#timelinebar"><h3>HeatMap({{numFound}})</h3>
+
+            <span><i class="fa fa-chevron-circle-down" aria-hidden="true"> </i></span>
+
             </div>
             <div id="timelinebar" > 
-             <div class = "col-md-8 col-lg-8 col-sm-8" style="
-                                            padding-left: 0px;
-                                            padding-right: 0px;
-
-                                        ">
-             <div id="highchart_timeline"></div>
+             <div class="col-md-6" style="padding-left: 0px; padding-right: 0px; ">
+                <button class="btn blue btn-block col-md-6" ng-click="showEast()" style="margin-left: 0px;">East Malaysia</button>
              </div>
-                 <div class = "col-md-4 col-lg-4 col-sm-4" style="
-                                            padding-right: 0px;
-                                            padding-left: 10px;
-                                            padding-bottom: 2px;
-                                        ">
-                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="
+             <div class="col-md-6" style="padding-left: 1px; padding-right: 0px; ">
+                <button class="btn blue btn-block col-md-6 selected" ng-click="showWest()" style="margin-left: 0px;">West Malaysia</button>
+             </div>
+             <div class = "col-md-12 col-lg-12 col-sm-12" style="
                                             padding-left: 0px;
                                             padding-right: 0px;
 
                                         ">
-                                <div class="dashboard-stat2 ">
-                                    <div class="display">
-                                        <div class="number">
-                                            <h3 class="font-green-sharp">
-                                                <span data-counter="counterup" data-value="7800">{{numFound | number:0}}</span>
-                                                
-                                            </h3>
-                                            <small>Total Issued Visa</small>
-                                        </div>
-                                        <div class="icon">
-                                            <i class="icon-user"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                 </div>
+            
+             <style>
+                                        #map {
+                                          width: 100%;
+                                          height: 600px;
+                                        }
+                                        </style>
+                                   <div id="map"></div>
+             </div>
+                 
                  <div class = "col-md-4 col-lg-4 col-sm-4" style="
                                             padding-right: 0px;
                                             padding-left: 10px;
@@ -240,18 +255,7 @@
                  </div>
             </div>
             </ul>
-            <ul class="grid col-md-12 col-lg-12 col-sm-12" style="padding: 0px;">
-                <div id="officerHeader" data-toggle="collapse" data-target="#negaraBar">
-                  <h3><i class="fa fa-user"></i> Negeri</h3><span><i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span></div>
-                <div id="negaraBar" > 
-                     <div class = "col-md-12 col-lg-12 col-sm-12" style="
-                                                    padding-left: 0px;
-                                                    padding-right: 0px;
-                                                ">
-                     <div id="highchart_col"></div>
-                    </div>
-                </div>
-              </ul>
+            
               <!--
               <ul class="grid col-md-12 col-lg-12 col-sm-12" style="padding: 0px;">
                 <div id="negaraHeader" data-toggle="collapse" data-target="#jobBar">

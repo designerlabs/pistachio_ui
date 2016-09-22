@@ -54,6 +54,12 @@ text.mono {
     display: inline-block;
 }
 
+#branchHeader button{
+    width: 10%;
+    text-align: right;
+    display: inline-block;
+}
+
 li.list-group-item:after {
     content: attr(data-cntval);
     position: absolute;
@@ -760,4 +766,11 @@ li.pagination ul.pager li a {
     font-family: arial;
     font-weight: 700;
     color: #fff;
+}
+
+.auditCount{
+    background: #187d58;
+    padding: 2px 8px;
+    float: right;
+    font-size: 20px;
 }

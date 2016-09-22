@@ -20,6 +20,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
             $http.get(globalURL + "api/secured/pistachio/myaudit/branch?from=" + start + "&to=" + end + $scope.triggerHourDt)
                 .success(function (response) {
                     console.log(response);
+                    $scope.branchCount = response.length;
                     $scope.branches = response;
                     if ($scope.branches.length === 0) {
                         $scope.checkList = true;
@@ -65,7 +66,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                     enabled: false
                 },
                 tooltip: {
-                    pointFormat: 'No of Activity is <b>{point.y}</b>'
+                    pointFormat: 'No of Activity is <b>{point.y:,.0f}</b>'
                 },
                 plotOptions: {
                     series: {
@@ -269,6 +270,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                 //$scope.loading = false;
 
                 $scope.officers = response;
+                $scope.officerCount = response.length;
                 if ($scope.officers.length === 0) {
                     $scope.showOfficer = false;
                 } else {

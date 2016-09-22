@@ -430,7 +430,7 @@ $scope.test = function (nodes,links) {
 
                         d3.select("#tooltip")
                             .select("#duration")
-                            .text(function(e){ return d.validDays });
+                            .text(function(e){ return numberWithCommas(d.validDays) });
                          d3.select("#tooltip")
                             .select("#usrId")
                             .text(function(e) {  return d.usrId});
