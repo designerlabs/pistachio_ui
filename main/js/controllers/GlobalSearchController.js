@@ -16,6 +16,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
       $scope.showApplication = false;
       $scope.showVisitor = false;
       $scope.showCitizen = false;
+      $scope.showBlacklist = false;
       $scope.option = false;
       $scope.start = 0;
       $scope.users = 0;
@@ -182,17 +183,26 @@ $scope.$on('mapClick', function(event, e) {
       $scope.showApplications();
       $scope.visitor_box();
       $scope.citizen_box();
+      $scope.blacklist_box();
     }
     else if ($scope.showVisitor) {
       $scope.showVisitors();
       $scope.application_box();
       $scope.citizen_box();
+      $scope.blacklist_box();
     }
 
     else if ($scope.showCitizen) {
       $scope.showCitizens();
       $scope.application_box();
       $scope.visitor_box();
+      $scope.blacklist_box();
+    }
+    else if($scope.showBlacklist){
+      $scope.showBlacklists();
+      $scope.application_box();
+      $scope.visitor_box();
+      $scope.citizen_box();
     }
 
     else
@@ -204,6 +214,7 @@ $scope.$on('mapClick', function(event, e) {
     $scope.application_box();
     $scope.visitor_box();
     $scope.citizen_box();
+    $scope.blacklist_box();
   }
 
 
@@ -320,8 +331,20 @@ $scope.$on('mapClick', function(event, e) {
       });
   }
 
+  $scope.blacklist_box = function () {
+    $http.get('http://' + solrHost + ':8983/solr/blacklisted/select?q=' + $scope.getQuery() + '&wt=json&start=0&rows=0').
+      success(function (data) {
+        $('#searchbox').val($scope.text);
+        $scope.blacklisted = data.response.numFound;
+        $scope.vtime = data.responseHeader.QTime;
+      }).
+      error(function (data, status, headers, config) {
+        console.log('data : ' + data); //Being logged as null
+      });
+  }
+
   $scope.citizen_box = function () {
-    $http.get('http://' + solrHost + ':8983/solr/cit/select?q=' + $scope.getQuery() + '&wt=json&start=0&rows=0').
+    $http.get('http://' + solrHost + ':8983/solr/citizen/select?q=' + $scope.getQuery() + '&wt=json&start=0&rows=0').
     //$http.get('http://' + solrHost + ':8983/solr/citizen/select?q=' + $scope.getQuery() + '&wt=json&start=0&rows=0').
       success(function (data) {
         $('#searchbox').val($scope.text);
@@ -344,14 +367,22 @@ $scope.$on('mapClick', function(event, e) {
     if ($scope.showApplication) {
       $scope.visitor_box();
       $scope.citizen_box();
+      $scope.blacklist_box();
     }
     else if ($scope.showVisitor) {
       $scope.application_box();
       $scope.citizen_box();
+      $scope.blacklist_box();
     }
     else if ($scope.showCitizen) {
       $scope.application_box();
       $scope.visitor_box();
+      $scope.blacklist_box();
+    }
+    else if ($scope.showBlacklist) {
+      $scope.application_box();
+      $scope.visitor_box();
+      $scope.citizen_box();
     }
   }
 
@@ -384,6 +415,7 @@ $scope.$on('mapClick', function(event, e) {
     $scope.showApplication = false;
     $scope.showVisitor = false;
     $scope.showCitizen = false;
+    $scope.showBlacklist = false;
     $scope.fullscreen = false
     $scope.go();
   };
@@ -423,6 +455,7 @@ $scope.$on('mapClick', function(event, e) {
     var query = "";
     $scope.showApplication = false;
     $scope.showCitizen = false;
+    $scope.showBlacklist = false;
     $scope.showVisitor = true;
     var query = ""
     var sq = "http://" + solrHost + ":8983/solr/hismove/query?json=";
@@ -465,16 +498,22 @@ $scope.$on('mapClick', function(event, e) {
     $scope.showCitizen = true;
     $scope.showApplication = false;
     $scope.showVisitor = false;
+    $scope.showBlacklist = false;
     var query = ""
-    var sq = "http://" + solrHost + ":8983/solr/cit/query?json=";
+    var sq = "http://" + solrHost + ":8983/solr/citizen/query?json=";
     //var sq = "http://" + solrHost + ":8983/solr/citizen/query?json=";
 
     var json = {};
     json.limit = 10;
     json.offset = $scope.start
     json.query = $scope.getQuery();
-    json.sort = "xit_date desc"
-    $http.get(sq + JSON.stringify(json)).
+    json.sort = "created desc"
+    json.facet = {};
+    json.facet.country = {};
+    json.facet.country.type = "terms";
+    json.facet.country.field = "state";
+    json.facet.country.limit = 20;
+    $http.get(sq + JSON.stringify(json)+$scope.spatialSearch()).
       success(function (data) {
          $scope.startCount = data.response.start + 10;
         if (data.response.numFound == 0) {
@@ -484,6 +523,49 @@ $scope.$on('mapClick', function(event, e) {
         $scope.users = data.response.numFound;
         console.log(data.response.docs);
         $scope.items = data.response.docs;
+        if (selected_countries.length == 0)
+          $scope.countries = data.facets.country.buckets
+
+
+      })
+      .error(function (data, status, headers, config) {
+        console.log('error');
+      });
+
+  }
+
+  $scope.showBlacklists = function () {
+    var query = "";
+    $scope.option = false;
+    $scope.showBlacklist = true;
+    $scope.showApplication = false;
+    $scope.showVisitor = false;
+    $scope.showCitizen =  false;
+    var query = ""
+    var sq = "http://" + solrHost + ":8983/solr/blacklisted/query?json=";
+    //var sq = "http://" + solrHost + ":8983/solr/citizen/query?json=";
+
+    var json = {};
+    json.limit = 10;
+    json.offset = $scope.start
+    json.query = $scope.getQuery();
+    json.sort = "created desc"
+    json.facet = {};
+    json.facet.country = {};
+    json.facet.country.type = "terms";
+    json.facet.country.field = "state";
+    json.facet.country.limit = 20;
+    $http.get(sq + JSON.stringify(json)+$scope.spatialSearch()).
+      success(function (data) {
+        if (data.response.numFound == 0) {
+          $scope.showBlacklist = false;
+        }
+        $scope.vtime = data.responseHeader.QTime;
+        $scope.users = data.response.numFound;
+        console.log(data.response.docs);
+        $scope.items = data.response.docs;
+        if (selected_countries.length == 0)
+          $scope.countries = data.facets.country.buckets
 
       })
       .error(function (data, status, headers, config) {
@@ -498,6 +580,7 @@ $scope.$on('mapClick', function(event, e) {
     var query = "";
     $scope.showVisitor = false;
     $scope.showCitizen = false;
+    $scope.showBlacklist = false;
     $scope.showApplication = true;
 
     var query = ""

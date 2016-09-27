@@ -266,7 +266,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 chart.showLoading('Loading data from server...');
 
                 //Formatting Date
-                var dateFormat = function(ele) {
+                var dateFormatStart = function(ele) {
                     var myDate = new Date(ele);
 
                     var yyyy = myDate.getFullYear().toString();
@@ -276,14 +276,24 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
                 };
 
+                var dateFormatEnd = function(ele) {
+                    var myDate = new Date(ele);
+
+                    var yyyy = myDate.getFullYear().toString();
+
+                    var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
+                    var dd = myDate.getDate().toString();
+                    return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T23:59:59Z";
+                };
+
 
 
 
                 // $("#datetimeFrom").data('DateTimePicker').date($scope.changeDt(dateFormat(Math.round(e.min))));
                 // $("#datetimeTo").data('DateTimePicker').date($scope.changeDt(dateFormat(Math.round(e.max))));
 
-                $scope.startDate = dateFormat(Math.round(e.min));
-                $scope.endDate = dateFormat(Math.round(e.max));
+                $scope.startDate = dateFormatStart(Math.round(e.min));
+                $scope.endDate = dateFormatEnd(Math.round(e.max));
                 /*  $scope.startDate = $scope.getFromDt;
                   $scope.endDate = $scope.getToDt;*/
 
@@ -560,7 +570,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                             gap = "%2B1DAY";
                         }
 
-                        var query = 'q=dy_action_ind:' + k.name + '&fq=xit_date:['+startDt+' TO '+dateFormat(Math.round(e.max))+']&' + triggerOptRow + 'json.facet={in_outs:{type : range,field : xit_date,start :"' + startDt + '",end :"' + dateFormat(Math.round(e.max)) + '",gap:"' + gap + '"},passport: "unique(doc_no)"}'
+                        var query = 'q=dy_action_ind:' + k.name + '&fq=xit_date:['+startDt+' TO '+dateFormatEnd(Math.round(e.max))+']&' + triggerOptRow + 'json.facet={in_outs:{type : range,field : xit_date,start :"' + startDt + '",end :"' + dateFormatEnd(Math.round(e.max)) + '",gap:"' + gap + '"},passport: "unique(doc_no)"}'
                         var sq = "http://" + solrHost + ":8983/solr/" + immigrationSolr + "/query?"
                         $http.get(sq + query).
                         success(function(data) {

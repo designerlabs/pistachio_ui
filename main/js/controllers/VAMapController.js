@@ -103,7 +103,7 @@ MetronicApp.controller('VAMapController', function($rootScope, $scope, $http) {
       }
       
       $scope.map = L.map("map",{fullscreenControl: true}).setView([3.9, 102.3], 7);
-      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      L.tileLayer('http://10.23.124.233/osm_tiles/{z}/{x}/{y}.png', {
         attribution: '&copy; NSL | Mimos'
       }).addTo($scope.map);
       new L.SolrHeatmapLayer('http://'+solrHost+':8983/solr/immigration2', {
@@ -123,7 +123,7 @@ MetronicApp.controller('VAMapController', function($rootScope, $scope, $http) {
         fq = "*:*"
       }
       $scope.map = L.map("map",{fullscreenControl: true}).setView([3.9, 102.3], 7);
-      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      L.tileLayer('http://10.23.124.233/osm_tiles/{z}/{x}/{y}.png', {
         attribution: '&copy; NSL | Mimos'
       }).addTo($scope.map);
       function onEachFeature(feature, layer) {

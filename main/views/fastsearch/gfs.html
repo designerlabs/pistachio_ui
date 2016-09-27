@@ -100,13 +100,13 @@
               </div>
 
             </div>
-            <div class='ui_box'>
+            <div class='ui_box' ng-class="{selected: showBlacklist}" ng-click="showBlacklists()">
               <div class='ui_box__inner'>
                 <h2>{{'fastsearch.global.blacklisted' | translate}}</h2>
                 <div class='stat'>
-                  <span>0</span>
+                  <span>{{blacklisted | number:0}}</span>
                 </div>
-                <p>permohonan found in {{qtime}} milliseconds</p>
+                <p>{{'fastsearch.global.blacklistedfound' | translate}} in {{vtime}} milliseconds</p>
               </div>
 
             </div>
@@ -191,16 +191,16 @@
                       <a href="javascript:;">Date</a>
                     </th>
                     <th>
-                      <a href="javascript:;">Branch</a>
+                      <a href="javascript:;">IC No.</a>
                     </th>
                     <th>
                       <a href="javascript:;">Name</a>
                     </th>
                     <th>
-                      <a href="javascript:;">Doc Type</a>
+                      <a href="javascript:;">Passport No.</a>
                     </th>
                     <th style="text-align: center;">
-                      <a href="javascript:;">Document No</a>
+                      <a href="javascript:;">State</a>
                     </th>
                     <th style="text-align: center;">
                       <a href="javascript:;">{{'fastsearch.global.action' | translate}}</a>
@@ -210,17 +210,17 @@
                 <tbody>
                   <tr ng-repeat="x in items">
                     <td style="width:10%;" class="table-title">
-                      <a href="javascript:;">{{formatDate(x.xit_date) | cmdate:'dd/MM/yyyy hh:mm:ss'}}</a>
+                      <a href="javascript:;">{{formatDate(x.created) | cmdate:'dd/MM/yyyy hh:mm:ss'}}</a>
                     </td>
                     <td style="width:25%;" class="table-title">
-                      <a href="javascript:;">{{x.branch}}</a>
+                      <a href="javascript:;">{{x.kp_no}}</a>
                     </td>
                     <td style="width:25%;" class="table-title">
                       {{x.name}}
                     </td>
-                    <td style="width:25%;" class="table-desc"> {{x.doc_type}} </td>
+                    <td style="width:25%;" class="table-desc"> {{x.doc_no}} </td>
                     <td style="width:10%;" class="table-download">
-                      {{x.doc_no}}
+                      {{x.state}}
                     </td>
                     <td style="text-align: center; width:5%;" class="table-status">
                       <a href="#/travelertracker/travelertracker.html" ng-click="viewCitizen(x.doc_no);">
@@ -241,8 +241,74 @@
                 </li>
               </ul>
             </div>
-            <div class="pageNum">( {{startCount}} / {{applicationsFound}} )</div>
+
+            <!--<div class="pageNum">( {{start}} / {{applicationsFound}} )</div>-->
           </div>
+        </div>
+      </div>
+      <div class="search-page search-content-4" ng-if="showBlacklist">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="search-table">
+              <table class="table table-bordered table-striped table-condensed">
+                <thead class="bg-table-gray">
+                  <tr>
+                    <th>
+                      <a href="javascript:;">Date</a>
+                    </th>
+                    <th>
+                      <a href="javascript:;">IC No.</a>
+                    </th>
+                    <th>
+                      <a href="javascript:;">Name</a>
+                    </th>
+                    <th>
+                      <a href="javascript:;">Passport No.</a>
+                    </th>
+                    <th style="text-align: center;">
+                      <a href="javascript:;">Country</a>
+                    </th>
+                    <!--<th style="text-align: center;">
+                      <a href="javascript:;">{{'fastsearch.global.action' | translate}}</a>
+                    </th>-->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="x in items">
+                    <td style="width:10%;" class="table-title">
+                      <a href="javascript:;">{{formatDate(x.created) | cmdate:'dd/MM/yyyy hh:mm:ss'}}</a>
+                    </td>
+                    <td style="width:25%;" class="table-title">
+                      <a href="javascript:;">{{x.kp_no}}</a>
+                    </td>
+                    <td style="width:25%;" class="table-title">
+                      {{x.name}}
+                    </td>
+                    <td style="width:25%;" class="table-desc"> {{x.doc_no}} </td>
+                    <td style="width:10%;" class="table-download">
+                      {{x.country}}
+                    </td>
+                    <!--<td style="text-align: center; width:5%;" class="table-status">
+                      <a href="#/travelertracker/travelertracker.html" ng-click="viewCitizen(x.doc_no);">
+                        <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>{{'fastsearch.global.view' | translate}}</button>
+                      </a>
+                    </td>-->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="search-pagination">
+              <ul class="pagination">
+                <li>
+                  <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="start==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+                </li>
+                <li class="page-active">
+                  <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+                </li>
+              </ul>
+            </div>
+            <!--<div class="pageNum">( {{start}} / {{applicationsFound}} )</div>-->
+        </div>
         </div>
       </div>
       <div class="search-page search-content-4" ng-if="showVisitor">
@@ -291,7 +357,7 @@
                       {{x.doc_no}}
                     </td>
                     <td style="text-align: left; width:5%;" class="table-status">
-                      <a href="#/travelertracker/travelertracker.html" ng-click="viewReq(x.doc_no,x.country);">
+                      <a  ng-click="viewReq(x.doc_no,x.country);">
                         <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>{{'fastsearch.global.view' | translate}}</button>
                       </a>
                     </td>
@@ -312,7 +378,8 @@
 
               </ul>
             </div>
-            <div class="pageNum">( {{startCount}} / {{applicationsFound}} )</div>
+
+            <!--<div class="pageNum">( {{start}} / {{applicationsFound}} )</div>-->
           </div>
         </div>
       </div>

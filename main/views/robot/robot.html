@@ -101,6 +101,7 @@
       </div>
     </div>
     <div class="search-table table-responsive">
+      <span style="text-align: center; width: 100%; display: block; font-size: 16px; color:red;" ng-if="robotSearchError"><i class="fa fa-warning"></i> {{robotSearchError}}</span>
       <ul style="padding:0">
         <li ng-repeat="n in robotSearch" class="robotSearchStyle col-md-12">
 
@@ -114,7 +115,7 @@
               
 
               <div class="col-md-3"  ng-show="n.attrlogin"><small>UPLOADED BY:</small><br>{{n.attrlogin[0]}} <span  ng-show="n.attrcreated">/ <i class="fa fa-calendar"></i> {{n.attrcreated[0]}}</span></div>
-              <div  class="col-md-2 text-center"> <a href="{{globalDownloadURL}}{{n.attrfile}}" download class="btn btn-primary btn-sm"><i class="fa fa-download"></i> download</a></div>
+              <div  class="col-md-2 text-center"> <a href="{{globalDownloadURL}}{{n.attrfile[0]}}" download class="btn btn-primary btn-sm"><i class="fa fa-download"></i> download</a></div>
 
 
         </li>
