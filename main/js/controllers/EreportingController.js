@@ -1053,6 +1053,20 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
             inputValidation("#queryFormTemplate", setTimeout(queryAjax, 1000));
 
             function queryAjax() {
+                
+                $http.post(globalURL + queryString + "/",
+                    JSON.stringify({
+                            queryName: queryNameValTemp,
+                           /* dtRange:dtRange,
+                            state:stateVal,
+                            branch:branchVal,
+                            dept:deptVal,*/
+                            category: reportCategoryID,
+                            reportFileName: templateFileName,
+                            query:'NA',
+                            cached: null,
+                            login: localStorage.username
+                        }))
                 $.ajax({
                         url: globalURL + queryString + "/",
                         type: "POST",

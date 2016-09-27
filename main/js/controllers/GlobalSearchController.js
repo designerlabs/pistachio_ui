@@ -576,15 +576,37 @@ $scope.$on('mapClick', function(event, e) {
 
 
 
-  $scope.showApplications = function () {
+  $scope.showApplications = function (status) {
     var query = "";
-    $scope.showVisitor = false;
-    $scope.showCitizen = false;
-    $scope.showBlacklist = false;
-    $scope.showApplication = true;
+    if(status == 'pass'){
+      $scope.showApplication = true;
+      $scope.showCitizen = false;
+      $scope.showVisitor = false;
+      $scope.showBlacklist = false;
+      var sq = "http://" + solrHost + ":8983/solr/immigration2/query?json=";
+    }else if(status == 'citizen') {
+      $scope.showCitizen = true;
+      $scope.showApplication = false;
+      $scope.showVisitor = false;
+      $scope.showBlacklist = false;
+       var sq = "http://" + solrHost + ":8983/solr/citizen/query?json=";
+    }else if(status == 'visitor') {
+      $scope.showVisitor = true;
+      $scope.showApplication = false;
+      $scope.showCitizen = false;
+      $scope.showBlacklist = false;
+      var sq = "http://" + solrHost + ":8983/solr/hismove/query?json=";
+    }else if(status == 'blacklist') {
+      $scope.showBlacklist = true;
+      $scope.showApplication = false;
+      $scope.showCitizen = false;
+      $scope.showVisitor = false;
+      var sq = "http://" + solrHost + ":8983/solr/blacklisted/query?json=";
+    }
+
 
     var query = ""
-    var sq = "http://" + solrHost + ":8983/solr/immigration2/query?json=";
+    //var sq = "http://" + solrHost + ":8983/solr/immigration2/query?json=";
 
     var json = {};
     json.limit = 10;
