@@ -154,63 +154,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="portlet red-sunglo box">
-							<div class="portlet-title">
-								<div class="caption caption-md">
-									<i class="icon-bar-chart theme-font hide"></i>
-									<span class="caption-subject uppercase">{{'report.template' | translate}}</span>
-								</div>
-							</div>
-							<div class="portlet-body">
-								<div class="table-scrollable table-scrollable-borderless">
-									<table class="table table-hover table-light">
-										<thead >
-											<tr>
-												<th>
-													<a href="javascript:;">{{'report.query' | translate}}</a>
-												</th>
-												<th>
-													<a href="javascript:;">{{'report.queryName' | translate}}</a>
-												</th>
-												<th>
-													<a href="javascript:;">{{'report.download' | translate}}</a>
-												</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr ng-repeat="y in rptcontent">
-												<td  style="width:45%;"  class="table-title">
-													<a href="javascript:;">{{y.queryName}}</a>
-												</td>
-												<td style="width:25%;" class="table-desc"> {{y.reportFileName}} </td>
-												<td class="action-column">
-																								<button type="button" class="btn btn-info btn-sm downloadBtn" ng-click="downloadReport(y.id)"><i class="fa fa-download"></i>Template</button>
-																							</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="portlet grey-cascade box">
-							<div class="portlet-title">
-								<div class="caption caption-md">
-									<i class="icon-bar-chart theme-font hide"></i>
-									<span class="caption-subject bold uppercase">{{'report.favourite' | translate}}</span>
-									<span class="caption-helper hide">weekly stats...</span>
-								</div>
-							</div>
-							<div class="portlet-body form">
-
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			</div>	
 			<div ng-if="editonly">
 				<div class="row">
 					<div class="col-md-12">
@@ -293,6 +237,64 @@
 		</div>
 		<!--Edit Profile -->
 		<div class="profile-content" >
+			<div class="row">
+					<div class="col-md-6">
+						<div class="portlet red-sunglo box">
+							<div class="portlet-title">
+								<div class="caption caption-md">
+									<i class="icon-bar-chart theme-font hide"></i>
+									<span class="caption-subject uppercase ng-binding">Template Saya</span>
+								</div>
+							</div>
+							<div class="portlet-body">
+								<div class="table-scrollable table-scrollable-borderless">
+									<table class="table table-hover table-light">
+										<thead>
+											<tr>
+												<th class="ng-binding" style="width:45%;" >
+													Nama Laporan
+												</th>
+												<th class="ng-binding" style="width:40%;">
+													Template
+												</th>
+												<th class="ng-binding" style="width:15%;">
+													Muat Turun
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<!-- ngRepeat: y in rptcontent -->
+											<tr ng-repeat="y in rptcontent" class="ng-scope">
+												<td class="table-title">
+													<a href="javascript:;" class="ng-binding">{{y.queryName}}</a>
+												</td>
+												<td class="table-desc ng-binding">{{y.reportFileName}}</td>
+												<td class="action-column">
+													<button type="button" class="btn btn-info btn-sm downloadBtn" ng-click="downloadReport(y.id)" style="padding: 6px 12px;"><i class="fa fa-download"></i>Template</button>
+												</td>
+											</tr><!-- end ngRepeat: y in rptcontent -->
+										
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="portlet grey-cascade box">
+							<div class="portlet-title">
+								<div class="caption caption-md">
+									<i class="icon-bar-chart theme-font hide"></i>
+									<span class="caption-subject bold uppercase ng-binding">Laporan Kegemaran</span>
+									<span class="caption-helper hide">weekly stats...</span>
+								</div>
+							</div>
+							<div class="portlet-body form">
+
+							</div>
+						</div>
+					</div>
+				</div>
 												<!-- END PROFILE CONTENT -->
 		</div>
 												<!-- END MAIN CONTENT -->

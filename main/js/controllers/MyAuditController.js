@@ -30,12 +30,19 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                         $scope.checkList = false;
                     }
                     sortable($scope, response, 8, 'updated_at');
-                    $scope.loading = false;
                 })
                 .error(function (response) {
                     //debugger;
                 });
         };
+
+        $rootScope.$on('loading:progress', function (){
+            $scope.loading = true;
+        });
+
+        $rootScope.$on('loading:finish', function (){
+        $scope.loading = false;
+        });
 
         $scope.barChart = function (data) {
             $('#summaryContainer').highcharts({
@@ -107,7 +114,6 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
 
         //$scope.branchList();
         $scope.getBranchDetails = function (total, hour, day, branch, activityName) {
-            $scope.loading = true;
             //$scope.activityName = undefined;
             var Hr = hour.split('&');
             var Dt = day.split('&');
@@ -127,7 +133,6 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
         };
 
         $scope.getOfficerDetails = function (total, hour, day, branch, officer) {
-            $scope.loading = true;
             var Hr = hour.split('&');
             var Dt = day.split('&');
             // if(hour){
@@ -230,14 +235,13 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
     $scope.getWorkingHour = [];
         //$scope.getWorkingHour = [{id: "", title: "All"}, {id: 'Normal', title: 'Normal'}, {id: 'After', title: 'After'}, {id: 'Before', title: 'Before'}, {id: 'Holiday', title: 'Holiday'}];
     $scope.branch_selected = function (name, day, hour, activityName) {
-        
+        $scope.showOfficer = false;
         console.log(event);
         $scope.activeBranch = name;
         if(!event.point){
             $scope.activeUser = undefined;
         }
         
-        $scope.loading = true;
         $scope.selectedDayTime = false;
       
         $('.selectedBox').hide('200');
@@ -267,8 +271,6 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
             $http.get(globalURL + "api/secured/pistachio/myaudit/officer?branch=" + name + "&from=" + $scope.startDt + "&to=" + $scope.endDt + $scope.triggerHourDt + $scope.activity,
             { headers: { 'Content-Type': 'application/json' } })
             .success(function (response) {
-                //$scope.loading = false;
-
                 $scope.officers = response;
                 $scope.officerCount = response.length;
                 if ($scope.officers.length === 0) {
@@ -287,15 +289,12 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
         
         
         
-         //$scope.loading = true;
-    
         $http.get(globalURL + "api/secured/pistachio/myaudit/branch/heatmap?branch=" + name + "&from=" + $scope.startDt + "&to=" + $scope.endDt + $scope.triggerHourDt + $scope.activity,
             { headers: { 'Content-Type': 'application/json' } }
 
         )
             .success(function (response) {
                 $scope.ErrorMsg = false;
-                $scope.loading = false;
                 console.log(response);
                 var hmap = response.heatmap;
                 console.log(hmap);
@@ -339,7 +338,6 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                 }
                 
             }).error(function (data, status, headers, config) {
-                $scope.loading = false;
                 $scope.ErrorMsg = true;
                 return status;
             });
@@ -370,7 +368,6 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
          };
     */
     $scope.officer_change = function (name, day, hour, activityName) {
-        $scope.loading = true;
         $scope.activeUser = name;
         $scope.activityName = undefined;    
         //debugger;
@@ -419,7 +416,6 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
         //debugger;
         $http.get(globalURL + "api/secured/pistachio/myaudit?officer=" + name.field + "&from=" + $scope.startDt + "&to=" + $scope.endDt + $scope.triggerHourDt + $scope.activity)
             .success(function (response) {
-                $scope.loading = false;
                 console.log(response);
                 var data = response.transaction;
                 if (response.nodes) {

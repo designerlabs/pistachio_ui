@@ -107,11 +107,18 @@ $scope.$watch('files', function (files) {
   $scope.search = function(){
       $http.get(thisSolrAppUrl+$scope.searchTxt).
            success(function(data) {
-              $scope.robotSearch = data;
-              for (var i = 0; i < $scope.robotSearch.length; i++) {
-                 $scope.fileName  = $scope.robotSearch[i].attrfile.replace(/^.*[\\\/]/, '');
-                 $scope.robotSearch[i].fileName = $scope.fileName;
-              }
+             if(data.length == 0){
+               $scope.robotSearchError = "No record found";
+               $scope.robotSearch = "";
+             }else{
+               $scope.robotSearchError = "";
+                $scope.robotSearch = data;
+                for (var i = 0; i < $scope.robotSearch.length; i++) {
+                  $scope.fileName  = $scope.robotSearch[i].attrfile.replace(/^.*[\\\/]/, '');
+                  $scope.robotSearch[i].fileName = $scope.fileName;
+                }
+             }
+              
     
               //return data;
             })

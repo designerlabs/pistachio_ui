@@ -53,7 +53,7 @@
     <ul class="officer-group" style="padding:0px;  height:300px; overflow:auto; clear:both; background:#f1f0f0; margin-bottom:0px;">
       <li ng-class="{selectedAuditUserList : activeUser === officer}" class="selectpickerUser officer-group-item" data-officerCnt="{{officer.count |  number:0}}" ng-click="officer_change(officer)"
         ng-repeat="officer in officers | filter:officer">
-        {{officer.field}}
+        {{officer.pivot}}
       </li>
     </ul>
 
@@ -63,7 +63,7 @@
 <div class="col-md-9" ng-show="activeBranch">
   <div class="summaryTitle">
     <div class="col-md-10">
-       <h3 ng-show="activeBranch"><i style="font-size: 20px;" class="fa fa-plane"></i> {{activeBranch}} <span ng-show="activeUser">&mdash; <i  style="font-size: 20px;"  class="fa fa-user"></i> {{activeUser.field}}</span></h3>
+       <h5 ng-show="activeBranch"><i style="font-size: 20px;" class="fa fa-plane"></i> {{activeBranch}} <span ng-show="activeUser">&mdash; <i  style="font-size: 20px;"  class="fa fa-user"></i> {{activeUser.pivot}}</span></h5>
       <h6>Branch Activites from {{startdt}} - {{enddt}}<span class="officerExtra" ng-show="activeUser"><i class="fa fa-user"></i> <strong>{{officerDetails}}</strong> | Rank: <strong>{{officerDuration}}</strong> | Active from: <strong>{{activeDate | date:'dd/MM/yyyy' }}</strong>&nbsp;&nbsp;to&nbsp;&nbsp;<strong>{{expiryDate | date:'dd/MM/yyyy'}}</strong> | Validity: <strong>{{validity}} Days</strong></span></h6>
     </div>
    

@@ -272,11 +272,11 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 
 /* Global hosting details */
 
-var globalURL = "http://10.23.124.243:8080/";
-//var globalURL = "http://10.1.17.25:8081/";
+//var globalURL = "http://10.23.124.243:8080/";
+var globalURL = "http://10.1.17.25:8081/";
 //var globalURL = "http://pistachio_server:8080/";
-var solrHost = "10.23.124.220";
-//var solrHost = "10.4.104.176";
+//var solrHost = "10.23.124.220";
+var solrHost = "10.4.104.176";
 
 //var solrHost = "10.4.104.176";
 
@@ -506,6 +506,34 @@ MetronicApp.factory('httpRequestInterceptor', function() {
         }
     };
 });
+
+
+MetronicApp.factory('httpInterceptor', ['$q', '$rootScope',
+    function ($q, $rootScope) {
+        var loadingCount = 0;
+
+        return {
+            request: function (config) {
+                if(++loadingCount === 1) $rootScope.$broadcast('loading:progress');
+                return config || $q.when(config);
+            },
+
+            response: function (response) {
+                if(--loadingCount === 0) $rootScope.$broadcast('loading:finish');
+                return response || $q.when(response);
+            },
+
+            responseError: function (response) {
+                if(--loadingCount === 0) $rootScope.$broadcast('loading:finish');
+                return $q.reject(response);
+            }
+        };
+    }
+]).config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.interceptors.push('httpInterceptor');
+}]);
+
+
 
 MetronicApp.config(function($httpProvider) {
     $httpProvider.interceptors.push('httpRequestInterceptor');
