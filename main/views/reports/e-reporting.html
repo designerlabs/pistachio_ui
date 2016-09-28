@@ -74,15 +74,16 @@
                     <button class="close" data-close="alert"></button>
                     <span></span>
                 </div>
-                <div class="form-group">
-                    <label for="selectType" class="control-label">Choose type:</label>
-                    <select ng-init="selectType = 'adhoc'" class="form-control" ng-model="selectType">
-                        <option value="">Please choose the type</option>
-                        <option value="adhoc">ad hoc</option>
-                        <option value="template">Template</option>
-                    </select>
-                </div>
-                <form id="queryForm" name="queryUIForm" ng-show="selectType == 'adhoc'">
+                 <div class="form-group" id="selectContainer">
+                        <label for="selectType" class="control-label">Choose type:</label>
+                        <select ng-init="selectType = 'adhoc'" class="form-control" ng-model="selectType" id="selectType">
+                            <option value="">Please choose the type</option>
+                            <option value="adhoc" selected>ad hoc</option>
+                            <option value="template">Template</option>
+                        </select>
+                    </div>
+                <form id="queryForm" name="queryUIForm" style="display:block;">
+                   
                     <div class="form-group">
                         <label for="query-name" class="control-label">{{'ereporting.name' | translate}}:</label>
                         <input type="text" class="form-control" id="query-name">
@@ -95,17 +96,17 @@
                 </form>
                 
                 
-                <form id="queryFormTemplate" name="queryUIFormTemplate"  ng-show="selectType == 'template'">
+                <form id="queryFormTemplate" name="queryUIFormTemplate"  style="display:none;">
                     <div class="form-group">
                         <label for="query-name" class="control-label">{{'ereporting.name' | translate}}:</label>
                         <input type="text" class="form-control" id="query-name">
                     </div>
                     
 
-			<div class="form-group fileupload-buttonbar">
-			  <span class="btn green fileinput-button">
-			  <input type="file" id="templateBrowse" file-model="myFile" accept=".jrxml">
-			</div>
+                    <div class="form-group fileupload-buttonbar">
+                    <span class="btn green fileinput-button">
+                    <input type="file" id="templateBrowse" file-model="myFile" accept=".jrxml">
+                    </div>
 		<!--
 
                     <div class="form-group">

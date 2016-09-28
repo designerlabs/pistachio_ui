@@ -362,18 +362,7 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
             });
         }
 
-        jobsDataFunc();
-
-        $('#btnProduction').click(function(){
-            $.get(globalURL+'etl/jobs/prod');
-            alert('Prod');
-
-        });
-
-        $('#btnStage').click(function(){
-            $.get(globalURL+'etl/jobs/stage');
-            alert('Stage');
-        });
+       
 
         var reportCategoryID = localStorage.getItem("reportCategoryID");
 
@@ -412,7 +401,12 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
                         "data": "action",
                         "width": "29%",
                         "render": function (data, type, full, meta) {
-                            return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-warning btn-sm downloadBtn"><i class="fa fa-download"></i> Template</button>';
+                            if(full.reportFileName){
+                                return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button><button class="btn btn-warning btn-sm downloadBtn"><i class="fa fa-download"></i> Template</button>';
+                            }else{
+                                return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
+                            }
+                            
                         }
                 }]
                 })
@@ -743,7 +737,7 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
                 '<div class="form-actions col-md-12">' +
                 '<div class="text-right">' +
                 '<a href="#/queryExe.html"  class="btn btn-success btn-md btnRunTemp"><i class="fa fa-eye"></i> View </a>' +
-                ' <a href="#" class="btn btn-md btn-warning" id="btnReset"><i class="fa fa-refresh"></i> Reset</a>' +
+               
                 '</div>' +
                 '</div>' +
                 '</form>';
@@ -1161,9 +1155,39 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
         queryDataFunc();
         queryMasukFunc();
         var selectedQueryId = undefined;
+
+
+
+        $("#selectType").change(function(){
+            console.log($( this ).val());
+            if($( this ).val() == "template"){
+                $("#selectContainer #selectType").val("template");
+                $rootScope.selectType = "template";
+                $("#queryForm").hide();
+                $("#queryFormTemplate").show();
+            }else{
+                $("#selectContainer #selectType").val("adhoc");
+                $rootScope.selectType = "adhoc";
+                $("#queryForm").show();
+                $("#queryFormTemplate").hide();
+            }
+        });
         $('#queryContainer').on('click', 'button.updateBtn', function () {
+            
             var selectedQuery = queryData.row($(this).parents('tr')).data();
             selectedQueryId = selectedQuery.id;
+            if(selectedQuery.reportFileName){
+                $("#selectContainer #selectType").val("template");
+                $rootScope.selectType = "template";
+                $("#queryForm").hide();
+                $("#queryFormTemplate").show();
+                
+            }else{
+                $("#selectContainer #selectType").val("adhoc");
+                $rootScope.selectType = "adhoc";
+                $("#queryForm").show();
+                $("#queryFormTemplate").hide();
+            }
             $("#queryAddForm #queryUISubmit").addClass('hide');
             $("#queryAddForm #queryUIUpdate").removeClass('hide');
 
@@ -1173,7 +1197,7 @@ MetronicApp.controller('EreportingController', ['$rootScope', '$scope', '$http',
 
             $("#queryForm #query-name").val(selectedQuery.queryName);
             $("#queryFormTemplate #query-name").val(selectedQuery.queryName);
-
+            
             $("#queryForm #query-text").val(selectedQuery.query);
             $("#queryForm #query-template").val(selectedQuery.reportFileName);
             $("#queryAddFormHeader").html("Update Query UI");
