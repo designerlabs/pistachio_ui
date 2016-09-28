@@ -43,7 +43,8 @@
 	"fastsearch.global.search" : "Pencarian",
 	"fastsearch.global.resetsearch" : "Reset Carian",
 	"fastsearch.global.searchfor" : "Pencarian untuk",
-	"fastsearch.global.applications" : "Permohonan",
+	"fastsearch.global.applications" : "Permohonan Pas",
+	"fastsearch.global.suspectlistfound" : "suspek mendapati",
 	"fastsearch.global.users" : "Warganegara",
 	"fastsearch.global.view" : "Paparan",
 	"fastsearch.global.stickers" : "Pelawat",
@@ -60,6 +61,10 @@
 	"fastsearch.global.applicationno" : "Nombor Aplikasi",
 	"fastsearch.global.action" : "Tindakan",
 	"queryeditor.title" : "Query Editor",
+
+	"heatmapFW.title" : "Foreign Worker HeatMap",
+	"heatmapCit.title" : "Warganegara HeatMap",
+	
 	"ereporting.add" : "Tambah",
 	"ereporting.back" : "Kembali",
 	"ereporting.name" : "Nama",

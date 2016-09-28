@@ -39,6 +39,9 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
 
             $.get("http://" + solrHost + ":8983/solr/immigration2/query?sort=created desc&json={query :'" + Qparam + "',limit:20000,facet: {visa : {type: terms,field: pass_type},employers : {type: terms,field: employer}}}") //mad_pas_typ_cd - pass_type
                 .then(function(data) {
+                    if($scope.citizenData == false){
+                        $scope.showVisa = false;
+                    }
                     chartvisadtls = data.response.docs;
                     if (data.response.docs.length !== 0) {
                         $scope.fn_personalInfo(data.response.docs[0]);
@@ -66,7 +69,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                             console.log('visa image');
                             $scope.fn_loadVisaTbl(visadetails,data);
                         });
-                        $scope.$apply();
+                        //$scope.$apply();
 
                     } else {
                         // alert('No data find in immigration2 table');
@@ -97,13 +100,12 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
 
         $scope.fn_getCitizenInfo = function() {
             $scope.showVisa = false;
+            $scope.citizenData = false;
             var qry = Qparam.substring(0, Qparam.length - 17);
-
-            $.get("http://" + solrHost + ":8983/solr/cit/query?sort=xit_date desc&json={query:'" + qry + "',limit:100000}")
+            $.get("http://" + solrHost + ":8983/solr/citizen/query?sort=xit_date desc&json={query:'" + qry + "',limit:100000}")
                 .then(function(result) {
                     console.log(result);
-
-
+                   
                     if (result.response.docs.length !== 0) {
 
                         $scope.showHistory = true;
@@ -200,6 +202,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
             console.log('visadetails' + visadetails);
             visadetails.forEach(function(k,v){
                 itmbackgrd = [];
+                //debugger;
                 itmbackgrd ={
                     content : k.pass_type,
                     start : moment.utc(k.created,"YYYY-MM-DDT00:00:00").format("YYYY-MM-DD"),
@@ -421,7 +424,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
 
         var docno = Qparam.split('AND')[0].replace("doc_nos:", "").trim();
         $('.loadimg').show();
-        $.get(globalURL + "api/image/docno/" + docno)
+        $.get(globalURL + "api/image/solr/docno/" + docno)
             .then(function(response) {
                 console.log(response);
                 $('.loadimg').hide();

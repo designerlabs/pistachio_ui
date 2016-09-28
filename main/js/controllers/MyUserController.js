@@ -11,6 +11,18 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
         $scope.showPie = false;
         $scope.selectedDayTime = false;
         $scope.ErrorMsg = false;
+
+        $rootScope.$on('loading:progress', function (){
+            console.log('loading');
+            $scope.loading = true;
+        });
+
+        $rootScope.$on('loading:finish', function (){
+            console.log('stop');
+        $scope.loading = false;
+        });
+
+
         $scope.branchList = function (start, end, day, hour) {
             this.start = start;
             this.end = end;
@@ -20,7 +32,7 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
                 $scope.triggerHourDt = "?day=" + day + "&hour=" + hour;
             }
           //  api/secured/pistachio/myuser/branch
-            $http.get(globalURL + "api/secured/pistachio/myuser/branch" + $scope.triggerHourDt)
+            $http.get(globalURL + "api/secured/pistachio/myuser/branch?from=" + start + "&to=" + end)
                 .success(function (response) {
                     console.log(response);
                     $scope.branches = response;
@@ -32,7 +44,6 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
                         $scope.checkList = false;
                     }
                     sortable($scope, response, 8, 'updated_at');
-                    $scope.loading = false;
                 })
                 .error(function (response) {
                     //debugger;
@@ -40,7 +51,6 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
         };
         //$scope.branchList();
         $scope.getBranchDetails = function (total, hour, day, branch, activityName) {
-            $scope.loading = true;
             //$scope.activityName = undefined;
             var Hr = hour.split('&');
             var Dt = day.split('&');
@@ -152,7 +162,6 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
   
         $scope.activeBranch = name;
         $scope.activeUser = false;
-        $scope.loading = true;
         $scope.selectedDayTime = false;
         $('.selectedBox').hide('200');
         $('rect').removeAttr('class', 'activeBox');
@@ -172,8 +181,6 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
         $http.get(globalURL + "api/secured/pistachio/myaudit/officer?branch=" + name + "&from=" + $scope.startDt + "&to=" + $scope.endDt + $scope.triggerHourDt + $scope.activity,
             { headers: { 'Content-Type': 'application/json' } })
             .success(function (response) {
-                //$scope.loading = false;
-                
                 $scope.officers = response;
                 if ($scope.officers.length === 0) {
                     $scope.showOfficer = false;
@@ -184,18 +191,15 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
                 $("#branchHeader span").html('<i class="fa fa-chevron-circle-up" aria-hidden="true"></i>');
             });
         console.log("Getting branch heatmap");
-         //$scope.loading = true;
         $http.get(globalURL + "api/secured/pistachio/myaudit/branch/heatmap?branch=" + name + "&from=" + $scope.startDt + "&to=" + $scope.endDt + $scope.triggerHourDt + $scope.activity,
             { headers: { 'Content-Type': 'application/json' } }
 
         )
             .success(function (response) {
                 $scope.ErrorMsg = false;
-                $scope.loading = false;
                 $scope.requestData(name, $scope.startDt, $scope.endDt);
                 
             }).error(function (data, status, headers, config) {
-                $scope.loading = false;
                 $scope.ErrorMsg = true;
                 return status;
             });
@@ -205,15 +209,12 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
 
 
     $scope.requestData = function (bName, fDate, tDate) {
-        $scope.loading = true;
         $("#usergraph").html("");
         $http.get(globalURL + "api/secured/pistachio/myaudit/branch/usermap?branch="+ bName +"&from="+fDate+"&to="+tDate,
             { headers: { 'Content-Type': 'application/json' } }
 
         )
             .success(function (response) {
-                    $scope.loading = false;
-                    
                     if(response.links){
                         var fieldArray = [];
                         var branchArray = [];
@@ -430,7 +431,7 @@ $scope.test = function (nodes,links) {
 
                         d3.select("#tooltip")
                             .select("#duration")
-                            .text(function(e){ return d.validDays });
+                            .text(function(e){ return numberWithCommas(d.validDays) });
                          d3.select("#tooltip")
                             .select("#usrId")
                             .text(function(e) {  return d.usrId});

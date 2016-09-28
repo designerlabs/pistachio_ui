@@ -80,7 +80,15 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             $('#trackingrange').daterangepicker({
                 startDate: moment().subtract(1,"year"),
                 endDate: moment(),           
-                "alwaysShowCalendars": false                     
+                "alwaysShowCalendars": false,
+                 ranges: {
+           'Today': [moment(), moment()],
+           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }                   
             },
             function(startdt, enddt) {
                 $('#trackingrange span').html(startdt.format('MMM DD, YYYY') + ' - ' + enddt.format('MMM DD, YYYY'));
@@ -211,24 +219,24 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         // };
             if ($scope.ele2 == "Branch") {
                 
-                $scope.column2 = "No. of Exit / Visitor(s)";
+                $scope.column2 = "No. of Exit";
                 $scope.column3 = "Exit Trend";
-                $scope.column4 = "No. of Entry / Visitor(s)";
+                $scope.column4 = "No. of Entry";
                 $scope.column5 = " Entry Trend";
             }
 
             if ($scope.ele2 == "Officer") {
                 $scope.BranchName = $scope.getBranchVal.two;
-                $scope.column2 = "No. of Exit / Visitor(s)";
+                $scope.column2 = "No. of Exit";
                 $scope.column3 = "Exit Trend";
-                $scope.column4 = "No. of Entry / Visitor(s)";
+                $scope.column4 = "No. of Entry";
                 $scope.column5 = " Entry Trend";
             }
             if ($scope.ele2 == "Country") {
                 $scope.EmpName = $scope.getEmpName.two;
-                $scope.column2 = "No. of Exit / Visitor(s)";
+                $scope.column2 = "No. of Exit";
                 $scope.column3 = "Exit Trend";
-                $scope.column4 = "No. of Entry / Visitor(s)";
+                $scope.column4 = "No. of Entry";
                 $scope.column5 = " Entry Trend";
             }
             if ($scope.ele2 == "Visitor") {
@@ -266,7 +274,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 chart.showLoading('Loading data from server...');
 
                 //Formatting Date
-                var dateFormat = function(ele) {
+                var dateFormatStart = function(ele) {
                     var myDate = new Date(ele);
 
                     var yyyy = myDate.getFullYear().toString();
@@ -276,14 +284,24 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
                 };
 
+                var dateFormatEnd = function(ele) {
+                    var myDate = new Date(ele);
+
+                    var yyyy = myDate.getFullYear().toString();
+
+                    var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
+                    var dd = myDate.getDate().toString();
+                    return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T23:59:59Z";
+                };
+
 
 
 
                 // $("#datetimeFrom").data('DateTimePicker').date($scope.changeDt(dateFormat(Math.round(e.min))));
                 // $("#datetimeTo").data('DateTimePicker').date($scope.changeDt(dateFormat(Math.round(e.max))));
 
-                $scope.startDate = dateFormat(Math.round(e.min));
-                $scope.endDate = dateFormat(Math.round(e.max));
+                $scope.startDate = dateFormatStart(Math.round(e.min));
+                $scope.endDate = dateFormatEnd(Math.round(e.max));
                 /*  $scope.startDate = $scope.getFromDt;
                   $scope.endDate = $scope.getToDt;*/
 
@@ -336,9 +354,46 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 var sq_b = "http://" + solrHost + ":8983/solr/" + immigrationSolr + "/query?json="; //jsonQ;
                 $http.get(sq_b + query_c).success(function(data) {
                         //alert('call-1');
-
                         var storeBranchData = [];
-                        //debugger;
+                        
+                       /* NEED TO CHECK AND UNCOMMENT IN PRODUCTION */
+                        var chk1 = data.facets.in_outs.buckets[0].val;
+                            console.log(data);
+                           
+                           if(chk1){
+
+                                if(chk1 == 'in'){
+                                    $scope.totalEntry = data.facets.in_outs.buckets[0].count;
+                                }else{
+                                    if(data.facets.in_outs.buckets[1]){
+                                        $scope.totalEntry = data.facets.in_outs.buckets[1].count;
+                                    }else{
+                                        $scope.totalExit = data.facets.in_outs.buckets[0].count;
+                                        $scope.totalEntry = 0;
+                                    }
+                                }
+                            }
+                            if(data.facets.in_outs.buckets[1]){
+                                var chk2 = data.facets.in_outs.buckets[1].val;
+                                if(chk2){
+                                    if(chk2 == 'out'){
+                                        $scope.totalExit = data.facets.in_outs.buckets[1].count;
+                                    }else{
+                                   
+                                        $scope.totalExit = data.facets.in_outs.buckets[0].count;
+                                    }
+                                }
+                            }else{
+                                if(chk1 == 'in'){
+                                    $scope.totalExit = 0;
+                                }else{
+                                    $scope.totalEntry = 0;
+                                }
+                                
+                            }
+                           
+                        
+                        // end
                         if ($scope.ele2 == "Country") {
 
                             if (data.facets.count == 0) {
@@ -523,7 +578,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                             gap = "%2B1DAY";
                         }
 
-                        var query = 'q=dy_action_ind:' + k.name + '&fq=xit_date:['+startDt+' TO '+dateFormat(Math.round(e.max))+']&' + triggerOptRow + 'json.facet={in_outs:{type : range,field : xit_date,start :"' + startDt + '",end :"' + dateFormat(Math.round(e.max)) + '",gap:"' + gap + '"},passport: "unique(doc_no)"}'
+                        var query = 'q=dy_action_ind:' + k.name + '&fq=xit_date:['+startDt+' TO '+dateFormatEnd(Math.round(e.max))+']&' + triggerOptRow + 'json.facet={in_outs:{type : range,field : xit_date,start :"' + startDt + '",end :"' + dateFormatEnd(Math.round(e.max)) + '",gap:"' + gap + '"},passport: "unique(doc_no)"}'
                         var sq = "http://" + solrHost + ":8983/solr/" + immigrationSolr + "/query?"
                         $http.get(sq + query).
                         success(function(data) {
@@ -581,10 +636,17 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         verticalAlign: 'top',
                         align: 'right'
                     },
+                    
 
                     rangeSelector: {
                         selected: 5,
-                        inputEnabled: false
+                        inputEnabled: false,
+                        buttonTheme: {
+                            visibility: 'hidden'
+                        },
+                        labelStyle: {
+                            visibility: 'hidden'
+                        }
                     },
 
                     chart: {
@@ -879,6 +941,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                                 type: 'areaspline',
                                 threshold: null
                             };
+                            
                             $scope.totalInOut.push(data.response.numFound);
 
                             // As we're loading the data asynchronously, we don't know what order it will arrive. So
@@ -898,18 +961,60 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     //$scope.loading = true;
                     $http.get(sq_spark + query_spark)
                         .success(function(data) {
-
                             if (($scope.totalCount - $scope.branchOffset) < 15) {
                                 $("#bNextBtn").prop('disabled', true);
                             } else {
                                 $("#bNextBtn").prop('disabled', false);
                             }
+                            //debugger;
+                            /* NEED TO CHECK AND UNCOMMENT IN PRODUCTION*/
+                           
+                 
+                          
+                            var chk1 = data.facets.in_outs.buckets[0].val;
+                            console.log(data);
+                           
+                           if(chk1){
 
+                                if(chk1 == 'in'){
+                                    $scope.totalEntry = data.facets.in_outs.buckets[0].count;
+                                }else{
+                                    if(data.facets.in_outs.buckets[1]){
+                                        $scope.totalEntry = data.facets.in_outs.buckets[1].count;
+                                    }else{
+                                        $scope.totalExit = data.facets.in_outs.buckets[0].count;
+                                        $scope.totalEntry = 0;
+                                    }
+                                }
+                            }
+                            if(data.facets.in_outs.buckets[1]){
+                                var chk2 = data.facets.in_outs.buckets[1].val;
+                                if(chk2){
+                                    if(chk2 == 'out'){
+                                        $scope.totalExit = data.facets.in_outs.buckets[1].count;
+                                    }else{
+                                   
+                                        $scope.totalExit = data.facets.in_outs.buckets[0].count;
+                                    }
+                                }
+                            }else{
+                                if(chk1 == 'in'){
+                                    $scope.totalExit = 0;
+                                }else{
+                                    $scope.totalEntry = 0;
+                                }
+                                
+                            }
+                           
 
+                            
+                            //end
+                    
                             $scope.totalCount = data.facets.ubranch;
                             $scope.numofpage = Math.ceil($scope.totalCount / limitValue);
 
                             console.log(data);
+                            //$scope.totalInOut.push(data.facets.in_outs.buckets);
 
                             var storeBranchData = [];
 
@@ -1115,7 +1220,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         $scope.cleanQuery = function(data) {
             data = data.replace(/\(/g, "\\\(");
             data = data.replace(/\)/g, "\\\)");
-            data = data.replace(/ /g, "*");
+            data = data.replace(/ /g, "?");
             return (data);
         };
 

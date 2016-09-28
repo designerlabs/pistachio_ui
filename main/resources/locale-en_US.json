@@ -44,7 +44,8 @@
 	"fastsearch.global.search" : "Search",
 	"fastsearch.global.resetsearch" : "Reset Search",
 	"fastsearch.global.searchfor" : "Search for",
-	"fastsearch.global.applications" : "Visa & Pass",
+	"fastsearch.global.applications" : "Pass Application",
+	"fastsearch.global.suspectlistfound" : "suspect found",
 	"fastsearch.global.users" : "Citizens",
 	"fastsearch.global.view" : "View",
 	"fastsearch.global.stickers" : "Vistors",
@@ -72,6 +73,9 @@
 	"ereporting.delete.message" : "Are you sure you want to delete this record",
 	"ereporting.delete.no" : "No",
 	"ereporting.delete.yes" : "Yes",
+
+	"heatmapFW.title" : "Foreign Worker HeatMap",
+	"heatmapCit.title" : "Citizen HeatMap",
 
  	"report.title" : "Federal Advanced Profiling Report",
  	"reportmgt.title":"Manage System Reports",

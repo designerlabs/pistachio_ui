@@ -2,9 +2,9 @@
 var selected_countries = [];
 var filter_query = "";
 
-var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/citizen/query?json='
+var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/immigration2/query?json='
 
-MetronicApp.controller('CAController', function($rootScope, $scope, $http) {
+MetronicApp.controller('VAMapController', function($rootScope, $scope, $http) {
     $scope.$on('$viewContentLoaded', function() {
         $scope.firstTime = true;
         // initialize core components
@@ -103,10 +103,10 @@ MetronicApp.controller('CAController', function($rootScope, $scope, $http) {
       }
       
       $scope.map = L.map("map",{fullscreenControl: true}).setView([3.9, 102.3], 7);
-      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      L.tileLayer('http://10.23.124.233/osm_tiles/{z}/{x}/{y}.png', {
         attribution: '&copy; NSL | Mimos'
       }).addTo($scope.map);
-      new L.SolrHeatmapLayer('http://'+solrHost+':8983/solr/citizen', {
+      new L.SolrHeatmapLayer('http://'+solrHost+':8983/solr/immigration2', {
          field: 'loc',
          query: {q:fq},
          blur : 15,
@@ -123,7 +123,7 @@ MetronicApp.controller('CAController', function($rootScope, $scope, $http) {
         fq = "*:*"
       }
       $scope.map = L.map("map",{fullscreenControl: true}).setView([3.9, 102.3], 7);
-      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      L.tileLayer('http://10.23.124.233/osm_tiles/{z}/{x}/{y}.png', {
         attribution: '&copy; NSL | Mimos'
       }).addTo($scope.map);
       function onEachFeature(feature, layer) {
@@ -131,7 +131,7 @@ MetronicApp.controller('CAController', function($rootScope, $scope, $http) {
         layer.bindPopup(count);
       }
 
-      var solr = L.solrHeatmap('http://'+solrHost+':8983/solr/citizen', {
+      var solr = L.solrHeatmap('http://'+solrHost+':8983/solr/immigration2', {
         // Solr field with geospatial data (should be type Spatial Recursive Prefix Tree)
         field: 'loc',
         maxSampleSize:600,
@@ -434,8 +434,8 @@ MetronicApp.controller('CAController', function($rootScope, $scope, $http) {
 
                    //alert(data.facet_counts.facet_fields.sex.length);
                    console.log($scope.sex1);
-                   $scope.column();
-                   $scope.pie();
+                   //$scope.column();
+                   //$scope.pie();
                    //$scope.timelineChart(data.facets.date_range.buckets);
                    //$scope.activeOverall();
                    $scope.loading = false;
@@ -462,7 +462,7 @@ MetronicApp.controller('CAController', function($rootScope, $scope, $http) {
       Highcharts.chart('highchart_pie',{
         chart : {
             type : 'pie',
-           // height : 260,
+            height : 260,
             style: {
                 fontFamily: 'Open Sans'
             }

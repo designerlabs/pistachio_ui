@@ -302,8 +302,10 @@ function formInputValidation(id) {
     });
 }
 
-
-
+//format number
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
 
 //validation before ajax
 function inputValidation(id, callback) {
@@ -504,6 +506,34 @@ MetronicApp.factory('httpRequestInterceptor', function() {
         }
     };
 });
+
+
+MetronicApp.factory('httpInterceptor', ['$q', '$rootScope',
+    function ($q, $rootScope) {
+        var loadingCount = 0;
+
+        return {
+            request: function (config) {
+                if(++loadingCount === 1) $rootScope.$broadcast('loading:progress');
+                return config || $q.when(config);
+            },
+
+            response: function (response) {
+                if(--loadingCount === 0) $rootScope.$broadcast('loading:finish');
+                return response || $q.when(response);
+            },
+
+            responseError: function (response) {
+                if(--loadingCount === 0) $rootScope.$broadcast('loading:finish');
+                return $q.reject(response);
+            }
+        };
+    }
+]).config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.interceptors.push('httpInterceptor');
+}]);
+
+
 
 MetronicApp.config(function($httpProvider) {
     $httpProvider.interceptors.push('httpRequestInterceptor');
@@ -1150,6 +1180,77 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }]
         }
     })
+
+.state('heatMapAnalysis', {
+        url: "/heatMapAnalysis.html",
+        templateUrl: "views/analysis/map.html",
+        data: {
+            pageTitle: 'Heat Map Analysis'
+        },
+        controller: "VAMapController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/global/plugins/bootstrap-daterangepicker/moment.js',
+                        'assets/pistachio/myAudit/myaudit.css',
+                        'assets/pages/css/search.css',
+                        'assets/pages/css/pricing.min.css',
+                        'assets/pistachio/fastsearch/leaflet/leaflet_canvas_layer.js',
+                        'assets/pistachio/fastsearch/leaflet/heatmap.js ',
+                        'assets/pistachio/map/Leaflet.fullscreen.min.js',
+                        'assets/pistachio/map/leaflet.fullscreen.css',
+                        'assets/pistachio/map/leafletSolrHeatmap.js',
+                        'assets/pistachio/map/geostats.min.js',
+                        'assets/pistachio/map/leaflet.markercluster-src.js',
+                        'assets/pistachio/map/MarkerCluster.Default.css',
+                        'js/controllers/VAMapController.js',
+                        'assets/pages/scripts/highstock.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
+                    ]
+                });
+            }]
+        }
+    })
+
+.state('CitizenAnalysis', {
+        url: "/citizenAnalysis.html",
+        templateUrl: "views/analysis/citizen.html",
+        data: {
+            pageTitle: 'Citizen Analysis'
+        },
+        controller: "CAController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/global/plugins/bootstrap-daterangepicker/moment.js',
+                        'assets/pistachio/myAudit/myaudit.css',
+                        'assets/pages/css/search.css',
+                        'assets/pages/css/pricing.min.css',
+                        'assets/pistachio/fastsearch/leaflet/leaflet_canvas_layer.js',
+                        'assets/pistachio/fastsearch/leaflet/heatmap.js ',
+                        'assets/pistachio/map/Leaflet.fullscreen.min.js',
+                        'assets/pistachio/map/leaflet.fullscreen.css',
+                        'assets/pistachio/map/leafletSolrHeatmap.js',
+                        'assets/pistachio/map/geostats.min.js',
+                        'assets/pistachio/map/leaflet.markercluster-src.js',
+                        'assets/pistachio/map/MarkerCluster.Default.css',
+                        'js/controllers/CAController.js',
+                        'assets/pages/scripts/highstock.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
+                    ]
+                });
+            }]
+        }
+    })
+
     .state('myAlert', {
         url: "/alertAnalysis.html",
         templateUrl: "views/analysis/alert.html",
@@ -1368,7 +1469,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         //    'assets/global/plugins/cubeportfolio/js/jquery.cubeportfolio.min.js',
                         'assets/global/plugins/cubeportfolio/css/cubeportfolio.css',
 
-                        'js/controllers/FastSearchController.js'
+                        'js/controllers/FastSearchController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
 
                     ]
                 });
@@ -1454,6 +1556,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pages/css/search.css',
                         'assets/pages/css/pricing.min.css',
 
+                        
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
 
                         'assets/pistachio/fastsearch/leaflet/leaflet_canvas_layer.js',
                         //'assets/pistachio/map/heatmap.min.js',
@@ -2094,6 +2198,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
                         'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
                         'assets/global/plugins/datatables/all.min.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'assets/pages/css/invoice-2.css',
                         'assets/global/plugins/vis/vis.js',
                         'assets/global/plugins/vis/vis.css',
