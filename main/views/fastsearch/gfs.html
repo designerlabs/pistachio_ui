@@ -69,7 +69,7 @@
       <div class="row" style=>
         <div class="col-md-12">
           <div class='uib'>
-            <div class='ui_box' ng-class="{selected: showApplication}" ng-click="showApplications()">
+            <div class='ui_box' ng-class="{selected: showApplication}" ng-click="showApplications('pass')">
               <div class='ui_box__inner'>
                 <h2>{{'fastsearch.global.applications' | translate}}</h2>
                 <div class='stat'>
@@ -80,17 +80,17 @@
               </div>
 
             </div>
-            <div class='ui_box' ng-class="{selected: showCitizen}" ng-click="showCitizens()">
+            <div class='ui_box' ng-class="{selected: showCitizen}" ng-click="showApplications('citizen')">
               <div class='ui_box__inner'>
                 <h2>{{'fastsearch.global.users' | translate}}</h2>
                 <div class='stat'>
                   <span>{{users |  number:0}}</span>
                 </div>
-                <p>{{'fastsearch.global.usersfound' | translate}}</p>
+                <p>{{'fastsearch.global.usersfound' | translate}} in {{vtime}} milliseconds</p>
               </div>
 
             </div>
-            <div class='ui_box' ng-class="{selected: showVisitor}" ng-click="showVisitors()">
+            <div class='ui_box' ng-class="{selected: showVisitor}" ng-click="showApplications('visitor')">
               <div class='ui_box__inner'>
                 <h2>{{'fastsearch.global.stickers' | translate}}</h2>
                 <div class='stat'>
@@ -100,13 +100,13 @@
               </div>
 
             </div>
-            <div class='ui_box' ng-class="{selected: showBlacklist}" ng-click="showBlacklists()">
+            <div class='ui_box' ng-class="{selected: showBlacklist}" ng-click="showApplications('blacklist')">
               <div class='ui_box__inner'>
                 <h2>{{'fastsearch.global.blacklisted' | translate}}</h2>
                 <div class='stat'>
                   <span>{{blacklisted | number:0}}</span>
                 </div>
-                <p>{{'fastsearch.global.blacklistedfound' | translate}} in {{vtime}} milliseconds</p>
+                <p>{{'fastsearch.global.suspectlistfound' | translate}} in {{vtime}} milliseconds</p>
               </div>
 
             </div>
@@ -122,38 +122,38 @@
                 <thead class="bg-table-gray">
                   <tr>
                     <th>
-                      <a href="javascript:;">Date</a>
+                      Date
                     </th>
                     <th>
-                      <a href="javascript:;">Job</a>
+                      Job
                     </th>
                     <th>
-                      <a href="javascript:;">Name</a>
+                      Name
                     </th>
                     <th>
-                      <a href="javascript:;">{{'fastsearch.global.country' | translate}}</a>
+                      {{'fastsearch.global.country' | translate}}
                     </th>
                     <th style="text-align: center;">
-                      <a href="javascript:;">Document No</a>
+                      Document No
                     </th>
                     <th style="text-align: center;">
-                      <a href="javascript:;">{{'fastsearch.global.action' | translate}}</a>
+                      {{'fastsearch.global.action' | translate}}
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr ng-repeat="x in items">
-                    <td style="width:10%;" class="table-title">
+                    <td style="width:15%;" class="table-title">
                       {{formatDate(x.created) | cmdate:'dd/MM/yyyy hh:mm:ss'}}
                     </td>
-                    <td style="width:25%;" class="table-title">
+                    <td style="width:30%;" class="table-title">
                       {{x.job_en}}
                     </td>
-                    <td style="width:25%;" class="table-title">
+                    <td style="width:30%;" class="table-title">
                       {{x.name}}
                     </td>
-                    <td style="width:5%;" class="table-desc"> {{x.country}} </td>
-                    <td style="width:5%;" class="table-download">
+                    <td style="width:10%;" class="table-desc"> {{x.country}} </td>
+                    <td style="width:10%;" class="table-download">
                       {{x.doc_no}}
                     </td>
                     <td style="text-align: center; width:5%;" class="table-status">
@@ -175,6 +175,7 @@
                 </li>
               </ul>
             </div>
+             <div class="pageNum">( {{startCount}} / {{applicationsFound}} )</div>
           </div>
 
         </div>
@@ -187,41 +188,41 @@
                 <thead class="bg-table-gray">
                   <tr>
                     <th>
-                      <a href="javascript:;">Date</a>
+                      Date
                     </th>
                     <th>
-                      <a href="javascript:;">IC No.</a>
+                      IC No.
                     </th>
                     <th>
-                      <a href="javascript:;">Name</a>
+                      Name
                     </th>
                     <th>
-                      <a href="javascript:;">Passport No.</a>
+                      Passport No.
                     </th>
                     <th style="text-align: center;">
-                      <a href="javascript:;">State</a>
+                      State
                     </th>
                     <th style="text-align: center;">
-                      <a href="javascript:;">{{'fastsearch.global.action' | translate}}</a>
+                      {{'fastsearch.global.action' | translate}}
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr ng-repeat="x in items">
-                    <td style="width:10%;" class="table-title">
-                      <a href="javascript:;">{{formatDate(x.created) | cmdate:'dd/MM/yyyy hh:mm:ss'}}</a>
+                    <td style="width:15%;" class="table-title">
+                      {{formatDate(x.created) | cmdate:'dd/MM/yyyy hh:mm:ss'}}
                     </td>
-                    <td style="width:25%;" class="table-title">
-                      <a href="javascript:;">{{x.kp_no}}</a>
+                    <td style="width:15%;" class="table-title">
+                      {{x.kp_no}}
                     </td>
-                    <td style="width:25%;" class="table-title">
+                    <td style="width:30%;" class="table-title">
                       {{x.name}}
                     </td>
-                    <td style="width:25%;" class="table-desc"> {{x.doc_no}} </td>
-                    <td style="width:10%;" class="table-download">
+                    <td style="width:10%;" class="table-desc"> {{x.doc_no}} </td>
+                    <td style="width:20%;" class="table-download">
                       {{x.state}}
                     </td>
-                    <td style="text-align: center; width:5%;" class="table-status">
+                    <td style="text-align: center; width:10%;" class="table-status">
                       <a href="#/travelertracker/travelertracker.html" ng-click="viewCitizen(x.doc_no);">
                         <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>{{'fastsearch.global.view' | translate}}</button>
                       </a>
@@ -233,13 +234,14 @@
             <div class="search-pagination">
               <ul class="pagination">
                 <li>
-                  <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="start==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+                  <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="startCount==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
                 </li>
                 <li class="page-active">
                   <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
                 </li>
               </ul>
             </div>
+
             <!--<div class="pageNum">( {{start}} / {{applicationsFound}} )</div>-->
           </div>
         </div>
@@ -306,7 +308,7 @@
               </ul>
             </div>
             <!--<div class="pageNum">( {{start}} / {{applicationsFound}} )</div>-->
-          </div>
+        </div>
         </div>
       </div>
       <div class="search-page search-content-4" ng-if="showVisitor">
@@ -368,7 +370,7 @@
             <div class="search-pagination">
               <ul class="pagination">
                 <li>
-                  <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="start==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+                  <button ng-click="previous(this)" class="btn btn-primary previousBtn" ng-disabled="startCount==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
                 </li>
                 <li class="page-active">
                   <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
@@ -376,6 +378,7 @@
 
               </ul>
             </div>
+
             <!--<div class="pageNum">( {{start}} / {{applicationsFound}} )</div>-->
           </div>
         </div>

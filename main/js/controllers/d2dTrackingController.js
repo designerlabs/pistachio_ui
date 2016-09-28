@@ -93,7 +93,15 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             $('#trackingrange').daterangepicker({
                 startDate: moment().subtract(1,"year"),
                 endDate: moment(),           
-                "alwaysShowCalendars": false                     
+                "alwaysShowCalendars": false,
+                 ranges: {
+           'Today': [moment(), moment()],
+           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }                   
             },
             function(startdt, enddt) {
                 $('#trackingrange span').html(startdt.format('MMM DD, YYYY') + ' - ' + enddt.format('MMM DD, YYYY'));
@@ -639,10 +647,17 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         verticalAlign: 'top',
                         align: 'right'
                     },
+                    
 
                     rangeSelector: {
                         selected: 5,
-                        inputEnabled: false
+                        inputEnabled: false,
+                        buttonTheme: {
+                            visibility: 'hidden'
+                        },
+                        labelStyle: {
+                            visibility: 'hidden'
+                        }
                     },
 
                     chart: {

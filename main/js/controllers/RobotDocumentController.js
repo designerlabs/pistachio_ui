@@ -13,6 +13,16 @@ MetronicApp.controller('RobotDocumentController', ['$rootScope','$scope', '$http
   $scope.globalDownloadURL = globalURL+"api/secured/solr/document/download?filename=";
   
 
+  $rootScope.$on('loading:progress', function (){
+      console.log('loading');
+      $scope.loading = true;
+  });
+
+  $rootScope.$on('loading:finish', function (){
+    console.log('stop');
+  $scope.loading = false;
+  });
+
 $scope.$watch('files', function (files) {
     $scope.formUpload = false;
     if (files != null) {
@@ -114,7 +124,7 @@ $scope.$watch('files', function (files) {
                $scope.robotSearchError = "";
                 $scope.robotSearch = data;
                 for (var i = 0; i < $scope.robotSearch.length; i++) {
-                  $scope.fileName  = $scope.robotSearch[i].attrfile.replace(/^.*[\\\/]/, '');
+                  $scope.fileName  = $scope.robotSearch[i].attrfile[0].replace(/^.*[\\\/]/, '');
                   $scope.robotSearch[i].fileName = $scope.fileName;
                 }
              }

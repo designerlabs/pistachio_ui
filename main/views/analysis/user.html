@@ -12,7 +12,7 @@
 
   <div class="col-md-3" style="background: #48545d; padding: 5px">
     <div class=" filter" style="padding:0px; border-bottom: 0px;">
-      <div id="reportrange12" style="background: #fff; cursor: pointer; padding:0px; border: 1px solid #ccc; display:none;">
+      <div id="reportrange" style="background: #fff; cursor: pointer; padding:0px; border: 1px solid #ccc;">
         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
         <span></span> <b class="caret"></b>
       </div>
@@ -50,7 +50,7 @@
     <div id="tooltip" ng-show="activeGraph">
     
       <div class="summaryTitle" style="font-size: 16px; border: 1px solid #3daf85; padding:0px; border-radius: 15px !important;">
-        <p class="usrName"><i class="fa fa-user"></i> <span id="info"></span></p>
+        <p>Name: <span id="info"></span><p>
         <p>Rank: <span id="rank"></span></p>
         <p>User ID: <span id="usrId"></span></p>
         <p>Created by: <span id="adminId"></span></p>
@@ -80,9 +80,9 @@
     
 
     <div id="usergraph"  style="background: #fff;"> </div>
-       </div>
+</div>
 
-       <div class="modal fade myUserData" id="myUserData" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+<div class="modal fade myUserData" id="myUserData" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-closebtn bg-danger" data-dismiss="modal"></div>
     <div class="modal-content">
@@ -116,3 +116,9 @@
 
 
 </div>
+
+<style>
+    .daterangepicker.dropdown-menu {
+    left: 93px !important;
+  }
+</style>

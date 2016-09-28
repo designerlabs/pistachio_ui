@@ -305,6 +305,7 @@ $scope.$on('mapClick', function(event, e) {
   $scope.application_box = function () {
     $http.get('http://' + solrHost + ':8983/solr/immigration2/select?q=' + $scope.getQuery() + '&wt=json&start=0&rows=0').
       success(function (data) {
+       console.log(data);
         $scope.applicationsFound = data.response.numFound;
         $scope.qtime = data.responseHeader.QTime;
         
@@ -425,7 +426,6 @@ $scope.$on('mapClick', function(event, e) {
   $scope.next = function () {
     $scope.start = $scope.start + 10;
     $scope.show();
-
   }
 
   $scope.previous = function () {
@@ -474,6 +474,7 @@ $scope.$on('mapClick', function(event, e) {
     // json.facet.country.domain = "{excludeTags:COLOR}"
     $http.get(sq + JSON.stringify(json)).
       success(function (data) {
+        $scope.startCount = data.response.start + 10;
         if (data.response.numFound == 0) {
           $scope.showVisitor = false;
         }
@@ -514,6 +515,7 @@ $scope.$on('mapClick', function(event, e) {
     json.facet.country.limit = 20;
     $http.get(sq + JSON.stringify(json)+$scope.spatialSearch()).
       success(function (data) {
+         $scope.startCount = data.response.start + 10;
         if (data.response.numFound == 0) {
           $scope.showCitizen = false;
         }
@@ -574,15 +576,37 @@ $scope.$on('mapClick', function(event, e) {
 
 
 
-  $scope.showApplications = function () {
+  $scope.showApplications = function (status) {
     var query = "";
-    $scope.showVisitor = false;
-    $scope.showCitizen = false;
-    $scope.showBlacklist = false;
-    $scope.showApplication = true;
+    if(status == 'pass'){
+      $scope.showApplication = true;
+      $scope.showCitizen = false;
+      $scope.showVisitor = false;
+      $scope.showBlacklist = false;
+      var sq = "http://" + solrHost + ":8983/solr/immigration2/query?json=";
+    }else if(status == 'citizen') {
+      $scope.showCitizen = true;
+      $scope.showApplication = false;
+      $scope.showVisitor = false;
+      $scope.showBlacklist = false;
+       var sq = "http://" + solrHost + ":8983/solr/citizen/query?json=";
+    }else if(status == 'visitor') {
+      $scope.showVisitor = true;
+      $scope.showApplication = false;
+      $scope.showCitizen = false;
+      $scope.showBlacklist = false;
+      var sq = "http://" + solrHost + ":8983/solr/hismove/query?json=";
+    }else if(status == 'blacklist') {
+      $scope.showBlacklist = true;
+      $scope.showApplication = false;
+      $scope.showCitizen = false;
+      $scope.showVisitor = false;
+      var sq = "http://" + solrHost + ":8983/solr/blacklisted/query?json=";
+    }
+
 
     var query = ""
-    var sq = "http://" + solrHost + ":8983/solr/immigration2/query?json=";
+    //var sq = "http://" + solrHost + ":8983/solr/immigration2/query?json=";
 
     var json = {};
     json.limit = 10;
@@ -601,6 +625,9 @@ $scope.$on('mapClick', function(event, e) {
     // json.facet.country.domain = "{excludeTags:COLOR}"
     $http.get(sq + JSON.stringify(json)+$scope.spatialSearch()).
       success(function (data) {
+        
+        console.log(data);
+        $scope.startCount = data.response.start + 10;
         if (data.response.numFound == 0) {
           $scope.showApplication = false;
         }

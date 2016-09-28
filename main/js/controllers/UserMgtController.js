@@ -107,7 +107,7 @@ MetronicApp.controller('UserMgtController', function($rootScope, settings, $scop
             //$("#userMgtForm #userMgt-role").val(userAuthorities);
             $("#userMgtForm #userMgt-dept").val(selecteduserMgt.department);
             
-            $("#userMgtAddFormHeader").html("Update User");
+            $("#userMgtAddFormHeader").html(" Update User");
             $("#userMgtAddForm").modal('show');
 
         });
@@ -172,29 +172,17 @@ MetronicApp.controller('UserMgtController', function($rootScope, settings, $scop
 
                //var obj = $.parseJSON(selectedText);
                //console.log(selectedText);
-               $.ajax({
-                       url: globalURL + "user/"+selecteduserMgtId+"/role",
-                       type: "PUT",
-                       dataType: 'json',
-                       contentType: "application/json; charset=utf-8",
-                       data: JSON.stringify(selectedText)
-                           /*id: selecteduserMgtId,
-                           queryCategoryName: userMgtTitleVal,
-                           queryCategory: userMgtCategoryVal,
-                           className: userMgtThemeVal,
-                           role: userMgtRoleVal,
-                           activated: userMgtActivatedVal*/
-                       
-                   })
-                   .done(function(data) {
-                     userMgts.destroy();
-                        userMgtDataFunc();
-                         $("#userMgtAddForm").modal('hide');
-                   })
-                   .fail(function(e) {
-                        console.log(e);
-                       //alert('Failed!');
-                   });
+
+            $http.put(globalURL + "user/"+selecteduserMgtId+"/role", JSON.stringify(selectedText))
+            .success(function (data, status, headers, config) {
+                userMgts.destroy();
+                userMgtDataFunc();
+                $("#userMgtAddForm").modal('hide');
+            })
+            .error(function (data, status, header, config) {
+                console.log(e);
+            });
+
                 
             }
             var valuesArray = $('select[name=roleMultiple]').val();
