@@ -24,6 +24,19 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         $scope.getCurrentStage = stageUpdate.getStage();
         console.log($scope.getCurrentStage);
 
+        
+        $rootScope.$on('loading:progress', function (){
+            console.log("loading");
+            $scope.loading = true;
+        });
+
+        $rootScope.$on('loading:finish', function (){
+            $scope.loading = false;
+            console.log("stop");
+        });
+
+
+
         var getmydata = function() {
             var query = "q=-created%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(created)\",\"max_date\":\"max(created)\"}}";
             var sq = "http://"+solrHost+":8983/solr/immigration2/query?";
@@ -261,7 +274,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             }(Highcharts));
 
             function afterSetExtremes(e) {
-                $scope.loading = true;
                 var chart = $('#container').highcharts();
                 chart.showLoading('Loading data from server...');
 
@@ -543,7 +555,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
                     })
                     .finally(function() {
-                        $scope.loading = false;
                     });
 
 
@@ -773,7 +784,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         $scope.populateChart = function() {
 
 
-            $scope.loading = true;
             /*if($scope.startDate){
               startDt = $scope.startDate;
             }else{*/
@@ -1182,7 +1192,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
                         })
                         .finally(function() {
-                            $scope.loading = false;
                         });
                 });
             });
