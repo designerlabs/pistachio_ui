@@ -37,6 +37,26 @@
         <span></span> <b class="caret"></b>
         </div>
     </div>-->
+
+    <!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!--<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>-->
+      <div class="modal-body" id="hourlyLoader">
+        
+      </div>
+      <!--<div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>-->
+    </div>
+  </div>
+</div>
+
     <div class="page-toolbar row daterangecont" style="padding-right: 15px; padding-bottom: 15px;">       
         <div id="trackingrange" class="pull-right tooltips btn btn-fit-height green" data-placement="top">
             <i class="icon-calendar"></i>&nbsp;
@@ -45,78 +65,84 @@
         </div>
     </div>
 <!--</div>-->
-<div class="col-md-5" style="position: absolute; z-index: 9; right: 100px; top: 60px;">
-    <h3 style="display:inline; margin-right:10px; color:#87ceeb;">Entry: <strong>{{totalEntry | number:0}}</strong></h3><h3 style="display:inline;"> / </h3>
-    <h3  style="display:inline; margin-left:10px; color:#f08080;">Exit: <strong>{{totalExit | number:0}}</strong></h3>
-    <!-- {{totalInOut[1] ? totalInOut[1] : "0"}}
-    {{totalInOut[0] ? totalInOut[0] : "0"}} -->
-</div>
-<div class="row"></div>
-<div id="container"></div>
-<div style="background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%; position:absolute; top:0px;"  ng-show="loading">
-  <!--  BEGIN PAGE SPINNER -->
-   <div ng-spinner-bar class="page-spinner-bar show">
-       <div class="bounce1"></div>
-       <div class="bounce2"></div>
-       <div class="bounce3"></div>
-   </div>
-<!--    END PAGE SPINNER -->
-</div>
-<div class="container-fluid">
-    <div class="col-md-6 col-sm-8 col-xs-9 borderTitle"><h3><span ng-if="EmpName"><i class="fa fa-user"></i> {{EmpName}} /</span><span ng-if= "BranchName">  <i class="fa fa-plane"></i> {{BranchName}}</span><span ng-if= "CtryName"> /&nbsp;<i class="fa fa-globe"></i>&nbsp;{{CtryName}}</span></h3><h4>{{ele2}} List Details From {{ subtitle }}</h4></div>
-    <div ng-if="BranchName" class="col-md-6 col-sm-4 col-xs-3 text-right"><button class="btn btn-md btn-warning" style="margin-top:20px;" ng-click="backBtn()">Back</button></div>
+    <div ng-show="DataBlock" >
+        <div class="col-md-5" style="position: absolute; z-index: 9; right: 100px; top: 60px;">
+            <h3 style="display:inline; margin-right:10px; color:#87ceeb;">Entry: <strong>{{totalEntry | number:0}}</strong></h3><h3 style="display:inline;"> / </h3>
+            <h3  style="display:inline; margin-left:10px; color:#f08080;">Exit: <strong>{{totalExit | number:0}}</strong></h3>
+            <!-- {{totalInOut[1] ? totalInOut[1] : "0"}}
+            {{totalInOut[0] ? totalInOut[0] : "0"}} -->
+        </div>
+        <div class="row"></div>
+        <div id="container"></div>
+        <div style="background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%; position:absolute; top:0px;"  ng-show="loading">
+        <!--  BEGIN PAGE SPINNER -->
+        <div ng-spinner-bar class="page-spinner-bar show">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+        <!--    END PAGE SPINNER -->
+        </div>
+        <div class="container-fluid">
+            <div class="col-md-6 col-sm-8 col-xs-9 borderTitle"><h3><span ng-if="EmpName"><i class="fa fa-user"></i> {{EmpName}} /</span><span ng-if= "BranchName">  <i class="fa fa-plane"></i> {{BranchName}}</span><span ng-if= "CtryName"> /&nbsp;<i class="fa fa-globe"></i>&nbsp;{{CtryName}}</span></h3><h4>{{ele2}} List Details From {{ subtitle }}</h4></div>
+            <div ng-if="BranchName" class="col-md-6 col-sm-4 col-xs-3 text-right"><button class="btn btn-md btn-warning" style="margin-top:20px;" ng-click="backBtn()">Back</button></div>
 
-<div class="row"></div>
+        <div class="row"></div>
+        <table class="table col-md-12 col-sm-12 col-xs-12" style="width:100%; margin: 30px 0;"  id="sparklineSubTable">
+            <thead>
+                <tr>
+                    <th><i class="fa fa-plane"></i> {{ele2}} Name</th>
+                    
+                    <th>{{ column4 }} <button class="sortBtn2"><i class="fa fa-sort"></i></button></th>
+                    <th>{{ column5 }} <span ng-show="column5 == 'No. of Entry'"><button class="sortBtn3"><i class="fa fa-sort"></i></button></span></th>
+                    <th>{{ column2 }} <span ng-show="column2 == 'No. of Exit'"><button class="sortBtn1"><i class="fa fa-sort"></i></button></span></th>
+                    <th>{{ column3 }}</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
 
 
-<table class="table col-md-12 col-sm-12 col-xs-12" style="width:100%; margin: 30px 0;"  id="sparklineSubTable">
-    <thead>
-        <tr>
-            <th><i class="fa fa-plane"></i> {{ele2}} Name</th>
-            
-            <th>{{ column4 }} <button class="sortBtn2"><i class="fa fa-sort"></i></button></th>
-            <th>{{ column5 }} <span ng-show="column5 == 'No. of Entry'"><button class="sortBtn3"><i class="fa fa-sort"></i></button></span></th>
-            <th>{{ column2 }} <span ng-show="column2 == 'No. of Exit'"><button class="sortBtn1"><i class="fa fa-sort"></i></button></span></th>
-            <th>{{ column3 }}</th>
-            <th>Action</th>
-        </tr>
-    </thead>
+            <tbody class="tbody-sparkline">
+                <tr ng-if="value.brhName.name"  ng-repeat="value  in branchOut" my-repeat-directive>
+                    <td>{{ value.brhName.name }}</td>
+                    
+                    <td ng-if="value.entry.entryTotal">{{ value.entry.entryTotal | number:0 }}</td>
+                    <td ng-if="!value.entry.entryTotal">0</td>
+                    <td class="entrySpark" data-sparkline="{{ value.entry.entry }}" />
+                    <td ng-if="value.exit.exitTotal"> {{ value.exit.exitTotal | number:0}}</td>
+                    <td ng-if="!value.exit.exitTotal">0</td>
+                    <td ng-if="value.brhName.exit">{{value.brhName.numFound}}</td>
+                    <td ng-if="value.brhName.doc">{{ value.brhName.doc }}</td>
+                    <td data-sparkline="{{ value.exit.exit }}" />
+                    <td ng-if="value.brhName.entry">{{value.brhName.numFound}}</td>
+                    <td ng-if="value.brhName.sex">{{ value.brhName.sex }}</td>
+                    <td><button class="btn btn-sm btn-success viewBtn" ng-click="viewBtn()">View</button><span ng-show="ele2 == 'Officer'"><button class="btn btn-sm btn-success viewBtn" ng-click="detBtn()">Details</button><button data-toggle="modal" ng-click="hourlyLoader()">Modal</button></span></td>
+                </tr>
 
-
-    <tbody class="tbody-sparkline">
-        <tr ng-if="value.brhName.name"  ng-repeat="value  in branchOut" my-repeat-directive>
-            <td>{{ value.brhName.name }}</td>
-            
-            <td ng-if="value.entry.entryTotal">{{ value.entry.entryTotal | number:0 }}</td>
-            <td ng-if="!value.entry.entryTotal">0</td>
-            <td class="entrySpark" data-sparkline="{{ value.entry.entry }}" />
-            <td ng-if="value.exit.exitTotal"> {{ value.exit.exitTotal | number:0}}</td>
-            <td ng-if="!value.exit.exitTotal">0</td>
-            <td ng-if="value.brhName.exit">{{value.brhName.numFound}}</td>
-            <td ng-if="value.brhName.doc">{{ value.brhName.doc }}</td>
-            <td data-sparkline="{{ value.exit.exit }}" />
-            <td ng-if="value.brhName.entry">{{value.brhName.numFound}}</td>
-            <td ng-if="value.brhName.sex">{{ value.brhName.sex }}</td>
-            <td><button class="btn btn-sm btn-success viewBtn" ng-click="viewBtn()">View</button><span ng-show="ele2 == 'Officer'"><button class="btn btn-sm btn-success viewBtn" ng-click="detBtn()">Details</button></span></td>
-        </tr>
-
-        <tr ng-if="value.vName.name"  ng-repeat="value  in branchOut">
-            <td> {{ value.vName.name }}</td>
-            <td ng-if="value.vName.exit"> {{ value.vName.numFound}}</td>
-            <td ng-if="!value.vName.exit">0</td>
-            <td ng-if="value.vName.entry"> {{ value.vName.numFound}}</td>
-            <td ng-if="!value.vName.entry">0</td>
-            <td ng-if="value.vName.sex == '9'"><i class="fa fa-transgender" style="font-size:22px; color:#818990;"></i></td>
-            <td ng-if="value.vName.sex == '1'"><i class="fa fa-male" style="font-size:22px; color:#0093ff;"></i></td>
-            <td ng-if="value.vName.sex == '2'"><i class="fa fa-female"  style="font-size:22px; color:#ff0097;"></i></td>
-            <td ng-if="value.vName.doc">{{ value.vName.doc }}</td>
-            <td><button class="btn btn-sm btn-success viewBtn" ng-click="viewBtn()">View</button></td>
-        </tr>
-    </tbody>
-</table>
-<h4 class="text-center"> Page {{ pageCount }} of {{ numofpage }}  (Total Record: {{ totalCount }})</h4>
-<div class="text-center"><button id="bPreviousBtn" class="btn btn-md btn-warning"><i class="fa fa-arrow-left"></i> Previous</button><button  id="bNextBtn" class="btn btn-md btn-warning">Next <i class="fa fa-arrow-right"></i></button></div>
-</div>
+                <tr ng-if="value.vName.name"  ng-repeat="value  in branchOut">
+                    <td> {{ value.vName.name }}</td>
+                    <td ng-if="value.vName.exit"> {{ value.vName.numFound}}</td>
+                    <td ng-if="!value.vName.exit">0</td>
+                    <td ng-if="value.vName.entry"> {{ value.vName.numFound}}</td>
+                    <td ng-if="!value.vName.entry">0</td>
+                    <td ng-if="value.vName.sex == '9'"><i class="fa fa-transgender" style="font-size:22px; color:#818990;"></i></td>
+                    <td ng-if="value.vName.sex == '1'"><i class="fa fa-male" style="font-size:22px; color:#0093ff;"></i></td>
+                    <td ng-if="value.vName.sex == '2'"><i class="fa fa-female"  style="font-size:22px; color:#ff0097;"></i></td>
+                    <td ng-if="value.vName.doc">{{ value.vName.doc }}</td>
+                    <td><button class="btn btn-sm btn-success viewBtn" ng-click="viewBtn()">View</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <h4 class="text-center"> Page {{ pageCount }} of {{ numofpage }}  (Total Record: {{ totalCount }})</h4>
+        <div class="text-center"><button id="bPreviousBtn" class="btn btn-md btn-warning"><i class="fa fa-arrow-left"></i> Previous</button><button  id="bNextBtn" class="btn btn-md btn-warning">Next <i class="fa fa-arrow-right"></i></button></div>
+        </div>
+    </div>
+    <div ng-hide="DataBlock">
+             <div class="font-red-thunderbird">
+                 <h3 class="text-center" style="font-weight: bold;"><i class="fa fa-warning"></i> No Records found!</h3>
+                 <h3 class="text-center">From : {{subtitle}}</h3>
+             </div>
+    </div>
 </div>
 
 <style>

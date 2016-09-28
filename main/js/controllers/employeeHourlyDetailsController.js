@@ -25,7 +25,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
        
         $scope.empName = sessionStorage.getItem('hourlyEmplyName');
         $scope.branchCode = sessionStorage.getItem('hourlybranchCode');
-
+        $scope.branchTitle = $.parseJSON(localStorage.getItem('branchName')).two;
         $scope.employeeArr.push(sessionStorage.getItem('hourlyEmplyName'));
 
         var CurrentDate = sessionStorage.getItem('hourlycurrDate');

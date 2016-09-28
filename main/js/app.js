@@ -812,51 +812,56 @@ MetronicApp.directive('myRepeatDirective', function() {
                     arr,
                     data,
                     chart;
+                try{
 
-                for (i = 0; i < len; i += 1) {
-                    $td = $($tds[i]);
-                    stringdata = $td.data('sparkline');
-                    arr = stringdata.split('; ');
-                    data = $.map(arr[0].split(', '), parseFloat);
-                    chart = {};
+                    for (i = 0; i < len; i += 1) {
+                        $td = $($tds[i]);
+                        stringdata = $td.data('sparkline');
+                        arr = stringdata.split('; ');
+                        data = $.map(arr[0].split(', '), parseFloat);
+                        chart = {};
 
-                    if (arr[1]) {
-                        chart.type = arr[1];
-                    }
-                    $td.highcharts('SparkLine', {
-                        series: [{
-                            data: data,
-                            pointStart: 1,
-                            states: {
-                                hover: {
-                                    enabled: false
+                        if (arr[1]) {
+                            chart.type = arr[1];
+                        }
+                        $td.highcharts('SparkLine', {
+                            series: [{
+                                data: data,
+                                pointStart: 1,
+                                states: {
+                                    hover: {
+                                        enabled: false
+                                    }
                                 }
-                            }
-                        }],
-                        tooltip: {
-                            // headerFormat: '<span style="font-size: 10px">' + $td.parent().find('th').html() + ', Q{point.x}:</span><br/>',
-                            pointFormat: '<b>{point.y} </b>'
-                        },
-                        chart: chart
-                    });
+                            }],
+                            tooltip: {
+                                // headerFormat: '<span style="font-size: 10px">' + $td.parent().find('th').html() + ', Q{point.x}:</span><br/>',
+                                pointFormat: '<b>{point.y} </b>'
+                            },
+                            chart: chart
+                        });
 
-                    n += 1;
+                        n += 1;
 
-                    // If the process takes too much time, run a timeout to allow interaction with the browser
-                    if (new Date() - time > 500) {
-                        $tds.splice(0, i + 1);
-                        setTimeout(doChunk, 0);
-                        break;
+                        // If the process takes too much time, run a timeout to allow interaction with the browser
+                        if (new Date() - time > 500) {
+                            $tds.splice(0, i + 1);
+                            setTimeout(doChunk, 0);
+                            break;
+                        }
+
+                        // Print a feedback on the performance
+                        if (n === fullLen) {
+                            $('#result').html('Generated ' + fullLen / 2 + ' Reports in ' + (new Date() - start) + ' ms');
+                        }
+                        $('.entrySpark > div svg .highcharts-series-group path:nth-child(1)').attr('fill', '#87CEEB');
+                        $('.entrySpark > div svg .highcharts-series-group path:nth-child(2)').attr('stroke', '#87CEEB');
+                        $('.entrySpark > div svg .highcharts-series-group .highcharts-markers path').attr('stroke', '#87CEEB !important');
+
                     }
-
-                    // Print a feedback on the performance
-                    if (n === fullLen) {
-                        $('#result').html('Generated ' + fullLen / 2 + ' Reports in ' + (new Date() - start) + ' ms');
-                    }
-                    $('.entrySpark > div svg .highcharts-series-group path:nth-child(1)').attr('fill', '#87CEEB');
-                    $('.entrySpark > div svg .highcharts-series-group path:nth-child(2)').attr('stroke', '#87CEEB');
-                    $('.entrySpark > div svg .highcharts-series-group .highcharts-markers path').attr('stroke', '#87CEEB !important');
-
+                }
+                catch(err){
+                    console.log(err);
                 }
             }
 

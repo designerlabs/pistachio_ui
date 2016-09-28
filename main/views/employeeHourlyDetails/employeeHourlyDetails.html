@@ -1,12 +1,13 @@
 <div id="mainContainer1" ng-controller="employeeHourlyDetailsController">
     <div class="page-toolbar row daterangecont" style="padding-right: 15px; padding-bottom: 15px; padding-left: 13px">
-        <button class="btn btn-danger btn-md" ng-click="backBtn()"><i class="fa fa-arrow-left"></i> Back</button>
-
-        <div id="Hourlygrange" class="pull-right btn btn-fit-height green">
+        <div class="col-md-2" style="padding-left:0px;"><button class="btn btn-danger btn-md" ng-click="backBtn()"><i class="fa fa-arrow-left"></i> Back</button></div>
+        <div  class="col-md-8"><h3 style="display:inline;"><i class="fa fa-plane"></i> {{branchTitle}}</h3></div>
+        <div id="Hourlygrange" class="pull-right btn btn-fit-height green col-md-2">
             <i class="icon-calendar"></i>&nbsp;
             <span></span>&nbsp;
             <i class="fa fa-angle-down"></i>
-        </div>                
+        </div>    
+        
     </div>
     <div  class="col-md-3" style="background: #48545d; padding: 5px">
         <div class="titleHeader" style="margin-top: 0px;">
