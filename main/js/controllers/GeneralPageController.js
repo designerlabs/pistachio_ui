@@ -8,7 +8,7 @@ var tableFunc, jobsDataFunc, selectedQueryRunId, reportCategoryID, fromDate, toD
 
 
 /* GeneralPageController starts */
-MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http', 'settings', 'authorities', 'fileUpload', function ($rootScope, $scope, $http, settings, authorities, fileUpload) {
+MetronicApp.controller('GeneralPageController', ['$rootScope', '$state', '$scope', '$http', 'settings', 'authorities', 'fileUpload', function ($rootScope, $state, $scope, $http, settings, authorities, fileUpload) {
 
     
 
@@ -36,6 +36,16 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
                 $('td .btn').css('padding', '6px 12px');
             }
         }
+
+
+        
+        $rootScope.$on('loading:progress', function (){
+            $scope.loading = true;
+        });
+
+        $rootScope.$on('loading:finish', function (){
+            $scope.loading = false;
+        });
 
 
         $scope.uploadFile = function(){
@@ -66,6 +76,7 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
             //alert(this);
             $(this).parents('ul').parent('li').addClass("active");
         });
+
 
        
         var databases;
@@ -120,6 +131,8 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
 
 
         formInputValidation("#databaseForm");
+
+        
         $("#databaseUISubmit").click(function (event) {
             var databaseNameVal = $("#databaseForm #database-name").val();
             var databaseTypeVal = $("#databaseForm #database-type").val();
@@ -369,14 +382,25 @@ MetronicApp.controller('GeneralPageController', ['$rootScope', '$scope', '$http'
         jobsDataFunc();
 
         $('#btnProduction').click(function(){
-            $.get(globalURL+'etl/jobs/prod');
-            alert('Prod');
-
+            $http.get(globalURL+'etl/jobs/prod')
+            .success(function (data, status, headers, config) {
+                console.log('prod is done');
+            })
+            .error(function (data, status, header, config) {
+                console.log('prod has error');
+            });
+            //$.get(globalURL+'etl/jobs/prod');
         });
 
         $('#btnStage').click(function(){
-            $.get(globalURL+'etl/jobs/stage');
-            alert('Stage');
+             $http.get(globalURL+'etl/jobs/stage')
+            .success(function (data, status, headers, config) {
+                console.log('job is done');
+            })
+            .error(function (data, status, header, config) {
+                console.log('job has error');
+            });
+            //$.get(globalURL+'etl/jobs/stage');
         });
 
         var reportCategoryID = localStorage.getItem("reportCategoryID");
