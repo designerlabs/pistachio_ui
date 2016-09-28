@@ -9,6 +9,7 @@
                     <i class="fa fa-globe"></i>Database List
                 </div>
                 <div class="tools">
+                    <button class="btn btn-default btn-sm" id="jobViewBtn"><i class="fa fa-link"></i> view Jobs</button>
                     <button class="btn btn-success btn-sm" data-toggle="modal" id="databaseAddBtn" data-target="#databaseAddForm"><i class="fa fa-plus"></i> Add</button>
                     <!-- <a href="javascript:;" class="reload">
                     </a> -->
@@ -235,6 +236,9 @@ $(function() {
 //TableAdvanced.init();
 
 
+$("#jobViewBtn").click(function(){
+    window.location.href = '/main/index.html#/datatables/jobs.html';
+});
 
 $("#loader").hide();
 
