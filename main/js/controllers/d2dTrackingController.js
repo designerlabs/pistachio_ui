@@ -1356,7 +1356,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
             if (getStage == "Visitor") {
                 //location.href="/travelertracker/travelertracker.html?doc_no="+passportNo+"&country="+countryName;
-                window.location = "#/travelertracker/travelertracker.html?session=true";    
+                window.location = "#/travelertracker/travelertracker.html?session=true&page=tracking";    
                 sessionStorage.setItem('Qparam','doc_nos:'+ this.$parent.value.vName.doc +' AND country:'+ $scope.CtryQueryName);
                 // sessionStorage.setItem('hourlyDocNo', this.$parent.value.vName.doc);
                 // sessionStorage.setItem('hourlyCountry', $scope.CtryQueryName);

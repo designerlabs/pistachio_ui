@@ -22,7 +22,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
         var windowURL = window.location.href;
         if (windowURL.indexOf("&") == -1)
-      {
+        {
             window.location = window.location + '&loaded=true';
             window.location.reload();
          
