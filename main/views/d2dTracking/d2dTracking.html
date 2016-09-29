@@ -107,8 +107,8 @@
             <td ng-if="value.vName.entry"> {{ value.vName.numFound}}</td>
             <td ng-if="!value.vName.entry">0</td>
             <td ng-if="value.vName.sex == '9'"><i class="fa fa-transgender" style="font-size:22px; color:#818990;"></i></td>
-            <td ng-if="value.vName.sex == '1'"><i class="fa fa-male" style="font-size:22px; color:#0093ff;"></i></td>
-            <td ng-if="value.vName.sex == '2'"><i class="fa fa-female"  style="font-size:22px; color:#ff0097;"></i></td>
+            <td ng-if="value.vName.sex == 'LELAKI'"><i class="fa fa-male" style="font-size:22px; color:#0093ff;"></i></td>
+            <td ng-if="value.vName.sex == 'PEREMPUAN'"><i class="fa fa-female"  style="font-size:22px; color:#ff0097;"></i></td>
             <td ng-if="value.vName.doc">{{ value.vName.doc }}</td>
             <td><button class="btn btn-sm btn-success viewBtn" ng-click="viewBtn()">View</button></td>
         </tr>
