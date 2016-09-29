@@ -2082,6 +2082,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pages/scripts/jquery-ui.min.js',
                         'assets/pages/css/pricing.min.css',
                        /* 'assets/pages/scripts/highstock.js',*/
+                       'assets/pages/scripts/highstock.js',
                         //'assets/global/plugins/highcharts/js/highcharts.js',
                         'assets/pages/css/jquery-ui.css',
                         'bower_components/moment/min/moment.min.js',
