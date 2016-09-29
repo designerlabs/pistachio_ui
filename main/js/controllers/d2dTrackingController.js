@@ -1371,16 +1371,25 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
 $('#myModal').on('shown.bs.modal',function(){      //correct here use 'shown.bs.modal' event which comes in bootstrap3
   $(this).find('iframe').attr('src','http://www.google.com')
-})
+});
+$('#OpenModal').click(function(){
+    var frameSrc = 'index.html#/employeeHourlyDetails/employeeHourlyDetails.html?session=true';
+    $('#myModal').on('show', function () {
+
+        $('iframe').attr("src",frameSrc);
+      
+	});
+    $('#myModal').modal({show:true})
+});
 
         $scope.hourlyLoader = function(){
             var currentSelectDate = this.$parent.$parent.subtitle;
             var currBranchName = this.$parent.$parent.getBranchVal.one;
             var currEmpName = this.$parent.value.brhName.name;
-            sessionStorage.setItem('hourlyBranchName', currBranchName);
-            sessionStorage.setItem('hourlyEmplyName', currEmpName);
-            sessionStorage.setItem('hourlycurrDate', currentSelectDate);
-            sessionStorage.setItem('hourlybranchCode', $scope.branchCode);
+            localStorage.setItem('hourlyBranchName', currBranchName);
+            localStorage.setItem('hourlyEmplyName', currEmpName);
+            localStorage.setItem('hourlycurrDate', currentSelectDate);
+            localStorage.setItem('hourlybranchCode', $scope.branchCode);
             // location.href = "index.html#/employeeHourlyDetails/employeeHourlyDetails.html?session=true";
             $("#hourlyLoader").load('index.html#/employeeHourlyDetails/employeeHourlyDetails.html?session=true');
             $('#myModal').modal("show");

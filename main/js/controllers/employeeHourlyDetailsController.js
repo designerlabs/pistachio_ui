@@ -8,7 +8,6 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         Metronic.initAjax();
         $scope.drawSparkline = 0;
         $scope.employeeArr = [];
-        // alert('from emp page');
         // $scope.loading = true;
         // console.log(window.location.href);
         // var Qstring = window.location.href;
