@@ -22,14 +22,14 @@
                     </ul>
                 </div>
                 <a class="list-toggle-container" data-toggle="collapse" data-target="#lstDBtbl" aria-expanded="true">
-                    <div class="list-toggle"> Tables
+                    <div class="list-toggle"> {{dbTables}}
                       <span class="badge badge-default pull-right bg-white font-green bold">{{datatableLength}}</span>
                     </div>
                 </a>
                 <div style="overflow: auto; max-height: 600px" aria-expanded="true" class="panel-collapse collapse in" id="lstDBtbl">
                 <label  style="width:100%;"><input ng-model="searchText" class="form-control" placeholder="Search"></input></label>
                     <ul>
-                        <li class="mt-list-item" ng-repeat="dbtbllist in datatableList | filter:searchText">
+                        <li class="mt-list-item" ng-repeat="dbtbllist in datatableList | filter:searchText" ng-click="OnDBTblClick(dbtbllist)">
                           <div class="mt-list-title">{{dbtbllist}}
                           </div>
                         </li>
@@ -71,23 +71,25 @@
                     </li>
                     <li class="tab active" id='tabSavedQuery'>
                         <a data-toggle="tab" href="#tab_Saved_Query" aria-expanded="expanded"> Saved Query </a>
+                    </li>
+                    <li class="tab" id='tabClms'>
+                        <a data-toggle="tab" href="#tab_Columns" aria-expanded="expanded"> Columns </a>
                     </li> 
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade tab_Result">
-											<div class="portlet box blue" ng-show="showResults">
-															<div class="portlet-title" >
-																	<div class="actions">
-																			<a ng-click="export_csv()" class="btn btn-sm grey-mint">
-																					<i class="fa fa-file-excel-o"></i> Export as CSV </a>
-																	</div>
-															</div>
-															<div class="portlet-body">
-                        				<table id="tblResult" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-                        				</table>
-															</div>
-											</div>
-
+                        <div class="portlet box blue" ng-show="showResults">
+                            <div class="portlet-title">
+                                <div class="actions">
+                                    <a ng-click="export_csv()" class="btn btn-sm grey-mint">
+                                        <i class="fa fa-file-excel-o"></i> Export as CSV </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <table id="tblResult" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                                </table>
+                            </div>
+                        </div>
                     </div>
                     <div class="tab-pane fade tab_History">
                         <table id="tblHistory" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
@@ -100,18 +102,17 @@
                                 </tr>
                             </thead>
                         </table>
-												<div class="search-pagination" style="text-align: center;">
-								            <ul class="pagination">
-								                <li >
-								                    <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="first"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
-								                </li>
-								                <li class="page-active">
-								                    <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn" ng-disabled="last">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
-								                </li>
+                        <div class="search-pagination" style="text-align: center;">
+                            <ul class="pagination">
+                                <li >
+                                    <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="first"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+                                </li>
+                                <li class="page-active">
+                                    <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn" ng-disabled="last">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+                                </li>
 
-								            </ul>
-								        </div>
-
+                            </ul>
+                        </div>
                     </div>
                     <div class="tab-pane fade tab_Saved_Query active in">                        
                         <table id="tblSavedQuery" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
@@ -135,6 +136,28 @@
 
                             </ul>
                         </div>
+                    </div>
+                    <div class="tab-pane fade tab_Columns">                        
+                        <table id="tblColumns" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Number</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <!--<div class="search-pagination" style="text-align: center;">
+                            <ul class="pagination">
+                                <li >
+                                    <button ng-click="colprevious()" class="btn btn-primary previousBtn" ><i class="fa fa-arrow-left" ng-disabled = "firstcol"></i> {{'fastsearch.previous' | translate}} </button>
+                                </li>
+                                <li class="page-active">
+                                    <button ng-click="colnext()" ng-init="start=0" class="btn btn-primary nextBtn" ng-disabled = "lastcol" >{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+                                </li>
+
+                            </ul>
+                        </div>-->
                     </div>
                 </div>
                 <div class="clearfix margin-bottom-20"> </div>

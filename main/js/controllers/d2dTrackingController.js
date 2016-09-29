@@ -86,6 +86,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         var frmDt;
         // var frmDt = $('#datetimeFrom').data('date');
         var toDt;
+        $scope.DataBlock = true;
         // var toDt = $('#datetimeTo').data('date');
         
         // cb(frmDt, enddt);
@@ -107,11 +108,12 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 $('#trackingrange span').html(startdt.format('MMM DD, YYYY') + ' - ' + enddt.format('MMM DD, YYYY'));
                 frmDt = startdt.format('DD/MM/YYYY');
                 toDt = enddt.format('DD/MM/YYYY');
+                $scope.DataBlock = true;
             });
 
             $("#trackingrange span").html(moment().subtract(1,"year").format("MMM DD YYYY") + " - " + moment().format("MMM DD YYYY"));
             $scope.getFromDt = moment().subtract(1,"year").format("YYYY-MM-DD") + "T00:00:00Z";
-            $scope.getToDt = moment().format("YYYY-MM-DD") + "T00:00:00Z";
+            $scope.getToDt = moment().format("YYYY-MM-DD") + "T23:59:59Z";
 
         }else{
             $('#trackingrange').daterangepicker({
@@ -127,7 +129,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
             $("#trackingrange span").html($rootScope.commonFrm + " - " + $rootScope.commonTo);
             $scope.getFromDt = moment($rootScope.commonFrm).format("YYYY-MM-DD") + "T00:00:00Z";
-            $scope.getToDt = moment($rootScope.commonTo).format("YYYY-MM-DD") + "T00:00:00Z"; 
+            $scope.getToDt = moment($rootScope.commonTo).format("YYYY-MM-DD") + "T23:59:59Z"; 
 
         }
 
@@ -136,7 +138,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         $('.daterangecont').on('apply.daterangepicker', function (ev, picker) {
             // $("#trackingrange span").html(picker.startDate.format("MMM DD, YYYY") + " - " + picker.endDate.format("MMM DD, YYYY"))
             $scope.getFromDt = picker.startDate.format("YYYY-MM-DD") + "T00:00:00Z";
-            $scope.getToDt = picker.endDate.format("YYYY-MM-DD") + "T00:00:00Z";
+            $scope.getToDt = picker.endDate.format("YYYY-MM-DD") + "T23:59:59Z";
 
             $rootScope.commonFrm = picker.startDate.format("MMM DD YYYY");
             $rootScope.commonTo = picker.endDate.format("MMM DD YYYY");
@@ -319,7 +321,24 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
 
                 // $scope.subtitle = $scope.changeDt(dateFormat(Math.round(e.min))) + " - " + $scope.changeDt(dateFormat(Math.round(e.max)));
-                $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).format('DD/MM/YYYY');
+                
+                $('#trackingrange span').html(moment($scope.startDate).format('MMM DD YYYY') + ' - ' + moment($scope.endDate).format('MMM DD YYYY'));
+                $("#trackingrange").data('daterangepicker').setStartDate(moment($scope.startDate).format('DD/MM/YYYY'));
+                $("#trackingrange").data('daterangepicker').setEndDate(moment($scope.endDate).format('DD/MM/YYYY'));
+
+                $scope.subtitle = moment($scope.startDate).format('DD/MM/YYYY') + " - " + moment($scope.endDate).format('DD/MM/YYYY');
+
+                // frmDt = moment($scope.startDate).format('DD/MM/YYYY');
+                // toDt = moment($scope.endDate).format('DD/MM/YYYY');
+                //  $('#trackingrange span').html(startdt.format('MMM DD, YYYY') + ' - ' + enddt.format('MMM DD, YYYY'));
+                // frmDt = startdt.format('DD/MM/YYYY');
+                // toDt = enddt.format('DD/MM/YYYY');
+                
+                //for employeeHourlyDetails page
+                $rootScope.commonFrm = moment($scope.startDate).format("MMM DD YYYY");
+                $rootScope.commonTo = moment($scope.endDate).format("MMM DD YYYY");
+
+                 
 
                 if ($scope.ele1 == "Inital") {
                     triggerOpt = "*:*";
@@ -980,7 +999,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                             /* NEED TO CHECK AND UNCOMMENT IN PRODUCTION*/
                            
                  
-                          
+                        if(data.facets.count>0){  
+                            // $scope.DataBlock = true;
                             var chk1 = data.facets.in_outs.buckets[0].val;
                             console.log(data);
                            
@@ -1015,9 +1035,24 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                                 }
                                 
                             }
-                           
-
                             
+                            // $scope.pageCount = 1;
+                            // $scope.totalCount = data.facets.ubranch;
+                            // $scope.numofpage = Math.ceil($scope.totalCount / limitValue);
+                            // $("#bNextBtn").prop('disabled', false);
+                        }else{
+                            $scope.DataBlock = false;
+                            // $scope.totalCount = 0;
+                            // $scope.totalExit = 0;
+                            // $scope.totalEntry = 0;
+                            // $scope.pageCount = 0;
+                            // $scope.numofpage = 0;
+                            // $("#bNextBtn").prop('disabled', true);
+                            // $("#bPreviousBtn").prop('disabled', true);
+
+                            // $scope.subtitle
+                        }
+                                                      
                             //end
                     
                             $scope.totalCount = data.facets.ubranch;
@@ -1334,6 +1369,22 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             //alert(getStage);
         };
 
+$('#myModal').on('shown.bs.modal',function(){      //correct here use 'shown.bs.modal' event which comes in bootstrap3
+  $(this).find('iframe').attr('src','http://www.google.com')
+})
+
+        $scope.hourlyLoader = function(){
+            var currentSelectDate = this.$parent.$parent.subtitle;
+            var currBranchName = this.$parent.$parent.getBranchVal.one;
+            var currEmpName = this.$parent.value.brhName.name;
+            sessionStorage.setItem('hourlyBranchName', currBranchName);
+            sessionStorage.setItem('hourlyEmplyName', currEmpName);
+            sessionStorage.setItem('hourlycurrDate', currentSelectDate);
+            sessionStorage.setItem('hourlybranchCode', $scope.branchCode);
+            // location.href = "index.html#/employeeHourlyDetails/employeeHourlyDetails.html?session=true";
+            $("#hourlyLoader").load('index.html#/employeeHourlyDetails/employeeHourlyDetails.html?session=true');
+            $('#myModal').modal("show");
+        };
 
         $scope.detBtn = function(e) {
 
