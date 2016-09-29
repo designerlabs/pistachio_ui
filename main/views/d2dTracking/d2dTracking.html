@@ -117,8 +117,8 @@
                     <td ng-if="value.brhName.entry">{{value.brhName.numFound}}</td>
                     <td ng-if="value.brhName.sex">{{ value.brhName.sex }}</td>
                     <td><button class="btn btn-sm btn-success viewBtn" ng-click="viewBtn()">View</button><span ng-show="ele2 == 'Officer'">
-                        <!--<button class="btn btn-sm btn-success viewBtn" ng-click="detBtn()">Details</button>-->
-                        <button data-toggle="modal" ng-click="hourlyLoader()">Modal</button></span></td>
+                        <button class="btn btn-sm btn-success viewBtn" ng-click="detBtn()">Details</button>
+                        <!--<button data-toggle="modal" ng-click="hourlyLoader()">Modal</button></span></td>-->
                 </tr>
 
                 <tr ng-if="value.vName.name"  ng-repeat="value  in branchOut">
