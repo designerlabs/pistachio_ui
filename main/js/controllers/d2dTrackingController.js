@@ -337,8 +337,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 //for employeeHourlyDetails page
                 $rootScope.commonFrm = moment($scope.startDate).format("MMM DD YYYY");
                 $rootScope.commonTo = moment($scope.endDate).format("MMM DD YYYY");
-
-                 
+                $scope.getFromDt = moment($scope.startDate).format("MMM DD YYYY");
+                $scope.getToDt = moment($scope.endDate).format("MMM DD YYYY");                 
 
                 if ($scope.ele1 == "Inital") {
                     triggerOpt = "*:*";
@@ -846,7 +846,13 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         triggerOptRow = "rows=2&";
                         groupBy, offsetVal = "";
                         // $scope.subtitle = $('#datetimeFrom').data('date') + " - " + $('#datetimeTo').data('date');
-                        $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).format('DD/MM/YYYY');                        
+                        if(moment($scope.getToDt).toDate().getHours() > 0){
+                            $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).subtract(1,'days').format('DD/MM/YYYY');                        
+                        }else{
+                            $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).format('DD/MM/YYYY');                        
+                        }
+
+                        // $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).format('DD/MM/YYYY');                        
                         branchQry = 'branch';
                         ubranch = 'ubranch: "unique(' + branchQry + ')"';
                         gap = "%2B1DAY";
@@ -866,7 +872,11 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         groupBy, offsetVal = "";
                         gap = "%2B1DAY";
                         // $scope.subtitle = $('#datetimeFrom').data('date') + " - " + $('#datetimeTo').data('date');
-                        $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).format('DD/MM/YYYY');                        
+                         if(moment($scope.getToDt).toDate().getHours() > 0){
+                            $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).subtract(1,'days').format('DD/MM/YYYY');                        
+                        }else{
+                            $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).format('DD/MM/YYYY');                        
+                        }
                         branchQry = 'dy_create_id';
                         ubranch = 'ubranch: "unique(' + branchQry + ')"';
 
@@ -883,7 +893,11 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         triggerOptRow = "rows=2&fq=branch:" + $scope.getBranchVal.one + "&fq=dy_create_id:" + $scope.getEmpName.one + "&";
                         mainFacet = "country";
                         // $scope.subtitle = $('#datetimeFrom').data('date') + " - " + $('#datetimeTo').data('date');
-                        $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).format('DD/MM/YYYY');
+                        if(moment($scope.getToDt).toDate().getHours() > 0){
+                            $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).subtract(1,'days').format('DD/MM/YYYY');                        
+                        }else{
+                            $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).format('DD/MM/YYYY');                        
+                        }                       
                         
                         branchQry = "country";
                         ubranch = 'ubranch: "unique(' + branchQry + ')"';
@@ -904,7 +918,11 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         triggerOptRow = "rows=2&fq=branch:" + $scope.getBranchVal.one + "&fq=dy_create_id:" + $scope.getEmpName.one + "&fq=country:" + $scope.getCtryName.one + "&";
                         mainFacet = "country";
                         // $scope.subtitle = $('#datetimeFrom').data('date') + " - " + $('#datetimeTo').data('date');
-                        $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).format('DD/MM/YYYY');                        
+                        if(moment($scope.getToDt).toDate().getHours() >0){
+                            $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).subtract(1,'days').format('DD/MM/YYYY');                        
+                        }else{
+                            $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).format('DD/MM/YYYY');                        
+                        }
                         branchQry = "country";
                         ubranch = 'ubranch: "unique(doc_no)"';
                         offsetVal = 'offset:' + $scope.branchOffset + ',';
@@ -924,11 +942,14 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         groupBy, offsetVal = "";
                         gap = "%2B1DAY";
                         // $scope.subtitle = $('#datetimeFrom').data('date') + " - " + $('#datetimeTo').data('date');
-                        $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).format('DD/MM/YYYY');                        
+                        if(moment($scope.getToDt).toDate().getHours() >0){
+                            $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).subtract(1,'days').format('DD/MM/YYYY');                        
+                        }else{
+                            $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).format('DD/MM/YYYY');                        
+                        }
+
                         branchQry = 'dy_create_id';
                         ubranch = 'ubranch: "unique(' + branchQry + ')"';
-
-
                     }
 
                     var query = 'q=dy_action_ind:' + k.name + '&fq=xit_date:['+startDt+' TO '+ endDt+']&' + triggerOptRow + 'json.facet={in_outs:{type : range,field : xit_date,start : "' + startDt + '",end :"' + endDt + '",gap:"' + gap + '"},passport: "unique(doc_no)"}' // "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
