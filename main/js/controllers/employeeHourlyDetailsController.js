@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $scope, $http, $timeout, stageUpdate, $q) {
     $scope.$on('$viewContentLoaded', function() {
         // initialize core components

@@ -9,12 +9,12 @@
         </div>    
         
     </div>
-    <div  class="col-md-3" style="background: #48545d; padding: 5px">
+    <div  class="col-md-3" style="background: #fff; border:5px solid #48545d; padding: 0px">
         <div class="titleHeader" style="margin-top: 0px;">
             <h3 class="nopadding"><i style="font-size: 20px;" class="fa fa-user"></i> Officer List</h3>
         </div>            
         <div id="employeeList" style="min-height: 860px; overflow-x: auto;">
-            <ul class="customChk list-group" style="list-style:none; padding:0px; margin:0px; height: 600px;">
+            <ul class="customChk list-group" style="list-style:none; padding:0px; margin:0px; min-height: 860px;">
                 <li class="list-group-item"  ng-repeat="value  in storeData" my-emp-directive style="padding:0 5px 5px;">
                     <input id="{{value[0]}}" type="checkbox" name="check-box" class="{{value[0]}}" value="{{value[0]}}" />
                     <span>{{value[0]}} ({{value[1]}})</span>
