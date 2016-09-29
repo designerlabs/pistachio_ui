@@ -19,6 +19,14 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         //     myArr.push(ki[1]);
         // });
         // console.log(myArr);
+
+        var windowURL = window.location.href;
+        if (windowURL.indexOf("&") == -1)
+      {
+            window.location = window.location + '&loaded=true';
+            window.location.reload();
+         
+        }
         stageUpdate.addStage("Officer");
         Layout.setSidebarMenuActiveLink('set', $('#trackerLink')); // set profile link active in sidebar menu 
        
