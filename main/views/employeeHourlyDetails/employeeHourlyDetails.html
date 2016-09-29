@@ -1,7 +1,7 @@
 <div id="mainContainer1" ng-controller="employeeHourlyDetailsController">
     <div class="page-toolbar row daterangecont" style="padding-right: 15px; padding-bottom: 15px; padding-left: 13px">
-        <div class="col-md-2" style="padding-left:0px;"><button class="btn btn-danger btn-md" ng-click="backBtn()"><i class="fa fa-arrow-left"></i> Back</button></div>
-        <div  class="col-md-8"><h3 style="display:inline;"><i class="fa fa-plane"></i> {{branchTitle}}</h3></div>
+        <div class="col-md-3" style="padding-left:0px;"><button class="btn btn-danger btn-md" ng-click="backBtn()"><i class="fa fa-arrow-left"></i> Back</button></div>
+        <div  class="col-md-7"><h3 style="display:inline;"><i class="fa fa-plane"></i> {{branchTitle | limitTo: 50}} {{branchTitle.length > 50 ? '...' : ''}}</h3></div>
         <div id="Hourlygrange" class="pull-right btn btn-fit-height green col-md-2">
             <i class="icon-calendar"></i>&nbsp;
             <span></span>&nbsp;
@@ -13,7 +13,7 @@
         <div class="titleHeader" style="margin-top: 0px;">
             <h3 class="nopadding"><i style="font-size: 20px;" class="fa fa-user"></i> Officer List</h3>
         </div>            
-        <div id="employeeList" style="height:500px; overflow-x: auto;">
+        <div id="employeeList" style="min-height: 860px; overflow-x: auto;">
             <ul class="customChk list-group" style="list-style:none; padding:0px; margin:0px; height: 600px;">
                 <li class="list-group-item"  ng-repeat="value  in storeData" my-emp-directive style="padding:0 5px 5px;">
                     <input id="{{value[0]}}" type="checkbox" name="check-box" class="{{value[0]}}" value="{{value[0]}}" />
@@ -25,16 +25,16 @@
     <div  class="col-md-9" style="background:#fff;">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-6">
-                    <h3 class="text-success">Entry Trend</h3>
+                <div class="col-md-12">
+                    <h3 class="text-success"><i class="fa fa-arrow-down" aria-hidden="true"></i> Entry Trend</h3>
                     <div id="container" style="height: 250px;"></div>
                 </div>
-                <div class="col-md-6">
-                    <h3 class="text-danger">Exit Trend</h3>
+                <div class="col-md-12">
+                    <h3 class="text-danger"><i class="fa fa-arrow-up" aria-hidden="true"></i> Exit Trend</h3>
                     <div id="container1" style="height: 250px;"></div>
                 </div>
                 <div class="col-md-12">
-                    <h3 class="text-primary">Overall Trend</h3>
+                    <h3 class="text-primary"><i class="fa fa-retweet" aria-hidden="true"></i> Overall Trend</h3>
                     <div id="container2" style="height: 250px;"></div>
                 </div>
             </div>

@@ -2044,6 +2044,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         // 'assets/pages/scripts/datamaps/datamaps.world.js',
                         // 'assets/pages/css/search.css',
                         'assets/pages/scripts/jquery-ui.min.js',
+                        //'assets/global/plugins/highcharts/js/highcharts.js',
                         // 'assets/pages/css/pricing.min.css',
                         'assets/pages/scripts/highstock.js',
                         // 'assets/pages/css/jquery-ui.css',
@@ -2081,7 +2082,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pages/scripts/jquery-ui.min.js',
                         'assets/pages/css/pricing.min.css',
                        /* 'assets/pages/scripts/highstock.js',*/
-                        'assets/global/plugins/highcharts/js/highcharts.js',
+                        //'assets/global/plugins/highcharts/js/highcharts.js',
                         'assets/pages/css/jquery-ui.css',
                         'bower_components/moment/min/moment.min.js',
                         // 'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
