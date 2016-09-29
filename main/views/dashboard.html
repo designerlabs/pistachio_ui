@@ -22,8 +22,19 @@
             </div>
         </div>
         <div id="iframeContainer" ng-style="{height: iframeHeight + 'px'} ">
-            <span id="iframeCloseBtn"><i class="fa fa-times" style="font-size:25px;"></i></span>
-            <iframe src="" width="100%" height="100%" allowtransparency="true" frameborder="0"></iframe>
+            <div style="background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%; position:absolute; top:0px;">
+                <div class="container-fluid"><h2>{{ iframeTitle }}</h2></div>
+                <span id="iframeCloseBtn"><i class="fa fa-times" style="font-size:25px;"></i></span>
+                <iframe src="" width="100%" height="100%" allowtransparency="true" frameborder="0"></iframe>
+                <!--  BEGIN PAGE SPINNER -->
+                <div ng-spinner-bar class="page-spinner-bar show" style="z-index:-9;">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+                <!--    END PAGE SPINNER -->
+            </div>
+            
         </div>
         <!-- END DASHBOARD STATS -->
 

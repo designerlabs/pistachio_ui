@@ -21,7 +21,9 @@ MetronicApp.controller('DashboardController', function($rootScope, $scope, $http
             //$("#iframeContainer iframe").attr('ng-src',data);
             $scope.currentProjectUrl = $sce.trustAsResourceUrl($scope.data);
     		//location.href=data;
+            $scope.iframeTitle = this.$$watchers[0].last;
             $("#iframeContainer iframe").attr('src',data);
+            
             var categoryId = this.$$watchers[2].last;
             //$scope.message = sharedService.categoryId;
 
