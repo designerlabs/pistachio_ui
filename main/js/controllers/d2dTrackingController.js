@@ -1369,6 +1369,9 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             //alert(getStage);
         };
 
+$('#myModal').on('shown.bs.modal',function(){      //correct here use 'shown.bs.modal' event which comes in bootstrap3
+  $(this).find('iframe').attr('src','http://www.google.com')
+})
 
         $scope.hourlyLoader = function(){
             var currentSelectDate = this.$parent.$parent.subtitle;
