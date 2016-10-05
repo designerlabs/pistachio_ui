@@ -11,7 +11,38 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     // initialize core components
     Metronic.initAjax();
     Layout.setSidebarMenuActiveLink('set', $('#fastsearchLink'));
+    $scope.tblContent = false;
     var getUser = localStorage.getItem("username");
+    $scope.getSearchFromDt = "";
+    $scope.getSearchToDt = "";
+    $scope.text = "";
+
+      $('#searchDaterange').daterangepicker({
+                startDate: moment().subtract(1,"year"),
+                endDate: moment(),           
+                "alwaysShowCalendars": false,
+                 ranges: {
+           'Today': [moment(), moment()],
+           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }                   
+            },
+            function(startdt, enddt) {
+                $('#searchDaterange span').html(startdt.format('MMM DD, YYYY') + ' - ' + enddt.format('MMM DD, YYYY'));
+        });
+
+      // $("#searchDaterange span").html(moment().subtract(1,"year").format("MMM DD YYYY") + " - " + moment().format("MMM DD YYYY"));
+      $("#searchDaterange span").html("Search by Date here");
+      // 
+      $('.searchcont').on('apply.daterangepicker', function (ev, picker) {
+            $scope.getSearchFromDt = picker.startDate.format("DDMMYYYY");
+            $scope.getSearchToDt = picker.endDate.format("DDMMYYYY");
+            alert($scope.getSearchFromDt +" , "+ $scope.getSearchToDt);
+        });
+
     if (!$rootScope.fastsearch.load) {
       $scope.showApplication = false;
       $scope.showVisitor = false;
@@ -139,8 +170,7 @@ $scope.$on('mapClick', function(event, e) {
       }).addTo(map);
       //L.popup().setLatLng(e.latlng)
       //  .setContent('<p><code>clicked location</code> is ' + e.latlng)
-      //  .openOn(map);
-         
+      //  .openOn(map);       
         
        
       };
@@ -178,43 +208,49 @@ $scope.$on('mapClick', function(event, e) {
   }
 
   $scope.show = function () {
+  if($('#tblSearch tr').length > 0)
+    $('#tblSearch').DataTable().destroy() 
+
+    // $scope.startCount = 0;
     $scope.box_update();
-    if ($scope.showApplication) {
-      $scope.showApplications();
-      $scope.visitor_box();
-      $scope.citizen_box();
-      $scope.blacklist_box();
-    }
-    else if ($scope.showVisitor) {
-      $scope.showVisitors();
-      $scope.application_box();
-      $scope.citizen_box();
-      $scope.blacklist_box();
-    }
+  //   if ($scope.showApplication) {
+  //     // $scope.showApplications();
+  //     $scope.application_box();
+  //     $scope.visitor_box();
+  //     $scope.citizen_box();
+  //     $scope.blacklist_box();
+  //   }
+  //   else if ($scope.showVisitor) {
+  //     $scope.showVisitors();
+  //     $scope.application_box();
+  //     $scope.citizen_box();
+  //     $scope.blacklist_box();
+  //   }
 
-    else if ($scope.showCitizen) {
-      $scope.showCitizens();
-      $scope.application_box();
-      $scope.visitor_box();
-      $scope.blacklist_box();
-    }
-    else if($scope.showBlacklist){
-      $scope.showBlacklists();
-      $scope.application_box();
-      $scope.visitor_box();
-      $scope.citizen_box();
-    }
+  //   else if ($scope.showCitizen) {
+  //     $scope.showCitizens();
+  //     $scope.application_box();
+  //     $scope.visitor_box();
+  //     $scope.blacklist_box();
+  //   }
+  //   else if($scope.showBlacklist){
+  //     $scope.showBlacklists();
+  //     $scope.application_box();
+  //     $scope.visitor_box();
+  //     $scope.citizen_box();
+  //   }
 
-    else
-      $scope.go();
+  //   else
+  //     $scope.go();
   }
 
 
   $scope.go = function () {
-    $scope.application_box();
-    $scope.visitor_box();
-    $scope.citizen_box();
-    $scope.blacklist_box();
+    $scope.box_update();
+    // $scope.application_box();
+    // $scope.visitor_box();
+    // $scope.citizen_box();
+    // $scope.blacklist_box();
   }
 
 
@@ -300,61 +336,7 @@ $scope.$on('mapClick', function(event, e) {
     $scope.show();
 
 
-  }
-
-  $scope.application_box = function () {
-    $http.get('http://' + solrHost + ':8983/solr/immigration2/select?q=' + $scope.getQuery() + '&wt=json&start=0&rows=0').
-      success(function (data) {
-       console.log(data);
-        $scope.applicationsFound = data.response.numFound;
-        $scope.qtime = data.responseHeader.QTime;
-        
-      }).
-      error(function (data, status, headers, config) {
-        console.log('error');
-        console.log('status : ' + status); //Being logged as 0
-        console.log('headers : ' + headers);
-        console.log('config : ' + JSON.stringify(config));
-        console.log('data : ' + data); //Being logged as null
-      });
-  }
-
-  $scope.visitor_box = function () {
-    $http.get('http://' + solrHost + ':8983/solr/hismove/select?q=' + $scope.getQuery() + '&wt=json&start=0&rows=0').
-      success(function (data) {
-        $('#searchbox').val($scope.text);
-        $scope.employers = data.response.numFound;
-        $scope.vtime = data.responseHeader.QTime;
-      }).
-      error(function (data, status, headers, config) {
-        console.log('data : ' + data); //Being logged as null
-      });
-  }
-
-  $scope.blacklist_box = function () {
-    $http.get('http://' + solrHost + ':8983/solr/blacklisted/select?q=' + $scope.getQuery() + '&wt=json&start=0&rows=0').
-      success(function (data) {
-        $('#searchbox').val($scope.text);
-        $scope.blacklisted = data.response.numFound;
-        $scope.vtime = data.responseHeader.QTime;
-      }).
-      error(function (data, status, headers, config) {
-        console.log('data : ' + data); //Being logged as null
-      });
-  }
-
-  $scope.citizen_box = function () {
-    $http.get('http://' + solrHost + ':8983/solr/citizen/select?q=' + $scope.getQuery() + '&wt=json&start=0&rows=0').
-    //$http.get('http://' + solrHost + ':8983/solr/citizen/select?q=' + $scope.getQuery() + '&wt=json&start=0&rows=0').
-      success(function (data) {
-        $('#searchbox').val($scope.text);
-        $scope.users = data.response.numFound;
-        $scope.vtime = data.responseHeader.QTime;
-      }).
-      error(function (data, status, headers, config) {
-        console.log('data : ' + data); //Being logged as null
-      });
-  }
+  }  
 
   $scope.formatDate = function (date) {
     if (typeof (date) != "undefined")
@@ -363,27 +345,51 @@ $scope.$on('mapClick', function(event, e) {
       return ""
     }
   }
+
   $scope.box_update = function () {
-    if ($scope.showApplication) {
-      $scope.visitor_box();
-      $scope.citizen_box();
-      $scope.blacklist_box();
-    }
-    else if ($scope.showVisitor) {
-      $scope.application_box();
-      $scope.citizen_box();
-      $scope.blacklist_box();
-    }
-    else if ($scope.showCitizen) {
-      $scope.application_box();
-      $scope.visitor_box();
-      $scope.blacklist_box();
-    }
-    else if ($scope.showBlacklist) {
-      $scope.application_box();
-      $scope.visitor_box();
-      $scope.citizen_box();
-    }
+  $scope.tblContent = false;
+    var sq = "http://10.1.17.25:8081/pistachio/fastsearch/gfs";
+    var json = {};
+    json.text = $scope.text;
+    json.from = $scope.getSearchFromDt;
+    json.to = $scope.getSearchToDt;
+
+    $http.post(sq, JSON.stringify(json)).
+          success(function (data) {
+        $('#searchbox').val($scope.text);
+        $scope.passFound = data.header.pass;
+        $scope.qtime = data.header.passQueryTime;
+        $scope.users = data.header.citizen;
+        $scope.ctime = data.header.citizenQueryTime;
+        $scope.employers = data.header.movement;
+        $scope.vtime = data.header.movementQueryTime;
+        $scope.blacklisted = data.header.blackListed;
+        $scope.btime = data.header.blackListedQueryTime;
+    })
+    .error(function (data, status, headers, config) {
+            console.log('error');
+    });
+    // if ($scope.showApplication) {
+    //   $scope.visitor_box();
+    //   $scope.citizen_box();
+    //   $scope.blacklist_box();
+    // }
+    // else if ($scope.showVisitor) {
+    //   $scope.application_box();
+    //   $scope.citizen_box();
+    //   $scope.blacklist_box();
+    // }
+    // else if ($scope.showCitizen) {
+    //   $scope.application_box();
+    //   $scope.visitor_box();
+    //   $scope.blacklist_box();
+    // }
+    // else if ($scope.showBlacklist) {
+    //   $scope.application_box();
+    //   $scope.visitor_box();
+    //   $scope.citizen_box();
+    // }
+
   }
 
 
@@ -425,221 +431,517 @@ $scope.$on('mapClick', function(event, e) {
 
   $scope.next = function () {
     $scope.start = $scope.start + 10;
-    $scope.show();
+    // $scope.show($scope.currentStatus);
+    $('#tblSearch').DataTable().destroy(); 
+    $scope.showApplications($scope.currentStatus,'prenext');
   }
 
   $scope.previous = function () {
     $scope.start = $scope.start - 10;
     if ($scope.start < 0)
       $scope.start = 0;
-    $scope.show();
+    // $scope.show($scope.currentStatus);
+    $('#tblSearch').DataTable().destroy(); 
+    $scope.showApplications($scope.currentStatus,'prenext');
   }
 
+  // $scope.showVisitors = function () {
+  //   var query = "";
+  //   $scope.showApplication = false;
+  //   $scope.showCitizen = false;
+  //   $scope.showBlacklist = false;
+  //   $scope.showVisitor = true;
+  //   var query = ""
+  //   var sq = "http://" + solrHost + ":8983/solr/hismove/query?json=";
+
+  //   var json = {};
+  //   json.limit = 10;
+  //   json.offset = $scope.start
+  //   json.query = $scope.getQuery();
+  //   json.filter = $scope.updateFilterQuery_Country();
+  //   json.sort = "xit_date desc"
+  //   json.facet = {};
+  //   json.facet.country = {};
+  //   json.facet.country.type = "terms";
+  //   json.facet.country.field = "country";
+
+  //   // json.facet.country.domain = "{excludeTags:COLOR}"
+  //   $http.get(sq + JSON.stringify(json)).
+  //     success(function (data) {
+  //       $scope.startCount = data.response.start + 10;
+  //       if (data.response.numFound == 0) {
+  //         $scope.showVisitor = false;
+  //       }
+  //       $scope.vtime = data.responseHeader.QTime;
+  //       $scope.employers = data.response.numFound;
+
+  //       $scope.items = data.response.docs;
+  //       if (selected_countries.length == 0)
+  //         $scope.countries = data.facets.country.buckets
+
+  //     })
+  //     .error(function (data, status, headers, config) {
+  //       console.log('error');
+  //     });
+
+  // }
+
+  // $scope.showCitizens = function () {
+  //   var query = "";
+  //   $scope.option = false;
+  //   $scope.showCitizen = true;
+  //   $scope.showApplication = false;
+  //   $scope.showVisitor = false;
+  //   $scope.showBlacklist = false;
+  //   var query = ""
+  //   var sq = "http://" + solrHost + ":8983/solr/citizen/query?json=";
+  //   //var sq = "http://" + solrHost + ":8983/solr/citizen/query?json=";
+
+  //   var json = {};
+  //   json.limit = 10;
+  //   json.offset = $scope.start
+  //   json.query = $scope.getQuery();
+  //   json.sort = "created desc"
+  //   json.facet = {};
+  //   json.facet.country = {};
+  //   json.facet.country.type = "terms";
+  //   json.facet.country.field = "state";
+  //   json.facet.country.limit = 20;
+  //   $http.get(sq + JSON.stringify(json)+$scope.spatialSearch()).
+  //     success(function (data) {
+  //        $scope.startCount = data.response.start + 10;
+  //       if (data.response.numFound == 0) {
+  //         $scope.showCitizen = false;
+  //       }
+  //       $scope.vtime = data.responseHeader.QTime;
+  //       $scope.users = data.response.numFound;
+  //       console.log(data.response.docs);
+  //       $scope.items = data.response.docs;
+  //       if (selected_countries.length == 0)
+  //         $scope.countries = data.facets.country.buckets
 
 
-  $scope.viewReq = function (docno, cntry) {
-    cntry = cntry.replace(/ /g, "*");
-    // window.location = "#/travelertracker/travelertracker.html?doc_nos=" + docno + "&country=" + cntry + "";
-    window.location = "#/travelertracker/travelertracker.html?session=true";
-    sessionStorage.setItem('Qparam','doc_nos:'+ docno +' AND country:'+ cntry);
-  };
+  //     })
+  //     .error(function (data, status, headers, config) {
+  //       console.log('error');
+  //     });
 
-  $scope.viewCitizen = function (docno) {
-    // window.location = "#/travelertracker/travelertracker.html?doc_nos=" + docno + "&citizen=true";
-    window.location = "#/travelertracker/travelertracker.html?session=true";    
-    sessionStorage.setItem('Qparam','doc_no:'+ docno +' AND citizen:'+ true);
-  };
+  // }
 
+  // $scope.showBlacklists = function () {
+  //   var query = "";
+  //   $scope.option = false;
+  //   $scope.showBlacklist = true;
+  //   $scope.showApplication = false;
+  //   $scope.showVisitor = false;
+  //   $scope.showCitizen =  false;
+  //   var query = ""
+  //   var sq = "http://" + solrHost + ":8983/solr/blacklisted/query?json=";
+  //   //var sq = "http://" + solrHost + ":8983/solr/citizen/query?json=";
 
-  $scope.showVisitors = function () {
-    var query = "";
-    $scope.showApplication = false;
-    $scope.showCitizen = false;
-    $scope.showBlacklist = false;
-    $scope.showVisitor = true;
-    var query = ""
-    var sq = "http://" + solrHost + ":8983/solr/hismove/query?json=";
+  //   var json = {};
+  //   json.limit = 10;
+  //   json.offset = $scope.start
+  //   json.query = $scope.getQuery();
+  //   json.sort = "created desc"
+  //   json.facet = {};
+  //   json.facet.country = {};
+  //   json.facet.country.type = "terms";
+  //   json.facet.country.field = "state";
+  //   json.facet.country.limit = 20;
+  //   $http.get(sq + JSON.stringify(json)+$scope.spatialSearch()).
+  //     success(function (data) {
+  //       if (data.response.numFound == 0) {
+  //         $scope.showBlacklist = false;
+  //       }
+  //       $scope.vtime = data.responseHeader.QTime;
+  //       $scope.users = data.response.numFound;
+  //       console.log(data.response.docs);
+  //       $scope.items = data.response.docs;
+  //       if (selected_countries.length == 0)
+  //         $scope.countries = data.facets.country.buckets
 
-    var json = {};
-    json.limit = 10;
-    json.offset = $scope.start
-    json.query = $scope.getQuery();
-    json.filter = $scope.updateFilterQuery_Country();
-    json.sort = "xit_date desc"
-    json.facet = {};
-    json.facet.country = {};
-    json.facet.country.type = "terms";
-    json.facet.country.field = "country";
+  //     })
+  //     .error(function (data, status, headers, config) {
+  //       console.log('error');
+  //     });
 
-    // json.facet.country.domain = "{excludeTags:COLOR}"
-    $http.get(sq + JSON.stringify(json)).
-      success(function (data) {
-        $scope.startCount = data.response.start + 10;
-        if (data.response.numFound == 0) {
-          $scope.showVisitor = false;
-        }
-        $scope.vtime = data.responseHeader.QTime;
-        $scope.employers = data.response.numFound;
+  // }
 
-        $scope.items = data.response.docs;
-        if (selected_countries.length == 0)
-          $scope.countries = data.facets.country.buckets
-
-      })
-      .error(function (data, status, headers, config) {
-        console.log('error');
-      });
-
-  }
-
-  $scope.showCitizens = function () {
-    var query = "";
-    $scope.option = false;
-    $scope.showCitizen = true;
-    $scope.showApplication = false;
-    $scope.showVisitor = false;
-    $scope.showBlacklist = false;
-    var query = ""
-    var sq = "http://" + solrHost + ":8983/solr/citizen/query?json=";
-    //var sq = "http://" + solrHost + ":8983/solr/citizen/query?json=";
-
-    var json = {};
-    json.limit = 10;
-    json.offset = $scope.start
-    json.query = $scope.getQuery();
-    json.sort = "created desc"
-    json.facet = {};
-    json.facet.country = {};
-    json.facet.country.type = "terms";
-    json.facet.country.field = "state";
-    json.facet.country.limit = 20;
-    $http.get(sq + JSON.stringify(json)+$scope.spatialSearch()).
-      success(function (data) {
-         $scope.startCount = data.response.start + 10;
-        if (data.response.numFound == 0) {
-          $scope.showCitizen = false;
-        }
-        $scope.vtime = data.responseHeader.QTime;
-        $scope.users = data.response.numFound;
-        console.log(data.response.docs);
-        $scope.items = data.response.docs;
-        if (selected_countries.length == 0)
-          $scope.countries = data.facets.country.buckets
-
-
-      })
-      .error(function (data, status, headers, config) {
-        console.log('error');
-      });
-
-  }
-
-  $scope.showBlacklists = function () {
-    var query = "";
-    $scope.option = false;
-    $scope.showBlacklist = true;
-    $scope.showApplication = false;
-    $scope.showVisitor = false;
-    $scope.showCitizen =  false;
-    var query = ""
-    var sq = "http://" + solrHost + ":8983/solr/blacklisted/query?json=";
-    //var sq = "http://" + solrHost + ":8983/solr/citizen/query?json=";
-
-    var json = {};
-    json.limit = 10;
-    json.offset = $scope.start
-    json.query = $scope.getQuery();
-    json.sort = "created desc"
-    json.facet = {};
-    json.facet.country = {};
-    json.facet.country.type = "terms";
-    json.facet.country.field = "state";
-    json.facet.country.limit = 20;
-    $http.get(sq + JSON.stringify(json)+$scope.spatialSearch()).
-      success(function (data) {
-        if (data.response.numFound == 0) {
-          $scope.showBlacklist = false;
-        }
-        $scope.vtime = data.responseHeader.QTime;
-        $scope.users = data.response.numFound;
-        console.log(data.response.docs);
-        $scope.items = data.response.docs;
-        if (selected_countries.length == 0)
-          $scope.countries = data.facets.country.buckets
-
-      })
-      .error(function (data, status, headers, config) {
-        console.log('error');
-      });
-
-  }
-
-
-
-  $scope.showApplications = function (status) {
+  $scope.showApplications = function (status,eve) {
+    if (eve == 'load'){
+      $scope.start = 0;
+    }
+    $scope.currentStatus = status;
+    $scope.tblContent = true;
     var query = "";
     if(status == 'pass'){
       $scope.showApplication = true;
       $scope.showCitizen = false;
       $scope.showVisitor = false;
       $scope.showBlacklist = false;
-      var sq = "http://" + solrHost + ":8983/solr/immigration2/query?json=";
+      // var sq = "http://" + solrHost + ":8983/solr/immigration2/query?json=";
     }else if(status == 'citizen') {
       $scope.showCitizen = true;
       $scope.showApplication = false;
       $scope.showVisitor = false;
       $scope.showBlacklist = false;
-       var sq = "http://" + solrHost + ":8983/solr/citizen/query?json=";
-    }else if(status == 'visitor') {
+      //  var sq = "http://" + solrHost + ":8983/solr/citizen/query?json=";
+    }else if(status == 'vistor') {
       $scope.showVisitor = true;
       $scope.showApplication = false;
       $scope.showCitizen = false;
       $scope.showBlacklist = false;
-      var sq = "http://" + solrHost + ":8983/solr/hismove/query?json=";
-    }else if(status == 'blacklist') {
-      $scope.showBlacklist = true;
-      $scope.showApplication = false;
-      $scope.showCitizen = false;
-      $scope.showVisitor = false;
-      var sq = "http://" + solrHost + ":8983/solr/blacklisted/query?json=";
+      // var sq = "http://" + solrHost + ":8983/solr/hismove/query?json=";
+    }else if(status == 'blackListed') {
+      // $scope.showBlacklist = true;
+      // $scope.showApplication = false;
+      // $scope.showCitizen = false;
+      // $scope.showVisitor = false;
+      // var sq = "http://" + solrHost + ":8983/solr/blacklisted/query?json=";
     }
+
+
+      
 
 
     var query = ""
     //var sq = "http://" + solrHost + ":8983/solr/immigration2/query?json=";
+    var sq = "http://10.1.17.25:8081/pistachio/fastsearch/gfs";
 
     var json = {};
+    json.text = $scope.text;
     json.limit = 10;
-    json.offset = $scope.start
-    json.query = $scope.getQuery();
-    json.filter = $scope.updateFilterQuery_Country();
-    json.sort = "created desc"
-    json.facet = {};
-    json.facet.country = {};
-    json.facet.country.type = "terms";
-    json.facet.country.field = "country";
-    json.facet.country.limit = 20;
-    json.facet.job = {};
-    json.facet.job.type = "terms";
-    json.facet.job.field = "job_bm";
+    json.offset = $scope.start;
+    // json.query = $scope.getQuery();
+    // json.filter = $scope.updateFilterQuery_Country();
+    // json.sort = "created desc"
+    // json.facet = {};
+    // json.facet.country = {};
+    // json.facet.country.type = "terms";
+    // json.facet.country.field = "country";
+    // json.facet.country.limit = 20;
+    // json.facet.job = {};
+    // json.facet.job.type = "terms";
+    // json.facet.job.field = "job_bm";
+     var tblGloSEarch;
+    
+    //  tblGloSEarch =  $('#tblSearch').DataTable();
     // json.facet.country.domain = "{excludeTags:COLOR}"
-    $http.get(sq + JSON.stringify(json)+$scope.spatialSearch()).
-      success(function (data) {
-        
+    // $http.get(sq + JSON.stringify(json)+$scope.spatialSearch()).
+    $http.post(sq, JSON.stringify(json)).
+      success(function (data) {        
         console.log(data);
-        $scope.startCount = data.response.start + 10;
-        if (data.response.numFound == 0) {
-          $scope.showApplication = false;
-        }
-        $scope.vtime = data.responseHeader.QTime;
-        $scope.applicationsFound = data.response.numFound;
-        //$scope.employers = data.response.numFound;
-        $scope.items = data.response.docs;
-        if (selected_countries.length == 0)
-          $scope.countries = data.facets.country.buckets
+        // $scope.first = (data.response.start == 0? true : false); 
+          
 
-        if (selected_jobs.length == 0)
-          $scope.jobs = data.facets.job.buckets
+        var totalResLenth;
+        if(status == 'pass'){
+          // $scope.passFound = data.response.numFound;
+          $scope.applicationsFound = data.header.pass;
+          totalResLenth = data.pass.results.length;          
+          var strdoc_no, strcountry;
+          // var tblRows = $('#tblSearch').DataTable().rows();
+          if($('#tblSearch tr').length > 0)
+            $('#tblSearch').DataTable().destroy() 
+                             
+          tblGloSEarch = $('#tblSearch').DataTable({
+                    order: [[ 0, "asc" ]],
+                    data: data.pass.results,   
+                    searching: false,
+                    paging: false,
+                    info: false,
+                    layout: 'fixed',  
+                    'word-wrap':'break-word',                                
+                    columns: [{  
+                            "title": "Date",                         
+                            "data": "date",
+                            "width":"15%",
+                            "render": function(data, type, full, meta) {
+                                // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
+                                return data.substring(0,19);
+                            }
+                        },{
+                          "title": "Job",
+                          "data": "job",
+                            "width":"20%"
+                          },
+                        { 
+                          "title":"Name",
+                          "data": "name",
+                          "width":"20%"                        
+                         },
+                        { 
+                          "title":"Country",
+                          "data": "country",
+                          "width":"15%",
+                          "render": function(data, type, full, meta) {
+                            strcountry = data;
+                            return data;
+                          }      
+                         },
+                        { 
+                          "title":"Document No",
+                          "data": "doc_no",
+                          "width":"10%",
+                          "render": function(data, type, full, meta) {
+                            strdoc_no = data;
+                            return data;
+                          } 
+                        },
+                        {
+                          "title":"Action",                          
+                          "data": "action",
+                          "width":"5%",
+                          "render": function(data, type, full, meta) {                          
+                            return '<a class="viewReq")>'+
+                                  '<button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>'+
+                                  'View </button></a>';                                                      
+                          }  
+                        }]                          
+                });
+
+        }else if(status == 'citizen') {   
+          var strdoc_no; 
+          totalResLenth = data.citizen.results.length;
+          $scope.applicationsFound = data.header.citizen;
+          // $scope.users = data.response.numFound;
+          if($('#tblSearch tr').length > 0)
+            $('#tblSearch').DataTable().destroy() 
+
+          tblGloSEarch = $('#tblSearch').DataTable({
+                order: [[ 0, "asc" ]],
+                data: data.citizen.results,   
+                searching: false,
+                paging: false,
+                info: false,                                  
+                columns: [{  
+                        "title": "Date",                         
+                        "data": "date",
+                        "width":"15%",
+                        "render": function(data, type, full, meta) {
+                            // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
+                            return data.substring(0,19);
+                        }
+                    },{
+                      "title": "IC No.",
+                      "data": "kp_no",
+                        "width":"15%"
+                      },
+                    { 
+                      "title":"Name",
+                      "data": "name",
+                      "width":"20%"                        
+                      },
+                    { 
+                      "title":"Passport No.",
+                      "data": "doc_no",
+                      "width":"8%",
+                      "render": function(data, type, full, meta) {
+                        // strdoc_no = data;
+                        return data;
+                      }      
+                      },
+                    { 
+                      "title":"State",
+                      "data": "state",
+                      "width":"10%",
+                      "render": function(data, type, full, meta) {
+                        // strdoc_no = data;
+                        if(data == undefined){
+                          return "";
+                        }else{
+                          return data;
+                        }
+                      } 
+                    },
+                    {
+                      "title":"Action",                          
+                      "data": "action",
+                      "width":"10%",
+                      "render": function(data, type, full, meta) {                          
+                        return '<a  class="viewCitizen">'+
+                              '<button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>'+
+                              'View </button></a>';                                                      
+                      }  
+                    }]                          
+            });
+        }else if(status == 'vistor') {
+          // $scope.employers = data.response.numFound;
+          $scope.applicationsFound = data.header.movement;
+          totalResLenth = data.vistor.results.length;
+          if($('#tblSearch tr').length > 0)
+            $('#tblSearch').DataTable().destroy() 
+
+          tblGloSEarch = $('#tblSearch').DataTable({
+                order: [[ 0, "asc" ]],
+                data: data.vistor.results,   
+                searching: false,
+                paging: false,
+                info: false,                                  
+                columns: [{  
+                        "title": "Date",                         
+                        "data": "date",
+                        "width":"20%",
+                        "render": function(data, type, full, meta) {
+                            // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
+                            return data.substring(0,19);
+                        }
+                    },{
+                      "title": "Branch",
+                      "data": "branch",
+                        "width":"25%"
+                      },
+                    { 
+                      "title":"Name",
+                      "data": "name",
+                      "width":"20%"                        
+                      },
+                    { 
+                      "title":"Country",
+                      "data": "country",
+                      "width":"15%",
+                      "render": function(data, type, full, meta) {
+                        return data;
+                      }      
+                      },
+                    { 
+                      "title":"Document No",
+                      "data": "doc_no",
+                      "width":"10%",
+                      "render": function(data, type, full, meta) {
+                        // strdoc_no = data;
+                        if(data == undefined){
+                          return "";
+                        }else{
+                          return data;
+                        }
+                      } 
+                    },
+                    {
+                      "title":"Action",                          
+                      "data": "action",
+                      "width":"5%",
+                      "render": function(data, type, full, meta) {                          
+                        return '<a class="viewReq">'+
+                              '<button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>'+
+                              'View </button></a>';                                                      
+                      }  
+                    }]                          
+            });
+
+        }else if(status == 'blackListed') {
+          $scope.applicationsFound = data.header.blackListed;
+          totalResLenth = data.blackListed.results.length;
+          if($('#tblSearch tr').length > 0)
+            $('#tblSearch').DataTable().destroy() 
+
+          tblGloSEarch = $('#tblSearch').DataTable({
+                order: [[ 0, "asc" ]],
+                data: data.blackListed.results,   
+                searching: false,
+                paging: false,
+                info: false,                                  
+                columns: [{  
+                        "title": "Date",                         
+                        "data": "created",
+                        "width":"10%",
+                        "render": function(data, type, full, meta) {
+                            // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
+                            return data.substring(0,19);
+                        }
+                    },{
+                      "title": "IC No.",
+                      "data": "kp_no",
+                        "width":"25%"
+                      },
+                    { 
+                      "title":"Name",
+                      "data": "name",
+                      "width":"25%"                        
+                      },
+                    { 
+                      "title":"Passport No.",
+                      "data": "doc_no",
+                      "width":"25%",
+                      "render": function(data, type, full, meta) {
+                        return data;
+                      }      
+                      },
+                    { 
+                      "title":"Country",
+                      "data": "country",
+                      "width":"10%",
+                      "render": function(data, type, full, meta) {
+                        // strdoc_no = data;
+                        if(data == undefined){
+                          return "";
+                        }else{
+                          return data;
+                        }
+                      } 
+                    }]                          
+            });
+        }
+
+        $scope.first = ($scope.start/10) > 0 ? false : true;        
+        $scope.startCount =  $scope.start + totalResLenth;
+        // $scope.startCount = ($scope.applicationsFound < 10 ? $scope.applicationsFound : $scope.start + 10);
+        $scope.last = ($scope.startCount == $scope.applicationsFound ? true : false);  
+     
+        var viewinfo = undefined;
+        
+        var strtest = 0;
+        $('.viewReq').on('click', 'button.searchBtn', function (e) {
+          $("#myTravalModal").find('.modal-body').append( "<iframe id='frame' width='100%' height='600px'></iframe>" );
+          var viewinfo = tblGloSEarch.row($(this).parents('tr')).data();
+          var strcntry = viewinfo.country.replace(/ /g, "*");
+          // sessionStorage.setItem('Qparam','doc_nos:'+ viewinfo.doc_no +' AND country:'+ strcntry);
+          localStorage.setItem('Qparam','doc_nos:'+ viewinfo.doc_no +' AND country:'+ strcntry);
+          // window.location = "#/travelertracker/travelertracker.html?session=true";
+          
+          //To load in to Modal
+          e.preventDefault();
+         strtest += 1;
+          $('#myTravalModal').modal('show').find("#frame").attr("src", "#/travelertracker/travelertracker.html?session=true&test=" + strtest);
+        });
+
+        $('.closemdl').on('click',function(e){
+        // alert('closing modal');
+        $('#frame').remove();
+        });
+        
+      // $scope.viewCitizen = function (docno) {
+      //   // window.location = "#/travelertracker/travelertracker.html?doc_nos=" + docno + "&citizen=true";
+      //   window.location = "#/travelertracker/travelertracker.html?session=true";    
+      //   sessionStorage.setItem('Qparam','doc_no:'+ docno +' AND citizen:'+ true);
+      // };
+
+      var viewCitizinfo = undefined;
+      $('.viewCitizen').on('click', 'button.searchBtn', function (e) {
+        $("#myTravalModal").find('.modal-body').append( "<iframe id='frame' width='100%' height='600px'></iframe>" );
+        viewCitizinfo = tblGloSEarch.row($(this).parents('tr')).data();
+        // sessionStorage.setItem('Qparam','doc_no:'+ viewCitizinfo.doc_no +' AND citizen:'+ true);
+        localStorage.setItem('Qparam','doc_no:'+ viewCitizinfo.doc_no +' AND citizen:'+ true);
+        // window.location = "#/travelertracker/travelertracker.html?session=true";   
+        strtest += 1; 
+         $('#myTravalModal').modal('show').find("#frame").attr("src", "#/travelertracker/travelertracker.html?session=true&test=" + strtest);
+
+      });
+
+        // $scope.startCount = $scope.start + 10; 
+                 
+
+        // if (data.response.numFound == 0) {
+        //   $scope.showApplication = false;
+        // }
+        // $scope.vtime = data.responseHeader.QTime;        
+        // $scope.items = data.response.docs;
+        // if (selected_countries.length == 0)
+        //   $scope.countries = data.facets.country.buckets
+
+        // if (selected_jobs.length == 0)
+        //   $scope.jobs = data.facets.job.buckets
         console.log($scope.jobs);
       })
       .error(function (data, status, headers, config) {
@@ -648,11 +950,7 @@ $scope.$on('mapClick', function(event, e) {
 
   }
 
-  
-
-
-
-  $scope.$on('$locationChangeStart', function (event) {
+ $scope.$on('$locationChangeStart', function (event) {
     $rootScope.fastsearch.text = $scope.text;
     $rootScope.fastsearch.showApplication = $scope.showApplication;
     $rootScope.fastsearch.showVisitor = $scope.showVisitor;

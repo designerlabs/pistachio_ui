@@ -20,6 +20,10 @@ Website: http://www.mimos.com.my/
     <meta content="pistachio - e-reporting" name="description" />
     <meta content="mimos" name="author" />
     <meta name="keywords" content="e-reporting, pistachio">
+
+    <!--<meta http-Equiv="Cache-Control" Content="no-cache" />
+    <meta http-Equiv="Pragma" Content="no-cache" />
+    <meta http-Equiv="Expires" Content="0" />-->
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="assets/fonts/open-sans.css" rel="stylesheet" type="text/css" />
     
@@ -86,7 +90,7 @@ Website: http://www.mimos.com.my/
     <input type="hidden" id="reportCategoryID">
     <!-- END PAGE SPINNER -->
     <!-- BEGIN HEADER -->
-    <div data-ng-include="'tpl/header.html'" data-ng-controller="HeaderController" class="page-header md-shadow-z-1-i navbar navbar-fixed-top">
+    <div id="headerTpl" data-ng-include="'tpl/header.html'" data-ng-controller="HeaderController" class="page-header md-shadow-z-1-i navbar navbar-fixed-top">
     </div>
     <!-- END HEADER -->
     <div class="clearfix">
@@ -95,7 +99,7 @@ Website: http://www.mimos.com.my/
     <div>
         <div class="page-container">
             <!-- BEGIN SIDEBAR -->
-            <div data-ng-include="'tpl/sidebar.html'" data-ng-controller="SidebarController" class="page-sidebar-wrapper">
+            <div id="sidebarTpl" data-ng-include="'tpl/sidebar.html'" data-ng-controller="SidebarController" class="page-sidebar-wrapper">
             </div>
             <!-- END SIDEBAR -->
             <div class="page-content-wrapper"  style="overflow-y: auto;">
@@ -118,7 +122,7 @@ Website: http://www.mimos.com.my/
             </div>
         </div>
         <!-- BEGIN FOOTER -->
-        <div data-ng-include="'tpl/footer.html'" data-ng-controller="FooterController" class="page-footer">
+        <div id="footerTpl" data-ng-include="'tpl/footer.html'" data-ng-controller="FooterController" class="page-footer">
         </div>
         <!-- END FOOTER -->
     </div>

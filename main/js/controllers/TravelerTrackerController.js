@@ -16,6 +16,19 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
     $scope.citizen = false;
     $scope.hideMisMatchTab = true;
 
+if(window.location.href.indexOf('fastsearch')){
+    $("#headerTpl").hide();
+    $("#sidebarTpl").hide();
+    $("#footerTpl").hide();
+    $(".page-sidebar-closed .page-content-wrapper .page-content").css('margin-left', '0px');
+
+}else{
+    $("#headerTpl").show();
+    $("#sidebarTpl").show();
+    $("#footerTpl").show();
+    $(".page-sidebar-closed .page-content-wrapper .page-content").css('margin-left', '54px!important');
+}
+    
     $scope.$on('$viewContentLoaded', function() {
         Metronic.initAjax(); // initialize core components
         $scope.database = "default";
@@ -34,6 +47,8 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                 info_personal_loaded = true;
             }
         }     
+
+        // alert('ss');
 
         $scope.fn_getBasicInfo = function() { //mad_pas_typ_cd
 
@@ -112,7 +127,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
                         result.response.docs[0].country = "Malaysia";
                         $scope.DOB(result.response.docs[0].birth_date)
                         $scope.fn_personalInfo(result.response.docs[0]);                       
-                        $scope.CreateInoutChart(result.response.docs);
+                        // $scope.CreateInoutChart(result.response.docs);
                         $scope.$apply();
 
                     } else {
@@ -202,7 +217,6 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
             console.log('visadetails' + visadetails);
             visadetails.forEach(function(k,v){
                 itmbackgrd = [];
-                //debugger;
                 itmbackgrd ={
                     content : k.pass_type,
                     start : moment.utc(k.created,"YYYY-MM-DDT00:00:00").format("YYYY-MM-DD"),
@@ -404,14 +418,14 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
         // var Qstring = window.location.href;
         // var Qparam = Qstring.replace('=', ':').replace('=', ':').replace('&', ' AND ').split('?')[1];
         // var Qparam = $rootScope.Qparam;
-        var Qparam = sessionStorage.getItem('Qparam');
+        var Qparam = localStorage.getItem('Qparam');
         $scope.fn_processInput(Qparam);
 
         $('.tool').tooltip();
         $scope.availHeight = window.screen.availHeight;
 
         $('.lk').click(function() {
-            alert('clicked');
+            // alert('clicked');
             $scope.lock == 'true' ? 'false' : 'true';
         });
 

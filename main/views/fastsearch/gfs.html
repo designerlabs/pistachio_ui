@@ -5,7 +5,12 @@
         <div class="col-md-12">
           <div class="input-group">
             <input id="searchbox" ng-model="search.text" type="search" class="form-control" placeholder="{{'fastsearch.global.searchfor' | translate}}...">
-            <span class="input-group-btn btn-grp-padding">
+            <span class="input-group-btn btn-grp-padding searchcont">
+              <div id="searchDaterange" class="btn btn-fit-height green" data-placement="center" style="margin-right: 3px;height: 129%;width: 220px;">
+                  <i class="icon-calendar" style="margin-top: 10px;"></i>&nbsp;
+                  <span ></span>&nbsp; <!--class="thin uppercase hidden-xs"-->
+                  <i class="fa fa-angle-down"></i>
+              </div>
               <button class="btn green-soft uppercase bold" ng-click="search(search.text)" type="button"><i class="fa fa-search"></i>{{'fastsearch.global.search' | translate}}</button>
               <button class="btn btn-icon-only green" ng-click="reset()" type="button"><i class="fa fa-refresh"></i> </button>
               <button class="btn btn-icon-only" ng-disabled="!showApplication && !showVisitor"  ng-click="options()" type="button"><i class="fa fa-gear"></i> </button>
@@ -69,28 +74,28 @@
       <div class="row" style=>
         <div class="col-md-12">
           <div class='uib'>
-            <div class='ui_box' ng-class="{selected: showApplication}" ng-click="showApplications('pass')">
+            <div class='ui_box' ng-class="{selected: showApplication}" ng-click="showApplications('pass','load')">
               <div class='ui_box__inner'>
                 <h2>{{'fastsearch.global.applications' | translate}}</h2>
                 <div class='stat'>
-                  <span>{{applicationsFound |  number:0}}</span>
+                  <span>{{passFound |  number:0}}</span>
                 </div>
                 <p>permohonan found in {{qtime}} milliseconds</p>
 
               </div>
 
             </div>
-            <div class='ui_box' ng-class="{selected: showCitizen}" ng-click="showApplications('citizen')">
+            <div class='ui_box' ng-class="{selected: showCitizen}" ng-click="showApplications('citizen','load')">
               <div class='ui_box__inner'>
                 <h2>{{'fastsearch.global.users' | translate}}</h2>
                 <div class='stat'>
                   <span>{{users |  number:0}}</span>
                 </div>
-                <p>{{'fastsearch.global.usersfound' | translate}} in {{vtime}} milliseconds</p>
+                <p>{{'fastsearch.global.usersfound' | translate}} in {{ctime}} milliseconds</p>
               </div>
 
             </div>
-            <div class='ui_box' ng-class="{selected: showVisitor}" ng-click="showApplications('visitor')">
+            <div class='ui_box' ng-class="{selected: showVisitor}" ng-click="showApplications('vistor','load')">
               <div class='ui_box__inner'>
                 <h2>{{'fastsearch.global.stickers' | translate}}</h2>
                 <div class='stat'>
@@ -100,13 +105,13 @@
               </div>
 
             </div>
-            <div class='ui_box' ng-class="{selected: showBlacklist}" ng-click="showApplications('blacklist')">
+            <div class='ui_box' ng-class="{selected: showBlacklist}" ng-click="showApplications('blackListed','load')">
               <div class='ui_box__inner'>
                 <h2>{{'fastsearch.global.blacklisted' | translate}}</h2>
                 <div class='stat'>
                   <span>{{blacklisted | number:0}}</span>
                 </div>
-                <p>{{'fastsearch.global.suspectlistfound' | translate}} in {{vtime}} milliseconds</p>
+                <p>{{'fastsearch.global.suspectlistfound' | translate}} in {{btime}} milliseconds</p>
               </div>
 
             </div>
@@ -114,7 +119,7 @@
           </div>
         </div>
       </div>
-      <div class="search-page search-content-4" ng-if="showApplication">
+      <!--<div class="search-page search-content-4" ng-if="showApplication">
         <div class="row">
           <div class="col-md-12">
             <div class="search-table">
@@ -241,8 +246,6 @@
                 </li>
               </ul>
             </div>
-
-            <!--<div class="pageNum">( {{start}} / {{applicationsFound}} )</div>-->
           </div>
         </div>
       </div>
@@ -267,10 +270,7 @@
                     </th>
                     <th style="text-align: center;">
                       <a href="javascript:;">Country</a>
-                    </th>
-                    <!--<th style="text-align: center;">
-                      <a href="javascript:;">{{'fastsearch.global.action' | translate}}</a>
-                    </th>-->
+                    </th>                    
                   </tr>
                 </thead>
                 <tbody>
@@ -287,12 +287,7 @@
                     <td style="width:25%;" class="table-desc"> {{x.doc_no}} </td>
                     <td style="width:10%;" class="table-download">
                       {{x.country}}
-                    </td>
-                    <!--<td style="text-align: center; width:5%;" class="table-status">
-                      <a href="#/travelertracker/travelertracker.html" ng-click="viewCitizen(x.doc_no);">
-                        <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>{{'fastsearch.global.view' | translate}}</button>
-                      </a>
-                    </td>-->
+                    </td>                    
                   </tr>
                 </tbody>
               </table>
@@ -307,13 +302,11 @@
                 </li>
               </ul>
             </div>
-            <!--<div class="pageNum">( {{start}} / {{applicationsFound}} )</div>-->
         </div>
         </div>
       </div>
       <div class="search-page search-content-4" ng-if="showVisitor">
         <div class="row">
-
           <div class="col-md-12">
             <div class="search-table">
               <table class="table table-bordered table-striped table-condensed">
@@ -365,7 +358,6 @@
 
                 </tbody>
               </table>
-
             </div>
             <div class="search-pagination">
               <ul class="pagination">
@@ -375,15 +367,47 @@
                 <li class="page-active">
                   <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
                 </li>
-
               </ul>
             </div>
-
-            <!--<div class="pageNum">( {{start}} / {{applicationsFound}} )</div>-->
           </div>
         </div>
-      </div>
-
+      </div>-->
+      <div class="search-page search-content-4" ng-show="tblContent" >
+        <div class="row">
+          <div class="col-md-12">
+            <div class="search-table">
+              <table id="tblSearch" class="table table-bordered table-striped table-condensed">
+                
+              </table>
+            </div>
+            <div class="search-pagination">
+              <ul class="pagination">
+                <li>
+                  <button ng-click="previous()" ng-disabled="first" class="btn btn-primary previousBtn"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+                </li>
+                <li class="page-active">
+                  <button ng-click="next()" ng-disabled="last" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+                </li>
+              </ul>
+            </div>
+             <div class="pageNum">( {{startCount}} / {{applicationsFound}} )</div>
+          </div>
+        </div>
+      </div>      
     </div>
+
+    <div id="myTravalModal" class="modal fade">
+      <div class="modal-dialog" style="width: 95%">
+        <div class="modal-header">
+            <button type="button" class="close closemdl" data-dismiss="modal" aria-hidden="true">×</button>
+            <!--<h3 id="myModalLabel">Traveler Tracker</h3>-->
+        </div>
+          <div class="modal-content">              
+              <div class="modal-body">
+                  <!--<iframe id="frame" src="" width="100%" height="600px">
+                  </iframe>-->
+              </div>              
+          </div>
+      </div>
   </div>
 </div>

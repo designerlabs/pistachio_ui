@@ -1560,7 +1560,11 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     files: [
                         'assets/pages/css/search.css',
                         'assets/pages/css/pricing.min.css',
-
+                        
+                        'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
+                        'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
+                        'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
+                        'assets/global/plugins/datatables/all.min.js',
                         
                         'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
 
@@ -1575,7 +1579,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
 
                         'js/controllers/GlobalSearchController.js',
                         'assets/pistachio/range/range.css',
-                        'assets/pistachio/range/range.js'
+                        'assets/pistachio/range/range.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
                     ]
                 });
             }]
