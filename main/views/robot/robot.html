@@ -115,7 +115,7 @@
         <li ng-repeat="n in robotSearch" class="robotSearchStyle col-md-12">
 
             <div class="col-md-12 robotContent">
-              <h4 ng-bind-html="n.attrcontent.attr_content[0]"></h4>
+              <h4 ng-bind="n.attrcontent.attr_content[0]"></h4>
             </div>
       
               <div title="{{n.fileName }}" class="col-md-3" ng-show="n.fileName"><small>FILE NAME:</small><br>{{n.fileName |  limitTo: 20 }} {{n.fileName.length > 20 ? '...' : ''}}</div>
