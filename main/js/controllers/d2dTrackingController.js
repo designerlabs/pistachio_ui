@@ -151,55 +151,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         });
         
 
-        // frmDt = frmDt.split('/');
-        // toDt = toDt.split('/');        
-
-        // $scope.getFromDt = frmDt[2] + "-" + frmDt[1] + "-" + frmDt[0] + "T00:00:00Z";
-        // $scope.getToDt = toDt[2] + "-" + toDt[1] + "-" + toDt[0] + "T00:00:00Z";
-
-
-        // var utcFromDt = new Date(frmDt[2] + "-" + frmDt[1] + "-" + frmDt[0] + "T00:00:00Z");
-        // var utcToDt = new Date(toDt[2] + "-" + toDt[1] + "-" + toDt[0] + "T00:00:00Z");
-        // $scope.utcFromDt = parseInt(utcFromDt.getTime());
-        // $scope.utcToDt = parseInt(utcToDt.getTime());
-        //alert($scope.utcFromDt);
-
-        // $("#datetimeFrom").on("dp.change", function(e) {
-        //     var myDate = new Date(e.date);
-
-        //     var yyyy = myDate.getFullYear().toString();
-
-        //     var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
-        //     var dd = myDate.getDate().toString();
-        //     resultDtFrom = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
-
-        //     $scope.fromYr = yyyy;
-        //     $scope.fromMo = mm;
-        //     $scope.fromDd = dd;
-
-        //     $scope.getFromDt = resultDtFrom;
-        //     //alert($scope.getFromDt);
-        //     // return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
-        //     $('#datetimeTo').data("DateTimePicker").minDate(e.date);
-        // });
-
-        // $("#datetimeTo").on("dp.change", function(e) {
-        //     var myDate = new Date(e.date);
-        //     var yyyy = myDate.getFullYear().toString();
-        //     var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
-        //     var dd = myDate.getDate().toString();
-
-        //     $scope.toYr = yyyy;
-        //     $scope.toMo = mm;
-        //     $scope.toDd = dd;
-
-        //     resultDtTo = yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
-        //     $scope.getToDt = resultDtTo;
-        //     //alert($scope.getToDt);
-        //     $('#datetimeFrom').data("DateTimePicker").maxDate(e.date);
-        // });
-
-
 
         var startDt, endDt, triggerOpt, triggerOptRow, branchQry, ubranch, mainFacet, offsetVal, triggerBt, groupBy, gap, count, sortValue, $widget; // Global variable
         var immigrationSolr = "hismove";

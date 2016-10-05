@@ -2041,7 +2041,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
-                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         // 'assets/pages/scripts/angular-chart/angular-chart.css',
                         // 'assets/pages/scripts/datamaps/datamaps.world.js',
                         // 'assets/pages/css/search.css',
@@ -2055,8 +2054,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         // 'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
                         // 'bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
                         
-                        
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'js/controllers/d2dTrackingController.js',
+                        
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
                         
@@ -2079,7 +2079,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
-                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'assets/pages/scripts/angular-chart/angular-chart.css',
                         'assets/pages/scripts/datamaps/datamaps.world.js',
                         'assets/pages/css/search.css',
@@ -2094,6 +2093,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         // 'bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
 
                         'assets/pistachio/hourlyReport/hourlyReport.css',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'js/controllers/employeeHourlyDetailsController.js',
                         
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
@@ -2214,8 +2214,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pages/css/invoice-2.css',
                         'assets/global/plugins/vis/vis.js',
                         'assets/global/plugins/vis/vis.css',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'js/controllers/TravelerTrackerController.js',
-                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
+                        
                     ]
                 });
             }]

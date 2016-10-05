@@ -1,4 +1,5 @@
 <div id="mainContainer1" ng-controller="employeeHourlyDetailsController">
+    
     <div class="page-toolbar row daterangecont" style="padding-right: 15px; padding-bottom: 15px; padding-left: 13px">
         <div class="col-md-3" style="padding-left:0px;"><button class="btn btn-danger btn-md" ng-click="backBtn()"><i class="fa fa-arrow-left"></i> Back</button></div>
         <div  class="col-md-7"><h3 style="display:inline;"><i class="fa fa-plane"></i> {{branchTitle | limitTo: 50}} {{branchTitle.length > 50 ? '...' : ''}}</h3></div>
@@ -22,6 +23,17 @@
             </ul>
         </div>
     </div>
+
+    <div style="background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%; position:absolute; top:0px;"  ng-show="loading">
+        <!--  BEGIN PAGE SPINNER -->
+        <div ng-spinner-bar class="page-spinner-bar show">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+        <!--    END PAGE SPINNER -->
+    </div>
+    
     <div  class="col-md-9" style="background:#fff;">
         <div class="container-fluid">
             <div class="row">
@@ -43,15 +55,6 @@
     </div>
 
     <div class="row"></div>
-    <div style="background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%; position:absolute; top:0px;" ng-show="loading">
-        <!--  BEGIN PAGE SPINNER -->
-        <div ng-spinner-bar class="page-spinner-bar show">
-            <div class="bounce1"></div>
-            <div class="bounce2"></div>
-            <div class="bounce3"></div>
-        </div>
-        <!--    END PAGE SPINNER -->
-    </div>
 </div>
 <script>
 </script>

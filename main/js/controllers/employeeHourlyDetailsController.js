@@ -19,16 +19,27 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
         // });
         // console.log(myArr);
 
-        var windowURL = window.location.href;
-        if (windowURL.indexOf("&") == -1)
-        {
-            window.location = window.location + '&loaded=true';
-            window.location.reload();
+        // var windowURL = window.location.href;
+        // if (windowURL.indexOf("&") == -1)
+        // {
+        //     window.location = window.location + '&loaded=true';
+        //     window.location.reload();
          
-        }
+        // }
         stageUpdate.addStage("Officer");
         Layout.setSidebarMenuActiveLink('set', $('#trackerLink')); // set profile link active in sidebar menu 
        
+        $rootScope.$on('loading:progress', function (){
+            console.log("loading");
+            $scope.loading = true;
+        });
+
+        $rootScope.$on('loading:finish', function (){
+            $scope.loading = false;
+            console.log("stop");
+        });
+
+        
         $scope.empName = sessionStorage.getItem('hourlyEmplyName');
         $scope.branchCode = sessionStorage.getItem('hourlybranchCode');
         $scope.branchTitle = $.parseJSON(localStorage.getItem('branchName')).two;
@@ -245,9 +256,6 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
              
             }).catch(function(err) {
 
-            })
-            .finally(function() {
-                //$scope.loading = false;
             });
         }
 
@@ -542,10 +550,8 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
 
         $scope.populateChart = function(ele) {
 
-            $scope.loading = true;
             console.log(ele);
 
-             $scope.loading = true;
             $.each(ele, function(i, name) {
                 console.log($scope.getFromDtN, $scope.getToDtN);
                 //$http.get(globalURL + "api/employee/1001231/" + name + "/" + $scope.startDtNSplit[2] + "-" + $scope.startDtNSplit[1] + "-" + $scope.startDtNSplit[0] + "/" + $scope.endDtNSplit[2] + "-" + $scope.endDtNSplit[1] + "-" + $scope.endDtNSplit[0] + "/1").success(function(data) {
@@ -641,7 +647,6 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
                         }).catch(function(err) {
 
                         }).finally(function(){
-                            $scope.loading = false;
                         });
                     });
                 });
@@ -693,7 +698,6 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
             $scope.employeeArr = [];
             $scope.timelineChart();
             
-            $scope.loading = false;
         }
 
         $scope.backBtn = function() {
