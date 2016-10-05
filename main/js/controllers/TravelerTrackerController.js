@@ -431,7 +431,12 @@ if(window.location.href.indexOf('fastsearch')){
 
         $('.bck').click(function() {
             $rootScope.fastsearch.load = true;
-            location.href ="index.html#/fastsearch/gfs.html";
+            if(window.location.href.indexOf("tracking") > -1){
+                location.href ="index.html#/d2dTracking/d2dTracking.html";
+            }else{
+                location.href ="index.html#/fastsearch/gfs.html";
+            }
+            
             //parent.history.back();
             return false;
         });

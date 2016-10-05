@@ -1566,7 +1566,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
                         'assets/global/plugins/datatables/all.min.js',
                         
-                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
+                        
 
                         'assets/pistachio/fastsearch/leaflet/leaflet_canvas_layer.js',
                         //'assets/pistachio/map/heatmap.min.js',
@@ -1578,6 +1578,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pistachio/fastsearch/ui_box.css',
 
                         'js/controllers/GlobalSearchController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'assets/pistachio/range/range.css',
                         'assets/pistachio/range/range.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
@@ -2053,13 +2054,15 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         //'assets/global/plugins/highcharts/js/highcharts.js',
                         // 'assets/pages/css/pricing.min.css',
                         'assets/pages/scripts/highstock.js',
+                        
                         // 'assets/pages/css/jquery-ui.css',
                         // 'bower_components/moment/min/moment.min.js',
                         // 'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
                         // 'bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
                         
-                        
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'js/controllers/d2dTrackingController.js',
+                        
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
                         
@@ -2096,7 +2099,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         // 'bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
 
                         'assets/pistachio/hourlyReport/hourlyReport.css',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'js/controllers/employeeHourlyDetailsController.js',
+                        
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
                     ]
@@ -2211,11 +2216,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
                         'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
                         'assets/global/plugins/datatables/all.min.js',
-                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
+                        
                         'assets/pages/css/invoice-2.css',
                         'assets/global/plugins/vis/vis.js',
                         'assets/global/plugins/vis/vis.css',
-                        'js/controllers/TravelerTrackerController.js'
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
+                        'js/controllers/TravelerTrackerController.js',
+                        
                     ]
                 });
             }]
