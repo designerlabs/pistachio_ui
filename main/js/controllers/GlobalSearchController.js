@@ -348,7 +348,8 @@ $scope.$on('mapClick', function(event, e) {
 
   $scope.box_update = function () {
   $scope.tblContent = false;
-    var sq = "http://10.1.17.25:8081/pistachio/fastsearch/gfs";
+    // var sq = "http://10.1.17.25:8081/pistachio/fastsearch/gfs";
+      var sq = globalURL + "pistachio/fastsearch/gfs";
     var json = {};
     json.text = $scope.text;
     json.from = $scope.getSearchFromDt;
@@ -607,7 +608,8 @@ $scope.$on('mapClick', function(event, e) {
 
     var query = ""
     //var sq = "http://" + solrHost + ":8983/solr/immigration2/query?json=";
-    var sq = "http://10.1.17.25:8081/pistachio/fastsearch/gfs";
+    // var sq = "http://10.1.17.25:8081/pistachio/fastsearch/gfs";
+      var sq = globalURL + "pistachio/fastsearch/gfs";
 
     var json = {};
     json.text = $scope.text;

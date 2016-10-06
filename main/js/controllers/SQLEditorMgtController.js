@@ -56,20 +56,24 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         } 
 
         $scope.OnDBTblClick = function(seltbl) {
-            $scope.dbTables = seltbl;
+             $scope.SeldbTables = seltbl; 
+             $("#lstDBtbl > ul > li").removeClass('activeBg');
+             var currentList = event.target;
+             $(currentList).parent().addClass('activeBg');
+             
             // $scope.db_clicked = "collapsed";
             // fn_LoadDt(sel);
             //collapse the datatable list
-            $('#lstDBtbl').prev().addClass('collapsed');
-            $('#lstDBtbl').prev().attr('aria-expanded', 'false');
-            $('#lstDBtbl').addClass('collapsing');
-            $('#lstDBtbl').removeClass('in');
-            $('#lstDBtbl').removeClass('collapsing');
-            $('#lstDBtbl').attr('aria-expanded', 'false');
-            $('#lstDBtbl').attr('style', 'height:0px');
+            // $('#lstDBtbl').prev().addClass('collapsed');
+            // $('#lstDBtbl').prev().attr('aria-expanded', 'false');
+            // $('#lstDBtbl').addClass('collapsing');
+            // $('#lstDBtbl').removeClass('in');
+            // $('#lstDBtbl').removeClass('collapsing');
+            // $('#lstDBtbl').attr('aria-expanded', 'false');
+            // $('#lstDBtbl').attr('style', 'height:0px');
 
-            $(".tab-content").children().removeClass('active in');
-            $('.tab_Columns').addClass('active in');
+            // $(".tab-content").children().removeClass('active in');
+            // $('.tab_Columns').addClass('active in');
             fn_showCol();
             $("#messageView div").hide();
         }
@@ -487,8 +491,8 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
 
         function fn_showCol() {
             var ColResult;//api/pistachio/secured/hadoop/column?db=analytics&table=employee_details
-            if($scope.dbTables !== "Tables"){
-            $http.get(globalURL + "api/pistachio/secured/hadoop/column?db=" + $scope.database + "&table=" + $scope.dbTables)
+            // if($scope.dbTables !== "Tables"){
+            $http.get(globalURL + "api/pistachio/secured/hadoop/column?db=" + $scope.database + "&table=" + $scope.SeldbTables)
                 .then(function(response) {
                     // $scope.firstsve = response.data.first; 
                     // $scope.lastsve = response.data.last;
@@ -518,13 +522,13 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                         }]
                     });                                      
                 });
-            }else{
-                $("#messageView div span").html('Please select Table');
-                $("#messageView div").addClass("alert-danger");
-                $("#messageView div").removeClass('alert-success');
-                $("#messageView div").show().delay(5000).fadeOut();
+            // }else{
+            //     $("#messageView div span").html('Please select Table');
+            //     $("#messageView div").addClass("alert-danger");
+            //     $("#messageView div").removeClass('alert-success');
+            //     $("#messageView div").show().delay(5000).fadeOut();
 
-            }
+            // }
         }
 
 
