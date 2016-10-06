@@ -26,7 +26,13 @@ Rounded Portlets
 }
 
 .mt-element-list .list-simple.ext-1.mt-list-container ul>.mt-list-item{
-   background: #cdd2cf !important;
+   background: #cdd2cf;
+   color: black;
+}
+
+.mt-element-list .list-simple.ext-1.mt-list-container ul>.activeBg{
+    background: #3D4A53 !important;
+    color: #fff !important;
 }
 
 .mt-element-list .list-simple.ext-1.mt-list-container ul>.show-more-btn{
