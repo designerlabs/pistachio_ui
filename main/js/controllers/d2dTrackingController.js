@@ -36,7 +36,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         });
 
 
-
         var getmydata = function() {
             var query = "q=-created%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(created)\",\"max_date\":\"max(created)\"}}";
             var sq = "http://"+solrHost+":8983/solr/immigration2/query?";
@@ -341,7 +340,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                        /* NEED TO CHECK AND UNCOMMENT IN PRODUCTION */
                         var chk1 = data.facets.in_outs.buckets[0].val;
                             console.log(data);
-                           
                            if(chk1){
 
                                 if(chk1 == 'in'){
@@ -903,9 +901,13 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         ubranch = 'ubranch: "unique(' + branchQry + ')"';
                     }
 
+                    startDt = moment(startDt).format('YYYY-MM-DD') + "T00:00:00Z";
+                    endDt = moment(endDt).format('YYYY-MM-DD') + "T23:59:59Z";
+  
+
                     var query = 'q=dy_action_ind:' + k.name + '&fq=xit_date:['+startDt+' TO '+ endDt+']&' + triggerOptRow + 'json.facet={in_outs:{type : range,field : xit_date,start : "' + startDt + '",end :"' + endDt + '",gap:"' + gap + '"},passport: "unique(doc_no)"}' // "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
 
-                    var query_spark = '{query: "' + triggerOpt + '",filter : "xit_date : [' + startDt + ' TO ' + endDt + ']", limit: ' + limitValue + ',' + offsetVal +
+                    var query_spark = '{query: "' + triggerOpt + '",filter : "xit_date : [' +  startDt + ' TO ' + endDt + ']", limit: ' + limitValue + ',' + offsetVal +
                         'facet: {' + ubranch + ',  in_outs: {type: terms,limit: ' + limitValue + ',field: dy_action_ind,' +
                         'facet: {exits: {type: range,field: xit_date,start: "' + startDt + '",end: "' + endDt + '",gap: "' + gap + '"},passport: "unique(doc_no)"}},' +
                         mainFacet + ': {type: terms,limit: ' + limitValue + ',  offset:' + $scope.branchOffset + ', field: ' + branchQry + ', sort:{count:' + sortValue + '},facet: {in_out: {type: terms,limit: 15,field: dy_action_ind,' +
@@ -1211,7 +1213,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                             }
                         })
                         .catch(function(err) {
-
+                            //debugger;
+                            return false;
                         })
                         .finally(function() {
                         });
@@ -1310,7 +1313,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             var setEmp = { 'one': EmpN, 'two': this.$parent.$$watchers[0].last };
             var setCountry = { 'one': countryN, 'two': this.$parent.$$watchers[0].last };
             var setVisitor = { 'one': visitorN, 'two': this.$parent.$$watchers[0].last };
-
             if (getStage == "Branch") {
                 localStorage.setItem('branchName', JSON.stringify(setBranch));
                 localStorage.stage = "Officer";
