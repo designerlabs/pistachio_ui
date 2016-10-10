@@ -111,8 +111,10 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             });
 
             $("#trackingrange span").html(moment().subtract(1,"year").format("MMM DD YYYY") + " - " + moment().format("MMM DD YYYY"));
-            $scope.getFromDt = moment().subtract(1,"year").format("YYYY-MM-DD") + "T00:00:00Z";
-            $scope.getToDt = moment().format("YYYY-MM-DD") + "T23:59:59Z";
+            // $scope.getFromDt = moment().subtract(1,"year").format("YYYY-MM-DD") + "T00:00:00Z";
+            // $scope.getToDt = moment().format("YYYY-MM-DD") + "T23:59:59Z";
+            $scope.getFromDt = moment().subtract(1,"year").format("YYYY-MM-DD");
+            $scope.getToDt = moment().format("YYYY-MM-DD");
 
         }else{
             $('#trackingrange').daterangepicker({
@@ -127,8 +129,10 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             });
 
             $("#trackingrange span").html($rootScope.commonFrm + " - " + $rootScope.commonTo);
-            $scope.getFromDt = moment($rootScope.commonFrm).format("YYYY-MM-DD") + "T00:00:00Z";
-            $scope.getToDt = moment($rootScope.commonTo).format("YYYY-MM-DD") + "T23:59:59Z"; 
+            // $scope.getFromDt = moment($rootScope.commonFrm).format("YYYY-MM-DD") + "T00:00:00Z";
+            // $scope.getToDt = moment($rootScope.commonTo).format("YYYY-MM-DD") + "T23:59:59Z"; 
+            $scope.getFromDt = moment($rootScope.commonFrm).format("YYYY-MM-DD");
+            $scope.getToDt = moment($rootScope.commonTo).format("YYYY-MM-DD");
 
         }
 
@@ -136,15 +140,17 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
         $('.daterangecont').on('apply.daterangepicker', function (ev, picker) {
             // $("#trackingrange span").html(picker.startDate.format("MMM DD, YYYY") + " - " + picker.endDate.format("MMM DD, YYYY"))
-            $scope.getFromDt = picker.startDate.format("YYYY-MM-DD") + "T00:00:00Z";
-            $scope.getToDt = picker.endDate.format("YYYY-MM-DD") + "T23:59:59Z";
+            // $scope.getFromDt = picker.startDate.format("YYYY-MM-DD") + "T00:00:00Z";
+            // $scope.getToDt = picker.endDate.format("YYYY-MM-DD") + "T23:59:59Z";
+            $scope.getFromDt = picker.startDate.format("YYYY-MM-DD");
+            $scope.getToDt = picker.endDate.format("YYYY-MM-DD");
 
             $rootScope.commonFrm = picker.startDate.format("MMM DD YYYY");
             $rootScope.commonTo = picker.endDate.format("MMM DD YYYY");
 
             console.log($scope.ele1, $scope.ele2);
             $scope.timelineChart($scope.ele1, $scope.ele2);
-            $scope.populateChart();
+            //$scope.populateChart();
             $scope.createChart();
 
         });
@@ -234,6 +240,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             }(Highcharts));
 
             function afterSetExtremes(e) {
+
                 var chart = $('#container').highcharts();
                 chart.showLoading('Loading data from server...');
 
@@ -245,7 +252,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
                     var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
                     var dd = myDate.getDate().toString();
-                    return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
+                    // return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T00:00:00Z";
+                    return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]);
                 };
 
                 var dateFormatEnd = function(ele) {
@@ -255,7 +263,8 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
                     var mm = (myDate.getMonth() + 1).toString(); // getMonth() is zero-based
                     var dd = myDate.getDate().toString();
-                    return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T23:59:59Z";
+                    // return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + "T23:59:59Z";
+                    return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]);
                 };
 
 
@@ -264,8 +273,12 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 // $("#datetimeFrom").data('DateTimePicker').date($scope.changeDt(dateFormat(Math.round(e.min))));
                 // $("#datetimeTo").data('DateTimePicker').date($scope.changeDt(dateFormat(Math.round(e.max))));
 
-                $scope.startDate = dateFormatStart(Math.round(e.min));
-                $scope.endDate = dateFormatEnd(Math.round(e.max));
+                // $scope.startDate = dateFormatStart(Math.round(e.xAxis[0].min));
+                // $scope.endDate = dateFormatEnd(Math.round(e.xAxis[0].max));
+
+                $scope.startDate = moment(Math.round(e.xAxis[0].min)).format('YYYY-MM-DD');
+                $scope.endDate = moment(Math.round(e.xAxis[0].max)).format('YYYY-MM-DD');
+
                 /*  $scope.startDate = $scope.getFromDt;
                   $scope.endDate = $scope.getToDt;*/
 
@@ -290,311 +303,318 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 $scope.getFromDt = moment($scope.startDate).format("MMM DD YYYY");
                 $scope.getToDt = moment($scope.endDate).format("MMM DD YYYY");                 
 
-                if ($scope.ele1 == "Inital") {
-                    triggerOpt = "*:*";
-                    mainFacet = "branches";
-                    branchQry = 'branch';
-                    groupBy = "";
-                    gap = "%2B1DAY";
-                } else if ($scope.ele2 == "Officer") {
-                    triggerOpt = "branch:" + $scope.getBranchVal.one;
-                    mainFacet = "branches";
-                    branchQry = "dy_create_id";
-                    groupBy = "";
-                    gap = "%2B1DAY";
-                } else if ($scope.ele2 == "Country") {
-                    triggerOpt = "branch:" + $scope.getBranchVal.one + " AND  dy_create_id:" + $scope.getEmpName.one;
-                    mainFacet = "country";
-                    branchQry = "country";
-                    groupBy = "";
-                    gap = "%2B1DAY";
-                } else if ($scope.ele2 == "Visitor") {
-                    triggerOpt = "branch:" + $scope.getBranchVal.one + " AND  dy_create_id:" + $scope.getEmpName.one + " AND country:" + $scope.getCtryName.one;
-                    mainFacet = "country";
-                    branchQry = "country";
-                    groupBy = "&&group=true&group.field=doc_no";
-                    gap = "%2B1DAY";
-                } else {
-                    triggerOpt = "branch:" + $scope.ele1;
-                    //branchQry = ',facet:{branch:{type : terms,limit : 5,field: dy_create_id,facet : {exits:{ type : range,field : xit_date,start :"'+startDt+'",end: "'+endDt+'",gap:"%2B1DAY"}}}}';
-                    mainFacet = "branches";
-                    branchQry = 'dy_create_id';
-                    groupBy = "";
-                    gap = "%2B1DAY";
-                }
+                // if ($scope.ele1 == "Inital") {
+                //     triggerOpt = "*:*";
+                //     mainFacet = "branches";
+                //     branchQry = 'branch';
+                //     groupBy = "";
+                //     gap = "%2B1DAY";
+                // } else if ($scope.ele2 == "Officer") {
+                //     triggerOpt = "branch:" + $scope.getBranchVal.one;
+                //     mainFacet = "branches";
+                //     branchQry = "dy_create_id";
+                //     groupBy = "";
+                //     gap = "%2B1DAY";
+                // } else if ($scope.ele2 == "Country") {
+                //     triggerOpt = "branch:" + $scope.getBranchVal.one + " AND  dy_create_id:" + $scope.getEmpName.one;
+                //     mainFacet = "country";
+                //     branchQry = "country";
+                //     groupBy = "";
+                //     gap = "%2B1DAY";
+                // } else if ($scope.ele2 == "Visitor") {
+                //     triggerOpt = "branch:" + $scope.getBranchVal.one + " AND  dy_create_id:" + $scope.getEmpName.one + " AND country:" + $scope.getCtryName.one;
+                //     mainFacet = "country";
+                //     branchQry = "country";
+                //     groupBy = "&&group=true&group.field=doc_no";
+                //     gap = "%2B1DAY";
+                // } else {
+                //     triggerOpt = "branch:" + $scope.ele1;
+                //     //branchQry = ',facet:{branch:{type : terms,limit : 5,field: dy_create_id,facet : {exits:{ type : range,field : xit_date,start :"'+startDt+'",end: "'+endDt+'",gap:"%2B1DAY"}}}}';
+                //     mainFacet = "branches";
+                //     branchQry = 'dy_create_id';
+                //     groupBy = "";
+                //     gap = "%2B1DAY";
+                // }
 
-                var query_c = '{query: "' + triggerOpt + '",filter : "xit_date : [' + $scope.startDate + ' TO ' + $scope.endDate + ']",limit: 15,' +
-                    'facet: {in_outs: {type: terms,limit: 15,field: dy_action_ind,' +
-                    'facet: {exits: {type: range,field: xit_date,start: "' + $scope.startDate + '",end: "' + $scope.endDate + '",gap: "' + gap + '"},passport: "unique(doc_no)"}},' +
-                    mainFacet + ': {type: terms,limit: 15,field:' + branchQry + ',facet: {in_out: {type: terms,limit: 15,field: dy_action_ind,  sort:{index:asc},' +
-                    'facet: {exits: {type: range,field: xit_date,start: "' + $scope.startDate + '",end: "' + $scope.endDate + '",gap: "' + gap + '"},passport: "unique(doc_no)"}}' +
-                    '}}}}}' + groupBy;
+                // var query_c = '{query: "' + triggerOpt + '",filter : "xit_date : [' + moment($scope.startDate).format('YYYY-MM-DD') + 'T00:00:00Z' + ' TO ' + moment($scope.endDate).format('YYYY-MM-DD') + 'T23:59:59Z' + ']",limit: 15,' +
+                //     'facet: {in_outs: {type: terms,limit: 15,field: dy_action_ind,' +
+                //     'facet: {exits: {type: range,field: xit_date,start: "' + moment($scope.startDate).format('YYYY-MM-DD') + 'T00:00:00Z' + '",end: "' + moment($scope.endDate).format('YYYY-MM-DD') + 'T23:59:59Z' + '",gap: "' + gap + '"},passport: "unique(doc_no)"}},' +
+                //     mainFacet + ': {type: terms,limit: 15,field:' + branchQry + ',facet: {in_out: {type: terms,limit: 15,field: dy_action_ind,  sort:{index:asc},' +
+                //     'facet: {exits: {type: range,field: xit_date,start: "' + moment($scope.startDate).format('YYYY-MM-DD') + 'T00:00:00Z' + '",end: "' + moment($scope.endDate).format('YYYY-MM-DD') + 'T23:59:59Z' + '",gap: "' + gap + '"},passport: "unique(doc_no)"}}' +
+                //     '}}}}}' + groupBy;
 
 
 
-                var sq_b = "http://" + solrHost + ":8983/solr/" + immigrationSolr + "/query?json="; //jsonQ;
-                $http.get(sq_b + query_c).success(function(data) {
-                        //alert('call-1');
-                        var storeBranchData = [];
+                // var sq_b = "http://" + solrHost + ":8983/solr/" + immigrationSolr + "/query?json="; //jsonQ;
+                // $http.get(sq_b + query_c).success(function(data) {
+                //         //alert('call-1');
+                //         var storeBranchData = [];
                         
-                       /* NEED TO CHECK AND UNCOMMENT IN PRODUCTION */
-                        var chk1 = data.facets.in_outs.buckets[0].val;
-                            console.log(data);
-                           if(chk1){
+                //        /* NEED TO CHECK AND UNCOMMENT IN PRODUCTION */
+                //         var chk1 = data.facets.in_outs.buckets[0].val;
+                //             console.log(data);
+                //            if(chk1){
 
-                                if(chk1 == 'in'){
-                                    $scope.totalEntry = data.facets.in_outs.buckets[0].count;
-                                }else{
-                                    if(data.facets.in_outs.buckets[1]){
-                                        $scope.totalEntry = data.facets.in_outs.buckets[1].count;
-                                    }else{
-                                        $scope.totalExit = data.facets.in_outs.buckets[0].count;
-                                        $scope.totalEntry = 0;
-                                    }
-                                }
-                            }
-                            if(data.facets.in_outs.buckets[1]){
-                                var chk2 = data.facets.in_outs.buckets[1].val;
-                                if(chk2){
-                                    if(chk2 == 'out'){
-                                        $scope.totalExit = data.facets.in_outs.buckets[1].count;
-                                    }else{
+                //                 if(chk1 == 'in'){
+                //                     $scope.totalEntry = data.facets.in_outs.buckets[0].count;
+                //                 }else{
+                //                     if(data.facets.in_outs.buckets[1]){
+                //                         $scope.totalEntry = data.facets.in_outs.buckets[1].count;
+                //                     }else{
+                //                         $scope.totalExit = data.facets.in_outs.buckets[0].count;
+                //                         $scope.totalEntry = 0;
+                //                     }
+                //                 }
+                //             }
+                //             if(data.facets.in_outs.buckets[1]){
+                //                 var chk2 = data.facets.in_outs.buckets[1].val;
+                //                 if(chk2){
+                //                     if(chk2 == 'out'){
+                //                         $scope.totalExit = data.facets.in_outs.buckets[1].count;
+                //                     }else{
                                    
-                                        $scope.totalExit = data.facets.in_outs.buckets[0].count;
-                                    }
-                                }
-                            }else{
-                                if(chk1 == 'in'){
-                                    $scope.totalExit = 0;
-                                }else{
-                                    $scope.totalEntry = 0;
-                                }
+                //                         $scope.totalExit = data.facets.in_outs.buckets[0].count;
+                //                     }
+                //                 }
+                //             }else{
+                //                 if(chk1 == 'in'){
+                //                     $scope.totalExit = 0;
+                //                 }else{
+                //                     $scope.totalEntry = 0;
+                //                 }
                                 
-                            }
+                //             }
                            
                         
-                        // end
-                        if ($scope.ele2 == "Country") {
+                //         // end
+                //         if ($scope.ele2 == "Country") {
 
-                            if (data.facets.count == 0) {
-                                //if empty
-                            } else {
-                                for (var i = 0, l = data.facets.country.buckets.length; i < l; i++) {
-                                    var bElement = {};
-                                    var brName = {};
-                                    var bName = data.facets.country.buckets[i].val;
-                                    brName.name = bName;
-                                    bElement.brhName = brName;
-                                    for (var k = 0, m = data.facets.country.buckets[i].in_out.buckets.length; k < m; k++) {
-                                        $scope.bIn_out = data.facets.country.buckets[i].in_out.buckets[k].val;
-                                        $scope.uniqueVisitors = data.facets.country.buckets[i].in_out.buckets[k].passport;
-                                        var brStatus = {};
-                                        var countEle = [];
+                //             if (data.facets.count == 0) {
+                //                 //if empty
+                //             } else {
+                //                 for (var i = 0, l = data.facets.country.buckets.length; i < l; i++) {
+                //                     var bElement = {};
+                //                     var brName = {};
+                //                     var bName = data.facets.country.buckets[i].val;
+                //                     brName.name = bName;
+                //                     bElement.brhName = brName;
+                //                     for (var k = 0, m = data.facets.country.buckets[i].in_out.buckets.length; k < m; k++) {
+                //                         $scope.bIn_out = data.facets.country.buckets[i].in_out.buckets[k].val;
+                //                         $scope.uniqueVisitors = data.facets.country.buckets[i].in_out.buckets[k].passport;
+                //                         var brStatus = {};
+                //                         var countEle = [];
 
-                                        for (var j = 0, n = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets.length; j < n; j++) {
-                                            var bDate = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets[j].val;
-                                            var bCount = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets[j].count;
-                                            countEle.push(bCount);
-                                        }
-                                        //bElement.push(brStatus);
+                //                         for (var j = 0, n = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets.length; j < n; j++) {
+                //                             var bDate = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets[j].val;
+                //                             var bCount = data.facets.country.buckets[i].in_out.buckets[k].exits.buckets[j].count;
+                //                             countEle.push(bCount);
+                //                         }
+                //                         //bElement.push(brStatus);
 
-                                        if ($scope.bIn_out == "in") {
-                                            $scope.bIn_out = "Entry";
-                                            var entryTotal = eval(countEle.join("+"));
-                                            brStatus.entry = countEle.toString().replace(/,/g, ", ");
-                                            brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                                            brStatus.entryTotal = entryTotal;
-                                            bElement.entry = brStatus;
-                                        } else if ($scope.bIn_out == "out") {
-                                            $scope.bIn_out = "Exit";
-                                            var exitTotal = eval(countEle.join("+"));
-                                            brStatus.exit = countEle.toString().replace(/,/g, ", ");
-                                            brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                                            brStatus.exitTotal = exitTotal;
-                                            bElement.exit = brStatus;
-                                        }
-                                    }
+                //                         if ($scope.bIn_out == "in") {
+                //                             $scope.bIn_out = "Entry";
+                //                             var entryTotal = eval(countEle.join("+"));
+                //                             brStatus.entry = countEle.toString().replace(/,/g, ", ");
+                //                             brStatus.uniqueVisitor = $scope.uniqueVisitors;
+                //                             brStatus.entryTotal = entryTotal;
+                //                             bElement.entry = brStatus;
+                //                         } else if ($scope.bIn_out == "out") {
+                //                             $scope.bIn_out = "Exit";
+                //                             var exitTotal = eval(countEle.join("+"));
+                //                             brStatus.exit = countEle.toString().replace(/,/g, ", ");
+                //                             brStatus.uniqueVisitor = $scope.uniqueVisitors;
+                //                             brStatus.exitTotal = exitTotal;
+                //                             bElement.exit = brStatus;
+                //                         }
+                //                     }
 
-                                    var total = eval(countEle.join("+"));
-                                    var getTotal = {};
-                                    getTotal.total = total;
-                                    countEle = countEle.join(", ");
-                                    var getCount = {};
-                                    getCount.count = countEle;
+                //                     var total = eval(countEle.join("+"));
+                //                     var getTotal = {};
+                //                     getTotal.total = total;
+                //                     countEle = countEle.join(", ");
+                //                     var getCount = {};
+                //                     getCount.count = countEle;
 
-                                    //bElement.push(getCount);
-                                    //bElement.push(getTotal);
-                                    storeBranchData.push(bElement);
+                //                     //bElement.push(getCount);
+                //                     //bElement.push(getTotal);
+                //                     storeBranchData.push(bElement);
 
-                                };
-                            }
+                //                 };
+                //             }
 
-                            $scope.branchOut = storeBranchData;
-                            console.log(storeBranchData);
+                //             $scope.branchOut = storeBranchData;
+                //             console.log(storeBranchData);
 
-                        } else if ($scope.ele2 == "Visitor") {
-                            //debugger;
-                            for (var im = 0, lm = data.grouped.doc_no.groups.length; im < lm; im++) {
-                                var bElement = {};
-                                var brName = {};
-                                var bNumFound = data.grouped.doc_no.groups[im].doclist.numFound;
-                                var bName = data.grouped.doc_no.groups[im].doclist.docs[0].name;
-                                var bAction = data.grouped.doc_no.groups[im].doclist.docs[0].dy_action_ind;
-                                var bDoc = data.grouped.doc_no.groups[im].doclist.docs[0].doc_no;
-                                var bSex = data.grouped.doc_no.groups[im].doclist.docs[0].sex;
-                                var bDob = data.grouped.doc_no.groups[im].doclist.docs[0].dy_birth_date;
+                //         } else if ($scope.ele2 == "Visitor") {
+                //             //debugger;
+                //             for (var im = 0, lm = data.grouped.doc_no.groups.length; im < lm; im++) {
+                //                 var bElement = {};
+                //                 var brName = {};
+                //                 var bNumFound = data.grouped.doc_no.groups[im].doclist.numFound;
+                //                 var bName = data.grouped.doc_no.groups[im].doclist.docs[0].name;
+                //                 var bAction = data.grouped.doc_no.groups[im].doclist.docs[0].dy_action_ind;
+                //                 var bDoc = data.grouped.doc_no.groups[im].doclist.docs[0].doc_no;
+                //                 var bSex = data.grouped.doc_no.groups[im].doclist.docs[0].sex;
+                //                 var bDob = data.grouped.doc_no.groups[im].doclist.docs[0].dy_birth_date;
 
-                                brName.name = bName;
-                                brName.doc = bDoc;
-                                brName.sex = bSex;
-                                brName.dob = bDob;
-                                brName.numFound = bNumFound;
-                                if (bAction == "in") {
-                                    brName.entry = bAction;
-                                } else {
-                                    brName.exit = bAction;
-                                }
-
-
-
-                                bElement.vName = brName;
-                                storeBranchData.push(bElement);
-
-
-                            };
-                            $scope.branchOut = storeBranchData;
-                            console.log(storeBranchData);
-                        } else {
-
-                            if (data.facets.count == 0) {
-                                //if empty
-                            } else {
-                                for (var i = 0, l = data.facets.branches.buckets.length; i < l; i++) {
-                                    var bElement = {};
-                                    var brName = {};
-                                    var bName = data.facets.branches.buckets[i].val;
-                                    brName.name = bName;
-                                    bElement.brhName = brName;
-                                    for (var k = 0, m = data.facets.branches.buckets[i].in_out.buckets.length; k < m; k++) {
-                                        $scope.bIn_out = data.facets.branches.buckets[i].in_out.buckets[k].val;
-                                        $scope.uniqueVisitors = data.facets.branches.buckets[i].in_out.buckets[k].passport;
-                                        var brStatus = {};
-                                        var countEle = [];
-                                        for (var j = 0, n = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets.length; j < n; j++) {
-                                            var bDate = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j].val;
-                                            var bCount = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j].count;
-                                            countEle.push(bCount);
-                                        }
-                                        //brStatus.status = bIn_out;
-                                        //bElement.push(brStatus);
-
-                                        if ($scope.bIn_out == "in") {
-                                            $scope.bIn_out = "Entry";
-                                            var entryTotal = eval(countEle.join("+"));
-                                            brStatus.entry = countEle.toString().replace(/,/g, ", ");
-                                            brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                                            brStatus.entryTotal = entryTotal;
-                                            bElement.entry = brStatus;
-                                        } else if ($scope.bIn_out == "out") {
-                                            $scope.bIn_out = "Exit";
-                                            var exitTotal = eval(countEle.join("+"));
-                                            brStatus.exit = countEle.toString().replace(/,/g, ", ");
-                                            brStatus.uniqueVisitor = $scope.uniqueVisitors;
-                                            brStatus.exitTotal = exitTotal;
-                                            bElement.exit = brStatus;
-                                        }
-                                    }
-
-                                    var total = eval(countEle.join("+"));
-
-                                    var getTotal = {};
-
-                                    getTotal.total = total;
-
-                                    countEle = countEle.join(", ");
-
-                                    var getCount = {};
-                                    getCount.count = countEle;
-
-                                    //bElement.push(getCount);
-                                    //bElement.push(getTotal);
-
-                                    storeBranchData.push(bElement);
-                                };
-                            }
-
-                            $scope.branchOut = storeBranchData;
-                            console.log(storeBranchData);
-                        }
-                    })
-                    .catch(function(err) {
-
-                    })
-                    .finally(function() {
-                    });
+                //                 brName.name = bName;
+                //                 brName.doc = bDoc;
+                //                 brName.sex = bSex;
+                //                 brName.dob = bDob;
+                //                 brName.numFound = bNumFound;
+                //                 if (bAction == "in") {
+                //                     brName.entry = bAction;
+                //                 } else {
+                //                     brName.exit = bAction;
+                //                 }
 
 
 
-                $.each($scope.seriesDet, function(j, valu) {
+                //                 bElement.vName = brName;
+                //                 storeBranchData.push(bElement);
 
-                    $.each(valu, function(m, k) {
-                        //On load
 
-                        if ($scope.ele2 == "Branch") {
-                            triggerOptRow = "rows=2&";
-                            gap = "%2B1DAY";
-                        } else if ($scope.ele2 == "Officer") {
-                            triggerOptRow = "rows=2&fq=branch:" + $scope.getBranchVal.one + "&";
-                            gap = "%2B1DAY";
-                        } else if ($scope.ele2 == "Country") {
-                            triggerOptRow = "rows=2&fq=branch:" + $scope.getBranchVal.one + "&fq=dy_create_id:" + $scope.getEmpName.one + "&";
-                            gap = "%2B1DAY";
-                        } else if ($scope.ele2 == "Visitor") {
-                            triggerOptRow = "rows=2&fq=branch:" + $scope.getBranchVal.one + "&fq=dy_create_id:" + $scope.getEmpName.one + "&fq=country:" + $scope.getCtryName.one + "&";
-                            gap = "%2B1DAY";
-                        } else {
-                            triggerOptRow = "rows=2&fq=branch:" + $scope.getBranchVal.one + "&";
-                            gap = "%2B1DAY";
-                        }
+                //             };
+                //             $scope.branchOut = storeBranchData;
+                //             console.log(storeBranchData);
+                //         } else {
 
-                        var query = 'q=dy_action_ind:' + k.name + '&fq=xit_date:['+startDt+' TO '+dateFormatEnd(Math.round(e.max))+']&' + triggerOptRow + 'json.facet={in_outs:{type : range,field : xit_date,start :"' + startDt + '",end :"' + dateFormatEnd(Math.round(e.max)) + '",gap:"' + gap + '"},passport: "unique(doc_no)"}'
-                        var sq = "http://" + solrHost + ":8983/solr/" + immigrationSolr + "/query?"
-                        $http.get(sq + query).
-                        success(function(data) {
-                                console.log(data);
-                                var storeData = [];
+                //             if (data.facets.count == 0) {
+                //                 //if empty
+                //             } else {
+                //                 for (var i = 0, l = data.facets.branches.buckets.length; i < l; i++) {
+                //                     var bElement = {};
+                //                     var brName = {};
+                //                     var bName = data.facets.branches.buckets[i].val;
+                //                     brName.name = bName;
+                //                     bElement.brhName = brName;
+                //                     for (var k = 0, m = data.facets.branches.buckets[i].in_out.buckets.length; k < m; k++) {
+                //                         $scope.bIn_out = data.facets.branches.buckets[i].in_out.buckets[k].val;
+                //                         $scope.uniqueVisitors = data.facets.branches.buckets[i].in_out.buckets[k].passport;
+                //                         var brStatus = {};
+                //                         var countEle = [];
+                //                         for (var j = 0, n = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets.length; j < n; j++) {
+                //                             var bDate = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j].val;
+                //                             var bCount = data.facets.branches.buckets[i].in_out.buckets[k].exits.buckets[j].count;
+                //                             countEle.push(bCount);
+                //                         }
+                //                         //brStatus.status = bIn_out;
+                //                         //bElement.push(brStatus);
 
-                                if (data.facets.count == 0) {
-                                    //console.log(data.facets.count.length);
-                                } else {
-                                    for (var i = 0, l = data.facets.in_outs.buckets.length; i < l; i++) {
-                                        //debugger;
-                                        var obj = data.facets.in_outs.buckets[i];
-                                        var element = [];
-                                        element.push(new Date(obj.val).getTime());
-                                        element.push(obj.count);
-                                        storeData.push(element);
-                                    }
-                                }
+                //                         if ($scope.bIn_out == "in") {
+                //                             $scope.bIn_out = "Entry";
+                //                             var entryTotal = eval(countEle.join("+"));
+                //                             brStatus.entry = countEle.toString().replace(/,/g, ", ");
+                //                             brStatus.uniqueVisitor = $scope.uniqueVisitors;
+                //                             brStatus.entryTotal = entryTotal;
+                //                             bElement.entry = brStatus;
+                //                         } else if ($scope.bIn_out == "out") {
+                //                             $scope.bIn_out = "Exit";
+                //                             var exitTotal = eval(countEle.join("+"));
+                //                             brStatus.exit = countEle.toString().replace(/,/g, ", ");
+                //                             brStatus.uniqueVisitor = $scope.uniqueVisitors;
+                //                             brStatus.exitTotal = exitTotal;
+                //                             bElement.exit = brStatus;
+                //                         }
+                //                     }
 
-                                chart.hideLoading();
-                                // As we're loading the data asynchronously, we don't know what order it will arrive. So
-                                // we keep a counter and create the chart when all the data is loaded.
-                                $scope.seriesCounter += 1;
+                //                     var total = eval(countEle.join("+"));
 
-                                if ($scope.seriesCounter === $scope.seriesDet.series.length) {
-                                    $scope.createChart();
-                                }
+                //                     var getTotal = {};
 
-                            })
-                            .catch(function(err) {
+                //                     getTotal.total = total;
 
-                            })
-                            .finally(function() {
-                                //$scope.loading = false;
-                            });
-                    });
-                });
+                //                     countEle = countEle.join(", ");
+
+                //                     var getCount = {};
+                //                     getCount.count = countEle;
+
+                //                     //bElement.push(getCount);
+                //                     //bElement.push(getTotal);
+
+                //                     storeBranchData.push(bElement);
+                //                 };
+                //             }
+
+                //             $scope.branchOut = storeBranchData;
+                //             console.log(storeBranchData);
+                //         }
+                //     })
+                //     .catch(function(err) {
+
+                //     })
+                //     .finally(function() {
+                //     });
+
+
+
+                // $.each($scope.seriesDet, function(j, valu) {
+
+                //     $.each(valu, function(m, k) {
+                //         //On load
+
+                //         if ($scope.ele2 == "Branch") {
+                //             triggerOptRow = "rows=2&";
+                //             gap = "%2B1DAY";
+                //         } else if ($scope.ele2 == "Officer") {
+                //             triggerOptRow = "rows=2&fq=branch:" + $scope.getBranchVal.one + "&";
+                //             gap = "%2B1DAY";
+                //         } else if ($scope.ele2 == "Country") {
+                //             triggerOptRow = "rows=2&fq=branch:" + $scope.getBranchVal.one + "&fq=dy_create_id:" + $scope.getEmpName.one + "&";
+                //             gap = "%2B1DAY";
+                //         } else if ($scope.ele2 == "Visitor") {
+                //             triggerOptRow = "rows=2&fq=branch:" + $scope.getBranchVal.one + "&fq=dy_create_id:" + $scope.getEmpName.one + "&fq=country:" + $scope.getCtryName.one + "&";
+                //             gap = "%2B1DAY";
+                //         } else {
+                //             triggerOptRow = "rows=2&fq=branch:" + $scope.getBranchVal.one + "&";
+                //             gap = "%2B1DAY";
+                //         }
+
+                //         console.log(moment(Math.round(e.xAxis[0].min)).format('YYYY-MM-DD'));
+
+                //         var query = 'q=dy_action_ind:' + k.name + '&fq=xit_date:['+ moment(Math.round(e.xAxis[0].min)).format('YYYY-MM-DD') + 'T00:00:00Z'+' TO '+ moment(Math.round(e.xAxis[0].max)).format('YYYY-MM-DD') + 'T23:59:59Z'+']&' + triggerOptRow + 'json.facet={in_outs:{type : range,field : xit_date,start :"' + moment(Math.round(e.xAxis[0].min)).format('YYYY-MM-DD') + 'T00:00:00Z' + '",end :"' + moment(Math.round(e.xAxis[0].max)).format('YYYY-MM-DD') + 'T23:59:59Z' + '",gap:"' + gap + '"},passport: "unique(doc_no)"}'
+                //         var sq = "http://" + solrHost + ":8983/solr/" + immigrationSolr + "/query?"
+                //         $http.get(sq + query).
+                //         success(function(data) {
+                //                 console.log(data);
+                //                 var storeData = [];
+
+                //                 if (data.facets.count == 0) {
+                //                     //console.log(data.facets.count.length);
+                //                 } else {
+                //                     for (var i = 0, l = data.facets.in_outs.buckets.length; i < l; i++) {
+                //                         //debugger;
+                //                         var obj = data.facets.in_outs.buckets[i];
+                //                         var element = [];
+                //                         element.push(new Date(obj.val).getTime());
+                //                         element.push(obj.count);
+                //                         storeData.push(element);
+                //                     }
+                //                 }
+
+                //                 chart.hideLoading();
+                //                 // As we're loading the data asynchronously, we don't know what order it will arrive. So
+                //                 // we keep a counter and create the chart when all the data is loaded.
+                //                 $scope.seriesCounter += 1;
+
+                //                 if ($scope.seriesCounter === $scope.seriesDet.series.length) {
+                //                     $scope.createChart();
+                //                 }
+
+                //             })
+                //             .catch(function(err) {
+
+                //             })
+                //             .finally(function() {
+                //                 //$scope.loading = false;
+                //             });
+                //     });
+                // });
+
+
+            $scope.timelineChart($scope.ele1, $scope.ele2);
+            //$scope.populateChart();
+            $scope.createChart();
 
             };
 
@@ -604,7 +624,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
              */
             $scope.createChart = function() {
 
-                $('#container').highcharts('StockChart', {
+            $('#container').highcharts('StockChart', {
 
                     scrollbar: {
                         enabled: false
@@ -614,9 +634,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         floating: true,
                         verticalAlign: 'top',
                         align: 'right'
-                    },
-                    
-
+                    }, 
                     rangeSelector: {
                         selected: 5,
                         inputEnabled: false,
@@ -629,24 +647,28 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     },
 
                     chart: {
+                        // zoomType: 'x',
                         events: {
                             load: function(event) {
                                 console.log(event.target);
+                            },
+                            selection: function(event) {
+                                afterSetExtremes(event);
+                                console.log(event);
+                                console.log((new Date(event.xAxis[0].min)).toLocaleString() + ' - ' + (new Date(event.xAxis[0].max)).toLocaleString());
                             }
-                        },
-
-                        zoomType: 'x'
-
+                        }                        
                     },
-
                     navigator: {
                         enabled: true
                     },
-
                     xAxis: {
-                        events: {
-                            afterSetExtremes: afterSetExtremes
-                        },
+                        // events: {                           
+                        //     // afterSetExtremes: afterSetExtremes
+                        //     setExtremes : function(e) {
+	    			    //         console.log(e);
+	    		        //     }
+                        // },
                         minRange: 3600 * 1000 // one hour
                     },
 
@@ -901,17 +923,19 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         ubranch = 'ubranch: "unique(' + branchQry + ')"';
                     }
 
-                    startDt = moment(startDt).format('YYYY-MM-DD') + "T00:00:00Z";
-                    endDt = moment(endDt).format('YYYY-MM-DD') + "T23:59:59Z";
+                    // startDt = moment(startDt).format('YYYY-MM-DD') + "T00:00:00Z";
+                    // endDt = moment(endDt).format('YYYY-MM-DD') + "T23:59:59Z";                    
   
 
-                    var query = 'q=dy_action_ind:' + k.name + '&fq=xit_date:['+startDt+' TO '+ endDt+']&' + triggerOptRow + 'json.facet={in_outs:{type : range,field : xit_date,start : "' + startDt + '",end :"' + endDt + '",gap:"' + gap + '"},passport: "unique(doc_no)"}' // "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
+                    var query = 'q=dy_action_ind:' + k.name + '&fq=xit_date:['+moment(startDt).format('YYYY-MM-DD') + 'T00:00:00Z'+' TO '+ moment(endDt).format('YYYY-MM-DD') + 'T23:59:59Z' +']&' +
+                     triggerOptRow + 'json.facet={in_outs:{type : range,field : xit_date,start : "' + moment(startDt).format('YYYY-MM-DD') + 'T00:00:00Z' +
+                      '",end :"' + moment(endDt).format('YYYY-MM-DD') + 'T23:59:59Z' + '",gap:"' + gap + '"},passport: "unique(doc_no)"}' // "q=-mad_crt_dt%3A\"1900-01-01T00%3A00%3A00Z\"&json.facet ={\"min_date\":\"min(mad_crt_dt)\",\"max_date\":\"max(mad_crt_dt)\"}}"
 
-                    var query_spark = '{query: "' + triggerOpt + '",filter : "xit_date : [' +  startDt + ' TO ' + endDt + ']", limit: ' + limitValue + ',' + offsetVal +
+                    var query_spark = '{query: "' + triggerOpt + '",filter : "xit_date : [' +  moment(startDt).format('YYYY-MM-DD') + 'T00:00:00Z' + ' TO ' + moment(endDt).format('YYYY-MM-DD') + 'T23:59:59Z' + ']", limit: ' + limitValue + ',' + offsetVal +
                         'facet: {' + ubranch + ',  in_outs: {type: terms,limit: ' + limitValue + ',field: dy_action_ind,' +
-                        'facet: {exits: {type: range,field: xit_date,start: "' + startDt + '",end: "' + endDt + '",gap: "' + gap + '"},passport: "unique(doc_no)"}},' +
+                        'facet: {exits: {type: range,field: xit_date,start: "' + moment(startDt).format('YYYY-MM-DD') + 'T00:00:00Z' + '",end: "' + moment(endDt).format('YYYY-MM-DD') + 'T23:59:59Z' + '",gap: "' + gap + '"},passport: "unique(doc_no)"}},' +
                         mainFacet + ': {type: terms,limit: ' + limitValue + ',  offset:' + $scope.branchOffset + ', field: ' + branchQry + ', sort:{count:' + sortValue + '},facet: {in_out: {type: terms,limit: 15,field: dy_action_ind,' +
-                        'facet: {exits: {type: range,field: xit_date,start: "' + startDt + '",end: "' + endDt + '",gap: "' + gap + '"},passport: "unique(doc_no)"}}' +
+                        'facet: {exits: {type: range,field: xit_date,start: "' + moment(startDt).format('YYYY-MM-DD') + 'T00:00:00Z' + '",end: "' + moment(endDt).format('YYYY-MM-DD') + 'T23:59:59Z' + '",gap: "' + gap + '"},passport: "unique(doc_no)"}}' +
                         '}}}}}' + groupBy;
 
 
@@ -1292,7 +1316,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
             $scope.timelineChart(this.$parent.ele1, this.$parent.ele2);
 
-            $scope.populateChart();
+            //$scope.populateChart();
             $scope.createChart();
         }
 

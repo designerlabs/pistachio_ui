@@ -49,7 +49,17 @@ if(window.location.href.indexOf('fastsearch')){
         }     
 
         // alert('ss');
+           
+        $rootScope.$on('loading:progress', function (){
+            console.log("loading");
+            $scope.loading = true;
+        });
 
+        $rootScope.$on('loading:finish', function (){
+            $scope.loading = false;
+            console.log("stop");
+        });
+        
         $scope.fn_getBasicInfo = function() { //mad_pas_typ_cd
 
             $.get("http://" + solrHost + ":8983/solr/immigration2/query?sort=created desc&json={query :'" + Qparam + "',limit:20000,facet: {visa : {type: terms,field: pass_type},employers : {type: terms,field: employer}}}") //mad_pas_typ_cd - pass_type
@@ -134,8 +144,7 @@ if(window.location.href.indexOf('fastsearch')){
                         // alert('No date found in himove table');
                         $scope.showHistory = false;
                     }
-                    $("#loader .page-spinner-bar").addClass('hide');
-                    $("#loader").hide();
+      
 
                 });
         }
@@ -161,8 +170,7 @@ if(window.location.href.indexOf('fastsearch')){
                         // alert('No date found in himove table');
                         $scope.showHistory = false;
                     }
-                    $("#loader .page-spinner-bar").addClass('hide');
-                    $("#loader").hide();
+     
                 });
         }
 

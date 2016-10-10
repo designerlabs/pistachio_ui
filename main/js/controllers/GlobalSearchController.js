@@ -37,6 +37,20 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
       // $("#searchDaterange span").html(moment().subtract(1,"year").format("MMM DD YYYY") + " - " + moment().format("MMM DD YYYY"));
       $("#searchDaterange span").html("Search by Date here");
       // 
+
+           
+      $rootScope.$on('loading:progress', function (){
+          console.log("loading");
+          $scope.loading = true;
+      });
+
+      $rootScope.$on('loading:finish', function (){
+          $scope.loading = false;
+          console.log("stop");
+      });
+
+
+
       $('.searchcont').on('apply.daterangepicker', function (ev, picker) {
             $scope.getSearchFromDt = picker.startDate.format("DDMMYYYY");
             $scope.getSearchToDt = picker.endDate.format("DDMMYYYY");
@@ -908,11 +922,13 @@ $scope.$on('mapClick', function(event, e) {
           $('#myTravalModal').modal('show').find("#frame").attr("src", "#/travelertracker/travelertracker.html?session=true&test=" + strtest);
         });
 
-        $('.closemdl').on('click',function(e){
-        // alert('closing modal');
-        $('#frame').remove();
-        });
+     
         
+
+        $('#myTravalModal').on('hidden.bs.modal', function (e) {
+            $('#frame').remove();
+        });
+
       // $scope.viewCitizen = function (docno) {
       //   // window.location = "#/travelertracker/travelertracker.html?doc_nos=" + docno + "&citizen=true";
       //   window.location = "#/travelertracker/travelertracker.html?session=true";    
