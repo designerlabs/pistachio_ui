@@ -69,7 +69,7 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
         };
 
 
-         var start = moment().subtract(6, 'days');
+         var start = moment().subtract(4, 'years');
         var end = moment();
 
         function cb(start, end) {
