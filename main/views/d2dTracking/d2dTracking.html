@@ -82,6 +82,12 @@
             </tbody>
         </table>
         <h4 class="text-center"> Page {{ pageCount }} of {{ numofpage }}  (Total Record: {{ totalCount }})</h4>
+        <select name="setLimit" id="setLimit">
+            <option value="15">15</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="50">100</option>
+        </select>
         <div class="text-center"><button id="bPreviousBtn" class="btn btn-md btn-warning"><i class="fa fa-arrow-left"></i> Previous</button><button  id="bNextBtn" class="btn btn-md btn-warning">Next <i class="fa fa-arrow-right"></i></button></div>
         </div>
     </div>

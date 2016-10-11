@@ -721,6 +721,11 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         count = 0;
 
         var limitValue = 15;
+        $("#setLimit").change(function(){
+            var curVal = parseInt(this.value);
+            limitValue = curVal;
+            $scope.populateChart();
+        });
         $scope.branchOffset = 0;
         $scope.pageCount = 1;
         if ($scope.branchOffset == 0 || $scope.pageCount == 1) {
@@ -923,9 +928,9 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         ubranch = 'ubranch: "unique(' + branchQry + ')"';
                     }
 
-                    // startDt = moment(startDt).format('YYYY-MM-DD') + "T00:00:00Z";
-                    // endDt = moment(endDt).format('YYYY-MM-DD') + "T23:59:59Z";                    
   
+                    console.log(startDt+" "+ endDt);
+                    //debugger;
 
                     var query = 'q=dy_action_ind:' + k.name + '&fq=xit_date:['+moment(startDt).format('YYYY-MM-DD') + 'T00:00:00Z'+' TO '+ moment(endDt).format('YYYY-MM-DD') + 'T23:59:59Z' +']&' +
                      triggerOptRow + 'json.facet={in_outs:{type : range,field : xit_date,start : "' + moment(startDt).format('YYYY-MM-DD') + 'T00:00:00Z' +
@@ -980,7 +985,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                             }
                         })
                         .catch(function(err) {
-
                         }).finally(function() {
                             //$scope.loading = false;
                         });
@@ -1237,7 +1241,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                             }
                         })
                         .catch(function(err) {
-                            //debugger;
+                            debugger;
                             return false;
                         })
                         .finally(function() {
