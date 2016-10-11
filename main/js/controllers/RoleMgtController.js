@@ -240,17 +240,19 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                 $.each(data, function (key, value) {
                     $('#myDashboardSel').append(
                         $("<option></option>")
-                          .attr("value", value.title)
-                          .attr("itm_id", value.id)
+                          .attr("value", value.id)
                           .text(value.title)
+                          // .attr("value", value.title)
+                          // .attr("itm_id", value.id)
+                          // .text(value.title)
                     );
                 });
                 $("#myDashboardSel").multiSelect('refresh');
 
                 $.get( globalURL + "api/role/" + selectedroleMgt.name +"/dashboard", function( data ) {
                   $.each(data, function (key, value) {
-                      // $('#myDashboardSel').multiSelect('select', value.id);
-                      $('#myDashboardSel').multiSelect('select', value.title);
+                      $('#myDashboardSel').multiSelect('select', value.id.toString());
+                      // $('#myDashboardSel').multiSelect('select', value.title);
                   });
                   $('#myDashboardSel').multiSelect('refresh');
                 });
@@ -601,10 +603,13 @@ function UpdateSubReportsCrud(RoleName){
 
  $('#myDashboardSel').multiSelect({
   afterSelect: function (value) {
-    flag_dashboard_id.push($("#myDashboardSel option[value ='" + value[0] + "']").attr('itm_id')); 
+    // var itmid = (typeof(value[0]) == "string" ? $("#myDashboardSel option[value ='" + value[0] + "']").attr('itm_id') : value[0]);
+    // flag_dashboard_id.push($("#myDashboardSel option[value ='" + value[0] + "']").attr('itm_id')); 
+    flag_dashboard_id.push(value[0]); 
   },
   afterDeselect: function(value){ 
-    var id = $("#myDashboardSel option[value ='" + value[0] + "']").attr('itm_id'); 
+    // var id = $("#myDashboardSel option[value ='" + value[0] + "']").attr('itm_id'); 
+    var id = value[0];//(typeof(value[0]) == "string" ? $("#myDashboardSel option[value ='" + value[0] + "']").attr('itm_id') : value[0]);;
    _nme="";
    _nme = $(flag_dashboard_id).filter(function( k ) {
                   return flag_dashboard_id[k] == id;
