@@ -1,4 +1,14 @@
 <div ng-controller="GlobalSearchController">
+  <div style="background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%; position:absolute; top:0px;"  ng-show="loading">
+    <!--  BEGIN PAGE SPINNER -->
+    <div ng-spinner-bar class="page-spinner-bar show">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+    <!--    END PAGE SPINNER -->
+    </div>
+
   <div class="search-page search-content-4">
     <div class="search-bar bordered" style="margin-bottom: 10px;">
       <div class="row">

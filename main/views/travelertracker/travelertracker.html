@@ -1,13 +1,15 @@
 <!-- <h3 class="page-title">
     <small>Individual Traveler Profile</small>
 </h3> -->
-<div id="loader" style="position:absolute; top:0px; left:0px; background:rgba(255,255,255,0.8); width:100%; z-index:9999;">
-    <div ng-spinner-bar class="page-spinner-bar">
-        <div class="bounce1"></div>
-        <div class="bounce2"></div>
-        <div class="bounce3"></div>
+   <div style="background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%; position:absolute; top:0px;"  ng-show="loading">
+        <!--  BEGIN PAGE SPINNER -->
+        <div ng-spinner-bar class="page-spinner-bar show">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+        <!--    END PAGE SPINNER -->
     </div>
-</div>
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
