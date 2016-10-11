@@ -21,9 +21,7 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
 //     $scope.getCurrentStatus = chkIframe.getStatus();
 //     alert($scope.getCurrentStatus);
 
-    window.onload=function(){
-        alert('On load');
-    };
+  
 stageUpdate.addStage("Visitor");
 
 if(window.location.href.indexOf('fastsearch') != -1){
@@ -468,7 +466,6 @@ if (document.location.href.search("page=tracking")!=-1){
 
         $('.bck').click(function() {
             //$rootScope.fastsearch.load = true;
-            alert('aa');
             if(window.location.href.indexOf("tracking") > -1){
                 //stageUpdate.addStage("Visitor");
                 location.href ="index.html#/d2dTracking/d2dTracking.html";
