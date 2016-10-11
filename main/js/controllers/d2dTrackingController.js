@@ -95,13 +95,13 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 endDate: moment(),           
                 "alwaysShowCalendars": false,
                  ranges: {
-           'Today': [moment(), moment()],
-           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-           'This Month': [moment().startOf('month'), moment().endOf('month')],
-           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        }                   
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }                   
             },
             function(startdt, enddt) {
                 $('#trackingrange span').html(startdt.format('MMM DD, YYYY') + ' - ' + enddt.format('MMM DD, YYYY'));
@@ -161,11 +161,12 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         var immigrationSolr = "hismove";
         if($scope.getCurrentStage.length == 0){
             localStorage.removeItem('branchName'); // each time removing the branch and Emp name
+            localStorage.removeItem('empName');
+            localStorage.removeItem('ctryName');
+            localStorage.removeItem('countyName');
         }
         
-        localStorage.removeItem('empName');
-        localStorage.removeItem('ctryName');
-        localStorage.removeItem('countyName');
+ 
 
         $scope.timelineChart = function(ele1, ele2) {
             try {
@@ -184,7 +185,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             $scope.ele1 = ele1;
             $scope.ele2 = ele2;
            
-        
         // if($scope.getCurrentStage.length > 0){
         //     $scope.ele2 = $scope.getCurrentStage[0];
         // };
@@ -793,7 +793,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
         $scope.populateChart = function() {
 
-
             /*if($scope.startDate){
               startDt = $scope.startDate;
             }else{*/
@@ -1241,7 +1240,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                             }
                         })
                         .catch(function(err) {
-                            debugger;
                             return false;
                         })
                         .finally(function() {
@@ -1256,10 +1254,13 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         if($scope.getCurrentStage.length == 0){
             //localStorage.removeItem('branchName'); // each time removing the branch and Emp name
             $scope.timelineChart("Inital", localStorage.stage);
-        }else{
+        }else if($scope.getCurrentStage[0] == "Officer"){
             $scope.timelineChart($.parseJSON(localStorage.getItem('branchName')).one, "Officer");
             localStorage.stage = "Officer";
            
+        }else if($scope.getCurrentStage[0] == "Visitor"){
+            $scope.timelineChart($.parseJSON(localStorage.getItem('ctryName')).one, "Visitor");
+            localStorage.stage = "Visitor";
         }
         
        

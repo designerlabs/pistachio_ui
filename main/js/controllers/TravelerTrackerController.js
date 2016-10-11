@@ -21,9 +21,6 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
 //     $scope.getCurrentStatus = chkIframe.getStatus();
 //     alert($scope.getCurrentStatus);
 
-    // window.onload=function(){
-    //     alert('On load');
-    // };
 stageUpdate.addStage("Visitor");
 
 if(window.location.href.indexOf('fastsearch') != -1){

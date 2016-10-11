@@ -877,6 +877,7 @@ MetronicApp.service('stageUpdate', function() {
   var stage = [];
 
   var addStage = function(newObj) {
+      stage = [];
       stage.push(newObj);
   };
 
