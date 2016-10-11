@@ -15,3 +15,13 @@
 .page-content-wrapper .page-content {
     padding:0px !important;;
 }
+
+.page-sidebar navbar-collapse collapse ng-scope{
+    display:none !important;
+}
+
+
+
+ #headerTpl, #sidebarTpl, #footerTpl{
+    display:none !important;
+}
