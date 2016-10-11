@@ -166,7 +166,7 @@ if (document.location.href.search("page=tracking")!=-1){
                     } else {
                         // alert('No date found in himove table');
                         // $scope.showHistory = false;
-                        $scope.showVisa = false;
+                        // $scope.showVisa = false;
                     }   
                 });
 
