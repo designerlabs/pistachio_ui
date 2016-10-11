@@ -21,9 +21,9 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
 //     $scope.getCurrentStatus = chkIframe.getStatus();
 //     alert($scope.getCurrentStatus);
 
-    window.onload=function(){
-        alert('On load');
-    };
+    // window.onload=function(){
+    //     alert('On load');
+    // };
 stageUpdate.addStage("Visitor");
 
 if(window.location.href.indexOf('fastsearch') != -1){
@@ -158,23 +158,35 @@ if (document.location.href.search("page=tracking")!=-1){
             var qry = Qparam.substring(0, Qparam.length - 17);
             $.get("http://" + solrHost + ":8983/solr/citizen/query?sort=xit_date desc&json={query:'" + qry + "',limit:100000}")
                 .then(function(result) {
-                    console.log(result);
-                   
+                    console.log(result);                   
                     if (result.response.docs.length !== 0) {
-
-                        $scope.showHistory = true;
+                        // $scope.showHistory = true;
                         result.response.docs[0].country = "Malaysia";
                         $scope.DOB(result.response.docs[0].birth_date)
                         $scope.fn_personalInfo(result.response.docs[0]);                       
                         // $scope.CreateInoutChart(result.response.docs);
                         $scope.$apply();
+                    } else {
+                        // alert('No date found in himove table');
+                        // $scope.showHistory = false;
+                        $scope.showVisa = false;
+                    }   
+                });
 
+                $.get("http://" + solrHost + ":8983/solr/cit/query?sort=xit_date desc&json={query:'" + qry + "',limit:100000}")
+                .then(function(result) {
+                    console.log(result);                   
+                    if (result.response.docs.length !== 0) {
+                        $scope.showHistory = true;
+                        // result.response.docs[0].country = "Malaysia";
+                        // $scope.DOB(result.response.docs[0].birth_date)
+                        // $scope.fn_personalInfo(result.response.docs[0]);                       
+                        $scope.CreateInoutChart(result.response.docs);
+                        $scope.$apply();
                     } else {
                         // alert('No date found in himove table');
                         $scope.showHistory = false;
-                    }
-      
-
+                    }   
                 });
         }
 
@@ -198,6 +210,7 @@ if (document.location.href.search("page=tracking")!=-1){
                     } else {
                         // alert('No date found in himove table');
                         $scope.showHistory = false;
+                        $scope.showVisa = false;
                     }
      
                 });
@@ -351,7 +364,7 @@ if (document.location.href.search("page=tracking")!=-1){
                         { "data": "branch" },
                         { "data": "dy_create_id" }
                     ]
-                });
+            });
 
 
             function move(percentage) {
@@ -398,7 +411,7 @@ if (document.location.href.search("page=tracking")!=-1){
             }
         }
 
-        $scope.fn_loadVisaTbl= function(_visadata,_imgdata){
+        $scope.fn_loadVisaTbl = function(_visadata,_imgdata){
             var visatbl = $('#tblvisa').DataTable({
                 data: _visadata,
                 columns: [{
@@ -455,20 +468,18 @@ if (document.location.href.search("page=tracking")!=-1){
         // var Qstring = window.location.href;
         // var Qparam = Qstring.replace('=', ':').replace('=', ':').replace('&', ' AND ').split('?')[1];
         // var Qparam = $rootScope.Qparam;
-        var Qparam = localStorage.getItem('Qparam');
+        var Qparam = sessionStorage.getItem('Qparam');
         $scope.fn_processInput(Qparam);
 
         $('.tool').tooltip();
         $scope.availHeight = window.screen.availHeight;
 
         $('.lk').click(function() {
-            // alert('clicked');
             $scope.lock == 'true' ? 'false' : 'true';
         });
 
         $('.bck').click(function() {
             //$rootScope.fastsearch.load = true;
-            alert('aa');
             if(window.location.href.indexOf("tracking") > -1){
                 //stageUpdate.addStage("Visitor");
                 location.href ="index.html#/d2dTracking/d2dTracking.html";
