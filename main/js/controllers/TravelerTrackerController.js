@@ -4,7 +4,7 @@
 
 var info_personal_loaded = false;
 var visadetails = [];
-MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope, $http, $timeout) {
+MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope, $http, stageUpdate, $timeout) {
 
     $scope.lock = 'true';
     $scope.res = "result";
@@ -15,20 +15,49 @@ MetronicApp.controller('TravelerTrackerController', function($rootScope, $scope,
     $scope.imagetxt = "./assets/admin/layout2/img/avatar3.png";
     $scope.citizen = false;
     $scope.hideMisMatchTab = true;
+   
+    // $scope.backct = JSON.parse(sessionStorage.getItem('backct'));
+// chkIframe.addStatus("true");
+//     $scope.getCurrentStatus = chkIframe.getStatus();
+//     alert($scope.getCurrentStatus);
 
-if(window.location.href.indexOf('fastsearch')){
+    window.onload=function(){
+        alert('On load');
+    };
+stageUpdate.addStage("Visitor");
+
+if(window.location.href.indexOf('fastsearch') != -1){
     $("#headerTpl").hide();
     $("#sidebarTpl").hide();
     $("#footerTpl").hide();
     $(".page-sidebar-closed .page-content-wrapper .page-content").css('margin-left', '0px');
+     $rootScope.settings.layout.pageSidebarClosed = true;
 
 }else{
+    // stageUpdate.addStage("Visitor");
     $("#headerTpl").show();
     $("#sidebarTpl").show();
     $("#footerTpl").show();
     $(".page-sidebar-closed .page-content-wrapper .page-content").css('margin-left', '54px!important');
+     $rootScope.settings.layout.pageSidebarClosed = true;
 }
-    
+
+
+
+
+
+if (document.location.href.search("page=tracking")!=-1){
+    $('link[title="iframeStyle"]').prop('disabled', true);
+    $scope.travelBackBtn = true;    
+    console.log("true");
+}else{
+    $scope.travelBackBtn = false;
+    // alert('hello');
+   $('link[title="iframeStyle"]').prop('disabled', false);
+    console.log("false");
+}
+
+
     $scope.$on('$viewContentLoaded', function() {
         Metronic.initAjax(); // initialize core components
         $scope.database = "default";
@@ -438,8 +467,10 @@ if(window.location.href.indexOf('fastsearch')){
         });
 
         $('.bck').click(function() {
-            $rootScope.fastsearch.load = true;
+            //$rootScope.fastsearch.load = true;
+            alert('aa');
             if(window.location.href.indexOf("tracking") > -1){
+                //stageUpdate.addStage("Visitor");
                 location.href ="index.html#/d2dTracking/d2dTracking.html";
             }else{
                 location.href ="index.html#/fastsearch/gfs.html";
@@ -480,8 +511,8 @@ if(window.location.href.indexOf('fastsearch')){
                 }
                 $('.loadimg').hide();
             });
-
         $rootScope.settings.layout.pageContentWhite = true;
+       
         $rootScope.skipTitle = false;
         $rootScope.settings.layout.setTitle("");
     });

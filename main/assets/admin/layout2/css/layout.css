@@ -2118,7 +2118,7 @@ Page content
     margin-right: 54px !important;
   }
   .page-sidebar-closed .page-content-wrapper .page-content {
-    margin-left: 54px !important;
+    margin-left: 54px;
   }
   .page-sidebar-closed.page-sidebar-hide .page-content-wrapper .page-content {
     margin-left: 0 !important;

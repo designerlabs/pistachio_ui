@@ -5,7 +5,7 @@ var clickCircle, clickMarker;
 var filter_query = "";
 // var solrHost = "localhost";
 //var solrHost = "pistachio_server";
-MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $http, $timeout, $sce) {
+MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $http, $timeout, chkIframe, $sce) {
   $scope.$on('$viewContentLoaded', function () {
 
     // initialize core components
@@ -910,6 +910,7 @@ $scope.$on('mapClick', function(event, e) {
         var strtest = 0;
         $('.viewReq').on('click', 'button.searchBtn', function (e) {
           $("#myTravalModal").find('.modal-body').append( "<iframe id='frame' width='100%' height='600px'></iframe>" );
+          //sessionStorage.setItem('backct',false);
           var viewinfo = tblGloSEarch.row($(this).parents('tr')).data();
           var strcntry = viewinfo.country.replace(/ /g, "*");
           // sessionStorage.setItem('Qparam','doc_nos:'+ viewinfo.doc_no +' AND country:'+ strcntry);
@@ -927,7 +928,10 @@ $scope.$on('mapClick', function(event, e) {
 
         $('#myTravalModal').on('hidden.bs.modal', function (e) {
             $('#frame').remove();
+            //sessionStorage.setItem('backct',true);
         });
+
+      
 
       // $scope.viewCitizen = function (docno) {
       //   // window.location = "#/travelertracker/travelertracker.html?doc_nos=" + docno + "&citizen=true";
@@ -935,12 +939,17 @@ $scope.$on('mapClick', function(event, e) {
       //   sessionStorage.setItem('Qparam','doc_no:'+ docno +' AND citizen:'+ true);
       // };
 
+
+
       var viewCitizinfo = undefined;
       $('.viewCitizen').on('click', 'button.searchBtn', function (e) {
+         chkIframe.addStatus("true");
+
         $("#myTravalModal").find('.modal-body').append( "<iframe id='frame' width='100%' height='600px'></iframe>" );
+        //sessionStorage.setItem('backct',false);
         viewCitizinfo = tblGloSEarch.row($(this).parents('tr')).data();
         // sessionStorage.setItem('Qparam','doc_no:'+ viewCitizinfo.doc_no +' AND citizen:'+ true);
-        localStorage.setItem('Qparam','doc_no:'+ viewCitizinfo.doc_no +' AND citizen:'+ true);
+        sessionStorage.setItem('Qparam','doc_no:'+ viewCitizinfo.doc_no +' AND citizen:'+ true);
         // window.location = "#/travelertracker/travelertracker.html?session=true";   
         strtest += 1; 
          $('#myTravalModal').modal('show').find("#frame").attr("src", "#/travelertracker/travelertracker.html?session=true&test=" + strtest);

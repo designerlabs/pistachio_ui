@@ -279,7 +279,7 @@ var globalURL = "http://10.1.17.25:8081/";
 var solrHost = "10.4.104.176";
 
 //var solrHost = "10.4.104.176";
-
+$('link[title="iframeStyle"]').prop('disabled', true);   
 var queryString = "query";
 var categoryName = "cat";
 var sendUpload = false;
@@ -887,6 +887,25 @@ MetronicApp.service('stageUpdate', function() {
   return {
     addStage: addStage,
     getStage: getStage
+  };
+
+});
+
+
+MetronicApp.service('chkIframe', function() {
+  var status;
+
+  var addStatus = function(newObj) {
+      status = newObj;
+  };
+
+  var getStatus = function(){
+      return status;
+  };
+
+  return {
+    addStatus: addStatus,
+    getStatus: getStatus
   };
 
 });

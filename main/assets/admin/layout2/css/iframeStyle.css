@@ -1,0 +1,17 @@
+
+.page-sidebar-closed .page-content-wrapper .page-content {
+    margin-left: 0px !important;
+}
+
+.page-header-fixed .page-container {
+    margin-top: 0px !important;
+}
+
+.container-fluid{
+    padding-left:0px !important;;
+    padding-right:0px !important;;
+}
+
+.page-content-wrapper .page-content {
+    padding:0px !important;;
+}
