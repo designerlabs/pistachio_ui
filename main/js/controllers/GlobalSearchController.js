@@ -12,6 +12,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     Metronic.initAjax();
     Layout.setSidebarMenuActiveLink('set', $('#fastsearchLink'));
     $scope.tblContent = false;
+    $scope.noData = false;
     var getUser = localStorage.getItem("username");
     $scope.getSearchFromDt = "";
     $scope.getSearchToDt = "";
@@ -226,51 +227,15 @@ $scope.$on('mapClick', function(event, e) {
     $('#tblSearch').DataTable().destroy() 
 
     // $scope.startCount = 0;
-    $scope.box_update();
-  //   if ($scope.showApplication) {
-  //     // $scope.showApplications();
-  //     $scope.application_box();
-  //     $scope.visitor_box();
-  //     $scope.citizen_box();
-  //     $scope.blacklist_box();
-  //   }
-  //   else if ($scope.showVisitor) {
-  //     $scope.showVisitors();
-  //     $scope.application_box();
-  //     $scope.citizen_box();
-  //     $scope.blacklist_box();
-  //   }
-
-  //   else if ($scope.showCitizen) {
-  //     $scope.showCitizens();
-  //     $scope.application_box();
-  //     $scope.visitor_box();
-  //     $scope.blacklist_box();
-  //   }
-  //   else if($scope.showBlacklist){
-  //     $scope.showBlacklists();
-  //     $scope.application_box();
-  //     $scope.visitor_box();
-  //     $scope.citizen_box();
-  //   }
-
-  //   else
-  //     $scope.go();
+    $scope.box_update(); 
   }
 
 
   $scope.go = function () {
-    $scope.box_update();
-    // $scope.application_box();
-    // $scope.visitor_box();
-    // $scope.citizen_box();
-    // $scope.blacklist_box();
+    $scope.box_update();    
   }
 
-
-
   $scope.updateFilterQuery_Country = function () {
-    //alert('sdf');
     var filter_query = "";
     var arrayLength = selected_countries.length;
     if (arrayLength > 0) {
@@ -384,27 +349,7 @@ $scope.$on('mapClick', function(event, e) {
     .error(function (data, status, headers, config) {
             console.log('error');
     });
-    // if ($scope.showApplication) {
-    //   $scope.visitor_box();
-    //   $scope.citizen_box();
-    //   $scope.blacklist_box();
-    // }
-    // else if ($scope.showVisitor) {
-    //   $scope.application_box();
-    //   $scope.citizen_box();
-    //   $scope.blacklist_box();
-    // }
-    // else if ($scope.showCitizen) {
-    //   $scope.application_box();
-    //   $scope.visitor_box();
-    //   $scope.blacklist_box();
-    // }
-    // else if ($scope.showBlacklist) {
-    //   $scope.application_box();
-    //   $scope.visitor_box();
-    //   $scope.citizen_box();
-    // }
-
+    
   }
 
 
@@ -458,130 +403,7 @@ $scope.$on('mapClick', function(event, e) {
     // $scope.show($scope.currentStatus);
     $('#tblSearch').DataTable().destroy(); 
     $scope.showApplications($scope.currentStatus,'prenext');
-  }
-
-  // $scope.showVisitors = function () {
-  //   var query = "";
-  //   $scope.showApplication = false;
-  //   $scope.showCitizen = false;
-  //   $scope.showBlacklist = false;
-  //   $scope.showVisitor = true;
-  //   var query = ""
-  //   var sq = "http://" + solrHost + ":8983/solr/hismove/query?json=";
-
-  //   var json = {};
-  //   json.limit = 10;
-  //   json.offset = $scope.start
-  //   json.query = $scope.getQuery();
-  //   json.filter = $scope.updateFilterQuery_Country();
-  //   json.sort = "xit_date desc"
-  //   json.facet = {};
-  //   json.facet.country = {};
-  //   json.facet.country.type = "terms";
-  //   json.facet.country.field = "country";
-
-  //   // json.facet.country.domain = "{excludeTags:COLOR}"
-  //   $http.get(sq + JSON.stringify(json)).
-  //     success(function (data) {
-  //       $scope.startCount = data.response.start + 10;
-  //       if (data.response.numFound == 0) {
-  //         $scope.showVisitor = false;
-  //       }
-  //       $scope.vtime = data.responseHeader.QTime;
-  //       $scope.employers = data.response.numFound;
-
-  //       $scope.items = data.response.docs;
-  //       if (selected_countries.length == 0)
-  //         $scope.countries = data.facets.country.buckets
-
-  //     })
-  //     .error(function (data, status, headers, config) {
-  //       console.log('error');
-  //     });
-
-  // }
-
-  // $scope.showCitizens = function () {
-  //   var query = "";
-  //   $scope.option = false;
-  //   $scope.showCitizen = true;
-  //   $scope.showApplication = false;
-  //   $scope.showVisitor = false;
-  //   $scope.showBlacklist = false;
-  //   var query = ""
-  //   var sq = "http://" + solrHost + ":8983/solr/citizen/query?json=";
-  //   //var sq = "http://" + solrHost + ":8983/solr/citizen/query?json=";
-
-  //   var json = {};
-  //   json.limit = 10;
-  //   json.offset = $scope.start
-  //   json.query = $scope.getQuery();
-  //   json.sort = "created desc"
-  //   json.facet = {};
-  //   json.facet.country = {};
-  //   json.facet.country.type = "terms";
-  //   json.facet.country.field = "state";
-  //   json.facet.country.limit = 20;
-  //   $http.get(sq + JSON.stringify(json)+$scope.spatialSearch()).
-  //     success(function (data) {
-  //        $scope.startCount = data.response.start + 10;
-  //       if (data.response.numFound == 0) {
-  //         $scope.showCitizen = false;
-  //       }
-  //       $scope.vtime = data.responseHeader.QTime;
-  //       $scope.users = data.response.numFound;
-  //       console.log(data.response.docs);
-  //       $scope.items = data.response.docs;
-  //       if (selected_countries.length == 0)
-  //         $scope.countries = data.facets.country.buckets
-
-
-  //     })
-  //     .error(function (data, status, headers, config) {
-  //       console.log('error');
-  //     });
-
-  // }
-
-  // $scope.showBlacklists = function () {
-  //   var query = "";
-  //   $scope.option = false;
-  //   $scope.showBlacklist = true;
-  //   $scope.showApplication = false;
-  //   $scope.showVisitor = false;
-  //   $scope.showCitizen =  false;
-  //   var query = ""
-  //   var sq = "http://" + solrHost + ":8983/solr/blacklisted/query?json=";
-  //   //var sq = "http://" + solrHost + ":8983/solr/citizen/query?json=";
-
-  //   var json = {};
-  //   json.limit = 10;
-  //   json.offset = $scope.start
-  //   json.query = $scope.getQuery();
-  //   json.sort = "created desc"
-  //   json.facet = {};
-  //   json.facet.country = {};
-  //   json.facet.country.type = "terms";
-  //   json.facet.country.field = "state";
-  //   json.facet.country.limit = 20;
-  //   $http.get(sq + JSON.stringify(json)+$scope.spatialSearch()).
-  //     success(function (data) {
-  //       if (data.response.numFound == 0) {
-  //         $scope.showBlacklist = false;
-  //       }
-  //       $scope.vtime = data.responseHeader.QTime;
-  //       $scope.users = data.response.numFound;
-  //       console.log(data.response.docs);
-  //       $scope.items = data.response.docs;
-  //       if (selected_countries.length == 0)
-  //         $scope.countries = data.facets.country.buckets
-
-  //     })
-  //     .error(function (data, status, headers, config) {
-  //       console.log('error');
-  //     });
-
-  // }
+  }  
 
   $scope.showApplications = function (status,eve) {
     if (eve == 'load'){
@@ -595,73 +417,46 @@ $scope.$on('mapClick', function(event, e) {
       $scope.showCitizen = false;
       $scope.showVisitor = false;
       $scope.showBlacklist = false;
-      // var sq = "http://" + solrHost + ":8983/solr/immigration2/query?json=";
     }else if(status == 'citizen') {
       $scope.showCitizen = true;
       $scope.showApplication = false;
       $scope.showVisitor = false;
       $scope.showBlacklist = false;
-      //  var sq = "http://" + solrHost + ":8983/solr/citizen/query?json=";
     }else if(status == 'vistor') {
       $scope.showVisitor = true;
       $scope.showApplication = false;
       $scope.showCitizen = false;
       $scope.showBlacklist = false;
-      // var sq = "http://" + solrHost + ":8983/solr/hismove/query?json=";
     }else if(status == 'blackListed') {
-      // $scope.showBlacklist = true;
-      // $scope.showApplication = false;
-      // $scope.showCitizen = false;
-      // $scope.showVisitor = false;
-      // var sq = "http://" + solrHost + ":8983/solr/blacklisted/query?json=";
+      $scope.showBlacklist = true;
+      $scope.showApplication = false;
+      $scope.showCitizen = false;
+      $scope.showVisitor = false;
     }
 
-
-      
-
-
     var query = ""
-    //var sq = "http://" + solrHost + ":8983/solr/immigration2/query?json=";
-    // var sq = "http://10.1.17.25:8081/pistachio/fastsearch/gfs";
-      var sq = globalURL + "pistachio/fastsearch/gfs";
-
+    var sq = globalURL + "pistachio/fastsearch/gfs";
     var json = {};
     json.text = $scope.text;
     json.limit = 10;
     json.offset = $scope.start;
-    // json.query = $scope.getQuery();
-    // json.filter = $scope.updateFilterQuery_Country();
-    // json.sort = "created desc"
-    // json.facet = {};
-    // json.facet.country = {};
-    // json.facet.country.type = "terms";
-    // json.facet.country.field = "country";
-    // json.facet.country.limit = 20;
-    // json.facet.job = {};
-    // json.facet.job.type = "terms";
-    // json.facet.job.field = "job_bm";
-     var tblGloSEarch;
+    var tblGloSEarch;
     
-    //  tblGloSEarch =  $('#tblSearch').DataTable();
-    // json.facet.country.domain = "{excludeTags:COLOR}"
-    // $http.get(sq + JSON.stringify(json)+$scope.spatialSearch()).
     $http.post(sq, JSON.stringify(json)).
       success(function (data) {        
         console.log(data);
-        // $scope.first = (data.response.start == 0? true : false); 
-          
-
         var totalResLenth;
         if(status == 'pass'){
-          // $scope.passFound = data.response.numFound;
           $scope.applicationsFound = data.header.pass;
-          totalResLenth = data.pass.results.length;          
-          var strdoc_no, strcountry;
-          // var tblRows = $('#tblSearch').DataTable().rows();
-          if($('#tblSearch tr').length > 0)
-            $('#tblSearch').DataTable().destroy() 
-                             
-          tblGloSEarch = $('#tblSearch').DataTable({
+          if(data.pass != null){ 
+            $scope.tblContent = true;
+            $scope.noData = false;
+            totalResLenth = data.pass.results.length;          
+            var strdoc_no, strcountry;
+            if($('#tblSearch tr').length > 0)
+              $('#tblSearch').DataTable().destroy() 
+                              
+                tblGloSEarch = $('#tblSearch').DataTable({
                     order: [[ 0, "asc" ]],
                     data: data.pass.results,   
                     searching: false,
@@ -716,188 +511,213 @@ $scope.$on('mapClick', function(event, e) {
                           }  
                         }]                          
                 });
+          }else{
+            $scope.tblContent = false;
+            $scope.noData = true;
+          }
 
         }else if(status == 'citizen') {   
-          var strdoc_no; 
-          totalResLenth = data.citizen.results.length;
+          var strdoc_no;           
           $scope.applicationsFound = data.header.citizen;
-          // $scope.users = data.response.numFound;
-          if($('#tblSearch tr').length > 0)
-            $('#tblSearch').DataTable().destroy() 
+          if(data.citizen != null){  
+            $scope.tblContent = true;
+            $scope.noData = false;     
+            totalResLenth = data.citizen.results.length;
 
-          tblGloSEarch = $('#tblSearch').DataTable({
-                order: [[ 0, "asc" ]],
-                data: data.citizen.results,   
-                searching: false,
-                paging: false,
-                info: false,                                  
-                columns: [{  
-                        "title": "Date",                         
-                        "data": "date",
+            if($('#tblSearch tr').length > 0)
+              $('#tblSearch').DataTable().destroy() 
+
+              tblGloSEarch = $('#tblSearch').DataTable({
+                  order: [[ 0, "asc" ]],
+                  data: data.citizen.results,   
+                  searching: false,
+                  paging: false,
+                  info: false,                                  
+                  columns: [{  
+                          "title": "Date",                         
+                          "data": "date",
+                          "width":"15%",
+                          "render": function(data, type, full, meta) {
+                              // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
+                              return data.substring(0,19);
+                          }
+                      },{
+                        "title": "IC No.",
+                        "data": "kp_no",
+                          "width":"15%"
+                        },
+                      { 
+                        "title":"Name",
+                        "data": "name",
+                        "width":"20%"                        
+                        },
+                      { 
+                        "title":"Passport No.",
+                        "data": "doc_no",
+                        "width":"8%",
+                        "render": function(data, type, full, meta) {
+                          // strdoc_no = data;
+                          return data;
+                        }      
+                        },
+                      { 
+                        "title":"State",
+                        "data": "state",
+                        "width":"10%",
+                        "render": function(data, type, full, meta) {
+                          // strdoc_no = data;
+                          if(data == undefined){
+                            return "";
+                          }else{
+                            return data;
+                          }
+                        } 
+                      },
+                      {
+                        "title":"Action",                          
+                        "data": "action",
+                        "width":"10%",
+                        "render": function(data, type, full, meta) {                          
+                          return '<a  class="viewCitizen">'+
+                                '<button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>'+
+                                'View </button></a>';                                                      
+                        }  
+                      }]                          
+              });
+          }else{
+            $scope.tblContent = false;
+            $scope.noData = true;
+          }
+
+        }else if(status == 'vistor') {
+          $scope.applicationsFound = data.header.movement;
+          if(data.vistor != null){ 
+            $scope.tblContent = true;
+            $scope.noData = false;         
+            totalResLenth = data.vistor.results.length;
+            if($('#tblSearch tr').length > 0)
+              $('#tblSearch').DataTable().destroy() 
+
+            tblGloSEarch = $('#tblSearch').DataTable({
+                  order: [[ 0, "asc" ]],
+                  data: data.vistor.results,   
+                  searching: false,
+                  paging: false,
+                  info: false,                                  
+                  columns: [{  
+                          "title": "Date",                         
+                          "data": "date",
+                          "width":"20%",
+                          "render": function(data, type, full, meta) {
+                              // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
+                              return data.substring(0,19);
+                          }
+                      },{
+                        "title": "Branch",
+                        "data": "branch",
+                          "width":"25%"
+                        },
+                      { 
+                        "title":"Name",
+                        "data": "name",
+                        "width":"20%"                        
+                        },
+                      { 
+                        "title":"Country",
+                        "data": "country",
                         "width":"15%",
                         "render": function(data, type, full, meta) {
-                            // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
-                            return data.substring(0,19);
-                        }
-                    },{
-                      "title": "IC No.",
-                      "data": "kp_no",
-                        "width":"15%"
-                      },
-                    { 
-                      "title":"Name",
-                      "data": "name",
-                      "width":"20%"                        
-                      },
-                    { 
-                      "title":"Passport No.",
-                      "data": "doc_no",
-                      "width":"8%",
-                      "render": function(data, type, full, meta) {
-                        // strdoc_no = data;
-                        return data;
-                      }      
-                      },
-                    { 
-                      "title":"State",
-                      "data": "state",
-                      "width":"10%",
-                      "render": function(data, type, full, meta) {
-                        // strdoc_no = data;
-                        if(data == undefined){
-                          return "";
-                        }else{
                           return data;
-                        }
-                      } 
-                    },
-                    {
-                      "title":"Action",                          
-                      "data": "action",
-                      "width":"10%",
-                      "render": function(data, type, full, meta) {                          
-                        return '<a  class="viewCitizen">'+
-                              '<button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>'+
-                              'View </button></a>';                                                      
-                      }  
-                    }]                          
-            });
-        }else if(status == 'vistor') {
-          // $scope.employers = data.response.numFound;
-          $scope.applicationsFound = data.header.movement;
-          totalResLenth = data.vistor.results.length;
-          if($('#tblSearch tr').length > 0)
-            $('#tblSearch').DataTable().destroy() 
-
-          tblGloSEarch = $('#tblSearch').DataTable({
-                order: [[ 0, "asc" ]],
-                data: data.vistor.results,   
-                searching: false,
-                paging: false,
-                info: false,                                  
-                columns: [{  
-                        "title": "Date",                         
-                        "data": "date",
-                        "width":"20%",
+                        }      
+                        },
+                      { 
+                        "title":"Document No",
+                        "data": "doc_no",
+                        "width":"10%",
                         "render": function(data, type, full, meta) {
-                            // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
-                            return data.substring(0,19);
-                        }
-                    },{
-                      "title": "Branch",
-                      "data": "branch",
-                        "width":"25%"
+                          // strdoc_no = data;
+                          if(data == undefined){
+                            return "";
+                          }else{
+                            return data;
+                          }
+                        } 
                       },
-                    { 
-                      "title":"Name",
-                      "data": "name",
-                      "width":"20%"                        
-                      },
-                    { 
-                      "title":"Country",
-                      "data": "country",
-                      "width":"15%",
-                      "render": function(data, type, full, meta) {
-                        return data;
-                      }      
-                      },
-                    { 
-                      "title":"Document No",
-                      "data": "doc_no",
-                      "width":"10%",
-                      "render": function(data, type, full, meta) {
-                        // strdoc_no = data;
-                        if(data == undefined){
-                          return "";
-                        }else{
-                          return data;
-                        }
-                      } 
-                    },
-                    {
-                      "title":"Action",                          
-                      "data": "action",
-                      "width":"5%",
-                      "render": function(data, type, full, meta) {                          
-                        return '<a class="viewReq">'+
-                              '<button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>'+
-                              'View </button></a>';                                                      
-                      }  
-                    }]                          
+                      {
+                        "title":"Action",                          
+                        "data": "action",
+                        "width":"5%",
+                        "render": function(data, type, full, meta) {                          
+                          return '<a class="viewReq">'+
+                                '<button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>'+
+                                'View </button></a>';                                                      
+                        }  
+                      }]                          
             });
+          }else{
+            $scope.tblContent = false;
+            $scope.noData = true;
+          }
 
         }else if(status == 'blackListed') {
           $scope.applicationsFound = data.header.blackListed;
-          totalResLenth = data.blackListed.results.length;
-          if($('#tblSearch tr').length > 0)
-            $('#tblSearch').DataTable().destroy() 
+          if(data.blackListed != null){ 
+            $scope.tblContent = true;
+            $scope.noData = false; 
+            totalResLenth = data.blackListed.results.length;
+            if($('#tblSearch tr').length > 0)
+              $('#tblSearch').DataTable().destroy() 
 
-          tblGloSEarch = $('#tblSearch').DataTable({
-                order: [[ 0, "asc" ]],
-                data: data.blackListed.results,   
-                searching: false,
-                paging: false,
-                info: false,                                  
-                columns: [{  
-                        "title": "Date",                         
-                        "data": "created",
+              tblGloSEarch = $('#tblSearch').DataTable({
+                  order: [[ 0, "asc" ]],
+                  data: data.blackListed.results,   
+                  searching: false,
+                  paging: false,
+                  info: false,                                  
+                  columns: [{  
+                          "title": "Date",                         
+                          "data": "created",
+                          "width":"10%",
+                          "render": function(data, type, full, meta) {
+                              // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
+                              return data.substring(0,19);
+                          }
+                      },{
+                        "title": "IC No.",
+                        "data": "kp_no",
+                          "width":"25%"
+                        },
+                      { 
+                        "title":"Name",
+                        "data": "name",
+                        "width":"25%"                        
+                        },
+                      { 
+                        "title":"Passport No.",
+                        "data": "doc_no",
+                        "width":"25%",
+                        "render": function(data, type, full, meta) {
+                          return data;
+                        }      
+                        },
+                      { 
+                        "title":"Country",
+                        "data": "country",
                         "width":"10%",
                         "render": function(data, type, full, meta) {
-                            // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
-                            return data.substring(0,19);
-                        }
-                    },{
-                      "title": "IC No.",
-                      "data": "kp_no",
-                        "width":"25%"
-                      },
-                    { 
-                      "title":"Name",
-                      "data": "name",
-                      "width":"25%"                        
-                      },
-                    { 
-                      "title":"Passport No.",
-                      "data": "doc_no",
-                      "width":"25%",
-                      "render": function(data, type, full, meta) {
-                        return data;
-                      }      
-                      },
-                    { 
-                      "title":"Country",
-                      "data": "country",
-                      "width":"10%",
-                      "render": function(data, type, full, meta) {
-                        // strdoc_no = data;
-                        if(data == undefined){
-                          return "";
-                        }else{
-                          return data;
-                        }
-                      } 
-                    }]                          
-            });
+                          // strdoc_no = data;
+                          if(data == undefined){
+                            return "";
+                          }else{
+                            return data;
+                          }
+                        } 
+                      }]                          
+              });
+          }else{
+            $scope.tblContent = false;
+            $scope.noData = true; 
+          }
         }
 
         $scope.first = ($scope.start/10) > 0 ? false : true;        
@@ -913,9 +733,9 @@ $scope.$on('mapClick', function(event, e) {
           //sessionStorage.setItem('backct',false);
           var viewinfo = tblGloSEarch.row($(this).parents('tr')).data();
           var strcntry = viewinfo.country.replace(/ /g, "*");
+          var qstr = 'doc_nos:'+ viewinfo.doc_no + (strcntry.length != 0? ' AND country:'+ strcntry : '');
           // sessionStorage.setItem('Qparam','doc_nos:'+ viewinfo.doc_no +' AND country:'+ strcntry);
-          localStorage.setItem('Qparam','doc_nos:'+ viewinfo.doc_no +' AND country:'+ strcntry);
-          // window.location = "#/travelertracker/travelertracker.html?session=true";
+          sessionStorage.setItem('Qparam',qstr);
           
           //To load in to Modal
           e.preventDefault();

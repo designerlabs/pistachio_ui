@@ -46,12 +46,10 @@ if(window.location.href.indexOf('fastsearch') != -1){
 if (document.location.href.search("page=tracking")!=-1){
     $('link[title="iframeStyle"]').prop('disabled', true);
     $scope.travelBackBtn = true;    
-    console.log("true");
 }else{
     $scope.travelBackBtn = false;
     // alert('hello');
    $('link[title="iframeStyle"]').prop('disabled', false);
-    console.log("false");
 }
 
 
@@ -85,8 +83,17 @@ if (document.location.href.search("page=tracking")!=-1){
             $scope.loading = false;
             console.log("stop");
         });
+
+        var TravelerInfo = {
+            results: {
+                visainfoCnt : 0,
+                citizeninfoCnt : 0,
+                citizenVisainfoCnt : 0,
+                historyinfoCnt :0
+            }
+        };
         
-        $scope.fn_getBasicInfo = function() { //mad_pas_typ_cd
+        $scope.fn_getVisaInfo = function() { //mad_pas_typ_cd
 
             $.get("http://" + solrHost + ":8983/solr/immigration2/query?sort=created desc&json={query :'" + Qparam + "',limit:20000,facet: {visa : {type: terms,field: pass_type},employers : {type: terms,field: employer}}}") //mad_pas_typ_cd - pass_type
                 .then(function(data) {
@@ -95,6 +102,7 @@ if (document.location.href.search("page=tracking")!=-1){
                     }
                     chartvisadtls = data.response.docs;
                     if (data.response.docs.length !== 0) {
+                        $scope.nodata = false;
                         $scope.fn_personalInfo(data.response.docs[0]);
                         if ($scope.dob == "" || $scope.dob == undefined) {
                             var strdob = data.response.docs[0].birth_date.toString();
@@ -116,8 +124,6 @@ if (document.location.href.search("page=tracking")!=-1){
                         visadetails = data.response.docs;
                         $.get(globalURL +"api/image/solr/" + visadetails[0].fin_no)
                         .then(function(data) {
-                            console.log(data);
-                            console.log('visa image');
                             $scope.fn_loadVisaTbl(visadetails,data);
                         });
                         //$scope.$apply();
@@ -155,7 +161,7 @@ if (document.location.href.search("page=tracking")!=-1){
             var qry = Qparam.substring(0, Qparam.length - 17);
             $.get("http://" + solrHost + ":8983/solr/citizen/query?sort=xit_date desc&json={query:'" + qry + "',limit:100000}")
                 .then(function(result) {
-                    console.log(result);                   
+                    console.log(result);  
                     if (result.response.docs.length !== 0) {
                         // $scope.showHistory = true;
                         result.response.docs[0].country = "Malaysia";
@@ -172,8 +178,9 @@ if (document.location.href.search("page=tracking")!=-1){
 
                 $.get("http://" + solrHost + ":8983/solr/cit/query?sort=xit_date desc&json={query:'" + qry + "',limit:100000}")
                 .then(function(result) {
-                    console.log(result);                   
+                    console.log(result);     
                     if (result.response.docs.length !== 0) {
+                        $scope.nodata = false;
                         $scope.showHistory = true;
                         // result.response.docs[0].country = "Malaysia";
                         // $scope.DOB(result.response.docs[0].birth_date)
@@ -182,12 +189,13 @@ if (document.location.href.search("page=tracking")!=-1){
                         $scope.$apply();
                     } else {
                         // alert('No date found in himove table');
+                        $scope.nodata = true;
                         $scope.showHistory = false;
                     }   
                 });
         }
 
-        $scope.fn_getPersonalInfo = function() {
+        $scope.fn_getHistoryInfo = function() {
             $.get("http://" + solrHost + ":8983/solr/hismove/query?sort=xit_date desc&json={query:'" + Qparam + "',limit:100000}")
                 .then(function(result) {
                     console.log(result);
@@ -200,6 +208,7 @@ if (document.location.href.search("page=tracking")!=-1){
                         })
                     }
                     if (result.response.docs.length !== 0) {
+                        $scope.nodata = false;
                         $scope.fn_personalInfo(result.response.docs[0]);
                         $scope.DOB(result.response.docs[0].birth_date);
                         $scope.CreateInoutChart(result.response.docs);
@@ -207,9 +216,10 @@ if (document.location.href.search("page=tracking")!=-1){
                     } else {
                         // alert('No date found in himove table');
                         $scope.showHistory = false;
-                        $scope.showVisa = false;
                     }
-     
+                    if($scope.showVisa == false && $scope.showHistory == false){
+                        $scope.nodata = true;
+                    }     
                 });
         }
 
@@ -261,7 +271,7 @@ if (document.location.href.search("page=tracking")!=-1){
 
             var backgrd = [];
             var itmbackgrd = [];
-            console.log('visadetails' + visadetails);
+            // console.log('visadetails' + visadetails);
             visadetails.forEach(function(k,v){
                 itmbackgrd = [];
                 itmbackgrd ={
@@ -276,14 +286,14 @@ if (document.location.href.search("page=tracking")!=-1){
             var container = document.getElementById('visualization');
             // var newitems = $.merge(newary, wrg);
             var newitems = newary.concat(wrg);
-            console.log(newitems);
-            console.log(backgrd);
+            // console.log(newitems);
+            // console.log(backgrd);
             if (backgrd.length>0){                
                 newitems = newitems.concat(backgrd);
-                console.log(newitems);
+                // console.log(newitems);
             }
             var chart_height = (_data.length < 200 ? "300px" : "450px");
-            console.log("chart_height=" + chart_height);
+            // console.log("chart_height=" + chart_height);
 
             var options = {
                 height: chart_height,
@@ -400,13 +410,31 @@ if (document.location.href.search("page=tracking")!=-1){
             if (str.includes("citizen")) {
                 console.log('citizen');
                 $scope.fn_getCitizenInfo();
+               
             } else {
                 console.log('basic and personal');
-
-                $scope.fn_getBasicInfo();
-                $scope.fn_getPersonalInfo();                
+                $scope.fn_getVisaInfo(); //visa details
+                $scope.fn_getHistoryInfo(); // history details
+                // $scope.fn_total('noncitizen');                               
             }
         }
+        $scope.nodata = false;
+        // $scope.fn_total = function(_val){
+        //     if(_val == 'citizen'){
+        //         if(TravelerInfo.results.citizeninfoCnt == 0 && TravelerInfo.results.citizenVisainfoCnt == 0){
+        //             $scope.nodata = true;
+        //             $scope.nodataMsg = "No Data found";
+        //         }else if(TravelerInfo.results.citizenVisainfoCnt == 0){
+        //             $scope.nodata = true;
+        //             $scope.nodataMsg = "No Visa Information found";
+        //         }
+        //     }else{
+        //         if(TravelerInfo.results.visainfoCnt == 0 && TravelerInfo.results.historyinfoCnt == 0){
+        //             $scope.nodata = true;
+        //             $scope.nodataMsg = "No Data found";
+        //         }
+        //     }
+        // }
 
         $scope.fn_loadVisaTbl = function(_visadata,_imgdata){
             var visatbl = $('#tblvisa').DataTable({
