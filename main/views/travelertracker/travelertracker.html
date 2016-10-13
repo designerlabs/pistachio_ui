@@ -1,218 +1,218 @@
 <!-- <h3 class="page-title">
     <small>Individual Traveler Profile</small>
 </h3> -->
-   <div style="background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%; position:absolute; top:0px;"  ng-show="loading">
-        <!--  BEGIN PAGE SPINNER -->
-        <div ng-spinner-bar class="page-spinner-bar show">
-            <div class="bounce1"></div>
-            <div class="bounce2"></div>
-            <div class="bounce3"></div>
-        </div>
-        <!--    END PAGE SPINNER -->
-    </div>
+<div style="background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%; position:absolute; top:0px;" ng-show="loading">
+	<!--  BEGIN PAGE SPINNER -->
+	<div ng-spinner-bar class="page-spinner-bar show">
+		<div class="bounce1"></div>
+		<div class="bounce2"></div>
+		<div class="bounce3"></div>
+	</div>
+	<!--    END PAGE SPINNER -->
+</div>
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
 
-  <!-- The Close Button -->
-  <span class="closeBtn" onclick="document.getElementById('myModal').style.display='none'"><i class="fa fa-times"></i></span>
+	<!-- The Close Button -->
+	<span class="closeBtn" onclick="document.getElementById('myModal').style.display='none'"><i class="fa fa-times"></i></span>
 
-  <!-- Modal Content (The Image) -->
-  <img class="modal-content img_size" id="img01">
+	<!-- Modal Content (The Image) -->
+	<img class="modal-content img_size" id="img01">
 
-  <!-- Modal Caption (Image Text) -->
-  <div id="caption"></div>
+	<!-- Modal Caption (Image Text) -->
+	<div id="caption"></div>
 </div>
 
 
 
 <div style="position: relative; z-index:9;">
-    <div class="col-md-12" style="background: rgb(148, 187, 184); padding-top: 12px;">
-        <!--width:85%;  style="position:fixed;"-->
-        <div class="col-md-3 col-xs-4 col-sm-3 col-lg-2">
-            <div class="invoice-logo">
-                <span class="loadimg" style="position: absolute; left: 14px; top: 75px;"><i class='fa fa-circle-o-notch fa-spin'></i> Loading image..</span>
-                <div class="rad-circle" id="myImg" ng-style ="{'background-image': 'url(' + imagetxt + ')'}">
-                </div>
- 
-            </div>
-        </div>
-        <div class="row invoice-cust-add col-md-9 col-lg-10 col-xs-8 col-sm-9" style="margin-bottom:0px;">
-            <div class="col-md-10 col-sm-10 col-xs-10 form-group" style="padding-left:0px">
-                <small>NAME</small>
-                <div class="uppercase bold" style="font-size: 21px">
-                    {{res.name}}
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-2 col-xs-2 text-right " ng-show="travelBackBtn">
-              <div class="actions">
-                  <div id="detailstab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
-                      <a class="btn green-haze hidden-print btn-circle uppercase btn-sm active bck" data-toggle="tab">Go Back</a>
-                  </div>
-              </div>
-            </div>
-            <div class="col-md-4 col-sm-12 col-xs-12 form-group" style="padding-left:0px">
-                <small>DATE OF BIRTH / AGE</small>
-                <div class="bold">
-                    {{dob | date:'dd - MM - yyyy'}} / {{age}}
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
-                <small>COUNTRY</small>
-                <div class="bold">
-                    {{res.country}}
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-xs-12 form-group tool" style="padding-left:0px">
-                <small>GENDER</small>
-                <div class="bold">
-                    {{res.sex}}
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
-                <small>PASSPORT NO</small>
-                <div class="bold">
-                    {{res.country == "Malaysia" ? res.doc_no : res.doc_nos }}
-                </div>
-            </div>
-        </div>
+	<div class="col-md-12" style="background: rgb(148, 187, 184); padding-top: 12px;">
+		<!--width:85%;  style="position:fixed;"-->
+		<div class="col-md-3 col-xs-4 col-sm-3 col-lg-2">
+			<div class="invoice-logo">
+				<span class="loadimg" style="position: absolute; left: 14px; top: 75px;"><i class='fa fa-circle-o-notch fa-spin'></i> Loading image..</span>
+				<div class="rad-circle" id="myImg" ng-style="{'background-image': 'url(' + imagetxt + ')'}">
+				</div>
 
-        <div class="bordered" style="padding:20px;">
-            <div class="row invoice-cust-add" style="margin-bottom:0px;">
+			</div>
+		</div>
+		<div class="row invoice-cust-add col-md-9 col-lg-10 col-xs-8 col-sm-9" style="margin-bottom:0px;">
+			<div class="col-md-10 col-sm-10 col-xs-10 form-group" style="padding-left:0px">
+				<small>NAME</small>
+				<div class="uppercase bold" style="font-size: 21px">
+					{{res.name}}
+				</div>
+			</div>
+			<div class="col-md-2 col-sm-2 col-xs-2 text-right " ng-show="travelBackBtn">
+				<div class="actions">
+					<div id="detailstab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
+						<a class="btn green-haze hidden-print btn-circle uppercase btn-sm active bck" data-toggle="tab">Go Back</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-12 col-xs-12 form-group" style="padding-left:0px">
+				<small>DATE OF BIRTH / AGE</small>
+				<div class="bold">
+					{{dob | date:'dd - MM - yyyy'}} / {{age}}
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
+				<small>COUNTRY</small>
+				<div class="bold">
+					{{res.country}}
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-6 col-xs-12 form-group tool" style="padding-left:0px">
+				<small>GENDER</small>
+				<div class="bold">
+					{{res.sex}}
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
+				<small>PASSPORT NO</small>
+				<div class="bold">
+					{{res.country == "Malaysia" ? res.doc_no : res.doc_nos }}
+				</div>
+			</div>
+		</div>
 
-        </div>
-        </div>
-    </div>
+		<div class="bordered" style="padding:20px;">
+			<div class="row invoice-cust-add" style="margin-bottom:0px;">
+
+			</div>
+		</div>
+	</div>
 </div>
 <!-- <div class="row" style="height: {{availHeight > 1000 ? 210 : 160}}px">&nbsp;
 
 </div> -->
 <div class="portlet light portlet-fit bordered" ng-if='!nodata'>
-    <div class="portlet-body">
-        <div class="tabbable-line boxless margin-bottom-20">
-            <ul class="nav nav-tabs">
-                <li ng-class="{'active':showVisa}" ng-if="showVisa">
-                    <a data-target="#visa" data-toggle="tab" aria-expanded="false"> Visa Details </a>
-                </li>
-                <li ng-class="{'active':!showVisa}" ng-if="showHistory">
-                    <a data-target="#history" data-toggle="tab" aria-expanded="true"> Travel History </a>
-                </li>
-            </ul>
-            <div class="tab-content" style="padding:5px;">
-                <div class="tab-pane active" id="visa" ng-class="{active: showVisa}" ng-if="showVisa">
-                    <div class="portlet-body  tab-content">
-                        <div class="row number-stats margin-bottom-30 tab-pane active" id="tabvisa">
-                            <div>
-                                <!--class="search-table table-responsive"-->
-                                <table id="tblvisa" class="table table-bordered table-hover" cellspacing="0" width="100%">
-                                    <!--class="table table-bordered table-striped table-condensed" -->
-                                    <thead class="bg-table-gray">
-                                        <tr>
-                                            <th>Visa Image</th>
-                                            <th>Sticker</th>
-                                            <th>Pass Type</th>
-                                            <th>Job Title</th>
-                                            <th>Address</th>
-                                            <th>Start Date</th>
-                                            <th>End Date</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane" id="history" ng-if="showHistory" ng-class="{'active':!showVisa}">
-                    <div class="actions pull-right">
-                        <div id="inouttab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
-                            <a data-target="#inoutchart" class="btn btn-transparent grey-salsa btn-sm active" data-toggle="tab">Chart</a>
-                            <a data-target="#inoutdatatbl" class="btn btn-transparent grey-salsa btn-sm" data-toggle="tab">Data</a>
-                            <a data-target="#mismatch" ng-hide="hideMisMatchTab" class="btn btn-transparent grey-salsa btn-sm" data-toggle="tab">Miss Match</a>
-                        </div>
-                    </div>
-                    <div class="portlet-body tab-content">
-                        <div class="row number-stats margin-bottom-30 tab-pane active" id="inoutchart">
-                            <div class="actions">
-                                <i id="zoomIn" class="btn fa fa-search-plus"></i>
-                                <i id="zoomOut" class="btn fa fa-search-minus"></i>
-                                <i id="moveLeft" class="btn fa fa-arrow-left"></i>
-                                <i id="moveRight" class="btn fa fa-arrow-right"></i>
-                                <span class="clkditem" style="background-color: #C5DC3B"></span>
-                            </div>
-                            <div class="chart123" id="visualization">
-                            </div>
-                            <div style="padding-left: 85%">
-                                <div>
-                                    <br/>
-                                    <div class="vis-item vis-box red vis-readonly">
-                                        <div class="vis-item-content"></div>
-                                    </div>
-                                </div>
-                                <div style="padding-left: 25px"> Exit </div>
-                                <div>
-                                    <div class="vis-item vis-box green vis-readonly">
-                                        <div class="vis-item-content"></div>
-                                    </div>
-                                </div>
-                                <div style="padding-left: 25px"> Entry </div>
-                                <div>
-                                    <div class="vis-item vis-background" style="height: 12px;width: 12px;border: 1px;   border-bottom-color: black;border-style: solid;">
-                                        <div class="vis-item-content"></div>
-                                    </div>
-                                </div>
-                                <div style="padding-left: 25px"> Visa </div>
-                            </div>                            
-                        </div>
-                        <div class="row number-stats margin-bottom-30 tab-pane" id="inoutdatatbl">
-                            <div>
-                                <table id="tblinout" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%" style="margin-top:20px;">
-                                    <thead class="bg-table-gray">
-                                        <tr>                                            
-                                            <th>
-                                                Date & Time
-                                            </th>
-                                            <th>
-                                                Entry / Exit
-                                            </th>
-                                            <th>
-                                                Branch
-                                            </th>
-                                            <th>
-                                                Officer
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                </table>
+	<div class="portlet-body">
+		<div class="tabbable-line boxless margin-bottom-20">
+			<ul class="nav nav-tabs">
+				<li ng-class="{'active':showVisa}" ng-if="showVisa">
+					<a data-target="#visa" data-toggle="tab" aria-expanded="false"> Visa Details </a>
+				</li>
+				<li ng-class="{'active':!showVisa}" ng-if="showHistory">
+					<a data-target="#history" data-toggle="tab" aria-expanded="true"> Travel History </a>
+				</li>
+			</ul>
+			<div class="tab-content" style="padding:5px;">
+				<div class="tab-pane active" id="visa" ng-class="{active: showVisa}" ng-if="showVisa">
+					<div class="portlet-body  tab-content">
+						<div class="row number-stats margin-bottom-30 tab-pane active" id="tabvisa">
+							<div>
+								<!--class="search-table table-responsive"-->
+								<table id="tblvisa" class="table table-bordered table-hover" cellspacing="0" width="100%">
+									<!--class="table table-bordered table-striped table-condensed" -->
+									<thead class="bg-table-gray">
+										<tr>
+											<th>Visa Image</th>
+											<th>Sticker</th>
+											<th>Pass Type</th>
+											<th>Job Title</th>
+											<th>Address</th>
+											<th>Start Date</th>
+											<th>End Date</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="history" ng-if="showHistory" ng-class="{active: showHisFirst}">
+					<div class="actions pull-right">
+						<div id="inouttab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
+							<a data-target="#inoutchart" class="btn btn-transparent grey-salsa btn-sm active" data-toggle="tab">Chart</a>
+							<a data-target="#inoutdatatbl" class="btn btn-transparent grey-salsa btn-sm" data-toggle="tab">Data</a>
+							<a data-target="#mismatch" ng-hide="hideMisMatchTab" class="btn btn-transparent grey-salsa btn-sm" data-toggle="tab">Miss Match</a>
+						</div>
+					</div>
+					<div class="portlet-body tab-content">
+						<div class="row number-stats margin-bottom-30 tab-pane active" id="inoutchart">
+							<div class="actions">
+								<i id="zoomIn" class="btn fa fa-search-plus"></i>
+								<i id="zoomOut" class="btn fa fa-search-minus"></i>
+								<i id="moveLeft" class="btn fa fa-arrow-left"></i>
+								<i id="moveRight" class="btn fa fa-arrow-right"></i>
+								<span class="clkditem" style="background-color: #C5DC3B"></span>
+							</div>
+							<div class="chart123" id="visualization">
+							</div>
+							<div style="padding-left: 85%">
+								<div>
+									<br/>
+									<div class="vis-item vis-box red vis-readonly">
+										<div class="vis-item-content"></div>
+									</div>
+								</div>
+								<div style="padding-left: 25px"> Exit </div>
+								<div>
+									<div class="vis-item vis-box green vis-readonly">
+										<div class="vis-item-content"></div>
+									</div>
+								</div>
+								<div style="padding-left: 25px"> Entry </div>
+								<div>
+									<div class="vis-item vis-background" style="height: 12px;width: 12px;border: 1px;   border-bottom-color: black;border-style: solid;">
+										<div class="vis-item-content"></div>
+									</div>
+								</div>
+								<div style="padding-left: 25px"> Visa </div>
+							</div>
+						</div>
+						<div class="row number-stats margin-bottom-30 tab-pane" id="inoutdatatbl">
+							<div>
+								<table id="tblinout" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%" style="margin-top:20px;">
+									<thead class="bg-table-gray">
+										<tr>
+											<th>
+												Date & Time
+											</th>
+											<th>
+												Entry / Exit
+											</th>
+											<th>
+												Branch
+											</th>
+											<th>
+												Officer
+											</th>
+										</tr>
+									</thead>
+								</table>
 
-                            </div>
-                        </div>
-                        <div class="row number-stats margin-bottom-30 tab-pane" id="mismatch">
-                            <div>
-                                <table id="tblMisMatch" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-                                    <thead class="bg-table-gray">
-                                        <tr>
-                                            <th>
-                                                Missing
-                                            </th>
-                                            <th>
-                                                Start From
-                                            </th>
-                                            <th>
-                                                End To
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                           
-                        </div>
-                        
-                    </div>
-                </div>
-                <!-- END PORTLET -->
-            </div>
-        </div>
-    </div>
+							</div>
+						</div>
+						<div class="row number-stats margin-bottom-30 tab-pane" id="mismatch">
+							<div>
+								<table id="tblMisMatch" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+									<thead class="bg-table-gray">
+										<tr>
+											<th>
+												Missing
+											</th>
+											<th>
+												Start From
+											</th>
+											<th>
+												End To
+											</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+				<!-- END PORTLET -->
+			</div>
+		</div>
+	</div>
 </div>
 </div>
 <!--<div class="row row2" ng-if="showVisa">
@@ -220,55 +220,58 @@
 <div class="row row3" ng-if="showHistory">
 </div>-->
 <div class="row" ng-if='nodata' style="padding-top: 80px; padding-bottom: 180px;">
-    <center><label><h2>No Data found</h2></label></center>
+	<center><label><h2>No Data found</h2></label></center>
 </div>
 
 <style type="text/css">
-a.hovertext {
-    position: relative;
-    width: 500px;
-    text-decoration: none !important;
-    text-align: center;
-}
-
-a.hovertext:after {
-    content: attr(title);
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    padding: 0.5em 20px;
-    width: 80%;
-    background: rgba(0, 0, 0, 0.8);
-    text-decoration: none !important;
-    color: #fff;
-    opacity: 0;
-    -webkit-transition: 0.5s;
-    -moz-transition: 0.5s;
-    -o-transition: 0.5s;
-    -ms-transition: 0.5s;
-}
-
-a.hovertext:hover:after,
-a.hovertext:focus:after {
-    opacity: 1.0;
-}
-.vis-item.vis-background {
-    border: none;
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-    background-image: url('./assets/admin/layout2/img/stripe-bg-yellow.png');
-    }
-
-    input[type=search]{
-        width: 20em !important;
-    }
-    #tblinout_wrapper{
-        margin-top: 20px;
-    }
-    #tblMisMatch_wrapper{
-        margin-top: 20px;
-    }
+	a.hovertext {
+		position: relative;
+		width: 500px;
+		text-decoration: none !important;
+		text-align: center;
+	}
+	
+	a.hovertext:after {
+		content: attr(title);
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		padding: 0.5em 20px;
+		width: 80%;
+		background: rgba(0, 0, 0, 0.8);
+		text-decoration: none !important;
+		color: #fff;
+		opacity: 0;
+		-webkit-transition: 0.5s;
+		-moz-transition: 0.5s;
+		-o-transition: 0.5s;
+		-ms-transition: 0.5s;
+	}
+	
+	a.hovertext:hover:after,
+	a.hovertext:focus:after {
+		opacity: 1.0;
+	}
+	
+	.vis-item.vis-background {
+		border: none;
+		box-sizing: border-box;
+		padding: 0;
+		margin: 0;
+		background-image: url('./assets/admin/layout2/img/stripe-bg-yellow.png');
+	}
+	
+	input[type=search] {
+		width: 20em !important;
+	}
+	
+	#tblinout_wrapper {
+		margin-top: 20px;
+	}
+	
+	#tblMisMatch_wrapper {
+		margin-top: 20px;
+	}
 </style>
 <script type="text/javascript">
 // $('#tabs').tab();
@@ -299,31 +302,40 @@ $('.options').click(function(e) {
 
 
 <style>
-    
-/* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
-}
-
-/* Modal Content (Image) */
-.img_size {
-    margin: auto;
-    display: block;
-    width:20%;
-    max-width: 700px;
-}
-.missingInd{
-    color:red;
-}
-
+	/* The Modal (background) */
+	
+	.modal {
+		display: none;
+		/* Hidden by default */
+		position: fixed;
+		/* Stay in place */
+		z-index: 1;
+		/* Sit on top */
+		padding-top: 100px;
+		/* Location of the box */
+		left: 0;
+		top: 0;
+		width: 100%;
+		/* Full width */
+		height: 100%;
+		/* Full height */
+		overflow: auto;
+		/* Enable scroll if needed */
+		background-color: rgb(0, 0, 0);
+		/* Fallback color */
+		background-color: rgba(0, 0, 0, 0.9);
+		/* Black w/ opacity */
+	}
+	/* Modal Content (Image) */
+	
+	.img_size {
+		margin: auto;
+		display: block;
+		width: 20%;
+		max-width: 700px;
+	}
+	
+	.missingInd {
+		color: red;
+	}
 </style>

@@ -730,11 +730,15 @@ $scope.$on('mapClick', function(event, e) {
         var strtest = 0;
         $('.viewReq').on('click', 'button.searchBtn', function (e) {
           $("#myTravalModal").find('.modal-body').append( "<iframe id='frame' width='100%' height='600px'></iframe>" );
-          //sessionStorage.setItem('backct',false);
           var viewinfo = tblGloSEarch.row($(this).parents('tr')).data();
           var strcntry = viewinfo.country.replace(/ /g, "*");
-          var qstr = 'doc_nos:'+ viewinfo.doc_no + (strcntry.length != 0? ' AND country:'+ strcntry : '');
+          // var qstr = 'doc_nos:'+ viewinfo.doc_no + (strcntry.length != 0? ' AND country:'+ strcntry : '');
           // sessionStorage.setItem('Qparam','doc_nos:'+ viewinfo.doc_no +' AND country:'+ strcntry);
+          if(strcntry.toLowerCase().trim() == 'malaysia'){
+            var qstr = 'doc_no:' + viewinfo.doc_no + ' AND citizen:' + true;            
+          }else{
+            var qstr = 'doc_nos:' + viewinfo.doc_no + ' AND country:' + strcntry;
+          }
           sessionStorage.setItem('Qparam',qstr);
           
           //To load in to Modal
@@ -743,21 +747,12 @@ $scope.$on('mapClick', function(event, e) {
           $('#myTravalModal').modal('show').find("#frame").attr("src", "#/travelertracker/travelertracker.html?session=true&test=" + strtest);
         });
 
-     
-        
-
         $('#myTravalModal').on('hidden.bs.modal', function (e) {
             $('#frame').remove();
             //sessionStorage.setItem('backct',true);
-        });
+        });      
 
       
-
-      // $scope.viewCitizen = function (docno) {
-      //   // window.location = "#/travelertracker/travelertracker.html?doc_nos=" + docno + "&citizen=true";
-      //   window.location = "#/travelertracker/travelertracker.html?session=true";    
-      //   sessionStorage.setItem('Qparam','doc_no:'+ docno +' AND citizen:'+ true);
-      // };
 
 
 
