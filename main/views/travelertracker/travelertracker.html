@@ -87,7 +87,7 @@
 <!-- <div class="row" style="height: {{availHeight > 1000 ? 210 : 160}}px">&nbsp;
 
 </div> -->
-<div class="portlet light portlet-fit bordered">
+<div class="portlet light portlet-fit bordered" ng-if='!nodata'>
     <div class="portlet-body">
         <div class="tabbable-line boxless margin-bottom-20">
             <ul class="nav nav-tabs">
@@ -219,7 +219,7 @@
 </div>
 <div class="row row3" ng-if="showHistory">
 </div>-->
-<div class="row" ng-if='nodata'>
+<div class="row" ng-if='nodata' style="padding-top: 80px; padding-bottom: 180px;">
     <center><label><h2>No Data found</h2></label></center>
 </div>
 

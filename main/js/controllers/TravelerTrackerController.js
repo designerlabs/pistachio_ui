@@ -523,7 +523,7 @@ if (document.location.href.search("page=tracking")!=-1){
                 console.log(response);
                 $('.loadimg').hide();
             }).fail(function(response) {
-                if (response.statusText == "OK") {
+                if (response.statusText == "OK" && response.responseText.length != 0) {
                     $scope.imagetxt = "data:image/bmp;base64," + response.responseText;
                     $scope.$apply();
                     var modal = document.getElementById('myModal');
