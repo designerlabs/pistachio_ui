@@ -467,7 +467,7 @@ $scope.$on('mapClick', function(event, e) {
                     columns: [{  
                             "title": "Date",                         
                             "data": "date",
-                            "width":"15%",
+                            "width":"10%",
                             "render": function(data, type, full, meta) {
                                 // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
                                 return data.substring(0,19);
@@ -480,7 +480,21 @@ $scope.$on('mapClick', function(event, e) {
                         { 
                           "title":"Name",
                           "data": "name",
-                          "width":"20%"                        
+                          "width":"30%"                        
+                         },
+                        { 
+                          "title":"Gender",
+                          "data": "sex",
+                          "width":"5%",
+                          "render": function(data){
+                            if(data == "LELAKI"){
+                              return '<div style="width:100%; text-align:center;"><i class="fa fa-male" aria-hidden="true" style="font-size:22px; color:#0093ff;"></i></div>';
+                            }else if(data == "PEREMPUAN"){
+                              return '<div style="width:100%; text-align:center;"><i class="fa fa-female" aria-hidden="true"  style="font-size:22px; color:#ff0097;"></i></div>';
+                            }else{
+                              return '<div style="width:100%; text-align:center;"><i class="fa fa-transgender" aria-hidden="true"  style="font-size:22px; color:#818990;"></i></div>';
+                            }
+                          }                        
                          },
                         { 
                           "title":"Country",
@@ -503,7 +517,7 @@ $scope.$on('mapClick', function(event, e) {
                         {
                           "title":"Action",                          
                           "data": "action",
-                          "width":"5%",
+                          "width":"10%",
                           "render": function(data, type, full, meta) {                          
                             return '<a class="viewReq")>'+
                                   '<button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>'+
@@ -536,7 +550,7 @@ $scope.$on('mapClick', function(event, e) {
                   columns: [{  
                           "title": "Date",                         
                           "data": "date",
-                          "width":"15%",
+                          "width":"10%",
                           "render": function(data, type, full, meta) {
                               // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
                               return data.substring(0,19);
@@ -544,26 +558,41 @@ $scope.$on('mapClick', function(event, e) {
                       },{
                         "title": "IC No.",
                         "data": "kp_no",
-                          "width":"15%"
+                          "width":"10%"
                         },
                       { 
                         "title":"Name",
                         "data": "name",
-                        "width":"20%"                        
+                        "width":"35%"                        
                         },
+                      { 
+                          "title":"Gender",
+                          "data": "sex",
+                          "width":"5%",
+                          "render": function(data){
+                            if(data == "LELAKI"){
+                              return '<div style="width:100%; text-align:center;"><i class="fa fa-male" aria-hidden="true" style="font-size:22px; color:#0093ff;"></i></div>';
+                            }else if(data == "PEREMPUAN"){
+                              return '<div style="width:100%; text-align:center;"><i class="fa fa-female" aria-hidden="true"  style="font-size:22px; color:#ff0097;"></i></div>';
+                            }else{
+                              return '<div style="width:100%; text-align:center;"><i class="fa fa-transgender" aria-hidden="true"  style="font-size:22px; color:#818990;"></i></div>';
+                            }
+                          }                        
+                         },
                       { 
                         "title":"Passport No.",
                         "data": "doc_no",
-                        "width":"8%",
+                        "width":"15%",
                         "render": function(data, type, full, meta) {
                           // strdoc_no = data;
                           return data;
                         }      
                         },
+                        
                       { 
                         "title":"State",
                         "data": "state",
-                        "width":"10%",
+                        "width":"15%",
                         "render": function(data, type, full, meta) {
                           // strdoc_no = data;
                           if(data == undefined){
@@ -607,7 +636,7 @@ $scope.$on('mapClick', function(event, e) {
                   columns: [{  
                           "title": "Date",                         
                           "data": "date",
-                          "width":"20%",
+                          "width":"10%",
                           "render": function(data, type, full, meta) {
                               // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
                               return data.substring(0,19);
@@ -615,17 +644,33 @@ $scope.$on('mapClick', function(event, e) {
                       },{
                         "title": "Branch",
                         "data": "branch",
-                          "width":"25%"
+                          "width":"20%"
                         },
                       { 
                         "title":"Name",
                         "data": "name",
-                        "width":"20%"                        
+                        "width":"25%"                        
                         },
+
+                         { 
+                          "title":"Gender",
+                          "data": "sex",
+                          "width":"5%",
+                          "render": function(data){
+                            if(data == "LELAKI"){
+                              return '<div style="width:100%; text-align:center;"><i class="fa fa-male" aria-hidden="true" style="font-size:22px; color:#0093ff;"></i></div>';
+                            }else if(data == "PEREMPUAN"){
+                              return '<div style="width:100%; text-align:center;"><i class="fa fa-female" aria-hidden="true"  style="font-size:22px; color:#ff0097;"></i></div>';
+                            }else{
+                              return '<div style="width:100%; text-align:center;"><i class="fa fa-transgender" aria-hidden="true"  style="font-size:22px; color:#818990;"></i></div>';
+                            }
+                          }                        
+                         },
+
                       { 
                         "title":"Country",
                         "data": "country",
-                        "width":"15%",
+                        "width":"20%",
                         "render": function(data, type, full, meta) {
                           return data;
                         }      
@@ -646,7 +691,7 @@ $scope.$on('mapClick', function(event, e) {
                       {
                         "title":"Action",                          
                         "data": "action",
-                        "width":"5%",
+                        "width":"10%",
                         "render": function(data, type, full, meta) {                          
                           return '<a class="viewReq">'+
                                 '<button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>'+
@@ -685,17 +730,32 @@ $scope.$on('mapClick', function(event, e) {
                       },{
                         "title": "IC No.",
                         "data": "kp_no",
-                          "width":"25%"
+                          "width":"20%"
                         },
                       { 
                         "title":"Name",
                         "data": "name",
                         "width":"25%"                        
                         },
+
+                        { 
+                          "title":"Gender",
+                          "data": "sex",
+                          "width":"5%",
+                          "render": function(data){
+                            if(data == "LELAKI"){
+                              return '<div style="width:100%; text-align:center;"><i class="fa fa-male" aria-hidden="true" style="font-size:22px; color:#0093ff;"></i></div>';
+                            }else if(data == "PEREMPUAN"){
+                              return '<div style="width:100%; text-align:center;"><i class="fa fa-female" aria-hidden="true"  style="font-size:22px; color:#ff0097;"></i></div>';
+                            }else{
+                              return '<div style="width:100%; text-align:center;"><i class="fa fa-transgender" aria-hidden="true"  style="font-size:22px; color:#818990;"></i></div>';
+                            }
+                          }                        
+                         },
                       { 
                         "title":"Passport No.",
                         "data": "doc_no",
-                        "width":"25%",
+                        "width":"20%",
                         "render": function(data, type, full, meta) {
                           return data;
                         }      
@@ -703,7 +763,7 @@ $scope.$on('mapClick', function(event, e) {
                       { 
                         "title":"Country",
                         "data": "country",
-                        "width":"10%",
+                        "width":"20%",
                         "render": function(data, type, full, meta) {
                           // strdoc_no = data;
                           if(data == undefined){
