@@ -39,10 +39,6 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
         $rootScope.settings.layout.pageSidebarClosed = true;
     }
 
-
-
-
-
     if (document.location.href.search("page=tracking") != -1) {
         $('link[title="iframeStyle"]').prop('disabled', true);
         $scope.travelBackBtn = true;
@@ -158,10 +154,10 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
             $.get("http://" + solrHost + ":8983/solr/citizen/query?sort=xit_date desc&json={query:'" + qry + "',limit:100000}")
                 .then(function (result) {
                     console.log(result);
-                    if (result.response.docs.length !== 0) {
+                    if (result.response.docs.length > 0) {
                         // $scope.showHistory = true;
-                        result.response.docs[0].country = "Malaysia";
-                        $scope.DOB(result.response.docs[0].birth_date)
+                        result.response.docs[0].country = "Malaysia";                        
+                        $scope.DOB(result.response.docs[0].birth_date);                        
                         $scope.fn_personalInfo(result.response.docs[0]);
                         // $scope.CreateInoutChart(result.response.docs);
                         $scope.$apply();
@@ -177,12 +173,12 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
             $.get("http://" + solrHost + ":8983/solr/cit/query?sort=xit_date desc&json={query:'" + qry + "',limit:100000}")
                 .then(function (result) {
                     console.log(result);
-                    if (result.response.docs.length !== 0) {
+                    if (result.response.docs.length > 0) {
                         $scope.nodata = false;
                         $scope.showHistory = true;
                         // $scope.showHisFirst = ($scope.showVisa == false && $scope.showHistory == true) ? true : false;
                         $scope.showHisFirst = true;
-                        result.response.docs[0].country = "Malaysia";
+                        result.response.docs[0].country = "Malaysia";                        
                         $scope.DOB(result.response.docs[0].birth_date)
                         $scope.fn_personalInfo(result.response.docs[0]);
                         $scope.$apply();
@@ -210,7 +206,7 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
                     if (result.response.docs.length !== 0) {
                         $scope.nodata = false;
                         $scope.showHistory = true;
-                        $scope.showHisFirst = ($scope.showVisa != true) ? true : false;
+                        $scope.showHisFirst = ($scope.showVisa != true) ? true : false;                        
                         $scope.fn_personalInfo(result.response.docs[0]);
                         $scope.DOB(result.response.docs[0].birth_date);
                         $scope.$apply();
@@ -430,11 +426,16 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
             visadetails = [];
             if (str.includes("citizen")) {
                 console.log('citizen');
+                
+                // $scope.citidetails = true;
+                // console.log($scope.citidetails);
                 $scope.fn_getCitizenInfo();
                 $scope.fn_getcitHistoryInfo()
 
             } else {
                 console.log('basic and personal');
+                // $scope.citidetails = false;
+                // console.log($scope.citidetails);
                 $scope.fn_getVisaInfo(); //visa details
                 $scope.fn_getHistoryInfo(); // history details
                 // $scope.fn_total('noncitizen');                               

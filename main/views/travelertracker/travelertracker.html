@@ -57,28 +57,51 @@
 					{{dob | date:'dd - MM - yyyy'}} / {{age}}
 				</div>
 			</div>
-			<div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
-				<small>COUNTRY</small>
-				<div class="bold">
-					{{res.country}}
-				</div>
-			</div>
 			<div class="col-md-4 col-sm-6 col-xs-12 form-group tool" style="padding-left:0px">
 				<small>GENDER</small>
 				<div class="bold">
 					{{res.sex}}
 				</div>
 			</div>
-			<div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
+			<div class="col-md-4 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
 				<small>PASSPORT NO</small>
 				<div class="bold" style="top: 5px; position: relative;">
 					<span ng-repeat= 'n in passportSplit(res.country == "Malaysia" ? res.doc_no : res.doc_nos)' ng-class='{primaryPassport:$first}'>
 						{{n}}{{$last ? '' : ', '}}
-					</span>
-
-					
+					</span>					
+				</div>
+			</div>		
+			
+			<div class="col-md-4 col-sm-6 col-xs-12 form-group" style="padding-left:0px" ng-show="res.state.length > 0">
+				<small>STATE</small>
+				<div class="bold">
+					{{res.state}}
 				</div>
 			</div>
+			<div class="col-md-4 col-sm-6 col-xs-12 form-group" style="padding-left:0px" ng-show="res.postcd.length > 0">
+				<small>POST CODE</small>
+				<div class="bold">
+					{{res.postcd}}
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
+				<small>COUNTRY</small>
+				<div class="bold">
+					{{res.country}}
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-6 col-xs-12 form-group" style="padding-left:0px" ng-show="res.phone.length > 0">
+				<small>PHONE NO</small>
+				<div class="bold">
+					{{res.phone}}
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px" ng-show="res.address.length > 0">
+				<small>ADDRESS</small>
+				<div class="bold">
+					{{res.address}}
+				</div>
+			</div>		
 		</div>
 
 		<div class="bordered" style="padding:20px;">
