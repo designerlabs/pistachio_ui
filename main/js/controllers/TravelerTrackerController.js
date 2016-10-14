@@ -226,6 +226,24 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
                 });
         }
 
+        $scope.passportSplit = function(pass){
+            try{
+            
+                if(pass.indexOf(' ') >= 0){
+                    $scope.singlePassport = false;
+                    pass = pass.split(" ");
+                    return pass;
+                }else{
+                    $scope.singlePassport = true;
+                    var arr = [];
+                    arr.push(pass);
+                    return arr;
+                }
+            }catch(e){
+
+            }
+        }
+
         $scope.CreateInoutChart = function (_data) {
             var newary = _data;
             var cnt = _data.length;

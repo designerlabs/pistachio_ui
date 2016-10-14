@@ -363,6 +363,11 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     }
 
   }
+  $('#searchbox').keypress(function(e) {
+    if(e.which == 13) {
+       $scope.search($(this).val().trim());
+    }
+  });
 
   $scope.search = function (text) {
 
@@ -453,8 +458,11 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
             $scope.noData = false;
             totalResLenth = data.pass.results.length;
             var strdoc_no, strcountry;
-            if ($('#tblSearch tr').length > 0 && $('#tblSearch').DataTable().data().length > 0)
-              $('#tblSearch').DataTable().destroy()
+            if ($('#tblSearch tr').length > 0 ){
+              if($('#tblSearch').DataTable().rows().length > 0){
+                  $('#tblSearch').DataTable().destroy();
+              }              
+            }
 
             tblGloSEarch = $('#tblSearch').DataTable({
               order: [[0, "asc"]],
@@ -467,7 +475,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
               columns: [{
                 "title": "Date",
                 "data": "date",
-                "width": "15%",
+                "width": "10%",
                 "render": function (data, type, full, meta) {
                   // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
                   return data.substring(0, 19);
@@ -480,8 +488,22 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
               {
                 "title": "Name",
                 "data": "name",
-                "width": "20%"
+                "width": "30%"
               },
+              { 
+                "title":"Gender",
+                "data": "sex",
+                "width":"5%",
+                "render": function(data){
+                  if(data == "LELAKI"){
+                    return '<div style="width:100%; text-align:center;"><i class="fa fa-male" aria-hidden="true" style="font-size:22px; color:#0093ff;"></i></div>';
+                  }else if(data == "PEREMPUAN"){
+                    return '<div style="width:100%; text-align:center;"><i class="fa fa-female" aria-hidden="true"  style="font-size:22px; color:#ff0097;"></i></div>';
+                  }else{
+                    return '<div style="width:100%; text-align:center;"><i class="fa fa-transgender" aria-hidden="true"  style="font-size:22px; color:#818990;"></i></div>';
+                  }
+                }                        
+                },
               {
                 "title": "Country",
                 "data": "country",
@@ -503,7 +525,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
               {
                 "title": "Action",
                 "data": "action",
-                "width": "5%",
+                "width": "10%",
                 "render": function (data, type, full, meta) {
                   return '<a class="viewReq")>' +
                     '<button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>' +
@@ -511,7 +533,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
                 }
               }]
             });
-          } else {
+          } else {          
             $scope.tblContent = false;
             $scope.noData = true;
           }
@@ -524,8 +546,14 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
             $scope.noData = false;
             totalResLenth = data.citizen.results.length;
 
-            if ($('#tblSearch tr').length > 0 && $('#tblSearch').DataTable().data().length > 0)
-              $('#tblSearch').DataTable().destroy()
+            // if ($('#tblSearch tr').length > 0 && $('#tblSearch').DataTable().data().length > 0)
+            //   $('#tblSearch').DataTable().destroy()
+
+            if ($('#tblSearch tr').length > 0 ){
+              if($('#tblSearch').DataTable().rows().length > 0){
+                  $('#tblSearch').DataTable().destroy();
+              }              
+            }
 
             tblGloSEarch = $('#tblSearch').DataTable({
               order: [[0, "asc"]],
@@ -536,7 +564,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
               columns: [{
                 "title": "Date",
                 "data": "date",
-                "width": "15%",
+                "width": "10%",
                 "render": function (data, type, full, meta) {
                   // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
                   return data.substring(0, 19);
@@ -544,17 +572,30 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
               }, {
                 "title": "IC No.",
                 "data": "kp_no",
-                "width": "15%"
+                "width": "10%"
               },
               {
                 "title": "Name",
                 "data": "name",
-                "width": "20%"
-              },
+                "width": "35%"
+              },{ 
+                "title":"Gender",
+                "data": "sex",
+                "width":"5%",
+                "render": function(data){
+                  if(data == "LELAKI"){
+                    return '<div style="width:100%; text-align:center;"><i class="fa fa-male" aria-hidden="true" style="font-size:22px; color:#0093ff;"></i></div>';
+                  }else if(data == "PEREMPUAN"){
+                    return '<div style="width:100%; text-align:center;"><i class="fa fa-female" aria-hidden="true"  style="font-size:22px; color:#ff0097;"></i></div>';
+                  }else{
+                    return '<div style="width:100%; text-align:center;"><i class="fa fa-transgender" aria-hidden="true"  style="font-size:22px; color:#818990;"></i></div>';
+                  }
+                }                        
+                },
               {
                 "title": "Passport No.",
                 "data": "doc_no",
-                "width": "8%",
+                "width": "15%",
                 "render": function (data, type, full, meta) {
                   // strdoc_no = data;
                   return data;
@@ -563,7 +604,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
               {
                 "title": "State",
                 "data": "state",
-                "width": "10%",
+                "width": "15%",
                 "render": function (data, type, full, meta) {
                   // strdoc_no = data;
                   if (data == undefined) {
@@ -584,7 +625,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
                 }
               }]
             });
-          } else {
+          } else {          
             $scope.tblContent = false;
             $scope.noData = true;
           }
@@ -595,8 +636,14 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
             $scope.tblContent = true;
             $scope.noData = false;
             totalResLenth = data.vistor.results.length;
-            if ($('#tblSearch tr').length > 0 && $('#tblSearch').DataTable().data().length > 0)
-              $('#tblSearch').DataTable().destroy()
+            // if ($('#tblSearch tr').length > 0 && $('#tblSearch').DataTable().data().length > 0)
+            //   $('#tblSearch').DataTable().destroy()
+
+            if ($('#tblSearch tr').length > 0 ){
+              if($('#tblSearch').DataTable().rows().length > 0){
+                  $('#tblSearch').DataTable().destroy();
+              }              
+            }
 
             tblGloSEarch = $('#tblSearch').DataTable({
               order: [[0, "asc"]],
@@ -607,7 +654,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
               columns: [{
                 "title": "Date",
                 "data": "date",
-                "width": "20%",
+                "width": "10%",
                 "render": function (data, type, full) {
                   // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
                   return data.substring(0, 19);
@@ -615,17 +662,30 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
               }, {
                 "title": "Branch",
                 "data": "branch",
-                "width": "25%"
+                "width": "20%"
               },
               {
                 "title": "Name",
                 "data": "name",
-                "width": "20%"
-              },
+                "width": "25%"
+              },{ 
+                "title":"Gender",
+                "data": "sex",
+                "width":"5%",
+                "render": function(data){
+                  if(data == "LELAKI"){
+                    return '<div style="width:100%; text-align:center;"><i class="fa fa-male" aria-hidden="true" style="font-size:22px; color:#0093ff;"></i></div>';
+                  }else if(data == "PEREMPUAN"){
+                    return '<div style="width:100%; text-align:center;"><i class="fa fa-female" aria-hidden="true"  style="font-size:22px; color:#ff0097;"></i></div>';
+                  }else{
+                    return '<div style="width:100%; text-align:center;"><i class="fa fa-transgender" aria-hidden="true"  style="font-size:22px; color:#818990;"></i></div>';
+                  }
+                }                        
+                },
               {
                 "title": "Country",
                 "data": "country",
-                "width": "15%",
+                "width": "20%",
                 "render": function (data, type, full, meta) {
                   return data;
                 }
@@ -646,13 +706,13 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
               {
                 "title": "Action",
                 "data": "action",
-                "width": "5%",
+                "width": "10%",
                 "render": function (data, type, full, meta) {
                   return '<a class="viewReq">' +
                     '<button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>' +
                     'View </button></a>';
                 }
-              }]
+              }]                       
             });
           } else {
             $scope.tblContent = false;
@@ -665,8 +725,14 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
             $scope.tblContent = true;
             $scope.noData = false;
             totalResLenth = data.blackListed.results.length;
-            if ($('#tblSearch tr').length > 0 && $('#tblSearch').DataTable().data().length > 0)
-              $('#tblSearch').DataTable().destroy()
+            // if ($('#tblSearch tr').length > 0 && $('#tblSearch').DataTable().data().length > 0)
+            //   $('#tblSearch').DataTable().destroy()
+
+            if ($('#tblSearch tr').length > 0 ){
+              if($('#tblSearch').DataTable().rows().length > 0){
+                  $('#tblSearch').DataTable().destroy();
+              }              
+            }
 
             tblGloSEarch = $('#tblSearch').DataTable({
               order: [[0, "asc"]],
@@ -677,7 +743,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
               columns: [{
                 "title": "Date",
                 "data": "date",
-                "width": "15%",
+                "width": "10%",
                 "render": function (data, type, full, meta) {
                   // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
                   return data.substring(0, 19);
@@ -685,24 +751,36 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
               }, {
                 "title": "IC No.",
                 "data": "kp_no",
-                "width": "15%"
+                "width": "20%"
               },
               {
                 "title": "Name",
                 "data": "name",
-                "width": "20%"
-              },
-              {
+                "width": "25%"
+              }, { 
+                "title":"Gender",
+                "data": "sex",
+                "width":"5%",
+                "render": function(data){
+                  if(data == "LELAKI"){
+                    return '<div style="width:100%; text-align:center;"><i class="fa fa-male" aria-hidden="true" style="font-size:22px; color:#0093ff;"></i></div>';
+                  }else if(data == "PEREMPUAN"){
+                    return '<div style="width:100%; text-align:center;"><i class="fa fa-female" aria-hidden="true"  style="font-size:22px; color:#ff0097;"></i></div>';
+                  }else{
+                    return '<div style="width:100%; text-align:center;"><i class="fa fa-transgender" aria-hidden="true"  style="font-size:22px; color:#818990;"></i></div>';
+                  }
+                }                        
+              }, {
                 "title": "Passport No.",
                 "data": "doc_no",
-                "width": "15%",
+                "width": "20%",
                 "render": function (data, type, full, meta) {
                   return data;
                 }
               },{
                 "title": "Country",
                 "data": "country",
-                "width": "15%",
+                "width": "20%",
                 "render": function (data, type, full, meta) {
                   // strdoc_no = data;
                   if (data == undefined) {
@@ -717,13 +795,13 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
                 "width": "0%",
                 "visible": false,
                 "render": function (data, type, full, meta) {
-                  return '<a class="viewReq">' +
+                  return '<a class="">' +
                     '<button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>' +
                     'View </button></a>';
                 }
               }]
             });
-          } else {
+          } else {          
             $scope.tblContent = false;
             $scope.noData = true;
           }
