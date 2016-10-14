@@ -186,10 +186,8 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
                         $scope.DOB(result.response.docs[0].birth_date)
                         $scope.fn_personalInfo(result.response.docs[0]);
                         $scope.$apply();
-                        $scope.CreateInoutChart(result.response.docs);                        
-                        
+                        $scope.CreateInoutChart(result.response.docs);
                     } else {
-                        // alert('No date found in himove table');
                         $scope.nodata = true;
                         $scope.showHistory = false;
                         $scope.showHisFirst = false;
