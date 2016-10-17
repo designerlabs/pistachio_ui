@@ -400,7 +400,8 @@
                 </li>
               </ul>
             </div>
-             <div class="pageNum">( {{startCount}} / {{applicationsFound}} )</div>
+             <div class="pageNum"><span style="position: absolute; left: 0; font-size: 14px">showing <strong>{{start == 0 ? 1 : start}}</strong> to <strong>{{startCount}}</strong>  of <strong>{{applicationsFound | number}}</strong> records.</span>(Page {{startCount/10}} of {{applicationsFound/10 | number:0}} )</div>
+             
           </div>
         </div>
       </div> 

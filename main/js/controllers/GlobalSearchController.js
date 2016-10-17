@@ -812,6 +812,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
 
         $scope.first = ($scope.start / 10) > 0 ? false : true;
         $scope.startCount = $scope.start + totalResLenth;
+        $scope.previousCount = $scope.start;
         // $scope.startCount = ($scope.applicationsFound < 10 ? $scope.applicationsFound : $scope.start + 10);
         $scope.last = ($scope.startCount == $scope.applicationsFound ? true : false);
 
