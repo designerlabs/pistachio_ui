@@ -147,7 +147,9 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
 
   $scope.drawHeatMap = function () {
     var map = L.map("mapid", { fullscreenControl: true }).setView([4, 100], 7);
-    L.tileLayer('http://10.23.124.233/osm_tiles/{z}/{x}/{y}.png', {
+
+    L.tileLayer('//c.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //L.tileLayer('http://10.23.124.233/osm_tiles/{z}/{x}/{y}.png', {
       attribution: '&copy; NSL | Mimos'
     }).addTo(map);
 

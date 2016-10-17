@@ -544,6 +544,7 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
         });
 
         var docno = Qparam.split('AND')[0].replace("doc_nos:", "").trim();
+        docno = docno.replace("doc_no:", "").trim();
         $('.loadimg').show();
         $.get(globalURL + "api/image/solr/docno/" + docno)
             .then(function (response) {
