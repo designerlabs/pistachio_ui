@@ -223,8 +223,8 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
   }
 
   $scope.show = function () {
-    if ($('#tblSearch tr').length > 0 && $('#tblSearch').DataTable().data().length > 0)
-      $('#tblSearch').DataTable().destroy()
+    // if ($('#tblSearch tr').length > 0 && $('#tblSearch').DataTable().data().length > 0)
+    //   $('#tblSearch').DataTable().destroy()
 
     // $scope.startCount = 0;
     $scope.box_update();
@@ -457,12 +457,13 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
             $scope.tblContent = true;
             $scope.noData = false;
             totalResLenth = data.pass.results.length;
-            var strdoc_no, strcountry;
-            if ($('#tblSearch tr').length > 0 ){
+            var strdoc_no, strcountry;            
+             if ($('#tblSearch tr').length > 0 ){
               if($('#tblSearch').DataTable().rows().length > 0){
                   $('#tblSearch').DataTable().destroy();
               }              
             }
+            // tblGloSEarch.destroy();
 
             tblGloSEarch = $('#tblSearch').DataTable({
               order: [[0, "asc"]],
