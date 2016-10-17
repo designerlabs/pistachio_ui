@@ -187,6 +187,7 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
                         $scope.CreateInoutChart(result.response.docs);
                     } else {
                         $scope.nodata = true;
+                        $scope.$apply();
                         // $scope.showHistory = false;
                         // $scope.showHisFirst = false;
                     }

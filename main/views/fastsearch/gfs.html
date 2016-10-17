@@ -37,14 +37,31 @@
             <li class="list-group-item" data-ng-repeat="cnt in countries" data-cntval="{{cnt.count |  number:0}}" style="padding-left: 3px; padding-right: 1px;">
 
               <div class="md-checkbox" style="padding: 2px;">
-                <input type="checkbox" ng-click="checkboxselectedCountry(cnt.val)" class="md-check" id={{cnt.val}}>
-                <label for={{cnt.val}}>
+                <input type="checkbox" ng-click="checkboxselectedCountry(cnt.field)" class="md-check" id={{cnt.field}}>
+                <label for={{cnt.field}}>
                   <span class="inc"></span>
                   <span class="check"></span>
-                  <span class="box"></span> {{cnt.val}}</label>
+                  <span class="box"></span> {{cnt.field}}</label>
               </div>
             </li>
 
+          </ul>
+        </div>
+      </div>
+      <div class=" mini-box col-md-3">
+        <h4> States </h4>
+        <div class="todo-project-list">
+          <ul class="list-group">
+            <li class="list-group-item" data-ng-repeat="cnt in states" data-cntval="{{cnt.count |  number:0}}" style="padding-left: 3px; padding-right: 1px;">
+
+              <div class="md-checkbox" style="padding: 2px;">
+                <input type="checkbox" ng-click="statesBox(cnt.field)" class="md-check" id={{cnt.field}}>
+                <label for={{cnt.field}}>
+                    <span class="inc"></span>
+                    <span class="check"></span>
+                    <span class="box"></span> {{cnt.field}}</label>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
@@ -55,14 +72,13 @@
             <li class="list-group-item" data-ng-repeat="cnt in jobs" data-cntval="{{cnt.count |  number:0}}" style="padding-left: 3px; padding-right: 1px;">
 
               <div class="md-checkbox" style="padding: 2px;">
-                <input type="checkbox" ng-click="jobBox(cnt.val)" class="md-check" id={{cnt.val}}>
-                <label for={{cnt.val}}>
+                <input type="checkbox" ng-click="jobBox(cnt.field)" class="md-check" id={{cnt.field}}>
+                <label for={{cnt.field}}>
                     <span class="inc"></span>
                     <span class="check"></span>
-                    <span class="box"></span> {{cnt.val}}</label>
+                    <span class="box"></span> {{cnt.field}}</label>
               </div>
             </li>
-
           </ul>
         </div>
       </div>
@@ -81,7 +97,7 @@
         </div>
     </div>
     <div>
-      <div class="row" style=>
+      <div class="row">
         <div class="col-md-12">
           <div class='uib'>
             <div class='ui_box' ng-class="{selected: showApplication}" ng-click="showApplications('pass','load')">
