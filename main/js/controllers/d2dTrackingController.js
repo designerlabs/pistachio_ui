@@ -737,30 +737,30 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
 
         sortValue = "desc";
 
-        $(".sortBtn1").toggle(function() {
-            sortValue = "asc";
-            $scope.populateChart();
+        // $(".sortBtn1").toggle(function() {
+        //     sortValue = "asc";
+        //     $scope.populateChart();
 
-        }, function() {
-            sortValue = "desc";
-            $scope.populateChart();
-        });
-        $(".sortBtn2").toggle(function() {
-            sortValue = "asc";
-            $scope.populateChart();
+        // }, function() {
+        //     sortValue = "desc";
+        //     $scope.populateChart();
+        // });
+        // $(".sortBtn2").toggle(function() {
+        //     sortValue = "asc";
+        //     $scope.populateChart();
 
-        }, function() {
-            sortValue = "desc";
-            $scope.populateChart();
-        });
-        $(".sortBtn3").toggle(function() {
-            sortValue = "asc";
-            $scope.populateChart();
+        // }, function() {
+        //     sortValue = "desc";
+        //     $scope.populateChart();
+        // });
+        // $(".sortBtn3").toggle(function() {
+        //     sortValue = "asc";
+        //     $scope.populateChart();
 
-        }, function() {
-            sortValue = "desc";
-            $scope.populateChart();
-        });
+        // }, function() {
+        //     sortValue = "desc";
+        //     $scope.populateChart();
+        // });
 
         $("#bNextBtn").click(function() {
             $scope.branchOffset += limitValue;
