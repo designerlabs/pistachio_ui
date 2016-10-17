@@ -156,19 +156,21 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
                     console.log(result);
                     if (result.response.docs.length > 0) {
                         // $scope.showHistory = true;
-                        result.response.docs[0].country = "Malaysia";                        
-                        $scope.DOB(result.response.docs[0].birth_date);                        
+                        result.response.docs[0].country = "Malaysia";
+                        $scope.DOB(result.response.docs[0].birth_date);
                         $scope.fn_personalInfo(result.response.docs[0]);
                         // $scope.CreateInoutChart(result.response.docs);
                         $scope.$apply();
+                        $scope.fn_getcitHistoryInfo();
                     } else {
                         // alert('No date found in himove table');
                         // $scope.showHistory = false;
                         // $scope.showVisa = false;
                     }
-                });            
+                });
         }
-        $scope.fn_getcitHistoryInfo = function(){
+
+        $scope.fn_getcitHistoryInfo = function () {
             var qry = Qparam.substring(0, Qparam.length - 17);
             $.get("http://" + solrHost + ":8983/solr/cit/query?sort=xit_date desc&json={query:'" + qry + "',limit:100000}")
                 .then(function (result) {
@@ -178,15 +180,16 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
                         $scope.showHistory = true;
                         // $scope.showHisFirst = ($scope.showVisa == false && $scope.showHistory == true) ? true : false;
                         $scope.showHisFirst = true;
-                        result.response.docs[0].country = "Malaysia";                        
+                        result.response.docs[0].country = "Malaysia";
                         $scope.DOB(result.response.docs[0].birth_date)
                         $scope.fn_personalInfo(result.response.docs[0]);
                         $scope.$apply();
                         $scope.CreateInoutChart(result.response.docs);
                     } else {
                         $scope.nodata = true;
-                        $scope.showHistory = false;
-                        $scope.showHisFirst = false;
+                        $scope.$apply();
+                        // $scope.showHistory = false;
+                        // $scope.showHisFirst = false;
                     }
                 });
         }
@@ -206,11 +209,11 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
                     if (result.response.docs.length !== 0) {
                         $scope.nodata = false;
                         $scope.showHistory = true;
-                        $scope.showHisFirst = ($scope.showVisa != true) ? true : false;                        
+                        $scope.showHisFirst = ($scope.showVisa != true) ? true : false;
                         $scope.fn_personalInfo(result.response.docs[0]);
                         $scope.DOB(result.response.docs[0].birth_date);
                         $scope.$apply();
-                        $scope.CreateInoutChart(result.response.docs);                        
+                        $scope.CreateInoutChart(result.response.docs);
                     } else {
                         // alert('No date found in himove table');
                         $scope.showHistory = false;
@@ -222,20 +225,20 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
                 });
         }
 
-        $scope.passportSplit = function(pass){
-            try{
-            
-                if(pass.indexOf(' ') >= 0){
+        $scope.passportSplit = function (pass) {
+            try {
+
+                if (pass.indexOf(' ') >= 0) {
                     $scope.singlePassport = false;
                     pass = pass.split(" ");
                     return pass;
-                }else{
+                } else {
                     $scope.singlePassport = true;
                     var arr = [];
                     arr.push(pass);
                     return arr;
                 }
-            }catch(e){
+            } catch (e) {
 
             }
         }
@@ -426,11 +429,11 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
             visadetails = [];
             if (str.includes("citizen")) {
                 console.log('citizen');
-                
+
                 // $scope.citidetails = true;
                 // console.log($scope.citidetails);
                 $scope.fn_getCitizenInfo();
-                $scope.fn_getcitHistoryInfo()
+                // $scope.fn_getcitHistoryInfo();
 
             } else {
                 console.log('basic and personal');
@@ -541,6 +544,7 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
         });
 
         var docno = Qparam.split('AND')[0].replace("doc_nos:", "").trim();
+        docno = docno.replace("doc_no:", "").trim();
         $('.loadimg').show();
         $.get(globalURL + "api/image/solr/docno/" + docno)
             .then(function (response) {
