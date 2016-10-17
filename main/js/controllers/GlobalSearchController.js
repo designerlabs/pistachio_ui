@@ -137,7 +137,6 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
 
 
   $scope.$on('mapClick', function (event, e) {
-
     $scope.clicked = true
     $scope.latVal = e.latlng.lat; $scope.lngVal = e.latlng.lng;
     $(".range-slider__range").val('20');
@@ -439,21 +438,38 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
       $scope.showCitizen = false;
       $scope.showVisitor = false;
       $scope.showBlacklist = false;
+      $scope.ChkCntry = true;
+      $scope.ChkStates = false;
+      $scope.ChkJobs = true;
+      $scope.mapAreas = true;
     } else if (status == 'citizen') {
       $scope.showCitizen = true;
       $scope.showApplication = false;
       $scope.showVisitor = false;
       $scope.showBlacklist = false;
+      $scope.ChkCntry = false;
+      $scope.ChkStates = true;
+      $scope.ChkJobs = false;
+      $scope.mapAreas = true;
     } else if (status == 'vistor') {
       $scope.showVisitor = true;
       $scope.showApplication = false;
       $scope.showCitizen = false;
       $scope.showBlacklist = false;
+      $scope.ChkCntry = true;
+      $scope.ChkStates = false;
+      $scope.ChkJobs = false;
+      $scope.mapAreas = true;
+      // $scope.Branch = true;
     } else if (status == 'blackListed') {
       $scope.showBlacklist = true;
       $scope.showApplication = false;
       $scope.showCitizen = false;
       $scope.showVisitor = false;
+      $scope.ChkCntry = true;
+      $scope.ChkStates = false;
+      $scope.ChkJobs = false;
+      $scope.mapAreas = false;
     }
 
     var query = ""
