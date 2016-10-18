@@ -16,7 +16,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     $scope.tblContent = false;
     $scope.noData = false;
     var getUser = localStorage.getItem("username");
-    $scope.getSearchFromDt = "";
+    $scope.getSearchFromDt1 = "";
     $scope.getSearchToDt = "";
     $scope.text = "";
     $scope.latVal = "";
@@ -58,9 +58,11 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
 
 
     $('.searchcont').on('apply.daterangepicker', function (ev, picker) {
-      $scope.getSearchFromDt = picker.startDate.format("DDMMYYYY");
+      $scope.getSearchFromDt1 = picker.startDate.format("DDMMYYYY");
       $scope.getSearchToDt = picker.endDate.format("DDMMYYYY");
-      // alert($scope.getSearchFromDt + " , " + $scope.getSearchToDt);
+      // alert($scope.getSearchFromDt1 + " , " + $scope.getSearchToDt);
+      // $scope.$apply();
+      $scope.show();
     });
 
     if (!$rootScope.fastsearch.load) {
@@ -233,12 +235,12 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     //   $('#tblSearch').DataTable().destroy()
 
     // $scope.startCount = 0;
-    $scope.box_update();
+    $rootScope.box_update();
   }
 
 
   $scope.go = function () {
-    $scope.box_update();
+    $rootScope.box_update();
   }
 
   $scope.updateFilterQuery_Country = function () {
@@ -354,13 +356,13 @@ $scope.branchsBox = function (id) {
     }
   }
 
-  $scope.box_update = function () {
+  $rootScope.box_update = function () {
     $scope.tblContent = false;
     // var sq = "http://10.1.17.25:8081/pistachio/fastsearch/gfs";
     var sq = globalURL + "pistachio/fastsearch/gfs";
     var json = {};
     json.text = $scope.text;
-    json.from = $scope.getSearchFromDt;
+    json.from = $scope.getSearchFromDt1;
     json.to = $scope.getSearchToDt;
     json.offset = 0;
     json.limit = 10;
@@ -421,25 +423,27 @@ $scope.branchsBox = function (id) {
   };
 
   $scope.reset = function () {
-    selected_countries = [];
-    $scope.text = "";
-    $scope.showApplication = false;
-    $scope.showVisitor = false;
-    $scope.showCitizen = false;
-    $scope.showBlacklist = false;
-    $scope.fullscreen = false;
+    // selected_countries = [];
+    // $scope.text = "";
+    // $scope.showApplication = false;
+    // $scope.showVisitor = false;
+    // $scope.showCitizen = false;
+    // $scope.showBlacklist = false;
+    // $scope.fullscreen = false;
 
-    $scope.option = false;
-    selected_countries = [];
-    selected_jobs = [];
-    selected_states = [];
-    selected_branch = [];
-    $scope.latVal = "";
-    $scope.lngVal ="";
-    $scope.kilom = "";
-    $scope.getSearchFromDt = "";
-    $scope.getSearchToDt = "";
-    $scope.go();
+    // $scope.option = false;
+    // selected_countries = [];
+    // selected_jobs = [];
+    // selected_states = [];
+    // selected_branch = [];
+    // $scope.latVal = "";
+    // $scope.lngVal ="";
+    // $scope.kilom = "";
+    // $scope.getSearchFromDt1 = "";
+    // $scope.getSearchToDt = "";
+    // $("#searchDaterange span").html("Search by Date here");
+    // $scope.go();
+    location.reload();
   };
 
   $scope.next = function () {
