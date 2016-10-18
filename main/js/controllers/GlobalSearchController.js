@@ -866,7 +866,7 @@ $scope.branchsBox = function (id) {
                 "title": "Action",
                 "data": "action",
                 "width": "0%",
-                "visible": true,
+                "visible": false,
                 "render": function (data, type, full, meta) {
                   return '<a class="viewCitizen">' +
                     '<button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>' +
