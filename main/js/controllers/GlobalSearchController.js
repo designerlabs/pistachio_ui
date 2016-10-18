@@ -941,7 +941,7 @@ $scope.branchsBox = function (id) {
           $scope.states = data.facetStates
 
         if(selected_branch.length == 0)
-          $scope.branch = data.facetBranches  
+          $scope.branchs = data.facetBranches  
 
         console.log($scope.jobs);   
       })
