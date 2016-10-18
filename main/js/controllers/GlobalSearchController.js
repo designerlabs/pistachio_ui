@@ -434,6 +434,9 @@ $scope.branchsBox = function (id) {
     selected_jobs = [];
     selected_states = [];
     selected_branch = [];
+    $scope.latVal = "";
+    $scope.lngVal ="";
+    $scope.kilom = "";
     $scope.go();
   };
 
