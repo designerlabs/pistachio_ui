@@ -2,17 +2,16 @@
 [      
     {
         "dbtype" : "POSTGRES",
+        "url": "jdbc:postgresql://localhost:5432/pistachio",
         "driver" : "org.postgresql.Driver"              
     },{
         "dbtype" : "DB2",
+        "url":"jdbc:db2://127.0.0.1:50000/SAMPLE",
         "driver" : "com.ibm.db2.jcc.DB2Driver"
     },{
         "dbtype" : "MYSQL",
-        "driver" : "Test-Driver"
-    },
-    {
-        "dbtype" : "ORACLE",
-        "driver" : "Test-Driver1"
+        "url" : "jdbc:mysql://localhost:3306/dbname",
+        "driver" : "com.mysql.jdbc.Driver"
     }
 ]
    
