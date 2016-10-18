@@ -160,13 +160,13 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
                         $scope.DOB(result.response.docs[0].birth_date);
                         $scope.fn_personalInfo(result.response.docs[0]);
                         // $scope.CreateInoutChart(result.response.docs);
-                        $scope.$apply();
-                        $scope.fn_getcitHistoryInfo();
+                        $scope.$apply();                        
                     } else {
                         // alert('No date found in himove table');
                         // $scope.showHistory = false;
                         // $scope.showVisa = false;
                     }
+                    $scope.fn_getcitHistoryInfo();
                 });
         }
 
