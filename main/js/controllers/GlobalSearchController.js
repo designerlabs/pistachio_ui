@@ -2,6 +2,7 @@
 var selected_countries = [];
 var selected_jobs = [];
 var selected_states = [];
+var selected_branch = [];
 var clickCircle, clickMarker;
 var filter_query = "";
 // var solrHost = "localhost";
@@ -295,7 +296,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     }
     console.log(selected_jobs);
     $scope.start = 0;
-    $scope.show();
+    // $scope.show();
 
   }
 
@@ -310,7 +311,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     }
     console.log(selected_countries);
     $scope.start = 0;
-    $scope.show();
+    // $scope.show();
   }
 
   $scope.statesBox = function (id) {
@@ -324,7 +325,22 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     }
     console.log(selected_states);
     $scope.start = 0;
-    $scope.show();
+    // $scope.show();
+  }
+
+// selected_branch
+$scope.branchsBox = function (id) {
+    id = id.replace(/ /g, "*");
+    var index = selected_branch.indexOf(id);    // <-- Not supported in <IE9
+    if (index !== -1) {
+      selected_branch.splice(index, 1);
+    }
+    else {
+      selected_branch.push(id);
+    }
+    console.log(selected_branch);
+    $scope.start = 0;
+    // $scope.show();
   }
 
   $scope.formatDate = function (date) {
@@ -344,7 +360,13 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     json.from = $scope.getSearchFromDt;
     json.to = $scope.getSearchToDt;
     json.offset = 0;
-    json.limit = 0;
+    json.limit = 10;
+    // json.point = $scope.clickCircle._latlng.lat + ',' + $scope.clickCircle._latlng.lng;
+
+    json.state = selected_states.join(",");
+    json.country = selected_countries.join(",");
+    json.job = selected_jobs.join(",");
+    json.branch = selected_branch.join(",");
     json.showPass = false;
     json.showCitizen = false;
     json.showMovement = false;
@@ -391,11 +413,10 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     $scope.text = text;
     $scope.start = 0;
 
-    selected_countries = [];
+    // selected_countries = [];
     $scope.show();
-
-
   };
+
   $scope.reset = function () {
     selected_countries = [];
     $scope.text = "";
@@ -406,9 +427,6 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     $scope.fullscreen = false
     $scope.go();
   };
-
-
-
 
   $scope.next = function () {
     $scope.start = $scope.start + 10;
@@ -441,7 +459,9 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
       $scope.ChkCntry = true;
       $scope.ChkStates = false;
       $scope.ChkJobs = true;
+      $scope.ChkBranchs = false;
       $scope.mapAreas = true;
+      
     } else if (status == 'citizen') {
       $scope.showCitizen = true;
       $scope.showApplication = false;
@@ -450,6 +470,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
       $scope.ChkCntry = false;
       $scope.ChkStates = true;
       $scope.ChkJobs = false;
+      $scope.ChkBranchs = false;
       $scope.mapAreas = true;
     } else if (status == 'vistor') {
       $scope.showVisitor = true;
@@ -459,8 +480,8 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
       $scope.ChkCntry = true;
       $scope.ChkStates = false;
       $scope.ChkJobs = false;
+      $scope.ChkBranchs = true;
       $scope.mapAreas = true;
-      // $scope.Branch = true;
     } else if (status == 'blackListed') {
       $scope.showBlacklist = true;
       $scope.showApplication = false;
@@ -469,6 +490,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
       $scope.ChkCntry = true;
       $scope.ChkStates = false;
       $scope.ChkJobs = false;
+      $scope.ChkBranchs = false;
       $scope.mapAreas = false;
     }
 
@@ -478,9 +500,10 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     json.text = $scope.text;
     json.limit = 10;
     json.offset = $scope.start;
-    // json.state = selected_states;
-    // json.country = selected_countries;
-    // json.job = selected_jobs;
+    json.state = selected_states.join(",");
+    json.country = selected_countries.join(",");
+    json.job = selected_jobs.join(",");
+    json.branch = selected_branch.join(",");
     json.showPass = $scope.showApplication;
     json.showCitizen = $scope.showCitizen;
     json.showMovement = $scope.showVisitor;
@@ -916,6 +939,9 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
 
         if(selected_states.length == 0)
           $scope.states = data.facetStates
+
+        if(selected_branch.length == 0)
+          $scope.branch = data.facetBranches  
 
         console.log($scope.jobs);   
       })
