@@ -43,13 +43,14 @@ MetronicApp.controller('DatabaseListController', ['$rootScope', '$scope', '$http
         $.getJSON("js/scripts/databaselist.json",function(json){
             $.each(json, function(k, v){
                 // $("#database-type").empty();
-                $("#database-type").append('<option data-driver='+v.driver+' value='+v.dbtype+'>'+v.dbtype+'</option>');
+                $("#database-type").append('<option data-driver='+v.driver+' data-url='+v.url+' value='+v.dbtype+'>'+v.dbtype+'</option>');
             });
         });
 
 
         $("#database-type").change(function () {
             $('#database-driver').val($("#database-type option:selected").attr('data-driver'));
+            $('#database-url').val($("#database-type option:selected").attr('data-url'));
         });
 
 

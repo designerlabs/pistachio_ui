@@ -20,6 +20,7 @@
                     <i class="fa fa-globe"></i>Job List                    
                 </div>
                 <div class="text-right">
+                    <button type="button" class="btn btn-default" id="dbViewBtn" style="top: 3px;"><i class="fa fa-link"></i> view DB</button>
                     <button type="button" class="btn btn-success" id="btnProduction" style="top: 3px;">PRODUCTION</button>
                     <button type="button" class="btn btn-success" id="btnStage" style="top: 3px;">STAGE</button>
                 </div>
@@ -146,5 +147,10 @@
 <!-- END MAIN CONTENT -->
 <!-- BEGIN MAIN JS -->
 <script>
+
+    $("#dbViewBtn").click(function(){
+        window.location.href = '#/datatables/advanced.html';
+    });
+
 //TableAdvanced.init();
 </script>
