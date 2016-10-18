@@ -148,306 +148,53 @@
 
 				</div>
 			</div>
-		</div>
-		<!--<div class="search-page search-content-4" ng-if="showApplication">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="search-table">
-              <table class="table table-bordered table-striped table-condensed">
-                <thead class="bg-table-gray">
-                  <tr>
-                    <th>
-                      Date
-                    </th>
-                    <th>
-                      Job
-                    </th>
-                    <th>
-                      Name
-                    </th>
-                    <th>
-                      {{'fastsearch.global.country' | translate}}
-                    </th>
-                    <th style="text-align: center;">
-                      Document No
-                    </th>
-                    <th style="text-align: center;">
-                      {{'fastsearch.global.action' | translate}}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="x in items">
-                    <td style="width:15%;" class="table-title">
-                      {{formatDate(x.created) | cmdate:'dd/MM/yyyy hh:mm:ss'}}
-                    </td>
-                    <td style="width:30%;" class="table-title">
-                      {{x.job_en}}
-                    </td>
-                    <td style="width:30%;" class="table-title">
-                      {{x.name}}
-                    </td>
-                    <td style="width:10%;" class="table-desc"> {{x.country}} </td>
-                    <td style="width:10%;" class="table-download">
-                      {{x.doc_no}}
-                    </td>
-                    <td style="text-align: center; width:5%;" class="table-status">
-                      <a href="#/travelertracker/travelertracker.html" ng-click="viewReq(x.doc_no,x.country);">
-                        <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>{{'fastsearch.global.view' | translate}}</button>
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="search-pagination">
-              <ul class="pagination">
-                <li>
-                  <button ng-click="previous()" class="btn btn-primary previousBtn"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
-                </li>
-                <li class="page-active">
-                  <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
-                </li>
-              </ul>
-            </div>
-             <div class="pageNum">( {{startCount}} / {{applicationsFound}} )</div>
-          </div>
+		</div>		
+		<div class="search-page search-content-4" ng-show="tblContent">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="search-table">
+						<table id="tblSearch" class="table table-bordered table-striped table-condensed">
 
-        </div>
-      </div>
-      <div class="search-page search-content-4" ng-if="showCitizen">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="search-table">
-              <table class="table table-bordered table-striped table-condensed">
-                <thead class="bg-table-gray">
-                  <tr>
-                    <th>
-                      Date
-                    </th>
-                    <th>
-                      IC No.
-                    </th>
-                    <th>
-                      Name
-                    </th>
-                    <th>
-                      Passport No.
-                    </th>
-                    <th style="text-align: center;">
-                      State
-                    </th>
-                    <th style="text-align: center;">
-                      {{'fastsearch.global.action' | translate}}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="x in items">
-                    <td style="width:15%;" class="table-title">
-                      {{formatDate(x.created) | cmdate:'dd/MM/yyyy hh:mm:ss'}}
-                    </td>
-                    <td style="width:15%;" class="table-title">
-                      {{x.kp_no}}
-                    </td>
-                    <td style="width:30%;" class="table-title">
-                      {{x.name}}
-                    </td>
-                    <td style="width:10%;" class="table-desc"> {{x.doc_no}} </td>
-                    <td style="width:20%;" class="table-download">
-                      {{x.state}}
-                    </td>
-                    <td style="text-align: center; width:10%;" class="table-status">
-                      <a href="#/travelertracker/travelertracker.html" ng-click="viewCitizen(x.doc_no);">
-                        <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>{{'fastsearch.global.view' | translate}}</button>
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="search-pagination">
-              <ul class="pagination">
-                <li>
-                  <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="startCount==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
-                </li>
-                <li class="page-active">
-                  <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="search-page search-content-4" ng-if="showBlacklist">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="search-table">
-              <table class="table table-bordered table-striped table-condensed">
-                <thead class="bg-table-gray">
-                  <tr>
-                    <th>
-                      <a href="javascript:;">Date</a>
-                    </th>
-                    <th>
-                      <a href="javascript:;">IC No.</a>
-                    </th>
-                    <th>
-                      <a href="javascript:;">Name</a>
-                    </th>
-                    <th>
-                      <a href="javascript:;">Passport No.</a>
-                    </th>
-                    <th style="text-align: center;">
-                      <a href="javascript:;">Country</a>
-                    </th>                    
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="x in items">
-                    <td style="width:10%;" class="table-title">
-                      <a href="javascript:;">{{formatDate(x.created) | cmdate:'dd/MM/yyyy hh:mm:ss'}}</a>
-                    </td>
-                    <td style="width:25%;" class="table-title">
-                      <a href="javascript:;">{{x.kp_no}}</a>
-                    </td>
-                    <td style="width:25%;" class="table-title">
-                      {{x.name}}
-                    </td>
-                    <td style="width:25%;" class="table-desc"> {{x.doc_no}} </td>
-                    <td style="width:10%;" class="table-download">
-                      {{x.country}}
-                    </td>                    
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="search-pagination">
-              <ul class="pagination">
-                <li>
-                  <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="start==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
-                </li>
-                <li class="page-active">
-                  <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
-                </li>
-              </ul>
-            </div>
-        </div>
-        </div>
-      </div>
-      <div class="search-page search-content-4" ng-if="showVisitor">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="search-table">
-              <table class="table table-bordered table-striped table-condensed">
-                <thead class="bg-table-gray">
-                  <tr>
-                    <th>
-                      <a href="javascript:;">Date</a>
-                    </th>
-                    <th>
-                      <a href="javascript:;">Branch</a>
-                    </th>
-                    <th>
-                      <a href="javascript:;">Name</a>
-                    </th>
-                    <th>
-                      <a href="javascript:;">{{'fastsearch.global.country' | translate}}</a>
-                    </th>
-                    <th style="text-align: center;">
-                      <a href="javascript:;">Document No</a>
-                    </th>
-                    <th style="text-align: left;">
-                      <a href="javascript:;">{{'fastsearch.global.action' | translate}}</a>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-
-
-                  <tr ng-repeat="x in items">
-                    <td style="width:10%;" class="table-title">
-                      <a href="javascript:;">{{formatDate(x.xit_date) | cmdate:'dd/MM/yyyy hh:mm:ss'}}</a>
-                    </td>
-                    <td style="width:15%;" class="table-title">
-                      <a href="javascript:;">{{x.branch}}</a>
-                    </td>
-                    <td class="table-title">
-                      {{x.name}}
-                    </td>
-                    <td style="width:5%;" class="table-desc"> {{x.country}} </td>
-                    <td class="table-download">
-                      {{x.doc_no}}
-                    </td>
-                    <td style="text-align: left; width:5%;" class="table-status">
-                      <a  ng-click="viewReq(x.doc_no,x.country);">
-                        <button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>{{'fastsearch.global.view' | translate}}</button>
-                      </a>
-                    </td>
-                  </tr>
-
-                </tbody>
-              </table>
-            </div>
-            <div class="search-pagination">
-              <ul class="pagination">
-                <li>
-                  <button ng-click="previous(this)" class="btn btn-primary previousBtn" ng-disabled="startCount==0"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
-                </li>
-                <li class="page-active">
-                  <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>-->
-      <div class="search-page search-content-4" ng-show="tblContent" >
-        <div class="row">
-          <div class="col-md-12">
-            <div class="search-table">
-              <table id="tblSearch" class="table table-bordered table-striped table-condensed">
-                
-              </table>
-            </div>
-            <div class="search-pagination">
-              <ul class="pagination">
-                <li>
-                  <button ng-click="previous()" ng-disabled="first" class="btn btn-primary previousBtn"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
-                </li>
-                <li class="page-active">
-                  <button ng-click="next()" ng-disabled="last" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
-                </li>
-              </ul>
-            </div>
-             <div class="pageNum"><span style="position: absolute; left: 0; font-size: 14px">showing <strong>{{start == 0 ? 1 : start+1}}</strong> to <strong>{{startCount}}</strong>  of <strong>{{applicationsFound | number}}</strong> records.</span>(Page {{startCount/10}} of {{applicationsFound/10 | number:0}} )</div>
-             
-          </div>
-        </div>
-      </div> 
-      <div class="row">
-        <center>
-            <h2 ng-show="noData" style="padding-top:40px">
-                Not Authorized to see the Data
-            </h2>
-        </center>  
-      </div>     
-    </div>
-	
-	</div>
-
-	<div id="myTravalModal" class="modal fade">
-		<div class="modal-dialog" style="width: 95%">
-			<div class="modal-header">
-				<button type="button" class="close closemdl" data-dismiss="modal" aria-hidden="true">×</button>
-				<!--<h3 id="myModalLabel">Traveler Tracker</h3>-->
-			</div>
-			<div class="modal-content">
-				<div class="modal-body">
-					<!--<iframe id="frame" src="" width="100%" height="600px">
-                  </iframe>-->
+						</table>
+					</div>
+					<div class="search-pagination">
+						<ul class="pagination">
+							<li>
+								<button ng-click="previous()" ng-disabled="first" class="btn btn-primary previousBtn"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+							</li>
+							<li class="page-active">
+								<button ng-click="next()" ng-disabled="last" ng-init="start=0" class="btn btn-primary nextBtn">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+							</li>
+						</ul>
+					</div>
+					<div class="pageNum"><span style="position: absolute; left: 0; font-size: 14px">showing <strong>{{start == 0 ? 1 : start+1}}</strong> to <strong>{{startCount}}</strong>  of <strong>{{applicationsFound | number}}</strong> records.</span>(Page
+						{{startCount/10}} of {{applicationsFound/10 | number:0}} )</div>
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<center>
+				<h2 ng-show="noData" style="padding-top:40px">
+					Not Authorized to see the Data
+				</h2>
+			</center>
+		</div>
 	</div>
+
+</div>
+
+<div id="myTravalModal" class="modal fade">
+	<div class="modal-dialog" style="width: 95%">
+		<div class="modal-header">
+			<button type="button" class="close closemdl" data-dismiss="modal" aria-hidden="true">×</button>
+			<!--<h3 id="myModalLabel">Traveler Tracker</h3>-->
+		</div>
+		<div class="modal-content">
+			<div class="modal-body">
+				<!--<iframe id="frame" src="" width="100%" height="600px">
+                  </iframe>-->
+			</div>
+		</div>
+	</div>
+</div>
 </div>
