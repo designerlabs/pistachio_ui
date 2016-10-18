@@ -24,7 +24,7 @@
 					</div>
 					<button class="btn green-soft uppercase bold" ng-click="search(search.text)" type="button"><i class="fa fa-search"></i>{{'fastsearch.global.search' | translate}}</button>
 					<button class="btn btn-icon-only green" ng-click="reset()" type="button"><i class="fa fa-refresh"></i> </button>
-					<button class="btn btn-icon-only" ng-disabled="!showApplication && !showVisitor" ng-click="options()" type="button"><i class="fa fa-gear"></i> </button>
+					<button class="btn btn-icon-only" ng-disabled="!showApplication && !showVisitor && !showCitizen && !showBlacklist" ng-click="options()" type="button"><i class="fa fa-gear"></i> </button>
 					</span>
 				</div>
 			</div>
@@ -57,6 +57,22 @@
 
 						<div class="md-checkbox" style="padding: 2px;">
 							<input type="checkbox" ng-click="statesBox(cnt.field)" class="md-check" id={{cnt.field}}>
+							<label for={{cnt.field}}>
+                    <span class="inc"></span>
+                    <span class="check"></span>
+                    <span class="box"></span> {{cnt.field}}</label>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+    <div class=" mini-box col-md-3" ng-show="ChkBranchs">
+			<h4> Branchs </h4>
+			<div class="todo-project-list">
+				<ul class="list-group">
+					<li class="list-group-item" data-ng-repeat="cnt in branchs" data-cntval="{{cnt.count |  number:0}}" style="padding-left: 3px; padding-right: 1px;">
+						<div class="md-checkbox" style="padding: 2px;">
+							<input type="checkbox" ng-click="branchsBox(cnt.field)" class="md-check" id={{cnt.field}}>
 							<label for={{cnt.field}}>
                     <span class="inc"></span>
                     <span class="check"></span>
