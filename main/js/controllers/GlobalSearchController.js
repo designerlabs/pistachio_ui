@@ -19,6 +19,9 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     $scope.getSearchFromDt = "";
     $scope.getSearchToDt = "";
     $scope.text = "";
+    $scope.latVal = "";
+    $scope.lngVal ="";
+    $scope.kilom = "";
 
     $('#searchDaterange').daterangepicker({
       startDate: moment().subtract(1, "year"),
@@ -361,8 +364,8 @@ $scope.branchsBox = function (id) {
     json.to = $scope.getSearchToDt;
     json.offset = 0;
     json.limit = 10;
-    // json.point = $scope.clickCircle._latlng.lat + ',' + $scope.clickCircle._latlng.lng;
-
+    json.point = ($scope.latVal.toString().length > 0 && $scope.lngVal.toString().length > 0? $scope.latVal  + ',' + $scope.lngVal : null);
+    json.d = ($scope.kilom.length > 0? $scope.kilom : null);
     json.state = selected_states.join(",");
     json.country = selected_countries.join(",");
     json.job = selected_jobs.join(",");
@@ -424,7 +427,13 @@ $scope.branchsBox = function (id) {
     $scope.showVisitor = false;
     $scope.showCitizen = false;
     $scope.showBlacklist = false;
-    $scope.fullscreen = false
+    $scope.fullscreen = false;
+
+    $scope.option = false;
+    selected_countries = [];
+    selected_jobs = [];
+    selected_states = [];
+    selected_branch = [];
     $scope.go();
   };
 
@@ -857,9 +866,9 @@ $scope.branchsBox = function (id) {
                 "title": "Action",
                 "data": "action",
                 "width": "0%",
-                "visible": false,
+                "visible": true,
                 "render": function (data, type, full, meta) {
-                  return '<a class="">' +
+                  return '<a class="viewCitizen">' +
                     '<button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>' +
                     'View </button></a>';
                 }
@@ -941,7 +950,7 @@ $scope.branchsBox = function (id) {
           $scope.states = data.facetStates
 
         if(selected_branch.length == 0)
-          $scope.branch = data.facetBranches  
+          $scope.branch = data.facetBranches 
 
         console.log($scope.jobs);   
       })

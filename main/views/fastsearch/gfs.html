@@ -70,7 +70,7 @@
 			<h4> Branchs </h4>
 			<div class="todo-project-list">
 				<ul class="list-group">
-					<li class="list-group-item" data-ng-repeat="cnt in branchs" data-cntval="{{cnt.count |  number:0}}" style="padding-left: 3px; padding-right: 1px;">
+					<li class="list-group-item" data-ng-repeat="cnt in branch" data-cntval="{{cnt.count |  number:0}}" style="padding-left: 3px; padding-right: 1px;">
 						<div class="md-checkbox" style="padding: 2px;">
 							<input type="checkbox" ng-click="branchsBox(cnt.field)" class="md-check" id={{cnt.field}}>
 							<label for={{cnt.field}}>
