@@ -60,7 +60,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     $('.searchcont').on('apply.daterangepicker', function (ev, picker) {
       $scope.getSearchFromDt = picker.startDate.format("DDMMYYYY");
       $scope.getSearchToDt = picker.endDate.format("DDMMYYYY");
-      alert($scope.getSearchFromDt + " , " + $scope.getSearchToDt);
+      // alert($scope.getSearchFromDt + " , " + $scope.getSearchToDt);
     });
 
     if (!$rootScope.fastsearch.load) {
@@ -437,6 +437,8 @@ $scope.branchsBox = function (id) {
     $scope.latVal = "";
     $scope.lngVal ="";
     $scope.kilom = "";
+    $scope.getSearchFromDt = "";
+    $scope.getSearchToDt = "";
     $scope.go();
   };
 
@@ -871,7 +873,7 @@ $scope.branchsBox = function (id) {
                 "width": "0%",
                 "visible": false,
                 "render": function (data, type, full, meta) {
-                  return '<a class="viewCitizen">' +
+                  return '<a class="viewBlacklist">' +
                     '<button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>' +
                     'View </button></a>';
                 }
