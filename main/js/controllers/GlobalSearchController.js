@@ -365,7 +365,7 @@ $scope.branchsBox = function (id) {
     json.from = $scope.getSearchFromDt1;
     json.to = $scope.getSearchToDt;
     json.offset = 0;
-    json.limit = 10;
+    json.limit = 0;
     json.point = ($scope.latVal.toString().length > 0 && $scope.lngVal.toString().length > 0? $scope.latVal  + ',' + $scope.lngVal : null);
     json.d = ($scope.kilom.length > 0? $scope.kilom : null);
     json.state = selected_states.join(",");
@@ -921,9 +921,6 @@ $scope.branchsBox = function (id) {
           $('#frame').remove();
           //sessionStorage.setItem('backct',true);
         });
-
-
-
 
 
         var viewCitizinfo = undefined;
