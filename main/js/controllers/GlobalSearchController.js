@@ -292,6 +292,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
   }
 
   $scope.jobBox = function (id) {
+    id = id.replace(/ /g, "*");
     var index = selected_jobs.indexOf(id);    // <-- Not supported in <IE9
     if (index !== -1) {
       selected_jobs.splice(index, 1);
