@@ -96,22 +96,120 @@ MetronicApp.controller('DatabaseListController', ['$rootScope', '$scope', '$http
                     "dataSrc": ""
                 },
                 "columns": [{
-                        "data": "dbName"
-                    }, {
-                        "data": "dbType"
-                    }, {
-                        "data": "username"
-                    }, {
-                        "data": "createdDate",
-                        "width": "10%"
-                    }, {
-                        "data": "action",
-                        "width": "35%",
-                        "render": function (data, type, full, meta) {
-                            return '<button class="btn btn-success btn-sm tableView"><i class="fa fa-eye"></i> view</button><button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
+                    "title": "ID",
+                    "data": "id",
+                    "visible": false
+                    // "render" : function (data, type, full, meta) {
+                    //     console.log(data.toString() + " databaseData");
+                    // }
+
+                }, {
+                    "title": "Data Source Name",
+                    "data": "dbName"
+                }, {
+                    "title": "DB type",
+                    "data": "dbType"
+                }, {
+                    "title": "Username",
+                    "data": "username"
+                }, {
+                    "title": "Created Date",
+                    "data": "createdDate",
+                    "width": "10%"
+                }, {
+                    "title": "Action",
+                    "data": "action",
+                    "width": "35%",
+                    "render": function (data, type, full, meta) {
+                        return '<button class="btn btn-success btn-sm tableView"><i class="fa fa-eye"></i> view</button><button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
+                    }
+                }
+                ]
+            });
+
+            $("#databaseData tbody").off("click");
+            $('#databaseData tbody').on('click', '.tableView', function (event) {
+                var data = databases.row($(this).parents('tr')).data();
+                $scope.SelectedViewID = data.id;
+                var tables;
+                $("#databaseList").hide();
+                $("#tableList").show();
+                tableFunc = function () {
+                    // tables = $('#example12').DataTable({
+                    //     "paginate": true,
+                    //     "retrieve": true
+                    // });
+                    // tables.destroy();
+                    if ($('#example12 tr').length > 0) {
+                        if ($('#example12').DataTable().rows().length > 0) {
+                            // $("#example12").off("click");
+                            $('#example12').DataTable().destroy();
                         }
                     }
-                ]
+                    
+                    tables = $('#example12').DataTable({
+                        "paginate": true,
+                        "retrieve": true,
+                        "ajax": {
+                            "url": globalURL + "etl/databases/" + data.id + "/tables",
+                            "dataSrc": ""
+                        },
+                        "columns": [{
+                            "title": "dbId",
+                            "data": "dbId",
+                            "visible": false
+                            // "render" : function (data, type, full, meta) {
+                            //     console.log(data);
+                            // }
+
+                        }, {
+                            "title": "Table Name",
+                            "data": "tableName"
+                        }, {
+                            "title": "Status",
+                            "data": "status"
+                        }, {
+                            "title": "Progress",
+                            "data": "progress"
+                        }, {
+                            "title": "Action",
+                            "data": "status",
+                            "render": function (data, type, full, meta) {
+                                if ((data == "NOT_SYNCED") || (data == "NEVER_EXECUTED")) {
+                                    return '<button class="btn btn-success btn-sm sqoopBtn"><i class="fa fa-compress"></i> Sqoop</button>';
+                                } else
+                                    if (data == "COMPLETED") {
+                                        return '<button class="btn btn-default btn-sm dailysqoopBtn" disabled><i class="fa fa-compress"></i> Sqooped</button><button class="btn btn-success btn-sm"><i class="fa fa-compress"></i> Daily Sqoop</button>';
+                                    } else {
+                                        return '<button class="btn btn-default btn-sm dailysqoopBtn" disabled><i class="fa fa-compress"></i> Sqooped</button><button class="btn btn-danger btn-sm"><i class="fa fa-compress"></i> Daily Sqoop</button>';
+                                    }
+                            }
+                        }],
+
+                    });
+                }
+
+                tableFunc();
+                $("#example12 tbody").off("click");
+                $('#example12 tbody').on('click', 'button.sqoopBtn', function (e) {
+                    var tableList = tables.row($(this).parents('tr')).data();
+                    $.ajax({
+                        url: globalURL + "etl/databases/" + tableList.dbId + "/sync?table=" + tableList.tableName + "&hdfs=11",
+                        type: 'GET',
+                        success: function (result) {
+                            // Do something with the result
+                            //alert('done');
+                            tableFunc();
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            console.log(XMLHttpRequest, textStatus, errorThrown);
+                        }
+                    }).error(function (e) {
+                        console.log(e);
+                    });
+
+                });
+
             });
         }
 
@@ -1370,73 +1468,7 @@ MetronicApp.controller('DatabaseListController', ['$rootScope', '$scope', '$http
 
 
 
-        $('#databaseData tbody').on('click', '.tableView', function () {
-            var data = databases.row($(this).parents('tr')).data();
-            $scope.SelectedViewID = data.id;
-            var tables;
-            $("#databaseList").hide();
-            $("#tableList").show();
-            tableFunc = function () {
-                tables = $('#example12').DataTable({
-                    "paginate": true,
-                    "retrieve": true
-                });
-                tables.destroy();
-                tables = $('#example12').DataTable({
-                    "paginate": true,
-                    "retrieve": true,
-                    "ajax": {
-                        "url": globalURL + "etl/databases/" + data.id + "/tables",
-                        "dataSrc": ""
-                    },
-                    "columns": [{
-                        "data": "tableName"
-                    }, {
-                        "data": "status"
-                    }, {
-                        "data": "progress"
-                    }, {
-                        "data": "status",
-                        "render": function (data, type, full, meta) {
-                            if ((data == "NOT_SYNCED") || (data == "NEVER_EXECUTED")) {
-                                return '<button class="btn btn-success btn-sm sqoopBtn"><i class="fa fa-compress"></i> Sqoop</button>';
-                            } else
-                            if (data == "COMPLETED") {
-                                return '<button class="btn btn-default btn-sm dailysqoopBtn" disabled><i class="fa fa-compress"></i> Sqooped</button><button class="btn btn-success btn-sm"><i class="fa fa-compress"></i> Daily Sqoop</button>';
-                            } else {
-                                return '<button class="btn btn-default btn-sm dailysqoopBtn" disabled><i class="fa fa-compress"></i> Sqooped</button><button class="btn btn-danger btn-sm"><i class="fa fa-compress"></i> Daily Sqoop</button>';
-                            }
-                        }
-                    }],
-
-                });
-            }
-
-            tableFunc();
-
-
-            $('#example12 tbody').on('click', 'button.sqoopBtn', function () {
-                var tableList = tables.row($(this).parents('tr')).data();
-                $.ajax({
-                    url: globalURL + "etl/databases/" + tableList.dbId + "/sync?table=" + tableList.tableName + "&hdfs=11",
-                    type: 'GET',
-                    success: function (result) {
-                        // Do something with the result
-                        //alert('done');
-                        tableFunc();
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        console.log(XMLHttpRequest, textStatus, errorThrown);
-                    }
-                }).error(function (e) {
-                    console.log(e);
-                });
-
-            });
-
-
-
-        });
+        
 
         $(document).ajaxStart(function () {
 //            $("#loader").css('height', $(".page-content").height() + 140 + 'px');
@@ -1528,6 +1560,8 @@ MetronicApp.controller('DatabaseListController', ['$rootScope', '$scope', '$http
         $("#backBtn").click(function (event) {
             $("#databaseList").show();
             $("#tableList").hide();
+            databases.destroy();
+            databaseDataFunc();
         });
         $('#btnRefresh').click(function(event){
             $.get(globalURL+'etl/databases/'+ $scope.SelectedViewID +'/refresh');
