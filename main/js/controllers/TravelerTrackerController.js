@@ -113,11 +113,20 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
 
                         //Assined to common variable
                         visadetails = data.response.docs;
+                        $scope.ShowImage('foreigner',visadetails[0].doc_no);
+
                         $.get(globalURL + "api/image/solr/" + visadetails[0].fin_no)
                             .then(function (data) {
                                 // $scope.showVisa = true;
                                 $scope.fn_loadVisaTbl(visadetails, data);
                             });
+                        
+
+                        // $.get(globalURL + "/api/image/foreigner/docno/" + visadetails[0].doc_no)
+                        //     .then(function (data) {
+                        //         // $scope.showVisa = true;
+                        //         $scope.fn_loadVisaTbl(visadetails, data);
+                        //     });
                         //$scope.$apply();
 
                     } else {
@@ -160,6 +169,12 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
                         $scope.DOB(result.response.docs[0].birth_date);
                         $scope.fn_personalInfo(result.response.docs[0]);
                         // $scope.CreateInoutChart(result.response.docs);
+                        // $.get(globalURL + "/api/image/citizen/kpno/}" + result.response.docs[0].kp_no)
+                        //     .then(function (data) {
+                        //         // $scope.showVisa = true;
+                        //         $scope.fn_loadVisaTbl(visadetails, data);
+                        //     });
+                        $scope.ShowImage('citizen',result.response.docs[0].kp_no);
                         $scope.$apply();                        
                     } else {
                         // alert('No date found in himove table');
@@ -185,6 +200,7 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
                         $scope.fn_personalInfo(result.response.docs[0]);
                         $scope.$apply();
                         $scope.CreateInoutChart(result.response.docs);
+
                     } else {
                         $scope.nodata = true;
                         $scope.$apply();
@@ -434,6 +450,7 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
                 // console.log($scope.citidetails);
                 $scope.fn_getCitizenInfo();
                 // $scope.fn_getcitHistoryInfo();
+                
 
             } else {
                 console.log('basic and personal');
@@ -441,6 +458,7 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
                 // console.log($scope.citidetails);
                 $scope.fn_getVisaInfo(); //visa details
                 $scope.fn_getHistoryInfo(); // history details
+                
                 // $scope.fn_total('noncitizen');                               
             }
         }
@@ -546,9 +564,47 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
         var docno = Qparam.split('AND')[0].replace("doc_nos:", "").trim();
         docno = docno.replace("doc_no:", "").trim();
         $('.loadimg').show();
-        $.get(globalURL + "api/image/solr/docno/" + docno)
+
+        // $.get(globalURL + "api/image/solr/docno/" + docno)
+        //     .then(function (response) {
+        //         console.log(response);
+        //         $('.loadimg').hide();
+        //     }).fail(function (response) {
+        //         if (response.statusText == "OK" && response.responseText.length != 0) {
+        //             $scope.imagetxt = "data:image/bmp;base64," + response.responseText;
+        //             $scope.$apply();
+        //             var modal = document.getElementById('myModal');
+        //             var img = document.getElementById('myImg');
+        //             var modalImg = document.getElementById("img01");
+        //             var captionText = document.getElementById("caption");
+        //             img.onclick = function () {
+        //                 modal.style.display = "block";
+        //                 modalImg.src = $scope.imagetxt;
+        //                 //modalImg.alt;
+        //                 //captionText.innerHTML;                    
+        //             }
+
+        //             // Get the <span> element that closes the modal
+        //             var span = document.getElementsByClassName("closeBtn")[0];
+
+        //             // When the user clicks on <span> (x), close the modal
+        //             span.onclick = function () {
+        //                 modal.style.display = "none";
+        //             }
+        //         }
+        //         $('.loadimg').hide();
+        //     });
+$scope.ShowImage = function(_from,_val){
+    var qry;
+    if(_from == "foreigner"){
+        qry = globalURL + "api/image/solr/docno/" + _val
+    }else if(_from == "citizen"){
+         qry = globalURL + "api/image/citizen/kpno/" + _val
+    }
+        $.get(qry)
             .then(function (response) {
                 console.log(response);
+                
                 $('.loadimg').hide();
             }).fail(function (response) {
                 if (response.statusText == "OK" && response.responseText.length != 0) {
@@ -573,8 +629,10 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
                         modal.style.display = "none";
                     }
                 }
+                
                 $('.loadimg').hide();
             });
+}
         $rootScope.settings.layout.pageContentWhite = true;
 
         $rootScope.skipTitle = false;
