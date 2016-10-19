@@ -147,7 +147,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     $scope.latVal = e.latlng.lat; $scope.lngVal = e.latlng.lng;
     $(".range-slider__range").val('20');
     $scope.kilom = $(".range-slider__range").val();
-    $scope.show();
+    // $scope.show(); // to avoid 3 times call;
   });
 
   $scope.drawHeatMap = function () {
