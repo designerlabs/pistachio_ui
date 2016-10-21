@@ -57,6 +57,10 @@
         <!-- END TOP NAVIGATION MENU -->
     </div>
     <!-- END PAGE TOP -->
+
+    <div  ng-if="errorMsgId" class="alert alert-danger fadein fadeout" style="text-align: center; font-size: 17px;">
+        <strong>Danger!</strong> {{errorMsg}}
+    </div>
 </div>
 <!-- END HEADER INNER -->
 <script>

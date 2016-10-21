@@ -508,10 +508,10 @@ MetronicApp.factory('httpRequestInterceptor', function() {
 });
 
 
-MetronicApp.factory('httpInterceptor', ['$q', '$rootScope',
-    function ($q, $rootScope) {
+MetronicApp.factory('httpInterceptor', ['$q', '$rootScope', '$timeout',
+    function ($q, $rootScope, $timeout) {
         var loadingCount = 0;
-
+        $rootScope.errorMsgId = false;
         return {
             request: function (config) {
                 if(++loadingCount === 1) $rootScope.$broadcast('loading:progress');
@@ -519,11 +519,29 @@ MetronicApp.factory('httpInterceptor', ['$q', '$rootScope',
             },
 
             response: function (response) {
+                
                 if(--loadingCount === 0) $rootScope.$broadcast('loading:finish');
                 return response || $q.when(response);
             },
 
             responseError: function (response) {
+
+                 $rootScope.errorMsgId = true;
+                 if(response.statusText){
+                        $rootScope.errorMsg =response.statusText
+                    }
+                    else{
+                        $rootScope.errorMsg = "Internal server error!"
+                    } 
+                
+                $timeout(function(){
+                    
+                    $rootScope.errorMsgId = false;
+                   
+                },10000);
+
+               
+                
                 if(--loadingCount === 0) $rootScope.$broadcast('loading:finish');
                 return $q.reject(response);
             }
