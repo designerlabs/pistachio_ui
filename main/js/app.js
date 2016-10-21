@@ -480,7 +480,7 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
       showVisitor: false,
 
       showPreviousSearch: function() {
-        load : true;
+        load = true;
       }
 
     }
@@ -528,17 +528,18 @@ MetronicApp.factory('httpInterceptor', ['$q', '$rootScope', '$timeout',
 
                  $rootScope.errorMsgId = true;
                  if(response.statusText){
-                        $rootScope.errorMsg =response.statusText
+                        $rootScope.errorMsg ="URL: "+ response.config.url;
+                        $rootScope.statusMsg = "Status: "+ response.statusText;
                     }
                     else{
                         $rootScope.errorMsg = "Internal server error!"
                     } 
                 
-                $timeout(function(){
+                // $timeout(function(){
                     
-                    $rootScope.errorMsgId = false;
+                //     $rootScope.errorMsgId = false;
                    
-                },10000);
+                // },60000);
 
                
                 
@@ -1128,7 +1129,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/admin/pages/scripts/index.js',
                         'assets/admin/pages/scripts/tasks.js',
 
-                        'js/controllers/DashboardController.js'
+                        'js/controllers/DashboardController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
                 });
             }]
@@ -1158,7 +1160,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/admin/pages/scripts/index.js',
                         'assets/admin/pages/scripts/tasks.js',
 
-                        'js/controllers/DashboardChartController.js'
+                        'js/controllers/DashboardChartController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
                 });
             }]
@@ -1181,6 +1184,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/highcharts/js/highcharts.js',                        
                         'assets/global/plugins/bootstrap-daterangepicker/moment.js',
                         'js/controllers/StatsChartController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
                     ]
@@ -1216,6 +1220,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pistachio/map/leaflet.fullscreen.css',
                         'assets/global/plugins/highcharts/js/modules/treemap.js',
                         'js/controllers/VAAController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
                     ]
@@ -1250,6 +1255,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pistachio/map/leaflet.markercluster-src.js',
                         'assets/pistachio/map/MarkerCluster.Default.css',
                         'js/controllers/VAMapController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'assets/pages/scripts/highstock.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
@@ -1285,6 +1291,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pistachio/map/leaflet.markercluster-src.js',
                         'assets/pistachio/map/MarkerCluster.Default.css',
                         'js/controllers/CAController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'assets/pages/scripts/highstock.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
@@ -1309,7 +1316,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     files: [
                         'assets/pistachio/myAlert/myAlert.css',
                         'bower_components/moment/min/moment.min.js',
-                        'js/controllers/MyAlertController.js'
+                        'js/controllers/MyAlertController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
                 });
             }]
@@ -1336,6 +1344,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                          //'assets/global/plugins/highcharts/js/modules/treemap.js',                         
                         'assets/global/plugins/bootstrap-daterangepicker/moment.js',
                         'js/controllers/MyAuditController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
                         
@@ -1366,7 +1375,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                          'assets/global/plugins/d3/d3-force.v1.min.js',
                          
                          //'assets/global/plugins/highcharts/js/modules/treemap.js',
-                        'js/controllers/MyUserController.js',                        
+                        'js/controllers/MyUserController.js',       
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',                 
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
                         //'https://cdn.rawgit.com/esvit/ng-table/1.0.0/dist/ng-table.js'
@@ -1392,7 +1402,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pages/css/profile-2.min.css',
                         'assets/global/plugins/highcharts/js/highcharts.js',
                         //  '//code.highcharts.com/modules/treemap.js',
-                        'js/controllers/CAController.js'
+                        'js/controllers/CAController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
                 });
             }]
@@ -1413,6 +1424,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
                         'js/controllers/RobotDocumentController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'assets/global/plugins/morris/morris.css',
                         'assets/admin/pages/css/tasks.css',
                         'assets/pages/css/search.css',
@@ -1451,7 +1463,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/admin/pages/scripts/index.js',
                         'assets/admin/pages/scripts/tasks.js',
 
-                        'js/controllers/WorkflowuserController.js'
+                        'js/controllers/WorkflowuserController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
                 });
             }]
@@ -1481,7 +1494,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/admin/pages/scripts/index.js',
                         'assets/admin/pages/scripts/tasks.js',
 
-                        'js/controllers/WorkflowadminController.js'
+                        'js/controllers/WorkflowadminController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                     ]
                 });
             }]
@@ -1544,7 +1558,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/select2/select2.min.js',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
-                        'js/controllers/AuditController.js'
+                        'js/controllers/AuditController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
                 });
             }]
@@ -1575,7 +1590,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/admin/pages/scripts/tasks.js',
 
 
-                        'js/controllers/DocumentSearchController.js'
+                        'js/controllers/DocumentSearchController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
                 });
             }]
@@ -1651,7 +1667,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/admin/pages/scripts/index.js',
                         'assets/admin/pages/scripts/tasks.js',
 
-                        'js/controllers/ReportCategoryController.js'
+                        'js/controllers/ReportCategoryController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
                 });
 
@@ -1682,7 +1699,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/admin/pages/scripts/index.js',
                         'assets/admin/pages/scripts/tasks.js',
 
-                        'js/controllers/ReportCategoryController.js'
+                        'js/controllers/ReportCategoryController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
                 });
 
@@ -1769,7 +1787,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'js/scripts/table-advanced.js',
 
 
-                        'js/controllers/DatabaseListController.js'
+                        'js/controllers/DatabaseListController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
                 });
             }]
@@ -1800,7 +1819,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                             'js/scripts/table-advanced.js',
 
 
-                            'js/controllers/GeneralPageController.js'
+                            'js/controllers/GeneralPageController.js',
+                            'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                         ]
                     });
                 }]
@@ -1828,7 +1848,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                             'assets/global/plugins/select2/select2.min.js',
                             'assets/global/plugins/datatables/all.min.js',
                             'js/scripts/table-advanced.js',
-                            'js/controllers/GeneralPageController.js'
+                            'js/controllers/GeneralPageController.js',
+                            'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                         ]
                     });
                 }]
@@ -1863,6 +1884,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
 
 
                             'js/controllers/EreportingController.js',
+                            'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                             'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                             'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
                             
@@ -1897,7 +1919,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                             'js/scripts/table-advanced.js',
 
 
-                            'js/controllers/ReportCategoryController.js'
+                            'js/controllers/ReportCategoryController.js',
+                            'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                         ]
                     });
                 }]
@@ -1928,7 +1951,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'js/scripts/table-advanced.js',
 
 
-                        'js/controllers/ConfigController.js'
+                        'js/controllers/ConfigController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
                 });
             }]
@@ -1961,7 +1985,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'js/scripts/table-ajax.js',
 
 
-                        'js/controllers/GeneralPageController.js'
+                        'js/controllers/GeneralPageController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
 
                     ]
                 });
@@ -1995,7 +2020,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'js/scripts/table-advanced.js',
 
 
-                        'js/controllers/DashboardMgtController.js'
+                        'js/controllers/DashboardMgtController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
 
                     ]
                 });
@@ -2029,7 +2055,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
 
-                        'js/controllers/ReportMgtController.js'
+                        'js/controllers/ReportMgtController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
                 });
             }]
@@ -2064,7 +2091,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
                         'assets/global/plugins/datatables/all.min.js',
                         'bower_components/ace-builds/src-min-noconflict/ext-language_tools.js',
-                        'js/controllers/SQLEditorMgtController.js'
+                        'js/controllers/SQLEditorMgtController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
                 });
             }]
@@ -2098,9 +2126,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         // 'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
                         // 'bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
                         
-                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
-                        'js/controllers/d2dTrackingController.js',
                         
+                        'js/controllers/d2dTrackingController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
                         
@@ -2137,8 +2165,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         // 'bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
 
                         'assets/pistachio/hourlyReport/hourlyReport.css',
-                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
+                        
                         'js/controllers/employeeHourlyDetailsController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
@@ -2171,7 +2200,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
 
-                        'js/controllers/UserMgtController.js'
+                        'js/controllers/UserMgtController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
                 });
             }]
@@ -2202,7 +2232,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js',
                         'js/scripts/table-advanced.js',
 
-                        'js/controllers/RoleMgtController.js'
+                        'js/controllers/RoleMgtController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
                 });
             }]
@@ -2227,7 +2258,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
                         'assets/pages/css/profile.css',
-                        'js/controllers/MyProfileController.js'
+                        'js/controllers/MyProfileController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
                 });
             }]
@@ -2258,8 +2290,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pages/css/invoice-2.css',
                         'assets/global/plugins/vis/vis.js',
                         'assets/global/plugins/vis/vis.css',
-                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
+                        
                         'js/controllers/TravelerTrackerController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                         
                     ]
                 });

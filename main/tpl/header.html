@@ -58,8 +58,10 @@
     </div>
     <!-- END PAGE TOP -->
 
-    <div  ng-if="errorMsgId" class="alert alert-danger fadein fadeout" style="text-align: center; font-size: 17px;">
-        <strong>Danger!</strong> {{errorMsg}}
+    <div  ng-if="errorMsgId" class="custom-alerts alert alert-warning fade in" style="text-align: center; font-size: 17px;">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+        <div><strong><i class="fa fa-warning"></i></strong> {{errorMsg}} <br> {{statusMsg}}</div>
+
     </div>
 </div>
 <!-- END HEADER INNER -->

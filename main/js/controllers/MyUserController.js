@@ -218,6 +218,14 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
                     if(response.links){
                         var fieldArray = [];
                         var branchArray = [];
+                        if(response.activeExpired){
+                             $rootScope.activeNum = response.activeExpired.Active;
+                             $rootScope.expireNum = response.activeExpired.Expired;
+                       }else{
+                           $rootScope.activeNum = "0";
+                             $rootScope.expireNum = "0";
+                       }
+                       
                         $scope.getStatus.length = 0;
                         $scope.getBranch.length = 0;
                         $.each(response.nodes, function(i, item){
@@ -479,6 +487,15 @@ $scope.test = function (nodes,links) {
           return d;
         }
         createFilter();
+        $rootScope.checkActive = function(chk){
+            if(chk !== undefined){
+                return chk;
+            }else{
+                return "0";
+            }
+        }
+         $("#filterContainer > div:nth(0)").append('<strong> ('+ $rootScope.checkActive($rootScope.activeNum ) +') </strong>');
+         $("#filterContainer > div:nth(1)").append('<strong> ('+ $rootScope.checkActive($rootScope.expireNum) +') </strong>');
 
         $(".filterContainer span:contains('Active')").prepend('<div class="activeCircle"></div>');
         $(".filterContainer span:contains('Expired')").prepend('<div class="expiredCircle"></div>');
@@ -489,7 +506,6 @@ $scope.test = function (nodes,links) {
               .data(["Active", "Expired"])
               .enter()  
               .append("div")
-              .attr("class", "checkbox-inline")
               .append("label")
               .each(function (d) {
                     // create checkbox for each data

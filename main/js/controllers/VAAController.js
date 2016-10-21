@@ -19,6 +19,21 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
 
 
     });
+
+    
+        
+    $rootScope.$on('loading:progress', function (){
+        console.log("loading");
+        $scope.loading = true;
+    });
+
+    $rootScope.$on('loading:finish', function (){
+        $scope.loading = false;
+        console.log("stop");
+    });
+
+
+
     function cb(start, end) {
       $('#vaa-range span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
     }
@@ -380,7 +395,6 @@ $scope.stateSelected = false;
                    $scope.pie();
                    $scope.timelineChart(data.facets.date_range.buckets);
                    $scope.activeOverall();
-                   $scope.loading = false;
                  }
                  
 
