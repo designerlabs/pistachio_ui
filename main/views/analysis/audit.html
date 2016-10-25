@@ -9,6 +9,13 @@
 </div>
 
 
+  <div  ng-if="myUserStatus" class="custom-alerts alert alert-warning fade in" style="text-align: center; font-size: 17px;">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+        <div ng-show = "!isActiveBranch"><strong><i class="fa fa-warning"></i></strong> <strong><u>{{activeBranch}}</u></strong> branch is not Available</div>
+        <div ng-show = "!isActiveUser"><strong><i class="fa fa-warning"></i></strong> <strong><u>{{activeUser}}</u></strong> is not Available in <strong><u>{{activeBranch}}</u></strong> branch!</div>
+        
+    </div>
+
 <div class="col-md-3" style="background: #48545d; padding: 5px">
   
   <div class=" filter" style="padding:0px; border-bottom: 0px;">

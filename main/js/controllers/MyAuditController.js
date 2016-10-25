@@ -9,6 +9,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
         $scope.showPie = false;
         $scope.selectedDayTime = false;
         $scope.ErrorMsg = false;
+        $rootScope.myUserStatus =  false;
 
         $scope.getCurrentStage = stageUpdate.getStage();
         console.log($scope.getCurrentStage);
@@ -324,7 +325,11 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                 $scope.officerCount = response.length;
                 if ($scope.officers.length === 0) {
                     $scope.showOfficer = false;
+                    $rootScope.myUserStatus = true;
+                    $rootScope.isActiveBranch = false;
                 } else {
+                    $rootScope.isActiveBranch = true;
+                    $rootScope.myUserStatus = false;
                     $scope.showOfficer = true;
                     if($scope.getCurrentStage.length != 0){
                         
@@ -480,6 +485,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                 console.log(response);
                 var data = response.transaction;
                 if (response.nodes) {
+                    
                     $scope.userGraph(response.nodes, response.links);
                     $scope.officerDetails = response.officer.name;
                     $scope.officerDuration = response.officer.rank;
@@ -487,9 +493,18 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                     $scope.expiryDate = response.officer.endDate;
                     //$scope.validity = response.officer.validDays;
                     $scope.validity = new Date(todayDt).days(new Date($scope.expiryDate));
+                }else{
+                  
                 }
-
-
+             
+                if(data.length == 0){
+                    $rootScope.myUserStatus = true;
+                     $rootScope.isActiveUser = false;
+                    
+                }else{
+                    $rootScope.myUserStatus = false;
+                     $rootScope.isActiveUser = true;
+                }
                 var log = [];
                 angular.forEach(data, function (value, key) {
                     this.push([value.field, value.count]);
@@ -501,6 +516,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                 // }
 
                 if(response.data){
+                    
                      $scope.tableAuditParams = new NgTableParams({page: 1, count: 10}, { dataset: response.data});
                 }
                 //$scope.barChart(log);
