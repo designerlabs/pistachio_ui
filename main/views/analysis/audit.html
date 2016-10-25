@@ -30,7 +30,7 @@
     </div>
     <ul class="list-group">
       <li class="list-group-item" ng-repeat="b in branches | filter:searchBranch" data-cntval="{{b.count |  number:0}}" style="padding-left: 3px; padding-right: 1px;"
-        ng-class="{selectedAuditList : activeBranch === b.branch}" ng-click="branch_selected(b.branch)">
+        ng-class="{selectedAuditList : activeBranch === b.branch}" ng-click="branch_selected(b.branch)" ng-mouseup="counter()">
         {{b.branch}}
       </li>
     </ul>
@@ -45,14 +45,14 @@
 
       <input type="text" ng-model="officer" class="form-control input-md" placeholder="&#128269; Search for Officer" style="border:1px solid #ccc">
       <span class="input-group-btn">
-            <button class="btn btn-md btn-danger" ng-disabled="!activeUser" ng-click="branch_selected(activeBranch)" type="button">Reset</button>
+            <button class="btn btn-md btn-danger" ng-disabled="!activeUser" ng-click="branch_selected(activeBranch)" ng-mouseup="counter()" type="button">Reset</button>
           </span>
     </div>
 
     <!--<input type="text" ng-model="officer" class="form-control" style="border: #ccc 1px solid; height: 50px; width: 90%; display:inline-block;" placeholder="Search by Officer"><button class="btn btn-danger"><i class="fa fa-refresh" aria-hidden="true"></i></button>-->
     <ul class="officer-group" style="padding:0px;  height:300px; overflow:auto; clear:both; background:#f1f0f0; margin-bottom:0px;">
-      <li ng-class="{selectedAuditUserList : activeUser === officer}" class="selectpickerUser officer-group-item" data-officerCnt="{{officer.count |  number:0}}" ng-click="officer_change(officer)"
-        ng-repeat="officer in officers | filter:officer">
+      <li ng-class="{selectedAuditUserList : activeUser === officer || activeUser == officer.field}" class="selectpickerUser officer-group-item" data-officerCnt="{{officer.count |  number:0}}" ng-click="officer_change(officer)"
+        ng-repeat="officer in officers | filter:officer" ng-mouseup="counter()">
         {{officer.pivot}}
       </li>
     </ul>

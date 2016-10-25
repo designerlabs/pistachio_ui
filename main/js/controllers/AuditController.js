@@ -14,6 +14,7 @@ MetronicApp.controller('AuditController', function($rootScope, $scope, $http, so
         $scope.go();
        });
         $scope.getStatus = [];
+        
        $scope.go = function(data){
          if (typeof data == 'undefined') {
             data = "";
