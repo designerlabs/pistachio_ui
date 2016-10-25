@@ -15,9 +15,11 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         $scope.btnExec = true;
         $scope.Saveqry = true;
         $scope.dbTables = "Tables";
+        $scope.showResCol = false;
+        $scope.explainMsg = "";
         fn_showSavedQry();
+        fn_showHistory();
         fn_LoadDb();
-
         });
       
         // fn_showHistory();
@@ -36,6 +38,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         var historyTbl;
         var SavedQryTbl;
         var ColTbl;
+        var ResultColTbl
 
         $scope.OnDBClick = function(sel) {
             $scope.database = sel;
@@ -97,18 +100,29 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
             } else if (this.id == "tabHistory") {
                 $(".tab-content").children().removeClass('active in');
                 $('.tab_History').addClass('active in');
-                fn_showHistory();
+                // fn_showHistory();
                 $("#messageView div").hide();
             } else if (this.id == "tabSavedQuery") {
                 $(".tab-content").children().removeClass('active in');
                 $('.tab_Saved_Query').addClass('active in');
-                fn_showSavedQry();
+                // fn_showSavedQry();
                 $("#messageView div").hide();
             } else if(this.id == "tabClms"){
                 $(".tab-content").children().removeClass('active in');
                 $('.tab_Columns').addClass('active in');
-                fn_showCol();
+                // fn_showCol();
                 $("#messageView div").hide();
+            } else if(this.id == "tabExpn"){
+                $(".tab-content").children().removeClass('active in');
+                $('.tab_Explain').addClass('active in');
+                // fn_showExplain();
+                $("#messageView div").hide();
+            } else if(this.id == 'tabResCol'){
+                $(".tab-content").children().removeClass('active in');
+                $('.tab_ResultCol').addClass('active in');
+                // fn_showExplain();
+                $("#messageView div").hide();
+
             }
 
             // var seltab = "#" + $(this).attr('data');
@@ -195,8 +209,9 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
 
         function fn_ExecQuery(qry) {
             if (qry != null && qry.length > 0) {
+                //Run Sql Query
                 $http.post(globalURL + "api/pistachio/secured/runSQL?dbname=" + $scope.database, qry.trim())
-                    .then(function successCallback(result) {
+                    .then(function(result) {
                             if (result != null && result.data.columns != null) {
                                 $scope.showResults = true;
                                 var resultOutputCol = jQuery.parseJSON(result.data.columns);
@@ -244,7 +259,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                                 //$(".page-content").height($(".profile-content").height() + 400);
                                 // setTimeout(function() {
                                 //     $btn.button('reset');
-                                // }, 1000);
+                                // }, 1000);                                      
 
                             } else {
                                 fn_ClearResultTbl();
@@ -257,8 +272,38 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                                     $btn.button('reset');
                                 }, 1000);
                             }
+                        if (result != null && result.data.metaData.columns != null) {
+                            $scope.showResCol = true;
+                            if (ResultColTbl != undefined) {
+                                        ResultColTbl.destroy();
+                            }
+                            ResultColTbl = $('#tblResultCol').DataTable({
+                                // "order": [[ 0, "desc" ]],
+                                "processing": true,
+                                "data": result.data.metaData.columns,
+                                "paging": true,
+                                "bInfo": false,
+                                "columns": [{
+                                    "data": "position",
+                                    "width": "10%",
+                                    "render":function(data, type, full, meta){
+                                            return data + 1;  
+                                        }                                    
+                                },{
+                                    "data": "column",
+                                    "width": "40%"
+                                }, {
+                                    "data": "type",
+                                    "width": "40%"
+                                }]
+                            });  
+                        }else{
+                            $scope.showResCol = false;
+                        }   
+
+                            fn_showHistory();
                         },
-                        function errorCallback(response) {
+                        function(response) {
                             fn_ClearResultTbl();
                             $("#messageView div span").html(response.data.error);
                             $("#messageView div").removeClass("alert-success");
@@ -267,7 +312,9 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                             setTimeout(function() {
                                 $btn.button('reset');
                             }, 1000);
-                        });
+                        });              
+                // $scope.showResCol = true;
+                fn_showExplain(qry.trim());               
 
             } else {
                 fn_ClearResultTbl();
@@ -530,6 +577,19 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
 
             // }
         }
+
+        function fn_showExplain(_qry){
+            //Explain Query
+                $http.post(globalURL + "api/pistachio/secured/sql/explain", _qry)
+                    .then(function (result){
+                        $scope.explainMsg = result.data.trim().toString();
+                    },
+                    function (response) {
+                        // $scope.explainMsg = response.message;
+                    });
+        }
+
+       
 
 
         function fn_GotoResultTab() {
