@@ -429,16 +429,21 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         }
 
 
-        sortValue = "desc";
+        
+        var FIRST_VALUE = 'desc';
+        var SECOND_VALUE = 'asc';
 
-        // $(".sortBtn1").toggle(function() {
-        //     sortValue = "asc";
-        //     $scope.populateChart();
+        sortValue = FIRST_VALUE;
+        $(".sortBtn2, .sortBtn1").click(function(){
+            if(sortValue == FIRST_VALUE) {
+                sortValue = SECOND_VALUE;  
+            } else {
+                sortValue = FIRST_VALUE; 
+            }
+            $scope.populateChart();
+        });
 
-        // }, function() {
-        //     sortValue = "desc";
-        //     $scope.populateChart();
-        // });
+    
         // $(".sortBtn2").toggle(function() {
         //     sortValue = "asc";
         //     $scope.populateChart();
