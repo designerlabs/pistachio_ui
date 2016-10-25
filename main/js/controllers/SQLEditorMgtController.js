@@ -20,6 +20,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         fn_showSavedQry();
         fn_showHistory();
         fn_LoadDb();
+        // $('#jstree_Col').jstree();
         });
       
         // fn_showHistory();
@@ -537,7 +538,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         }
 
         function fn_showCol() {
-            var ColResult;//api/pistachio/secured/hadoop/column?db=analytics&table=employee_details
+            // var ColResult;//api/pistachio/secured/hadoop/column?db=analytics&table=employee_details
             // if($scope.dbTables !== "Tables"){
             $http.get(globalURL + "api/pistachio/secured/hadoop/column?db=" + $scope.database + "&table=" + $scope.SeldbTables)
                 .then(function(response) {
@@ -547,11 +548,11 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                         ColTbl.destroy();
                     }
                     var tempnum = 0;
-                    ColResult = response.data;
+                    $scope.ColResult = response.data;
                     ColTbl = $('#tblColumns').DataTable({
                         // "order": [[ 0, "desc" ]],
                         "processing": true,
-                        "data": ColResult,
+                        "data": $scope.ColResult,
                         "paging": true,
                         "bInfo": false,
                         "columns": [{
@@ -567,7 +568,20 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                             "data": "type",
                             "width": "40%"
                         }]
-                    });                                      
+                    });    
+                     var arrayCollection = [
+                    {"id": "Animals", "parent": "#", "text": "Animals"},
+                    {"id": "Devices", "parent": "#", "text": "Devices"},
+                    {"id": "Dogs", "parent": "#", "text": "Dogs"},
+                    {"id": "Lions", "parent": "#", "text": "Lions"},
+                    {"id": "Mobile Phones", "parent": "#", "text": "Mobile Phones"},
+                    {"id": "Laptops", "parent": "#", "text": "Laptops"}                    
+                ];
+                     $('#jstree_Col').jstree({
+                         'core': {
+                        'data': arrayCollection
+                        }
+                     });                            
                 });
             // }else{
             //     $("#messageView div span").html('Please select Table');
