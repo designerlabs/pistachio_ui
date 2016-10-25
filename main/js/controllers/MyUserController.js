@@ -1,6 +1,6 @@
 'use strict';
 
-MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, sortable, NgTableParams, $filter, $q) {
+MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, sortable, NgTableParams, $filter, $q, stageUpdate) {
     $(".page-sidebar-menu > li").removeClass('active');
     $("#dashboardLink").addClass('active');
     $scope.$on('$viewContentLoaded', function () {
@@ -21,6 +21,20 @@ MetronicApp.controller('MyUserController', function($rootScope, $scope, $http, s
             console.log('stop');
         $scope.loading = false;
         });
+
+        
+
+      
+
+        $scope.myAuditBtn = function(){
+            location.href = "index.html#/auditAnalysis.html";
+        }
+
+         $scope.myAuditLink = function(uid, bname){
+            $scope.customArr = [uid, bname];
+            stageUpdate.addStage($scope.customArr );
+            location.href = "index.html#/auditAnalysis.html";
+        }   
 
 
         $scope.branchList = function (start, end, day, hour) {
@@ -369,6 +383,10 @@ $scope.test = function (nodes,links) {
                             return
                         }
                         $scope.pname = d.name;
+                        $rootScope.uname = d.usrId;
+                       
+                        $scope.customArr = [$rootScope.uname, $scope.activeBranch];
+                        stageUpdate.addStage($scope.customArr );
                         console.log($scope.pname);
                         
                         node.classed("node-active", function(o) {
@@ -454,6 +472,7 @@ $scope.test = function (nodes,links) {
         
         .on("mouseout", function(d){
             if($scope.click == false) {
+                $(".linkBtn").hide();
                 $(".nodes > .node").children('circle').attr({
                             'fill-opacity': 1,
                             'stroke-opacity': 1
@@ -474,11 +493,17 @@ $scope.test = function (nodes,links) {
                         //d3.select("#tooltip").classed("hidden", true);
                 })
         .on("click", function(d){
-            if($scope.click)
+            if($scope.click){
+                
                 $scope.click = false;
-            else
+
+            }
+                
+            else{
                 $scope.click = true;
-            //alert("click")
+                $(".linkBtn").show();
+            }
+                
             //d3.select("#tooltip").classed("hidden", fa);
                 });
         function dottype(d) {
@@ -659,7 +684,7 @@ $scope.test = function (nodes,links) {
             node.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
         });
 
- 
+
         function isConnected(a, b) {
                         console.log("checking connected")
                         return linkedByIndex[a.index + "," + b.index] || linkedByIndex[b.index + "," + a.index] || a.index == b.index;

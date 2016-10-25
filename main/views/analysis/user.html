@@ -59,6 +59,10 @@
         <p style="font-size:20px; border: 1px solid #3daf85;">Duration: <span id="duration"></span></p>
         <p>Remaining days of validity: <span id="validity"></span></p>
         <p>No. of connected officers: <span id="connectedOfficer"></span></p>
+        <div class="linkBtn" style="padding:10px; text-align:center; display:none;">
+          <button id="myAuditBtn" ng-click="myAuditBtn()" class="btn btn-md btn-warning"><i class='fa fa-check'></i> More Details</button>
+        </div>
+        
       </div>
     </div>
 
@@ -94,7 +98,7 @@
         
             <table ng-table="tableParams" class="table" show-filter="true">
               <tr ng-class="{'bg-danger' : x.validDays <= 0}" ng-repeat="x in $data">
-                <td title="'Name'" filter="{ name: 'text'}" sortable="'name'"><a href="">{{ x.name }}</a></td>
+                <td title="'Name'" filter="{ name: 'text'}" sortable="'name'"><a href="" ng-click="myAuditLink(x.usrId, activeBranch)">{{ x.name }}</a></td>
                 <td title="'User ID'">{{ x.usrId }}</td>
                 <td title="'Rank'">{{ x.rank }}</td>
                 <td filter="{branch: 'select'}" title="'Branch'" filter-data="getBranch" sortable="'branch'">{{ x.branch }}</td>
