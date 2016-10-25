@@ -1,153 +1,167 @@
-  <div class="col-md-2 portlet light portlet-fit bordered" style="padding: 5px;">
-    <div class="mt-element-list">
-      <div class="mt-list-head list-simple ext-1 font-white bg-blue-chambray">
-          <div class="list-head-title-container">
-                <a href="javascript:;" class="font-white pull-right">
-                    <i class="fa fa-refresh"></i>
-                </a>
-                    <h3 class="list-title">Database</h3>
-                </div>
-            </div>
-            <div class="mt-list-container list-simple ext-1 group">
-                <a class="list-toggle-container collapsed"  data-toggle="collapse" data-target="#lstDB" aria-expanded="false">
-                    <div class="list-toggle done">{{database}}
-                        <span class="badge badge-default pull-right bg-white font-green bold">{{databaseLength}}</span>
-                    </div>
-                </a>
-                <div style="" aria-expanded="false" class="panel-collapse collapsed collapse" id="lstDB">
-                    <ul>
-                      <li  class="mt-list-item" ng-repeat="dblist in databaseList" ng-click="OnDBClick(dblist)">
-                        <div class="mt-list-title">{{dblist}}</div>
-                      </li>
-                    </ul>
-                </div>
-                <a class="list-toggle-container" data-toggle="collapse" data-target="#lstDBtbl" aria-expanded="true">
-                    <div class="list-toggle"> {{dbTables}}
-                      <span class="badge badge-default pull-right bg-white font-green bold">{{datatableLength}}</span>
-                    </div>
-                </a>
-                <div style="overflow: auto; max-height: 600px" aria-expanded="true" class="panel-collapse collapse in" id="lstDBtbl">
-                <label  style="width:100%;"><input ng-model="searchText" class="form-control" placeholder="Search"></input></label>
-                    <ul>
-                        <li class="mt-list-item" ng-repeat="dbtbllist in datatableList | filter:searchText" ng-click="OnDBTblClick(dbtbllist)">
-                          <div class="mt-list-title">{{dbtbllist}}
-                          </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-  </div>
-  <div class="col-md-10"  style="padding: 0;">
-    <div class="col-md-12 sql_editor">
-      <section>
-        <div id="qryeditor" ng-model='editorarea' ui-ace="{
+<div class="col-md-2 portlet light portlet-fit bordered" style="padding: 5px;">
+	<div class="mt-element-list">
+		<div class="mt-list-head list-simple ext-1 font-white bg-blue-chambray">
+			<div class="list-head-title-container">
+				<a href="javascript:;" class="font-white pull-right">
+					<i class="fa fa-refresh"></i>
+				</a>
+				<h3 class="list-title">Database</h3>
+			</div>
+		</div>
+		<div class="mt-list-container list-simple ext-1 group">
+			<a class="list-toggle-container collapsed" data-toggle="collapse" data-target="#lstDB" aria-expanded="false">
+				<div class="list-toggle done">{{database}}
+					<span class="badge badge-default pull-right bg-white font-green bold">{{databaseLength}}</span>
+				</div>
+			</a>
+			<div style="" aria-expanded="false" class="panel-collapse collapsed collapse" id="lstDB">
+				<ul>
+					<li class="mt-list-item" ng-repeat="dblist in databaseList" ng-click="OnDBClick(dblist)">
+						<div class="mt-list-title">{{dblist}}</div>
+					</li>
+				</ul>
+			</div>
+			<a class="list-toggle-container" data-toggle="collapse" data-target="#lstDBtbl" aria-expanded="true">
+				<div class="list-toggle"> {{dbTables}}
+					<span class="badge badge-default pull-right bg-white font-green bold">{{datatableLength}}</span>
+				</div>
+			</a>
+			<div style="overflow: auto; max-height: 600px" aria-expanded="true" class="panel-collapse collapse in" id="lstDBtbl">
+				<label style="width:100%;">
+					<input ng-model="searchText" class="form-control" placeholder="Search"></input>
+				</label>
+				<ul>
+					<li class="mt-list-item" ng-repeat="dbtbllist in datatableList | filter:searchText" ng-click="OnDBTblClick(dbtbllist)">
+						<div class="mt-list-title">{{dbtbllist}}
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!--<div id="jstree_Col">			
+		</div>-->
+	</div>	
+</div>
+<div class="col-md-10" style="padding: 0;">
+	<div class="col-md-12 sql_editor">
+		<section>
+			<div id="qryeditor" ng-model='editorarea' ui-ace="{
           mode : 'sql',
           theme:'chrome',
           onLoad: aceLoaded,
           onChange: aceChanged
         }"></div>
-      </section>
-      <div class="action" style="float:right; margin:10px 0px;">
-        <button class="btn btn-sm btn-warning saveqry" ng-disabled="Saveqry" data-loading-text="Saving Your Query Please Wait..."> Save </button>
-        <button class="btn btn-sm btn-success exec" ng-disabled="btnExec" data-loading-text="Executing Your Query Please Wait..."> Execute </button>
-        <!-- <button class="btn btn-sm btn-primary saveas {{editorarea.length > 0 ? '' : 'disabled'}}"> Save As </button>  -->
-        <button class="btn btn-sm btn-default newqry"> New Query </button>
+		</section>
+		<div class="action" style="float:right; margin:10px 0px;">
+			<button class="btn btn-sm btn-warning saveqry" ng-disabled="Saveqry" data-loading-text="Saving Your Query Please Wait..."> Save </button>
+			<button class="btn btn-sm btn-success exec" ng-disabled="btnExec" data-loading-text="Executing Your Query Please Wait..."> Execute </button>
+			<!-- <button class="btn btn-sm btn-primary saveas {{editorarea.length > 0 ? '' : 'disabled'}}"> Save As </button>  -->
+			<button class="btn btn-sm btn-default newqry"> New Query </button>
 
-      </div>
-    </div>
-    <div class="col-md-12 result_container">
-      <div class="profile-content">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="portlet light ">
-              <div class="portlet-body">
-                <ul class="nav nav-tabs">
-                    <li class="tab" id='tabResult' data="tab_Result">
-                        <a data-toggle="tab" href="#tab_Result" aria-expanded="expanded"> Results </a>
-                    </li>
-                    <li class="tab " id='tabHistory' data="tab_History">
-                        <a data-toggle="tab" href="#tab_History" aria-expanded="expanded"> History </a>
-                    </li>
-                    <li class="tab active" id='tabSavedQuery'>
-                        <a data-toggle="tab" href="#tab_Saved_Query" aria-expanded="expanded"> Saved Query </a>
-                    </li>
-                    <li class="tab" id='tabClms'>
-                        <a data-toggle="tab" href="#tab_Columns" aria-expanded="expanded"> Columns </a>
-                    </li> 
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane fade tab_Result">
-                        <div class="portlet box blue" ng-show="showResults">
-                            <div class="portlet-title">
-                                <div class="actions">
-                                    <a ng-click="export_csv()" class="btn btn-sm grey-mint">
-                                        <i class="fa fa-file-excel-o"></i> Export as CSV </a>
-                                </div>
-                            </div>
-                            <div class="portlet-body">
-                                <table id="tblResult" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade tab_History">
-                        <table id="tblHistory" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>Query</th>
-                                    <th>Status</th>
-                                    <th>Time</th>
-                                    <th>Copy To Editor</th>
-                                </tr>
-                            </thead>
-                        </table>
-                        <div class="search-pagination" style="text-align: center;">
-                            <ul class="pagination">
-                                <li >
-                                    <button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="first"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
-                                </li>
-                                <li class="page-active">
-                                    <button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn" ng-disabled="last">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
-                                </li>
+		</div>
+	</div>
+	<div class="col-md-12 result_container">
+		<div class="profile-content">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="portlet light ">
+						<div class="portlet-body">
+							<ul class="nav nav-tabs">
+								<li class="tab" id='tabResult' data="tab_Result">
+									<a data-toggle="tab" href="#tab_Result" aria-expanded="expanded"> Results </a>
+								</li>
+								<li class="tab " id='tabHistory' data="tab_History">
+									<a data-toggle="tab" href="#tab_History" aria-expanded="expanded"> History </a>
+								</li>
+								<li class="tab active" id='tabSavedQuery' data="tab_Saved_Query">
+									<a data-toggle="tab" href="#tab_Saved_Query" aria-expanded="expanded"> Saved Query </a>
+								</li>
+								<li class="tab" id='tabClms' data="tab_Columns">
+									<a data-toggle="tab" href="#tab_Columns" aria-expanded="expanded"> Tables Columns 
+                                    </a>
+								</li>
+								<li class="tab" id='tabResCol' data="tab_ResultCol">
+									<a data-toggle="tab" href="#tab_ResultCol" aria-expanded="expanded"> Results Columns 
+                                    </a>
+								</li>
+								<li class="tab" id='tabExpn' data="tab_Explain">
+									<a data-toggle="tab" href="#tab_Explain" aria-expanded="expanded"> Explain 
+                                    </a>
+								</li>
+							</ul>
+							<div class="tab-content">
+								<div class="tab-pane fade tab_Result">
+									<div class="portlet box blue" ng-show="showResults">
+										<div class="portlet-title">
+											<div class="actions">
+												<a ng-click="export_csv()" class="btn btn-sm grey-mint">
+													<i class="fa fa-file-excel-o"></i> Export as CSV </a>
+											</div>
+										</div>
+										<div class="portlet-body">
+											<table id="tblResult" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane fade tab_History">
+									<table id="tblHistory" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+										<thead>
+											<tr>
+												<th>Query</th>
+												<th>Status</th>
+												<th>Time</th>
+												<th>Copy To Editor</th>
+											</tr>
+										</thead>
+									</table>
+									<div class="search-pagination" style="text-align: center;">
+										<ul class="pagination">
+											<li>
+												<button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="first"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+											</li>
+											<li class="page-active">
+												<button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn" ng-disabled="last">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+											</li>
 
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade tab_Saved_Query active in">                        
-                        <table id="tblSavedQuery" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Query</th>
-                                    <th>Saved Time</th>
-                                    <th>Copy To Editor</th>
-                                </tr>
-                            </thead>
-                        </table>
-                        <div class="search-pagination" style="text-align: center;">
-                            <ul class="pagination">
-                                <li >
-                                    <button ng-click="svdprevious()" class="btn btn-primary previousBtn" ><i class="fa fa-arrow-left" ng-disabled = "firstsve"></i> {{'fastsearch.previous' | translate}} </button>
-                                </li>
-                                <li class="page-active">
-                                    <button ng-click="svdnext()" ng-init="start=0" class="btn btn-primary nextBtn" ng-disabled = "lastsve" >{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
-                                </li>
+										</ul>
+									</div>
+								</div>
+								<div class="tab-pane fade tab_Saved_Query active in">
+									<table id="tblSavedQuery" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+										<thead>
+											<tr>
+												<th>Name</th>
+												<th>Query</th>
+												<th>Saved Time</th>
+												<th>Copy To Editor</th>
+											</tr>
+										</thead>
+									</table>
+									<div class="search-pagination" style="text-align: center;">
+										<ul class="pagination">
+											<li>
+												<button ng-click="svdprevious()" class="btn btn-primary previousBtn"><i class="fa fa-arrow-left" ng-disabled = "firstsve"></i> {{'fastsearch.previous' | translate}} </button>
+											</li>
+											<li class="page-active">
+												<button ng-click="svdnext()" ng-init="start=0" class="btn btn-primary nextBtn" ng-disabled="lastsve">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+											</li>
 
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade tab_Columns">                        
-                        <table id="tblColumns" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>Number</th>
-                                    <th>Name</th>
-                                    <th>Type</th>
-                                </tr>
-                            </thead>
-                        </table>
-                        <!--<div class="search-pagination" style="text-align: center;">
+										</ul>
+									</div>
+								</div>
+								<div class="tab-pane fade tab_Columns">
+									<table id="tblColumns" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+										<thead>
+											<tr>
+												<th>Number</th>
+												<th>Name</th>
+												<th>Type</th>
+											</tr>
+										</thead>
+									</table>
+
+									<!--<div class="search-pagination" style="text-align: center;">
                             <ul class="pagination">
                                 <li >
                                     <button ng-click="colprevious()" class="btn btn-primary previousBtn" ><i class="fa fa-arrow-left" ng-disabled = "firstcol"></i> {{'fastsearch.previous' | translate}} </button>
@@ -158,49 +172,68 @@
 
                             </ul>
                         </div>-->
-                    </div>
-                </div>
-                <div class="clearfix margin-bottom-20"> </div>
-                <div id="messageView" style="margin-top:20px">
-                  <div class="alert display-hide" id="result.errorinfo">
-                      <button class="close" data-close="alert"></button>
-                      <span>Hello im here</span>
-                  </div>
-                </div>
-            </div>
-          </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-	<div class="clearfix">
+								</div>
+								<div class="tab-pane fade tab_ResultCol">
+									<table id="tblResultCol" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+										<thead>
+											<tr>
+												<th>Number</th>
+												<th>Name</th>
+												<th>Type</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+								<div class="tab-pane fade tab_Explain col-md-10 col-sm-6 col-xs-12">
+									<textarea type="text" ng-show="explainMsg.length>0" ng-model="explainMsg" readonly="true" cols="120" rows="15">
+
+									</textarea>
+									<center ng-show="!explainMsg.length>0">
+										<h3>No Data</h3>
+									</center>
+								</div>
+							</div>
+							<div class="clearfix margin-bottom-20"> </div>
+							<div id="messageView" style="margin-top:20px">
+								<div class="alert display-hide" id="result.errorinfo">
+									<button class="close" data-close="alert"></button>
+									<span>Hello im here</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-  <div class="modal fade" id="mdlSaveQry" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog" role="document" style="width: 50%">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="mdlSaveQryHeader"> Save Query </h4>
-            </div>
-            <div class="modal-body">
-                <div class="alert alert-danger display-hide" id="mdlSaveQryRequire">
-                    <button class="close" data-close="alert"></button>
-                    <span></span>
-                </div>
-                <form id="SaveQryForm" name="SaveQryForm" autocomplete="off">
-                  <div class="form-group">
-                        <label for="savequery-name" class="control-label">Query Name :</label>
-                        <input type="text" class="form-control" id="savequery-name">
-                  </div>                
-                </form>
-            </div>
-            <div class="modal-footer">
-                 <button type="button" class="btn btn-success" id="btnSaveQry"><i class="fa fa-check"></i> Save </button>
-                <button type="button" class="btn btn-danger" id='btncancl' data-dismiss="modal"><i class="fa fa-times"></i> Cancel </button>
-            </div>
-        </div>
-    </div>
+</div>
+<div class="clearfix">
+</div>
+<div class="modal fade" id="mdlSaveQry" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+	<div class="modal-dialog" role="document" style="width: 50%">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="mdlSaveQryHeader"> Save Query </h4>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-danger display-hide" id="mdlSaveQryRequire">
+					<button class="close" data-close="alert"></button>
+					<span></span>
+				</div>
+				<form id="SaveQryForm" name="SaveQryForm" autocomplete="off">
+					<div class="form-group">
+						<label for="savequery-name" class="control-label">Query Name :</label>
+						<input type="text" class="form-control" id="savequery-name">
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" id="btnSaveQry"><i class="fa fa-check"></i> Save </button>
+				<button type="button" class="btn btn-danger" id='btncancl' data-dismiss="modal"><i class="fa fa-times"></i> Cancel </button>
+			</div>
+		</div>
+	</div>
 </div>
 <!-- <div class="modal fade" id="mdlSaveQry" tabindex="-1" role="dialog" aria-labelledby="mdlSaveQry">
     <div class="modal-dialog" role="document">
@@ -221,9 +254,8 @@
     </div>
 </div> -->
 <style type="text/css">
-  /*#tblHistory tbody tr td:first-child {
+	/*#tblHistory tbody tr td:first-child {
     cursor: pointer;
     cursor: hand;
 }*/
-
 </style>

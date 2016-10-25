@@ -2083,14 +2083,18 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         // 'bower_components/ace-builds/src-min-noconflict/ext-language_tools.js',
                         // 'assets/global/plugins/ace.js',
                         // 'assets/global/plugins/ui-ace.js',
+                        'assets/global/plugins/jstree/dist/themes/default/style.min.css',
+                        'assets/global/plugins/jstree/dist/jstree.js',
                         'assets/global/plugins/select2/select2.css',
                         'assets/global/plugins/select2/select2.min.js',
                         'js/scripts/table-advanced.js',
                         'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
                         'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
                         'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
+                        
                         'assets/global/plugins/datatables/all.min.js',
                         'bower_components/ace-builds/src-min-noconflict/ext-language_tools.js',
+                        
                         'js/controllers/SQLEditorMgtController.js',
                         'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
