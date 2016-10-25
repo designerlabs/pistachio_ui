@@ -327,7 +327,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
                 } else {
                     $scope.showOfficer = true;
                     if($scope.getCurrentStage.length != 0){
-                        debugger;
+                        
                         $scope.officer_change($scope.getCurrentStage[0][0], undefined, undefined, undefined);
                     }
 
@@ -538,7 +538,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
     var legendElementWidth = gridSize * 2,
         buckets = 15,
         colors = ["#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#253494", "#081d58"], // alternatively colorbrewer.YlGnBu[9]
-        days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        days = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
         //times = ["12AM","1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM"];
         times = ["12a", "1a", "2a", "3a", "4a", "5a", "6a", "7a", "8a", "9a", "10a", "11a", "12p", "1p", "2p", "3p", "4p", "5p", "6p", "7p", "8p", "9p", "10p", "11p"];
     var svg = d3.select("#chart").append("svg")
@@ -555,7 +555,7 @@ MetronicApp.controller('MyAuditController', function ($rootScope, $scope, $http,
         .attr("y", function (d, i) { return i * gridSize; })
         .style("text-anchor", "end")
         .attr("transform", "translate(-6," + gridSize / 1.5 + ")")
-        .attr("class", function (d, i) { return ((i >= 1 && i <= 5) ? "dayLabel mono axis axis-workweek" : "dayLabel mono axis"); });
+        .attr("class", function (d, i) { return ((i >= 0 && i <= 4) ? "dayLabel mono axis axis-workweek" : "dayLabel mono axis"); });
 
     var timeLabels = svg.selectAll(".timeLabel")
         .data(times)
