@@ -569,19 +569,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                             "width": "40%"
                         }]
                     });    
-                     var arrayCollection = [
-                    {"id": "Animals", "parent": "#", "text": "Animals"},
-                    {"id": "Devices", "parent": "#", "text": "Devices"},
-                    {"id": "Dogs", "parent": "#", "text": "Dogs"},
-                    {"id": "Lions", "parent": "#", "text": "Lions"},
-                    {"id": "Mobile Phones", "parent": "#", "text": "Mobile Phones"},
-                    {"id": "Laptops", "parent": "#", "text": "Laptops"}                    
-                ];
-                     $('#jstree_Col').jstree({
-                         'core': {
-                        'data': arrayCollection
-                        }
-                     });                            
+                                              
                 });
             // }else{
             //     $("#messageView div span").html('Please select Table');
