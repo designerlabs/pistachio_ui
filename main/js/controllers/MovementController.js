@@ -236,18 +236,30 @@ MetronicApp.controller('MovementController', function($rootScope, $scope, $http)
           return query;
        }
 
+        $scope.fqQuery = function () {
+          var query = "";
+          if($scope.filterButtons.length == 0)
+            return query;
+          query = "&fq="+$scope.filterButtons[0]["query"];
+          if($scope.filterButtons.length > 1)
+            for (var i = 1; i < $scope.filterButtons.length; i++) {
+                query = query+"&fq="+$scope.filterButtons[i]["query"];
+            }
+
+          return query;
+       }
+
 
 
        $scope.querySolr = function() {
 
           $scope.filters = false;
           var json = {};
-          if($scope.analysiType == 'overall')
-          {
+
             json.limit  = 0;
             json.offset = 0
             json.query = $scope.formQuery();
-            json.filter = $scope.filterQuery();
+            //json.filter = $scope.filterQuery();
             json.facet = {};
             json.facet.country = {};
             json.facet.country.limit = 40;
@@ -271,17 +283,12 @@ MetronicApp.controller('MovementController', function($rootScope, $scope, $http)
             json.facet.doc = {};
             json.facet.doc.type   = "terms";
             json.facet.doc.field  =  "doc_no";
-            
-           // json.facet.uBrn  =  "unique(branch)";
-          //  json.facet.uNeg  =  "unique(country)";
-           // json.facet.uPas  =  "unique(pass_type)";
 
 
             json.facet.date_range = {};
 
             json.facet.date_range.type   = "range";
             json.facet.date_range.field  =  "xit_date";
-            debugger;
             if($scope.time_filtered_max.length > 0)
             {
               json.facet.date_range.start  = $scope.time_filtered_min;
@@ -294,15 +301,13 @@ MetronicApp.controller('MovementController', function($rootScope, $scope, $http)
             }
             json.facet.date_range.gap    = $scope.period;
 
-          }
 
-          $http.get(thisSolrAppUrl+JSON.stringify(json)).
+          $http.get(thisSolrAppUrl+JSON.stringify(json)+$scope.fqQuery()).
              success(function(data) {
               $scope.numFound = data.response.numFound;
                  if(selected_countries == 0) {
 
                    $scope.countries = data.facets.country.buckets;
-                   debugger;
                    $scope.tc = $scope.countries.slice(0,10);
                    var sex = data.facets.sex.buckets;
                    var i;
@@ -551,7 +556,6 @@ MetronicApp.controller('MovementController', function($rootScope, $scope, $http)
 
     $scope.timelineChart = function(data_range) {
 
-            debugger;
       console.log(data_range);
       //alert(data_range.facets.date_range.buckets[0]);
       //alert(data_range[1][0]);
