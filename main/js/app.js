@@ -1228,7 +1228,33 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }]
         }
     })
-
+.state('movementAnalysis', {
+        url: "/movementAnalysis.html",
+        templateUrl: "views/analysis/move.html",
+        data: {
+            pageTitle: 'Movement Analysis'
+        },
+        controller: "MovementController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/global/plugins/bootstrap-daterangepicker/moment.js',
+                        'assets/pistachio/myAudit/myaudit.css',
+                        'assets/pages/css/search.css',
+                        'assets/pages/css/pricing.min.css',
+                        'assets/pages/scripts/highstock.js',
+                        'js/controllers/MovementController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
+                    ]
+                });
+            }]
+        }
+    })
 .state('heatMapAnalysis', {
         url: "/heatMapAnalysis.html",
         templateUrl: "views/analysis/map.html",
