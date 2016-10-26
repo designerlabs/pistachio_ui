@@ -62,8 +62,11 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         $scope.OnDBTblClick = function(seltbl) {
              $scope.SeldbTables = seltbl; 
              $("#lstDBtbl > ul > li").removeClass('activeBg');
+            $("#lstDBtbl > ul > li > div > span > .openEye").hide();
              var currentList = event.target;
              $(currentList).parent().addClass('activeBg');
+             $('.activeBg  .openEye').show();
+
              
             // $scope.db_clicked = "collapsed";
             // fn_LoadDt(sel);

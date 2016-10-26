@@ -31,12 +31,20 @@
 					<input ng-model="searchText" class="form-control" placeholder="Search"></input>
 				</label>
 				<ul>
-					<li class="mt-list-item" ng-repeat="dbtbllist in datatableList | filter:searchText" ng-click="OnDBTblClick(dbtbllist)">
-						<div class="mt-list-title">{{dbtbllist}}
+					<li class="mt-list-item" style="cursor:pointer;" ng-repeat="dbtbllist in datatableList | filter:searchText" ng-click="OnDBTblClick(dbtbllist)">
+						<div class="mt-list-title"><i class="fa fa-table" aria-hidden="true"></i> {{dbtbllist}} <span style="float:right;"><i class="openEye fa fa-eye" style="display:none;" aria-hidden="true"></i> <i class="fa fa-list" aria-hidden="true"></i></span>
 						</div>
+					
 					</li>
 				</ul>
 			</div>
+		</div>
+		<div class="hide">
+			<ul>
+				<li>
+
+				</li>
+			</ul>
 		</div>
 		<!--<div id="jstree_Col">			
 		</div>-->

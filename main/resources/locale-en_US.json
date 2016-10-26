@@ -96,6 +96,7 @@
 	"session.loggedoutmessage" : "You were idle too long. You are logged out now, Please login again",
 	"workflowmgt.title":"Request Management",
 	"tracking.title" : "Border Activity Analysis",
+	"visitorTracking.title" : "Visitor Traveling Analysis",
 	"officeractivity.title":"Officers Activity Analysis",
 	"profile.title" : "My Profile",
 	"profile.overview" : "Overview",

@@ -100,6 +100,7 @@
 	"session.timeoutmessage" : "Anda telah tamat masa",
 	"session.loggedoutmessage" : "Anda adalah terbiar terlalu lama. Anda log keluar sekarang, Sila log masuk lagi",
 	"tracking.title" : "Border Activity Analysis",
+	"visitorTracking.title" : "Visitor Traveling Analysis",
 	"officeractivity.title":"Officers Activity Analysis",
 	"workflowmgt.title":"Request Management",
 	"profile.title" : "Profil saya",

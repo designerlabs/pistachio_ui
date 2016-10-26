@@ -27,7 +27,7 @@ MetronicApp.controller('employeeHourlyDetailsController', function($rootScope, $
          
         // }
         stageUpdate.addStage("Officer");
-        Layout.setSidebarMenuActiveLink('set', $('#trackerLink')); // set profile link active in sidebar menu 
+        Layout.setSidebarMenuActiveLink('set', $('#visitorLink')); // set profile link active in sidebar menu 
        
         $rootScope.$on('loading:progress', function (){
             console.log("loading");

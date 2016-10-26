@@ -894,6 +894,30 @@ MetronicApp.directive('myRepeatDirective', function() {
 
 MetronicApp.service('stageUpdate', function() {
   var stage = [];
+  var addStage = function(newObj) {
+      stage = [];
+      stage.push(newObj);
+  };
+
+  var getStage = function(){
+      return stage;
+  };
+
+  var resetStage = function(){
+      return stage = [];
+  }
+
+  return {
+    addStage: addStage,
+    getStage: getStage,
+    resetStage:resetStage
+  };
+
+});
+
+
+MetronicApp.service('stageUpdateVisitor', function() {
+  var stage = [];
 
   var addStage = function(newObj) {
       stage = [];
@@ -904,9 +928,16 @@ MetronicApp.service('stageUpdate', function() {
       return stage;
   };
 
+  
+  var resetStage = function(){
+      return stage = [];
+  }
+
+
   return {
     addStage: addStage,
-    getStage: getStage
+    getStage: getStage,
+    resetStage: resetStage
   };
 
 });
@@ -2132,6 +2163,44 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         
                         
                         'js/controllers/d2dTrackingController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
+                        
+                    ]
+                });
+            }]
+        }
+    })
+    //Visitor Tracking
+    .state('visitorTracking', {
+        url: "/visitorTracking/visitorTracking.html",
+        templateUrl: "views/visitorTracking/visitorTracking.html",
+        data: {
+            pageTitle: 'Visitor Tracking'
+        },
+        controller: "visitorTrackingController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        // 'assets/pages/scripts/angular-chart/angular-chart.css',
+                        // 'assets/pages/scripts/datamaps/datamaps.world.js',
+                        // 'assets/pages/css/search.css',
+                        'assets/pages/scripts/jquery-ui.min.js',
+                        //'assets/global/plugins/highcharts/js/highcharts.js',
+                        // 'assets/pages/css/pricing.min.css',
+                        'assets/pages/scripts/highstock.js',
+                        
+                        // 'assets/pages/css/jquery-ui.css',
+                        // 'bower_components/moment/min/moment.min.js',
+                        // 'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+                        // 'bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
+                        
+                        
+                        'js/controllers/visitorTrackingController.js',
                         'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'

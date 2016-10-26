@@ -4,7 +4,7 @@
 
 var info_personal_loaded = false;
 var visadetails = [];
-MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope, $http, stageUpdate, $timeout) {
+MetronicApp.controller('TravelerTrackerController', function ($state, $rootScope, $scope, $http, stageUpdate, stageUpdateVisitor, $timeout) {
 
     $scope.lock = 'true';
     $scope.res = "result";
@@ -20,8 +20,12 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
     // chkIframe.addStatus("true");
     //     $scope.getCurrentStatus = chkIframe.getStatus();
     //     alert($scope.getCurrentStatus);
-
-    stageUpdate.addStage("Visitor");
+    if (document.location.href.search("page=tracking") != -1) {
+        stageUpdate.addStage("Visitor");
+    }else{
+        stageUpdate.addStage("");
+        stageUpdateVisitor.addStage("Branch"); 
+    }
 
     if (window.location.href.indexOf('fastsearch') != -1) {
         $("#headerTpl").hide();
@@ -41,6 +45,9 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
 
     if (document.location.href.search("page=tracking") != -1) {
         $('link[title="iframeStyle"]').prop('disabled', true);
+        $scope.travelBackBtn = true;
+    } else if(document.location.href.search("page=visitor") != -1){
+         $('link[title="iframeStyle"]').prop('disabled', true);
         $scope.travelBackBtn = true;
     } else {
         $scope.travelBackBtn = false;
@@ -552,9 +559,13 @@ MetronicApp.controller('TravelerTrackerController', function ($rootScope, $scope
             //$rootScope.fastsearch.load = true;
             if (window.location.href.indexOf("tracking") > -1) {
                 //stageUpdate.addStage("Visitor");
-                location.href = "index.html#/d2dTracking/d2dTracking.html";
+                $state.go('d2dTracking');
+
+            }else if(window.location.href.indexOf("visitor")  > -1){
+                $state.go('visitorTracking');
+                
             } else {
-                location.href = "index.html#/fastsearch/gfs.html";
+                $state.go('globalsearch');
             }
 
             //parent.history.back();

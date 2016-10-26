@@ -1,10 +1,10 @@
 'use strict';
 
-MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $http, $timeout, stageUpdate) {
+MetronicApp.controller('visitorTrackingController', function($rootScope, $scope, $http, $timeout, stageUpdateVisitor, stageUpdate) {
     $scope.$on('$viewContentLoaded', function() {
         // initialize core components
         Metronic.initAjax();
-        Layout.setSidebarMenuActiveLink('set', $('#trackerLink')); // set profile link active in sidebar menu 
+        Layout.setSidebarMenuActiveLink('set', $('#visitorLink')); // set profile link active in sidebar menu 
    
         $scope.drawSparkline = 0;
 
@@ -21,11 +21,9 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             console.log(Qparam[1]);
         }
 
-        
-        $scope.getCurrentStage = stageUpdate.getStage();
+        $scope.getCurrentStage = stageUpdateVisitor.getStage();
         console.log($scope.getCurrentStage);
-
-        
+        stageUpdate.resetStage();
         
         $rootScope.$on('loading:progress', function (){
             console.log("loading");
@@ -523,7 +521,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                     }
 
                     // $scope.subtitle = moment($scope.getFromDt).format('DD/MM/YYYY') + " - " + moment($scope.getToDt).format('DD/MM/YYYY');                        
-                    branchQry = 'branch';
+                    branchQry = 'doc_nos';
                     ubranch = 'ubranch: "unique(' + branchQry + ')"';
                     gap = "%2B1DAY";
 
@@ -640,7 +638,6 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                         } else {
                             $("#bNextBtn").prop('disabled', false);
                         }
-                        //debugger;
                         /* NEED TO CHECK AND UNCOMMENT IN PRODUCTION*/
                         
                 
@@ -815,8 +812,15 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                                 for (var i = 0, l = data.facets.branches.buckets.length; i < l; i++) {
                                     var bElement = {};
                                     var brName = {};
-                                    var bName = data.facets.branches.buckets[i].val;
+                                    //var bName = data.facets.branches.buckets[i].val;
+                                    var bName = data.response.docs[i].name;
+                                    var docNo = data.response.docs[i].doc_nos;
+                                    var countryDet = data.response.docs[i].country;
+                                    var sex = data.response.docs[i].sex;
                                     brName.name = bName;
+                                    brName.docno = docNo;
+                                    brName.country = countryDet;
+                                    brName.sex = sex;
                                     bElement.brhName = brName;
 
                                     for (var k = 0, m = data.facets.branches.buckets[i].in_out.buckets.length; k < m; k++) {
@@ -964,6 +968,10 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
         }else if($scope.getCurrentStage[0] == "Visitor"){
             $scope.timelineChart($.parseJSON(localStorage.getItem('ctryName')).one, "Visitor");
             localStorage.stage = "Visitor";
+        }else if($scope.getCurrentStage[0] == "Branch"){
+            //localStorage.removeItem('branchName'); // each time removing the branch and Emp name
+            $scope.timelineChart("Inital", localStorage.stage);
+             localStorage.stage = "Branch";
         }
         
        
@@ -1045,7 +1053,7 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
             var setEmp = { 'one': EmpN, 'two': this.$parent.$$watchers[0].last };
             var setCountry = { 'one': countryN, 'two': this.$parent.$$watchers[0].last };
             var setVisitor = { 'one': visitorN, 'two': this.$parent.$$watchers[0].last };
-            if (getStage == "Branch") {
+            if (getStage == "Branch1") {
                 localStorage.setItem('branchName', JSON.stringify(setBranch));
                 localStorage.stage = "Officer";
             }
@@ -1060,10 +1068,12 @@ MetronicApp.controller('d2dTrackingController', function($rootScope, $scope, $ht
                 localStorage.stage = "Visitor";
             }
 
-            if (getStage == "Visitor") {
+            if (getStage == "Branch") {
                 //location.href="/travelertracker/travelertracker.html?doc_no="+passportNo+"&country="+countryName;
-                window.location = "#/travelertracker/travelertracker.html?session=true&page=tracking";    
-                sessionStorage.setItem('Qparam','doc_nos:'+ this.$parent.value.vName.doc +' AND country:'+ $scope.CtryQueryName);
+         
+                window.location = "#/travelertracker/travelertracker.html?session=true&page=visitor";    
+                sessionStorage.setItem('Qparam','doc_nos:'+ this.$parent.value.brhName.docno +' AND country:'+ this.$parent.value.brhName.country);
+                
                 // sessionStorage.setItem('hourlyDocNo', this.$parent.value.vName.doc);
                 // sessionStorage.setItem('hourlyCountry', $scope.CtryQueryName);
                 // location.href = "index.html#/travelertracker/travelertracker.html?doc_no=" + this.$parent.value.vName.doc + "&country=" + $scope.CtryQueryName;
@@ -1117,6 +1127,6 @@ $('#OpenModal').click(function(){
         // set sidebar closed and body solid layout mode
         $rootScope.settings.layout.pageSidebarClosed = true;
         $rootScope.skipTitle = false;
-        $rootScope.settings.layout.setTitle("tracking");
+        $rootScope.settings.layout.setTitle("visitorTracking");
 
 });

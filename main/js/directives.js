@@ -23,7 +23,8 @@ MetronicApp.directive('ngSpinnerBar', ['$rootScope',
                     
                     // auto scorll to page top
                     setTimeout(function () {
-                        Metronic.scrollTop(); // scroll to the top on content load
+                        //debugger;
+                        //Metronic.scrollTop(); // scroll to the top on content load
                     }, $rootScope.settings.layout.pageAutoScrollOnLoad);     
                 });
 
