@@ -874,5 +874,5 @@ MetronicApp.controller('CAController', function($rootScope, $scope, $http) {
     // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.pageSidebarClosed = true;
     $rootScope.skipTitle = false;
-    $rootScope.settings.layout.setTitle("heatmapFW");
+    $rootScope.settings.layout.setTitle("heatmapCit");
 });

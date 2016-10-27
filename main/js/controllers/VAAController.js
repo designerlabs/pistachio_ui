@@ -830,5 +830,5 @@ $scope.stateSelected = false;
     // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.pageSidebarClosed = true;
     $rootScope.skipTitle = false;
-    $rootScope.settings.layout.setTitle("");
+    $rootScope.settings.layout.setTitle("vaa");
 });

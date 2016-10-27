@@ -22,8 +22,11 @@ MetronicApp.controller('TravelerTrackerController', function ($state, $rootScope
     //     alert($scope.getCurrentStatus);
     if (document.location.href.search("page=tracking") != -1) {
         stageUpdate.addStage("Visitor");
+    }else if (document.location.href.search("page=movement") != -1) {
+        stageUpdate.resetStage();
+        stageUpdateVisitor.addStage("Branch"); 
     }else{
-        stageUpdate.addStage("");
+        stageUpdate.resetStage();
         stageUpdateVisitor.addStage("Branch"); 
     }
 
@@ -49,7 +52,10 @@ MetronicApp.controller('TravelerTrackerController', function ($state, $rootScope
     } else if(document.location.href.search("page=visitor") != -1){
          $('link[title="iframeStyle"]').prop('disabled', true);
         $scope.travelBackBtn = true;
-    } else {
+    } else if(document.location.href.search("page=movement") != -1){
+         $('link[title="iframeStyle"]').prop('disabled', true);
+        $scope.travelBackBtn = true;
+    }  else {
         $scope.travelBackBtn = false;
         // alert('hello');
         $('link[title="iframeStyle"]').prop('disabled', false);
@@ -563,6 +569,9 @@ MetronicApp.controller('TravelerTrackerController', function ($state, $rootScope
 
             }else if(window.location.href.indexOf("visitor")  > -1){
                 $state.go('visitorTracking');
+                
+            }else if(window.location.href.indexOf("movement")  > -1){
+                $state.go('movementAnalysis');
                 
             } else {
                 $state.go('globalsearch');

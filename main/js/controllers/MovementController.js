@@ -182,6 +182,10 @@ MetronicApp.controller('MovementController', function($rootScope, $scope, $http)
         $scope.querySolr();
        }
 
+       $scope.clickVisitor = function(docno, country){
+         window.location = "#/travelertracker/travelertracker.html?session=true&page=movement";    
+         sessionStorage.setItem('Qparam','doc_nos:'+ docno +' AND country:'+ country);
+       }
        $scope.updateActiveGeography = function(geography) {
           $scope.addFilter("cnt","country: "+geography.id,"cntry_cd:"+geography.id);
           $scope.querySolr();
@@ -308,6 +312,7 @@ MetronicApp.controller('MovementController', function($rootScope, $scope, $http)
                  if(selected_countries == 0) {
 
                    $scope.countries = data.facets.country.buckets;
+                   $scope.visitors = data.facets.doc.buckets;
                    $scope.tc = $scope.countries.slice(0,10);
                    var sex = data.facets.sex.buckets;
                    var i;

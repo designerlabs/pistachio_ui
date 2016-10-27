@@ -97,6 +97,32 @@
                 </div>
 
             </div>
+            <div class="row">
+                <div class="" style="padding: 5px; min-height: 25px;">
+                     <div class="col-md-12 portlet light portlet-fit bordered" style="padding: 5px;">
+                        <div class="mt-element-list">
+                            <div class="mt-list-head list-simple ext-1 font-white bg-blue-chambray">
+                                <div class="list-head-title-container">
+                                    <a ng-click="reset()" class="font-white pull-right">
+                                        <i class="fa fa-refresh"></i>
+                                    </a>
+                                    <h4 class="list-title">Visitors</h4>
+                                </div>
+                            </div>
+
+                            <div class="mt-list-container list-simple ext-1 group">
+                                <ul>
+                                      <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" ng-repeat="visit in visitors" ng-click="clickVisitor(visit.val, '*')">
+                                          <div class="mt-list-title col-md-9 col-sm-9 col-xs-9"  data-toggle="tooltip" title="{{visit.val}}"> {{omitNa(visit.val) |limitTo:25}}</div>
+                                          <div class="list-datetime col-md-3 col-sm-3 col-xs-3" style="padding-left: 0px;"> {{visit.count | number:0}} </div>
+                                      </li>
+                                  </ul>
+                        
+                            </div>
+                        </div>
+                     </div>
+                </div>
+            </div>
         </div>
         <div class="col-md-9" style="padding-right: 0px;">
             <div class="container-fluid" style="
@@ -232,7 +258,7 @@
             <div class="tab-pane active" id="timeline_analysis">
               <div id="highchart_timeline1"></div>
             </div>
-          --!>
+         
 
                         </div>
                     </div>
@@ -242,8 +268,13 @@
     </div>
 <style>
     .daterangepicker.dropdown-menu {
-        top: 593px !important;
+        top: 372px !important;
         left: 78px;
     }
+
+.mt-element-list .list-simple.ext-1.mt-list-container ul>.mt-list-item.done {
+    background: #3D4A53 !important;
+    color: #fff !important;
+}
     
 </style>
