@@ -61,13 +61,17 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
 
         $scope.OnDBTblClick = function(seltbl) {
              $scope.SeldbTables = seltbl; 
-             $("#lstDBtbl > ul > li").removeClass('activeBg');
+            $("#lstDBtbl > ul > li").removeClass('activeBg');
             $("#lstDBtbl > ul > li > div > span > .openEye").hide();
+            // $('ul.lstcol').css({background:'transparent'}).find('> li').css({background:'transparent'});
              var currentList = event.target;
              $(currentList).parent().addClass('activeBg');
-             $('.activeBg  .openEye').show();
-
-             
+            //  $('.activeBg  .openEye').show();
+            $(currentList).find('.openEye').show();
+            fn_showCol(currentList);
+            
+            
+            
             // $scope.db_clicked = "collapsed";
             // fn_LoadDt(sel);
             //collapse the datatable list
@@ -81,7 +85,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
 
             // $(".tab-content").children().removeClass('active in');
             // $('.tab_Columns').addClass('active in');
-            fn_showCol();
+            
             $("#messageView div").hide();
         }
 
@@ -111,11 +115,11 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                 $('.tab_Saved_Query').addClass('active in');
                 // fn_showSavedQry();
                 $("#messageView div").hide();
-            } else if(this.id == "tabClms"){
-                $(".tab-content").children().removeClass('active in');
-                $('.tab_Columns').addClass('active in');
-                // fn_showCol();
-                $("#messageView div").hide();
+            // } else if(this.id == "tabClms"){ // Column tab removed and added under datatable 
+            //     $(".tab-content").children().removeClass('active in');
+            //     $('.tab_Columns').addClass('active in');
+            //     // fn_showCol();
+            //     $("#messageView div").hide();
             } else if(this.id == "tabExpn"){
                 $(".tab-content").children().removeClass('active in');
                 $('.tab_Explain').addClass('active in');
@@ -540,7 +544,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                 });
         }
 
-        function fn_showCol() {
+        function fn_showCol(currentList) {
             // var ColResult;//api/pistachio/secured/hadoop/column?db=analytics&table=employee_details
             // if($scope.dbTables !== "Tables"){
             $http.get(globalURL + "api/pistachio/secured/hadoop/column?db=" + $scope.database + "&table=" + $scope.SeldbTables)
@@ -551,27 +555,35 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                         ColTbl.destroy();
                     }
                     var tempnum = 0;
-                    $scope.ColResult = response.data;
-                    ColTbl = $('#tblColumns').DataTable({
-                        // "order": [[ 0, "desc" ]],
-                        "processing": true,
-                        "data": $scope.ColResult,
-                        "paging": true,
-                        "bInfo": false,
-                        "columns": [{
-                            "data": "column",
-                            "width": "10%",
-                            "render":function(data, type, full, meta){
-                                return tempnum = tempnum + 1;  
-                            }
-                        },{
-                            "data": "column",
-                            "width": "40%"
-                        }, {
-                            "data": "type",
-                            "width": "40%"
-                        }]
-                    });    
+                    // $scope.ColResult = response.data;
+                    if(response.data.length > 0 && $(currentList).find('.tblColLst').length == 0){
+                        $('.tblColLst').remove();
+                        $(currentList).append('<div class="tblColLst" style="padding-top: 5px; padding-left: 20px;" ><ul></ul></div');
+                        $.each(response.data, function (key, value) {
+                            $(".tblColLst ul").append('<li style="list-style-type: none;"><div><i class="fa fa-columns"></i>'+value.column +'('+ value.type +')'+'</div></li>');
+                        });
+                    }else{
+                        $('.tblColLst').remove();
+                    }
+                    // ColTbl = $('#tblColumns').DataTable({
+                    //     "processing": true,
+                    //     "data": $scope.ColResult,
+                    //     "paging": true,
+                    //     "bInfo": false,
+                    //     "columns": [{
+                    //         "data": "column",
+                    //         "width": "10%",
+                    //         "render":function(data, type, full, meta){
+                    //             return tempnum = tempnum + 1;  
+                    //         }
+                    //     },{
+                    //         "data": "column",
+                    //         "width": "40%"
+                    //     }, {
+                    //         "data": "type",
+                    //         "width": "40%"
+                    //     }]
+                    // });    
                                               
                 });
             // }else{

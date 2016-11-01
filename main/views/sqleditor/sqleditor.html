@@ -39,13 +39,7 @@
 				</ul>
 			</div>
 		</div>
-		<div class="hide">
-			<ul>
-				<li>
-
-				</li>
-			</ul>
-		</div>
+		
 		<!--<div id="jstree_Col">			
 		</div>-->
 	</div>	
@@ -84,10 +78,10 @@
 								<li class="tab active" id='tabSavedQuery' data="tab_Saved_Query">
 									<a data-toggle="tab" href="#tab_Saved_Query" aria-expanded="expanded"> Saved Query </a>
 								</li>
-								<li class="tab" id='tabClms' data="tab_Columns">
+								<!--<li class="tab" id='tabClms' data="tab_Columns">
 									<a data-toggle="tab" href="#tab_Columns" aria-expanded="expanded"> Tables Columns 
                                     </a>
-								</li>
+								</li>-->
 								<li class="tab" id='tabResCol' data="tab_ResultCol">
 									<a data-toggle="tab" href="#tab_ResultCol" aria-expanded="expanded"> Results Columns 
                                     </a>
@@ -158,7 +152,7 @@
 										</ul>
 									</div>
 								</div>
-								<div class="tab-pane fade tab_Columns">
+								<!--<div class="tab-pane fade tab_Columns">
 									<table id="tblColumns" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 										<thead>
 											<tr>
@@ -167,20 +161,8 @@
 												<th>Type</th>
 											</tr>
 										</thead>
-									</table>
-
-									<!--<div class="search-pagination" style="text-align: center;">
-                            <ul class="pagination">
-                                <li >
-                                    <button ng-click="colprevious()" class="btn btn-primary previousBtn" ><i class="fa fa-arrow-left" ng-disabled = "firstcol"></i> {{'fastsearch.previous' | translate}} </button>
-                                </li>
-                                <li class="page-active">
-                                    <button ng-click="colnext()" ng-init="start=0" class="btn btn-primary nextBtn" ng-disabled = "lastcol" >{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
-                                </li>
-
-                            </ul>
-                        </div>-->
-								</div>
+									</table>									
+								</div>-->
 								<div class="tab-pane fade tab_ResultCol">
 									<table id="tblResultCol" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 										<thead>
@@ -243,6 +225,13 @@
 		</div>
 	</div>
 </div>
+<!--<div class="tblColLst" style="padding-top: 5px; padding-left: 30px;" >
+	<ul class="lstcol">
+		<li ng-repeat="x in ColResult" style="list-style-type: none;">
+			<div><i class="fa fa-columns" aria-hidden="true"></i> {{x.column}} ({{x.type}})</div>
+		</li>
+	</ul>
+</div>-->
 <!-- <div class="modal fade" id="mdlSaveQry" tabindex="-1" role="dialog" aria-labelledby="mdlSaveQry">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
