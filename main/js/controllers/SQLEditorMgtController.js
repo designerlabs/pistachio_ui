@@ -10,12 +10,14 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         $scope.svdstart = 0;
         $scope.rows = 10;
         $scope.svdrows = 10;
-        $scope.showResults = false;     
+        $scope.showResults = false; 
+        $scope.haveResData = false;    
         $scope.database;
         $scope.btnExec = true;
         $scope.Saveqry = true;
         $scope.dbTables = "Tables";
         $scope.showResCol = false;
+        $scope.showExpl = false;
         $scope.explainMsg = "";
         fn_showSavedQry();
         fn_showHistory();
@@ -68,7 +70,12 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
              $(currentList).parent().addClass('activeBg');
             //  $('.activeBg  .openEye').show();
             $(currentList).find('.openEye').show();
-            fn_showCol(currentList);
+            if($(currentList).find('.tblColLst').length == 0){
+                fn_showCol(currentList);
+            }else{
+                 $('.tblColLst').remove();
+            }
+           
             
             
             
@@ -191,6 +198,15 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
 
 
         });
+        $('.explain').click(function(){
+            $scope.showExpl = true;
+            $scope.$apply();
+            $(".tab-content").children().removeClass('active in');
+            $('.result_container li').removeClass('active');
+            $('.tab_Explain').addClass('active in');
+            $('.result_container #tabExpn').addClass('active');
+            $("#messageView div").hide();
+        });
 
 
         $scope.aceLoaded = function(_editor) {
@@ -220,8 +236,9 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                 //Run Sql Query
                 $http.post(globalURL + "api/pistachio/secured/runSQL?dbname=" + $scope.database, qry.trim())
                     .then(function(result) {
-                            if (result != null && result.data.columns != null) {
-                                $scope.showResults = true;
+                        $scope.showResults = true;
+                            if (result != null && result.data.columns != null) {     
+                                $scope.haveResData = true;           
                                 var resultOutputCol = jQuery.parseJSON(result.data.columns);
                                 var resultOutput = jQuery.parseJSON(result.data.results);
                                 var myArrayColumn = [];
@@ -279,6 +296,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                                 setTimeout(function() {
                                     $btn.button('reset');
                                 }, 1000);
+                                $scope.haveResData = false; 
                             }
                         if (result != null && result.data.metaData.columns != null) {
                             $scope.showResCol = true;
@@ -321,7 +339,6 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                                 $btn.button('reset');
                             }, 1000);
                         });              
-                // $scope.showResCol = true;
                 fn_showExplain(qry.trim());               
 
             } else {
@@ -442,6 +459,11 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                     }
 
                     historyResult = response.data.content;
+                    // if(response.data.content.length > 0){
+                    //     $scope.NoData = false;
+                    // }else{
+                    //     $scope.NoData = true;
+                    // }
                     historyTbl = $('#tblHistory').DataTable({
                         "order": [[ 2, "desc" ]],
                         "select": true,                        
@@ -454,6 +476,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                             "width": "60%"
                         }, {
                             "data": "success",
+                            "width": "10%",
                             "render": function(data, type, full, meta) {
                                 if (data == true) {
                                     return '<label class="label label-success"> Success </label>';
@@ -462,9 +485,11 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                                 }
                             }
                         }, {
-                            "data": "runTime"
+                            "data": "runTime",
+                            "width": "20%"
                         },{
                             "data": "action",
+                            "width": "10%",
                             "render":function(data, type, full, meta){
                                 return '<button class="btn btn-warning btn-sm copyto">Copy All</button>';  
                             }
@@ -501,6 +526,11 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                     }
 
                     SavedQryResult = response.data.content;
+                    // if(response.data.content.length > 0){
+                    //     $scope.NoData = false;
+                    // }else{
+                    //     $scope.NoData = true;
+                    // }
                     SavedQryTbl = $('#tblSavedQuery').DataTable({
                         "order": [[ 2, "desc" ]],
                         "processing": true,
@@ -515,9 +545,10 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                             "width": "50%"
                         }, {
                             "data": "savedTime",
-                            "width": "30%"
+                            "width": "20%"
                         },{
                             "data": "action",
+                            "width": "10%",
                             "render":function(data, type, full, meta){
                                 return '<button class="btn btn-warning btn-sm sacopyto">Copy All</button>';  
                             }
@@ -556,14 +587,14 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                     }
                     var tempnum = 0;
                     // $scope.ColResult = response.data;
-                    if(response.data.length > 0 && $(currentList).find('.tblColLst').length == 0){
+                    if(response.data.length > 0){
                         $('.tblColLst').remove();
                         $(currentList).append('<div class="tblColLst" style="padding-top: 5px; padding-left: 20px;" ><ul></ul></div');
                         $.each(response.data, function (key, value) {
                             $(".tblColLst ul").append('<li style="list-style-type: none;"><div><i class="fa fa-columns"></i>'+value.column +'('+ value.type +')'+'</div></li>');
                         });
                     }else{
-                        $('.tblColLst').remove();
+                        // $('.tblColLst').remove();
                     }
                     // ColTbl = $('#tblColumns').DataTable({
                     //     "processing": true,

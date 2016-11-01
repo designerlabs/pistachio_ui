@@ -57,6 +57,7 @@
 		<div class="action" style="float:right; margin:10px 0px;">
 			<button class="btn btn-sm btn-warning saveqry" ng-disabled="Saveqry" data-loading-text="Saving Your Query Please Wait..."> Save </button>
 			<button class="btn btn-sm btn-success exec" ng-disabled="btnExec" data-loading-text="Executing Your Query Please Wait..."> Execute </button>
+			<button class="btn btn-sm btn-primary explain" ng-disabled="btnExec" data-loading-text="Please Wait..."> Explain </button>
 			<!-- <button class="btn btn-sm btn-primary saveas {{editorarea.length > 0 ? '' : 'disabled'}}"> Save As </button>  -->
 			<button class="btn btn-sm btn-default newqry"> New Query </button>
 
@@ -69,7 +70,7 @@
 					<div class="portlet light ">
 						<div class="portlet-body">
 							<ul class="nav nav-tabs">
-								<li class="tab" id='tabResult' data="tab_Result">
+								<li class="tab" id='tabResult' data="tab_Result" ng-show="showResults">
 									<a data-toggle="tab" href="#tab_Result" aria-expanded="expanded"> Results </a>
 								</li>
 								<li class="tab " id='tabHistory' data="tab_History">
@@ -82,18 +83,18 @@
 									<a data-toggle="tab" href="#tab_Columns" aria-expanded="expanded"> Tables Columns 
                                     </a>
 								</li>-->
-								<li class="tab" id='tabResCol' data="tab_ResultCol">
+								<li class="tab" id='tabResCol' data="tab_ResultCol" ng-show="showResCol">
 									<a data-toggle="tab" href="#tab_ResultCol" aria-expanded="expanded"> Results Columns 
                                     </a>
 								</li>
-								<li class="tab" id='tabExpn' data="tab_Explain">
+								<li class="tab" id='tabExpn' data="tab_Explain" ng-show="showExpl">
 									<a data-toggle="tab" href="#tab_Explain" aria-expanded="expanded"> Explain 
                                     </a>
 								</li>
 							</ul>
 							<div class="tab-content">
-								<div class="tab-pane fade tab_Result">
-									<div class="portlet box blue" ng-show="showResults">
+								<div class="tab-pane fade tab_Result" ng-show="showResults">
+									<div class="portlet box blue" ng-show="haveResData">
 										<div class="portlet-title">
 											<div class="actions">
 												<a ng-click="export_csv()" class="btn btn-sm grey-mint">
@@ -102,11 +103,16 @@
 										</div>
 										<div class="portlet-body">
 											<table id="tblResult" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-											</table>
-										</div>
+											</table>											
+										</div>										
+									</div>
+									<div ng-show="!haveResData">	
+										<center>
+											<h3>No Data to show</h3>
+										</center>
 									</div>
 								</div>
-								<div class="tab-pane fade tab_History">
+								<div class="tab-pane fade tab_History" >
 									<table id="tblHistory" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 										<thead>
 											<tr>
@@ -120,36 +126,38 @@
 									<div class="search-pagination" style="text-align: center;">
 										<ul class="pagination">
 											<li>
-												<button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="first"><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
+												<button ng-click="previous()" class="btn btn-primary previousBtn" ng-disabled="first" ><i class="fa fa-arrow-left"></i> {{'fastsearch.previous' | translate}} </button>
 											</li>
 											<li class="page-active">
-												<button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn" ng-disabled="last">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
+												<button ng-click="next()" ng-init="start=0" class="btn btn-primary nextBtn" ng-disabled="last"><i class="fa fa-arrow-right"></i>{{'fastsearch.next' | translate}} </button>
 											</li>
 
 										</ul>
 									</div>
 								</div>
-								<div class="tab-pane fade tab_Saved_Query active in">
-									<table id="tblSavedQuery" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-										<thead>
-											<tr>
-												<th>Name</th>
-												<th>Query</th>
-												<th>Saved Time</th>
-												<th>Copy To Editor</th>
-											</tr>
-										</thead>
-									</table>
-									<div class="search-pagination" style="text-align: center;">
-										<ul class="pagination">
-											<li>
-												<button ng-click="svdprevious()" class="btn btn-primary previousBtn"><i class="fa fa-arrow-left" ng-disabled = "firstsve"></i> {{'fastsearch.previous' | translate}} </button>
-											</li>
-											<li class="page-active">
-												<button ng-click="svdnext()" ng-init="start=0" class="btn btn-primary nextBtn" ng-disabled="lastsve">{{'fastsearch.next' | translate}} <i class="fa fa-arrow-right"></i></button>
-											</li>
+								<div class="tab-pane fade tab_Saved_Query active in" >
+									<div >
+										<table id="tblSavedQuery" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+											<thead>
+												<tr>
+													<th>Name</th>
+													<th>Query</th>
+													<th>Saved Time</th>
+													<th>Copy To Editor</th>
+												</tr>
+											</thead>
+										</table>
+										<div class="search-pagination" style="text-align: center;">
+											<ul class="pagination">
+												<li>
+													<button ng-click="svdprevious()" class="btn btn-primary previousBtn" ng-disabled = "firstsve"><i class="fa fa-arrow-left" ></i> {{'fastsearch.previous' | translate}} </button>
+												</li>
+												<li class="page-active">
+													<button ng-click="svdnext()" ng-init="start=0" class="btn btn-primary nextBtn" ng-disabled="lastsve"><i class="fa fa-arrow-right" ></i>{{'fastsearch.next' | translate}} </button>
+												</li>
 
-										</ul>
+											</ul>
+										</div>
 									</div>
 								</div>
 								<!--<div class="tab-pane fade tab_Columns">
@@ -163,7 +171,7 @@
 										</thead>
 									</table>									
 								</div>-->
-								<div class="tab-pane fade tab_ResultCol">
+								<div class="tab-pane fade tab_ResultCol" ng-show="showResCol">
 									<table id="tblResultCol" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 										<thead>
 											<tr>
@@ -174,15 +182,20 @@
 										</thead>
 									</table>
 								</div>
-								<div class="tab-pane fade tab_Explain col-md-10 col-sm-6 col-xs-12">
+								<div class="tab-pane fade tab_Explain col-md-10 col-sm-6 col-xs-12" ng-show="showExpl">
 									<textarea type="text" ng-show="explainMsg.length>0" ng-model="explainMsg" readonly="true" cols="120" rows="15">
 
 									</textarea>
 									<center ng-show="!explainMsg.length>0">
-										<h3>No Data</h3>
+										<h3>No Data to show</h3>
 									</center>
 								</div>
 							</div>
+							<!--<div ng-show="NoData">	
+								<center>
+									<h3>No Data to show</h3>
+								</center>
+							</div>-->
 							<div class="clearfix margin-bottom-20"> </div>
 							<div id="messageView" style="margin-top:20px">
 								<div class="alert display-hide" id="result.errorinfo">
