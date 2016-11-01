@@ -591,7 +591,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                         $('.tblColLst').remove();
                         $(currentList).append('<div class="tblColLst" style="padding-top: 5px; padding-left: 20px;" ><ul></ul></div');
                         $.each(response.data, function (key, value) {
-                            $(".tblColLst ul").append('<li style="list-style-type: none;"><div><i class="fa fa-columns"></i>'+value.column +'('+ value.type +')'+'</div></li>');
+                            $(".tblColLst ul").append('<li style="list-style-type: none;"><div><i class="fa fa-columns"></i>'+value.column +' ('+ value.type +')'+'</div></li>');
                         });
                     }else{
                         // $('.tblColLst').remove();
