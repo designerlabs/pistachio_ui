@@ -144,6 +144,7 @@ MetronicApp.controller('MyUserSolrController', function($rootScope, $scope, $htt
     $scope.reset = function(){
       $scope.radioValue = "Overall"
       $scope.cntName = "";
+      $scope.officer_name = "";
       $scope.cntCode = "";
       $scope.cJobs = "";
        $scope.cEmply = "";
@@ -457,6 +458,7 @@ gather=\"suprivisor\")")
     .attr("markerWidth", 6)
     .attr("markerHeight", 6)
     .attr("orient", "auto")
+    .style("fill", "grey")
     .append("path")
     .attr("d", "M0,-5L10,0L0,5");
 
@@ -504,6 +506,15 @@ gather=\"suprivisor\")")
         });
 
         circle.on("mouseover", function(d) {
+            var coordinates = d3.mouse(this);
+            var padding = {x: -220, y: -20};
+            d3.select("#d3-tooltip")
+            .style("left", d.x + padding.x + "px")
+            .style("top", d.y + padding.y + "px")
+            .select("#info")
+            .text(get_info(d.name));
+            d3.select("#d3-tooltip").classed("hidden", false);
+
             set_highlight(d);
         })
         .on("click", function(d) { d3.event.stopPropagation();
@@ -513,12 +524,21 @@ gather=\"suprivisor\")")
         })
         .on("mouseout", function(d) {
             exit_highlight();
+            d3.select("#d3-tooltip").classed("hidden", true);
         })
         .on("contextmenu", function(d) {
             xit_focus(d);
             exit_highlight();
         })
         ;
+
+        function get_info(name) {
+            $http.get("http://hnode3:8983/solr/myuser/get?id=IXLA01")
+            .success(function(data) {
+                $scope.officer_name = data.doc.name;
+                return "data.doc.name"
+            });
+        }
 
         function exit_highlight()
         {
