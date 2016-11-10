@@ -98,7 +98,6 @@ var MetronicApp = angular
 .factory('sortable', ['$filter', '$rootScope', function($filter, $rootScope){
 
   return function (scope, data, itemsPerPage, initSortingOrder) {
-
     
     scope.sortingOrder = initSortingOrder;
     scope.reverse = true;
@@ -1433,6 +1432,38 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                          
                          //'assets/global/plugins/highcharts/js/modules/treemap.js',
                         'js/controllers/MyUserController.js',       
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',                 
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
+                        //'https://cdn.rawgit.com/esvit/ng-table/1.0.0/dist/ng-table.js'
+                        
+                    ]
+                });
+            }]
+        }
+    })
+
+.state('myUserSolr', {
+        url: "/userAnalysis1.html",
+        templateUrl: "views/analysis/user-solr.html",
+        data: {
+            pageTitle: 'My User Analysis'
+        },
+        controller: "MyUserSolrController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/pistachio/myUser/myUser.css',
+                        'assets/pistachio/myAudit/myaudit.css',
+                        //'https://cdn.rawgit.com/esvit/ng-table/1.0.0/dist/ng-table.min.css'
+                         'assets/global/plugins/highcharts/js/highcharts.js',
+                         'assets/global/plugins/d3/d3-force.v1.min.js',
+                         
+                         //'assets/global/plugins/highcharts/js/modules/treemap.js',
+                        'js/controllers/MyUserSolrController.js',       
                         'assets/global/plugins/mapplic/js/jquery.mousewheel.js',                 
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
