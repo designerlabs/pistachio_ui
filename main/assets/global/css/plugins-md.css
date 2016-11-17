@@ -2706,5 +2706,5 @@ AngularJS UI-select
 
 .daterangepicker.dropdown-menu {
     padding: 5px;
-    right: inherit !important;
+    right: inherit ;
 }

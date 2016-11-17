@@ -372,7 +372,7 @@ MetronicApp.config(['$controllerProvider', function($controllerProvider) {
 
 }]);
 
-MetronicApp.controller('sessionController', function($scope, Idle, Keepalive, $modal) {
+MetronicApp.controller('sessionController', function($scope, Idle, Keepalive, $uibModal) {
         // $scope.started = false;
         // start();
 
@@ -393,7 +393,7 @@ MetronicApp.controller('sessionController', function($scope, Idle, Keepalive, $m
         $scope.$on('IdleStart', function() {
             closeModals();
             // window.getAttention();
-            $scope.warning = $modal.open({
+            $scope.warning = $uibModal.open({
                 templateUrl: 'warning-dialog.html',
                 windowClass: 'modal-danger'
             });
@@ -415,7 +415,7 @@ MetronicApp.controller('sessionController', function($scope, Idle, Keepalive, $m
 
         $scope.$on('IdleTimeout', function() { //user session expirered
             closeModals();
-            $scope.timedout = $modal.open({
+            $scope.timedout = $uibModal.open({
                 templateUrl: 'timedout-dialog.html',
                 windowClass: 'modal-danger'
             });
@@ -1285,6 +1285,35 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }]
         }
     })
+.state('detaineeAnalysis', {
+        url: "/detaineeAnalysis.html",
+        templateUrl: "views/analysis/detainee.html",
+        data: {
+            pageTitle: 'Detainee Analysis'
+        },
+        controller: "DetaineeController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/global/plugins/bootstrap-daterangepicker/moment.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
+                        'assets/pistachio/analysis/enforcement.css',
+                        'assets/pages/css/search.css',
+                        'assets/pages/css/pricing.min.css',
+                        'assets/pages/scripts/highstock.js',
+                        'js/controllers/DetaineeController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js'
+
+                    ]
+                });
+            }]
+        }
+    })
+
 .state('heatMapAnalysis', {
         url: "/heatMapAnalysis.html",
         templateUrl: "views/analysis/map.html",

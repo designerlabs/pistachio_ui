@@ -1,0 +1,83 @@
+<div style="position: relative; z-index:9;">
+	<div class="col-md-12" style="background: #2574A9; padding-top: 12px;">
+		<!--width:85%;  style="position:fixed;"-->
+		<div class="col-md-3 col-xs-4 col-sm-3 col-lg-3">
+			<div class="invoice-logo">
+				<span class="loadimg" style="position: absolute; left: 14px; top: 75px;"><i class='fa fa-circle-o-notch fa-spin'></i> Loading image..</span>
+				<div class="rad-circle" id="myImg" ng-style="{'background-image': 'url(' + imagetxt + ')'}">
+				</div>
+
+			</div>
+		</div>
+		<div class="row invoice-cust-add col-md-9 col-lg-9 col-xs-8 col-sm-9" style="margin-bottom:0px;">
+			<div class="col-md-10 col-sm-10 col-xs-10 form-group" style="padding-left:0px">
+				<small>NAME</small>
+				<div class="uppercase bold" style="font-size: 21px">
+					{{doc.name}}
+				</div>
+			</div>
+			<div class="col-md-2 col-sm-2 col-xs-2 text-right " ng-show="travelBackBtn">
+				<div class="actions">
+					<div id="detailstab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
+						<a class="btn green-haze hidden-print btn-circle uppercase btn-sm active bck" data-toggle="tab">Go Back</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-12 col-xs-12 form-group" style="padding-left:0px">
+				<small>DATE OF BIRTH / AGE</small>
+				<div class="bold">
+					{{dob | date:'dd - MM - yyyy'}} / {{age}}
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-6 col-xs-12 form-group tool" style="padding-left:0px">
+				<small>GENDER</small>
+				<div class="bold">
+					{{doc.sex}}
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
+				<small>PASSPORT NO</small>
+				<div class="bold" style="top: 5px; position: relative;">
+						{{doc.doc_no}}
+				</div>
+			</div>		
+			
+			<div class="col-md-4 col-sm-6 col-xs-12 form-group" style="padding-left:0px" ng-show="doc.state.length > 0">
+				<small>STATE</small>
+				<div class="bold">
+					{{doc.state}}
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-6 col-xs-12 form-group" style="padding-left:0px" ng-show="doc.postcd.length > 0">
+				<small>POST CODE</small>
+				<div class="bold">
+					{{doc.postcd}}
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
+				<small>COUNTRY</small>
+				<div class="bold">
+					{{doc.country}}
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-6 col-xs-12 form-group" style="padding-left:0px" ng-show="doc.phone.length > 0">
+				<small>PHONE NO</small>
+				<div class="bold">
+					{{doc.phone}}
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12 form-group" style="padding-left:0px" ng-show="doc.address.length > 0">
+				<small>ADDRESS</small>
+				<div class="bold">
+					{{doc.address}}
+				</div>
+			</div>		
+		</div>
+
+		<div class="bordered" style="padding:20px;">
+			<div class="row invoice-cust-add" style="margin-bottom:0px;">
+
+			</div>
+		</div>
+	</div>
+</div>
