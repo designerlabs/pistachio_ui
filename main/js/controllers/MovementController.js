@@ -3,7 +3,7 @@ var selected_countries = [];
 var filter_query = "";
 
 var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/hismove/query?json='
-MetronicApp.controller('MovementController', function($rootScope, $scope, $http) {
+MetronicApp.controller('MovementController', function($rootScope, $scope, $http,$uibModal) {
     $scope.$on('$viewContentLoaded', function() {
         $scope.firstTime = true;
         // initialize core components
@@ -30,6 +30,27 @@ MetronicApp.controller('MovementController', function($rootScope, $scope, $http)
         $scope.loading = false;
         console.log("stop");
     });
+
+$scope.expact_id="test"
+    $scope.open = function (data) {
+      $scope.expact_id = data;
+    var options = {
+      templateUrl: 'myModalContent.html',
+      controller: profileModal,
+      size: 'lg',
+      resolve: {
+        expact: function () {
+          return data;
+        }
+      }
+    };
+    var modalInstance = $uibModal.open(options);
+    modalInstance.result.then(function () {
+      $scope.show_profile = false;
+    }, function () {
+     $scope.show_profile = false;
+    });
+  };
 
 
 
@@ -266,7 +287,7 @@ MetronicApp.controller('MovementController', function($rootScope, $scope, $http)
             //json.filter = $scope.filterQuery();
             json.facet = {};
             json.facet.country = {};
-            json.facet.country.limit = 40;
+            json.facet.country.limit = 20;
             json.facet.country.type   = "terms";
             json.facet.country.field  =  "country";
             json.facet.country.domain = {};
@@ -286,7 +307,7 @@ MetronicApp.controller('MovementController', function($rootScope, $scope, $http)
 
             json.facet.doc = {};
             json.facet.doc.type   = "terms";
-            json.facet.doc.field  =  "doc_no";
+            json.facet.doc.field  =  "expact_id";
 
 
             json.facet.date_range = {};
@@ -406,6 +427,18 @@ MetronicApp.controller('MovementController', function($rootScope, $scope, $http)
       $scope.labels = $scope.sex.val;
       $scope.data = $scope.sex.count;
     };
+
+    $scope.getName = function(data) {
+      var res = data.split("-");
+      var name = res[0]
+      if(name.length == 0)
+      {
+        return "NOT MENTIONED";
+      }
+      else {
+        return name;
+      }
+    }
 
     $scope.omitNa = function (data) {
       if(data.length == 0)

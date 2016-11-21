@@ -1,0 +1,87 @@
+<div class="col-md-12 col-lg-12 col-sm-12" id="history" >
+					<div class="actions pull-right">
+						<div id="inouttab" data-toggle="buttons-radio" class="btn-group btn-group-devided">
+							<a data-target="#inoutchart" class="btn btn-transparent grey-salsa btn-sm active" data-toggle="tab">Chart</a>
+							<a data-target="#inoutdatatbl" class="btn btn-transparent grey-salsa btn-sm" data-toggle="tab">Data</a>
+							<a data-target="#mismatch" ng-hide="hideMisMatchTab" class="btn btn-transparent grey-salsa btn-sm" data-toggle="tab">Miss Match</a>
+						</div>
+					</div>
+					<div class="portlet-body tab-content">
+						<div class="row number-stats margin-bottom-30 tab-pane active" id="inoutchart">
+							<div class="actions">
+								<i id="zoomIn" class="btn fa fa-search-plus"></i>
+								<i id="zoomOut" class="btn fa fa-search-minus"></i>
+								<i id="moveLeft" class="btn fa fa-arrow-left"></i>
+								<i id="moveRight" class="btn fa fa-arrow-right"></i>
+								<span class="clkditem" style="background-color: #C5DC3B"></span>
+							</div>
+							<div class="chart123" id="visualization">
+							</div>
+							<div style="padding-left: 85%">
+								<div>
+									<br/>
+									<div class="vis-item vis-box red vis-readonly">
+										<div class="vis-item-content"></div>
+									</div>
+								</div>
+								<div style="padding-left: 25px"> Exit </div>
+								<div>
+									<div class="vis-item vis-box green vis-readonly">
+										<div class="vis-item-content"></div>
+									</div>
+								</div>
+								<div style="padding-left: 25px"> Entry </div>
+								<div>
+									<div class="vis-item vis-background" style="height: 12px;width: 12px;border: 1px;   border-bottom-color: black;border-style: solid;">
+										<div class="vis-item-content"></div>
+									</div>
+								</div>
+								<div style="padding-left: 25px"> Visa </div>
+							</div>
+						</div>
+						<div class="row number-stats margin-bottom-30 tab-pane" id="inoutdatatbl">
+							<div>
+								<table id="tblinout" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%" style="margin-top:20px;">
+									<thead class="bg-table-gray">
+										<tr>
+											<th>
+												Date & Time
+											</th>
+											<th>
+												Entry / Exit
+											</th>
+											<th>
+												Branch
+											</th>
+											<th>
+												Officer
+											</th>
+										</tr>
+									</thead>
+								</table>
+
+							</div>
+						</div>
+						<div class="row number-stats margin-bottom-30 tab-pane" id="mismatch">
+							<div>
+								<table id="tblMisMatch" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+									<thead class="bg-table-gray">
+										<tr>
+											<th>
+												Missing
+											</th>
+											<th>
+												Start From
+											</th>
+											<th>
+												End To
+											</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+
+						</div>
+
+					</div>
+				</div>

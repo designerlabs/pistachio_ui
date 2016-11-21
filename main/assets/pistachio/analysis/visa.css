@@ -1,0 +1,3 @@
+.ng-table.no-pager + div .ng-table-pager {
+    display: none!important;
+}

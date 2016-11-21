@@ -157,7 +157,7 @@
                         <tr ng-repeat="x in $data" class="mt-action" style="padding:15px 0 15px 8px !important;">
                           <td title="'Name'"  sortable="'name'" >
                              <div class="mt-action-img">
-                                <img src="assets/admin/layout2/img/mimos_logo_small.png"> 
+                                <img class="img-circle" style="height: 50px; width: 50px;" src="assets/admin/layout2/img/avatar3.png""> 
                             </div>
                             <div class="mt-action-details ">
                               <span class="mt-action-author">{{ x.name }}</span>
@@ -184,11 +184,11 @@
               </div>
               <div ng-if="show_profile">
                 <div class="modal-body detaineeData" style="padding:0px;" role="document">
-                  <div class="modal-closebtn bg-danger" data-dismiss="modal" ng-click="ok()"></div>
-                  <div profile-directive="expact_id" ></div>
+                  <div class="modal-closebtn bg-danger" data-dismiss="modal" ng-click="back()"></div>
+                  <profile expact-id="expact_id" ></profile>
                 </div>
                 <div class="modal-footer">
-                      <button class="btn btn-primary" >Close</button>
+                      
                       
                   </div>
               </div>

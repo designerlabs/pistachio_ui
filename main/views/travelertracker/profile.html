@@ -1,13 +1,11 @@
 <div style="position: relative; z-index:9;">
 	<div class="col-md-12" style="background: #2574A9; padding-top: 12px;">
+
 		<!--width:85%;  style="position:fixed;"-->
 		<div class="col-md-3 col-xs-4 col-sm-3 col-lg-3">
-			<div class="invoice-logo">
-				<span class="loadimg" style="position: absolute; left: 14px; top: 75px;"><i class='fa fa-circle-o-notch fa-spin'></i> Loading image..</span>
-				<div class="rad-circle" id="myImg" ng-style="{'background-image': 'url(' + imagetxt + ')'}">
-				</div>
-
-			</div>
+			<div class="profile-userpic">
+				<img ng-src="{{image_src}}" class="img-responsive img-circle" alt=""> 
+            </div>
 		</div>
 		<div class="row invoice-cust-add col-md-9 col-lg-9 col-xs-8 col-sm-9" style="margin-bottom:0px;">
 			<div class="col-md-10 col-sm-10 col-xs-10 form-group" style="padding-left:0px">
@@ -26,7 +24,7 @@
 			<div class="col-md-4 col-sm-12 col-xs-12 form-group" style="padding-left:0px">
 				<small>DATE OF BIRTH / AGE</small>
 				<div class="bold">
-					{{dob | date:'dd - MM - yyyy'}} / {{age}}
+					{{birth_date }} / {{age}}
 				</div>
 			</div>
 			<div class="col-md-4 col-sm-6 col-xs-12 form-group tool" style="padding-left:0px">
@@ -81,3 +79,92 @@
 		</div>
 	</div>
 </div>
+
+<uib-tabset active="active" class="tabbable-line">
+   <uib-tab index="0">
+    	<uib-tab-heading>
+    		<div class="caption">
+	        	<i class="fa fa-bars font-purple-soft"></i>
+	        	<span class="caption-subject font-purple-soft bold ">Summary</span>
+	    	</div>
+      	</uib-tab-heading>
+      	<div class="col-md-6">
+	    	<div class="portlet sale-summary">
+	            <div class="portlet-title">
+	                <div class="caption font-red sbold">Summary </div>
+	                
+	            </div>
+	            <div class="portlet-body">
+	                <ul class="list-unstyled">
+	                    <li>
+	                        <span class="sale-info">VISA & PASS
+	                            <i class="fa fa-img-up"></i>
+	                        </span>
+	                        <span class="sale-num"> {{visatotal}} </span>
+	                    </li>
+	                    <li>
+	                        <span class="sale-info"> MOVEMENT
+	                            <i class="fa fa-img-down"></i>
+	                        </span>
+	                        <span class="sale-num"> {{movetotal}} </span>
+	                    </li>
+	                    <li>
+	                        <span class="sale-info"> TYPE
+	                            <i class="fa fa-img-down"></i>
+	                        </span>
+	                        <span class="sale-num"> TOURIST </span>
+	                    </li>
+	                   <li>
+	                        <span class="sale-info"> STATUS
+	                            <i class="fa fa-img-down"></i>
+	                        </span>
+	                        <span class="sale-num"> Entered </span>
+	                    </li>
+	                </ul>
+	            </div>
+	        </div>
+        </div>
+    </uib-tab>
+    <uib-tab index="1" ng-hide="visatotal==0">
+    	<uib-tab-heading>
+        	<div class="caption">
+	        	<i class="fa fa-id-card-o font-purple-soft"></i>
+	        	<span class="caption-subject font-purple-soft bold ">Visa & Pass</span>
+	        	<span class="badge badge-primary badge-roundless"> {{visatotal}} </span>
+	    	</div>
+      	</uib-tab-heading>
+      	<visa expact="expact" visatotal="visatotal"></visa>
+    </uib-tab>
+    <uib-tab index="2" ng-hide="movetotal==0">
+    	<uib-tab-heading>
+    		<div class="caption">
+	        	<i class="fa fa-random font-purple-soft"></i>
+	        	<span class="caption-subject font-purple-soft bold ">Movement</span>
+	        	<span class="badge badge-primary badge-roundless"> {{movetotal}} </span>
+	    	</div>
+      	</uib-tab-heading>
+
+      	<movement expact="expact" movetotal="movetotal"></movement>
+
+    </uib-tab>
+    <uib-tab index="3" >
+    	<uib-tab-heading>
+    		<div class="caption">
+	        	<i class="fa fa-star font-purple-soft"></i>
+	        	<span class="caption-subject font-purple-soft bold ">Enforcement</span>
+	    	</div>
+      	</uib-tab-heading>
+      	<enforcement expact="expact"></enforcement>
+    </uib-tab>
+    <uib-tab index="4" >
+    	<uib-tab-heading>
+    		<div class="caption">
+	        	<i class="fa fa-bell font-purple-soft"></i>
+	        	<span class="caption-subject font-purple-soft bold ">Suspect</span>
+	    	</div>
+      	</uib-tab-heading>
+    </uib-tab>
+ 
+  </uib-tabset>
+</div>
+

@@ -106,14 +106,16 @@
                                     <a ng-click="reset()" class="font-white pull-right">
                                         <i class="fa fa-refresh"></i>
                                     </a>
-                                    <h4 class="list-title">Visitors</h4>
+                                    <h4 class="list-title">Top 10 Visitors</h4>
                                 </div>
                             </div>
 
                             <div class="mt-list-container list-simple ext-1 group">
                                 <ul>
-                                      <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" ng-repeat="visit in visitors" ng-click="clickVisitor(visit.val, '*')">
-                                          <div class="mt-list-title col-md-9 col-sm-9 col-xs-9"  data-toggle="tooltip" title="{{visit.val}}"> {{omitNa(visit.val) |limitTo:25}}</div>
+                                      <li class="mt-list-item col-md-12 col-sm-12 col-xs-12" ng-repeat="visit in visitors" ng-click="open(visit.val)">
+                                          <div class="mt-list-title col-md-9 col-sm-9 col-xs-9"  data-toggle="tooltip" title="{{visit.val}}"> 
+                                            {{getName(visit.val) |limitTo:25}}
+                                          </div>
                                           <div class="list-datetime col-md-3 col-sm-3 col-xs-3" style="padding-left: 0px;"> {{visit.count | number:0}} </div>
                                       </li>
                                   </ul>
@@ -266,11 +268,16 @@
             </div>
         </div>
     </div>
+    <script type="text/ng-template" id="myModalContent.html">
+              <div >
+                <div class="modal-body detaineeData" style="padding:0px;" role="document">
+                  <div class="modal-closebtn bg-danger" data-dismiss="modal" ng-click="ok()"></div>
+                  <profile expact-id="expact_id" ></profile>
+                </div>
+                <div class="modal-footer"></div>
+              </div>
+          </script>
 <style>
-    .daterangepicker.dropdown-menu {
-        top: 372px !important;
-        left: 78px;
-    }
 
 .mt-element-list .list-simple.ext-1.mt-list-container ul>.mt-list-item.done {
     background: #3D4A53 !important;
