@@ -180,6 +180,7 @@ $scope.selectBranch = false;
          $scope.dateRange.max = "2017-01-01T00:00:00Z"
          cb(moment("20100101", "YYYYMMDD"), moment());
          //$scope.analysiType = 'overall';
+         $scope.records = ""
         $scope.querySolr();
 
     }
@@ -388,7 +389,8 @@ $scope.selectBranch = false;
               $scope.numFound = data.response.numFound;
               $scope.page.total = data.response.numFound;
               if($scope.page.total < $scope.page.limit) $scope.page.last =true
-              $scope.detainees = new NgTableParams({page: 1, count: 10}, { dataset: data.response.docs});
+               //  $scope.records =  data.response.docs
+              $scope.detainees = data.response.docs //new NgTableParams({page: 1, count: 10}, { dataset: data.response.docs});
                  if(selected_countries == 0) {
                    $scope.rank = data.facets.rank.buckets;
                    $scope.branch = data.facets.branch.buckets

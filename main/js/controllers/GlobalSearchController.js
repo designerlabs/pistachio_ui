@@ -7,11 +7,12 @@ var clickCircle, clickMarker;
 var filter_query = "";
 // var solrHost = "localhost";
 //var solrHost = "pistachio_server";
-MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $http, $timeout, chkIframe, $sce) {
+MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $http, $timeout, chkIframe, $sce,$uibModal) {
   $scope.$on('$viewContentLoaded', function () {
 
     // initialize core components
     Metronic.initAjax();
+    $scope.reset()
     Layout.setSidebarMenuActiveLink('set', $('#fastsearchLink'));
     $scope.tblContent = false;
     $scope.noData = false;
@@ -54,6 +55,10 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
       $scope.loading = false;
       console.log("stop");
     });
+
+   
+
+
 
 
 
@@ -231,17 +236,35 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
   }
 
   $scope.show = function () {
-    // if ($('#tblSearch tr').length > 0 && $('#tblSearch').DataTable().data().length > 0)
-    //   $('#tblSearch').DataTable().destroy()
-
-    // $scope.startCount = 0;
     $rootScope.box_update();
+    $scope.showApplications($scope.currentStatus, 'prenext');
   }
 
 
   $scope.go = function () {
     $rootScope.box_update();
   }
+
+   $scope.open = function (data) {
+
+      $scope.expact_id = data;
+      var options = {
+        templateUrl: 'myModalContent.html',
+        controller: profileModal,
+        size: 'lg',
+        resolve: {
+          expact: function () {
+            return data;
+          }
+        }
+      };
+      var modalInstance = $uibModal.open(options);
+      modalInstance.result.then(function () {
+        $scope.show_profile = false;
+      }, function () {
+       $scope.show_profile = false;
+      });
+    };
 
   $scope.updateFilterQuery_Country = function () {
     var filter_query = "";
@@ -292,7 +315,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
   }
 
   $scope.jobBox = function (id) {
-    id = id.replace(/ /g, "*");
+ 
     var index = selected_jobs.indexOf(id);    // <-- Not supported in <IE9
     if (index !== -1) {
       selected_jobs.splice(index, 1);
@@ -301,13 +324,13 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
       selected_jobs.push(id);
     }
     console.log(selected_jobs);
+    $scope.selected_jobs = selected_jobs
     $scope.start = 0;
-    // $scope.show();
+    $scope.show();
 
   }
 
   $scope.checkboxselectedCountry = function (id) {
-    id = id.replace(/ /g, "*");
     var index = selected_countries.indexOf(id);    // <-- Not supported in <IE9
     if (index !== -1) {
       selected_countries.splice(index, 1);
@@ -315,13 +338,13 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     else {
       selected_countries.push(id);
     }
+    $scope.selected_countries = selected_countries;
     console.log(selected_countries);
     $scope.start = 0;
-    // $scope.show();
+    $scope.show();
   }
 
   $scope.statesBox = function (id) {
-    id = id.replace(/ /g, "*");
     var index = selected_states.indexOf(id);    // <-- Not supported in <IE9
     if (index !== -1) {
       selected_states.splice(index, 1);
@@ -330,13 +353,13 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
       selected_states.push(id);
     }
     console.log(selected_states);
+    $scope.selected_states = selected_states
     $scope.start = 0;
-    // $scope.show();
+    $scope.show();
   }
 
 // selected_branch
 $scope.branchsBox = function (id) {
-    id = id.replace(/ /g, "*");
     var index = selected_branch.indexOf(id);    // <-- Not supported in <IE9
     if (index !== -1) {
       selected_branch.splice(index, 1);
@@ -345,8 +368,9 @@ $scope.branchsBox = function (id) {
       selected_branch.push(id);
     }
     console.log(selected_branch);
+    $scope.selected_branch = selected_branch
     $scope.start = 0;
-    // $scope.show();
+    $scope.show();
   }
 
   $scope.formatDate = function (date) {
@@ -418,33 +442,37 @@ $scope.branchsBox = function (id) {
     filter_query = "";
     $scope.text = text;
     $scope.start = 0;
-
+    init_page()
     // selected_countries = [];
     $scope.show();
   };
 
   $scope.reset = function () {
-    // selected_countries = [];
-    // $scope.text = "";
-    // $scope.showApplication = false;
-    // $scope.showVisitor = false;
-    // $scope.showCitizen = false;
-    // $scope.showBlacklist = false;
-    // $scope.fullscreen = false;
+    selected_countries = [];
+    $scope.text = "";
+    $scope.showApplication = false;
+    $scope.showVisitor = false;
+    $scope.showCitizen = false;
+    $scope.showBlacklist = false;
+    $scope.fullscreen = false;
 
-    // $scope.option = false;
-    // selected_countries = [];
-    // selected_jobs = [];
-    // selected_states = [];
-    // selected_branch = [];
-    // $scope.latVal = "";
-    // $scope.lngVal ="";
-    // $scope.kilom = "";
-    // $scope.getSearchFromDt1 = "";
-    // $scope.getSearchToDt = "";
-    // $("#searchDaterange span").html("Search by Date here");
-    // $scope.go();
-    location.reload();
+    $scope.option = false;
+    selected_countries = [];
+    selected_jobs = [];
+    selected_states = [];
+    selected_branch = [];
+    $scope.latVal = "";
+    $scope.lngVal ="";
+    $scope.kilom = "";
+    $scope.getSearchFromDt1 = "";
+    $scope.getSearchToDt = "";
+    $scope.records =""
+    init_page()
+
+    $scope.selected_countries = selected_countries;
+    $("#searchDaterange span").html("Search by Date here");
+     $scope.go();
+    //location.reload();
   };
 
   $scope.next = function () {
@@ -519,10 +547,11 @@ $scope.branchsBox = function (id) {
     json.text = $scope.text;
     json.from = $scope.getSearchFromDt1;
     json.to = $scope.getSearchToDt;
-    json.limit = 10;
+    json.limit = $scope.page.limit;
+
     json.point = ($scope.latVal.toString().length > 0 && $scope.lngVal.toString().length > 0? $scope.latVal  + ',' + $scope.lngVal : null);
     json.d = ($scope.kilom.length > 0? $scope.kilom : null);
-    json.offset = $scope.start;
+    json.offset = $scope.page.start;
     json.state = selected_states.join(",");
     json.country = selected_countries.join(",");
     json.job = selected_jobs.join(",");
@@ -536,434 +565,12 @@ $scope.branchsBox = function (id) {
     $http.post(sq, JSON.stringify(json)).
       success(function (data) {
         console.log(data);
-        var totalResLenth;
-        if (status == 'pass') {
-          $scope.applicationsFound = data.header.pass;
-          if (data.pass != null) {
-            $scope.tblContent = true;
-            $scope.noData = false;
-            totalResLenth = data.pass.results.length;
-            var strdoc_no, strcountry;
-            if ($('#tblSearch tr').length > 0) {
-              if ($('#tblSearch').DataTable().rows().length > 0) {
-                $('#tblSearch').DataTable().destroy();
-              }
-            }
-            // tblGloSEarch.destroy();
+        $scope.records = data.data.results//new NgTableParams({}, { dataset: data.pass.results});
+        $scope.countries = data.facetCountry
+        $scope.jobs = data.facetJobs
+        $scope.states = data.facetStates
+        $scope.branch = data.facetBranches 
 
-            tblGloSEarch = $('#tblSearch').DataTable({
-              order: [[0, "asc"]],
-              data: data.pass.results,
-              searching: false,
-              paging: false,
-              info: false,
-              layout: 'fixed',
-              'word-wrap': 'break-word',
-              columns: [{
-                "title": "Date",
-                "data": "date",
-                "width": "10%",
-                "render": function (data, type, full, meta) {
-                  // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
-                  return data.substring(0, 19);
-                }
-              }, {
-                "title": "Job",
-                "data": "job",
-                "width": "20%"
-              },
-              {
-                "title": "Name",
-                "data": "name",
-                "width": "30%"
-              },
-              {
-                "title": "Gender",
-                "data": "sex",
-                "width": "5%",
-                "render": function (data) {
-                  if (data == "LELAKI") {
-                    return '<div style="width:100%; text-align:center;"><i class="fa fa-male" aria-hidden="true" style="font-size:22px; color:#0093ff;"></i></div>';
-                  } else if (data == "PEREMPUAN") {
-                    return '<div style="width:100%; text-align:center;"><i class="fa fa-female" aria-hidden="true"  style="font-size:22px; color:#ff0097;"></i></div>';
-                  } else {
-                    return '<div style="width:100%; text-align:center;"><i class="fa fa-transgender" aria-hidden="true"  style="font-size:22px; color:#818990;"></i></div>';
-                  }
-                }
-              },
-              {
-                "title": "Country",
-                "data": "country",
-                "width": "15%",
-                "render": function (data, type, full, meta) {
-                  strcountry = data;
-                  return data;
-                }
-              },
-              {
-                "title": "Document No",
-                "data": "doc_no",
-                "width": "10%",
-                "render": function (data, type, full, meta) {
-                  strdoc_no = data;
-                  return data;
-                }
-              },
-              {
-                "title": "Action",
-                "data": "action",
-                "width": "10%",
-                "render": function (data, type, full, meta) {
-                  return '<a class="viewReq")>' +
-                    '<button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>' +
-                    'View </button></a>';
-                }
-              }]
-            });
-          } else {
-            $scope.tblContent = false;
-            $scope.noData = true;
-          }
-
-        } else if (status == 'citizen') {
-          var strdoc_no;
-          $scope.applicationsFound = data.header.citizen;
-          if (data.citizen != null) {
-            $scope.tblContent = true;
-            $scope.noData = false;
-            totalResLenth = data.citizen.results.length;
-
-            // if ($('#tblSearch tr').length > 0 && $('#tblSearch').DataTable().data().length > 0)
-            //   $('#tblSearch').DataTable().destroy()
-
-            if ($('#tblSearch tr').length > 0) {
-              if ($('#tblSearch').DataTable().rows().length > 0) {
-                $('#tblSearch').DataTable().destroy();
-              }
-            }
-
-            tblGloSEarch = $('#tblSearch').DataTable({
-              order: [[0, "asc"]],
-              data: data.citizen.results,
-              searching: false,
-              paging: false,
-              info: false,
-              columns: [{
-                "title": "Date",
-                "data": "date",
-                "width": "10%",
-                "render": function (data, type, full, meta) {
-                  // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
-                  return data.substring(0, 19);
-                }
-              }, {
-                "title": "IC No.",
-                "data": "kp_no",
-                "width": "10%"
-              },
-              {
-                "title": "Name",
-                "data": "name",
-                "width": "35%"
-              }, {
-                "title": "Gender",
-                "data": "sex",
-                "width": "5%",
-                "render": function (data) {
-                  if (data == "LELAKI") {
-                    return '<div style="width:100%; text-align:center;"><i class="fa fa-male" aria-hidden="true" style="font-size:22px; color:#0093ff;"></i></div>';
-                  } else if (data == "PEREMPUAN") {
-                    return '<div style="width:100%; text-align:center;"><i class="fa fa-female" aria-hidden="true"  style="font-size:22px; color:#ff0097;"></i></div>';
-                  } else {
-                    return '<div style="width:100%; text-align:center;"><i class="fa fa-transgender" aria-hidden="true"  style="font-size:22px; color:#818990;"></i></div>';
-                  }
-                }
-              },
-              {
-                "title": "Passport No.",
-                "data": "doc_no",
-                "width": "15%",
-                "render": function (data, type, full, meta) {
-                  // strdoc_no = data;
-                  return data;
-                }
-              },
-              {
-                "title": "State",
-                "data": "state",
-                "width": "15%",
-                "render": function (data, type, full, meta) {
-                  // strdoc_no = data;
-                  if (data == undefined) {
-                    return "";
-                  } else {
-                    return data;
-                  }
-                }
-              },
-              {
-                "title": "Action",
-                "data": "action",
-                "width": "10%",
-                "render": function (data, type, full, meta) {
-                  return '<a  class="viewCitizen">' +
-                    '<button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>' +
-                    'View </button></a>';
-                }
-              }]
-            });
-          } else {
-            $scope.tblContent = false;
-            $scope.noData = true;
-          }
-
-        } else if (status == 'vistor') {
-          $scope.applicationsFound = data.header.movement;
-          if (data.vistor != null) {
-            $scope.tblContent = true;
-            $scope.noData = false;
-            totalResLenth = data.vistor.results.length;
-            // if ($('#tblSearch tr').length > 0 && $('#tblSearch').DataTable().data().length > 0)
-            //   $('#tblSearch').DataTable().destroy()
-
-            if ($('#tblSearch tr').length > 0) {
-              if ($('#tblSearch').DataTable().rows().length > 0) {
-                $('#tblSearch').DataTable().destroy();
-              }
-            }
-
-            tblGloSEarch = $('#tblSearch').DataTable({
-              order: [[0, "asc"]],
-              data: data.vistor.results,
-              searching: false,
-              paging: false,
-              info: false,
-              columns: [{
-                "title": "Date",
-                "data": "date",
-                "width": "10%",
-                "render": function (data, type, full) {
-                  // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
-                  return data.substring(0, 19);
-                }
-              }, {
-                "title": "Branch",
-                "data": "branch",
-                "width": "20%"
-              },
-              {
-                "title": "Name",
-                "data": "name",
-                "width": "25%"
-              }, {
-                "title": "Gender",
-                "data": "sex",
-                "width": "5%",
-                "render": function (data) {
-                  if (data == "LELAKI") {
-                    return '<div style="width:100%; text-align:center;"><i class="fa fa-male" aria-hidden="true" style="font-size:22px; color:#0093ff;"></i></div>';
-                  } else if (data == "PEREMPUAN") {
-                    return '<div style="width:100%; text-align:center;"><i class="fa fa-female" aria-hidden="true"  style="font-size:22px; color:#ff0097;"></i></div>';
-                  } else {
-                    return '<div style="width:100%; text-align:center;"><i class="fa fa-transgender" aria-hidden="true"  style="font-size:22px; color:#818990;"></i></div>';
-                  }
-                }
-              },
-              {
-                "title": "Country",
-                "data": "country",
-                "width": "20%",
-                "render": function (data, type, full, meta) {
-                  return data;
-                }
-              },
-              {
-                "title": "Document No",
-                "data": "doc_no",
-                "width": "10%",
-                "render": function (data, type, full, meta) {
-                  // strdoc_no = data;
-                  if (data == undefined) {
-                    return "";
-                  } else {
-                    return data;
-                  }
-                }
-              },
-              {
-                "title": "Action",
-                "data": "action",
-                "width": "10%",
-                "render": function (data, type, full, meta) {
-                  return '<a class="viewReq">' +
-                    '<button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>' +
-                    'View </button></a>';
-                }
-              }]
-            });
-          } else {
-            $scope.tblContent = false;
-            $scope.noData = true;
-          }
-
-        } else if (status == 'blackListed') {
-          $scope.applicationsFound = data.header.blackListed;
-          if (data.blackListed != null) {
-            $scope.tblContent = true;
-            $scope.noData = false;
-            totalResLenth = data.blackListed.results.length;
-            // if ($('#tblSearch tr').length > 0 && $('#tblSearch').DataTable().data().length > 0)
-            //   $('#tblSearch').DataTable().destroy()
-
-            if ($('#tblSearch tr').length > 0) {
-              if ($('#tblSearch').DataTable().rows().length > 0) {
-                $('#tblSearch').DataTable().destroy();
-              }
-            }
-
-            tblGloSEarch = $('#tblSearch').DataTable({
-              order: [[0, "asc"]],
-              data: data.blackListed.results,
-              searching: false,
-              paging: false,
-              info: false,
-              columns: [{
-                "title": "Date",
-                "data": "date",
-                "width": "10%",
-                "render": function (data, type, full, meta) {
-                  // var dt = moment.utc(data).format('DD-MM-YYYY HH:mm:ss');
-                  return data.substring(0, 19);
-                }
-              }, {
-                "title": "IC No.",
-                "data": "kp_no",
-                "width": "20%"
-              },
-              {
-                "title": "Name",
-                "data": "name",
-                "width": "25%"
-              }, {
-                "title": "Gender",
-                "data": "sex",
-                "width": "5%",
-                "render": function (data) {
-                  if (data == "LELAKI") {
-                    return '<div style="width:100%; text-align:center;"><i class="fa fa-male" aria-hidden="true" style="font-size:22px; color:#0093ff;"></i></div>';
-                  } else if (data == "PEREMPUAN") {
-                    return '<div style="width:100%; text-align:center;"><i class="fa fa-female" aria-hidden="true"  style="font-size:22px; color:#ff0097;"></i></div>';
-                  } else {
-                    return '<div style="width:100%; text-align:center;"><i class="fa fa-transgender" aria-hidden="true"  style="font-size:22px; color:#818990;"></i></div>';
-                  }
-                }
-              }, {
-                "title": "Passport No.",
-                "data": "doc_no",
-                "width": "20%",
-                "render": function (data, type, full, meta) {
-                  return data;
-                }
-              }, {
-                "title": "Country",
-                "data": "country",
-                "width": "20%",
-                "render": function (data, type, full, meta) {
-                  // strdoc_no = data;
-                  if (data == undefined) {
-                    return "";
-                  } else {
-                    return data;
-                  }
-                }
-              }, {
-                "title": "Action",
-                "data": "action",
-                "width": "0%",
-                "visible": false,
-                "render": function (data, type, full, meta) {
-                  return '<a class="viewBlacklist">' +
-                    '<button class="btn btn-xs btn-warning searchBtn"><i class="fa fa-eye"></i>' +
-                    'View </button></a>';
-                }
-              }]
-            });
-          } else {
-            $scope.tblContent = false;
-            $scope.noData = true;
-          }
-        }
-
-        $scope.first = ($scope.start / 10) > 0 ? false : true;
-        $scope.startCount = $scope.start + totalResLenth;
-        $scope.previousCount = $scope.start;
-        // $scope.startCount = ($scope.applicationsFound < 10 ? $scope.applicationsFound : $scope.start + 10);
-        $scope.last = ($scope.startCount == $scope.applicationsFound ? true : false);
-
-        var viewinfo = undefined;
-
-        var strtest = 0;
-        $('.viewReq').on('click', 'button.searchBtn', function (e) {
-          $("#myTravalModal").find('.modal-body').append("<iframe id='frame' width='100%' height='600px'></iframe>");
-          var viewinfo = tblGloSEarch.row($(this).parents('tr')).data();
-          var strcntry = viewinfo.country.replace(/ /g, "*");
-          // var qstr = 'doc_nos:'+ viewinfo.doc_no + (strcntry.length != 0? ' AND country:'+ strcntry : '');
-          // sessionStorage.setItem('Qparam','doc_nos:'+ viewinfo.doc_no +' AND country:'+ strcntry);
-          if (strcntry.toLowerCase().trim() == 'malaysia') {
-            var qstr = 'doc_no:' + viewinfo.doc_no + ' AND citizen:' + true;
-          } else {
-            var qstr = 'doc_nos:' + viewinfo.doc_no + ' AND country:' + strcntry;
-          }
-          sessionStorage.setItem('Qparam', qstr);
-
-          //To load in to Modal
-          e.preventDefault();
-          strtest += 1;
-          $('#myTravalModal').modal('show').find("#frame").attr("src", "#/travelertracker/travelertracker.html?session=true&test=" + strtest);
-        });
-
-        $('#myTravalModal').on('hidden.bs.modal', function (e) {
-          $('#frame').remove();
-          //sessionStorage.setItem('backct',true);
-        });
-
-
-        var viewCitizinfo = undefined;
-        $('.viewCitizen').on('click', 'button.searchBtn', function (e) {
-          chkIframe.addStatus("true");
-
-          $("#myTravalModal").find('.modal-body').append("<iframe id='frame' width='100%' height='600px'></iframe>");
-          //sessionStorage.setItem('backct',false);
-          viewCitizinfo = tblGloSEarch.row($(this).parents('tr')).data();
-          // sessionStorage.setItem('Qparam','doc_no:'+ viewCitizinfo.doc_no +' AND citizen:'+ true);
-          sessionStorage.setItem('Qparam', 'doc_no:' + viewCitizinfo.doc_no + ' AND citizen:' + true);
-          // window.location = "#/travelertracker/travelertracker.html?session=true";   
-          strtest += 1;
-          $('#myTravalModal').modal('show').find("#frame").attr("src", "#/travelertracker/travelertracker.html?session=true&test=" + strtest);
-
-        });
-
-        // $scope.startCount = $scope.start + 10; 
-
-
-        // if (data.response.numFound == 0) {
-        //   $scope.showApplication = false;
-        // }
-        // $scope.vtime = data.responseHeader.QTime;        
-        // $scope.items = data.response.docs;
-        if (selected_countries.length == 0)
-          $scope.countries = data.facetCountry
-
-        if (selected_jobs == 0)
-          $scope.jobs = data.facetJobs
-
-        if(selected_states.length == 0)
-          $scope.states = data.facetStates
-
-        if(selected_branch.length == 0)
-          $scope.branch = data.facetBranches 
-
-        console.log($scope.jobs);   
       })
       .error(function (data, status, headers, config) {
         console.log('error');
@@ -971,18 +578,54 @@ $scope.branchsBox = function (id) {
 
   }
 
-  $scope.$on('$locationChangeStart', function (event) {
-    $rootScope.fastsearch.text = $scope.text;
-    $rootScope.fastsearch.showApplication = $scope.showApplication;
-    $rootScope.fastsearch.showVisitor = $scope.showVisitor;
-  });
 
-  // $('.searchBtn').click(function (event) {
+  /*
+   Functions related to page change
+  */
+  function init_page() {
+         var page_options = {};
+         page_options.start = 0;
+         page_options.limit = 10;
+         page_options.page = 1;
+         page_options.first = true;
+         page_options.last = false;
+         page_options.total = 0;
+         $scope.page = page_options;
+       }
+  $scope.next_page = function() {
+         var page_options = {};
+         page_options.start = $scope.page.start + $scope.page.limit;
+         page_options.limit = $scope.page.limit;
+         page_options.page = $scope.page.page+1;
+         page_options.first = false;
+         if((page_options.start + page_options.limit) > $scope.page.total) {
 
-  //  alert('clicked view');
-  // });
+           page_options.last = false; 
+         }
+         
+         $scope.page = page_options;
 
-  // set sidebar closed and body solid layout mode
+         $scope.showApplications($scope.currentStatus, 'prenext');
+       }
+
+  $scope.previous_page = function () {
+         var page_options = {};
+         page_options.start = $scope.page.start - $scope.page.limit;
+         if(page_options.start <= 0)
+         {
+          page_options.start =0
+          page_options.first = true;
+         }
+         page_options.limit = $scope.page.limit;
+         page_options.page = $scope.page.page - 1;
+         page_options.last = false;
+         $scope.page = page_options;
+
+         $scope.showApplications($scope.currentStatus, 'prenext');
+       }
+ 
+
+
   $rootScope.settings.layout.pageSidebarClosed = true;
   $rootScope.skipTitle = false;
   $rootScope.settings.layout.setTitle("fastsearch");

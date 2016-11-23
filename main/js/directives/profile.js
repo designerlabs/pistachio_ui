@@ -3,7 +3,7 @@
 
 var ProfileController = function ($scope,$http) {
     $scope.showVisa=false;
-    var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/offender/query?collection=offender,hismove&q='
+    var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/offender/query?collection=offender,hismove,immigration2&rows=1&q='
     $scope.image_src = "./assets/admin/layout2/img/avatar3.png";
     $scope.birth_date = "NA"
     init();

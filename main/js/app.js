@@ -1321,7 +1321,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'js/directives/movement.js',                        
                         'js/directives/enforcement.js',                                                
                         'js/directives/profile.js',
-
+                        'js/directives/searchList.js',
                         'js/controllers/DetaineeController.js',
                         'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js'
@@ -1755,7 +1755,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
                         'assets/global/plugins/datatables/all.min.js',
                         
-                        
+                        'assets/pistachio/analysis/enforcement.css',
+                        'assets/pages/css/profile-2.min.css',                        
 
                         'assets/pistachio/fastsearch/leaflet/leaflet_canvas_layer.js',
                         //'assets/pistachio/map/heatmap.min.js',
@@ -1765,7 +1766,14 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pistachio/map/Leaflet.fullscreen.min.js',
                         'assets/pistachio/map/leaflet.fullscreen.css',
                         'assets/pistachio/fastsearch/ui_box.css',
-
+                        'js/directives/facetBox.js',
+                        'js/directives/searchList.js',
+                        'assets/global/plugins/vis/vis.js',
+                        'assets/global/plugins/vis/vis.css',
+                        'js/directives/visa.js',
+                        'js/directives/movement.js',                        
+                        'js/directives/enforcement.js',                                                
+                        'js/directives/profile.js',
                         'js/controllers/GlobalSearchController.js',
                         'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'assets/pistachio/range/range.css',

@@ -153,24 +153,7 @@
                   <div class="modal-closebtn bg-danger" data-dismiss="modal" ng-click="ok()"></div>
                     
                     <div id="tableAuditContainer" style="padding:10px;">
-                      <table ng-table="detainees" class="table enforcement" show-filter="true">
-                        <tr ng-repeat="x in $data" class="mt-action" style="padding:15px 0 15px 8px !important;">
-                          <td title="'Name'"  sortable="'name'" >
-                             <div class="mt-action-img">
-                                <img class="img-circle" style="height: 50px; width: 50px;" src="assets/admin/layout2/img/avatar3.png""> 
-                            </div>
-                            <div class="mt-action-details ">
-                              <span class="mt-action-author">{{ x.name }}</span>
-                              <p class="mt-action-desc">{{ x.doc_no }}</p>
-                            </div>
-                          </td>
-                          <td title="'Country'" sortable="'country'">{{ x.country }}</td>
-                          <td title="'Date'" sortable="'created'">{{x.created | date: 'dd MMM, y' }}</td>
-                          <td title="'Action'" style="text-align: center;">
-                               <a ng-click="view(x.expact_id)" class="btn btn-sm btn-outline grey-salsa"><i class="fa fa-search"></i> View</a>
-                          </td>
-                        </tr>
-                      </table>
+                      <searchlist data = "detainees" click="view(data)"></searchlist>
                       <div class="btn-group btn-group-circle" style="text-align: center;top: 50%;left:45%;">
                         <button type="button" class="btn red btn-sm" ng-click="previous_page()" ng-disabled="page.first">Previous</button>
                         <button type="button" class="btn green btn-sm" ng-click="next_page()" ng-disabled="page.last">Next</button>

@@ -1,0 +1,16 @@
+<div class="mini-box col-md-3" ng-show="show" >
+	<h4> {{title}}</h4>
+	<div class="todo-project-list">
+		<ul class="list-group">
+			<li class="list-group-item" data-ng-repeat="cnt in facet" data-cntval="{{cnt.count |  number:0}}" style="padding-left: 3px; padding-right: 1px;">
+				<div class="md-checkbox" style="padding: 2px;">
+					<input type="checkbox" ng-checked="check(cnt.field)" class="md-check" id={{cnt.field}} ng-click="click({data: cnt.field})">
+					<label for={{cnt.field}}>
+	                  <span class="inc"></span>
+	                  <span class="check"></span>
+	                  <span class="box"></span> {{cnt.field}}</label>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
