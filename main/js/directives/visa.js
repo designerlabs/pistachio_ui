@@ -13,11 +13,12 @@ var VisaController = function ($scope,$http) {
       $scope.visatotal = data.response.numFound;
 
       var visadetails = data.response.docs;
-        $.get(globalURL + "api/image/solr/" + visadetails[0].fin_no)
-                .then(function (data) {
-                    // $scope.showVisa = true;
-                    $scope.fn_loadVisaTbl(visadetails, data);
-                });
+      //  $.get(globalURL + "api/image/solr/" + visadetails[0].fin_no)
+      //          .then(function (data) {
+       //             // $scope.showVisa = true;
+       //             $scope.fn_loadVisaTbl(visadetails, data);
+       //         });
+        $scope.fn_loadVisaTbl(visadetails, data);
     });
   } 
 

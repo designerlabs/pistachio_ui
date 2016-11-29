@@ -1149,11 +1149,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
-                        'assets/global/plugins/morris/morris.css',
                         'assets/admin/pages/css/tasks.css',
 
-                        'assets/global/plugins/morris/morris.min.js',
-                        'assets/global/plugins/morris/raphael-min.js',
                         'assets/global/plugins/jquery.sparkline.min.js',
 
                         'assets/admin/pages/scripts/index.js',
@@ -1180,11 +1177,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
-                        'assets/global/plugins/morris/morris.css',
                         'assets/admin/pages/css/tasks.css',
-
-                        'assets/global/plugins/morris/morris.min.js',
-                        'assets/global/plugins/morris/raphael-min.js',
                         'assets/global/plugins/jquery.sparkline.min.js',
 
                         'assets/admin/pages/scripts/index.js',
@@ -1293,6 +1286,47 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }]
         }
     })
+.state('overstayAnalysis', {
+        url: "/overstayAnalysis.html",
+        templateUrl: "views/analysis/overstay.html",
+        data: {
+            pageTitle: 'Detainee Analysis'
+        },
+        controller: "OverstayController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/global/plugins/bootstrap-daterangepicker/moment.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
+                        'assets/pistachio/analysis/enforcement.css',
+                        'assets/pages/css/search.css',
+                        'assets/pages/css/pricing.min.css',
+                        'assets/pistachio/fastsearch/search_profile.css',                        
+
+                        'assets/pages/scripts/highstock.js',
+                      //  'js/controllers/Profile.js',
+                        'assets/global/plugins/vis/vis.js',
+                        'assets/global/plugins/vis/vis.css',                      
+                        'assets/global/plugins/datatables/all.min.js',
+                        'assets/pages/css/profile-2.min.css',
+                        'js/directives/searchList.js',
+                        'js/directives/visa.js',
+                        'js/directives/movement.js',                        
+                        'js/directives/enforcement.js',                                                
+                        'js/directives/profile.js',
+
+                        'js/controllers/OverstayController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js'
+
+                    ]
+                });
+            }]
+        }
+    })
 .state('detaineeAnalysis', {
         url: "/detaineeAnalysis.html",
         templateUrl: "views/analysis/detainee.html",
@@ -1309,6 +1343,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/bootstrap-daterangepicker/moment.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
                         'assets/pistachio/analysis/enforcement.css',
+                        'assets/pistachio/fastsearch/search_profile.css',  
                         'assets/pages/css/search.css',
                         'assets/pages/css/pricing.min.css',
                         'assets/pages/scripts/highstock.js',
@@ -1560,7 +1595,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     files: [
                         'js/controllers/RobotDocumentController.js',
                         'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
-                        'assets/global/plugins/morris/morris.css',
                         'assets/admin/pages/css/tasks.css',
                         'assets/pages/css/search.css',
                         //'assets/pistachio/upload_doc/css/uploadfile.css',
@@ -1588,11 +1622,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
-                        'assets/global/plugins/morris/morris.css',
                         'assets/admin/pages/css/tasks.css',
 
-                        'assets/global/plugins/morris/morris.min.js',
-                        'assets/global/plugins/morris/raphael-min.js',
                         'assets/global/plugins/jquery.sparkline.min.js',
 
                         'assets/admin/pages/scripts/index.js',
@@ -1619,11 +1650,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
-                        'assets/global/plugins/morris/morris.css',
                         'assets/admin/pages/css/tasks.css',
 
-                        'assets/global/plugins/morris/morris.min.js',
-                        'assets/global/plugins/morris/raphael-min.js',
                         'assets/global/plugins/jquery.sparkline.min.js',
 
                         'assets/admin/pages/scripts/index.js',
@@ -1714,12 +1742,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
-                        'assets/global/plugins/morris/morris.css',
                         'assets/admin/pages/css/tasks.css',
                         'assets/pages/css/search.css',
-
-                        'assets/global/plugins/morris/morris.min.js',
-                        'assets/global/plugins/morris/raphael-min.js',
 
                         'assets/admin/pages/scripts/index.js',
                         'assets/admin/pages/scripts/tasks.js',
@@ -1755,7 +1779,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
                         'assets/global/plugins/datatables/all.min.js',
                         
-                        'assets/pistachio/analysis/enforcement.css',
+                        'assets/pistachio/fastsearch/search_profile.css',
                         'assets/pages/css/profile-2.min.css',                        
 
                         'assets/pistachio/fastsearch/leaflet/leaflet_canvas_layer.js',
@@ -1800,11 +1824,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
-                        'assets/global/plugins/morris/morris.css',
                         'assets/admin/pages/css/tasks.css',
 
-                        'assets/global/plugins/morris/morris.min.js',
-                        'assets/global/plugins/morris/raphael-min.js',
                         'assets/global/plugins/jquery.sparkline.min.js',
 
                         'assets/admin/pages/scripts/index.js',
@@ -1832,11 +1853,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
-                        'assets/global/plugins/morris/morris.css',
                         'assets/admin/pages/css/tasks.css',
 
-                        'assets/global/plugins/morris/morris.min.js',
-                        'assets/global/plugins/morris/raphael-min.js',
                         'assets/global/plugins/jquery.sparkline.min.js',
 
                         'assets/admin/pages/scripts/index.js',

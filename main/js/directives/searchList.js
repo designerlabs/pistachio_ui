@@ -1,7 +1,7 @@
 'use strict';
 
 var SearchListController = function ($scope,$http,NgTableParams) {
- // init()
+  init()
 
   function init() {
     $scope.records = new NgTableParams({}, { dataset: $scope.data});

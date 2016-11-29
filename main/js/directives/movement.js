@@ -43,7 +43,7 @@ var MovementController = function ($scope,$http) {
                     e.className = 'green';
                 } else if (e.dy_action_ind == 'out') {
                     // e.content = "OUT";
-                    e.className = 'red';
+                    e.className = 'blue';
                 } else if (e.dy_action_ind == 'in0out') {
                     e.className = 'orange';
                 }
@@ -66,7 +66,7 @@ var MovementController = function ($scope,$http) {
                         end: newary[k - 1].xit_date,
                         ind: e.dy_action_ind,
                         content: 'Mismatching ' + e.dy_action_ind.toUpperCase(),
-                        className: 'orange'
+                        className: 'red'
                     };
 
                     wrg.push(tempwrg);

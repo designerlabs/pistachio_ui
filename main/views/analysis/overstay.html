@@ -1,4 +1,4 @@
-  <div ng-controller="DetaineeController">
+  <div ng-controller="OverstayController">
       <div style="background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%; position:absolute; top:0px;" ng-show="loading">
           <!--  BEGIN PAGE SPINNER -->
           <div ng-spinner-bar class="page-spinner-bar show">
@@ -147,8 +147,7 @@
 
               </div>
           </div>
-          
-           <script type="text/ng-template" id="detaineeview.html">
+          <script type="text/ng-template" id="overstayview.html">
               <div  ng-if="!show_profile">
                   <div class="modal-body detaineeData"  role="document">
                   <div class="modal-closebtn bg-danger" data-dismiss="modal" ng-click="ok()"></div>
@@ -177,4 +176,5 @@
                   </div>
               </div>
           </script>
+          
       </div>

@@ -9,7 +9,9 @@ var EnforcementController = function ($scope,$http) {
     //var query = "doc_no:A4010734"
     $http.get(thisSolrAppUrl+query).
       success(function(data) {
+
       $scope.docs = data.response.docs;
+      $scope.total = data.response.numFound
   });
   }
 
@@ -26,7 +28,9 @@ MetronicApp.directive('enforcement', function ($http) {
         scope: {
 
             //@ reads the attribute value, = provides two-way binding, & works with functions
-            expact: '=expact'        },
+            expact: '=expact' ,
+            total: "=" 
+                   },
         templateUrl: 'views/travelertracker/enforcement.html',
         link: function ($scope, element, attrs) {
             

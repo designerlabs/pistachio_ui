@@ -1,0 +1,56 @@
+.mt-action>tdtd {
+    padding: 5px 0 5px 8px !important
+  }
+
+.mt-action>td .mt-action-img {
+  width:70px;
+  float:left
+}
+
+.mt-action>td .mt-action-details {
+  display:table-cell;
+  vertical-align:top
+}
+.mt-action>td .mt-action-details .mt-action-author {
+  color:#060606;
+  font-weight:600
+}
+.mt-action>td .mt-action-details .mt-action-desc{
+  margin-bottom:0;
+  color:#A6A8A8;
+  margin-top: 8px;
+}
+
+.modal-closebtn{
+  position: absolute;
+  right: 0px;
+  z-index: 0;
+  width: 40px;
+  height: 40px;
+  margin: 40px -40px;
+  background: #f36d6d;
+  box-shadow: 0px 0px 15px;
+}
+
+.modal-closebtn:before{
+    content: '×';
+    font-size: 35px;
+    padding: 10px;
+    top: -5px;
+    position: relative;
+    font-family: arial;
+    font-weight: 700;
+    color: #fff;
+}
+
+.mt-element-ribbon .ribbon.ribbon-round.ribbon-right.ribbon-suspect {
+    top: 140px !important;
+    -webkit-animation: pulsate 1s ease-out;
+    -webkit-animation-iteration-count: 1; 
+}
+
+@-webkit-keyframes pulsate {
+    0% {-webkit-transform: scale(0.1, 0.1); opacity: 0.0;}
+    50% {opacity: 1.0;}
+    100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
+}

@@ -878,25 +878,3 @@ li.pagination ul.pager li a {
   }
 }
 
-.mt-action>tdtd {
-    padding: 5px 0 5px 8px !important
-  }
-
-.mt-action>td .mt-action-img {
-  width:70px;
-  float:left
-}
-
-.mt-action>td .mt-action-details {
-  display:table-cell;
-  vertical-align:top
-}
-.mt-action>td .mt-action-details .mt-action-author {
-  color:#060606;
-  font-weight:600
-}
-.mt-action>td .mt-action-details .mt-action-desc{
-  margin-bottom:0;
-  color:#A6A8A8;
-  margin-top: 8px;
-}

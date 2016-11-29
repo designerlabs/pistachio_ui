@@ -1,5 +1,5 @@
 <div style="position: relative; z-index:9;">
-	<div class="col-md-12" style="background: #2574A9; padding-top: 12px;">
+	<div class="col-md-12 mt-element-ribbon" style="background: #2574A9; padding-top: 12px;">
 
 		<!--width:85%;  style="position:fixed;"-->
 		<div class="col-md-3 col-xs-4 col-sm-3 col-lg-3">
@@ -77,6 +77,9 @@
 
 			</div>
 		</div>
+
+		<div class="ribbon ribbon-right ribbon-round ribbon-suspect ribbon-border-dash ribbon-color-danger uppercase"
+              ng-if="offender">Suspect</div>
 	</div>
 </div>
 
@@ -112,13 +115,13 @@
 	                        <span class="sale-info"> TYPE
 	                            <i class="fa fa-img-down"></i>
 	                        </span>
-	                        <span class="sale-num"> TOURIST </span>
+	                        <span class="sale-num"> {{doc.status}} </span>
 	                    </li>
 	                   <li>
 	                        <span class="sale-info"> STATUS
 	                            <i class="fa fa-img-down"></i>
 	                        </span>
-	                        <span class="sale-num"> Entered </span>
+	                        <span class="sale-num"> {{doc.entry}} </span>
 	                    </li>
 	                </ul>
 	            </div>
@@ -147,23 +150,17 @@
       	<movement expact="expact" movetotal="movetotal"></movement>
 
     </uib-tab>
-    <uib-tab index="3" >
+    <uib-tab index="3" ng-hide="offendertotal==0" >
     	<uib-tab-heading>
     		<div class="caption">
 	        	<i class="fa fa-legal font-purple-soft"></i>
 	        	<span class="caption-subject font-purple-soft bold ">Enforcement</span>
+	        	<span class="badge badge-primary badge-roundless"> {{offendertotal}} </span>
 	    	</div>
       	</uib-tab-heading>
-      	<enforcement expact="expact"></enforcement>
+      	<enforcement expact="expact" total="offendertotal"></enforcement>
     </uib-tab>
-    <uib-tab index="4" >
-    	<uib-tab-heading>
-    		<div class="caption">
-	        	<i class="fa fa-bell font-purple-soft"></i>
-	        	<span class="caption-subject font-purple-soft bold ">Suspect</span>
-	    	</div>
-      	</uib-tab-heading>
-    </uib-tab>
+    
  
   </uib-tabset>
 </div>

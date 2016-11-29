@@ -18,17 +18,17 @@ MetronicApp.directive('onFinishRender', function ($timeout) {
 
 
 
-MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,NgTableParams,$uibModal) {
-    var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/offender/query?json='
+MetronicApp.controller('OverstayController', function($rootScope, $scope, $http,NgTableParams,$uibModal) {
+    var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/profile/query?q=pass_exp_date:[ * TO NOW-1DAYS ]&json='
 
    $scope.open = function () {
     var options = {
-      templateUrl: 'detaineeview.html',
+      templateUrl: 'overstayview.html',
       controller: ModalInstanceCtrl,
       size: 'lg',
       resolve: {
         detainees: function () {
-          return $scope.detainees;
+          return $scope.detainee;
         },
         page : function () {
           return $scope.page
@@ -66,8 +66,7 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
         Metronic.initAjax();
         $(".page-sidebar-menu > li").removeClass('active');
         $("#dashboardLink").addClass('active');
-        //alert("HI");
-        var getUser = localStorage.getItem("username");
+
         init_page();
         $scope.reset();
         $scope.date_range();
@@ -75,11 +74,8 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
 
     });
 
-    $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
-      $scope.generateBarGraph('#dashboard-stats')
-      $scope.generateBarGraph('#dashboard-branch')
 
-    });
+
         
     $rootScope.$on('loading:progress', function (){
         console.log("loading");
@@ -129,7 +125,7 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
           var display = "[ "+ moment(picker.startDate).format('DD-MM-YYYY') +" TO "+ moment(picker.endDate).format('DD-MM-YYYY')+" ]";
           $scope.time_filtered_max = moment(picker.endDate).format('YYYY-MM-DDT00:00:00')+'Z';
           $scope.time_filtered_min = moment(picker.startDate).format('YYYY-MM-DDT00:00:00')+'Z'
-              $scope.addFilter("tim","Time :"+display,"created:"+range);
+              $scope.addFilter("tim","Time :"+display,"pass_exp_date:"+range);
               $scope.pickDayRange(picker.endDate.diff(picker.startDate,'days'))
               $scope.querySolr();
       });
@@ -159,32 +155,28 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
 
 
     $scope.reset = function(){
-      $scope.radioValue = "Overall"
-      $scope.cntName = "";
-      $scope.officer_name = "";
-      $scope.cntCode = "";
-      $scope.cJobs = "";
-       $scope.cEmply = "";
-        $scope.cSex = "";
-        $scope.cState = "";
-        $scope.filters = false;
-        $scope.filterButtons = [];
-         $scope.analysiType = 'overall';
-         $scope.loadTimeline = true;
-         $scope.time_filtered_max = "";
-         $scope.time_filtered_min = "";
-        $scope.period = "%2B1YEAR"
-         $scope.jobCount = 10;
-$scope.stateSelected = "";
-$scope.rankSelected = "";
-$scope.selectBranch = false;
-         $scope.dateRange = {};
-         $scope.dateRange.min = "2012-01-01T00:00:00Z"
-         $scope.dateRange.max = "2017-01-01T00:00:00Z"
-         cb(moment("20100101", "YYYYMMDD"), moment());
-         //$scope.analysiType = 'overall';
-         $scope.records = ""
-        $scope.querySolr();
+
+      $scope.time_filtered_max = "";
+      $scope.time_filtered_min = "";
+      $scope.period = "%2B1YEAR"
+
+      //Selections
+      $scope.stateSelected = "";
+      $scope.rankSelected = "";
+      $scope.selectBranch = false;
+
+      //Filters
+      $scope.filterButtons = [];
+
+      //Date Range
+      $scope.dateRange = {};
+      $scope.dateRange.min = "2012-01-01T00:00:00Z"
+      $scope.dateRange.max = "2017-01-01T00:00:00Z"
+      cb(moment("20100101", "YYYYMMDD"), moment());
+      
+      $scope.records = "";
+      $scope.overstay ="";
+      $scope.querySolr();
 
     }
 
@@ -342,8 +334,6 @@ $scope.selectBranch = false;
 
           $scope.filters = false;
           var json = {};
-          if($scope.analysiType == 'overall')
-          {
             json.limit  = 10;
             json.offset = 0
             json.query = $scope.formQuery();
@@ -374,7 +364,7 @@ $scope.selectBranch = false;
             json.facet.date_range = {};
 
             json.facet.date_range.type   = "range";
-            json.facet.date_range.field  =  "created";
+            json.facet.date_range.field  =  "pass_exp_date";
             if($scope.time_filtered_max.length > 0)
             {
               json.facet.date_range.start  = $scope.time_filtered_min;
@@ -385,39 +375,34 @@ $scope.selectBranch = false;
               json.facet.date_range.end    = $scope.dateRange.max;
             }
             json.facet.date_range.gap    = $scope.period;
-          }
           
           $http.get(thisSolrAppUrl+JSON.stringify(json)+$scope.fqQuery()).
-             success(function(data) {
+            success(function(data) {
               $scope.numFound = data.response.numFound;
               $scope.page.total = data.response.numFound;
               if($scope.page.total < $scope.page.limit) $scope.page.last =true
-               //  $scope.records =  data.response.docs
-              $scope.detainees = data.response.docs //new NgTableParams({page: 1, count: 10}, { dataset: data.response.docs});
-                 if(selected_countries == 0) {
-                   $scope.rank = data.facets.rank.buckets;
-                   $scope.branch = data.facets.branch.buckets
-                   $scope.country = data.facets.country.buckets
-                   $scope.user_type = data.facets.user_type.buckets
-                   console.log($scope.sex1);
-                   $scope.column();
-                   
-                  // $scope.pie();
-                   $scope.timelineChart(data.facets.date_range.buckets);
-                   $scope.rankChart();
-                   //$scope.activeOverall();
-                   $scope.generateBarGraph('#dashboard-stats');
-                 }
-                 
 
-               }).
-               error(function(data, status, headers, config) {
-                 console.log('error');
-                 console.log('status : ' + status); //Being logged as 0
-                 console.log('headers : ' + headers);
-                 console.log('config : ' + JSON.stringify(config));
-                 console.log('data : ' + data); //Being logged as null
-               });
+              $scope.detainee = data.response.docs //new NgTableParams({page: 1, count: 10}, { dataset: data.response.docs});
+              $scope.rank = data.facets.user_type.buckets;
+              $scope.branch = data.facets.branch.buckets
+              $scope.country = data.facets.country.buckets
+              $scope.user_type = data.facets.user_type.buckets
+              console.log($scope.sex1);
+              $scope.column();
+
+              // $scope.pie();
+              $scope.timelineChart(data.facets.date_range.buckets);
+              $scope.rankChart();
+              //$scope.activeOverall();
+              $scope.generateBarGraph('#dashboard-stats');
+            }).
+            error(function(data, status, headers, config) {
+              console.log('error');
+              console.log('status : ' + status); //Being logged as 0
+              console.log('headers : ' + headers);
+              console.log('config : ' + JSON.stringify(config));
+              console.log('data : ' + data); //Being logged as null
+            });
 
                
 
@@ -643,14 +628,14 @@ $scope.selectBranch = false;
               x: -20 //center
             },
             series: [{
-            name: 'rank',
+            name: 'Pass Type',
           //  colorByPoint: true,
             data: stateData,
             showInLegend:false,
           point:{
               events:{
                   click: function (event) {
-                      $scope.clickDoc(event.point.category);
+                      $scope.clickPass(event.point.category);
                   }
               }
           }
@@ -753,19 +738,15 @@ $scope.selectBranch = false;
                 backgroundColor: '#FFFFFF'
             },
             title: {
-                text: 'Visa Applications'
+                text: 'Overstay'
 
-            },
-            subtitle: {
-                text: document.ontouchstart === undefined ?
-                        'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
             },
             xAxis: {
                 type: 'datetime'
             },
             yAxis:  [{ // Primary yAxis
                 title: {
-                        text: 'No of Applications'
+                        text: 'No of overstayer'
                     },
                     style: {
                         color: Highcharts.getOptions().colors[0]
@@ -836,5 +817,5 @@ $scope.selectBranch = false;
     // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.pageSidebarClosed = true;
     $rootScope.skipTitle = false;
-    $rootScope.settings.layout.setTitle("detainee");
+    $rootScope.settings.layout.setTitle("overstay");
 });

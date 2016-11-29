@@ -137,5 +137,10 @@
 	"report.query" : "Report Name",
 	"report.queryName" : "Template",
 	"report.download" : "Download",
-	"robot.title": "Document Robot Search"
+	"robot.title": "Document Robot Search",
+
+	"detainee.title" : "Detainee Analysis",
+	"overstay.title" : "Overstay Analysis"
+
+
 }
