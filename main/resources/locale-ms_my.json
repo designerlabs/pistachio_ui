@@ -139,5 +139,8 @@
 	"report.query" : "Nama Laporan",
 	"report.queryName" : "Template",
 	"report.download" : "Muat Turun",
-	"robot.title": "Document Robot Search"
+	"robot.title": "Document Robot Search",
+
+	"detainee.title" : "Detainee Analysis",
+	"overstay.title" : "Overstay Analysis"
 }

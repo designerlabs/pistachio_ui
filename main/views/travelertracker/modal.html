@@ -1,0 +1,27 @@
+<div  ng-if="!show_profile">
+    <div class="modal-body detaineeData"  role="document">
+    <div class="modal-closebtn bg-danger" data-dismiss="modal" ng-click="ok()"></div>
+      
+      <div id="tableAuditContainer" style="padding:10px;">
+        <searchlist data = "detainees" click="view(data)"></searchlist>
+        <div class="btn-group btn-group-circle" style="text-align: center;top: 50%;left:45%;">
+          <button type="button" class="btn red btn-sm" ng-click="previous_page()" ng-disabled="page.first">Previous</button>
+          <button type="button" class="btn green btn-sm" ng-click="next_page()" ng-disabled="page.last">Next</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" >Close</button>
+        
+    </div>
+</div>
+<div ng-if="show_profile">
+  <div class="modal-body detaineeData" style="padding:0px;" role="document">
+    <div class="modal-closebtn bg-danger" data-dismiss="modal" ng-click="back()"></div>
+    <profile expact-id="expact_id" ></profile>
+  </div>
+  <div class="modal-footer">
+        
+        
+    </div>
+</div>

@@ -4,7 +4,12 @@
 		<!--width:85%;  style="position:fixed;"-->
 		<div class="col-md-3 col-xs-4 col-sm-3 col-lg-3">
 			<div class="profile-userpic">
-				<img ng-src="{{image_src}}" class="img-responsive img-circle" alt=""> 
+			     <img ng-if="image_src.length < 100" class="img-responsive img-circle" src="assets/admin/layout2/img/avatar3.png"">
+	          	 <img ng-if="image_src.length >100" class="img-responsive img-circle" 
+	          	            alt="" data-ng-src="data:image/png;base64,{{image_src}}"
+	          	            style="height: 200px; width: 200px;"
+	          	            data-err-src="assets/admin/layout2/img/avatar3.png"/>
+				
             </div>
 		</div>
 		<div class="row invoice-cust-add col-md-9 col-lg-9 col-xs-8 col-sm-9" style="margin-bottom:0px;">
@@ -36,7 +41,8 @@
 			<div class="col-md-4 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
 				<small>PASSPORT NO</small>
 				<div class="bold" style="top: 5px; position: relative;">
-						{{doc.doc_no}}
+				   <span class="label label-sm label-success">{{doc.doc_no}}</span>
+				   <span ng-if="doc.doc_nos.length>0" class="label label-sm label-default" ng-repeat="d in doc.doc_nos">{{d}}</span>		
 				</div>
 			</div>		
 			
@@ -79,7 +85,7 @@
 		</div>
 
 		<div class="ribbon ribbon-right ribbon-round ribbon-suspect ribbon-border-dash ribbon-color-danger uppercase"
-              ng-if="offender">Suspect</div>
+              ng-if="offender">{{banner}}</div>
 	</div>
 </div>
 
@@ -99,8 +105,14 @@
 	            </div>
 	            <div class="portlet-body">
 	                <ul class="list-unstyled">
-	                    <li>
+	                    <li ng-if="isExpact">
 	                        <span class="sale-info">VISA & PASS
+	                            <i class="fa fa-img-up"></i>
+	                        </span>
+	                        <span class="sale-num"> {{visatotal}} </span>
+	                    </li>
+	                    <li ng-f="!isExpact">
+	                        <span class="sale-info">PASSPORTS
 	                            <i class="fa fa-img-up"></i>
 	                        </span>
 	                        <span class="sale-num"> {{visatotal}} </span>
@@ -128,7 +140,7 @@
 	        </div>
         </div>
     </uib-tab>
-    <uib-tab index="1" ng-hide="visatotal==0">
+    <uib-tab index="1" ng-if="isExpact" ng-hide="visatotal==0">
     	<uib-tab-heading>
         	<div class="caption">
 	        	<i class="fa fa-id-card-o font-purple-soft"></i>
@@ -137,6 +149,16 @@
 	    	</div>
       	</uib-tab-heading>
       	<visa expact="expact" visatotal="visatotal"></visa>
+    </uib-tab>
+    <uib-tab index="5" ng-if="!isExpact" ng-hide="visatotal==0">
+    	<uib-tab-heading>
+        	<div class="caption">
+	        	<i class="fa fa-id-card-o font-purple-soft"></i>
+	        	<span class="caption-subject font-purple-soft bold ">Passports</span>
+	        	<span class="badge badge-primary badge-roundless"> {{visatotal}} </span>
+	    	</div>
+      	</uib-tab-heading>
+      	<passport data="docs"></visa>
     </uib-tab>
     <uib-tab index="2" ng-hide="movetotal==0">
     	<uib-tab-heading>

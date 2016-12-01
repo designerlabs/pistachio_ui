@@ -1277,6 +1277,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'js/directives/movement.js',                        
                         'js/directives/enforcement.js',                                                
                         'js/directives/profile.js',
+                        'js/directives/passport.js',
                         'js/controllers/MovementController.js',
                         'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
@@ -1317,7 +1318,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'js/directives/movement.js',                        
                         'js/directives/enforcement.js',                                                
                         'js/directives/profile.js',
-
+                        'js/directives/passport.js',
                         'js/controllers/OverstayController.js',
                         'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js'
@@ -1356,6 +1357,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'js/directives/movement.js',                        
                         'js/directives/enforcement.js',                                                
                         'js/directives/profile.js',
+                        'js/directives/passport.js',
                         'js/directives/searchList.js',
                         'js/controllers/DetaineeController.js',
                         'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
@@ -1798,6 +1800,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'js/directives/movement.js',                        
                         'js/directives/enforcement.js',                                                
                         'js/directives/profile.js',
+                        'js/directives/passport.js',
                         'js/controllers/GlobalSearchController.js',
                         'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                         'assets/pistachio/range/range.css',

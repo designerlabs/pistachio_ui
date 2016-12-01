@@ -4,11 +4,18 @@
 var ProfileController = function ($scope,$http) {
     $scope.showVisa=false;
     var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/profile/query?rows=1&q='
-    $scope.image_src = "./assets/admin/layout2/img/avatar3.png";
+    $scope.image_src = "";
     $scope.birth_date = "NA"
+    $scope.isExpact = true 
+    $scope.docs= [];
     init();
     function init() {
-      $scope.suspect = false;
+      $scope.offender = false;
+      if(!$scope.expact.includes("-")){
+        $scope.isExpact  = false
+        getFromCitizen()
+        return
+      }
       var query = "expact_id:\""+$scope.expact +"\""
       $scope.visatotal = 0;
       $scope.movetotal = 0;
@@ -22,9 +29,52 @@ var ProfileController = function ($scope,$http) {
         $scope.doc = data.response.docs[0];
         $scope.birth_date = $scope.getDateFromExpact($scope.doc.expact_id)
         $scope.age = $scope.getAgeFromExpact($scope.doc.expact_id)
+        getOldPassports()
+        if($scope.doc.image != undefined && $scope.doc.image.length > 0 )
+          $scope.image_src=$scope.doc.image
+
+        if(moment($scope.doc.pass_exp_date).diff(moment()) < 0 && $scope.doc.entry == "ENTRY") {
+           $scope.banner = "OVERSTAY"
+           $scope.offender = true;
+        }
         console.log($scope.age)
          
   });  
+    }
+
+    function getOldPassports() {
+      var d = $scope.doc.doc_nos;
+      if(d.length>1){
+        var index = d.indexOf($scope.doc.doc_no);
+        if (index > -1) {
+          d.splice(index, 1);
+        }
+        $scope.doc.doc_nos = d
+      }
+      else
+         $scope.doc.doc_nos = [];
+    }
+
+    function getFromCitizen() {
+      var offenderUrl = 'http://'+solrHost+':8983/solr/citizen/query?sort=doc_exp_date desc&q='
+      var query = "expact_id:\""+$scope.expact +"\""
+      $http.get(offenderUrl+query).
+      success(function(data) {
+        if(data.response.numFound == 0) {
+          return
+        }
+        $scope.visatotal =data.response.numFound
+        $scope.doc = data.response.docs[0];
+        $scope.docs = data.response.docs;
+        getOldPassports()
+         if($scope.doc.image != undefined && $scope.doc.image.length > 0 )
+          $scope.image_src=$scope.doc.image
+        $scope.doc.status = "CITIZEN"
+        $scope.doc.country= "MALAYSIA"
+        $scope.birth_date = moment($scope.doc.birth_date, "YYYYMMDD").format('DD-MM-YYYY');
+        $scope.age = $scope.getAge($scope.doc.birth_date)
+        console.log($scope.age)
+       });  
     }
 
     function getFromOffender() {
@@ -51,7 +101,8 @@ var ProfileController = function ($scope,$http) {
         if(data.response.numFound == 0) {
           return  
         }
-        $scope.suspect = true;
+        $scope.banner = "SUSPECT"
+        $scope.offender = true;
         $scope.doc = data.response.docs[0];
         $scope.birth_date = $scope.getDateFromExpact($scope.doc.expact_id)
         $scope.age = $scope.getAgeFromExpact($scope.doc.expact_id)

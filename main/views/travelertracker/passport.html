@@ -1,0 +1,25 @@
+<div class="portlet light bordered">
+    <div class="portlet-body">
+      <table ng-table="passports" class="table" show-filter="false">
+	    <colgroup>
+	          <col width="25%"/>
+	          <col width="25%"/>
+	          <col width="25%"/>
+	          <col width="25%"/>
+	        </colgroup>
+		<tr ng-repeat="x in $data" class="mt-action" >
+		  <td title="'Image'" style="text-align: left">
+		     <div class="mt-action-img">
+		        <img ng-if="x.image.length<100" class="img-circle" style="height: 50px; width: 50px;" src="assets/admin/layout2/img/avatar3.png"">
+		        <img ng-if="x.image.length>100" class="img-circle" style="height: 50px; width: 50px;" data-ng-src="data:image/png;base64,{{x.image}}" data-err-src="images/png/avatar.png"/>
+		    </div>
+		  </td>
+		  <td title="'Passport No'" class="text-center" header-class="'text-center'">{{ x.doc_no }}</td>
+		  <td title="'Created'" class="text-center" header-class="'text-center'">{{ getDate(x.created) }}</td>
+		  <td title="'Expiry'" class="text-center" header-class="'text-center'">{{ getDate(x.doc_exp_date) }}</td>
+		</tr>
+	  </table>  
+        
+    </div>
+</div>
+
