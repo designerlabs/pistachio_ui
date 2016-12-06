@@ -6,7 +6,7 @@
           <col width="10%"/>
         </colgroup>
 	<tr ng-repeat="x in $data" class="mt-action" >
-	  <td title="'Name & Document No'" style="text-align: left">
+	  <td title="'Name & Document No'" header-class="'text-left'">
 	     <div class="mt-action-img">
 	        <img ng-if="x.image.length<100" class="img-circle" style="height: 50px; width: 50px;" src="assets/admin/layout2/img/avatar3.png"">
 	        <img ng-if="x.image.length>100" class="img-circle" style="height: 50px; width: 50px;" data-ng-src="data:image/png;base64,{{x.image}}" data-err-src="images/png/avatar.png"/>
@@ -16,14 +16,14 @@
 	      <p class="mt-action-desc">{{ x.doc_no }}</p>
 	    </div>
 	  </td>
-	  <td title="'Gender'" >
+	  <td title="'Gender'"  class="text-center" header-class="'text-center'">
 	  	<div style="width:100%; text-align:center;"><i ng-class="getGenderClass(x.sex)" aria-hidden="true"
 	  	  ng-style="{'color':x.sex=='LELAKI' ? '#0093ff' : '#ff0097'}" style="font-size:22px;"></i></div>
 	  	
 	  </td>
-	  <td title="'Country'">{{ x.country }}</td>
+	  <td title="'Country'"  class="text-center" header-class="'text-center'">{{ x.country }}</td>
 
-	  <td title="'Action'" style="text-align: center;">
+	  <td title="'Action'"  class="text-center" header-class="'text-center'">
 	       <a ng-click="click({data: x.expact_id})" class="btn btn-sm btn-outline grey-salsa"><i class="fa fa-search"></i> View</a>
 	  </td>
 	</tr>

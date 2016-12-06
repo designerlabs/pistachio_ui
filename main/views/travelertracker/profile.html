@@ -38,14 +38,19 @@
 					{{doc.sex}}
 				</div>
 			</div>
-			<div class="col-md-4 col-sm-6 col-xs-12 form-group" style="padding-left:0px">
+			<div class="col-md-4 col-sm-6 col-xs-12 form-group"  style="padding-left:0px">
 				<small>PASSPORT NO</small>
 				<div class="bold" style="top: 5px; position: relative;">
 				   <span class="label label-sm label-success">{{doc.doc_no}}</span>
 				   <span ng-if="doc.doc_nos.length>0" class="label label-sm label-default" ng-repeat="d in doc.doc_nos">{{d}}</span>		
 				</div>
 			</div>		
-			
+			<div class="col-md-4 col-sm-6 col-xs-12 form-group" style="padding-left:0px" ng-show="doc.kp_no.length > 0">
+				<small>KP NO</small>
+				<div class="bold">
+					{{doc.kp_no}}
+				</div>
+			</div>	
 			<div class="col-md-4 col-sm-6 col-xs-12 form-group" style="padding-left:0px" ng-show="doc.state.length > 0">
 				<small>STATE</small>
 				<div class="bold">
@@ -75,7 +80,8 @@
 				<div class="bold">
 					{{doc.address}}
 				</div>
-			</div>		
+			</div>	
+				
 		</div>
 
 		<div class="bordered" style="padding:20px;">

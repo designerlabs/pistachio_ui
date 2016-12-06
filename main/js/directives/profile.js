@@ -8,7 +8,17 @@ var ProfileController = function ($scope,$http) {
     $scope.birth_date = "NA"
     $scope.isExpact = true 
     $scope.docs= [];
+    $scope.banner =""
+    var check = {suspect:true,offender:true}
     init();
+    checkAll();
+
+    function checkAll() {
+      if(check.suspect)
+        checkSuspect()
+      if(check.offender)
+        checkOffender()
+    }
     function init() {
       $scope.offender = false;
       if(!$scope.expact.includes("-")){
@@ -34,7 +44,7 @@ var ProfileController = function ($scope,$http) {
           $scope.image_src=$scope.doc.image
 
         if(moment($scope.doc.pass_exp_date).diff(moment()) < 0 && $scope.doc.entry == "ENTRY") {
-           $scope.banner = "OVERSTAY"
+           $scope.banner = $scope.banner + " OVERSTAY"
            $scope.offender = true;
         }
         console.log($scope.age)
@@ -56,12 +66,13 @@ var ProfileController = function ($scope,$http) {
     }
 
     function getFromCitizen() {
-      var offenderUrl = 'http://'+solrHost+':8983/solr/citizen/query?sort=doc_exp_date desc&q='
+      var offenderUrl = 'http://'+solrHost+':8983/solr/immigration2/query?collection=citizen&sort=doc_exp_date desc&q='
       var query = "expact_id:\""+$scope.expact +"\""
       $http.get(offenderUrl+query).
       success(function(data) {
         if(data.response.numFound == 0) {
-          return
+         getFromMovement4Citizen()
+         return
         }
         $scope.visatotal =data.response.numFound
         $scope.doc = data.response.docs[0];
@@ -77,38 +88,111 @@ var ProfileController = function ($scope,$http) {
        });  
     }
 
+    function getFromMovement4Citizen() {
+       var moveUrl = 'http://'+solrHost+':8983/solr/citizen_history/query?sort=doc_exp_date desc&q='
+      var query = "expact_id:\""+$scope.expact +"\""
+      $http.get(moveUrl+query).
+      success(function(data) {
+        if(data.response.numFound == 0) {
+          getFromSuspectList()
+          return
+        }
+        $scope.visatotal =0
+        $scope.doc = data.response.docs[0];
+        $scope.doc.doc_nos = [];
+
+
+         if($scope.doc.image != undefined && $scope.doc.image.length > 0 )
+          $scope.image_src=$scope.doc.image
+        $scope.doc.status = "CITIZEN"
+        $scope.doc.country= "MALAYSIA"
+        $scope.birth_date = moment($scope.doc.birth_date, "YYYYMMDD").format('DD-MM-YYYY');
+        $scope.age = $scope.getAge($scope.doc.birth_date)
+        console.log($scope.age)
+       });  
+    }
+
+    function checkSuspect() {
+      var moveUrl = 'http://'+solrHost+':8983/solr/blacklist/query?sort=doc_exp_date desc&q='
+      var query = "expact_id:\""+$scope.expact +"\""
+      $http.get(moveUrl+query).
+      success(function(data) {
+        if(data.response.numFound == 0) {
+          return
+        }
+        var doc = data.response.docs[0];
+         $scope.banner = $scope.banner + " SUSPECT"
+        $scope.offender = true;
+        $scope.doc.status = $scope.doc.status +" SUSPECT"
+       });  
+
+    }
+    function checkOffender() {
+      var moveUrl = 'http://'+solrHost+':8983/solr/offender/query?sort=doc_exp_date desc&q='
+      var query = "expact_id:\""+$scope.expact +"\""
+      $http.get(moveUrl+query).
+      success(function(data) {
+        if(data.response.numFound == 0) {
+          return
+        }
+        var doc = data.response.docs[0];
+         $scope.banner = $scope.banner + " SUSPECT"
+        $scope.offender = true;
+        $scope.doc.status = $scope.doc.status +" SUSPECT"
+       });  
+    }
+
+
+    function getFromSuspectList() {
+      check.suspect = false;
+      var moveUrl = 'http://'+solrHost+':8983/solr/blacklist/query?sort=doc_exp_date desc&q='
+      var query = "expact_id:\""+$scope.expact +"\""
+      $http.get(moveUrl+query).
+      success(function(data) {
+        if(data.response.numFound == 0) {
+          return
+        }
+        $scope.visatotal =0
+        $scope.doc = data.response.docs[0];
+        $scope.doc.doc_nos = [];
+         $scope.banner = $scope.banner + " SUSPECT"
+        $scope.offender = true;
+
+         if($scope.doc.image != undefined && $scope.doc.image.length > 0 )
+          $scope.image_src=$scope.doc.image
+        if($scope.doc.citizen == "MYS") {
+           $scope.doc.status = "CITIZEN, SUSPECT"
+           $scope.doc.country= "MALAYSIA"
+        }
+        else
+          $scope.doc.status = "SUSPECT"
+       
+        $scope.birth_date = moment($scope.doc.birth_date, "YYYYMMDD").format('DD-MM-YYYY');
+        $scope.age = $scope.getAge($scope.doc.birth_date)
+        console.log($scope.age)
+       });  
+    }
+
     function getFromOffender() {
+      check.offender = false;
       var offenderUrl = 'http://'+solrHost+':8983/solr/offender/query?rows=1&q='
       var query = "expact_id:\""+$scope.expact +"\""
       $http.get(offenderUrl+query).
       success(function(data) {
         if(data.response.numFound == 0) {
-          getFromSuspect()  
+          getFromSuspectList()  
         }
         $scope.doc = data.response.docs[0];
         $scope.doc.status = "OFFENDER"
+        $scope.banner = $scope.banner + " OFFENDER"
+        $scope.offender = true;
         $scope.birth_date = $scope.getDateFromExpact($scope.doc.expact_id)
         $scope.age = $scope.getAgeFromExpact($scope.doc.expact_id)
         console.log($scope.age)
        });  
     }
 
-    function getFromSuspect() {
-      var offenderUrl = 'http://'+solrHost+':8983/solr/blacklist/query?rows=1&q='
-      var query = "expact_id:\""+$scope.expact +"\""
-      $http.get(offenderUrl+query).
-      success(function(data) {
-        if(data.response.numFound == 0) {
-          return  
-        }
-        $scope.banner = "SUSPECT"
-        $scope.offender = true;
-        $scope.doc = data.response.docs[0];
-        $scope.birth_date = $scope.getDateFromExpact($scope.doc.expact_id)
-        $scope.age = $scope.getAgeFromExpact($scope.doc.expact_id)
-        console.log($scope.age)
-       });  
-    }
+    
   
    $scope.getDateFromExpact = function(data) {
       var dt = data.split("-")[2]

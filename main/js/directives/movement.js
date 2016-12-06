@@ -7,7 +7,12 @@ var MovementController = function ($scope,$http) {
     console.log("totalMove"+$scope.movetotal)
 
    function getCollection() {
-        return "hismove"
+      if($scope.expact.includes("-")){
+       return "hismove"
+      }
+      else
+        return "citizen_history"
+        
    }
 
   function init() {
