@@ -7,6 +7,33 @@
     <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
     <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" ng-class="{'page-sidebar-menu-closed': settings.layout.pageSidebarClosed}">
+  <li class="nav-item" id="ereportLink">
+
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="icon-speech"></i>
+                <span class="title">{{'sidebar.ereport' | translate}}</span>
+                <span class="arrow "></span>
+            </a>
+            <ul class="sub-menu">
+                <li ng-repeat="x in displayNames">
+                    <a ng-click='goes(x.name,x.display)' >
+                        <i class="icon-docs"></i> {{x.display}}
+                    </a>
+                </li>
+                   <li class="nav-item">
+                    <a href="#/sqleditor/sqleditor.html" id="sqleditorLink">
+                    <i class="icon-pencil"></i>
+                        <span class="title">Query Editor</span>
+                    </a>
+                </li>
+                 <li>
+                    <a href="#/workflowadmin.html">
+                        <i class="icon-docs"></i> Report Request
+                    </a>
+                </li>
+            </ul>
+
+        </li>
 
         <li class="nav-item" id="dashboardLink">
             <a  href="javascript:;" class="nav-link nav-toggle">
@@ -20,96 +47,143 @@
                         <i class="fa fa-dashboard"></i> {{'sidebar.dashboardlink' | translate}}
                     </a>
                 </li>
-                 <li>
-                    <a href="#/auditAnalysis.html">
-                        <i class="icon-pie-chart"></i> {{'sidebar.countryAnalysis' | translate}}
-                    </a>
-                </li>
-                <li>
-                    <a href="#/alertAnalysis.html">
-                        <i class="fa fa-exclamation-triangle"></i> My Alerts
-                    </a>
-                </li>
-                <li>
-                    <a href="#/applAnalysis.html">
-                        <i class="icon-pie-chart"></i> {{'sidebar.appl_analysis' | translate}}
-                    </a>
-                </li>
-                <li>
-                    <a href="#/citizenAnalysis.html">
-                        <i class="icon-pie-chart"></i> Citizen Analysis
-                    </a>
-                </li>
-                 <li>
-                    <a href="#/heatMapAnalysis.html">
-                        <i class="icon-pie-chart"></i> Foreign Worker Analysis
-                    </a>
-                </li>
-                 <li>
-                    <a href="#/movementAnalysis.html">
-                        <i class="icon-pie-chart"></i> Movement Analysis
-                    </a>
-                </li>
-                 <!--<li>
-                    <a href="#/stats.html">
-                        <i class="icon-pie-chart"></i> Statistics
-                    </a>
-                </li>-->
-                <li>
-                    <a href="#/userAnalysis.html">
-                        <i class="fa fa-user"></i> My User
-                    </a>
-                </li>
-                 <li>
-                    <a href="#/userAnalysis1.html">
-                        <i class="fa fa-user"></i> My User (new)
-                    </a>
-                </li>
-            </ul>
-        </li>
+                 <li class="nav-item">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-settings"></i> Immigration Visa and Pass
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu" style="display: none;">
+                                <li>
+                                    <a href="#/applAnalysis.html">
+                                        <i class="icon-pie-chart"></i> {{'sidebar.appl_analysis' | translate}}
+                                    </a>
+                                </li>
+                              
+                                 <li>
+                                    <a href="#/heatMapAnalysis.html">
+                                        <i class="icon-pie-chart"></i> Foreign Worker Analysis
+                                    </a>
+                                </li>
+                            </ul>
+                    </li>
 
-        <li class="nav-item" id="enforcement">
+               
+                        <li class="nav-item">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-settings"></i> Immigration System Analysis
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu" style="display: none;">
+                              
+                                 <li>
+                                            <a href="#/auditAnalysis.html">
+                                                <i class="icon-pie-chart"></i> {{'sidebar.countryAnalysis' | translate}}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#/alertAnalysis.html">
+                                                <i class="fa fa-exclamation-triangle"></i> My Alerts
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#/userAnalysis.html">
+                                                <i class="fa fa-user"></i> My User
+                                            </a>
+                                        </li>
+                                         <li>
+                                            <a href="#/userAnalysis1.html">
+                                                <i class="fa fa-user"></i> My User (new)
+                                            </a>
+                                        </li>
+                            </ul>
+                        </li>
+                         <li class="nav-item" id="enforcement">
 
-            <a href="javascript:;" class="nav-link nav-toggle">
-                <i class="fa fa-legal"></i>
-                <span class="title">Enforcement</span>
-                <span class="arrow "></span>
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="fa fa-legal"></i>
+                                <span class="title">Enforcement</span>
+                                <span class="arrow "></span>
+                            </a>
+                            <ul class="sub-menu">
+                                 <li>
+                                    <a href="#/detaineeAnalysis.html">
+                                        <i class="icon-pie-chart"></i> Detainee Analysis
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#/overstayAnalysis.html">
+                                        <i class="icon-pie-chart"></i> Overstay Analysis
+                                    </a>
+                                </li>
+                                   <li>
+                                    <a href="#/overstayAnalysis.html">
+                                        <i class="icon-pie-chart"></i> Enforcement Search
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </li>
+                           <li class="nav-item" id="borderControl">
+
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="fa fa-legal"></i>
+                                <span class="title">Immigration Security</span>
+                                <span class="arrow "></span>
+                            </a>
+                            <ul class="sub-menu">
+                                   <li>
+                                        <a href="#/movementAnalysis.html">
+                                            <i class="icon-pie-chart"></i> Movement Analysis
+                                        </a>
+                                    </li>
+                                     <!--<li>
+                                        <a href="#/stats.html">
+                                            <i class="icon-pie-chart"></i> Statistics
+                                        </a>
+                                    </li>-->
+                                    
+                                    <li class="nav-item">
+                                        <a href="#/d2dTracking/d2dTracking.html" id="trackerLink">
+                                        <i class="fa fa-line-chart"></i>
+                                            <span class="title">Tracking</span>
+                                        </a>
+                                    </li>
+
+                                      <li>
+                                        <a href="#/citizenAnalysis.html">
+                                            <i class="icon-pie-chart"></i> Citizen Analysis
+                                        </a>
+                                    </li>
+                            </ul>
+
+                        </li>
+
+                            </ul>
+                        </li>
+
+       
+
+      
+
+
+
+        
+       <li class="nav-item">
+            <a href="#/fastsearch.html" id="fastsearchLink">
+                <i class="icon-magnifier"></i>
+                <span class="title">{{'sidebar.fastsearch' | translate}}</span>
             </a>
-            <ul class="sub-menu">
-                 <li>
-                    <a href="#/detaineeAnalysis.html">
-                        <i class="icon-pie-chart"></i> Detainee Analysis
-                    </a>
-                </li>
-                <li>
-                    <a href="#/overstayAnalysis.html">
-                        <i class="icon-pie-chart"></i> Overstay Analysis
-                    </a>
-                </li>
-            </ul>
-
         </li>
 
+      
 
-        <li class="nav-item" id="ereportLink">
 
-            <a href="javascript:;" class="nav-link nav-toggle">
-                <i class="icon-speech"></i>
-                <span class="title">{{'sidebar.ereport' | translate}}</span>
-                <span class="arrow "></span>
+        <li class="nav-item">
+            <a href="#/robot/robot.html" id="robotLink">
+            <i class="fa fa-rocket"></i>
+                <span class="title">Document Robot</span>
             </a>
-            <ul class="sub-menu">
-                <li ng-repeat="x in displayNames">
-                    <a ng-click='goes(x.name,x.display)' >
-                        <i class="icon-docs"></i> {{x.display}}
-                    </a>
-                </li>
-            </ul>
-
         </li>
-
-
-
         <li ng-if="chkRole('ROLE_ADMIN')" class="nav-item" id="adminLink">
             <a href="javascript:;" class="nav-link nav-toggle">
                 <i class="icon-users"></i>
@@ -122,12 +196,12 @@
                         <i class="icon-docs"></i> {{'sidebar.reportmanagement' | translate}}
                     </a>
                 </li>
+               
                 <li>
-                    <a href="#/workflowadmin.html">
-                        <i class="icon-docs"></i> Request Management
+                    <a href="#/sparkjob.html">
+                        <i class="icon-docs"></i> Analytic Jobs
                     </a>
                 </li>
-
                 <li>
                     <a href="#/audit.html">
                         <i class="icon-docs"></i> {{'sidebar.audit' | translate}}
@@ -179,46 +253,13 @@
                 </li>
             </ul>
         </li>
-       <li class="nav-item">
-            <a href="#/fastsearch.html" id="fastsearchLink">
-                <i class="icon-magnifier"></i>
-                <span class="title">{{'sidebar.fastsearch' | translate}}</span>
-            </a>
-        </li>
-
-         <li class="nav-item">
-            <a href="#/sqleditor/sqleditor.html" id="sqleditorLink">
-            <i class="icon-pencil"></i>
-                <span class="title">Query Editor</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#/d2dTracking/d2dTracking.html" id="trackerLink">
-            <i class="fa fa-line-chart"></i>
-                <span class="title">Tracking</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a href="#/visitorTracking/visitorTracking.html" id="visitorLink">
-            <i class="fa fa-exchange" aria-hidden="true"></i>
-                <span class="title">Visitor Tracking</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a href="#/robot/robot.html" id="robotLink">
-            <i class="fa fa-rocket"></i>
-                <span class="title">Document Robot</span>
-            </a>
-        </li>
-
+<!--
         <li class="nav-item" id="workflowMgt"  ng-if="!chkRole('ROLE_ADMIN')">
             <a href="#/workflowuser.html">
                 <i class="icon-magnifier"></i>
                 <span class="title">Request Management</span>
             </a>
-        </li>
+        </li> -->
     </ul>
 
 

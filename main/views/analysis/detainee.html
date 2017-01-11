@@ -111,43 +111,64 @@
 
               </div>
           </div>
+     
+          
       <div class="row">
-        <div class="col-md-12" style="padding-right: 0px;">
-          <div class="container-fluid" style="padding-left: 0px;padding-right: 0px;">
-            <ul class="grid col-md-12 col-lg-12 col-sm-12" style="padding: 0px;" ng-class="{ 'grid-list' : gridToggle, 'grid-thumb' : !gridToggle }">
-              <div id="countryHeader" data-toggle="collapse" data-target="#timelinebar">
-                <h3><i class="fa fa-id-card"></i> Document & Pass</h3>
-                <span><i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span>
-              </div>
-              <div id="timelinebar" >
-                <div class = "col-md-8 col-lg-8 col-sm-8" style="padding-left: 0px;padding-right: 0px;">
-                  <div id="highchart_rank"></div>
-                </div>
-                <div class = "col-md-4 col-lg-4 col-sm-4" style="padding-right: 0px;padding-left: 10px;padding-bottom: 2px;height: 80px;">
-                  <div class="chart-wrap">
-                    <div class="chart-title">
-                      Pass Type
-                    </div>
-                    <div id="dashboard-stats" class="chart bars-horizontal brand-primary">
-                    <div class="row" ng-repeat="x in user_type" on-finish-render="ngRepeatFinished">
-                        <span class="label-cw">{{x.val}}</span>
-                        <div class="bar-wrap">
-                          <div class="bar" data-value={{x.count}}></div>
-                        </div>
-                        <span class="number">{{x.count}}</span>
+          <div class="col-md-12" style="padding-right: 0px;">
+               <div class="container-fluid" style="padding-left: 0px;padding-right: 0px;">
+                    <ul class="grid col-md-12 col-lg-12 col-sm-12" style="padding: 0px;" ng-class="{ 'grid-list' : gridToggle, 'grid-thumb' : !gridToggle }">
+                      <div id="countryHeader" data-toggle="collapse" data-target="#timelinebar">
+                        <h3><i class="fa fa-birthday-cake"></i> Age & Gender </h3>
+                        <span><i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span>
                       </div>
-                    </div>
-                  </div>
+                      <div id="timelinebar" >
+                        <div class = "col-md-6 col-lg-6 col-sm-12" style="padding-left: 0px;padding-right: 0px;">
+                          <div id="highchart_age"></div>
+                        </div>
+                         <div class = "col-md-6 col-lg-6 col-sm-12" style="padding-left: 0px;padding-right: 0px;">
+                          <div id="highchart_gender"></div>
+                        </div>
+                      </div>
+                    </ul>
+              
                 </div>
-              </div>
-            </ul>
-            
-              </div>
-
-
               </div>
           </div>
           
+ <div class="row">
+          <div class="col-md-12" style="padding-right: 0px;">
+               <div class="container-fluid" style="padding-left: 0px;padding-right: 0px;">
+                    <ul class="grid col-md-12 col-lg-12 col-sm-12" style="padding: 0px;" ng-class="{ 'grid-list' : gridToggle, 'grid-thumb' : !gridToggle }">
+                      <div id="countryHeader" data-toggle="collapse" data-target="#timelinebar">
+                        <h3><i class="fa fa-id-card"></i> Document & Pass</h3>
+                        <span><i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span>
+                      </div>
+                      <div id="timelinebar" >
+                        <div class = "col-md-8 col-lg-8 col-sm-8" style="padding-left: 0px;padding-right: 0px;">
+                          <div id="highchart_rank"></div>
+                        </div>
+                        <div class = "col-md-4 col-lg-4 col-sm-4" style="padding-right: 0px;padding-left: 10px;padding-bottom: 2px;height: 80px;">
+                          <div class="chart-wrap">
+                            <div class="chart-title">
+                              Pass Type
+                            </div>
+                            <div id="dashboard-stats" class="chart bars-horizontal brand-primary">
+                            <div class="row" ng-repeat="x in user_type" on-finish-render="ngRepeatFinished">
+                                <span class="label-cw">{{x.val}}</span>
+                                <div class="bar-wrap">
+                                  <div class="bar" data-value={{x.count}}></div>
+                                </div>
+                                <span class="number">{{x.count}}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </ul>
+              
+                </div>
+              </div>
+          </div>
            <script type="text/ng-template" id="detaineeview.html">
               <div  ng-if="!show_profile">
                   <div class="modal-body detaineeData"  role="document">

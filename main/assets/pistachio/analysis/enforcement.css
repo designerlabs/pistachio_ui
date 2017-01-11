@@ -276,7 +276,7 @@ text.axis-worktime {
   text-decoration: none;
   text-transform: uppercase;
   font-weight: 600;
-  color: #5d7592;
+  //color: #5d7592;
 }
 
 ul.grid .grid-body ul li span {

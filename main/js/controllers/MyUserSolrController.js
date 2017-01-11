@@ -17,7 +17,7 @@ MetronicApp.directive('onFinishRender', function ($timeout) {
 });
 
 
-MetronicApp.controller('MyUserSolrController', function($rootScope, $scope, $http) {
+MetronicApp.controller('MyUserSolrController', function($rootScope, $scope, $http,stageUpdate) {
     var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/immigration2/query?collection=myuser&json='
 
     $scope.$on('$viewContentLoaded', function() {
@@ -39,15 +39,15 @@ MetronicApp.controller('MyUserSolrController', function($rootScope, $scope, $htt
       $scope.generateBarGraph('#dashboard-stats')
     });
         
-    $rootScope.$on('loading:progress', function (){
-        console.log("loading");
-        $scope.loading = true;
-    });
+  //  $rootScope.$on('loading:progress', function (){
+  //      console.log("loading");
+  //      $scope.loading = true;
+  //  });
 
-    $rootScope.$on('loading:finish', function (){
-        $scope.loading = false;
-        console.log("stop");
-    });
+  //  $rootScope.$on('loading:finish', function (){
+   //     $scope.loading = false;
+   //     console.log("stop");
+  //  });
 
 
 
@@ -111,8 +111,33 @@ MetronicApp.controller('MyUserSolrController', function($rootScope, $scope, $htt
       }
     }
 
+     $scope.$watch('searchBranch', function() {
+        if($scope.searchBranch == undefined) return
+        if($scope.searchBranch.length>0)
+        {
+          $scope.branch_suggest($scope.searchBranch.toUpperCase())
+        }
+    });
 
 
+    $scope.branch_suggest = function (entry) {
+      var json = {};
+      json.limit  = 0;
+      json.offset = 0
+      json.query = $scope.formQuery() +" AND branch:*"+entry +"*";
+      json.filter = $scope.filterQuery();
+      json.facet = {};
+      json.facet.job = {};
+      json.facet.job.type   = "terms";
+      json.facet.job.field  =  "branch_short";
+      json.facet.job.limit  =  5;
+      $http.get(thisSolrAppUrl+JSON.stringify(json)).
+           success(function(data) {
+              $scope.branch = data.facets.job.buckets;
+              //return data;
+            })
+     
+    }
 
     $scope.queryType = 'active';
     $scope.changeQueryType = function () {
@@ -165,6 +190,7 @@ $scope.selectBranch = false;
          $scope.dateRange.min = "2012-01-01T00:00:00Z"
          $scope.dateRange.max = "2016-01-01T00:00:00Z"
          cb(moment("20100101", "YYYYMMDD"), moment());
+         $scope.searchBranch = "";
          //$scope.analysiType = 'overall';
         $scope.querySolr();
 
@@ -333,14 +359,14 @@ $scope.selectBranch = false;
         if(data == undefined) return;
         
         var brnch = data.split("-")[0]
-        var fq = "branch_code:"+brnch;
-        var q = "*:*"
+        var fq = "branch_code:"+brnch ;
+        var q = "xit_date:[ "+moment().format('YYYY-MM-DDT00:00:00')+'Z' + " TO * ]";
         if($scope.rankSelected.length > 0)
-           q = "rank:\""+$scope.rankSelected+"\""
+           q = q + " AND rank:\""+$scope.rankSelected+"\""
 
        // debugger;
          var graph = {};
-         $http.get("http://hnode3:8983/solr/myuser/stream?expr= \
+         $http.get("http://"+solrHost+":8983/solr/immigration2/stream?collection=myuser&expr= \
 gatherNodes(myuser,\
 gatherNodes(myuser, \
 search(myuser, q="+q+" ,fl=user_id, sort=user_id asc, fq="+fq+", qt=/export), \
@@ -489,6 +515,10 @@ gather=\"suprivisor\")")
                   .enter().append("svg:g")
                   .attr("class", "nodeText");
 
+    d3.select("#filterContainer")
+                  .style("right",  "0px")
+                  .style("top",  "0px")
+
     // A copy of the text with a thick white stroke for legibility.
     text.append("svg:text")
         .attr("x", 8)
@@ -504,45 +534,72 @@ gather=\"suprivisor\")")
         .text(function (d) {
             return d.name;
         });
-
+        var clicked = false
         circle.on("mouseover", function(d) {
-            var coordinates = d3.mouse(this);
-            var padding = {x: -220, y: -20};
-            d3.select("#d3-tooltip")
-            .style("left", d.x + padding.x + "px")
-            .style("top", d.y + padding.y + "px")
-            .select("#info")
-            .text(get_info(d.name));
-            d3.select("#d3-tooltip").classed("hidden", false);
+         //   var coordinates = d3.mouse(this);
+         //   var padding = {x: -220, y: -20};
+         var name = get_info(d.name);
+            
 
             set_highlight(d);
         })
-        .on("click", function(d) { d3.event.stopPropagation();
+        .on("click", function(d) { 
+          d3.event.stopPropagation();
             focus_node = d;
-            set_focus(d)
+            if(clicked) {
+              clicked = false
+              xit_focus(d);
+              focus_node = null;
+              
+               //exit_highlight();
+               
+            }
+            else{
+              clicked = true
+              d3.select("#d3-tooltip").classed("hidden", false);
+            }
+            
+           // set_focus(d)
+            
             if (highlight_node === null) set_highlight(d)
+        })
+
+        .on("dblclick", function(d) {
+            $scope.customArr = [$scope.officerInfo.user_id, $scope.officerInfo.branch_code];
+            stageUpdate.addStage($scope.customArr );
+            location.href = "index.html#/auditAnalysis.html";
+        
         })
         .on("mouseout", function(d) {
             exit_highlight();
-            d3.select("#d3-tooltip").classed("hidden", true);
+            if(!clicked)
+              d3.select("#d3-tooltip").classed("hidden", true);
         })
         .on("contextmenu", function(d) {
+
             xit_focus(d);
             exit_highlight();
         })
         ;
 
+
         function get_info(name) {
-            $http.get("http://hnode3:8983/solr/myuser/get?id=IXLA01")
+         // debugger;
+            $http.get("http://"+solrHost+":8983/solr/myuser/get?id="+name)
             .success(function(data) {
-                $scope.officer_name = data.doc.name;
+                $scope.officerInfo = data.doc
+                d3.select("#d3-tooltip")
+                  .style("left",  "0px")
+                  .style("top",  "0px")
+                  
+                 d3.select("#d3-tooltip").classed("hidden", false);
                 return "data.doc.name"
             });
         }
 
         function exit_highlight()
         {
-                highlight_node = null;
+            highlight_node = null;
             if (focus_node===null)
             {
                 svg.style("cursor","move");
@@ -762,7 +819,10 @@ function tick() {
     }
 
 
-
+$scope.myAuditBtnc = function(){
+  alert("halla")
+            location.href = "index.html#/auditAnalysis.html";
+        }
     $scope.column = function() {
        var sel = -1;
        var _state = $scope.state;

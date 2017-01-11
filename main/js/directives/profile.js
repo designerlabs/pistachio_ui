@@ -113,7 +113,7 @@ var ProfileController = function ($scope,$http) {
     }
 
     function checkSuspect() {
-      var moveUrl = 'http://'+solrHost+':8983/solr/blacklist/query?sort=doc_exp_date desc&q='
+      var moveUrl = 'http://'+solrHost+':8983/solr/immigration2/query?collection=blacklist&sort=doc_exp_date desc&q='
       var query = "expact_id:\""+$scope.expact +"\""
       $http.get(moveUrl+query).
       success(function(data) {

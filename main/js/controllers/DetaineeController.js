@@ -80,17 +80,6 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
       $scope.generateBarGraph('#dashboard-branch')
 
     });
-        
-    $rootScope.$on('loading:progress', function (){
-        console.log("loading");
-        $scope.loading = true;
-    });
-
-    $rootScope.$on('loading:finish', function (){
-        $scope.loading = false;
-        console.log("stop");
-    });
-
 
 
 
@@ -175,9 +164,9 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
          $scope.time_filtered_min = "";
         $scope.period = "%2B1YEAR"
          $scope.jobCount = 10;
-$scope.stateSelected = "";
-$scope.rankSelected = "";
-$scope.selectBranch = false;
+         $scope.stateSelected = "";
+         $scope.rankSelected = "";
+         $scope.selectBranch = false;
          $scope.dateRange = {};
          $scope.dateRange.min = "2012-01-01T00:00:00Z"
          $scope.dateRange.max = "2017-01-01T00:00:00Z"
@@ -222,12 +211,7 @@ $scope.selectBranch = false;
         $scope.querySolr();
        }
 
-       $scope.clickState = function(data) {
-        $scope.stateSelected = data;
-        $scope.addFilter("sta","Negeri :"+data,"{!tag=STATE}state:"+$scope.cleanQuery(data));
-        $scope.querySolr();
-       }
-
+      
        $scope.activeBranch = function (brn) {
         if(brn == $scope.selectedBranch) return "active"
           else ""
@@ -296,7 +280,7 @@ $scope.selectBranch = false;
 
           if(refresh) {
             if(data == "brn") $scope.selectBranch = false
-            if(data == "sta") $scope.stateSelected = "";
+            if(data == "cnt") $scope.stateSelected = "";
             if(data == "doc") $scope.docSelected = "";
             $scope.querySolr();
           }
@@ -354,6 +338,11 @@ $scope.selectBranch = false;
             json.facet.rank.field  =  "doc_type";
             json.facet.rank.domain = {};
             json.facet.rank.domain.excludeTags ="DOC"
+            json.facet.sex = {};
+            json.facet.sex.type   = "terms";
+            json.facet.sex.field  =  "sex";
+            json.facet.sex.domain = {};
+            json.facet.sex.domain.excludeTags ="SEX"
             json.facet.branch = {};
             json.facet.branch.type   = "terms";
             json.facet.branch.limit   = 6;
@@ -371,6 +360,14 @@ $scope.selectBranch = false;
             json.facet.user_type.field  =  "pass_type";
             json.facet.user_type.domain = {};
             json.facet.user_type.domain.excludeTags ="PASS"
+            json.facet.age_range = {};
+
+            json.facet.age_range.type   = "range";
+            json.facet.age_range.field  =  "age";
+            json.facet.age_range.start  =  0;
+            json.facet.age_range.end  =  100;
+            json.facet.age_range.gap  =  10;
+
             json.facet.date_range = {};
 
             json.facet.date_range.type   = "range";
@@ -399,12 +396,25 @@ $scope.selectBranch = false;
                    $scope.branch = data.facets.branch.buckets
                    $scope.country = data.facets.country.buckets
                    $scope.user_type = data.facets.user_type.buckets
-                   console.log($scope.sex1);
+                   //debugger;
+                   var sex = data.facets.sex.buckets;
+                   var i;
+                   for(i = 0; i < sex.length; i++){
+                      sex[i].name = sex[i]['val'];
+                      sex[i].y = sex[i]['count'];
+                      delete sex[i].val;
+                      delete sex[i].count;
+                    }
+                    console.log(sex);
+                   $scope.sex = sex;
+                   $scope.age = data.facets.age_range.buckets
                    $scope.column();
                    
                   // $scope.pie();
                    $scope.timelineChart(data.facets.date_range.buckets);
                    $scope.rankChart();
+                   $scope.ageChart();
+                   $scope.genderChart();
                    //$scope.activeOverall();
                    $scope.generateBarGraph('#dashboard-stats');
                  }
@@ -422,6 +432,37 @@ $scope.selectBranch = false;
                
 
     };
+
+      $scope.$watch('searchBranch', function() {
+        if($scope.searchBranch == undefined) return
+        if($scope.searchBranch.length>=0)
+        {
+          $scope.branch_suggest($scope.searchBranch.toUpperCase())
+        }
+    });
+
+
+    $scope.branch_suggest = function (entry) {
+      var json = {};
+      json.limit  = 0;
+      json.offset = 0
+      json.query = $scope.formQuery() +" AND branch:*"+entry +"*";
+      json.filter = $scope.filterQuery();
+      json.facet = {};
+      json.facet.job = {};
+      json.facet.job.type   = "terms";
+      json.facet.job.field  =  "branch_short";
+      json.facet.job.limit  =  5;
+      $http.get(thisSolrAppUrl+JSON.stringify(json)).
+           success(function(data) {
+              $scope.branch = data.facets.job.buckets;
+              //return data;
+            })
+     
+    }
+
+
+
 
        $scope.generateBarGraph = function (wrapper) {
     // Set Up Values Array
@@ -446,11 +487,11 @@ $scope.selectBranch = false;
     });
   }
 
-    $scope.pie = function() {
-      Highcharts.chart('highchart_pie',{
+    $scope.genderChart = function() {
+      Highcharts.chart('highchart_gender',{
         chart : {
             type : 'pie',
-            height : 260,
+            //height : 260,
             style: {
                 fontFamily: 'Open Sans'
             }
@@ -472,6 +513,19 @@ $scope.selectBranch = false;
 
             title: {
                 text: null
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
             }
         },
         exporting: { enabled: false },
@@ -510,7 +564,73 @@ $scope.selectBranch = false;
       }
     }
 
+  $scope.ageChart = function() {
+       var sel = -1;
+       var _state = $scope.age;
 
+       var stateName = [];
+       var stateData = [];
+       $scope.total = 0;
+      for (var i =0,l=_state.length; i < l; i++) {
+         if($scope.docSelected == _state[i].val) {
+             sel = i;
+           }
+           var range = _state[i].val + "-" + (parseInt(_state[i].val)+10);
+           $scope.total = $scope.total +parseInt(_state[i].val);
+           stateName.push(range)
+           stateData.push(_state[i].count)
+        }
+
+      var chart = Highcharts.chart('highchart_age',{
+        chart : {
+            type : 'bar',
+            style: {
+                fontFamily: 'Open Sans'
+            }
+        },
+        plotOptions: {
+            series: {
+                shadow:false,
+                borderWidth:0,
+                dataLabels:{
+                    enabled:true,
+                    formatter:function() {
+                        var pcnt = (this.y / $scope.total) ;
+                        return Highcharts.numberFormat(pcnt) + '%';
+                    }
+                }
+            }
+        },
+        xAxis: {
+            categories: stateName
+        },
+        
+        gridLineWidth: 0,
+                minorGridLineWidth: 0,
+
+        exporting: { enabled: false },
+            title: {
+              text: 'Age Range',
+              x: -20 //center
+            },
+            series: [{
+            name: 'age range',
+          //  colorByPoint: true,
+            data: stateData,
+            showInLegend:false,
+          point:{
+              events:{
+                  click: function (event) {
+                      $scope.clickDoc(event.point.category);
+                  }
+              }
+          }
+        }]
+          });
+      if(sel != -1) {
+        chart.series[0].data[sel].select(true, true);
+      }
+    }
 
     $scope.column = function() {
        var sel = -1;
@@ -521,6 +641,7 @@ $scope.selectBranch = false;
 //chart.series[i].data[j].select(true, true);
       for (var i =0,l=_state.length; i < l; i++) {
            if($scope.stateSelected == _state[i].val) {
+            debugger;
              sel = i;
            }
            stateName.push(_state[i].val)
@@ -588,8 +709,10 @@ $scope.selectBranch = false;
       //
     }
 
+   
 
-    $scope.rankChart = function() {
+    
+        $scope.rankChart = function() {
        var sel = -1;
        var _state = $scope.rank;
 
@@ -660,7 +783,6 @@ $scope.selectBranch = false;
         chart.series[0].data[sel].select(true, true);
       }
     }
-    
 
     $scope.yyyymmdd = function(date) {
       var yyyy = date.getFullYear().toString();
@@ -753,12 +875,8 @@ $scope.selectBranch = false;
                 backgroundColor: '#FFFFFF'
             },
             title: {
-                text: 'Visa Applications'
+                text: 'Detainees'
 
-            },
-            subtitle: {
-                text: document.ontouchstart === undefined ?
-                        'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
             },
             xAxis: {
                 type: 'datetime'

@@ -88,6 +88,30 @@
     position: relative;
     margin-right: 6px;
 }
+.diffbrnch{
+    width: 15px;
+    height: 15px;
+    background: #8000ff;
+    border-radius: 20px !important;
+    display: inline-block;
+    /* border: 1px solid; */
+    /* padding-top: 23px !important; */
+    top: 4px;
+    position: relative;
+    margin-right: 6px;
+}
+.samebrnch{
+    width: 15px;
+    height: 15px;
+    background: #6aabf7;
+    border-radius: 20px !important;
+    display: inline-block;
+    /* border: 1px solid; */
+    /* padding-top: 23px !important; */
+    top: 4px;
+    position: relative;
+    margin-right: 6px;
+}
 .filter input{
     border: #ddd 1px solid !important
 }
@@ -176,7 +200,7 @@
 
 #filterContainer{
     position: absolute;
-    padding: 10px;
+    padding: 5px;
     background: #d4e8e1;
 }
 
@@ -407,7 +431,7 @@ path.link {
 
 #d3-tooltip {
   position: absolute;
-  width: 200px;
+  width: 300px;
   height: auto;
   padding: 10px;
   background-color: rgba(128, 128, 128, 0.4);

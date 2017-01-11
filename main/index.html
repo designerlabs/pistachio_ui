@@ -38,7 +38,7 @@ Website: http://www.mimos.com.my/
     <link href="assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- bootstrap -->
     <link href="assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
-
+    <link href="assets/global/css/components.min.css" id="style_components" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
     <!-- BEGIN DYMANICLY LOADED CSS FILES(all plugin and page related styles must be loaded between GLOBAL and THEME css files ) -->
     <link id="ng_load_plugins_before" />
@@ -46,9 +46,8 @@ Website: http://www.mimos.com.my/
     <!-- BEGIN THEME STYLES -->
     <!-- DOC: To use 'rounded corners' style just load 'components-rounded.css' stylesheet instead of 'components.css' in the below style tag -->
 
-    <link href="assets/global/css/components-md.css" id="style_components" rel="stylesheet" type="text/css" />
-    <link href="assets/global/css/components.min.css" id="style_components" rel="stylesheet" type="text/css" />
-    <link href="assets/global/css/plugins-md.css" rel="stylesheet" type="text/css" />
+
+    <link href="assets/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="assets/admin/layout2/css/iframeStyle.css" type="text/css" title="iframeStyle" />
      <!--<link href="assets/global/css/plugins.css" rel="stylesheet" type="text/css" /> -->
     <link href="assets/admin/layout2/css/layout.css" rel="stylesheet" type="text/css" />
@@ -74,7 +73,7 @@ Website: http://www.mimos.com.my/
 <!--
 <body ng-controller="AppController" class="page-md page-boxed page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-sidebar-closed-hide-logo page-on-load" ng-class="{'page-sidebar-closed': settings.layout.pageSidebarClosed}">
 -->
-<body ng-controller="AppController" class="page-boxed page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-sidebar-closed-hide-logo page-on-load" ng-class="{'page-sidebar-closed': settings.layout.pageSidebarClosed}">
+<body ng-controller="AppController" class="page-boxed page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-sidebar-closed-hide-logo page-on-load page-content-white" ng-class="{'page-sidebar-closed': settings.layout.pageSidebarClosed}">
     <!-- <div id="loader" style="position:absolute; top:0px; left:0px; background:rgba(255,255,255,0.8); width:100%; z-index:9999;">BEGIN PAGE SPINNER
 	<div ng-spinner-bar class="page-spinner-bar">
 		<div class="bounce1"></div>

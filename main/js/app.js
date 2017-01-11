@@ -272,7 +272,8 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 /* Global hosting details */
 
 //var globalURL = "http://10.23.124.243:8080/";
-var globalURL = "http://10.1.17.25:8081/";
+var globalURL = "http://10.1.17.51:8081/";
+//var globalURL = "http://10.4.104.174:8081/";
 //var globalURL = "http://pistachio_server:8080/";
 //var solrHost = "10.23.124.220";
 var solrHost = "10.4.104.176";
@@ -1633,6 +1634,28 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
 
                         'js/controllers/WorkflowuserController.js',
                         'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
+                    ]
+                });
+            }]
+        }
+    })
+
+     .state('sparkjob', {
+        url: "/sparkjob.html",
+        templateUrl: "views/spark/jobs.html",
+        data: {
+            pageTitle: 'Spark Analysis Jobs'
+        },
+        controller: "SparkJobController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                     
+                        'js/controllers/SparkJobController.js'
+
                     ]
                 });
             }]

@@ -108,7 +108,7 @@
       </div>
       <ul class="list-group" style="height: 600px;">
          <!-- data-cntval="{{b.count}}" -->
-        <li class="list-group-item" ng-repeat="b in branch | filter:searchBranch" data-cntval="{{b.count | number:0}}" style="padding-left: 3px; padding-right: 1px;"
+        <li class="list-group-item" ng-repeat="b in branch" data-cntval="{{b.count | number:0}}" style="padding-left: 3px; padding-right: 1px;"
           ng-class="{selectedAuditList : activeBranch === b.val}" ng-click="clickBranch(b.val)">
           {{b.val}}
         </li>
@@ -152,7 +152,7 @@
                                                 <ul>
                                                     <li class="mt-list-item" ng-repeat="x in officer">
                                                         <div class="list-datetime" ng-bind="x.created | date:'yyyy'">  </div>
-                                                        <div class="list-item-content">
+                                                        <div class="list-item-content" style="padding: 0;!important">
                                                             <h3 class="uppercase">
                                                                 <a href="javascript:;">{{x.name}}</a>
                                                             </h3>
@@ -164,11 +164,44 @@
                                     </div>
                     </div>
                   <div class = "col-md-8 col-lg-8 col-sm-8" style="padding-left: 0px;padding-right: 0px;">
-                      <div id="usergraph"  style="background: #fff;"> </div>
-                      <div id="d3-tooltip" class="hidden">
-                          <p><strong>Circle information</strong></p>
-                          Name : <p><span id="info">{{officer_name}}</span></p>
 
+                      <div id="usergraph"  style="background: #fff;"> </div>
+                      <div id="filterContainer" class="filterContainer checkbox-interaction-group">
+                        <div>
+                          <label>
+                            
+                            <span>
+                              <div class="samebrnch"></div>
+                                Same Branch
+                              </span>
+                            </label>
+                          </div>
+                        <div>
+                          <label>
+                               <span>
+                                 <div class="diffbrnch"></div>
+                                  Different Branch
+                                </span>
+                          </label>
+                        </div>
+                      </div>
+                      <div id="d3-tooltip" class="hidden">
+                          
+                          <p><strong><span id="infoName"></span></strong></p>
+                          <p><span id="infoRank"></span></p>
+                              <div class="summaryTitle" style="font-size: 16px; border: 1px solid #3daf85; padding:0px; border-radius: 15px !important;">
+                                <p>Name: <span id="info">{{officerInfo.name}}</span></p>
+                                <p>Rank: <span id="rank">{{officerInfo.rank}}</span></p>
+                                <p>User ID: <span id="usrId">{{officerInfo.user_id}}</span></p>
+                                <p>Suprivisor: <span id="adminId">{{officerInfo.suprivisor}}</span></p>
+                                <p>Created on: <span id="createDt">{{officerInfo.created | date:'MM-dd-yyyy'}}</span></p>
+                                <p>Valid until: <span id="endDt">{{officerInfo.xit_date| date:'MM-dd-yyyy'}}</span></p>
+                                <p>Branch: <span id="endDt">{{officerInfo.branch}}</span></p>
+                                <div class="linkBtn" style="padding:10px; text-align:center; ">
+                                  <button id="myAuditBtn" ng-click="myAuditBtnc()" class="btn btn-md btn-warning"><i class="fa fa-check"></i> More Details</button>
+                                </div>
+                                
+                              </div>
                       </div>
                     </div>
                 </div>
