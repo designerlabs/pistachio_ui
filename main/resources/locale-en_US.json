@@ -140,7 +140,11 @@
 	"robot.title": "Document Robot Search",
 
 	"detainee.title" : "Detainee Analysis",
-	"overstay.title" : "Overstay Analysis"
+	"overstay.title" : "Overstay Analysis",
 
+
+    "efastsearch.title":"Enforcement Search",
+    "efastsearch.detainee":"Detainee",
+    "efastsearch.overstay":"Overstay"
 
 }

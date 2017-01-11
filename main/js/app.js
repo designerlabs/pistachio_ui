@@ -1835,7 +1835,59 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }]
         }
     })
+ .state('enforcementsearch', {
+        url: "/fastsearch/efs.html",
+        templateUrl: "views/fastsearch/enforcement_search.html",
+        data: {
+            pageTitle: 'Enforcement Search'
+        },
+        controller: "EnforcementSearchController",
+        // controller: "DocumentSearchController1",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/pages/css/search.css',
+                        'assets/pages/css/pricing.min.css',
+                        
+                        'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
+                        'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
+                        'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
+                        'assets/global/plugins/datatables/all.min.js',
+                        
+                        'assets/pistachio/fastsearch/search_profile.css',
+                        'assets/pages/css/profile-2.min.css',                        
 
+                        'assets/pistachio/fastsearch/leaflet/leaflet_canvas_layer.js',
+                        //'assets/pistachio/map/heatmap.min.js',
+                        //'assets/pistachio/map/leaflet-heatmap.js',
+                        'assets/pistachio/fastsearch/leaflet/heatmap.js ',
+                        'assets/pistachio/map/singleclick.js',
+                        'assets/pistachio/map/Leaflet.fullscreen.min.js',
+                        'assets/pistachio/map/leaflet.fullscreen.css',
+                        'assets/pistachio/fastsearch/ui_box.css',
+                        'js/directives/facetBox.js',
+                        'js/directives/searchList.js',
+                        'assets/global/plugins/vis/vis.js',
+                        'assets/global/plugins/vis/vis.css',
+                        'js/directives/visa.js',
+                        'js/directives/movement.js',                        
+                        'js/directives/enforcement.js',                                                
+                        'js/directives/profile.js',
+                        'js/directives/passport.js',
+                        'js/controllers/EnforcementSearch.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
+                        'assets/pistachio/range/range.css',
+                        'assets/pistachio/range/range.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
+                    ]
+                });
+            }]
+        }
+    })
 
     .state('report2', {
         url: "/report2.html",

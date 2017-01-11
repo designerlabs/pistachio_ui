@@ -44,6 +44,7 @@ var ProfileController = function ($scope,$http) {
           $scope.image_src=$scope.doc.image
 
         if(moment($scope.doc.pass_exp_date).diff(moment()) < 0 && $scope.doc.entry == "ENTRY") {
+          debugger;
            $scope.banner = $scope.banner + " OVERSTAY"
            $scope.offender = true;
         }

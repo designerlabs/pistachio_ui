@@ -7,7 +7,7 @@ var clickCircle, clickMarker;
 var filter_query = "";
 // var solrHost = "localhost";
 //var solrHost = "pistachio_server";
-MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $http, $timeout, chkIframe, $sce,$uibModal) {
+MetronicApp.controller('EnforcementSearchController', function ($rootScope, $scope, $http, $timeout, chkIframe, $sce,$uibModal) {
   $scope.$on('$viewContentLoaded', function () {
 
     // initialize core components
@@ -46,19 +46,6 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     // 
 
 
-    $rootScope.$on('loading:progress', function () {
-      console.log("loading");
-      $scope.loading = true;
-    });
-
-    $rootScope.$on('loading:finish', function () {
-      $scope.loading = false;
-      console.log("stop");
-    });
-
-   
-
-
 
 
 
@@ -92,128 +79,13 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
       $rootScope.fastsearch.load = false;
 
     }
-    $scope.drawHeatMap();
+    
 
   });
 
-  var bigmapheight = 650;
-  var smallmapheight = 300;
-  var mapbreakwidth = 720;
-  var highzoom = 8;
-  var lowzoom = 7;
-  var initzoom;
-
-
-  $rootScope.triggerMap = function () {
-    $scope.clicked = true;
-    //$scope.showVisitor = true;
-    $scope.show();
-  };
-
-
-  var rangeSlider = function () {
-    var slider = $('.range-slider'),
-      range = $('.range-slider__range'),
-      value = $('.range-slider__value');
-    slider.each(function () {
-      value.each(function () {
-        var value = $(this).prev().attr('value');
-        $(this).html(value + " KM");
-      });
-      range.on('input', function () {
-        $scope.kilom = this.value;
-        $scope.clicked = true;
-        $scope.show();
-
-        $(this).next(value).html(this.value + " KM");
-        $rootScope.triggerFunc(this.value + "000");
-
-      });
-    });
-  };
-
-  rangeSlider();
-  // don't forget to include leaflet-heatmap.js
-
-  var greenIcon = L.icon({
-    //iconUrl: 'assets/pistachio/map/leaf-green.png',
-    //shadowUrl: 'assets/pistachio/map/leaf-shadow.png',
-
-    iconSize: [38, 95], // size of the icon
-    //shadowSize:   [50, 64], // size of the shadow
-    //iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-    //shadowAnchor: [4, 62],  // the same for the shadow
-    //popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-  });
-
-
-  $scope.$on('mapClick', function (event, e) {
-    $scope.clicked = true
-    $scope.latVal = e.latlng.lat; $scope.lngVal = e.latlng.lng;
-    $(".range-slider__range").val('20');
-    $scope.kilom = $(".range-slider__range").val();
-    // $scope.show(); // to avoid 3 times call;
-  });
-
-  $scope.drawHeatMap = function () {
-    var map = L.map("mapid", { fullscreenControl: true }).setView([4, 100], 7);
-
-    L.tileLayer('//c.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    //L.tileLayer('http://10.23.124.233/osm_tiles/{z}/{x}/{y}.png', {
-      attribution: '&copy; NSL | Mimos'
-    }).addTo(map);
-
-
-    map.on('fullscreenchange', function () {
-
-      if (map.isFullscreen()) {
-        $(".range-slider").addClass("range_fullscreen");
-      } else {
-        $(".range-slider").removeClass("range_fullscreen");
-      }
-    });
 
 
 
-    map.on('singleclick', function (e) {
-
-      $rootScope.$broadcast('mapClick', e);
-      $(".range-slider__range").val('20');
-      $(".range-slider__value").text('20 KM');
-
-      $rootScope.triggerFunc = function (km) {
-
-        $rootScope.triggerMap();
-        if ($scope.clickCircle != undefined) {
-          map.removeLayer($scope.clickCircle);
-          map.removeLayer($scope.clickMarker);
-        };
-
-
-        $scope.clickMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
-        $scope.clickCircle = L.circle([e.latlng.lat, e.latlng.lng], km, {
-          color: 'red',
-          fillColor: '#f03',
-          fillOpacity: 0.5
-        }).addTo(map);
-        //L.popup().setLatLng(e.latlng)
-        //  .setContent('<p><code>clicked location</code> is ' + e.latlng)
-        //  .openOn(map);       
-        $scope.map = map;
-
-      };
-
-      $rootScope.triggerFunc(20000);
-    });
-
-
-    map.on('load', function (e) {
-      $("#mapid").css('height', bigmapheight);
-      $("#mapid").css('height', bigmapheight);
-    });
-
-
-  }
 
 
 
@@ -237,7 +109,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
 
   $scope.show = function () {
     $rootScope.box_update();
-    $scope.showApplications($scope.currentStatus, 'prenext');
+    $scope.showData("offender");
   }
 
 
@@ -270,7 +142,7 @@ MetronicApp.controller('GlobalSearchController', function ($rootScope, $scope, $
     var filter_query = "";
     var arrayLength = selected_countries.length;
     if (arrayLength > 0) {
-      filter_query = "country:( "
+      filter_query = "{!tag=COUNTRY}country:( "
       for (var i = 0; i < arrayLength; i++) {
         filter_query = filter_query + selected_countries[i];
 
@@ -382,42 +254,7 @@ $scope.branchsBox = function (id) {
   }
 
   $rootScope.box_update = function () {
-    $scope.tblContent = false;
-    // var sq = "http://10.1.17.25:8081/pistachio/fastsearch/gfs";
-    var sq = globalURL + "pistachio/fastsearch/gfs";
-    var json = {};
-    json.text = $scope.text;
-    json.from = $scope.getSearchFromDt1;
-    json.to = $scope.getSearchToDt;
-    json.offset = 0;
-    json.limit = 0;
-    json.point = ($scope.latVal.toString().length > 0 && $scope.lngVal.toString().length > 0? $scope.latVal  + ',' + $scope.lngVal : null);
-    json.d = ($scope.kilom.length > 0? $scope.kilom : null);
-    json.state = selected_states.join(",");
-    json.country = selected_countries.join(",");
-    json.job = selected_jobs.join(",");
-    json.branch = selected_branch.join(",");
-    json.showPass = false;
-    json.showCitizen = false;
-    json.showMovement = false;
-    json.showBlacklisted = false;
-
-    $http.post(sq, JSON.stringify(json)).
-      success(function (data) {
-        $('#searchbox').val($scope.text);
-        $scope.passFound = data.header.pass;
-        $scope.qtime = data.header.passQueryTime;
-        $scope.users = data.header.citizen;
-        $scope.ctime = data.header.citizenQueryTime;
-        $scope.employers = data.header.movement;
-        $scope.vtime = data.header.movementQueryTime;
-        $scope.blacklisted = data.header.blackListed;
-        $scope.btime = data.header.blackListedQueryTime;
-      })
-      .error(function (data, status, headers, config) {
-        console.log('error');
-      });
-
+    $scope.showData("offender",10,false)
   }
 
 
@@ -450,12 +287,9 @@ $scope.branchsBox = function (id) {
   $scope.reset = function () {
     selected_countries = [];
     $scope.text = "";
-    $scope.showApplication = false;
-    $scope.showVisitor = false;
-    $scope.showCitizen = false;
-    $scope.showBlacklist = false;
+    $scope.offendertotal = 0;
     $scope.fullscreen = false;
-
+    $scope.ChkCntry = true
     $scope.option = false;
     selected_countries = [];
     selected_jobs = [];
@@ -483,109 +317,50 @@ $scope.branchsBox = function (id) {
     //location.reload();
   };
 
-  $scope.next = function () {
-    $scope.start = $scope.start + 10;
-    // $scope.show($scope.currentStatus);
-    $('#tblSearch').DataTable().destroy();
-    $scope.showApplications($scope.currentStatus, 'prenext');
-  }
+  $scope.showData = function (collection,rows=10,click=true) {
+    console.log(collection)
+      var offenderUrl = 'http://'+solrHost+':8983/solr/immigration2/query?collection='+collection+'&json='
+      $http.get(offenderUrl).
+      success(function(data) {
+        if(data.response.numFound == 0) {
+         return
+        }
+        $scope.offendertotal =data.response.numFound
+        if(rows!=0)
+          $scope.records = data.response.docs;
+       });  
 
-  $scope.previous = function () {
-    $scope.start = $scope.start - 10;
-    if ($scope.start < 0)
-      $scope.start = 0;
-    // $scope.show($scope.currentStatus);
-    $('#tblSearch').DataTable().destroy();
-    $scope.showApplications($scope.currentStatus, 'prenext');
-  }
+       var json = {};
+      json.limit  = rows;
+      json.offset = $scope.page.start
+      json.query = $scope.getQuery();
+      json.filter = $scope.updateFilterQuery_Country();
+      json.facet = {};
+      json.facet.country = {};
+      json.facet.country.type   = "terms";
+      json.facet.country.field  =  "country";
+      json.facet.country.limit  =  10;
+      json.facet.country.domain = {};
+      json.facet.country.domain.excludeTags ="COUNTRY"
 
-  $scope.showApplications = function (status, eve) {
-    if (eve == 'load') {
-      $scope.start = 0;
-    }
-    $scope.currentStatus = status;
-    $scope.tblContent = true;
-    var query = "";
-    if (status == 'pass') {
-      $scope.showApplication = true;
-      $scope.showCitizen = false;
-      $scope.showVisitor = false;
-      $scope.showBlacklist = false;
-      $scope.ChkCntry = true;
-      $scope.ChkStates = false;
-      $scope.ChkJobs = true;
-      $scope.ChkBranchs = false;
-      $scope.mapAreas = true;
-      
-    } else if (status == 'citizen') {
-      $scope.showCitizen = true;
-      $scope.showApplication = false;
-      $scope.showVisitor = false;
-      $scope.showBlacklist = false;
-      $scope.ChkCntry = false;
-      $scope.ChkStates = true;
-      $scope.ChkJobs = false;
-      $scope.ChkBranchs = false;
-      $scope.mapAreas = true;
-    } else if (status == 'vistor') {
-      $scope.showVisitor = true;
-      $scope.showApplication = false;
-      $scope.showCitizen = false;
-      $scope.showBlacklist = false;
-      $scope.ChkCntry = true;
-      $scope.ChkStates = false;
-      $scope.ChkJobs = false;
-      $scope.ChkBranchs = true;
-      $scope.mapAreas = true;
-    } else if (status == 'blackListed') {
-      $scope.showBlacklist = true;
-      $scope.showApplication = false;
-      $scope.showCitizen = false;
-      $scope.showVisitor = false;
-      $scope.ChkCntry = true;
-      $scope.ChkStates = false;
-      $scope.ChkJobs = false;
-      $scope.ChkBranchs = false;
-      $scope.mapAreas = false;
-    }
+      $http.get(offenderUrl+JSON.stringify(json)).
+           success(function(data) {
 
-    var query = ""
-    var sq = globalURL + "pistachio/fastsearch/gfs";
-    var json = {};
-    json.text = $scope.text;
-    json.from = $scope.getSearchFromDt1;
-    json.to = $scope.getSearchToDt;
-    json.limit = $scope.page.limit;
-
-    json.point = ($scope.latVal.toString().length > 0 && $scope.lngVal.toString().length > 0? $scope.latVal  + ',' + $scope.lngVal : null);
-    json.d = ($scope.kilom.length > 0? $scope.kilom : null);
-    json.offset = $scope.page.start;
-    json.state = selected_states.join(",");
-    json.country = selected_countries.join(",");
-    json.job = selected_jobs.join(",");
-    json.branch = selected_branch.join(",");
-    json.showPass = $scope.showApplication;
-    json.showCitizen = $scope.showCitizen;
-    json.showMovement = $scope.showVisitor;
-    json.showBlacklisted = $scope.showBlacklist;
-    var tblGloSEarch;
-
-    $http.post(sq, JSON.stringify(json)).
-      success(function (data) {
-        if(data)
-        console.log(data);
-        if(data.data != null)
-          $scope.records = data.data.results//new NgTableParams({}, { dataset: data.pass.results});
-        $scope.countries = data.facetCountry
-        $scope.jobs = data.facetJobs
-        $scope.states = data.facetStates
-        $scope.branch = data.facetBranches 
-
-      })
-      .error(function (data, status, headers, config) {
-        console.log('error');
-      });
-
+              
+              var sex = data.facets.country.buckets;
+                   var i;
+                   for(i = 0; i < sex.length; i++){
+                      sex[i].field = sex[i]['val'];
+                      delete sex[i].val;
+                    }
+                    $scope.country = sex
+               if(data.response.numFound == 0) {
+                 return
+                }
+                $scope.offendertotal =data.response.numFound
+                if(rows!=0)
+                  $scope.records = data.response.docs;
+            })
   }
 
 
@@ -638,5 +413,5 @@ $scope.branchsBox = function (id) {
 
   $rootScope.settings.layout.pageSidebarClosed = true;
   $rootScope.skipTitle = false;
-  $rootScope.settings.layout.setTitle("fastsearch");
+  $rootScope.settings.layout.setTitle("efastsearch");
 });

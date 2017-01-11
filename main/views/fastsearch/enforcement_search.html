@@ -1,4 +1,4 @@
-<div ng-controller="GlobalSearchController">
+<div ng-controller="EnforcementSearchController">
 	<div style="background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%; position:absolute; top:0px;" ng-show="loading">
 		<!--  BEGIN PAGE SPINNER -->
 		<div ng-spinner-bar class="page-spinner-bar show">
@@ -24,55 +24,33 @@
 					</div>
 					<button class="btn green-soft uppercase bold" ng-click="search(search.text)" type="button"><i class="fa fa-search"></i>{{'fastsearch.global.search' | translate}}</button>
 					<button class="btn btn-icon-only green" ng-click="reset()" type="button"><i class="fa fa-refresh"></i> </button>
-					<button class="btn btn-icon-only" ng-disabled="!showApplication && !showVisitor && !showCitizen && !showBlacklist" ng-click="options()" type="button"><i class="fa fa-gear"></i> </button>
+					<button class="btn btn-icon-only"  ng-click="options()" type="button"><i class="fa fa-gear"></i> </button>
 					</span>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="option-box col-md-12" style="padding:0px; min-height:380px" ng-show="option">
-		<facetbox title= "Country" facet="countries" show="ChkCntry" click="checkboxselectedCountry(data)" selected="selected_countries"> </facetbox>
-		
-		<facetbox title = "States" facet="states" show="ChkStates" click="statesBox(data)" selected="selected_states"> </facetbox>
-		<facetbox title = "Branches" facet="branch" show="ChkBranchs" click="branchsBox(data)" selected="selected_branch"> </facetbox>
-		<facetbox title = "Jobs" facet="jobs" show="ChkJobs" click="jobBox(data)" selected="selected_jobs"> </facetbox>
-		
-		
-		<div class="col-md-6" ng-show="mapAreas">
-			<h4> Search by Map </h4>
-			<style>
-				#mapid {
-					width: 100%;
-					height: 250px;
-				}
-			</style>
-			<div id="mapid"></div>
-
-			<div class="range-slider">
-				<h4>Select radius by Kilometer</h4>
-				<input class="range-slider__range" type="range" value="1" min="1" max="50">
-				<span class="range-slider__value">0</span>
-			</div>
-		</div>
+		<facetbox title= "Country" facet="country" show="ChkCntry" click="checkboxselectedCountry(data)" selected="selected_countries"> </facetbox>
 	</div>
 	<div>
 		<div class="row">
 			<div class="col-md-12">
 				<div class='uib'>
-					<div class='ui_box' ng-class="{selected: showApplication}" ng-click="showApplications('pass','load')">
+					<div class='ui_box' ng-class="{selected: true}" ng-click="showData('offender')">
 						<div class='ui_box__inner'>
-							<h2>{{'fastsearch.global.applications' | translate}}</h2>
+							<h2>{{'efastsearch.detainee' | translate}}</h2>
 							<div class='stat'>
-								<span>{{passFound |  number:0}}</span>
+								<span>{{offendertotal |  number:0}}</span>
 							</div>
 							<p>{{'fastsearch.global.passfound' | translate}} in {{qtime}} milliseconds</p>
 
 						</div>
 
 					</div>
-					<div class='ui_box' ng-class="{selected: showCitizen}" ng-click="showApplications('citizen','load')">
+					<!--<div class='ui_box' ng-class="{selected: showCitizen}" ng-click="showApplications('citizen','load')">
 						<div class='ui_box__inner'>
-							<h2>{{'fastsearch.global.users' | translate}}</h2>
+							<h2>{{'efastsearch.overstay' | translate}}</h2>
 							<div class='stat'>
 								<span>{{users |  number:0}}</span>
 							</div>
@@ -80,32 +58,13 @@
 						</div>
 
 					</div>
-					<div class='ui_box' ng-class="{selected: showVisitor}" ng-click="showApplications('vistor','load')">
-						<div class='ui_box__inner'>
-							<h2>{{'fastsearch.global.stickers' | translate}}</h2>
-							<div class='stat'>
-								<span>{{employers |  number:0}}</span>
-							</div>
-							<p>{{'fastsearch.global.employersfound' | translate}} in {{vtime}} milliseconds</p>
-						</div>
-
-					</div>
-					<div class='ui_box' ng-class="{selected: showBlacklist}" ng-click="showApplications('blackListed','load')">
-						<div class='ui_box__inner'>
-							<h2>{{'fastsearch.global.blacklisted' | translate}}</h2>
-							<div class='stat'>
-								<span>{{blacklisted | number:0}}</span>
-							</div>
-							<p>{{'fastsearch.global.suspectlistfound' | translate}} in {{btime}} milliseconds</p>
-						</div>
-
-					</div>
+					-->
 
 				</div>
 			</div>
 		</div>		
-		<div class="search-page search-content-4" ng-show="tblContent" >
-			<div class="row" ng-hide="!showApplication && !showVisitor && !showCitizen && !showBlacklist">
+		<div class="search-page search-content-4"  >
+			<div class="row" >
 				<div class="col-md-12">
 					<div class="search-table" >
 						<searchlist data = "records" click="open(data)"></searchlist>
