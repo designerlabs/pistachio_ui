@@ -1,34 +1,34 @@
 <div class="col-md-6">
 	    	<div class="portlet sale-summary">
 	            <div class="portlet-title">
-	                <div class="caption font-red sbold">Summary </div>
+	                <div class="caption font-red sbold">{{doc.branch}} </div>
 	                
 	            </div>
 	            <div class="portlet-body">
 	                <ul class="list-unstyled">
 	                    <li>
-	                        <span class="sale-info"> JENIS KES
+	                        <span class="sale-info"> DEPOT
 	                            <i class="fa fa-img-up"></i>
 	                        </span>
-	                        <span class="sale-num"> OPERASI </span>
+	                        <span class="sale-num">{{doc.branch}} </span>
 	                    </li>
 	                    <li>
-	                        <span class="sale-info"> JENIS OPERATION
+	                        <span class="sale-info"> BALAI
 	                            <i class="fa fa-img-down"></i>
 	                        </span>
-	                        <span class="sale-num"> AJAR </span>
+	                        <span class="sale-num">{{doc.police_station}}</span>
 	                    </li>
 	                    <li>
-	                        <span class="sale-info"> KEPUTUSAN SIASATAN
+	                        <span class="sale-info"> KES
 	                            <i class="fa fa-img-down"></i>
 	                        </span>
-	                        <span class="sale-num"> DAKWA </span>
+	                        <span class="sale-num"> {{doc.police_report_no}} </span>
 	                    </li>
 	                    <li>
-	                        <span class="sale-info"> KEPUTUSAN PENDAKWAAN
+	                        <span class="sale-info"> DETAINED ON
 	                            <i class="fa fa-img-down"></i>
 	                        </span>
-	                        <span class="sale-num"> PENJARA </span>
+	                        <span class="sale-num">  {{doc.created | date:'dd/MM/yyyy'}} </span>
 	                    </li>
 	                    <li>
 	                        <span class="sale-info"> DEPOT PENGUSIRAN
@@ -41,3 +41,51 @@
 	            </div>
 	        </div>
         </div>
+<div class="col-md-12">
+<div class="portlet light portlet-fit bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-microphone font-green"></i>
+            <span class="caption-subject bold font-green uppercase"> Timeline</span>
+            <span class="caption-helper">default option...</span>
+        </div>
+   </div>
+    <div class="portlet-body">
+        <div class="timeline">
+            <!-- TIMELINE ITEM -->
+            <div class="timeline-item" ng-repeat="doc in docs">
+                <div class="timeline-badge">
+                    <img class="timeline-badge-userpic" data-ng-src="data:image/png;base64,{{doc.image}}"> </div>
+                <div class="timeline-body">
+                    <div class="timeline-body-arrow"> </div>
+                    <div class="timeline-body-head">
+                        <div class="timeline-body-head-caption">
+                            <a href="javascript:;" class="timeline-body-title font-blue-madison">{{doc.branch}}</a>
+                            
+                        </div>
+                        <div class="timeline-body-head-actions">
+                            <span class="timeline-body-time font-grey-cascade">{{doc.created | date:'dd/MM/yyyy'}}</span>
+                        </div>
+                    </div>
+                    <div class="timeline-body-content">
+                        <ul class="list-unstyled">
+	                    <li>
+	                        <span class="sale-info"> BALAI
+	                            <i class="fa fa-img-down"></i>
+	                        </span>
+	                        <span class="sale-num">{{doc.police_station}}</span>
+	                    </li>
+	                    <li>
+	                        <span class="sale-info"> KES
+	                            <i class="fa fa-img-down"></i>
+	                        </span>
+	                        <span class="sale-num"> {{doc.police_report_no}} </span>
+	                    </li>
+	                    </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

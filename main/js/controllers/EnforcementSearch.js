@@ -305,7 +305,6 @@ $scope.branchsBox = function (id) {
     if($scope.map != undefined) {
           $scope.map.removeLayer($scope.clickCircle);
     $scope.map.removeLayer($scope.clickMarker);
-    debugger;
     }
 
     
@@ -390,7 +389,7 @@ $scope.branchsBox = function (id) {
          
          $scope.page = page_options;
 
-         $scope.showApplications($scope.currentStatus, 'prenext');
+         $scope.showData("offender");
        }
 
   $scope.previous_page = function () {
@@ -406,7 +405,7 @@ $scope.branchsBox = function (id) {
          page_options.last = false;
          $scope.page = page_options;
 
-         $scope.showApplications($scope.currentStatus, 'prenext');
+        $scope.showData("offender");
        }
  
 

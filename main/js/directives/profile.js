@@ -124,7 +124,7 @@ var ProfileController = function ($scope,$http) {
         var doc = data.response.docs[0];
          $scope.banner = $scope.banner + " SUSPECT"
         $scope.offender = true;
-        $scope.doc.status = $scope.doc.status +" SUSPECT"
+       // $scope.doc.status = $scope.doc.status +" SUSPECT"
        });  
 
     }
@@ -137,9 +137,11 @@ var ProfileController = function ($scope,$http) {
           return
         }
         var doc = data.response.docs[0];
-         $scope.banner = $scope.banner + " SUSPECT"
+        
+          $scope.image_src=doc.image
+         $scope.banner = "DETAINEE"
         $scope.offender = true;
-        $scope.doc.status = $scope.doc.status +" SUSPECT"
+      //  $scope.doc.status = $scope.doc.status +" SUSPECT"
        });  
     }
 
@@ -184,8 +186,8 @@ var ProfileController = function ($scope,$http) {
           getFromSuspectList()  
         }
         $scope.doc = data.response.docs[0];
-        $scope.doc.status = "OFFENDER"
-        $scope.banner = $scope.banner + " OFFENDER"
+        $scope.doc.status = "DETAINEE"
+        
         $scope.offender = true;
         $scope.birth_date = $scope.getDateFromExpact($scope.doc.expact_id)
         $scope.age = $scope.getAgeFromExpact($scope.doc.expact_id)
