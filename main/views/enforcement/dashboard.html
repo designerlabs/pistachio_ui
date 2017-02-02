@@ -1,0 +1,119 @@
+<div ng-controller="EnforcementDashboard">
+	<div id="sticky-anchor"></div>
+  	<div class="page-bar filter-bar"  id="sticky">
+ 
+     	<ul class="page-breadcrumb  pull-right" style="padding:0px;">
+            <li>
+          		<div id="dashboard-report-range" style="width: 100%;"
+                                class="pull-right tooltips btn btn-fit-height green"
+                                data-placement="top"
+                                data-original-title="Change dashboard date range">
+                                  <i class="icon-calendar"></i>&nbsp;
+                                  <span class="thin uppercase hidden-xs">June 28, 2016 - July 4, 2016</span>&nbsp;
+                                  <i class="fa fa-angle-down"></i>
+                </div>
+          	</li>
+      	</ul>
+  	</div>
+
+	<div class="row">
+		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		    <a class="dashboard-stat dashboard-stat-v2 purple  stat-box" href="#">
+		        <div class="visual">
+		            <i class="fa fa-globe"></i>
+		        </div>
+		        <div class="details">
+		            <div class="number"> +
+		                <span data-counter="counterup" data-value="89">{{complaints|number}}</div></span>
+		            <div class="desc"> {{'enforcement.dashboard.complaints' | translate}} </div>
+		        </div>
+		    </a>
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		    <a class="dashboard-stat dashboard-stat-v2 green  stat-box" href="#">
+		        <div class="visual">
+		            <i class="fa fa-shopping-cart"></i>
+		        </div>
+		        <div class="details">
+		            <div class="number">
+		                <span data-counter="counterup" >{{operations|number}}</span>
+		            </div>
+		            <div class="desc"> {{'enforcement.dashboard.operation' | translate}} </div>
+		        </div>
+		    </a>
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		    <a class="dashboard-stat dashboard-stat-v2 blue  stat-box" href="#/detaineeAnalysis.html">
+		        <div class="visual">
+		            <i class="fa fa-comments"></i>
+		        </div>
+		        <div class="details">
+		            <div class="number">
+		                <span data-counter="counterup" data-value="1349">{{detainee | number}}</span>
+		            </div>
+		            <div class="desc">{{'enforcement.dashboard.detained' | translate}} </div>
+		        </div>
+		    </a>
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		    <a class="dashboard-stat dashboard-stat-v2 red  stat-box" href="#">
+		        <div class="visual">
+		            <i class="fa fa-bar-chart-o"></i>
+		        </div>
+		        <div class="details">
+		            <div class="number">
+		                <span data-counter="counterup" data-value="12,5">{{compound  | currency:"$":0 }}</span></div>
+		            <div class="desc">{{'enforcement.dashboard.compound' | translate}} </div>
+		        </div>
+		    </a>
+
+		</div>
+		
+	
+	</div>
+	<div class ="row">
+	<div class="col-md-4 chart-col">
+		<div class="chart-box">
+			<div id="highchart_col"></div>
+		</div>
+    </div>
+    	<div class="col-md-8 chart-col">
+    		<div class ="chart-box">
+    			<div id="highchart_timeline"></div>
+    		</div>
+    </div>
+    </div>
+    <div class ="row" style="padding-top:15px">
+     <div class="col-md-4 chart-col" style="height:40%" >
+     	<div class ="chart-box">
+     		<div id="highchart_operation"></div>
+     	</div>
+    </div>
+    <div class="col-md-8 chart-col" ng-style="getHeight(60)" >
+    	<div class ="chart-box">
+            <div id="mapid"></div>
+        </div>
+    </div>
+
+   </div>
+   <div class = "row" style="padding-top:15px">
+    <div class="col-md-10 chart-col" style="" >
+     	<div class ="chart-box">
+     		<div id="highchart_complaint"></div>
+     	</div>
+    </div>
+    <div id="complaints-side-bar" class="col-md-2 chart-col" style="padding:0px">
+    	<div class="title">Aduan Type </div>
+    <ul>
+      <li ng-repeat="x in complaint_nature"><span class="typicons-user icon"><i ng-class="getNatureClass(x.val)"></i></span>
+       <div class ="value"> {{x.count}} </div>
+      {{x.val}}
+      		
+
+      </li>
+     
+    </ul>
+  </div>
+   </div>
+
+</div>
