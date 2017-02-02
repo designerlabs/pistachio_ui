@@ -8,7 +8,9 @@
           </div>
           <!--    END PAGE SPINNER -->
       </div>
-      <div class="page-bar" >
+       <div id="sticky-anchor"></div>
+      <div class="page-bar"  id="sticky">
+     
           <ul class="page-breadcrumb" data-ng-repeat="filter in filterButtons">
               <li>
                   <div class="custom-alerts alert alert-success fade in" style="margin:0;padding:5px">
@@ -17,12 +19,18 @@
           </ul>
           <ul class="page-breadcrumb">
               <li>
-                  <div ng-click="reset()" class="btn btn-primary previousBtn" style="padding: 5px;"><i class="fa fa-refresh"></i> Reset </div>
+                  <div id="resetbtn" ng-click="reset()" class="btn btn-primary previousBtn" style="padding: 5px;"><i class="fa fa-refresh"></i> Reset </div>
               </li>
           </ul>
           <ul class="page-breadcrumb  pull-right">
               <li style="vertical-align: top;">
+              <button class="btn btn-block btn-default" ng-click="CallMe()"><i class="fa fa-question-circle"></i> Help</button> 
+              <div ng-intro-options="IntroOptions" ng-intro-method="CallMe"
+              ng-intro-autostart="ShouldAutoStart">
 
+              </li>
+              <li style="vertical-align: top;">
+              
               <button class="btn btn-block btn-default" ng-click="open()"><i class="fa fa-table"></i> Datatable</button>
               </li>
                <li>
@@ -64,12 +72,12 @@
                           </div>
                       </div>
                       <div class = "col-md-12 col-lg-12 col-sm-12" style="padding-right: 0px;padding-left: 10px;padding-top: 0px;height: 200px;">
-                        <div class=" filter" style="padding:0px; border-bottom: 0px;">
+                        <div id="depotlist" class=" filter" style="padding:0px; border-bottom: 0px;">
                           <div class="titleHeader" style="margin-top: 0px;">
                             <h3 class="nopadding"><i style="font-size: 20px;" class="fa fa-plane"></i> Branch List</h3>
                           </div>
-                          <div style="padding-top:0px;">
-                            <input type="text" ng-model="searchBranch" class="form-control input-md" placeholder="&#128269; Search by Branch" style="border:1px solid #ccc">
+                          <div id="depotSearch" style="padding-top:0px;">
+                            <input type="text" ng-model="searchBranch" class="form-control input-md" placeholder="&#128269; Search Depot" style="border:1px solid #ccc">
                           </div>
                           <div ng-model="checkList" ng-show="checkList" class="recordFail">
                             <h5 class="text-center"><i class="fa fa-warning"></i> Records not found!</h5>
@@ -93,45 +101,28 @@
       </div>
       <div class="row">
         <div class="col-md-12" style="padding-right: 0px;">
-          <div class="container-fluid" style="padding-left: 0px;padding-right: 0px;">
-            <ul class="grid col-md-12 col-lg-12 col-sm-12" style="padding: 0px;" >
-                  <div id="countryHeader" data-toggle="collapse" data-target="#negaraBar">
-                    <h3><i class="fa fa-globe" style="font-size: 20px;"></i> Country</h3><span><i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span></div>
-                  <div id="negaraBar" > 
-                       <div class = "col-md-12 col-lg-12 col-sm-12" style="
+          
+             <div class = "col-md-6 col-lg-6 col-sm-6" style="
                                                       padding-left: 0px;
                                                       padding-right: 0px;
                                                   ">
                        <div id="highchart_col"></div>
-                      </div>
-                  </div>
-                </ul>
-              </div>
-
-
-              </div>
-          </div>
-     
-          
-      <div class="row">
-          <div class="col-md-12" style="padding-right: 0px;">
-               <div class="container-fluid" style="padding-left: 0px;padding-right: 0px;">
-                    <ul class="grid col-md-12 col-lg-12 col-sm-12" style="padding: 0px;" ng-class="{ 'grid-list' : gridToggle, 'grid-thumb' : !gridToggle }">
-                      <div id="countryHeader" data-toggle="collapse" data-target="#timelinebar">
-                        <h3><i class="fa fa-birthday-cake"></i> Age & Gender </h3>
-                        <span><i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span>
-                      </div>
-                      <div id="timelinebar" >
-                        <div class = "col-md-6 col-lg-6 col-sm-12" style="padding-left: 0px;padding-right: 0px;">
+             </div>
+             <div id="timelinebar" >
+                        <div class = "col-md-3 col-lg-3 col-sm-3" style="padding-left: 0px;padding-right: 0px;">
                           <div id="highchart_age"></div>
                         </div>
-                         <div class = "col-md-6 col-lg-6 col-sm-12" style="padding-left: 0px;padding-right: 0px;">
+                         <div class = "col-md-3 col-lg-3 col-sm-3" style="padding-left: 0px;padding-right: 0px;">
                           <div id="highchart_gender"></div>
                         </div>
                       </div>
-                    </ul>
-              
-                </div>
+              </div>
+        </div>
+     
+      </div>  
+      <div class="row">
+          <div class="col-md-12" style="padding-right: 0px;">
+               
               </div>
           </div>
           

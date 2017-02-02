@@ -112,7 +112,7 @@ var Login = function () {
                                         if (sessionStorage.length > 0) {
                                             window.location = "index.html" + getLastLocation;
                                         } else {
-                                            window.location = "index.html#/myprofile.html";
+                                            window.location = "index.html#/myprofile1.html";
                                         }
                                     }
 
@@ -120,13 +120,13 @@ var Login = function () {
                                     if (getLastLocation) {
                                         window.location = "index.html" + getLastLocation;
                                     } else {
-                                        window.location = "index.html#/myprofile.html";
+                                        window.location = "index.html#/myprofile1.html";
                                     }
 
                                 };
                                 localStorage.removeItem('lastLocation');
                             }else {
-                                window.location = "index.html#/myprofile.html";
+                                window.location = "index.html#/myprofile1.html";
                             }
 
                             

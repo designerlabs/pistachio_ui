@@ -19,7 +19,7 @@ MetronicApp.directive('onFinishRender', function ($timeout) {
 
 
 MetronicApp.controller('OverstayController', function($rootScope, $scope, $http,NgTableParams,$uibModal) {
-    var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/profile/query?q=pass_exp_date:[ * TO NOW-1DAYS ]&json='
+    var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/profile/query?q=pass_exp_date:[ * TO NOW-1DAYS ]&fq=-entry:EXIT&json='
 
    $scope.open = function () {
     var options = {

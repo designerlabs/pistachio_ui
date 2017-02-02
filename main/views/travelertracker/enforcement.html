@@ -1,4 +1,4 @@
-<div class="col-md-6">
+<div class="col-md-8">
 	    	<div class="portlet sale-summary">
 	            <div class="portlet-title">
 	                <div class="caption font-red sbold">{{doc.branch}} </div>
@@ -7,28 +7,35 @@
 	            <div class="portlet-body">
 	                <ul class="list-unstyled">
 	                    <li>
-	                        <span class="sale-info"> DEPOT
+	                        <span class="sale-info bold"> DEPOT
 	                            <i class="fa fa-img-up"></i>
 	                        </span>
 	                        <span class="sale-num">{{doc.branch}} </span>
 	                    </li>
-	                    <li>
+	                    <li ng-if="doc.police_station.length>0">
 	                        <span class="sale-info"> BALAI
 	                            <i class="fa fa-img-down"></i>
 	                        </span>
 	                        <span class="sale-num">{{doc.police_station}}</span>
 	                    </li>
-	                    <li>
+	                    <li  ng-if="doc.police_report_no.length>0">
 	                        <span class="sale-info"> KES
 	                            <i class="fa fa-img-down"></i>
 	                        </span>
 	                        <span class="sale-num"> {{doc.police_report_no}} </span>
 	                    </li>
+	                    <!--
 	                    <li>
 	                        <span class="sale-info"> DETAINED ON
 	                            <i class="fa fa-img-down"></i>
 	                        </span>
 	                        <span class="sale-num">  {{doc.created | date:'dd/MM/yyyy'}} </span>
+	                    </li> -->
+	                     <li  ng-if="doc.offence.length>0">
+	                        <span class="sale-info"> OFFENCE
+	                            <i class="fa fa-img-down"></i>
+	                        </span>
+	                        <span class="sale-num"> {{doc.offence}} </span>
 	                    </li>
 	                    <li>
 	                        <span class="sale-info"> DEPOT PENGUSIRAN
@@ -47,7 +54,7 @@
         <div class="caption">
             <i class="icon-microphone font-green"></i>
             <span class="caption-subject bold font-green uppercase"> Timeline</span>
-            <span class="caption-helper">default option...</span>
+            
         </div>
    </div>
     <div class="portlet-body">
@@ -64,22 +71,34 @@
                             
                         </div>
                         <div class="timeline-body-head-actions">
-                            <span class="timeline-body-time font-grey-cascade">{{doc.created | date:'dd/MM/yyyy'}}</span>
+                            <span class="timeline-body-time font-lg sbold font-blue-ebonyclay">{{doc.created | date:'dd/MM/yyyy'}}</span>
                         </div>
                     </div>
-                    <div class="timeline-body-content">
+                    <div class="timeline-body-content sale-summary">
                         <ul class="list-unstyled">
-	                    <li>
+	                    <li ng-if="doc.police_station.length>0">
 	                        <span class="sale-info"> BALAI
 	                            <i class="fa fa-img-down"></i>
 	                        </span>
 	                        <span class="sale-num">{{doc.police_station}}</span>
 	                    </li>
-	                    <li>
+	                    <li ng-if="doc.police_report_no.length>0">
 	                        <span class="sale-info"> KES
 	                            <i class="fa fa-img-down"></i>
 	                        </span>
 	                        <span class="sale-num"> {{doc.police_report_no}} </span>
+	                    </li>
+	                     <li ng-if="doc.reason_code.length>0">
+	                        <span class="sale-info"> REASON
+	                            <i class="fa fa-img-down"></i>
+	                        </span>
+	                        <span class="sale-num"> {{doc.reason_code}} </span>
+	                    </li>
+	                     <li ng-if="doc.handover_code.length>0">
+	                        <span class="sale-info"> HANDOVER
+	                            <i class="fa fa-img-down"></i>
+	                        </span>
+	                        <span class="sale-num"> {{doc.handover_code}} </span>
 	                    </li>
 	                    </ul>
                     </div>

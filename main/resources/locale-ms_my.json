@@ -146,5 +146,15 @@
 
 	"efastsearch.title":"Enforcement Search",
     "efastsearch.detainee":"Tahanan",
-    "efastsearch.overstay":"Overstay"
+    "efastsearch.overstay":"Overstay",
+
+    "enforcement" : {
+    	"dashboard": {
+    		"detained" : "Ditahan",
+    		"compound" : "Kompaun",
+    		"operation" : "Operasi",
+    		"complaints" : "Aduan",
+    		"title" : "Enforcement"
+    	}
+    }
 }

@@ -878,3 +878,19 @@ li.pagination ul.pager li a {
   }
 }
 
+
+
+#sticky {
+
+}
+
+#sticky.stick {
+    margin-top: 10 !important;
+    position: fixed;
+    width:94.35%;
+    opacity: .9;
+    background-color: #3d4a53;
+    top: 69px;
+    z-index: 10000;
+    border-radius: 0 0 0.5em 0.5em;
+}

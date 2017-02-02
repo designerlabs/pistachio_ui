@@ -117,11 +117,11 @@
 	                        </span>
 	                        <span class="sale-num"> {{visatotal}} </span>
 	                    </li>
-	                    <li ng-f="!isExpact">
+	                    <li ng-if="isExpact!=true">
 	                        <span class="sale-info">PASSPORTS
 	                            <i class="fa fa-img-up"></i>
 	                        </span>
-	                        <span class="sale-num"> {{visatotal}} </span>
+	                        <span class="sale-num"> {{passporttotal}} </span>
 	                    </li>
 	                    <li>
 	                        <span class="sale-info"> MOVEMENT
@@ -157,12 +157,12 @@
       	<visa expact="expact" visatotal="visatotal"></visa>
       	
     </uib-tab>
-    <uib-tab index="5" ng-if="!isExpact" ng-hide="visatotal==0">
+    <uib-tab index="5" ng-if="!isExpact" ng-hide="passporttotal==0">
     	<uib-tab-heading>
         	<div class="caption">
 	        	<i class="fa fa-id-card-o font-purple-soft"></i>
 	        	<span class="caption-subject font-purple-soft bold ">Passports</span>
-	        	<span class="badge badge-primary badge-roundless"> {{visatotal}} </span>
+	        	<span class="badge badge-primary badge-roundless"> {{passporttotal}} </span>
 	    	</div>
       	</uib-tab-heading>
       	<passport data="docs"></visa>

@@ -8,9 +8,9 @@
 	          <col width="25%"/>
 	        </colgroup>
 		<tr ng-repeat="x in $data" class="mt-action" >
-		  <td title="'Image'"  class="text-center" header-class="'text-center'">
+		  <td title="'Image'"  class="text-right" header-class="'text-right'">
 		     <div class="mt-action-img">
-		        <img ng-if="x.image.length<100" class="img-circle" style="height: 50px; width: 50px;" src="assets/admin/layout2/img/avatar3.png"">
+		        <img ng-if="x.image==undefined" class="img-circle" style="height: 50px; width: 50px;" src="assets/admin/layout2/img/avatar3.png"">
 		        <img ng-if="x.image.length>100" class="img-circle" style="height: 50px; width: 50px;" data-ng-src="data:image/png;base64,{{x.image}}" data-err-src="images/png/avatar.png"/>
 		    </div>
 		  </td>

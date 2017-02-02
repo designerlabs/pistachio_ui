@@ -145,6 +145,19 @@
 
     "efastsearch.title":"Enforcement Search",
     "efastsearch.detainee":"Detainee",
-    "efastsearch.overstay":"Overstay"
+    "efastsearch.overstay":"Overstay",
+
+    "enforcement" : {
+    	"dashboard": {
+    		"detained" : "Detained",
+    		"compound" : "Compound",
+    		"operation" : "Operation",
+    		"complaints" : "Complaints",
+    		"title" : "Enforcement"
+    	}
+    }
+
+
+
 
 }

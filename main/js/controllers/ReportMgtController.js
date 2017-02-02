@@ -243,11 +243,11 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
             //var reportMgtUpdateActivatedVal = $("#reportMgtForm #reportMgt-activated").val();
             var reportMgtUpdateTitleVal = $("#reportMgtForm #reportMgt-title").val();
             var reportMgtUpdateParentVal = $("#reportMgtForm #inpHiddenParent").val(); //$("#reportMgtForm #reportMgt-parent").val();
-            var reportMgtUpdateThemeVal = $("#reportMgtForm #reportMgt-theme").val();
+            var reportMgtUpdateThemeVal = "bg-blue"//$("#reportMgtForm #reportMgt-theme").val();
             // var reportMgtUpdateRoleVal = $("#reportMgtForm #reportMgt-role").val();
             var reportMgtUpdateIconVal = $("#reportMgtForm #reportMgt-icon").val();
             var reportMgtUpdateParentDisplayName = $("#reportMgtForm #inpHiddenParentName").val();
-
+            debugger;
             $.ajax({
                     url: globalURL + "query/cato",
                     type: "PUT",

@@ -17,7 +17,8 @@ var MetronicApp = angular
         "chart.js",
         "ngIdle",
         "ui.bootstrap",
-        "ngFileUpload"
+        "ngFileUpload",
+        "angular-intro"
     ])
 
 // /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -526,7 +527,7 @@ MetronicApp.factory('httpInterceptor', ['$q', '$rootScope', '$timeout',
 
             responseError: function (response) {
 
-                 $rootScope.errorMsgId = true;
+                 //$rootScope.errorMsgId = true;
                  if(response.statusText){
                         $rootScope.errorMsg ="URL: "+ response.config.url;
                         $rootScope.statusMsg = "Status: "+ response.statusText;
@@ -1129,7 +1130,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
     //    templateUrl: 'partials/page.html', // I made this up
     //    controller: 'StoreController'
     //})
-        .otherwise("/myprofile.html");
+        .otherwise("/enforcement/dashboard.html");
     //}else{
     //  $urlRouterProvider.otherwise("/dashboard.html");
     //}
@@ -1883,6 +1884,37 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/pistachio/range/range.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
+                    ]
+                });
+            }]
+        }
+    })
+
+.state('enforcementdashboard', {
+        url: "/enforcement/dashboard.html",
+        templateUrl: "views/enforcement/dashboard.html",
+        data: {
+            pageTitle: 'Enforcement Dashboard'
+        },
+        controller: "EnforcementDashboard",
+        // controller: "DocumentSearchController1",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/pistachio/enforcement/dashboard.css',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/leaflet/L.Icon.Pulse.css',
+                        'assets/global/plugins/leaflet/L.Icon.Pulse.js',
+                        'assets/global/plugins/leaflet/leaflet.label.css',
+                        'assets/global/plugins/leaflet/leaflet.label.js',
+                        'assets/pistachio/map/leaflet.markercluster-src.js',
+                        'assets/pistachio/map/MarkerCluster.Default.css',
+                        'assets/pages/scripts/highstock.js',
+                        'js/controllers/EnforcementDashboard.js'
                     ]
                 });
             }]

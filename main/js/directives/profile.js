@@ -9,6 +9,8 @@ var ProfileController = function ($scope,$http) {
     $scope.isExpact = true 
     $scope.docs= [];
     $scope.banner =""
+    $scope.visatotal = 0;
+    $scope.movetotal = 0;
     var check = {suspect:true,offender:true}
     init();
     checkAll();
@@ -27,8 +29,7 @@ var ProfileController = function ($scope,$http) {
         return
       }
       var query = "expact_id:\""+$scope.expact +"\""
-      $scope.visatotal = 0;
-      $scope.movetotal = 0;
+
       $scope.offendertotal = 0;
     $http.get(thisSolrAppUrl+query).
       success(function(data) {
@@ -75,7 +76,7 @@ var ProfileController = function ($scope,$http) {
          getFromMovement4Citizen()
          return
         }
-        $scope.visatotal =data.response.numFound
+        $scope.passporttotal =data.response.numFound
         $scope.doc = data.response.docs[0];
         $scope.docs = data.response.docs;
         getOldPassports()
@@ -98,7 +99,7 @@ var ProfileController = function ($scope,$http) {
           getFromSuspectList()
           return
         }
-        $scope.visatotal =0
+        $scope.passporttotal =0
         $scope.doc = data.response.docs[0];
         $scope.doc.doc_nos = [];
 
@@ -155,7 +156,7 @@ var ProfileController = function ($scope,$http) {
         if(data.response.numFound == 0) {
           return
         }
-        $scope.visatotal =0
+        //$scope.visatotal =0
         $scope.doc = data.response.docs[0];
         $scope.doc.doc_nos = [];
          $scope.banner = $scope.banner + " SUSPECT"

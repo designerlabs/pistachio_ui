@@ -19,6 +19,71 @@ MetronicApp.directive('onFinishRender', function ($timeout) {
 
 
 MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,NgTableParams,$uibModal) {
+
+   //Scroll on top
+   function sticky_relocate() {
+    var window_top = $(window).scrollTop();
+    var div_top = $('#sticky-anchor').offset().top;
+    if (window_top > div_top) {
+        $('#sticky').addClass('stick');
+        $('#sticky-anchor').height($('#sticky').outerHeight());
+    } else {
+        $('#sticky').removeClass('stick');
+        $('#sticky-anchor').height(0);
+    }
+}
+
+   $(function() {
+    $(window).scroll(sticky_relocate);
+    sticky_relocate();
+   });
+
+   $scope.IntroOptions = {
+        steps:[
+        {
+            element: document.querySelector('#sticky'),
+            intro: "This is the filter bar. It shows the applied filter"
+        },
+        {
+            element: document.querySelector('#resetbtn'),
+            intro: "<strong>Click to clear the filter</strong> can also <em>include</em> HTML",
+            position: 'bottom'
+        },
+        {
+            element: document.querySelector('#vaa-range'),
+            intro: "<strong>Click</strong> to view the date filter options",
+            position: 'bottom'
+        },
+        {
+            element: document.querySelector('#depotSearch'),
+            intro: "type to search a depot",
+            position: 'left'
+        },
+        {
+            element: document.querySelector('#dashboard-branch'),
+            intro: "Click to select a depot",
+            position: 'left'
+        },
+        {
+            element: document.querySelector('#highchart_col'),
+            intro: "Click to on the bar to apply filter",
+            position: 'top'
+        }
+        ],
+        showStepNumbers: false,
+        exitOnOverlayClick: true,
+        exitOnEsc:true,
+        nextLabel: '<strong>NEXT!</strong>',
+        prevLabel: '<span style="color:green">Previous</span>',
+        skipLabel: 'Exit',
+        doneLabel: 'Thanks'
+    };
+
+    $scope.ShouldAutoStart = false;
+
+
+
+
     var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/offender/query?json='
 
    $scope.open = function () {
@@ -201,7 +266,7 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
        }
 
        $scope.clickSex = function(data) {
-        $scope.addFilter("sex","Sex : "+data,"sex:"+$scope.cleanQuery(data));
+        $scope.addFilter("sex","Gender : "+data,"sex:"+$scope.cleanQuery(data));
         $scope.querySolr();
        }
 
@@ -220,7 +285,7 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
        $scope.clickBranch = function(data) {
         $scope.selectBranch = true
         $scope.selectedBranch = data;
-        $scope.addFilter("brn","Branch :"+data,"{!tag=BRANCH}branch:"+$scope.cleanQuery(data));
+        $scope.addFilter("brn","Depot :"+data,"{!tag=BRANCH}branch:"+$scope.cleanQuery(data));
         $scope.querySolr();
        }
 
@@ -354,7 +419,7 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
             json.facet.country.field  =  "country";
             json.facet.country.domain = {};
             json.facet.country.domain.excludeTags ="COUNTRY"
-            json.facet.country.limit  =  20;
+            json.facet.country.limit  =  10;
             json.facet.user_type = {};
             json.facet.user_type.type   = "terms";
             json.facet.user_type.field  =  "pass_type";
@@ -593,11 +658,7 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
                 shadow:false,
                 borderWidth:0,
                 dataLabels:{
-                    enabled:true,
-                    formatter:function() {
-                        var pcnt = (this.y / $scope.total) ;
-                        return Highcharts.numberFormat(pcnt) + '%';
-                    }
+                    enabled:true
                 }
             }
         },

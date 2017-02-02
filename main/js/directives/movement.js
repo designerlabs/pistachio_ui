@@ -135,7 +135,7 @@ var MovementController = function ($scope,$http) {
 
             $('#tblinout').DataTable({
                 // data: result.response.docs,
-                order: [[0, "asc"]],
+               // order: [[0, "desc"]],
                 data: newary.concat(wrg),
                 "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                     if (aData['mismatch'] == 'yes') {

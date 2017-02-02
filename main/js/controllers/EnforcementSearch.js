@@ -153,13 +153,13 @@ MetronicApp.controller('EnforcementSearchController', function ($rootScope, $sco
       filter_query = filter_query + ')'
     }
 
-    arrayLength = selected_jobs.length;
+    arrayLength = selected_branch.length;
     if (arrayLength > 0) {
       if (filter_query.length > 1)
         filter_query = filter_query + " AND "
-      filter_query = filter_query + "job_bm:("
+      filter_query = filter_query + "{!tag=BRANCH}branch:("
       for (var i = 0; i < arrayLength; i++) {
-        filter_query = filter_query + "\"" + selected_jobs[i] + "\"";
+        filter_query = filter_query + "\"" + selected_branch[i] + "\"";
 
         if (i != arrayLength - 1)
           filter_query = filter_query + " "
@@ -319,15 +319,15 @@ $scope.branchsBox = function (id) {
   $scope.showData = function (collection,rows=10,click=true) {
     console.log(collection)
       var offenderUrl = 'http://'+solrHost+':8983/solr/immigration2/query?collection='+collection+'&json='
-      $http.get(offenderUrl).
-      success(function(data) {
-        if(data.response.numFound == 0) {
-         return
-        }
-        $scope.offendertotal =data.response.numFound
-        if(rows!=0)
-          $scope.records = data.response.docs;
-       });  
+      //$http.get(offenderUrl).
+      //success(function(data) {
+       // if(data.response.numFound == 0) {
+        // return
+       // }
+      //  $scope.offendertotal =data.response.numFound
+      //  if(rows!=0)
+      //    $scope.records = data.response.docs;
+      // });  
 
        var json = {};
       json.limit  = rows;
@@ -341,6 +341,13 @@ $scope.branchsBox = function (id) {
       json.facet.country.limit  =  10;
       json.facet.country.domain = {};
       json.facet.country.domain.excludeTags ="COUNTRY"
+      
+      json.facet.branch = {};
+      json.facet.branch.type   = "terms";
+      json.facet.branch.field  =  "branch";
+      json.facet.branch.limit  =  10;
+      json.facet.branch.domain = {};
+      json.facet.branch.domain.excludeTags ="BRANCH"
 
       $http.get(offenderUrl+JSON.stringify(json)).
            success(function(data) {
@@ -353,6 +360,13 @@ $scope.branchsBox = function (id) {
                       delete sex[i].val;
                     }
                     $scope.country = sex
+              sex = data.facets.branch.buckets;
+                   var i;
+                   for(i = 0; i < sex.length; i++){
+                      sex[i].field = sex[i]['val'];
+                      delete sex[i].val;
+                    }
+               $scope.branch = sex
                if(data.response.numFound == 0) {
                  return
                 }
