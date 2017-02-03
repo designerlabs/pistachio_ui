@@ -239,8 +239,18 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
             json.facet.category.field = "complaint_category"
             json.facet.nature = {}
             json.facet.nature.type = "terms"
-            json.facet.nature.limit = 5
+            json.facet.nature.limit = 6
             json.facet.nature.field = "complaint_nature"
+            json.facet.cat = {}
+            json.facet.cat.type = "terms"
+            json.facet.cat.field = "complaint_nature"
+            json.facet.cat.facet = {}
+            json.facet.cat.facet.category = {}
+            //json.facet.cat.facet.category.terms = "complaint_category"
+            json.facet.cat.facet.category.field = "complaint_category"
+            json.facet.cat.facet.category.type = "terms"
+            json.facet.cat.facet.category.limit= 15
+            json.facet.cat.facet.category.sort = "index"
 
            
           
@@ -251,10 +261,8 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
                  $scope.complaints = data.response.numFound;
                  $scope.complaint_category = data.facets.category.buckets
                  $scope.complaint_nature = data.facets.nature.buckets;
+                 $scope.complaint_category1 = data.facets.cat.buckets
                  $scope.complaint_chart();
-                 console.log($scope.operations)
-                 drawMarker(data.response.docs)
-                 
                }).
                error(function(data, status, headers, config) {
                  console.log('error');
@@ -335,7 +343,7 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
           $http.get(solrUrl+JSON.stringify(json)+$scope.fqQuery()).
              success(function(data) {
                  console.log(data)    
-                 $scope.compound = data.facets.compound
+                 $scope.compound = data.response.numFound//data.facets.compound
 
                }).
                error(function(data, status, headers, config) {
@@ -377,6 +385,13 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
               json.facet.date_range.end    = $scope.dateRange.max;
             }
             json.facet.date_range.gap    = $scope.period;
+            json.facet.date_range.facet    = {};
+            json.facet.date_range.facet.pati    = {};
+            json.facet.date_range.facet.pati.type    = "terms";
+            json.facet.date_range.facet.pati.field   = "country";
+            json.facet.date_range.facet.pati.filter   = "citizen:MYS";
+
+
           
           $http.get(thisSolrAppUrl+JSON.stringify(json)+$scope.fqQuery()).
              success(function(data) {
@@ -416,8 +431,13 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
     //L.tileLayer('http://10.23.124.233/osm_tiles/{z}/{x}/{y}.png', {
       attribution: '&copy; NSL | Mimos'
     }).addTo(map);
-    map.once('focus', function() { map.scrollWheelZoom.enable(); });
+    map.once('focus', function() { 
+      map.scrollWheelZoom.enable();
+      $('#map-label').addClass('operation-map-label-active');
+      $('#map-label').removeClass('operation-map-label');
+       });
     map.scrollWheelZoom.disable()
+    
       $scope.map = map;
 
       }
@@ -524,10 +544,15 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
       //
     }
 
+     $scope.getComplaintTypeHeight = function() {
+      return 'height:'+$scope.getHeight(10)+'px'
+     }
+
+
 
      $scope.complaint_chart = function() {
        console.log( window.innerHeight);
-      
+       $scope.show_overall = false
        var sel = -1;
        var _state = $scope.complaint_category;
 
@@ -536,7 +561,7 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
 //chart.series[i].data[j].select(true, true);
       for (var i =0,l=_state.length; i < l; i++) {
            if($scope.stateSelected == _state[i].val) {
-            debugger;
+            
              sel = i;
            }
            stateName.push(_state[i].val)
@@ -617,7 +642,122 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
       if(sel != -1) {
         chart.series[0].data[sel].select(true, true);
       }
+
+
       //
+    }
+
+    $scope.complaint_chart1 = function() {
+       console.log( window.innerHeight);
+      $scope.show_overall = true
+       var _state = $scope.complaint_category1[0].category.buckets;
+
+       var stateName = [];
+       var stateData = [];
+//chart.series[i].data[j].select(true, true);
+      for (var i =0,l=_state.length; i < l; i++) {
+           stateName.push(_state[i].val)
+           stateData.push(_state[i].count)
+        }
+
+      var chart = Highcharts.chart('highchart_complaint',{
+        chart : {
+            type : 'column',
+            height:$scope.getHeight(60),
+            backgroundColor: backgroundColor,
+            style: {
+                fontFamily: 'Open Sans'
+            }
+        },
+         plotOptions: {
+        pie: {
+            dataLabels: {
+                distance: -45
+            }
+        }
+        },
+        xAxis: {
+            categories: stateName
+        },
+         yAxis: {
+          title: {
+            enabled: false
+          },
+             gridLineColor: 'transparent',
+             lineWidth: 0,
+             minorGridLineWidth: 0,
+             lineColor: 'transparent',
+             labels: {
+                 enabled: false
+             },
+             minorTickLength: 0,
+             tickLength: 0
+        },
+        plotOptions:{
+
+          column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true
+                    
+                }
+            }
+        },
+        tooltip: {
+            formatter: function() {
+                var s = '<b>'+ this.x +'</b>',
+                    sum = 0;
+
+                $.each(this.points, function(i, point) {
+                    s += '<br/>'+ point.series.name +': '+
+                        point.y ;
+                    sum += point.y;
+                });
+
+                s += '<br/><b>Jumlah: '+sum +'</b>'
+
+                return s;
+            },
+            shared: true
+        },
+
+        exporting: { enabled: false },
+            title: {
+              text: 'Jumlah Aduan Mengikut Kategori',
+              x: -20 //center
+            },
+            series: [{
+            name: $scope.complaint_category1[0].val,
+       //     colorByPoint: true,
+            data: stateData,
+            color: '#34495E',
+            showInLegend:false,
+          point:{
+              events:{
+                  click: function (event) {
+                      $scope.clickCountry(event.point.category);
+                  }
+              }
+          }
+        }]
+          });
+
+      for (var j =1,k=$scope.complaint_category1.length; j< k; j++) {
+          _state = $scope.complaint_category1[j].category.buckets;
+          stateData = [];
+
+          for (var i =0,l=_state.length; i < l; i++) {
+             stateData.push(_state[i].count)
+            
+          }
+           chart.addSeries({                        
+                  name: $scope.complaint_category1[j].val,
+                  data: stateData
+              }, false)
+        }
+        chart.redraw();
+     
+
     }
 
 

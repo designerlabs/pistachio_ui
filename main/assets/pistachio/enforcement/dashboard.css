@@ -55,10 +55,19 @@
     position: fixed;
     width:94.35%;
     opacity: .9;
-    background-color: #3d4a53;
+    background-color: #26344b !important;
     top: 69px;
     z-index: 10000;
     border-radius: 0 0 0.5em 0.5em;
+
+    animation-name: example;
+    animation-duration: 3s;
+}
+
+@-webkit-keyframes example {
+    0%   {opacity: 1;}
+    50%  {opacity: .95;}
+    100% {opacity: .9;}
 }
 
 
@@ -67,8 +76,9 @@
   float: left;
   background: #fff;
   height: 100%;
-  border-radius: 0 4px 4px 0;
-  box-shadow: -5px 0px 15px rgba(0,0,0, .3);
+  border-radius: 10px;
+  box-shadow: 5px 0px 15px rgba(0,0,0, .3);
+
 }
 #complaints-side-bar .title {
   background-color: #8775a7;
@@ -98,18 +108,61 @@
   padding-right: 10px;
   float: left;
   width: 100%;
-  height: 115px;
+  //height: 115px;
   border-bottom: solid 1px #eaeaea;
   
 }
+
+#complaints-side-bar ul li:hover {
+  background-color: #26c281;
+  color:white;
+}
+
 #complaints-side-bar  ul li:last-child{
 
   border-bottom: none;
 }
+
 #complaints-side-bar ul li span.icon {
   display: block;
-  margin-top: 25px;
+  //margin-top: 25px;
+  margin-top: 17px;
   color: #8775a7;
   font-size: 36px;
   line-height: 32px;
 }
+
+.aduan-label  {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    cursor: pointer;
+    z-index: 888;
+}
+
+.operation-map-label  {
+    position: absolute;
+    background-color: #3598dc;
+    opacity: .8;
+    top: 10px;
+    right: 37%;
+    //right: 0px;
+    padding: 15px;
+    cursor: pointer;
+    z-index: 888;
+}
+
+.operation-map-label-active  {
+    position: absolute;
+    background-color: #3598dc;
+    opacity: .7;
+    top: 1px;
+    //right: 37%;
+    right: 0px;
+    padding: 5px;
+    cursor: pointer;
+    z-index: 888;
+    transition: all 0.7s ease-out;
+}
+
+

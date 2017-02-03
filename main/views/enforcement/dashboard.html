@@ -7,7 +7,7 @@
           		<div id="dashboard-report-range" style="width: 100%;"
                                 class="pull-right tooltips btn btn-fit-height green"
                                 data-placement="top"
-                                data-original-title="Change dashboard date range">
+                                >
                                   <i class="icon-calendar"></i>&nbsp;
                                   <span class="thin uppercase hidden-xs">June 28, 2016 - July 4, 2016</span>&nbsp;
                                   <i class="fa fa-angle-down"></i>
@@ -23,7 +23,7 @@
 		            <i class="fa fa-globe"></i>
 		        </div>
 		        <div class="details">
-		            <div class="number"> +
+		            <div class="number">
 		                <span data-counter="counterup" data-value="89">{{complaints|number}}</div></span>
 		            <div class="desc"> {{'enforcement.dashboard.complaints' | translate}} </div>
 		        </div>
@@ -62,7 +62,7 @@
 		        </div>
 		        <div class="details">
 		            <div class="number">
-		                <span data-counter="counterup" data-value="12,5">{{compound  | currency:"$":0 }}</span></div>
+		                <span data-counter="counterup" data-value="12,5">{{compound  | number }}</span></div><!--currency:"$":0-->
 		            <div class="desc">{{'enforcement.dashboard.compound' | translate}} </div>
 		        </div>
 		    </a>
@@ -71,49 +71,62 @@
 		
 	
 	</div>
-	<div class ="row">
-	<div class="col-md-4 chart-col">
-		<div class="chart-box">
-			<div id="highchart_col"></div>
-		</div>
-    </div>
-    	<div class="col-md-8 chart-col">
-    		<div class ="chart-box">
-    			<div id="highchart_timeline"></div>
-    		</div>
-    </div>
-    </div>
+	<div class = "row">
+	    <div class="col-md-10 col-sm-10 chart-col"  style="" >
+	        <div id="aduan" ng-if="show_overall==false" 
+	        class="aduan-label"> <button type="button" style="font-size:10px;background-color: #8775a7;" 
+	        ng-click="complaint_chart1()"
+	        class="btn btn-danger">Persembahan Mengikut Jenis</button> </div>
+	        <div id="aduan1" ng-if="show_overall==true" 
+	        class="aduan-label"> <button type="button" style="font-size:10px;background-color: #8775a7;" 
+	        ng-click="complaint_chart()"
+	        class="btn btn-danger">Aduan Keseluruhan</button> </div>
+	     	<div class ="chart-box">
+	     		<div id="highchart_complaint"></div>
+	     	</div>
+	    </div>
+	    <div id="complaints-side-bar" class="col-md-2 col-sm-2 chart-col" style="padding:0px">
+	    	<div class="title">Aduan Type </div>
+	    <ul>
+	      <li ng-repeat="x in complaint_nature" ><span class="typicons-user icon"><i ng-class="getNatureClass(x.val)"></i></span>
+	       <div class ="value"> {{x.count}} </div>
+	      {{x.val}}
+	      		
+
+	      </li>
+	     
+	    </ul>
+	  </div>
+	</div>
+
+	
     <div class ="row" style="padding-top:15px">
-     <div class="col-md-4 chart-col" style="height:40%" >
-     	<div class ="chart-box">
-     		<div id="highchart_operation"></div>
-     	</div>
-    </div>
-    <div class="col-md-8 chart-col" ng-style="getHeight(60)" >
-    	<div class ="chart-box">
-            <div id="mapid"></div>
-        </div>
-    </div>
+	     <div class="col-md-4 chart-col" style="height:40%" >
+	     	<div class ="chart-box">
+	     		<div id="highchart_operation"></div>
+	     	</div>
+	    </div>
+	    <div class="col-md-8 chart-col" ng-style="getHeight(60)" >
+	    <div class="operation-map-label" id="map-label"> 
+	    <span class="bg-font-blue font-lg bold">Operasi Mengikut Lokasi</span>
+	    </div>
+	    	<div class ="chart-box">
+	            <div id="mapid"></div>
+	        </div>
+	    </div>
 
-   </div>
-   <div class = "row" style="padding-top:15px">
-    <div class="col-md-10 chart-col" style="" >
-     	<div class ="chart-box">
-     		<div id="highchart_complaint"></div>
-     	</div>
+	   </div>
+	<div class ="row" style="padding-top:15px">
+		<div class="col-md-4 chart-col">
+			<div class="chart-box">
+				<div id="highchart_col"></div>
+			</div>
+	    </div>
+	    	<div class="col-md-8 chart-col">
+	    		<div class ="chart-box">
+	    			<div id="highchart_timeline"></div>
+	    		</div>
+	    </div>
     </div>
-    <div id="complaints-side-bar" class="col-md-2 chart-col" style="padding:0px">
-    	<div class="title">Aduan Type </div>
-    <ul>
-      <li ng-repeat="x in complaint_nature"><span class="typicons-user icon"><i ng-class="getNatureClass(x.val)"></i></span>
-       <div class ="value"> {{x.count}} </div>
-      {{x.val}}
-      		
-
-      </li>
-     
-    </ul>
-  </div>
-   </div>
 
 </div>
