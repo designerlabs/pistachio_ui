@@ -55,7 +55,7 @@
                                       <h3 class="font-green-sharp">
                                           <span data-counter="counterup" data-value="7800">{{numFound | number:0}}</span>
                                       </h3>
-                                      <small>Detainees</small>
+                                      <small>Overstayer</small>
                                   </div>
                                   <div class="icon">
                                       <i class="icon-user"></i>
@@ -64,28 +64,7 @@
                           </div>
                       </div>
                       <div class = "col-md-12 col-lg-12 col-sm-12" style="padding-right: 0px;padding-left: 10px;padding-top: 0px;height: 200px;">
-                        <div class=" filter" style="padding:0px; border-bottom: 0px;">
-                          <div class="titleHeader" style="margin-top: 0px;">
-                            <h3 class="nopadding"><i style="font-size: 20px;" class="fa fa-plane"></i> Branch List</h3>
-                          </div>
-                          <div style="padding-top:0px;">
-                            <input type="text" ng-model="searchBranch" class="form-control input-md" placeholder="&#128269; Search by Branch" style="border:1px solid #ccc">
-                          </div>
-                          <div ng-model="checkList" ng-show="checkList" class="recordFail">
-                            <h5 class="text-center"><i class="fa fa-warning"></i> Records not found!</h5>
-                          </div>
-                          <div class="chart-wrap">
-                    <div id="dashboard-branch" class="chart bars-horizontal brand-primary">
-                    <div class="row" ng-repeat="x in branch" on-finish-render="ngRepeatFinished" ng-click="clickBranch(x.val)">
-                        <span class="label-cw">{{x.val}}</span>
-                        <div class="bar-wrap">
-                          <div class="bar" data-value={{x.count}}   ng-class="activeBranch(x.val)"></div>
-                        </div>
-                        <span class="number">{{x.count}}</span>
-                      </div>
-                    </div>
-                  </div>
-                        </div>
+                        <div id="pie-chart"></div>
                       </div>
                     </div>
                   </div>

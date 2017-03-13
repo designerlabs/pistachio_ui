@@ -1,0 +1,45 @@
+<div ng-controller="MoveController">
+   <div id="sticky-anchor"></div>
+      <div class="page-bar"  id="sticky">
+     
+          <ul class="page-breadcrumb" data-ng-repeat="filter in filterButtons">
+              <li>
+                  <div class="custom-alerts alert alert-success fade in" style="margin:0;padding:5px">
+                      <button aria-hidden="true" data-dismiss="alert" class="close" type="button" style="padding-top: 5px; margin-top: 4px; margin-left: 5px;" ng-click="updateFilter(filter.id,true)"></button> {{filter.value}}</div>
+              </li>
+          </ul>
+          <ul class="page-breadcrumb">
+              <li>
+                  <div id="resetbtn" ng-click="reset()" class="btn btn-primary previousBtn" style="padding: 5px;"><i class="fa fa-refresh"></i> Reset </div>
+              </li>
+          </ul>
+          <ul class="page-breadcrumb  pull-right">
+              <li style="vertical-align: top;">
+              <button class="btn btn-block btn-default" ng-click="CallMe()"><i class="fa fa-question-circle"></i> Help</button> 
+              <div ng-intro-options="IntroOptions" ng-intro-method="CallMe"
+              ng-intro-autostart="ShouldAutoStart">
+
+              </li>
+              <li style="vertical-align: top;">
+              
+              <button class="btn btn-block btn-default" ng-click="open()"><i class="fa fa-table"></i> Datatable</button>
+              </li>
+               <li>
+              <div id="vaa-range" style="width: 100%;"
+                                    class="pull-right tooltips btn btn-fit-height green"
+                                    data-placement="top"
+                                    data-original-title="Change dashboard date range">
+                                      <i class="icon-calendar"></i>&nbsp;
+                                      <span class="thin uppercase hidden-xs">June 28, 2016 - July 4, 2016</span>&nbsp;
+                                      <i class="fa fa-angle-down"></i>
+                                  </div>
+              </li>
+             
+          </ul>
+      </div>
+       <div class = "col-md-8 col-lg-8 col-sm-8" style="padding: 0px;">
+          <div id="heatmap"></div>
+       </div>
+   
+    
+</style>

@@ -1,0 +1,171 @@
+<div ng-controller="VisaPassDashboard">
+	<div id="sticky-anchor"></div>
+  	<div class="page-bar filter-bar"  id="sticky">
+ 		 <ul class="page-breadcrumb" data-ng-repeat="filter in filterButtons">
+              <li>
+                  <div class="custom-alerts alert alert-success fade in" style="margin:0;padding:5px">
+                      <button aria-hidden="true" data-dismiss="alert" class="close" type="button" style="padding-top: 5px; margin-top: 4px; margin-left: 5px;" ng-click="updateFilter(filter.id,true)"></button> {{filter.value}}</div>
+              </li>
+          </ul>
+          <ul class="page-breadcrumb">
+              <li>
+                  <div id="resetbtn" ng-click="reset()" class="btn btn-primary previousBtn" style="padding: 5px;"><i class="fa fa-refresh"></i> Reset </div>
+              </li>
+          </ul>
+     	<ul class="page-breadcrumb  pull-right" style="padding:0px;">
+            <li>
+          		<div id="dashboard-report-range" style="width: 100%;"
+                                class="pull-right tooltips btn btn-fit-height green"
+                                data-placement="top"
+                                >
+                                  <i class="icon-calendar"></i>&nbsp;
+                                  <span class="thin uppercase hidden-xs">June 28, 2016 - July 4, 2016</span>&nbsp;
+                                  <i class="fa fa-angle-down"></i>
+                </div>
+          	</li>
+      	</ul>
+  	</div>
+
+	<div class="row">
+		<div class="col-lg-2 col-md-2 col-sm-4 col-xs-6" ng-repeat="x in step">
+		    <a class="dashboard-stat dashboard-stat-v2  stat-box" href="#" ng-class="getNatureColor(x.val)" ng-click="clickStep(x.val)">
+		        <div class="visual" style="padding-top: 5px!important;">
+		            <i ng-class="getNatureClass(x.val)" style="opacity:.4" class="icon-small"></i>
+		        </div>
+		        <div class="details">
+		            <div class="number">
+		                <span data-counter="counterup" data-value="89">{{x.count|number}}</div></span>
+		            <div class="desc"> {{x.val}} </div>
+		        </div>
+		    </a>
+		</div>
+		<!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		    <a class="dashboard-stat dashboard-stat-v2 purple  stat-box" href="#">
+		        <div class="visual" style="padding-top: 5px!important;">
+		            <i class="icon-imi-aduan_imi" style="opacity:.4"></i>
+		        </div>
+		        <div class="details">
+		            <div class="number">
+		                <span data-counter="counterup" data-value="89">{{complaints|number}}</div></span>
+		            <div class="desc"> CETAKAN VISA </div>
+		        </div>
+		    </a>
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		    <a class="dashboard-stat dashboard-stat-v2 green  stat-box" href="#">
+		        <div class="visual" style="padding-top: 5px!important;">
+		            <i class="icon-imi-operasi_imi" style="opacity:.4"></i>
+		        </div>
+		        <div class="details">
+		            <div class="number">
+		                <span data-counter="counterup" >{{operations|number}}</span>
+		            </div>
+		            <div class="desc"> KELULUSAN </div>
+		        </div>
+		    </a>
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		    <a class="dashboard-stat dashboard-stat-v2 blue  stat-box" href="#/detaineeAnalysis.html">
+		        <div class="visual" style="padding-top: 5px!important;">
+		            <i class="icon-imi-ditahan_imi" style="opacity:.4"></i>
+		        </div>
+		        <div class="details">
+		            <div class="number">
+		                <span data-counter="counterup" data-value="1349">{{detainee | number}}</span>
+		            </div>
+		            <div class="desc">CETAKAN PAS </div>
+		        </div>
+		    </a>
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		    <a class="dashboard-stat dashboard-stat-v2 red  stat-box" href="#">
+		        <div class="visual" style="padding-top: 5px!important;">
+		            <i class="icon-imi-kompaun_imi" style="opacity:.4"></i>
+		        </div>
+		        <div class="details">
+		            <div class="number">
+		                <span data-counter="counterup" data-value="12,5">{{compound  | number }}</span></div>
+		            <div class="desc">BAYARAN PAS </div>
+		        </div>
+		    </a>
+
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		    <a class="dashboard-stat dashboard-stat-v2 red  stat-box" href="#">
+		        <div class="visual" style="padding-top: 5px!important;">
+		            <i class="icon-imi-kompaun_imi" style="opacity:.4"></i>
+		        </div>
+		        <div class="details">
+		            <div class="number">
+		                <span data-counter="counterup" data-value="12,5">{{compound  | number }}</span></div>
+		            <div class="desc">PERMOHONAN</div>
+		        </div>
+		    </a>
+
+		</div> -->
+		
+	
+	</div>
+	<div class = "row"  >
+	    <div class="col-md-9 col-sm-9 chart-col"  style="" >
+	        <div id="time"></div>
+	        <div id="time1"></div>
+	    </div>
+	    <div id="complaints-side-bar" class="col-md-3 col-sm-3 chart-col" style="padding:0px">
+	    	<div class="title">Statistik </div>
+	    		<a class="aduan-stat stat-box blue"  href="#" style="margin:2px 2px 3px 2px;">
+			        <div class="visual" style="padding-top: 5px!important;">
+			            <i class="icon-imi-elaporan_imi" ></i>
+			        </div>
+			        <div class="details">
+			            <div class="number">
+			                <span data-counter="counterup" data-value="89">{{numFound|number:0}}</div></span>
+			            <div class="desc"> Total Records Found</div>
+			        </div>
+			    </a>
+		    	<a class="aduan-stat stat-box blue"  href="#" style="margin:2px 2px 3px 2px;">
+			        <div class="visual" style="padding-top: 5px!important;">
+			            <i class="icon-imi-elaporan_imi" ></i>
+			        </div>
+			        <div class="details">
+			            <div class="number">
+			                <span data-counter="counterup" data-value="89">{{visa_pass_avg|number:0}}</div></span>
+			            <div class="desc"> Average Visa & Pass Per Day</div>
+			        </div>
+			    </a>
+			    <a class="aduan-stat stat-box green-turquoise"  href="#" style="margin:2px 2px 3px 2px;">
+			        <div class="visual" style="padding-top: 5px!important;">
+			            <i class="icon-imi-elaporan_imi" ></i>
+			        </div>
+			        <div class="details">
+			            <div class="number">
+			                <span data-counter="counterup" data-value="89">{{visa_pass_processing_avg|number:1}}</div></span>
+			            <div class="desc"> Average days to process Visa & Pass</div>
+			        </div>
+			    </a>
+	   <!--  </ul> -->
+	    </div>
+
+   	</div>
+
+	
+
+	<div class ="row" style="padding-top:15px" >
+		<div class="col-md-4 chart-col">
+			<div class="chart-box">
+				<div id="highchart_col"></div>
+			</div>
+	    </div>
+	    	<div class="col-md-4 chart-col">
+	    		<div class ="chart-box">
+	    			<div id="radar_container"></div>
+	    		</div>
+	    </div>
+	    <div class="col-md-4 chart-col">
+			<div class="chart-box">
+				<div id="highchart_col1"></div>
+			</div>
+	    </div>
+    </div>
+
+</div>

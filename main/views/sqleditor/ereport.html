@@ -1,0 +1,168 @@
+<div ng-controller="EReportController" ng-view >
+    <div class="col-md-4">
+        <div class="portlet red-pink box">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-cogs"></i>System & Sub-Systems</div>
+            </div>
+            <div class="portlet-body" >
+                
+
+               <div js-tree="treeConfig" should-apply="ac()" ng-model="treeData" tree="treeInstance" tree-events="ready:readyCB;before_open:beforeOpen;select_node:selectNode;after_open:afterOpen"></div>
+                                      
+                      
+                
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="portlet red-pink box">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-cogs"></i>Report Params</div>
+            </div>
+            <div class="portlet-body form-horizontal">
+            <form role="form">
+
+                 <div class="form-group  form-md-line-input form-md-floating-label" >
+                        <label class="col-md-3 control-label font-blue-chambray bold">Report Name</label>
+                        <div class="col-md-9">
+                            <input  type="text" class="form-control" value="{{report.queryName}}" ng-model="report.queryName" >
+                        </div>
+                    </div>
+                 <div class="form-group  form-md-line-input form-md-floating-label"  ng-model="report.cached">
+                        <label class="col-md-3 control-label font-blue-chambray bold">Description</label>
+                        <div class="col-md-9">
+                            <input  id="temp-state" type="text" class="form-control" placeholder="Report Description" ng-model="report.cached"  value="{{report.cached}}">
+                        </div>
+                    </div>
+                 
+                <div class="form-group form-md-line-input">
+                                                    <label class="col-md-3 control-label font-blue-chambray bold" for="form_control_1">Visiblity</label>
+                                                    <div class="col-md-9">
+                                                        <div class="md-radio-inline">
+                                                            <div class="md-radio">
+                                                                <input type="radio" id="radio53" name="radio2" data-ng-model="report.visiblity" data-ng-value="true" class="md-radiobtn">
+                                                                <label for="radio53">
+                                                                    <span></span>
+                                                                    <span class="check"></span>
+                                                                    <span class="box"></span>Public</label>
+                                                            </div>
+                                                            <div class="md-radio">
+                                                                <input type="radio" id="radio54" name="radio2" data-ng-model="report.visiblity" data-ng-value="false" class="md-radiobtn" checked="">
+                                                                <label for="radio54">
+                                                                    <span></span>
+                                                                    <span class="check"></span>
+                                                                    <span class="box"></span> Private (Visible only to Author) </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                <div class="form-group form-md-line-input">
+                    <label class="col-md-3 control-label font-blue-chambray bold" >Publish Report</label>
+                    <div class="col-md-9">
+                        <div class="md-checkbox-inline">
+                            <div class="md-checkbox">
+                                <input type="checkbox" id="checkbox33" class="md-check" data-ng-model="report.publish">
+                                <label for="checkbox33">
+                                    <span class="inc"></span>
+                                    <span class="check"></span>
+                                    <span class="box"></span> Publish to User </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-group accordion scrollable" id="accordion2">
+                    <div class="panel panel-default" ng-if="query==undefined && (report.reportFileName.length>-1 || report.id==undefined)">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" data-target="#collapse_2_1"> Template </a>
+                            </h4>
+                        </div>
+                        <div id="collapse_2_1" class="panel-collapse in">
+                            <div class="panel-body">
+
+                               <div ng-if="report.reportFileName.length>0">
+                                    <div class="note note-success">
+                                        <div class="row">
+                                                <h4 class="block col-md-8">{{report.reportFileName}}</h4>
+                                                <div class="pull-right col-md-4 uppercase">Author : {{report.displayName || report.login}}</div>
+                                        </div>
+                                        <div class = "row">
+                                                <p> <button class="btn btn-warning btn-sm downloadBtn" style="padding: 3px;"><i class="fa fa-download"></i> Template</button>
+                                                 <button class="btn red-intense btn-sm" ng-click="removeTemplate()" style="padding: 3px;"><i class="fa fa-close"></i> Remove</button> </p>
+                                        </div>
+
+                                    </div>
+                                    <div class="table-scrollable" ng-if="report.params.length>0">
+                                        <table class="table table-hover table-light" >
+                                            <thead>
+                                                <tr>
+                                                    <th> Parameter </th>
+                                                    <th> Type </th>
+                                                    <th> Status </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody ng-repeat="x in report.params">
+                                                <tr>
+                                                    <td rowspan="2"> {{x}} </td>
+                                                    <td> NA </td>
+                                                    <td>
+                                                        <span class="label label-sm label-success" ng-if="isAllowed(x)"> Allowed </span>
+                                                        <span class="label label-sm label-danger" ng-if="!isAllowed(x)"> Not Allowed </span>
+                                                    </td>
+                                                </tr>
+                                                
+                                                
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                               </div>
+                                <div ng-if="report.reportFileName.length==undefined||report.reportFileName.length==0">
+                                    <div class="row">
+                                        <div class="fileupload-buttonbar col-md-12">
+                                            <span class="btn green fileinput-button ">
+                                            <!-- <input type="file"  id="templateBrowse" file-model="myFile" accept=".jrxml"> -->
+                                            <input type="file" ngf-select ng-model="myfile" name="file"  ngf-accept="'.jrxml'" accept=".jrxml">
+                                            </span>    
+                                            <button type="button" class="btn blue-hoki" style="margin-top:0px;" ng-click="uploadTemplate(myfile)">Upload</button>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-danger" ng-if="uploadError.length>0" style="margin-top: 15px;">
+                                            <strong>Error!</strong> {{uploadError}} </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default" ng-if="report.id!=undefined || query!=undefined">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle" data-toggle="collapse"  data-parent="#accordion2" data-target="#collapse_2_2"> SQL </a>
+                            </h4>
+                        </div>
+                        <div id="collapse_2_2" class="panel-collapse collapse"  >
+                            <div class="panel-body">
+                                <textarea class="form-control" ng-disabled="true" rows="8" ng-model="report.query"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                   <div class="alert alert-danger" ng-if="saveError.length>0" style="margin-top: 15px;">
+                                            <strong>Error!</strong> {{saveError}} </div>
+                    <div class="alert alert-info" ng-if="saveSuccess.length>0" style="margin-top: 15px;">
+                                            <strong>Success!</strong> {{saveSuccess}} </div>
+                </div>
+              </form>  
+            </div>
+        </div>
+        
+    </div>
+ <div class="clearfix">
+                </div>
+<div class="modal-footer">
+                    <button type="button" class="btn btn-success grey-mint" id="btnSaveQry" ng-if="report.id!=undefined" ng-click="deleteReport()"><i class="fa fa-check"></i>Delete </button>
+                    <button type="button" class="btn btn-success" id="btnSaveQry" ng-click="saveReport()"><i class="fa fa-check"></i>{{Savebtn}} </button>
+                    <button type="button" class="btn btn-danger" id='btncancl' ng-click="closing()" data-dismiss="modal"><i class="fa fa-times"></i> Close </button>
+</div>
+</div>

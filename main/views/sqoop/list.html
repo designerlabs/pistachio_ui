@@ -1,0 +1,368 @@
+<div ng-hide="!showTables">
+<h1 class="page-title"> Data source
+                            <small>statistics, charts, recent events and reports</small>
+                        </h1>
+                	<div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="dashboard-stat2 ">
+                                    <div class="display">
+                                        <div class="number">
+                                            <h3 class="font-green-sharp">
+                                                <span data-counter="counterup" data-value="7800">{{dbTables.length}}</span>
+                                            </h3>
+                                            <small>TABLES</small>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="icon-pie-chart"></i>
+                                        </div>
+                                    </div>
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                            <span style="width: 76%;" class="progress-bar progress-bar-success green-sharp">
+                                                <span class="sr-only">76% progress</span>
+                                            </span>
+                                        </div>
+                                        <div class="status">
+                                            <div class="status-title"> progress </div>
+                                            <div class="status-number"> 76% </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="dashboard-stat2 ">
+                                    <div class="display">
+                                        <div class="number">
+                                            <h3 class="font-red-haze">
+                                                <span data-counter="counterup" data-value="1349">{{sqoopJobs}}</span>
+                                            </h3>
+                                            <small>SQOOP JOBS</small>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="icon-like"></i>
+                                        </div>
+                                    </div>
+                                    <div class="progress-info">
+                                        <div class="progress">
+                                            <span style="width: 85%;" class="progress-bar progress-bar-success red-haze">
+                                                <span class="sr-only">85% change</span>
+                                            </span>
+                                        </div>
+                                        <div class="status">
+                                            <div class="status-title"> change </div>
+                                            <div class="status-number"> 85% </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-success btn-sm pull-right" ng-click="showTables = false"><i class="fa fa-arrow-left"></i> back</button>
+                            
+                        </div>
+                </div>
+<div class="row" ng-hide="showTables">
+    <div class="col-md-12">
+
+        <div class="portlet box red-intense">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>Sqoop Datasource
+                </div>
+                 <div class="tools">
+                    <!-- <button class="btn btn-success btn-sm" data-toggle="modal" id="userMgtAddBtn" data-target="#userMgtAddForm"><i class="fa fa-plus"></i> Add</button> -->
+                     <button class="btn btn-success btn-sm pull-right" ng-click="addDB()"><i class="fa fa-plus"></i> {{'ereporting.add' | translate}}</button>
+                </div> 
+            </div>
+            <div class="portlet-body">
+               <table ng-table="records" class="table table-bordered table-hover table-condensed editable-table"  show-filter="false">
+                    <colgroup>
+                          <col width="24%"/>
+                          <col width="16%"/>
+                          
+                          <col width="16%"/>
+                        </colgroup>
+                    <tr ng-repeat="row in $data" ng-form="rowForm" demo-tracked-table-row="row" class="mt-action" >
+                      <td title="'Name'"  class="uppercase" header-class="'align-left'">
+                        {{row.dbName}}
+                      </td>
+                    
+                      <td title="'Database Type'" header-class="'text-center'">
+                        {{row.dbType}}
+                      </td>
+                      <td title="'Created By'" header-class="'text-center'">
+                        {{row.username}}
+                      </td>
+                         <td title="'Created On'" header-class="'text-center'">
+                        {{row.modifiedDate || row.createdDate }}
+                      </td>
+                     
+                        <td title="'Action'"  >
+                        <button  uib-tooltip="view tables" class="btn btn-success btn-sm" ng-click="view(row)" ><span class="fa fa-eye"></span></button>
+                        <button class="btn btn-info btn-sm" ng-click="edit(row)" uib-tooltip="Edit entry">
+                        <span class="glyphicon glyphicon-pencil"></span></button>
+                        <!-- <button  ng-click="demo.del(row)" ng-if="!row.isEditing"></button> -->
+                        <button ng-click="delete(row.id)" class="btn btn-warning btn-sm" uib-tooltip="delete entry" >
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                        <script type="text/ng-template" id="myPopoverTemplate.html">
+                            <div class="popover-content text-center"> This will completly remove the user {{row.name}} from system 
+                                <!-- <div class="btn-group">
+                                    <a class="btn btn-sm btn-success" ng-click="del(row)" data-apply="confirmation"><i class="glyphicon glyphicon-ok"></i> Yes</a>
+                                     <a class="btn btn-sm btn-danger" ng-click="popoverIsOpen = !popoverIsOpen" data-dismiss="confirmation"><i class="glyphicon glyphicon-remove"></i> No</a>
+                                </div> -->
+                            </div>
+                        </script>
+
+                      </td>
+                    </tr>
+                </table>
+
+                
+
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row"  ng-hide="!showTables">
+    <div class="col-md-12">
+
+        <div class="portlet box red-intense">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-table"></i>Tables
+                </div>
+                 
+            </div>
+            <div class="portlet-body">
+               <uib-accordion close-others="true">
+					    <div uib-accordion-group class="panel-default"  ng-class="{'panel-success':group.tableCreated}" ng-repeat="group in dbTables| limitTo : 10 : (currentPage-1)*10">
+
+					    <uib-accordion-heading class="green">
+					    <i class="fa fa-check font-green-jungle font-lg" ng-if="group.tableCreated"></i>
+					    <i class="fa fa-refresh font-red font-lg" ng-if="!group.tableCreated"></i>
+       						{{group.tableName}}
+      					</uib-accordion-heading>
+      					    <button class="btn green" uib-tooltip="Sync the table" type="button" ng-click="autoSync(group)">Auto-Sync</button>
+      						<button class="btn btn-info" uib-tooltip="Sync the table" type="button" ng-click="sync(group)">Sync</button>
+      						<button class="btn blue-hoki" uib-tooltip="Incrementally update the table" type="button" ng-click="inc(group)">Incremental</button>
+					    </div>
+					</uib-accordion>
+				<ul uib-pagination total-items="dbTables.length" ng-model="currentPage" ng-change="pageChanged()"></ul>
+
+
+                
+
+                
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+
+
+
+
+
+
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">{{row.dbName}}</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+       <div class="portlet-body form">
+                                        <form role="form" class="form-horizontal" name="sqoopForm">
+                                            <div class="form-body">
+                                                <div class="form-group form-md-line-input">
+                                                    <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">Data-Source</label>
+                                                    <div class="col-md-9">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="row.dbName" required>
+                                                        <div class="form-control-focus"></div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="form-group form-md-line-input">
+                                                    <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">ID</label>
+                                                    <div class="col-md-9">
+                                                        <input type="text" class="form-control" ng-disabled="true" ng-model="row.id" >
+                                                        <div class="form-control-focus"></div>
+                                                    </div>
+                                                </div>
+                                                 <div class="form-group form-md-line-input">
+                                                    <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">DB Type</label>
+                                                    <div class="col-md-9">
+                                                           <select class="form-control edited" id="form_control_1" ng-model="row.dbType" required>
+                                                        <option ng-value="POSTGRES">POSTGRES</option>
+                                                        <option ng-value="DB2">DB 2</option>
+                                                        <option ng-value="DB2">MYSQL</option>
+                                                    </select>
+                                                    </div>
+                                                </div>   
+                                                  <div class="form-group form-md-line-input">
+                                                    <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">DB URL</label>
+                                                    <div class="col-md-9">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="row.dbUrl" required>
+                                                        <div class="form-control-focus"></div>
+                                                    </div>
+                                                </div> 
+                                                  <div class="form-group form-md-line-input">
+                                                    <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">DB Schema</label>
+                                                    <div class="col-md-9">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="row.dbSchemaName" required>
+                                                        <div class="form-control-focus"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-md-line-input">
+                                                    <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">DB Usermame</label>
+                                                    <div class="col-md-9">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="row.dbUsername" required>
+                                                        <div class="form-control-focus"></div>
+                                                    </div>
+                                                </div>    
+
+                                                  <div class="form-group form-md-line-input">
+                                                    <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">DB Password</label>
+                                                    <div class="col-md-7">
+                                                        <input type="password" class="form-control" id="form_control_1" ng-model="row.dbPassword" required>
+                                                        <div class="form-control-focus"></div>
+                                                    </div>
+                                                </div>                                           
+												<div class="form-group form-md-line-input">
+                                                    <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">DB Driver</label>
+                                                    <div class="col-md-9">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="row.dbDriver" required>
+                                                        <div class="form-control-focus"></div>
+                                                    </div>
+                                                </div>      
+
+                                                <div class="form-group form-md-line-input">
+                                                    <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">Hadoop Database</label>
+                                                    <div class="col-md-9">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="row.hiveDB" required>
+                                                        <div class="form-control-focus"></div>
+                                                    </div>
+                                                </div>                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                            </div>
+                                        
+                                    </div>
+    </div>
+    <div class="modal-footer">
+    <div  class="col-md-8">
+    <div uib-alert ng-class="'alert-'+ (alert.type || 'info')" ng-show="alert.msg.length>0">{{alert.msg}}</div>
+    </div>
+    
+   		<button class="btn btn-primary" uib-tooltip="validate if DB params are valid" type="button" ng-click="check()" ng-disabled="sqoopForm.$invalid">Check</button>
+        <button class="btn btn-primary" uib-tooltip="Save/Update record" type="submit" ng-disabled="checkForm(sqoopForm)" ng-click="save()">{{saveOrUpdate}}</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </form>
+    </div>
+</script>
+
+
+
+<script type="text/ng-template" id="sqoopTable.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">{{row.dbName}}</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+   		<uib-accordion close-others="true">
+		    <div uib-accordion-group class="panel-default" is-open="true">
+			    <uib-accordion-heading class="green">
+					Parameters
+				</uib-accordion-heading>
+				      	<div class="form-group form-md-line-input">
+                            <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">Sqoop Mode</label>
+                            <div class="col-md-9">
+                                   <select class="form-control edited" id="form_control_1" ng-model="param.type" required>
+                                <option ng-value="FULL">FULL</option>
+                                <option ng-value="INCREMENTAL">INCREMENTAL</option>
+                            </select>
+                            </div>
+                        </div>  
+                        <div class="form-group form-md-line-input" ng-if="param.type == 'INCREMENTAL'">
+                            <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">Last Value</label>
+                            <div class="col-md-9">
+                                   <select class="form-control edited" id="form_control_1" ng-model="param.lastValue">
+		                               <option ng-repeat="option in columns| filter:typeFilter" value="{{option.id}}">{{option.column}}</option>
+                            </select>
+                            </div>
+                        </div>  
+                        <div class="form-group form-md-line-input">
+                            <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">Hive</label>
+                            <div class="col-md-9">
+                                <div class="md-checkbox-inline">
+                                    <div class="md-checkbox has-info">
+                                        <input type="checkbox" id="checkbox33" class="md-check" ng-model="param.hiveDropDelim" checked="">
+                                        <label for="checkbox33">
+                                            <span class="inc"></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Drop Delims </label>
+                                    </div>
+                                    <div class="md-checkbox has-info" ng-hide="param.type == 'INCREMENTAL'">
+                                        <input type="checkbox" id="checkbox34" class="md-check" ng-model="param.hiveOverwriteTable" checked="" >
+                                        <label for="checkbox34">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Overwrite table </label>
+                                    </div>
+                                    <div class="md-checkbox has-info">
+                                        <input type="checkbox" id="checkbox35" class="md-check" ng-model="param.hiveSingleMapper">
+                                        <label for="checkbox35">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Single Mapper </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    
+		    </div>
+		    <div uib-accordion-group class="panel-default">
+			    <uib-accordion-heading class="green">
+					Columns
+				</uib-accordion-heading>
+				   <table ng-table="columnMeta" class="table table-bordered table-hover table-condensed editable-table"  show-filter="false">
+	                    <colgroup>
+	                          <col width="24%"/>
+	                          <col width="16%"/>
+	                          
+	                          <col width="16%"/>
+	                        </colgroup>
+	                    <tr ng-repeat="row in $data" ng-form="rowForm" demo-tracked-table-row="row" class="mt-action" >
+	                      <td title="'Column Name'"  class="uppercase" header-class="'align-left'">
+	                        {{row.column}}
+	                      </td>
+	                    
+	                      <td title="'Column Type'" header-class="'text-center'">
+	                        {{row.typeName}}
+	                      </td>
+	                     
+	                     
+	                        <td title="'Key'"  >
+	                         
+	                            <button class="btn green-haze btn-xs" type="button" ng-if="row.primaryKey">Primary Key</button>
+	                      </td>
+	                    </tr>
+	                </table>
+		    </div>
+		</uib-accordion>
+       
+    </div>
+    <div class="modal-footer">
+    <div  class="col-md-8">
+    <div uib-alert ng-class="'alert-'+ (alert.type || 'info')" ng-show="alert.msg.length>0">{{alert.msg}}</div>
+    </div>
+    
+   		<button class="btn green" uib-tooltip="validate if DB params are valid" type="button" ng-click="check()" ng-disabled="sqoopForm.$invalid">Run</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </form>
+    </div>
+</script>

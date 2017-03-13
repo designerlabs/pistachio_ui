@@ -18,7 +18,9 @@ var MetronicApp = angular
         "ngIdle",
         "ui.bootstrap",
         "ngFileUpload",
-        "angular-intro"
+        "angular-intro",
+        'ngJsTree',
+        "ui.select"
     ])
 
 // /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -53,6 +55,21 @@ var MetronicApp = angular
     })
 
 
+
+.directive('popoverToggle', function($timeout) {
+  return {
+    scope: true,
+    link: function(scope, element, attrs) {
+      scope.toggle = function() {
+        $timeout(function() {
+          element.triggerHandler(scope.openned ? 'close' : 'open');
+          scope.openned = !scope.openned;
+        });
+      };
+      return element.on('click', scope.toggle);
+    }
+  };
+})
 
 .filter('titleCase', function() {
     return function(input) {
@@ -95,6 +112,26 @@ var MetronicApp = angular
     $translateProvider.preferredLanguage(DBLocale);
     // $translateProvider.useLocalStorage();
 })
+
+.factory('eReportUpdater', function($http) {
+  var myService = {
+    async: function(report) {
+      // $http returns a promise, which has a then function, which also returns a promise
+
+      var promise = $http.put(globalURL + queryString + "/",JSON.stringify(report)).then(function (response) {
+        // The then function here is an opportunity to modify the response
+        console.log("factory")
+        console.log(response);
+        // The return value gets picked up by the then in the controller.
+        return response.data;
+      });
+      // Return the promise to the controller
+      return promise;
+    }
+  };
+  return myService;
+})
+
 
 .factory('sortable', ['$filter', '$rootScope', function($filter, $rootScope){
 
@@ -273,8 +310,8 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 /* Global hosting details */
 
 //var globalURL = "http://10.23.124.243:8080/";
-var globalURL = "http://10.1.17.51:8081/";
-//var globalURL = "http://10.4.104.174:8081/";
+//var globalURL = "http://10.1.17.51:8081/";
+var globalURL = "http://10.4.104.174:8081/";
 //var globalURL = "http://pistachio_server:8080/";
 //var solrHost = "10.23.124.220";
 var solrHost = "10.4.104.176";
@@ -374,7 +411,7 @@ MetronicApp.config(['$controllerProvider', function($controllerProvider) {
 
 }]);
 
-MetronicApp.controller('sessionController', function($scope, Idle, Keepalive, $uibModal) {
+MetronicApp.controller('sessionController', function($scope, Idle, Keepalive, $uibModal,$window) {
         // $scope.started = false;
         // start();
 
@@ -428,12 +465,15 @@ MetronicApp.controller('sessionController', function($scope, Idle, Keepalive, $u
                 .success(function(data) {
                     localStorage.setItem("token", "");
                     localStorage.setItem('lastLocation',window.location.hash);
-                    window.location = "login.html";
+                    $window.location.href = "login.html";
+                    //$location.url('login.html')
                     console.log(data);
                 })
                 .error(function(data) {
                     console.log(data);
                 });
+
+
 
 
         });
@@ -443,7 +483,7 @@ MetronicApp.controller('sessionController', function($scope, Idle, Keepalive, $u
 
         var dt = new Date(localStorage.getItem("expireTime"));
         var sec = dt.getSeconds()
-        IdleProvider.idle(900); //idle time duration
+        IdleProvider.idle(1800); //idle time duration
         IdleProvider.timeout(30); // waiting time to refresh
         // KeepaliveProvider.interval(15);
     });
@@ -997,7 +1037,7 @@ MetronicApp.controller('HeaderController', ['$scope', function($scope) {
 }]);
 
 /* Setup Layout Part - Sidebar */
-MetronicApp.controller('SidebarController', ['$scope', '$http', 'authorities', function($scope, $http, authorities) {
+MetronicApp.controller('SidebarController', ['$rootScope','$scope', '$http', 'authorities', function($rootScope,$scope, $http, authorities) {
     $scope.$on('$includeContentLoaded', function() {
 
         
@@ -1013,6 +1053,7 @@ MetronicApp.controller('SidebarController', ['$scope', '$http', 'authorities', f
             })
             .done(function(data) {
                 $scope.displayNames = data.reports;
+                $rootScope.reports = data.reports;
                 console.log(data.reports);
                 console.log("success");
 
@@ -1289,6 +1330,44 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             }]
         }
     })
+.state('movementAnalysis1', {
+        url: "/movementAnalysis1.html",
+        templateUrl: "views/analysis/move1.html",
+        data: {
+            pageTitle: 'Movement Analysis'
+        },
+        controller: "MoveController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/global/plugins/bootstrap-daterangepicker/moment.js',
+                        'assets/pistachio/myAudit/myaudit.css',
+                        'assets/pages/css/search.css',
+                        'assets/pages/css/pricing.min.css',
+                        'assets/pages/css/profile-2.min.css',                        
+                        'assets/pages/scripts/highstock.js',
+                        'assets/global/plugins/datatables/all.min.js', 
+                        'assets/global/plugins/cal-heatmap/cal-heatmap.css' ,
+                        'assets/global/plugins/cal-heatmap/cal-heatmap.min.js'  ,
+                        'assets/global/plugins/vis/vis.js',
+                        'assets/global/plugins/vis/vis.css',                                                  
+                        'js/directives/visa.js',
+                        'js/directives/movement.js',                        
+                        'js/directives/enforcement.js',                                                
+                        'js/directives/profile.js',
+                        'js/directives/passport.js',
+                        'js/controllers/MoveController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
+                    ]
+                });
+            }]
+        }
+    })
 .state('overstayAnalysis', {
         url: "/overstayAnalysis.html",
         templateUrl: "views/analysis/overstay.html",
@@ -1346,6 +1425,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/bootstrap-daterangepicker/moment.js',
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
                         'assets/pistachio/analysis/enforcement.css',
+                        'assets/pistachio/enforcement/gender-pie.css',
                         'assets/pistachio/fastsearch/search_profile.css',  
                         'assets/pages/css/search.css',
                         'assets/pages/css/pricing.min.css',
@@ -1663,6 +1743,28 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
+    .state('sqoop', {
+        url: "/sqoop.html",
+        templateUrl: "views/sqoop/list.html",
+        data: {
+            pageTitle: 'Sqoop Jobs'
+        },
+        controller: "SqoopController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                     
+                        'js/controllers/SqoopController.js'
+
+                    ]
+                });
+            }]
+        }
+    })
+
     .state('workflowadmin', {
         url: "/workflowadmin.html",
         templateUrl: "views/workflow/workflowadmin.html",
@@ -1913,8 +2015,44 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/leaflet/leaflet.label.js',
                         'assets/pistachio/map/leaflet.markercluster-src.js',
                         'assets/pistachio/map/MarkerCluster.Default.css',
-                        'assets/pages/scripts/highstock.js',
+                       // 'assets/pages/scripts/highstock.js',
+                        'assets/global/plugins/highcharts/js/highcharts.js',
                         'js/controllers/EnforcementDashboard.js'
+                    ]
+                });
+            }]
+        }
+    })
+.state('visadashboard', {
+        url: "/enforcement/visadashboard.html",
+        templateUrl: "views/enforcement/visadashboard.html",
+        data: {
+            pageTitle: 'Visa & Pass Dashboard'
+        },
+        controller: "VisaPassDashboard",
+        // controller: "DocumentSearchController1",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                        'assets/pistachio/enforcement/visa-dashboard.css',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css',
+                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        'assets/global/plugins/leaflet/L.Icon.Pulse.css',
+                        'assets/global/plugins/leaflet/L.Icon.Pulse.js',
+                        'assets/global/plugins/leaflet/leaflet.label.css',
+                        'assets/global/plugins/leaflet/leaflet.label.js',
+                        'assets/pistachio/map/leaflet.markercluster-src.js',
+                        'assets/pistachio/map/MarkerCluster.Default.css',
+
+                       // 'assets/pages/scripts/highstock.js',
+                     /*   'assets/global/plugins/highcharts/js/highcharts.js',
+
+                        'assets/global/plugins/highcharts/js/highcharts-more.js',*/
+
+                        'js/controllers/VisaDashboard.js'
                     ]
                 });
             }]
@@ -2131,7 +2269,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
 
 
 
-    .state('query?cat=reporting', {
+/*    .state('report', {
             url: "/reports/e-reporting.html",
             templateUrl: "views/reports/e-reporting.html",
             data: {
@@ -2155,6 +2293,41 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
 
 
                             'js/controllers/EreportingController.js',
+                            'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
+                            'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                            'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
+                            
+                        ]
+                    });
+                }]
+            }
+        })
+*/
+     .state('report', {
+            url: "/reports/e-reporting.html",
+            templateUrl: "views/reports/ereport.html",
+            data: {
+                pageTitle: 'E-Reporting'
+            },
+            controller: "EReportViewController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            'assets/global/plugins/select2/select2.css',
+                            'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
+                            'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
+                            'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
+                            'assets/global/plugins/jstree/dist/themes/default/style.min.css',
+                            'assets/global/plugins/select2/select2.min.js',
+                            'assets/global/plugins/datatables/all.min.js',
+                            'js/scripts/table-advanced.js',
+                            'js/directives/eReport.js',
+                            'js/directives/parameter.js',
+                            'assets/pistachio/sqleditor/ereport.css',
+                            'js/controllers/ReportController.js',
                             'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
                             'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
                             'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
@@ -2355,17 +2528,16 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         // 'assets/global/plugins/ace.js',
                         // 'assets/global/plugins/ui-ace.js',
                         'assets/global/plugins/jstree/dist/themes/default/style.min.css',
-                        'assets/global/plugins/jstree/dist/jstree.js',
+                        /*'assets/global/plugins/jstree/dist/jstree.js',*/
                         'assets/global/plugins/select2/select2.css',
                         'assets/global/plugins/select2/select2.min.js',
                         'js/scripts/table-advanced.js',
                         'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
                         'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
                         'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
-                        
                         'assets/global/plugins/datatables/all.min.js',
                         'bower_components/ace-builds/src-min-noconflict/ext-language_tools.js',
-                        
+                        'js/directives/eReport.js',
                         'js/controllers/SQLEditorMgtController.js',
                         'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]

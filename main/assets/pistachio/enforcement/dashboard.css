@@ -166,3 +166,141 @@
 }
 
 
+
+
+.aduan-stat {
+    display: block;
+    margin-bottom: 15px;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+
+.aduan-stat.blue {
+    background-color: #3598DC;
+}
+
+.aduan-stat.green {
+    background-color: #32c5d2;
+}
+
+.aduan-stat.green-turquoise {
+    background-color: #36D7B7;
+}
+
+.aduan-stat.yellow-soft {
+    background-color: #C8D046;
+}
+
+.aduan-stat.blue-hoki {
+    background-color: #67809F;
+}
+
+.aduan-stat.grey-gallery {
+    background-color: #555555;
+}
+
+.aduan-stat.purple-soft {
+    background-color: #8877A9;
+}
+
+.aduan-stat.yellow-haze {
+    background-color: #C5BF66;
+}
+.aduan-stat.grey-cararra {
+    background-color: #FAFAFA;
+}
+
+.aduan-stat.purple {
+    background-color: #8E44AD;
+}
+
+.aduan-stat.tomato {
+    background-color: #f36a5a;
+}
+
+.aduan-stat.red {
+    background-color: #e7505a;
+}
+
+.aduan-stat .visual {
+    padding-top: 35px;
+    margin-bottom: 40px;
+}
+.aduan-stat .visual {
+    width: 80px;
+    height: 80px;
+    display: block;
+    float: left;
+    padding-top: 10px;
+    padding-left: 15px;
+    margin-bottom: 15px;
+    font-size: 35px;
+    line-height: 35px;
+}
+
+.aduan-stat .visual>i {
+    margin-left: -10px !important;
+    font-size: 50px;
+    color:white;
+    line-height: 70px;
+    opacity:.5;
+}
+
+.aduan-stat .details {
+    position: absolute;
+    right: 5px;
+  //  padding-right: 15px;
+}
+
+
+
+.aduan-stat.purple .details .number,
+.aduan-stat.red .details .number,
+.aduan-stat.blue .details .number,
+.aduan-stat.green .details .number,
+.aduan-stat.green-turquoise .details .number,
+.aduan-stat.yellow-soft .details .number,
+.aduan-stat.blue-hoki .details .number,
+.aduan-stat.grey-gallery .details .number,
+.aduan-stat.purple-soft .details .number,
+.aduan-stat.yellow-haze .details .number,
+.aduan-stat.grey-cararra .details .number,
+.aduan-stat.red .details .number,
+.aduan-stat.tomato .details .number {
+    color: #fff;
+}
+.aduan-stat .details .number {
+    padding-top: 25px;
+    text-align: right;
+    font-size: 30px;
+    line-height: 36px;
+    letter-spacing: -1px;
+    margin-bottom: 0;
+    font-weight: 300;
+}
+
+.aduan-stat.purple .details .desc,
+.aduan-stat.red .details .desc,
+.aduan-stat.blue .details .desc,
+.aduan-stat.green .details .desc,
+.aduan-stat.green-turquoise .details .desc,
+.aduan-stat.yellow-soft .details .desc,
+.aduan-stat.blue-hoki .details .desc,
+.aduan-stat.grey-gallery .details .desc,
+.aduan-stat.purple-soft .details .desc,
+.aduan-stat.yellow-haze .details .desc,
+.aduan-stat.grey-cararra .details .desc,
+.aduan-stat.red .details .desc,
+.aduan-stat.tomato .details .desc {
+
+    color: #fff;
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+.aduan-stat .details .desc {
+    text-align: right;
+    font-size: 15px;
+    letter-spacing: 0;
+    font-weight: 300;
+}

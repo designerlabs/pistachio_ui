@@ -717,7 +717,8 @@ function tick() {
             json.facet.user_type.type   = "terms";
             json.facet.user_type.field  =  "user_type";
           }
-          var active = "&fq=xit_date:[ "+moment().format('YYYY-MM-DDT00:00:00')+'Z' + " TO * ]"
+          //var active = "&fq=xit_date:[ "+moment().format('YYYY-MM-DDT00:00:00')+'Z' + " TO * ]"
+          var active = "&fq=xit_date:[ * TO * ]"
           $http.get(thisSolrAppUrl+JSON.stringify(json)+active+$scope.fqQuery()).
              success(function(data) {
               $scope.numFound = data.response.numFound;

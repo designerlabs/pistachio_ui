@@ -102,29 +102,62 @@
       <div class="row">
         <div class="col-md-12" style="padding-right: 0px;">
           
-             <div class = "col-md-6 col-lg-6 col-sm-6" style="
-                                                      padding-left: 0px;
+           
+
+                        <div class = "col-md-4 col-lg-4 col-sm-4" style="padding-left: 0px;padding-right: 0px;background-color:white">
+                         
+                        
+<div id="genderpie" class="wrapper chart-box">
+  <div class="pie-charts">
+    <div class="pieID--categories pie-chart--wrapper">
+      <h2>Menguit Jantina</h2>
+      <div class="pie-chart">
+        <div class="pie-chart__pie"></div>
+        <ul class="pie-chart__legend">
+          <li><em>Lelaki</em><span>{{male}}</span></li>
+          <li><em>Perempuan</em><span>{{female}}</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+                        </div>
+                        <div class = "col-md-4 col-lg-4 col-sm-4" style="
+                                                      padding-left: 10px;
                                                       padding-right: 0px;
-                                                  ">
-                       <div id="highchart_col"></div>
-             </div>
-             <div id="timelinebar" >
-                        <div class = "col-md-3 col-lg-3 col-sm-3" style="padding-left: 0px;padding-right: 0px;">
-                          <div id="highchart_age"></div>
+
+                                                  "> <div class="chart-box">
+                                                  <div id="highchart_age"></div>
+                                                  </div>
+                       
                         </div>
-                         <div class = "col-md-3 col-lg-3 col-sm-3" style="padding-left: 0px;padding-right: 0px;">
-                          <div id="highchart_gender"></div>
+                        <div class = "col-md-4 col-lg-4 col-sm-4" style="padding-left: 10px;padding-right: 0px;background-color:white">
+                        <div class="chart-box infographics">
+                          <div class="inner">
+                                                    <div class="male icon">
+                                                        <i class="icon-imi-Lelaki_Manis" ng-class="maleClass"></i>
+                                                        <span class="number">{{genderPercentage('male')}}%</span>
+                                                    </div>
+                                                    <div class="female icon">
+                                                        <i class="icon-imi-Woman" ng-class="femaleClass"></i>
+                                                        <span class="number">{{genderPercentage('female')}}%</span>
+                                                    </div>
+
+                                                    <div class="clearfix"></div>
+                                                  </div>
+                            </div>
                         </div>
-                      </div>
+                         
               </div>
         </div>
      
       </div>  
       <div class="row">
-          <div class="col-md-12" style="padding-right: 0px;">
-               
-              </div>
+          <div class="col-md-12 " style="padding-right: 0px;">
+                    
+                  <div id="highchart_col"></div>      
           </div>
+       </div>
           
  <div class="row">
           <div class="col-md-12" style="padding-right: 0px;">

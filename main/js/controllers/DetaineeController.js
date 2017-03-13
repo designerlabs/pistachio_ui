@@ -37,6 +37,89 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
     $(window).scroll(sticky_relocate);
     sticky_relocate();
    });
+  function sliceSize(dataNum, dataTotal) {
+  return (dataNum / dataTotal) * 360;
+}
+
+function addSlice(id, sliceSize, pieElement, offset, sliceID, color) {
+  $(pieElement).append("<div class='slice " + sliceID + "'><span></span></div>");
+  var offset = offset - 1;
+  var sizeRotation = -179 + sliceSize;
+
+  $(id + " ." + sliceID).css({
+    "transform": "rotate(" + offset + "deg) translate3d(0,0,0)"
+  });
+
+  $(id + " ." + sliceID + " span").css({
+    "transform": "rotate(" + sizeRotation + "deg) translate3d(0,0,0)",
+    "background-color": color
+  });
+}
+
+function iterateSlices(id, sliceSize, pieElement, offset, dataCount, sliceCount, color) {
+  var
+    maxSize = 179,
+    sliceID = "s" + dataCount + "-" + sliceCount;
+
+  if (sliceSize <= maxSize) {
+    addSlice(id, sliceSize, pieElement, offset, sliceID, color);
+  } else {
+    addSlice(id, maxSize, pieElement, offset, sliceID, color);
+    iterateSlices(id, sliceSize - maxSize, pieElement, offset + maxSize, dataCount, sliceCount + 1, color);
+  }
+}
+
+function createPie(id) {
+  var listData = [];
+  var listTotal = 0;
+  var offset = 0;
+  var i = 0;
+  var pieElement = id + " .pie-chart__pie";
+  var dataElement = id + " .pie-chart__legend";
+
+  var color = [
+    "tomato",
+ 
+    "turquoise"
+  ];
+
+  //color = shuffle(color);
+
+/*  $(dataElement + " span").each(function() {
+    listData.push(Number($(this).html()));
+  });*/
+  listData.push(Number($scope.male))
+  listData.push(Number($scope.female))
+    for (i = 0; i < listData.length; i++) {
+    listTotal += listData[i];
+  }
+
+  for (i = 0; i < listData.length; i++) {
+    var size = sliceSize(listData[i], listTotal);
+    iterateSlices(id, size, pieElement, offset, i, 0, color[i]);
+    $(dataElement + " li:nth-child(" + (i + 1) + ")").css("border-color", color[i]);
+    offset += size;
+  }
+}
+
+function shuffle(a) {
+  var j, x, i;
+  for (i = a.length; i; i--) {
+    j = Math.floor(Math.random() * i);
+    x = a[i - 1];
+    a[i - 1] = a[j];
+    a[j] = x;
+  }
+
+  return a;
+}
+
+function createPieCharts() {
+  createPie('.pieID--categories');
+}
+
+
+
 
    $scope.IntroOptions = {
         steps:[
@@ -84,7 +167,7 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
 
 
 
-    var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/offender/query?json='
+    var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/tef_detainee/query?json='
 
    $scope.open = function () {
     var options = {
@@ -213,6 +296,8 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
 
 
     $scope.reset = function(){
+      $scope.male = 0;
+      $scope.female = 0;
       $scope.radioValue = "Overall"
       $scope.cntName = "";
       $scope.officer_name = "";
@@ -231,6 +316,8 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
          $scope.jobCount = 10;
          $scope.stateSelected = "";
          $scope.rankSelected = "";
+         $scope.ageSelected = "";
+         $scope.selectedBranch="";
          $scope.selectBranch = false;
          $scope.dateRange = {};
          $scope.dateRange.min = "2012-01-01T00:00:00Z"
@@ -271,8 +358,9 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
        }
 
        $scope.clickDoc = function(data) {
-        $scope.docSelected= data
-        $scope.addFilter("doc","Doc Type : "+data,"{!tag=DOC}doc_type:"+$scope.cleanQuery(data));
+        $scope.ageSelected= data
+        var dt = data.split('-')
+        $scope.addFilter("age","Age Range : "+data,"{!tag=AGE}age:["+dt[0] +" TO "+ dt[1]+" ]");
         $scope.querySolr();
        }
 
@@ -354,7 +442,7 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
 
        $scope.formQuery = function() {
 
-          var query = "*:*";
+          var query = "branch:*";
           return query;
        }
 
@@ -396,7 +484,7 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
             json.limit  = 10;
             json.offset = 0
             json.query = $scope.formQuery();
-           // json.filter = $scope.filterQuery();
+            //json.filter = $scope.filterQuery();
             json.facet = {};
             json.facet.rank = {};
             json.facet.rank.type   = "terms";
@@ -432,6 +520,8 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
             json.facet.age_range.start  =  0;
             json.facet.age_range.end  =  100;
             json.facet.age_range.gap  =  10;
+            json.facet.age_range.domain = {};
+            json.facet.age_range.domain.excludeTags ="AGE"
 
             json.facet.date_range = {};
 
@@ -465,6 +555,11 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
                    var sex = data.facets.sex.buckets;
                    var i;
                    for(i = 0; i < sex.length; i++){
+                    if( sex[i].name = sex[i]['val'] =="LELAKI")
+                      $scope.male= sex[i]['count'];
+                    if( sex[i].name = sex[i]['val'] =="PEREMPUAN")
+                      $scope.female= sex[i]['count'];
+                    
                       sex[i].name = sex[i]['val'];
                       sex[i].y = sex[i]['count'];
                       delete sex[i].val;
@@ -479,8 +574,10 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
                    $scope.timelineChart(data.facets.date_range.buckets);
                    $scope.rankChart();
                    $scope.ageChart();
-                   $scope.genderChart();
+                   //$scope.genderChart();
                    //$scope.activeOverall();
+                   createPieCharts();
+                   $scope.genderSize();
                    $scope.generateBarGraph('#dashboard-stats');
                  }
                  
@@ -497,6 +594,29 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
                
 
     };
+
+    $scope.genderPercentage = function(type) {
+      if($scope.male == 0 || $scope.female == 0) return 0
+      if(type == 'male' ) return Math.round(100*$scope.male/($scope.male+$scope.female))
+      if(type == 'female' ) return Math.round(100*$scope.female/($scope.male+$scope.female))
+    }
+
+    $scope.genderSize =function() {
+      if($scope.male == 0 || $scope.female == 0) return "small"
+      var male = Math.round(100*$scope.male/($scope.male+$scope.female))
+      var female = Math.round(100*$scope.female/($scope.male+$scope.female))
+         if(male>female) {
+          $scope.maleClass = "large"
+          $scope.femaleClass= "medium"
+         }
+         else {
+          $scope.maleClass = "medium"
+          $scope.femaleClass= "large"
+         }
+      
+    }
+
+    
 
       $scope.$watch('searchBranch', function() {
         if($scope.searchBranch == undefined) return
@@ -637,11 +757,12 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
        var stateData = [];
        $scope.total = 0;
       for (var i =0,l=_state.length; i < l; i++) {
-         if($scope.docSelected == _state[i].val) {
+         
+           var range = _state[i].val + "-" + (parseInt(_state[i].val)+9);
+           $scope.total = $scope.total +parseInt(_state[i].val);
+           if($scope.ageSelected == range) {
              sel = i;
            }
-           var range = _state[i].val + "-" + (parseInt(_state[i].val)+10);
-           $scope.total = $scope.total +parseInt(_state[i].val);
            stateName.push(range)
            stateData.push(_state[i].count)
         }
@@ -702,7 +823,6 @@ MetronicApp.controller('DetaineeController', function($rootScope, $scope, $http,
 //chart.series[i].data[j].select(true, true);
       for (var i =0,l=_state.length; i < l; i++) {
            if($scope.stateSelected == _state[i].val) {
-            debugger;
              sel = i;
            }
            stateName.push(_state[i].val)

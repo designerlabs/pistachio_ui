@@ -1,0 +1,1043 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?fo1rc4');
+  src:  url('fonts/icomoon.eot?fo1rc4#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?fo1rc4') format('truetype'),
+    url('fonts/icomoon.woff?fo1rc4') format('woff'),
+    url('fonts/icomoon.svg?fo1rc4#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-imi-"], [class*=" icon-imi-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-imi-Foreign_Worker_Analysis:before {
+  content: "\e900";
+}
+.icon-imi-Visa_Application_Analysis .path1:before {
+  content: "\e901";
+  color: rgb(0, 0, 0);
+}
+.icon-imi-Visa_Application_Analysis .path2:before {
+  content: "\e902";
+  margin-left: -1.1591796875em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-Visa_Application_Analysis .path3:before {
+  content: "\e903";
+  margin-left: -1.1591796875em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-Visa_Application_Analysis .path4:before {
+  content: "\e904";
+  margin-left: -1.1591796875em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-Visa_Application_Analysis .path5:before {
+  content: "\e905";
+  margin-left: -1.1591796875em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-Visa_Application_Analysis .path6:before {
+  content: "\e906";
+  margin-left: -1.1591796875em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-Visa_Application_Analysis .path7:before {
+  content: "\e907";
+  margin-left: -1.1591796875em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-Visa_Application_Analysis .path8:before {
+  content: "\e908";
+  margin-left: -1.1591796875em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-Visa_Application_Analysis .path9:before {
+  content: "\e909";
+  margin-left: -1.1591796875em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-Visa_Application_Analysis .path10:before {
+  content: "\e90a";
+  margin-left: -1.1591796875em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-Visa_Application_Analysis .path11:before {
+  content: "\e90b";
+  margin-left: -1.1591796875em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-Visa_Application_Analysis .path12:before {
+  content: "\e90c";
+  margin-left: -1.1591796875em;
+  color: rgb(2, 2, 2);
+}
+.icon-imi-My_User2:before {
+  content: "\e90d";
+}
+.icon-imi-Overstay_Analysis:before {
+  content: "\e90e";
+}
+.icon-imi-Movement_Analysis:before {
+  content: "\e90f";
+}
+.icon-imi-Tracking_Analysis:before {
+  content: "\e910";
+}
+.icon-imi-Immigration_System_Analysis:before {
+  content: "\e911";
+}
+.icon-imi-Immigration_Security:before {
+  content: "\e912";
+}
+.icon-imi-Citizen_Analysis:before {
+  content: "\e913";
+}
+.icon-imi-Detainee_Analysis:before {
+  content: "\e914";
+}
+.icon-imi-My_User1:before {
+  content: "\e915";
+}
+.icon-imi-Enforcement_search:before {
+  content: "\e916";
+}
+.icon-imi-Immigration_Visa_Pass:before {
+  content: "\e917";
+}
+.icon-imi-Report_Request:before {
+  content: "\e918";
+}
+.icon-imi-My_Audit_Analysis:before {
+  content: "\e919";
+}
+.icon-imi-Lelaki_Manis:before {
+  content: "\e91a";
+}
+.icon-imi-Woman:before {
+  content: "\e91b";
+}
+.icon-imi-pas_residen_pasangan_imi:before {
+  content: "\e9cd";
+}
+.icon-imi-tanggungan_pls_jangka_panjang_imi:before {
+  content: "\e9ce";
+}
+.icon-imi-pas_lawatan_sosial_pesara_imi:before {
+  content: "\e9cf";
+}
+.icon-imi-plks_bukan_diplomatik_bayaran_imi:before {
+  content: "\e9d0";
+}
+.icon-imi-pas_lawatan_iktisas_imi:before {
+  content: "\e9d1";
+}
+.icon-imi-pas_pelajar_imi:before {
+  content: "\e9d2";
+}
+.icon-imi-pas_pengecualian_imi:before {
+  content: "\e9d3";
+}
+.icon-imi-tanggungan_pegawai_dagang_imi:before {
+  content: "\e9d4";
+}
+.icon-imi-pegawai_dagang_imi:before {
+  content: "\e9d5";
+}
+.icon-imi-plks_bukan_diplomatik_imi:before {
+  content: "\e9d6";
+}
+.icon-imi-pembantu_rumah_pas_residen_imi:before {
+  content: "\e9d7";
+}
+.icon-imi-pas_lawatan_sosial_imi:before {
+  content: "\e9d8";
+}
+.icon-imi-pekerja_asing_6p_imi:before {
+  content: "\e9d9";
+}
+.icon-imi-pekerja_asing_imi:before {
+  content: "\e9da";
+}
+.icon-imi-pekerja_asing_rehiring_imi:before {
+  content: "\e9db";
+}
+.icon-imi-pembantu_rumah_6p_imi:before {
+  content: "\e9dc";
+}
+.icon-imi-pembantu_rumah_imi:before {
+  content: "\e9dd";
+}
+.icon-imi-pas_residen_tanggungan_imi:before {
+  content: "\e9de";
+}
+.icon-imi-pas_lawatan_sosial_suami_isteri_imi:before {
+  content: "\e9df";
+}
+.icon-imi-pas_residen_imi:before {
+  content: "\e9e0";
+}
+.icon-imi-visa_dgn_rujukan_imi:before {
+  content: "\e9e1";
+}
+.icon-imi-polis:before {
+  content: "\e91c";
+}
+.icon-imi-imigresen .path1:before {
+  content: "\e91d";
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path2:before {
+  content: "\e91e";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path3:before {
+  content: "\e91f";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path4:before {
+  content: "\e920";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path5:before {
+  content: "\e921";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path6:before {
+  content: "\e922";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path7:before {
+  content: "\e923";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path8:before {
+  content: "\e924";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path9:before {
+  content: "\e925";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path10:before {
+  content: "\e926";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path11:before {
+  content: "\e927";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path12:before {
+  content: "\e928";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path13:before {
+  content: "\e929";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path14:before {
+  content: "\e92a";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path15:before {
+  content: "\e92b";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path16:before {
+  content: "\e92c";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path17:before {
+  content: "\e92d";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path18:before {
+  content: "\e92e";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path19:before {
+  content: "\e92f";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path20:before {
+  content: "\e930";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path21:before {
+  content: "\e931";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path22:before {
+  content: "\e932";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path23:before {
+  content: "\e933";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path24:before {
+  content: "\e934";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path25:before {
+  content: "\e935";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path26:before {
+  content: "\e936";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path27:before {
+  content: "\e937";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path28:before {
+  content: "\e938";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path29:before {
+  content: "\e939";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path30:before {
+  content: "\e93a";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path31:before {
+  content: "\e93b";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path32:before {
+  content: "\e93c";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path33:before {
+  content: "\e93d";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path34:before {
+  content: "\e93e";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path35:before {
+  content: "\e93f";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path36:before {
+  content: "\e940";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path37:before {
+  content: "\e941";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path38:before {
+  content: "\e942";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path39:before {
+  content: "\e943";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path40:before {
+  content: "\e944";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path41:before {
+  content: "\e945";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path42:before {
+  content: "\e946";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path43:before {
+  content: "\e947";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path44:before {
+  content: "\e948";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path45:before {
+  content: "\e949";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path46:before {
+  content: "\e94a";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path47:before {
+  content: "\e94b";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path48:before {
+  content: "\e94c";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path49:before {
+  content: "\e94d";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path50:before {
+  content: "\e94e";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path51:before {
+  content: "\e94f";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path52:before {
+  content: "\e950";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path53:before {
+  content: "\e951";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path54:before {
+  content: "\e952";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path55:before {
+  content: "\e953";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path56:before {
+  content: "\e954";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path57:before {
+  content: "\e955";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path58:before {
+  content: "\e956";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path59:before {
+  content: "\e957";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path60:before {
+  content: "\e958";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path61:before {
+  content: "\e959";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path62:before {
+  content: "\e95a";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path63:before {
+  content: "\e95b";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path64:before {
+  content: "\e95c";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path65:before {
+  content: "\e95d";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path66:before {
+  content: "\e95e";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path67:before {
+  content: "\e95f";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path68:before {
+  content: "\e960";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path69:before {
+  content: "\e961";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path70:before {
+  content: "\e962";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path71:before {
+  content: "\e963";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path72:before {
+  content: "\e964";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path73:before {
+  content: "\e965";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path74:before {
+  content: "\e966";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path75:before {
+  content: "\e967";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path76:before {
+  content: "\e968";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path77:before {
+  content: "\e969";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path78:before {
+  content: "\e96a";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path79:before {
+  content: "\e96b";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path80:before {
+  content: "\e96c";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path81:before {
+  content: "\e96d";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path82:before {
+  content: "\e96e";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path83:before {
+  content: "\e96f";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path84:before {
+  content: "\e970";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path85:before {
+  content: "\e971";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path86:before {
+  content: "\e972";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path87:before {
+  content: "\e973";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path88:before {
+  content: "\e974";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path89:before {
+  content: "\e975";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path90:before {
+  content: "\e976";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path91:before {
+  content: "\e977";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path92:before {
+  content: "\e978";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path93:before {
+  content: "\e979";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path94:before {
+  content: "\e97a";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path95:before {
+  content: "\e97b";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path96:before {
+  content: "\e97c";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path97:before {
+  content: "\e97d";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path98:before {
+  content: "\e97e";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path99:before {
+  content: "\e97f";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path100:before {
+  content: "\e980";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path101:before {
+  content: "\e981";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path102:before {
+  content: "\e982";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path103:before {
+  content: "\e983";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path104:before {
+  content: "\e984";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path105:before {
+  content: "\e985";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path106:before {
+  content: "\e986";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path107:before {
+  content: "\e987";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path108:before {
+  content: "\e988";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path109:before {
+  content: "\e989";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path110:before {
+  content: "\e98a";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path111:before {
+  content: "\e98b";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path112:before {
+  content: "\e98c";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path113:before {
+  content: "\e98d";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path114:before {
+  content: "\e98e";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path115:before {
+  content: "\e98f";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path116:before {
+  content: "\e990";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path117:before {
+  content: "\e991";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path118:before {
+  content: "\e992";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path119:before {
+  content: "\e993";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path120:before {
+  content: "\e994";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path121:before {
+  content: "\e995";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path122:before {
+  content: "\e996";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path123:before {
+  content: "\e997";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path124:before {
+  content: "\e998";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path125:before {
+  content: "\e999";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path126:before {
+  content: "\e99a";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path127:before {
+  content: "\e99b";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path128:before {
+  content: "\e99c";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path129:before {
+  content: "\e99d";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path130:before {
+  content: "\e99e";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path131:before {
+  content: "\e99f";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path132:before {
+  content: "\e9a0";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path133:before {
+  content: "\e9a1";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path134:before {
+  content: "\e9a2";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path135:before {
+  content: "\e9a3";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path136:before {
+  content: "\e9a4";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path137:before {
+  content: "\e9a5";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path138:before {
+  content: "\e9a6";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path139:before {
+  content: "\e9a7";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path140:before {
+  content: "\e9a8";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path141:before {
+  content: "\e9a9";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path142:before {
+  content: "\e9aa";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path143:before {
+  content: "\e9ab";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path144:before {
+  content: "\e9ac";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path145:before {
+  content: "\e9ad";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path146:before {
+  content: "\e9ae";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path147:before {
+  content: "\e9af";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path148:before {
+  content: "\e9b0";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path149:before {
+  content: "\e9b1";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path150:before {
+  content: "\e9b2";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path151:before {
+  content: "\e9b3";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path152:before {
+  content: "\e9b4";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path153:before {
+  content: "\e9b5";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path154:before {
+  content: "\e9b6";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path155:before {
+  content: "\e9b7";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path156:before {
+  content: "\e9b8";
+  margin-left: -0.8642578125em;
+  color: rgb(0, 0, 0);
+}
+.icon-imi-imigresen .path157:before {
+  content: "\e9b9";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-imigresen .path158:before {
+  content: "\e9ba";
+  margin-left: -0.8642578125em;
+  color: rgb(255, 255, 255);
+}
+.icon-imi-enforcement:before {
+  content: "\e9bb";
+}
+.icon-imi-kanak_perempuan_imi:before {
+  content: "\e9bc";
+}
+.icon-imi-kanak_lelaki_imi:before {
+  content: "\e9bd";
+}
+.icon-imi-orangtua_wanita_imi:before {
+  content: "\e9be";
+}
+.icon-imi-orangtua_lelaki_imi:before {
+  content: "\e9bf";
+}
+.icon-imi-emel_imi:before {
+  content: "\e9c0";
+}
+.icon-imi-hadir_imi:before {
+  content: "\e9c1";
+}
+.icon-imi-operasi_imi:before {
+  content: "\e9c2";
+}
+.icon-imi-arahan_imi:before {
+  content: "\e9c3";
+}
+.icon-imi-kompaun_imi:before {
+  content: "\e9c4";
+}
+.icon-imi-elaporan_imi:before {
+  content: "\e9c5";
+}
+.icon-imi-surat_imi:before {
+  content: "\e9c6";
+}
+.icon-imi-laporan_imi:before {
+  content: "\e9c7";
+}
+.icon-imi-branch_list_imi:before {
+  content: "\e9c8";
+}
+.icon-imi-statistik_imi:before {
+  content: "\e9c9";
+}
+.icon-imi-telefon_imi:before {
+  content: "\e9ca";
+}
+.icon-imi-ditahan_imi:before {
+  content: "\e9cb";
+}
+.icon-imi-aduan_imi:before {
+  content: "\e9cc";
+}
+

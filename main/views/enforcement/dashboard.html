@@ -1,7 +1,12 @@
 <div ng-controller="EnforcementDashboard">
 	<div id="sticky-anchor"></div>
   	<div class="page-bar filter-bar"  id="sticky">
- 
+ 		<ul class="page-breadcrumb" ng-hide="true" style="padding:0px;">
+ 		 <li> 
+			<a href="javascript:;" class=" btn btn-fit-height purple">
+                                                                            <i class="icon-imi-aduan_imi"></i>{{complaints|number}} </a>
+ 		 </li>
+ 		</ul>
      	<ul class="page-breadcrumb  pull-right" style="padding:0px;">
             <li>
           		<div id="dashboard-report-range" style="width: 100%;"
@@ -19,8 +24,8 @@
 	<div class="row">
 		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 		    <a class="dashboard-stat dashboard-stat-v2 purple  stat-box" href="#">
-		        <div class="visual">
-		            <i class="fa fa-globe"></i>
+		        <div class="visual" style="padding-top: 5px!important;">
+		            <i class="icon-imi-aduan_imi" style="opacity:.4"></i>
 		        </div>
 		        <div class="details">
 		            <div class="number">
@@ -31,8 +36,8 @@
 		</div>
 		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 		    <a class="dashboard-stat dashboard-stat-v2 green  stat-box" href="#">
-		        <div class="visual">
-		            <i class="fa fa-shopping-cart"></i>
+		        <div class="visual" style="padding-top: 5px!important;">
+		            <i class="icon-imi-operasi_imi" style="opacity:.4"></i>
 		        </div>
 		        <div class="details">
 		            <div class="number">
@@ -44,8 +49,8 @@
 		</div>
 		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 		    <a class="dashboard-stat dashboard-stat-v2 blue  stat-box" href="#/detaineeAnalysis.html">
-		        <div class="visual">
-		            <i class="fa fa-comments"></i>
+		        <div class="visual" style="padding-top: 5px!important;">
+		            <i class="icon-imi-ditahan_imi" style="opacity:.4"></i>
 		        </div>
 		        <div class="details">
 		            <div class="number">
@@ -57,8 +62,8 @@
 		</div>
 		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 		    <a class="dashboard-stat dashboard-stat-v2 red  stat-box" href="#">
-		        <div class="visual">
-		            <i class="fa fa-bar-chart-o"></i>
+		        <div class="visual" style="padding-top: 5px!important;">
+		            <i class="icon-imi-kompaun_imi" style="opacity:.4"></i>
 		        </div>
 		        <div class="details">
 		            <div class="number">
@@ -71,7 +76,7 @@
 		
 	
 	</div>
-	<div class = "row">
+	<div class = "row" ng-hide="complaints == 0" >
 	    <div class="col-md-10 col-sm-10 chart-col"  style="" >
 	        <div id="aduan" ng-if="show_overall==false" 
 	        class="aduan-label"> <button type="button" style="font-size:10px;background-color: #8775a7;" 
@@ -81,26 +86,38 @@
 	        class="aduan-label"> <button type="button" style="font-size:10px;background-color: #8775a7;" 
 	        ng-click="complaint_chart()"
 	        class="btn btn-danger">Aduan Keseluruhan</button> </div>
-	     	<div class ="chart-box">
+	     	<div id="complain_div" class ="chart-box">
 	     		<div id="highchart_complaint"></div>
 	     	</div>
 	    </div>
 	    <div id="complaints-side-bar" class="col-md-2 col-sm-2 chart-col" style="padding:0px">
 	    	<div class="title">Aduan Type </div>
-	    <ul>
-	      <li ng-repeat="x in complaint_nature" ><span class="typicons-user icon"><i ng-class="getNatureClass(x.val)"></i></span>
+	    <!-- <ul> -->
+	   <!--    <li ng-repeat="x in complaint_nature" ><span class="typicons-user icon"><i ng-class="getNatureClass(x.val)"></i></span>
 	       <div class ="value"> {{x.count}} </div>
 	      {{x.val}}
 	      		
 
 	      </li>
-	     
-	    </ul>
+	    --> 
+	    <div ng-repeat="x in complaint_nature" >
+			<a class="aduan-stat stat-box" ng-class="getNatureColor(x.val)" href="#" style="margin:2px 2px 3px 2px;">
+		        <div class="visual" style="padding-top: 5px!important;">
+		            <i ng-class="getNatureClass(x.val)" ></i>
+		        </div>
+		        <div class="details">
+		            <div class="number">
+		                <span data-counter="counterup" data-value="89">{{x.count|number}}</div></span>
+		            <div class="desc"> {{x.val}} </div>
+		        </div>
+		    </a>
+	    </div> 
+	   <!--  </ul> -->
 	  </div>
 	</div>
 
 	
-    <div class ="row" style="padding-top:15px">
+    <div class ="row" style="padding-top:15px" ng-hide="operations == 0">
 	     <div class="col-md-4 chart-col" style="height:40%" >
 	     	<div class ="chart-box">
 	     		<div id="highchart_operation"></div>
@@ -116,7 +133,7 @@
 	    </div>
 
 	   </div>
-	<div class ="row" style="padding-top:15px">
+	<div class ="row" style="padding-top:15px" >
 		<div class="col-md-4 chart-col">
 			<div class="chart-box">
 				<div id="highchart_col"></div>

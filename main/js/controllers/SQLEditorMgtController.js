@@ -1,11 +1,12 @@
 'use strict';
 
-MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $http) {
+MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $http,$interval, $sce) {
 
-
+    var tableCompleter;
+    var dbCompletor;
     $scope.$on('$viewContentLoaded', function() {
         Metronic.initAjax(); // initialize core components
-        $scope.database = "default";
+        $scope.database = "jimp";
         $scope.start = 0;
         $scope.svdstart = 0;
         $scope.rows = 10;
@@ -19,6 +20,8 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         $scope.showResCol = false;
         $scope.showExpl = false;
         $scope.explainMsg = "";
+        $scope.exec_id=-1;
+        $scope.btnReport = true;
         fn_showSavedQry();
         fn_showHistory();
         fn_LoadDb();
@@ -27,7 +30,76 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
       
         // fn_showHistory();
 
+           $scope.IntroOptions = {
+            steps:[
+            {
+                element: document.querySelector('#db-help'),
+                intro: "Database and Tables",
+                position:"right"
+            },
+            {
+                element: document.querySelector('#db-db'),
+                intro: "Menunjukkan satu senarai database yang boleh didapati <BR> \
+                Database are listed based on permission, Please contact Admin if required database is not shown",
+                position: 'right'
+            },
+            {
+                element: document.querySelector('#acive-db'),
+                intro: "Active DB and its Tables",
+                position: 'right'
+            },
+            {
+                element: document.querySelector('#db-help1'),
+                intro: "Active database",
+                position: 'right'
+            },
 
+            {
+                element: document.querySelector('#db-help2'),
+                intro: "No of tables in the selected database",
+                position: 'right'
+            },
+            {
+                element: document.querySelector('#db-help3'),
+                intro: "type to filter the tables in the selected database ",
+                position: 'right'
+            },
+            {
+                element: document.querySelector('#save'),
+                intro: "Save the query",
+                position: 'left'
+            },
+            {
+                element: document.querySelector('#exec'),
+                intro: "Execute the query",
+                position: 'left'
+            },
+            {
+                element: document.querySelector('#explain'),
+                intro: "Explain the complexity of the query",
+                position: 'left'
+            },
+            {
+                element: document.querySelector('#new'),
+                intro: "Clear the current query",
+                position: 'left'
+            },
+            {
+                element: document.querySelector('#tabHistory'),
+                intro: "SQL history",
+                position: 'left'
+            }
+            ],
+            showStepNumbers: false,
+            exitOnOverlayClick: true,
+            exitOnEsc:true,
+            nextLabel: '<strong>Seterusnya</strong>',
+            prevLabel: '<span style="color:green">Sebelum</span>',
+            skipLabel: 'Keluar',
+            doneLabel: 'Terima Kasih'
+        };
+
+    $scope.ShouldAutoStart = false;
        
         
 
@@ -35,8 +107,30 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         var editor = ace.edit("qryeditor");
         editor.$blockScrolling = Infinity;
         editor.setOptions({
-            enableBasicAutocompletion: true
+            enableBasicAutocompletion: true,
+            enableLiveAutocompletion: true
         });
+        
+        editor.commands.addCommand({
+            name: 'run',
+            bindKey: {win: 'Ctrl-Enter',  mac: 'Command-Enter'},
+            exec: function(editor) {
+                    $btn = $('exec');
+                    $btn.button('loading');
+                    fn_GotoResultTab();
+                    var qry;
+                    if(editor.getSelectedText().length > 0){
+                        qry = editor.getSelectedText();
+                    }else{
+                         qry = $scope.aceDocumentValue;
+                    }
+                   // fn_ExecQuery(qry);
+                   fn_ExecQuery_newImplementation(qry)
+            },
+            readOnly: true // false if this command should not apply in readOnly mode
+        });
+        
+
         var oResultTable;
         var historyTbl;
         var SavedQryTbl;
@@ -150,9 +244,12 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         $scope.export_csv = function() {
             var qry = $scope.aceDocumentValue;
             //  $http.get(globalURL + "api/pistachio/secured/csv?query="+qry.trim())
-            window.location.href = globalURL + "api/pistachio/secured/csv?query=" + qry.trim();
+            window.location.href = globalURL + "api/pistachio/secured/csv?query=" + qry.trim().replace(/\n/g, " ");
 
         }
+
+
+
         var $btn;
         var $btnSave;
         $('.exec').click(function() {
@@ -165,20 +262,46 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
             }else{
                  qry = $scope.aceDocumentValue;
             }
-            fn_ExecQuery(qry);
+           // fn_ExecQuery(qry);
+           $scope.active_query = qry;
+           $scope.active_report = {};
+           $scope.active_report.query = qry;
+           $scope.active_report.visiblity = false;
+
+           fn_ExecQuery_newImplementation(qry)
 
         });
+
+        $scope.saveQuery = function() {
+             $('#savequery-name').val('');
+            $("#mdlSaveQry").modal('show');
+        }
+
+        $scope.saveEReport = function() {
+             $('#savequery-name').val('');
+            $("#mdlSaveReport").modal('show');
+        }
+
         $('.saveqry').click(function() {
             $btnSave = $(this);
             $btnSave.button('loading');
             // fn_GotoResultTab();
-            $('#savequery-name').val('');
-            $("#mdlSaveQry").modal('show');
+           
             // $scope.Saveqry = true;
             // $scope.Saveqry = false;
             // fn_ExecQuery(qry);
 
         });
+        $('.report').click(function() {
+            $btnSave = $(this);
+            // fn_GotoResultTab();
+            $("#mdlReport").modal('show');
+            fn_ExecQuery_report(0)
+            // $scope.Saveqry = false;
+            // fn_ExecQuery(qry);
+
+        });
+
         $('#btncancl').click(function() {
             $btnSave.button('reset');
         });
@@ -200,7 +323,15 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         });
         $('.explain').click(function(){
             $scope.showExpl = true;
+            var qry;
+            if(editor.getSelectedText().length > 0){
+                qry = editor.getSelectedText();
+            }else{
+                 qry = $scope.aceDocumentValue;
+            }
+            fn_showExplain(qry.trim()); 
             $scope.$apply();
+
             $(".tab-content").children().removeClass('active in');
             $('.result_container li').removeClass('active');
             $('.tab_Explain').addClass('active in');
@@ -230,6 +361,210 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         var aryJSONColTable = [];
 
         //All the Functions started here
+
+        function fn_ExecQuery_newImplementation(qry) {
+            if (qry != null && qry.length > 0) {
+                //Run Sql Query
+                if($scope.exec_id !=-1)
+                {
+                    $http.get(globalURL + "api/pistachio/secured/sql/close/" + $scope.exec_id)
+                    .then(function(result) {
+                        console.log("Previous session closed")
+                    });
+                }
+
+                $http.post(globalURL + "api/pistachio/secured/sql/run?dbname=" + $scope.database, qry.trim())
+                    .then(function(result) {
+                        $scope.exec_id = result.data;
+
+                        fn_ExecQuery_newFetch($scope.exec_id )
+                        //fn_ExecQuery_getStatus($scope.exec_id)
+                        //$scope.delay = true
+                       // $interval.cancel($scope.status)
+                       // $scope.status = $interval(fn_ExecQuery_getStatus, 2000);
+                    },
+                        function(response) {
+                            fn_ClearResultTbl();
+                            $("#messageView div span").html(response.data.error);
+                            $("#messageView div").removeClass("alert-success");
+                            $("#messageView div").addClass('alert-danger');
+                            $("#messageView div").show().delay(15000).fadeOut();
+                            setTimeout(function() {
+                                $btn.button('reset');
+                            }, 1000);
+                              });
+
+            } else {
+                fn_ClearResultTbl();
+                $("#messageView div span").html("No Query found...");
+                $("#messageView div").removeClass("alert-success");
+                $("#messageView div").addClass('alert-anger');
+                $("#messageView div").show().delay(5000).fadeOut();
+                setTimeout(function() {
+                    $btn.button('reset');
+                }, 1000);
+            }
+
+        }
+
+
+
+        function fn_ExecQuery_getStatus(id) {
+            //if(!$scope.delay)
+            $http.get(globalURL + "api/pistachio/secured/sql/status/" + $scope.exec_id)
+                    .then(function(result) {
+                        
+                        console.log(result)
+                        }); //});
+        //    $scope.delay = false;
+        }
+
+        $scope.export_jxrml = function() {
+            window.location.href = globalURL + "api/pistachio/secured/sql/jxrml/" +$scope.exec_id;
+        }
+
+        function fn_ExecQuery_report(id) {
+            $scope.reportHtml=$sce.trustAsHtml("<h2>PROCESSING</H2>");
+            $http.get(globalURL + "api/pistachio/secured/sql/report/" + $scope.exec_id)
+                    .then(function(result) {
+
+                        $scope.reportHtml=$sce.trustAsHtml(result.data);
+                    });
+        }
+
+        $scope.update_report = function() {
+            $scope.reportHtml=$sce.trustAsHtml("<h2>PROCESSING</H2>");
+             $http.get(globalURL + "api/pistachio/secured/sql/report/" + $scope.exec_id+"/update?title="+$scope.reportTitle+"&style="+$scope.selectedStyle)
+                    .then(function(result) {
+
+                        $scope.reportHtml=$sce.trustAsHtml(result.data);
+                    });
+        }
+        function fn_ExecQuery_newFetch(id) {
+            if (id!=-1) {
+                //Run Sql Query
+                $http.get(globalURL + "api/pistachio/secured/sql/fetch/" + id)
+                    .then(function(result) {
+                        $scope.resultColumns=result.data.metaData.columns;
+                        //$interval.cancel($scope.status)
+                        $scope.btnReport = false;
+                        $scope.showResults = true;
+                            if (result != null && result.data.columns != null) {     
+                                $scope.haveResData = true;           
+                                var resultOutputCol = jQuery.parseJSON(result.data.columns);
+                                var resultOutput = jQuery.parseJSON(result.data.results);
+                                var myArrayColumn = [];
+                                var i = 0;
+
+                                $.each(resultOutputCol, function(index, val) {
+                                    var obj = {
+                                        sTitle: val
+                                    };
+                                    myArrayColumn[i] = obj;
+                                    i++;
+                                });
+
+                                var myArrayRow = [];
+                                var i = 0;
+
+                                $.each(resultOutput, function(index, val) {
+                                    var rowData = [];
+                                    var j = 0;
+                                    $.each(resultOutput[i], function(index, val) {
+                                        rowData[j] = val;
+                                        j++;
+                                    });
+
+                                    myArrayRow[i] = rowData;
+                                    i++;
+                                });
+                                fn_ClearResultTbl();
+                                if(myArrayRow.length > 0){
+                                    queryResultFunc(myArrayRow, myArrayColumn);                                    
+                                }
+                                if(result.data.rowLength == 0 && result.statusText == "OK"){
+                                 $btn.button('reset');
+                                 $("#messageView div span").html('Successfully Executed...');
+                                 $("#messageView div").removeClass("alert-danger");
+                                 $("#messageView div").addClass('alert-success');
+                                 $("#messageView div").show().delay(5000).fadeOut();
+                                }
+                                else
+                                {
+                                    $btn.button('reset');
+                                }
+                                //$(".page-content").height($(".profile-content").height() + 400);
+                                // setTimeout(function() {
+                                //     $btn.button('reset');
+                                // }, 1000);                                      
+
+                            } else {
+                                fn_ClearResultTbl();
+                                $("#messageView div span").html('No Data to Show...');
+                                $("#messageView div").removeClass("alert-success");
+                                $("#messageView div").addClass('alert-danger');
+                                $("#messageView div").show().delay(5000).fadeOut();
+                                //$(".page-content").height($(".profile-content").height() + 400);
+                                setTimeout(function() {
+                                    $btn.button('reset');
+                                }, 1000);
+                                $scope.haveResData = false; 
+                            }
+                        if (result != null && result.data.metaData.columns != null) {
+                            $scope.showResCol = true;
+                            if (ResultColTbl != undefined) {
+                                        ResultColTbl.destroy();
+                            }
+                            ResultColTbl = $('#tblResultCol').DataTable({
+                                // "order": [[ 0, "desc" ]],
+                                "processing": true,
+                                "data": result.data.metaData.columns,
+                                "paging": true,
+                                "bInfo": false,
+                                "columns": [{
+                                    "data": "position",
+                                    "width": "10%",
+                                    "render":function(data, type, full, meta){
+                                            return data + 1;  
+                                        }                                    
+                                },{
+                                    "data": "column",
+                                    "width": "40%"
+                                }, {
+                                    "data": "type",
+                                    "width": "40%"
+                                }]
+                            });  
+                        }else{
+                            $scope.showResCol = false;
+                        }   
+
+                            fn_showHistory();
+                        },
+                        function(response) {
+                            fn_ClearResultTbl();
+                            $("#messageView div span").html(response.data.error);
+                            $("#messageView div").removeClass("alert-success");
+                            $("#messageView div").addClass('alert-danger');
+                            $("#messageView div").show().delay(15000).fadeOut();
+                            setTimeout(function() {
+                                $btn.button('reset');
+                            }, 1000);
+                        });              
+                           
+
+            } else {
+                fn_ClearResultTbl();
+                $("#messageView div span").html("No Query found...");
+                $("#messageView div").removeClass("alert-success");
+                $("#messageView div").addClass('alert-anger');
+                $("#messageView div").show().delay(5000).fadeOut();
+                setTimeout(function() {
+                    $btn.button('reset');
+                }, 1000);
+            }
+
+        }
 
         function fn_ExecQuery(qry) {
             if (qry != null && qry.length > 0) {
@@ -393,7 +728,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
             });
         }
 
-
+       
         function fn_LoadDb() {
             $http.get(globalURL + "api/pistachio/secured/hadoop/db/role")
                 .then(function(response) {
@@ -401,11 +736,57 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                     $scope.databaseList = response.data;
                     console.log("dblist" + response.data[0]);
                     // fn_LoadDt(response.data[0]);
-                    fn_LoadDt("default");
-
+                    fn_LoadDt( $scope.database);
+                            
                 });
 
         }
+
+        function autoComplete(seldb) {
+            var dbCompleter = {
+                    getCompletions: function(editor, session, pos, prefix, callback) {
+                        var wordList = $scope.databaseList;
+                        callback(null, wordList.map(function(word) {
+                            return {
+                                caption: word,
+                                value: word,
+                                meta: "database"
+                            };
+                        }));
+
+                    }
+                }
+             var  tableCompleter = {
+                    getCompletions: function(editor, session, pos, prefix, callback) {
+                        var wordList = $scope.datatableList;
+                        callback(null, wordList.map(function(word) {
+                            return {
+                                caption: word,
+                                value: word,
+                                meta: seldb
+                            };
+                        }));
+
+                    }
+                }
+            var  sqlCompleter = {
+                    getCompletions: function(editor, session, pos, prefix, callback) {
+                        var wordList = ['select * from','select','from','distinct','where','order by','group by','union','join','left join']
+                        callback(null, wordList.map(function(word) {
+                            return {
+                                caption: word,
+                                value: word,
+                                meta: "sql"
+                            };
+                        }));
+
+                    }
+                }
+
+        editor.completers = [sqlCompleter,tableCompleter,dbCompleter]
+        }
+
+
 
         function fn_LoadDt(seldb) {
             $http.get(globalURL + "api/pistachio/secured/hadoop/tables?db=" + seldb)
@@ -414,7 +795,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                     $scope.datatableList = response.data;
                     // $scope.database = response.data[0];
                     console.log("dtlist" + response.data[0]);
-
+                   autoComplete(seldb)
                     // $('#lstDB').attr('aria-expanded','false');
                     // $('#lstDB').removeClass('in');
 
@@ -591,7 +972,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                         $('.tblColLst').remove();
                         $(currentList).append('<div class="tblColLst" style="padding-top: 5px; padding-left: 20px;" ><ul></ul></div');
                         $.each(response.data, function (key, value) {
-                            $(".tblColLst ul").append('<li style="list-style-type: none;"><div><i class="fa fa-columns"></i>'+value.column +' ('+ value.type +')'+'</div></li>');
+                            $(".tblColLst ul").append('<li style="list-style-type: none;"><a><div><i class="fa fa-columns"></i>'+value.column +' ('+ value.type +')'+'</div></a></li>');
                         });
                     }else{
                         // $('.tblColLst').remove();
@@ -659,6 +1040,13 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
 
 
         }
+
+        $scope.$on('$locationChangeStart', function (event) {
+            $http.get(globalURL + "api/pistachio/secured/sql/close/" + $scope.exec_id)
+                    .then(function(result) {
+                        console.log("Previous session closed")
+                    });
+          });
 
         $rootScope.settings.layout.pageSidebarClosed = true;
         $rootScope.skipTitle = false;

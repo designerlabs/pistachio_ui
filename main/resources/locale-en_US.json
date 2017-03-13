@@ -92,9 +92,9 @@
 	"alertnotify.title":"Transcation Notification",
 	"session.endmessage" :"You'll be logged out in",
 	"session.endmessageinsec": "second(s)",
-	"session.idlemessage" : "You're Idle. Do Something",
-	"session.timeoutmessage" : "You've Timed Out",
-	"session.loggedoutmessage" : "You were idle too long. You are logged out now, Please login again",
+	"session.idlemessage" : "You are inactive for more than 30 minutes, Secuirty policy will automatically log you out, Please click to continue this session",
+	"session.timeoutmessage" : "Automatic Log Out Due to Inactivity",
+	"session.loggedoutmessage" : "We hadn't heard from you for about 30 minute(s), so for your security server automatically logged you out of your account. Log back in below to continue.",
 	"workflowmgt.title":"Request Management",
 	"tracking.title" : "Border Activity Analysis",
 	"visitorTracking.title" : "Visitor Traveling Analysis",
@@ -155,7 +155,18 @@
     		"complaints" : "Complaints",
     		"title" : "Enforcement"
     	}
+    },
+
+    "visa" : {
+    	"dashboard": {
+    		"detained" : "Detained",
+    		"compound" : "Compound",
+    		"operation" : "Operation",
+    		"complaints" : "Complaints",
+    		"title" : "Visa & Pass"
+    	}
     }
+
 
 
 

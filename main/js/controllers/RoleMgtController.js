@@ -414,6 +414,7 @@ function UpdateSubReportsCrud(RoleName){
                  {
                     "data":"add",
                      "width": "150",
+
                     "render": function (data, type, full, meta){
                         if(data == "true"){
                             return "<input type='checkbox' name='add' checked='true' />";
@@ -436,6 +437,7 @@ function UpdateSubReportsCrud(RoleName){
                  {
                     "data":"update",
                     "width": "150",
+                    className: "hide ",
                     "render": function (data, type, full, meta){
                      if(data == "true"){
                             return "<input type='checkbox' name='update' checked='true' />";
@@ -447,6 +449,7 @@ function UpdateSubReportsCrud(RoleName){
                  {
                     "data":"delete",
                     "width": "150",
+                    className: "hide ",
                     "render": function (data, type, full, meta){
                       if(data == "true"){
                             return "<input type='checkbox' name='delete' checked='true' />";
@@ -458,6 +461,7 @@ function UpdateSubReportsCrud(RoleName){
                  {
                     "data":"queryVisible",
                     "width": "150",
+                    className: "hide ",
                     "render": function (data, type, full, meta){
                      if(data == "true"){
                             return "<input type='checkbox' name='queryVisible' checked='true' />";

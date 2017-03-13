@@ -18,10 +18,16 @@ html {
      min-height: 100%;
 }
 
-.login {
+/*.login {
     background-color: #A0B7B5 !important;
     background-size: cover !important;
     background: linear-gradient(to bottom, rgba(254, 254, 254, 0.4), rgba(0, 0, 0, 100)), url('../../layout2/img/immigration.jpg'), linear-gradient(#2980B9, #2C3E50);
+}*/
+
+.login {
+    background-color: #A0B7B5 !important;
+    background-size: cover !important;
+    background: linear-gradient(to bottom, rgba(254, 254, 254, 0.4), rgba(0, 0, 0, 100)), url('../../layout2/img/front-page.jpg'), linear-gradient(#2980B9, #2C3E50);
 }
 
 .login .logo {

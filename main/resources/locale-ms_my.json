@@ -97,9 +97,9 @@
 	"alertnotify.title":"Transcation Notification",
 	"session.endmessage" :"Anda akan log di dalam",
 	"session.endmessageinsec": "saat",
-	"session.idlemessage" : "Anda Idle. Lakukan sesuatu",
+	"session.idlemessage" : "Anda tidak aktif selama lebih daripada 30 minit, dasar Secuirty secara automatik akan log anda keluar, Sila klik untuk meneruskan sesi ini",
 	"session.timeoutmessage" : "Anda telah tamat masa",
-	"session.loggedoutmessage" : "Anda adalah terbiar terlalu lama. Anda log keluar sekarang, Sila log masuk lagi",
+	"session.loggedoutmessage" : "Kami tidak pernah mendengar daripada anda selama kira-kira 30 minit, jadi untuk Server keselamatan anda secara automatik log anda keluar daripada akaun anda.",
 	"tracking.title" : "Border Activity Analysis",
 	"visitorTracking.title" : "Visitor Traveling Analysis",
 	"officeractivity.title":"Officers Activity Analysis",
@@ -155,6 +155,15 @@
     		"operation" : "Operasi",
     		"complaints" : "Aduan",
     		"title" : "Enforcement"
+    	}
+    },
+    "visa" : {
+    	"dashboard": {
+    		"detained" : "Detained",
+    		"compound" : "Compound",
+    		"operation" : "Operation",
+    		"complaints" : "Complaints",
+    		"title" : "Visa & Pass"
     	}
     }
 }

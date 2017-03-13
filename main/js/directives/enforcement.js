@@ -1,7 +1,7 @@
 'use strict';
 
 var EnforcementController = function ($scope,$http) {
-    var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/offender/query?sort=created desc&q='
+    var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/tef_detainee/query?collection=tef_detainee,tef_compound&sort=created desc&q='
     init();
 
   function init() {
@@ -12,7 +12,6 @@ var EnforcementController = function ($scope,$http) {
 
       $scope.docs = data.response.docs;
       $scope.doc = data.response.docs[0];
-      debugger;
       $scope.total = data.response.numFound
   });
   }

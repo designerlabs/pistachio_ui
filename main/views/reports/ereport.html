@@ -1,0 +1,111 @@
+<div >
+     <div class="portlet light portlet-fit bordered">
+                                  <div class="mt-element-list">
+                                            <div class="mt-list-head list-default green-haze light">
+                                                <div class="row">
+                                                    <div class="col-xs-8">
+                                                        <div class="list-head-title-container">
+                                                            <h3 class="list-title uppercase sbold">{{title}}</h3>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-4 ">
+                                                     
+                                                         <button class="btn btn-danger btn-sm pull-right" data-toggle="modal" id="queryBackBtn" onclick="location.href='#report2.html'"><i class="fa fa-angle-double-left"></i> {{'ereporting.back' | translate}}</button>
+                                                         <button  ng-show="reportPrivilege"
+                                                        class="btn btn-success btn-sm pull-right" data-toggle="modal" id="eReportQueryAddBtn" ng-click="addReport()"><i class="fa fa-plus"></i> {{'ereporting.add' | translate}}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div ng-show="reports.length ==0" style="padding:10px;">
+                                                <span class="font-grey-mint font-lg bold uppercase">No Reports</span>
+                                             </div>
+                                            <div class="mt-list-container list-default">
+
+                                                <ul>
+                                                    <li class="mt-list-item  ereport" ng-repeat="x in reports" id="{{x.id}}" ng-hide="!reportPrivilege && !x.publish">
+                                                        <div class="list-icon done">
+                                                            <a ng-click="showSQL(x)">
+                                                                <i ng-class="adhocOrSql(x.reportFileName)"></i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="pull-right"> 
+                                                            
+
+                                                            <div class="dt-buttons">
+                                                                <a class="dt-button buttons-print btn btn-sm btn-outline grey-mint font-lg" ng-show="reportPrivilege && (x.visiblity || isItMyReport(x.login))" ng-click="view(x)"> Edit</a>
+                                                                <a class="dt-button buttons-pdf btn btn-sm btn-outline  grey-mint font-lg" ng-click="download(x,'pdf')"><span>PDF</span></a>
+                                                                <a class="dt-button buttons-excel btn btn-sm btn-outline  grey-mint font-lg" ng-click="download(x,'xls')"><span>Excel</span></a>
+                                                                <a class="dt-button buttons-csv btn btn-sm btn-outline  grey-mint font-lg" ng-click="download(x,'csv')"><span>CSV</span></a>
+                                                                
+                                                         </div>
+                                                         </div>
+                                                        <div class="list-item-content" >
+                                                            <h3 class="uppercase bold  ereport-title">
+                                                                <a href="javascript:;">{{x.queryName}}</a>
+                                                            </h3>
+                                                            <p class="ereport-desc">{{x.cached}}</p>
+                                                            <div class="ereport-author">
+                                                                <p class="ereport-author-name">Author : {{x.displayName || x.login}}</p>
+                                                            </div>
+                                                            
+                                                            
+                                                        </div>
+                                                    </li>
+                                                  
+                                                </ul>
+                                            </div>
+                                        </div>
+                                </div>  
+</div>
+
+<div class="modal fade" id="mdlSaveReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document" style="width: 80%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="mdlSaveQryHeader">E-Reporting </h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger display-hide" id="mdlSaveQryRequire">
+                    <button class="close" data-close="alert"></button>
+                    <span></span>
+                </div>
+                    <ereport report="active_report" close="saveClose()"></ereport>
+                <div class="clearfix">
+                </div>
+                <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="btnSaveQry"><i class="fa fa-check"></i> Save </button>
+                    <button type="button" class="btn btn-danger" id='btncancl' data-dismiss="modal"><i class="fa fa-times"></i> Cancel </button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="mdlReportParam" class="modal fade in" role="dialog" aria-hidden="true" >
+                                            <div class="modal-dialog"  style="width: 80%">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                                        <h4 class="modal-title">{{active_report.queryName}}</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="#" class="form-horizontal">
+                                                           
+                <params report="active_report" params="params"></params>
+                                                    </div>
+
+                                                    <div class="clearfix"></div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn dark btn-outline" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                        <button class="btn green" data-dismiss="modal" ng-click="continueRequest()" >Save changes</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+    

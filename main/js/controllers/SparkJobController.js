@@ -31,7 +31,7 @@ MetronicApp.controller('SparkJobController', function($rootScope, $scope, $http,
                   var index;
                   var sts = true;
                   for (index = 0; index < $scope.recentJobs.length; ++index) {
-                      if($scope.recentJobs[index].jobStatus != "FINISHED") {
+                      if($scope.recentJobs[index].jobStatus != "FINISHED" && $scope.recentJobs[index].jobStatus != "FAILED") {
                         $scope.activeJob = true;
                         sts = false;
                       }

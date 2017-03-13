@@ -356,6 +356,11 @@ MetronicApp.controller('OverstayController', function($rootScope, $scope, $http,
             json.facet.country.domain = {};
             json.facet.country.domain.excludeTags ="COUNTRY"
             json.facet.country.limit  =  20;
+            json.facet.sex = {};
+            json.facet.sex.type   = "terms";
+            json.facet.sex.field  =  "sex";
+            json.facet.sex.domain = {};
+            json.facet.sex.domain.excludeTags ="SEX"
             json.facet.user_type = {};
             json.facet.user_type.type   = "terms";
             json.facet.user_type.field  =  "pass_type";
@@ -389,8 +394,22 @@ MetronicApp.controller('OverstayController', function($rootScope, $scope, $http,
               $scope.user_type = data.facets.user_type.buckets
               console.log($scope.sex1);
               $scope.column();
-
-              // $scope.pie();
+              var sex = data.facets.sex.buckets;
+                   var i;
+                   for(i = 0; i < sex.length; i++){
+                    if( sex[i].name = sex[i]['val'] =="LELAKI")
+                      $scope.male= sex[i]['count'];
+                    if( sex[i].name = sex[i]['val'] =="PEREMPUAN")
+                      $scope.female= sex[i]['count'];
+                    
+                      sex[i].name = sex[i]['val'];
+                      sex[i].y = sex[i]['count'];
+                      delete sex[i].val;
+                      delete sex[i].count;
+                    }
+                    console.log(sex);
+                   $scope.sex = sex;
+              $scope.genderChart();
               $scope.timelineChart(data.facets.date_range.buckets);
               $scope.rankChart();
               //$scope.activeOverall();
@@ -406,6 +425,73 @@ MetronicApp.controller('OverstayController', function($rootScope, $scope, $http,
 
                
 
+    };
+
+    $scope.genderChart = function() {
+      Highcharts.chart('pie-chart',{
+        chart : {
+            type : 'pie',
+            height : 320,
+            style: {
+                fontFamily: 'Open Sans'
+            }
+        },
+        legend: {
+                layout: 'vertical',
+                align: 'left',
+                x: 120,
+                verticalAlign: 'top',
+                y: 80,
+                floating: true,
+                backgroundColor: '#FFFFFF'
+        },
+        
+        xAxis: {
+            categories: $scope.sex.val
+        },
+        yAxis: {
+
+            title: {
+                text: null
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        exporting: { enabled: false },
+            title: {
+              text: 'mengikut jantina',
+              x: -20 //center
+            },
+            series: [{
+            name: 'jantina',
+            colorByPoint: true,
+           // showInLegend:false,
+            data: $scope.sex,
+          point:{
+              events:{
+                  click: function (event) {
+                      $scope.clickSex(this.name);
+                  }
+              }
+          }
+        }]
+          });
+
+
+
+      $scope.labels = $scope.sex.val;
+      $scope.data = $scope.sex.count;
     };
 
        $scope.generateBarGraph = function (wrapper) {

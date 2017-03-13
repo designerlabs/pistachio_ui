@@ -5,6 +5,12 @@
 MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $http) {
    var backgroundColor = '#f1f3fa'
    var thisSolrAppUrl = 'http://'+solrHost+':8983/solr/offender/query?json='
+       var economist;
+        $http.get('assets/global/plugins/highcharts/js/economist.js')
+         .then(function(res){
+              economist= res.data;     
+              Highcharts.setOptions(economist);           
+          });
 
     $scope.$on('$viewContentLoaded', function() {
        $scope.reset()
@@ -34,7 +40,10 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
     $scope.date_range = function() {
 
       cb(moment().startOf('month'), moment());
+      debugger;
 
+      var rne = '[ '+ moment().startOf('month').format('YYYY-MM-DDT00:00:00')+'Z TO '+moment().format('YYYY-MM-DDT00:00:00')+'Z ]'
+      $scope.addFilter("tim","Time :This Month","created:"+rne);
       $('#dashboard-report-range').daterangepicker({
           ranges: {
              'This Month': [moment().startOf('month'), moment().endOf('month')],
@@ -98,14 +107,16 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
 
  $scope.reset = function(){
          init_page();
-         $scope.date_range()
          $scope.filterButtons = [];
+         $scope.date_range()
+         
          $scope.time_filtered_max = "";
          $scope.time_filtered_min = "";
-         $scope.period = "%2B1YEAR"
+         $scope.period = "%2B1DAY"
          $scope.dateRange = {};
-         $scope.dateRange.min = "2012-01-01T00:00:00Z"
-         $scope.dateRange.max = "2017-01-01T00:00:00Z"
+         
+         $scope.dateRange.min = moment("20110101", "YYYYMMDD").format('YYYY-MM-DDT00:00:00')+'Z';//moment().startOf('year').format('YYYY-MM-DDT00:00:00')+'Z';
+         $scope.dateRange.max = moment().format('YYYY-MM-DDT00:00:00')+'Z';
          $scope.querySolr();
          $scope.queryCompound();
          $scope.queryOperation();
@@ -205,10 +216,13 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
                  console.log(data)    
                  //$scope. = data.facets.compound
                  $scope.operations = data.response.numFound;
+                 if($scope.operations>0) {
                  $scope.operation = data.facets.operation.buckets
                  $scope.operation_chart();
                  console.log($scope.operations)
-                 drawMarker(data.response.docs)
+                 drawMarker(data.response.docs) 
+                 }
+                 
                  
                }).
                error(function(data, status, headers, config) {
@@ -259,10 +273,13 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
                  console.log(data)    
                  //$scope. = data.facets.compound
                  $scope.complaints = data.response.numFound;
-                 $scope.complaint_category = data.facets.category.buckets
-                 $scope.complaint_nature = data.facets.nature.buckets;
-                 $scope.complaint_category1 = data.facets.cat.buckets
-                 $scope.complaint_chart();
+                 if($scope.complaints>0) {
+                  $scope.complaint_category = data.facets.category.buckets
+                  $scope.complaint_nature = data.facets.nature.buckets;
+                  $scope.complaint_category1 = data.facets.cat.buckets
+                  $scope.complaint_chart(); 
+                 }
+                 
                }).
                error(function(data, status, headers, config) {
                  console.log('error');
@@ -277,18 +294,41 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
       };
 
       $scope.getNatureClass = function(item) {
-        if(item =="TELEFON") return "fa fa-phone"
-        if(item =="SURAT") return "fa fa-newspaper-o"
-        if(item =="HADIR SENDIRI") return "fa fa-user-o"
-        if(item =="LAPORAN") return "fa fa-file"
-        if(item =="EMEL") return "fa fa-envelope"
+        if(item =="TELEFON") return "icon-imi-telefon_imi"
+        if(item =="SURAT") return "icon-imi-surat_imi"
+        if(item =="HADIR SENDIRI") return "icon-imi-hadir_imi"
+        if(item =="LAPORAN") return "icon-imi-elaporan_imi"
+        if(item =="EMEL") return "icon-imi-emel_imi"
         if(item =="FAKS") return "fa fa-fax"
-        if(item =="ARAHAN KHAS") return "fa fa-bank"
+        if(item =="ARAHAN KHAS") return "icon-imi-arahan_imi"
         if(item =="MEDIA MASSA") return "fa fa-commenting"
         if(item =="SMS") return "fa fa-mobile"
-        
         return "fa fa-support"
+      } 
 
+      $scope.getNatureColorAscii = function(item) {
+        if(item =="TELEFON") return "#3598DC"
+        if(item =="SURAT") return "#32c5d2"
+        if(item =="HADIR SENDIRI") return "tomato"
+        if(item =="LAPORAN") return "#36D7B7"
+        if(item =="EMEL") return "#C8D046"
+        if(item =="FAKS") return "#67809F"
+        if(item =="ARAHAN KHAS") return "#555555"
+        if(item =="MEDIA MASSA") return "#8877A9"
+        if(item =="SMS") return "#C5BF66"
+        return "#FAFAFA"
+      } 
+      $scope.getNatureColor = function(item) {
+        if(item =="TELEFON") return "blue"
+        if(item =="SURAT") return "green"
+        if(item =="HADIR SENDIRI") return "tomato"
+        if(item =="LAPORAN") return "green-turquoise"
+        if(item =="EMEL") return "yellow-soft"
+        if(item =="FAKS") return "blue-hoki"
+        if(item =="ARAHAN KHAS") return "grey-gallery"
+        if(item =="MEDIA MASSA") return "purple-soft"
+        if(item =="SMS") return "yellow-haze"
+        return "grey-cararra"
       } 
 
     function drawMarker(data) {
@@ -437,7 +477,7 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
       $('#map-label').removeClass('operation-map-label');
        });
     map.scrollWheelZoom.disable()
-    
+
       $scope.map = map;
 
       }
@@ -467,11 +507,13 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
            stateData.push(_state[i].count)
         }
 
+
       var chart = Highcharts.chart('highchart_operation',{
-        chart : {
+        
+                chart : {
             type : 'bar',
             height:$scope.getHeight(60),
-            backgroundColor: backgroundColor,
+           // backgroundColor: backgroundColor,
             style: {
                 fontFamily: 'Open Sans'
             }
@@ -524,7 +566,7 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
               x: -20 //center
             },
             series: [{
-            name: 'Negara',
+            name: 'Operasi',
        //     colorByPoint: true,
             data: stateData,
             color: '#34495E',
@@ -547,7 +589,6 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
      $scope.getComplaintTypeHeight = function() {
       return 'height:'+$scope.getHeight(10)+'px'
      }
-
 
 
      $scope.complaint_chart = function() {
@@ -625,7 +666,7 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
               x: -20 //center
             },
             series: [{
-            name: 'Negara',
+            name: 'Aduan',
        //     colorByPoint: true,
             data: stateData,
             color: '#34495E',
@@ -642,8 +683,7 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
       if(sel != -1) {
         chart.series[0].data[sel].select(true, true);
       }
-
-
+      chart.redraw()
       //
     }
 
@@ -730,7 +770,7 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
             name: $scope.complaint_category1[0].val,
        //     colorByPoint: true,
             data: stateData,
-            color: '#34495E',
+            color: $scope.getNatureColorAscii($scope.complaint_category1[0].val),
             showInLegend:false,
           point:{
               events:{
@@ -752,7 +792,8 @@ MetronicApp.controller('EnforcementDashboard', function($rootScope, $scope, $htt
           }
            chart.addSeries({                        
                   name: $scope.complaint_category1[j].val,
-                  data: stateData
+                  data: stateData,
+                  color: $scope.getNatureColorAscii($scope.complaint_category1[j].val)
               }, false)
         }
         chart.redraw();

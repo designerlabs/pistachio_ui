@@ -10,7 +10,7 @@
   <li class="nav-item" id="ereportLink">
 
             <a href="javascript:;" class="nav-link nav-toggle">
-                <i class="icon-speech"></i>
+                <i class="icon-imi-elaporan_imi"></i>
                 <span class="title">{{'sidebar.ereport' | translate}}</span>
                 <span class="arrow "></span>
             </a>
@@ -26,18 +26,18 @@
                         <span class="title">Query Editor</span>
                     </a>
                 </li>
-                 <li>
+                <!--  <li>
                     <a href="#/workflowadmin.html">
                         <i class="icon-docs"></i> Report Request
                     </a>
-                </li>
+                </li> -->
             </ul>
 
         </li>
 
         <li class="nav-item" id="dashboardLink">
             <a  href="javascript:;" class="nav-link nav-toggle">
-                <i class="icon-bar-chart"></i>
+                <i class="icon-imi-statistik_imi"></i>
                 <span class="title">{{'sidebar.dashboard' | translate}}</span>
                  <span class="arrow "></span>
             </a>
@@ -68,21 +68,15 @@
                                                 <i class="fa fa-user"></i> My User (new)
                                             </a>
                                         </li>
-                                        <li>
-                                            <a href="#/applAnalysis.html">
-                                                <i class="icon-pie-chart"></i> {{'sidebar.appl_analysis' | translate}}
-                                            </a>
-                                        </li>
-                                      
-                                         <li>
-                                            <a href="#/heatMapAnalysis.html">
-                                                <i class="icon-pie-chart"></i> Foreign Worker Analysis
-                                            </a>
-                                        </li>
-                
+                                       
+                                    <!-- <li>
+                                        <a href="#/movementAnalysis1.html">
+                                            <i class="icon-imi-Movement_Analysis"></i> Movement Analysis
+                                        </a>
+                                    </li> -->
                                     <li>
                                         <a href="#/movementAnalysis.html">
-                                            <i class="icon-pie-chart"></i> Movement Analysis
+                                            <i class="icon-imi-Immigration_Security"></i> Movement Analysis
                                         </a>
                                     </li>
                                      <!--<li>
@@ -93,29 +87,58 @@
                                     
                                     <li class="nav-item">
                                         <a href="#/d2dTracking/d2dTracking.html" id="trackerLink">
-                                        <i class="fa fa-line-chart"></i>
+                                        <i class="icon-imi-Tracking_Analysis"></i>
                                             <span class="title">Tracking</span>
                                         </a>
                                     </li>
 
-                                      <li>
-                                        <a href="#/citizenAnalysis.html">
-                                            <i class="icon-pie-chart"></i> Citizen Analysis
-                                        </a>
-                                    </li>
+
                
 
                             </ul>
                         </li>
 
        
+<li class="nav-item" id="visapass">
 
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-imi-Immigration_Visa_Pass"></i>
+                                <span class="title">Visa & Pass</span>
+                                <span class="arrow "></span>
+                            </a>
+                            <ul class="sub-menu">
+                             
+                                <li>
+                                    <a href="#/enforcement/visadashboard.html">
+                                        <i class="icon-pie-chart"></i> Visa & Pass
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#/citizenAnalysis.html">
+                                        <i class="icon-pie-chart"></i> Citizen Analysis
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#/applAnalysis.html">
+                                        <i class="icon-imi-Visa_Application_Analysis"></i> {{'sidebar.appl_analysis' | translate}}
+                                    </a>
+                                </li>
+                              
+                                 <li>
+                                    <a href="#/heatMapAnalysis.html">
+                                        <i class="icon-pie-chart"></i> Foreign Worker Analysis
+                                    </a>
+                                </li>
+        
+                            </ul>
+
+                        </li>
       
 
 <li class="nav-item" id="enforcement">
 
                             <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="fa fa-legal"></i>
+                                <i class="icon-imi-enforcement"></i>
                                 <span class="title">Enforcement</span>
                                 <span class="arrow "></span>
                             </a>
@@ -128,12 +151,12 @@
                                 </li>
                                  <li>
                                     <a href="#/detaineeAnalysis.html">
-                                        <i class="icon-pie-chart"></i> Detainee Analysis
+                                        <i class="icon-imi-ditahan_imi"></i> Detainee Analysis
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#/overstayAnalysis.html">
-                                        <i class="icon-pie-chart"></i> Overstay Analysis
+                                        <i class="icon-imi-Overstay_Analysis"></i> Overstay Analysis
                                     </a>
                                 </li>
                                    <li>
@@ -148,7 +171,7 @@
         
        <li class="nav-item">
             <a href="#/fastsearch.html" id="fastsearchLink">
-                <i class="icon-magnifier"></i>
+                <i class="icon-imi-Enforcement_search"></i>
                 <span class="title">{{'sidebar.fastsearch' | translate}}</span>
             </a>
         </li>
@@ -164,7 +187,7 @@
         </li>
         <li ng-if="chkRole('ROLE_ADMIN')" class="nav-item" id="adminLink">
             <a href="javascript:;" class="nav-link nav-toggle">
-                <i class="icon-users"></i>
+                <i class="icon-imi-aduan_imi"></i>
                 <span class="title">{{'sidebar.administrator' | translate}}</span>
                 <span class="arrow "></span>
             </a>
@@ -199,7 +222,7 @@
 
                 <li id="userManagementLink">
                     <a href="#/userManagement/userMgt.html">
-                        <i class="icon-user"></i>
+                        <i class="icon-imi-My_User2"></i>
                         <span class="title">{{'sidebar.usermanagement' | translate}}</span>
                     </a>
                 </li>
@@ -217,6 +240,11 @@
                         <span class="arrow "></span>
                     </a>
                     <ul class="sub-menu">
+                        <li>
+                            <a href="#/sqoop.html">
+                                <i class="icon-docs"></i> Sqoop
+                            </a>
+                        </li>
                         <li>
                             <a href="#/datatables/jobs.html">
                                 <i class="icon-docs"></i> {{'sidebar.jobs' | translate}}
