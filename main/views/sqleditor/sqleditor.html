@@ -277,27 +277,9 @@
 	</div>
 </div>
 
-<div class="modal fade" id="mdlSaveReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-	<div class="modal-dialog" role="document" style="width: 80%">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="mdlSaveQryHeader">E-Reporting </h4>
-			</div>
-			<div class="modal-body">
-				<div class="alert alert-danger display-hide" id="mdlSaveQryRequire">
-					<button class="close" data-close="alert"></button>
-					<span></span>
-				</div>
-				  <ereport query="active_query" report="active_report" close="closeSaveModal()"></ereport>
-				
-		</div>
-	</div>
-</div>
 
 
-
-<div class="modal fade" id="mdlReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+<div class="modal fade" id="mdlReport1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 	<div class="modal-dialog" role="document" style="width: 90%">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -345,6 +327,26 @@
 		</div>
 	</div>
 </div>
+
+<div class="modal fade" id="mdlSaveReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+	<div class="modal-dialog" role="document" style="width: 80%">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="mdlSaveQryHeader">E-Reporting </h4>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-danger display-hide" id="mdlSaveQryRequire">
+					<button class="close" data-close="alert"></button>
+					<span></span>
+				</div>
+				  <ereport query="active_query" report="active_report" close="closeSaveModal()"></ereport>
+				
+		</div>
+	</div>
+</div>
+
+
 <!--<div class="tblColLst" style="padding-top: 5px; padding-left: 30px;" >
 	<ul class="lstcol">
 		<li ng-repeat="x in ColResult" style="list-style-type: none;">

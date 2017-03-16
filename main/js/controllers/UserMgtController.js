@@ -10,6 +10,7 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
     });
 
     function load(){
+      console.log("reloading the page")
          $http.get(globalURL+"user?user="+getUser)
             .success(function(response) {
                 $scope.users = response;
@@ -43,9 +44,19 @@ MetronicApp.controller('UserMgtController', function($rootScope, $scope, $http, 
 
     $scope.actDeAct = function(row,stat) {
         console.log("Activating/DeActivating User with Id"+row.id)
-        $http.get( globalURL+"user/"+row.id+"?activate="+stat, function( data ) {
+       /* $http.get( globalURL+"user/"+row.id+"?activate="+stat, function( data ) {
             load();
-        });
+        });*/
+/*           $http.get(globalURL+"user/"+row.id+"?activate="+stat)
+             .success(function(responseRole) {
+                 
+            });*/
+
+            $.get(globalURL+"user/"+row.id+"?activate="+stat, function( data ) {
+                load();
+            });
+
+        
     }
 
     $scope.save = function(row,rowForm){

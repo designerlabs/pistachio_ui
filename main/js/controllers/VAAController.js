@@ -33,7 +33,7 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
     });
 
 
-
+   // $scope.datePicker.date = {startDate: null, endDate: null};
     function cb(start, end) {
       $('#vaa-range span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
     }
@@ -45,12 +45,13 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
       $('#vaa-range').daterangepicker({
           ranges: {
              'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-             '2016': [moment("20160101", "YYYYMMDD"), moment()],
+             '2017': [moment("20170101", "YYYYMMDD"), moment()],
+             '2016': [moment("20160101", "YYYYMMDD"), moment("20161231", "YYYYMMDD")],
              '2015': [moment("20150101", "YYYYMMDD"), moment("20151231", "YYYYMMDD")],
-             '2014': [moment("20140101", "YYYYMMDD"), moment("20141231", "YYYYMMDD")],
-             '2013': [moment("20130101", "YYYYMMDD"), moment("20131231", "YYYYMMDD")],
-             '2012': [moment("20120101", "YYYYMMDD"), moment("20121231", "YYYYMMDD")]//,
-           //  '2011': [moment("20110101", "YYYYMMDD"), moment("20111231", "YYYYMMDD")],
+             '2014': [moment("20140101", "YYYYMMDD"), moment("20141231", "YYYYMMDD")]
+             /*'2013': [moment("20130101", "YYYYMMDD"), moment("20131231", "YYYYMMDD")],
+             '2012': [moment("20120101", "YYYYMMDD"), moment("20121231", "YYYYMMDD")]//, */
+           ////  '2011': [moment("20110101", "YYYYMMDD"), moment("20111231", "YYYYMMDD")],
            //  '2010': [moment("20100101", "YYYYMMDD"), moment("20101231", "YYYYMMDD")]
 
           },
@@ -64,10 +65,10 @@ MetronicApp.controller('VAAController', function($rootScope, $scope, $http) {
       $('#vaa-range').on('apply.daterangepicker', function(ev, picker) {
           $('#daterange').val('');
           console.log($scope.filterButtons)
-          var range = '[ '+ moment(picker.startDate).format('YYYY-MM-DDT00:00:00')+'Z TO '+moment(picker.endDate).format('YYYY-MM-DDT00:00:00')+'Z ]'
+          var range = '[ '+ moment(picker.startDate).format('YYYY-MM-DDT00:00:00')+'Z TO '+moment(picker.endDate).format('YYYY-MM-DDT23:59:59')+'Z ]'
 
           var display = "[ "+ moment(picker.startDate).format('DD-MM-YYYY') +" TO "+ moment(picker.endDate).format('DD-MM-YYYY')+" ]";
-          $scope.time_filtered_max = moment(picker.endDate).format('YYYY-MM-DDT00:00:00')+'Z';
+          $scope.time_filtered_max = moment(picker.endDate).format('YYYY-MM-DDT23:59:59')+'Z';
           $scope.time_filtered_min = moment(picker.startDate).format('YYYY-MM-DDT00:00:00')+'Z'
               $scope.addFilter("tim","Time :"+display,"created:"+range);
               $scope.pickDayRange(picker.endDate.diff(picker.startDate,'days'))

@@ -65,11 +65,10 @@ $scope.expact_id="test"
       $('#vaa-range').daterangepicker({
           ranges: {
              'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-             '2016': [moment("20160101", "YYYYMMDD"), moment()],
+             '2017': [moment("20170101", "YYYYMMDD"), moment()],
+             '2016': [moment("20160101", "YYYYMMDD"), moment("20161231", "YYYYMMDD")],
              '2015': [moment("20150101", "YYYYMMDD"), moment("20151231", "YYYYMMDD")],
-             '2014': [moment("20140101", "YYYYMMDD"), moment("20141231", "YYYYMMDD")],
-             '2013': [moment("20130101", "YYYYMMDD"), moment("20131231", "YYYYMMDD")],
-             '2012': [moment("20120101", "YYYYMMDD"), moment("20121231", "YYYYMMDD")]//,
+             '2014': [moment("20140101", "YYYYMMDD"), moment("20141231", "YYYYMMDD")]
            //  '2011': [moment("20110101", "YYYYMMDD"), moment("20111231", "YYYYMMDD")],
            //  '2010': [moment("20100101", "YYYYMMDD"), moment("20101231", "YYYYMMDD")]
 

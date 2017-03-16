@@ -295,8 +295,8 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         $('.report').click(function() {
             $btnSave = $(this);
             // fn_GotoResultTab();
-            $("#mdlReport").modal('show');
-            fn_ExecQuery_report(0)
+            $("#mdlReport1").modal('show');
+           fn_ExecQuery_report(0)
             // $scope.Saveqry = false;
             // fn_ExecQuery(qry);
 
@@ -424,12 +424,13 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         }
 
         function fn_ExecQuery_report(id) {
+            console.log("htmlfying")
             $scope.reportHtml=$sce.trustAsHtml("<h2>PROCESSING</H2>");
-            $http.get(globalURL + "api/pistachio/secured/sql/report/" + $scope.exec_id)
+            /*$http.get(globalURL + "api/pistachio/secured/sql/report/" + $scope.exec_id)
                     .then(function(result) {
 
                         $scope.reportHtml=$sce.trustAsHtml(result.data);
-                    });
+                    });*/
         }
 
         $scope.update_report = function() {

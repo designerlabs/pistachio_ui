@@ -129,7 +129,10 @@
 
 
         </li>
-        <div ng-if="robotSearch"></div>
+        <div ng-show="robotSearch">
+          <ul uib-pagination total-items="totalFound" ng-model="currentPage" ng-change="pageChanged()"></ul>
+          <button type="button" class="btn grey-mint pull-right"> {{totalFound}} Record(s) Found</button>
+        </div>
       </ul>
     </div>
 

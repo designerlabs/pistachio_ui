@@ -33,8 +33,8 @@ MetronicApp.controller('loginappController', ['$translate', '$scope', '$http', f
 MetronicApp.config(['$translateProvider', function ($translateProvider) {
 
     $translateProvider.translations('en', {
-        'login.title': 'E-Reporting',
-        'login.subtitle': 'Immigration Department Malaysia',
+        'login.title': 'HSDAR',
+        'login.subtitle': 'High Speed Data Analytics And Reporting',
         'login.requiremessage': 'Enter a username and password',
         'login.errormessag': 'Please enter a valid username and password',
         'login.username': 'IC No.',
@@ -84,8 +84,8 @@ MetronicApp.config(['$translateProvider', function ($translateProvider) {
     });
 
     $translateProvider.translations('my', {
-        'login.title': 'E-Reporting',
-        'login.subtitle': 'Jabatan Imigresen Malaysia',
+        'login.title': 'HSDAR',
+        'login.subtitle': 'High Speed ​​Data Analytics Dan Pelaporan',
         'login.requiremessage': 'Memasukkan nama pengguna dan kata laluan',
         'login.errormessag': 'Sila masukkan nama pengguna dan kata laluan yang sah',
         'login.username': 'IC No.',

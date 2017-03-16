@@ -47,8 +47,10 @@ MetronicApp.controller('VisaPassDashboard', function($rootScope, $scope, $http) 
           ranges: {
              'This Month': [moment().startOf('month'), moment().endOf('month')],
              'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-             '2016': [moment("20160101", "YYYYMMDD"), moment()],
-             '2015': [moment("20150101", "YYYYMMDD"), moment("20151231", "YYYYMMDD")]
+             '2017': [moment("20170101", "YYYYMMDD"), moment()],
+             '2016': [moment("20160101", "YYYYMMDD"), moment("20161231", "YYYYMMDD")],
+             '2015': [moment("20150101", "YYYYMMDD"), moment("20151231", "YYYYMMDD")],
+             '2014': [moment("20140101", "YYYYMMDD"), moment("20141231", "YYYYMMDD")]
           },
           opens : "left",
           "alwaysShowCalendars": true,

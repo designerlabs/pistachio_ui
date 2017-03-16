@@ -165,6 +165,10 @@
     		"complaints" : "Complaints",
     		"title" : "Visa & Pass"
     	}
+    },
+
+    "sqoop" : {
+    	"title": "Data Movement (Sqoop)"
     }
 
 

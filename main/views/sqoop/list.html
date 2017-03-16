@@ -1,9 +1,48 @@
 <div ng-hide="!showTables">
-<h1 class="page-title"> Data source
-                            <small>statistics, charts, recent events and reports</small>
+<h1 class="page-title caption font-green"> 
+    <span class="caption-subject bold uppercase"> {{currentDB.dbName}} </span>({{currentDB.dbType}})
+                            <small class="font-red"></small>
                         </h1>
                 	<div class="row">
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <a class="dashboard-stat dashboard-stat-v2 purple  stat-box" href="#">
+                                    <div class="visual" style="padding-top: 5px!important;">
+                                        <i class="fa fa-database" style="opacity:.4"></i>
+                                    </div>
+                                    <div class="details">
+                                        <div class="number">
+                                            <span data-counter="counterup" data-value="89" class="ng-binding">{{dbTables.tables.length}}</span></div>
+                                        <div class="desc ng-binding"> Tables </div>
+                                    </div>
+                                </a>
+                            </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <a class="dashboard-stat dashboard-stat-v2 blue  stat-box" href="#/detaineeAnalysis.html">
+                            <div class="visual" style="padding-top: 5px!important;">
+                                <i class="fa fa-download" style="opacity:.4"></i>
+                            </div>
+                            <div class="details">
+                                <div class="number">
+                                    <span data-counter="counterup" data-value="1349" class="ng-binding">{{dbTables.sync}}</span>
+                                </div>
+                                <div class="desc ng-binding">Downloaded</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <a class="dashboard-stat dashboard-stat-v2 green  stat-box" href="#">
+                            <div class="visual" style="padding-top: 5px!important;">
+                                <i class="fa fa-exchange" style="opacity:.4"></i>
+                            </div>
+                            <div class="details">
+                                <div class="number">
+                                    <span data-counter="counterup" class="ng-binding">{{dbTables.totalJobs}}</span>
+                                </div>
+                                <div class="desc ng-binding"> Total Jobs </div>
+                            </div>
+                        </a>
+                    </div>
+                           <!--  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <div class="dashboard-stat2 ">
                                     <div class="display">
                                         <div class="number">
@@ -54,7 +93,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <button class="btn btn-success btn-sm pull-right" ng-click="showTables = false"><i class="fa fa-arrow-left"></i> back</button>
                             
                         </div>
@@ -135,16 +174,89 @@
             </div>
             <div class="portlet-body">
                <uib-accordion close-others="true">
-					    <div uib-accordion-group class="panel-default"  ng-class="{'panel-success':group.tableCreated}" ng-repeat="group in dbTables| limitTo : 10 : (currentPage-1)*10">
+					    <div uib-accordion-group class="panel-default"  ng-class="{'panel-success':group.tableCreated}" ng-repeat="group in dbTables.tables| limitTo : 10 : (currentPage-1)*10">
 
 					    <uib-accordion-heading class="green">
-					    <i class="fa fa-check font-green-jungle font-lg" ng-if="group.tableCreated"></i>
-					    <i class="fa fa-refresh font-red font-lg" ng-if="!group.tableCreated"></i>
-       						{{group.tableName}}
+					    <i class="fa fa-check font-green-jungle font-lg" ng-if="group.table.tableCreated"></i>
+					    <i class="fa fa-refresh font-red font-lg" ng-if="!group.table.tableCreated"></i>
+       						{{group.table.tableName}}
       					</uib-accordion-heading>
+
       					    <button class="btn green" uib-tooltip="Sync the table" type="button" ng-click="autoSync(group)">Auto-Sync</button>
       						<button class="btn btn-info" uib-tooltip="Sync the table" type="button" ng-click="sync(group)">Sync</button>
-      						<button class="btn blue-hoki" uib-tooltip="Incrementally update the table" type="button" ng-click="inc(group)">Incremental</button>
+      						<button class="btn blue-hoki" uib-tooltip="Incrementally update the table" type="button" ng-click="inc(group)">Optimize</button>
+                            <div class="clearfix" style="padding-top:15px;"></div>
+                            <div class="portlet light bordered">
+                                    <div class="portlet-title tabbable-line">
+                                        <div class="caption">
+                                            <i class="icon-bubbles font-dark hide"></i>
+                                            <span class="caption-subject font-dark bold uppercase">Info</span>
+                                        </div>
+                                        <ul class="nav nav-tabs">
+                                            <li class="active">
+                                                <a ng-init="showJobs=true" ng-click="showJobs=true" data-toggle="tab" aria-expanded="true"> Jobs </a>
+                                            </li>
+                                            <li class="">
+                                                <a ng-click="showJobs=false" data-toggle="tab" aria-expanded="false"> History </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="portlet-body">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" ng-if="showJobs">
+                                                <!-- BEGIN: Comments -->
+                                                <div ng-if="group.jobs.length==0"> No Jobs Found</div>
+                                                <div class="mt-comments">
+                                                    <div class="mt-comment" ng-repeat="job in group.jobs">
+                                                        <div class="mt-comment-body">
+                                                            <div class="mt-comment-info">
+                                                                <span class="mt-comment-author">{{job.incremental}}</span>
+                                                                <span class="mt-comment-date bold">Last Run: {{job.runTime}}</span>
+                                                            </div>
+                                                            <div class="mt-comment-details">
+                                                                <span class="mt-comment-status mt-comment-status-pending">Success</span>
+                                                                <ul class="mt-comment-actions">
+                                                                        <a  class="btn btn-sm green" ng-click="runWithId(job,group)">Run</a>
+                                                                        <a  class="btn btn-sm blue" ng-click="editWithId(job,group)">Edit</a>
+                                                                        <a  class="btn btn-sm red" ng-click="deleteWithId(job,group)">Delete</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    
+                                                    
+                                                </div>
+                                                <!-- END: Comments -->
+                                            </div>
+                                            <div class="tab-pane active" ng-if="!showJobs">
+                                                <!-- BEGIN: Comments -->
+                                                <div ng-if="group.history.length==0"> No Records Found</div>
+                                                <div class="mt-comments">
+                                                    <div class="mt-comment" ng-repeat="hist in group.history">
+                                                        <div class="mt-comment-body">
+                                                            <div class="mt-comment-info">
+                                                                <span class="mt-comment-author">{{hist.jobName}}</span>
+                                                                <span class="mt-comment-date">{{hist.runTime}}</span>
+                                                            </div>
+                                                            <div class="mt-comment-details">
+                                                                <span class="mt-comment-status mt-comment-status-pending">Admin:</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    
+                                                    
+                                                </div>
+                                                <!-- END: Comments -->
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                            
 					    </div>
 					</uib-accordion>
 				<ul uib-pagination total-items="dbTables.length" ng-model="currentPage" ng-change="pageChanged()"></ul>
@@ -209,7 +321,7 @@
                                                   <div class="form-group form-md-line-input">
                                                     <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">DB Schema</label>
                                                     <div class="col-md-9">
-                                                        <input type="text" class="form-control" id="form_control_1" ng-model="row.dbSchemaName" required>
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="row.dbSchemaName" >
                                                         <div class="form-control-focus"></div>
                                                     </div>
                                                 </div>
@@ -272,30 +384,30 @@
         <h3 class="modal-title" id="modal-title">{{row.dbName}}</h3>
     </div>
     <div class="modal-body" id="modal-body">
-   		<uib-accordion close-others="true">
+   		<uib-accordion close-others="false">
 		    <div uib-accordion-group class="panel-default" is-open="true">
 			    <uib-accordion-heading class="green">
 					Parameters
 				</uib-accordion-heading>
 				      	<div class="form-group form-md-line-input">
-                            <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">Sqoop Mode</label>
+                            <label class="col-md-3 control-label font-blue-ebonyclay" for="form_control_1">Sqoop Mode</label>
                             <div class="col-md-9">
-                                   <select class="form-control edited" id="form_control_1" ng-model="param.type" required>
+                                   <select class="form-control edited" id="form_control_1" ng-model="param.incremental" required>
                                 <option ng-value="FULL">FULL</option>
                                 <option ng-value="INCREMENTAL">INCREMENTAL</option>
                             </select>
                             </div>
                         </div>  
-                        <div class="form-group form-md-line-input" ng-if="param.type == 'INCREMENTAL'">
-                            <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">Last Value</label>
+                        <div class="form-group form-md-line-input" ng-show="param.incremental == 'INCREMENTAL'">
+                            <label class="col-md-3 control-label font-blue-ebonyclay" for="form_control_1">Check Column</label>
                             <div class="col-md-9">
                                    <select class="form-control edited" id="form_control_1" ng-model="param.lastValue">
-		                               <option ng-repeat="option in columns| filter:typeFilter" value="{{option.id}}">{{option.column}}</option>
+		                               <option ng-repeat="option in columns| filter:typeFilter" ng-value="{{option.id}}">{{option.column}}</option>
                             </select>
                             </div>
                         </div>  
                         <div class="form-group form-md-line-input">
-                            <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">Hive</label>
+                            <label class="col-md-3 control-label font-blue-ebonyclay" for="form_control_1">Hive</label>
                             <div class="col-md-9">
                                 <div class="md-checkbox-inline">
                                     <div class="md-checkbox has-info">
@@ -322,10 +434,74 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group form-md-line-input">
+                            <label class="col-md-3 control-label" for="form_control_1">Schedule</label>
+                            <div class="col-md-9">
+                                <div class="md-radio-inline">
+                                    <div class="md-radio">
+                                        <input type="radio" id="radio53" name="radio2" ng-model="param.schedule" value=0 class="md-radiobtn">
+                                        <label for="radio53">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Once </label>
+                                    </div>
+                                    <div class="md-radio has-error">
+                                        <input type="radio" id="radio54" name="radio2" ng-model="param.schedule" ng-value=1 class="md-radiobtn" checked="">
+                                        <label for="radio54">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Daily </label>
+                                    </div>
+                                    <div class="md-radio has-warning">
+                                        <input type="radio" id="radio55" name="radio2" ng-model="param.schedule"  ng-value=2 class="md-radiobtn">
+                                        <label for="radio55">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Weekly </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-md-line-input">
+                            <label class="col-md-3 control-label" for="form_control_1">Data Cleansing</label>
+                            <div class="col-md-9">
+                                <div class="md-radio-inline">
+                                    <div class="md-radio">
+                                        <input type="radio" id="radiona" name="radio3" ng-model="param.type" ng-value="NA" value="NA" class="md-radiobtn" >
+                                        <label for="radiona">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Same </label>
+                                    </div>
+                                    <div class="md-radio">
+                                        <input type="radio" id="radiotrim" name="radio3" ng-model="param.type" value ="TRIM" ng-value="TRIM" class="md-radiobtn" >
+                                        <label for="radiotrim">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Trim </label>
+                                    </div>
+                                    <div class="md-radio">
+                                        <input type="radio" id="radiodup" name="radio3" ng-model="param.type" value="DUPLICATE" ng-value="DUPLICATE" class="md-radiobtn">
+                                        <label for="radiodup">
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span> Remove Duplicates </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="form-group form-md-line-input" ng-show="param.type == 'DUPLICATE'">
+                            <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">Duplicate Column</label>
+                            <div class="col-md-9">
+                                   <select class="form-control edited" id="form_control_1" ng-model="param.duplicateColumn">
+                                       <option ng-repeat="option in columns" ng-value="{{option.id}}">{{option.column}}</option>
+                            </select>
+                            </div>
+                        </div>
 
                     
 		    </div>
-		    <div uib-accordion-group class="panel-default">
+		    <div uib-accordion-group class="panel-default" is-open="true">
 			    <uib-accordion-heading class="green">
 					Columns
 				</uib-accordion-heading>
@@ -357,11 +533,13 @@
        
     </div>
     <div class="modal-footer">
-    <div  class="col-md-8">
+   <!--  <div  class="col-md-8">
     <div uib-alert ng-class="'alert-'+ (alert.type || 'info')" ng-show="alert.msg.length>0">{{alert.msg}}</div>
-    </div>
+    </div> -->
     
-   		<button class="btn green" uib-tooltip="validate if DB params are valid" type="button" ng-click="check()" ng-disabled="sqoopForm.$invalid">Run</button>
+   		<button class="btn green" uib-tooltip="Run Sqoop utility to import data" type="button" ng-click="createAndRunJob()" >Save And Run</button>
+        <button class="btn green-haze" uib-tooltip="Run Sqoop utility to import data" type="button" ng-click="createJob()" ng-disabled="sqoopForm.$invalid">Save And Exit</button>
+        <button class="btn green" uib-tooltip="Run Sqoop utility to import data" type="button" ng-click="runJob()" ng-disabled="sqoopForm.$invalid">Run  And Exit</button>
         <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
         </form>
     </div>

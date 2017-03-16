@@ -20,7 +20,8 @@ var MetronicApp = angular
         "ngFileUpload",
         "angular-intro",
         'ngJsTree',
-        "ui.select"
+        "ui.select",
+        "daterangepicker"
     ])
 
 // /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -310,8 +311,8 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 /* Global hosting details */
 
 //var globalURL = "http://10.23.124.243:8080/";
-//var globalURL = "http://10.1.17.51:8081/";
-var globalURL = "http://10.4.104.174:8081/";
+var globalURL = "http://10.1.17.51:8081/";
+//var globalURL = "http://10.4.104.174:8081/";
 //var globalURL = "http://pistachio_server:8080/";
 //var solrHost = "10.23.124.220";
 var solrHost = "10.4.104.176";
@@ -1287,7 +1288,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/highcharts/js/modules/treemap.js',
                         'js/controllers/VAAController.js',
                         'assets/global/plugins/mapplic/js/jquery.mousewheel.js',
-                        'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',
+                        /*'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js',*/
                         'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.css'
                     ]
                 });
@@ -1756,7 +1757,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
-                     
+                     'assets/pistachio/enforcement/dashboard.css',
                         'js/controllers/SqoopController.js'
 
                     ]

@@ -49,6 +49,7 @@ $scope.$watch('files', function (files) {
     }
   });  
 
+
   $scope.uploadPic = function (file) {
     $scope.formUpload = true;
     if (file != null) {
@@ -114,15 +115,18 @@ $scope.$watch('files', function (files) {
   }
   var thisSolrAppUrl = globalURL+'api/secured/solr/document?text='
 
+
   $scope.search = function(){
-      $http.get(thisSolrAppUrl+$scope.searchTxt).
+    $scope.currentPage=1;
+      $http.get(thisSolrAppUrl+$scope.searchTxt+"&offset="+($scope.currentPage-1)*10).
            success(function(data) {
              if(data.length == 0){
                $scope.robotSearchError = "No record found";
                $scope.robotSearch = "";
              }else{
                $scope.robotSearchError = "";
-                $scope.robotSearch = data;
+                $scope.robotSearch = data.response;
+                $scope.totalFound = data.numFound;
                 for (var i = 0; i < $scope.robotSearch.length; i++) {
                   $scope.fileName  = $scope.robotSearch[i].attrfile[0].replace(/^.*[\\\/]/, '');
                   $scope.robotSearch[i].fileName = $scope.fileName;
@@ -133,6 +137,29 @@ $scope.$watch('files', function (files) {
               //return data;
             })
     };
+ $scope.currentPage = 1;
+  $scope.totalFound = 20
+  $scope.pageChanged = function() {
+    console.log('Page changed to: ' + $scope.currentPage);
+     $http.get(thisSolrAppUrl+$scope.searchTxt+"&offset="+($scope.currentPage-1)*10).
+           success(function(data) {
+             if(data.length == 0){
+               $scope.robotSearchError = "No record found";
+               $scope.robotSearch = "";
+             }else{
+               $scope.robotSearchError = "";
+                $scope.robotSearch = data.response;
+                $scope.totalFound = data.numFound;
+                for (var i = 0; i < $scope.robotSearch.length; i++) {
+                  $scope.fileName  = $scope.robotSearch[i].attrfile[0].replace(/^.*[\\\/]/, '');
+                  $scope.robotSearch[i].fileName = $scope.fileName;
+                }
+             }
+              
+    
+              //return data;
+            })
+  };
 
 
   function uploadUsing$http(file) {
