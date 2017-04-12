@@ -71,7 +71,7 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
             fileExt[2] = ".gif";
             $.ajax({
                 //This will retrieve the contents of the folder if the folder is configured as 'browsable'
-                url: '../main/assets/pistachio/report',
+                url: '/assets/pistachio/report',
                 success: function(data) {
                     //List all png or jpg or gif file names in the page
                     $(data).find('a:contains(' + fileExt[0] + '),a:contains(' + fileExt[1] + '),a:contains(' + fileExt[2] + ')').each(function() {

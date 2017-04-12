@@ -1,0 +1,219 @@
+<!-- BEGIN MAIN CONTENT -->
+<div class="row">
+    <div class="col-md-12">
+    <div id='fileNames'> </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet box red-intense" id="dashboardList">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>Dashboard Management List
+                </div>
+
+
+                <div class="tools">
+                    <button class="btn btn-success btn-sm" data-toggle="modal" id="dashboardAddBtn" data-target="#dashboardAddForm"><i class="fa fa-plus"></i> Add</button>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table id="dashboardData" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>URL</th>
+                            <th>Visibility</th>
+                            <th>Icon</th>
+                            <th>Theme</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                </table>
+                <tbody>
+                    <tr ng-repeat="x in names">
+                        <td class="hidden">{{ x.id }}</td>
+                        <td>{{ x.title }}</td>
+                        <td>{{ x.url }}</td>
+                        <td>{{ x.ext }}</td>
+                        <td>{{ x.icon }}</td>
+                        <td>{{ x.color }}</td>
+                    </tr>
+                </tbody>
+            </div>
+        </div>
+        <div class="portlet box red-intense" id="tableList">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>Table List
+                </div>
+                <div class="tools">
+                    <a href="" id="backBtn" class="btn btn-success btn-sm" style="color:#fff; top: -3px; height:27px; position: relative;"><i class="fa fa-chevron-circle-left"></i> Back</a>
+                </div>
+                <div id="loaderTableView" style="position:absolute; top:45px; left:0px; background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%;">
+                    <!-- BEGIN PAGE SPINNER -->
+                    <div ng-spinner-bar class="page-spinner-bar show">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                    <!-- END PAGE SPINNER -->
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table id="example12" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Table Name</th>
+                            <th>Status</th>
+                            <th>Progress</th>
+                            <th align="center">Action</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="dashboardAddForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="dashboardAddFormHeader">New message</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger display-hide" id="dashboardRequire">
+                    <button class="close" data-close="alert"></button>
+                    <span></span>
+                </div>
+                <form id="dashboardForm" name="dashboardUIForm" autocomplete="off">
+                    <div class="form-group">
+                        <label for="dashboard-title" class="control-label">Dashboard Title:</label>
+                        <input type="text" class="form-control" id="dashboard-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dashboard-url" class="control-label">URL:</label>
+                        <input type="url" class="form-control" id="dashboard-url" required>
+                    </div>
+                    <input type="hidden" id="dashboard-ext" required />
+                    <div class="form-group">
+                        <label for="dashboard-ext" class="control-label">Visibility:</label>
+                        <select name="dashboard-ext" class="form-control">
+                             <option value="">please select</option>
+                             <option value="true">true</option>
+                             <option value="false">false</option>
+                        </select>
+                        <!-- <input type="text" class="form-control" id="dashboard-ext"> -->
+                    </div>
+                    <input type="hidden" id="dashboard-icon" required />
+                    <div class="form-group">
+                        <label for="dashboard-icon" class="control-label">Icon:</label>
+                        <select name="dashboard-icon" class="form-control iconfiles">
+                             
+                        </select>
+                        <!-- <input type="text" class="form-control" id="dashboard-icon"> -->
+                    </div>
+
+                    <input type="hidden" id="dashboard-theme" required />
+                    <div class="form-group">
+                        <label for="dashboard-theme" class="control-label">Theme:</label>
+                        <select name="dashboard-theme" class="form-control themefiles">
+                             
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                <button type="button" id="dashboardUISubmit" class="btn btn-success"><i class="fa fa-check"></i> Save</button>
+                <button type="button" id="dashboardUIUpdate" class="btn btn-primary"><i class="fa fa-check"></i> Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="dashboardDelete" tabindex="-1" role="dialog" aria-labelledby="dashboardDelete">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3 class="text-danger text-center">Are you sure you want to delete this record?</h3>
+            </div>
+            <div class="modal-footer" style="text-align: center;">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
+                <button type="button" class="btn btn-success" id="dashboardDataDeleteBtn"><i class="fa fa-check"></i> Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="dashboardDeleteErrorMsg" tabindex="-1" role="dialog" aria-labelledby="dashboardDeleteErrorMsg">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3 class="text-danger text-center" id="errorTitle"></h3>
+            </div>
+            <div class="modal-footer" style="text-align: center;">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MAIN CONTENT -->
+<!-- BEGIN MAIN JS -->
+<script>
+$(function() {
+    $("#dashboardAddBtn").click(function(event) {
+        $("#dashboardAddForm #dashboardUISubmit").removeClass('hide');
+        $("#dashboardAddForm #dashboardUIUpdate").addClass('hide');
+        $("#dashboardAddFormHeader").html("Add Dashboard");
+        $("#dashboardForm")[0].reset();
+    });
+});
+
+
+$("select[name=dashboard-icon]").change(function(){
+    $("#dashboard-icon").val($(this).val());
+
+    if($("#dashboard-icon").val()==""){
+        $(this).parent(".form-group").addClass("has-error");
+    }else{
+        $(this).parent(".form-group").removeClass("has-error");
+    }
+});
+
+$("select[name=dashboard-theme]").change(function(){
+    $("#dashboard-theme").val($(this).val());
+
+    if($("#dashboard-theme").val()==""){
+        $(this).parent(".form-group").addClass("has-error");
+    }else{
+        $(this).parent(".form-group").removeClass("has-error");
+    }
+});
+
+
+$("select[name=dashboard-ext]").change(function(){
+    $("#dashboard-ext").val($(this).val());
+
+    if($("#dashboard-ext").val()==""){
+        $(this).parent(".form-group").addClass("has-error");
+    }else{
+        $(this).parent(".form-group").removeClass("has-error");
+    }
+});
+//TableAdvanced.init();
+
+$("#loader").hide();
+
+$(document).ajaxStart(function() {
+    $("#loader").hide();
+    $("#loaderTableView").css('height', '500px');
+    $("#loaderTableView .page-spinner-bar").removeClass('hide');
+    $("#loaderTableView").show();
+});
+
+$(document).ajaxStop(function() {
+    $("input[type=search]").addClass('form-control input-small input-inline');
+    $("select[name=jqueryRunData_length]").addClass('form-control input-xsmall input-inline');
+    $("#loader").hide();
+    $("#loaderTableView .page-spinner-bar").addClass('hide');
+    $("#loaderTableView").hide();
+});
+</script>

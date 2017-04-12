@@ -1,10 +1,9 @@
-<!-- END PAGE HEADER-->
 <!-- BEGIN MAIN CONTENT -->
 <div ng-controller="DashboardController">
     <!-- BEGIN DASHBOARD STATS -->
     <div class="tiles">
 
-        <div ng-repeat="x in names">
+        <!-- <div ng-repeat="x in names">
             <div ng-if='x.ext' class='tile double bounceIn image {{x.color}}' ng-click='go(x.url)' data-category='{{x.queryCategory}}'>
                 <div class="tile-body">
 
@@ -20,7 +19,23 @@
                     </div>
                 </div>
             </div>
+        </div> -->
+        <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-repeat="x in names">
+            <a class="dashboard-stat dashboard-stat-v2 {{x.color}} stat-box" ng-click='go(x.url)' data-category='{{x.queryCategory}}'>
+                <div class="visual" style="padding-top: 5px!important;">
+                    <i class="fa" ng-class="x.icon" style="opacity:.4"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" data-value="89"></div></span>
+                    <div class="desc bold"> {{x.title}} </div>
+                </div>
+            </a>
         </div>
+     
+        </div>
+       
         <div id="iframeContainer" ng-style="{height: iframeHeight + 'px'} ">
             <div style="background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%; position:absolute; top:0px;">
                 <div class="container-fluid"><h2>{{ iframeTitle }}</h2></div>
@@ -49,4 +64,4 @@ Tasks.initDashboardWidget();
 </script>
 
 
-    <!-- BEGIN MAIN JS & CSS -->
+    <!-- BEGIN MAIN JS & CSS

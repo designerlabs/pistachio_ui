@@ -33,7 +33,7 @@
                  <div class="form-group  form-md-line-input form-md-floating-label"  ng-model="report.cached">
                         <label class="col-md-3 control-label font-blue-chambray bold">Description</label>
                         <div class="col-md-9">
-                            <input  id="temp-state" type="text" class="form-control" placeholder="Report Description" ng-model="report.cached"  value="{{report.cached}}">
+                            <input  type="text" class="form-control" placeholder="Report Description" ng-model="report.cached"  value="{{report.cached}}">
                         </div>
                     </div>
                  
@@ -105,11 +105,11 @@
                                             </thead>
                                             <tbody ng-repeat="x in report.params">
                                                 <tr>
-                                                    <td rowspan="2"> {{x}} </td>
-                                                    <td> NA </td>
+                                                    <td rowspan="2"> {{x.name}} </td>
+                                                    <td> {{x.uiType}} </td>
                                                     <td>
-                                                        <span class="label label-sm label-success" ng-if="isAllowed(x)"> Allowed </span>
-                                                        <span class="label label-sm label-danger" ng-if="!isAllowed(x)"> Not Allowed </span>
+                                                        <span class="label label-sm label-success" ng-if="x.uiType!='default'"> Allowed </span>
+                                                        <span uib-tooltip="Please create mapping in drop down management" class="label label-sm label-danger" ng-if="x.uiType=='default'"> Not Allowed </span>
                                                     </td>
                                                 </tr>
                                                 

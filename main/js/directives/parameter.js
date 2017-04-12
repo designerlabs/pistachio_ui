@@ -1,17 +1,42 @@
 'use strict';
 
+MetronicApp.directive("select2", function($timeout, $parse) {
+  return {
+    restrict: 'AC',
+    require: 'ngModel',
+    link: function(scope, element, attrs) {
+      console.log(attrs);
+      $timeout(function() {
+        element.select2({ width: '100%' });
+        element.select2Initialized = true;
+      });
+    }
+  };
+});
+
 var ParamterController = function ($scope,$rootScope,$http,Upload) {
     
-
+   $scope.nparams = [];
+   $scope.inputCounter = 0;
    $scope.$on('$viewContentLoaded', function() {
 
         
     });
 
-   $scope.$watch('report', function(newValue, oldValue) {
-        console.log("report")
-       
-    });
+
+
+
+   $scope.dateOptions = {
+    dateDisabled: false,
+    formatYear: 'yy',
+    maxDate: new Date(2020, 5, 22),
+    minDate: new Date(),
+    startingDay: 1
+  };
+
+
+
+   
 
     $scope.createCalenderCtrl = function() {
 
@@ -33,10 +58,38 @@ var ParamterController = function ($scope,$rootScope,$http,Upload) {
             
         }
 
+
+        $scope.initDropDown = function(parameter) {
+          console.log(parameter);
+          $.getJSON(globalURL + "api/secured/pistachio/ereport/parameter/"+parameter, function (json) {
+                     $.each(json, function(k, v){
+                        $("#"+parameter).append('<option value='+v+'>'+v+'</option>');
+                     });
+                 });
+           $("#"+parameter).select2({
+            placeholder: 'This is my placeholder',
+            allowClear: true
+             
+            });
+
+        }
+        $scope.getValues = function(parameter) {
+          console.log(parameter);
+          $http.get(globalURL + "api/secured/pistachio/ereport/parameter/"+parameter).
+             then( function (response) {
+              return response.data
+                 },
+                 function(error) {
+
+                 });
+        }
+
+
+
         $scope.initUser = function() {
           $.getJSON(globalURL + "api/report/reference/myuser", function (json) {
                      $.each(json, function(k, v){
-                        $("#temp-myuser").append('<option value='+k+'>'+v+'</option>');
+                        $("#temp-myuser").append('<option value='+v+'>'+v+'</option>');
                      });
                  });
         }
@@ -53,7 +106,8 @@ var ParamterController = function ($scope,$rootScope,$http,Upload) {
           }*/
             $.getJSON(globalURL + "api/report/reference/branch", function (json) {
                      $.each(json, function(k, v){
-                         $("#temp-branch").append('<option value='+k+'>'+v+'</option>');
+
+                         $("#temp-branch").append('<option value='+v+'>'+v+'</option>');
                      });
                  });
             
@@ -62,7 +116,7 @@ var ParamterController = function ($scope,$rootScope,$http,Upload) {
            $scope.initMyUser = function() {
               $.getJSON(globalURL + "api/report/reference/myuser", function (json) {
                    $.each(json, function(k, v){
-                      $("#temp-myuser").append('<option value='+k+'>'+v+'</option>');
+                      $("#temp-myuser").append('<option value='+v+'>'+v+'</option>');
                    });
                });
 
@@ -71,7 +125,7 @@ var ParamterController = function ($scope,$rootScope,$http,Upload) {
           $scope.initState = function() {
               $.getJSON(globalURL + "api/report/reference/state", function (json) { //api/user/reference/
                  $.each(json, function(k, v){
-                    $("#temp-state").append('<option value='+k+'>'+v+'</option>');
+                    $("#temp-state").append('<option value='+v+'>'+v+'</option>');
                  });
              });
           }
@@ -79,14 +133,14 @@ var ParamterController = function ($scope,$rootScope,$http,Upload) {
           $scope.initNationality = function() {
             $.getJSON(globalURL + "api/report/reference/nationality", function (json) {
                  $.each(json, function(k, v){
-                     $("#temp-nationality").append('<option value='+k+'>'+v+'</option>');
+                     $("#temp-nationality").append('<option value='+v+'>'+v+'</option>');
                  });
              });
           }
           $scope.initPasType = function() {
                  $.getJSON(globalURL + "api/report/reference/pastype", function (json) {
                      $.each(json, function(k, v){
-                         $("#temp-pastype").append('<option value='+k+'>'+v+'</option>');
+                         $("#temp-pastype").append('<option value='+v+'>'+v+'</option>');
                      });
                  });
           }
@@ -94,7 +148,7 @@ var ParamterController = function ($scope,$rootScope,$http,Upload) {
           $scope.initDept = function() {
                  $.getJSON(globalURL + "api/user/reference/dept", function (json) {
                      $.each(json, function(k, v){
-                         $("#temp-dept").append('<option value='+k+'>'+v+'</option>');
+                         $("#temp-dept").append('<option value='+v+'>'+v+'</option>');
                      });
                  });
           }
@@ -102,7 +156,7 @@ var ParamterController = function ($scope,$rootScope,$http,Upload) {
           $scope.initApplicant = function() {
                  $.getJSON(globalURL + "api/report/reference/applicant", function (json) {
                      $.each(json, function(k, v){
-                         $("#temp-applicant").append('<option value='+k+'>'+v+'</option>');
+                         $("#temp-applicant").append('<option value='+v+'>'+v+'</option>');
                      });
                  });
           }
@@ -110,7 +164,7 @@ var ParamterController = function ($scope,$rootScope,$http,Upload) {
           $scope.initApplicationStatus = function() {
                  $.getJSON(globalURL + "api/report/reference/applicationstatus", function (json) {
                      $.each(json, function(k, v){
-                         $("#temp-applicationStatus").append('<option value='+k+'>'+v+'</option>');
+                         $("#temp-applicationStatus").append('<option value='+v+'>'+v+'</option>');
                      });
                  });
           }
@@ -118,7 +172,7 @@ var ParamterController = function ($scope,$rootScope,$http,Upload) {
           $scope.initApplicationStep = function() {
                  $.getJSON(globalURL + "api/report/reference/applicationstep", function (json) {
                      $.each(json, function(k, v){
-                         $("#temp-applicationStep").append('<option value='+k+'>'+v+'</option>');
+                         $("#temp-applicationStep").append('<option value='+v+'>'+v+'</option>');
                      });
                  });
           }
@@ -126,7 +180,7 @@ var ParamterController = function ($scope,$rootScope,$http,Upload) {
           $scope.initApplicationType = function() {
                  $.getJSON(globalURL + "api/report/reference/applicationtype", function (json) {
                      $.each(json, function(k, v){
-                         $("#temp-applicationType").append('<option value='+k+'>'+v+'</option>');
+                         $("#temp-applicationType").append('<option value='+v+'>'+v+'</option>');
                      });
                  });
           }
@@ -135,7 +189,7 @@ var ParamterController = function ($scope,$rootScope,$http,Upload) {
 
                  $.getJSON(globalURL + "api/report/reference/city", function (json) {
                      $.each(json, function(k, v){
-                         $("#temp-city").append('<option value='+k+'>'+v+'</option>');
+                         $("#temp-city").append('<option value='+v+'>'+v+'</option>');
                      });
                  });
           }
@@ -143,7 +197,7 @@ var ParamterController = function ($scope,$rootScope,$http,Upload) {
           $scope.initSector = function() {
                   $.getJSON(globalURL + "api/report/reference/sector", function (json) {
                      $.each(json, function(k, v){
-                         $("#temp-sector").append('<option value='+k+'>'+v+'</option>');
+                         $("#temp-sector").append('<option value='+v+'>'+v+'</option>');
                      });
                  });
           }
@@ -151,7 +205,7 @@ var ParamterController = function ($scope,$rootScope,$http,Upload) {
           $scope.initSex = function() {
                     $.getJSON(globalURL + "api/report/reference/sex", function (json) {
                      $.each(json, function(k, v){
-                         $("#temp-sex").append('<option value='+k+'>'+v+'</option>');
+                         $("#temp-sex").append('<option value='+v+'>'+v+'</option>');
                      });
                  });
           }
@@ -166,6 +220,7 @@ MetronicApp.directive('params', function ($http) {
         scope: {
           report: '=',
           params: '=',
+          nparams: '=',
           loading: '='
 
         },

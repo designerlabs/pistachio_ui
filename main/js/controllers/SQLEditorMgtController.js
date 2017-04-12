@@ -22,6 +22,8 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         $scope.explainMsg = "";
         $scope.exec_id=-1;
         $scope.btnReport = true;
+        $scope.showReport = false;
+        $scope.columnList = [];
         fn_showSavedQry();
         fn_showHistory();
         fn_LoadDb();
@@ -278,7 +280,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         }
 
         $scope.saveEReport = function() {
-             $('#savequery-name').val('');
+            /// $('#savequery-name').val('');
             $("#mdlSaveReport").modal('show');
         }
 
@@ -292,11 +294,16 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
             // fn_ExecQuery(qry);
 
         });
+
+        $scope.loadReport = function() {
+            $scope.showReport = true;
+        }
         $('.report').click(function() {
             $btnSave = $(this);
             // fn_GotoResultTab();
+
             $("#mdlReport1").modal('show');
-           fn_ExecQuery_report(0)
+         //  fn_ExecQuery_report(0)
             // $scope.Saveqry = false;
             // fn_ExecQuery(qry);
 
@@ -361,6 +368,11 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         var aryJSONColTable = [];
 
         //All the Functions started here
+
+         $scope.invalidate = function() {
+            fn_ExecQuery_newImplementation("invalidate metadata")
+        }
+       
 
         function fn_ExecQuery_newImplementation(qry) {
             if (qry != null && qry.length > 0) {
@@ -729,7 +741,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
             });
         }
 
-       
+
         function fn_LoadDb() {
             $http.get(globalURL + "api/pistachio/secured/hadoop/db/role")
                 .then(function(response) {
@@ -783,7 +795,6 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
 
                     }
                 }
-
         editor.completers = [sqlCompleter,tableCompleter,dbCompleter]
         }
 

@@ -1,0 +1,78 @@
+.mt-sqoop .mt-action:last-child {
+    border-bottom: 0;
+}
+.mt-sqoop .mt-action {
+    margin: 0;
+    padding: 15px 0;
+    border-bottom: 1px solid #f7f8f9;
+}
+
+.mt-sqoop .mt-action .mt-action-body {
+    padding-left: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.mt-sqoop .mt-action .mt-action-body .mt-action-row {
+    display: table;
+    width: 100%;
+}
+
+.mt-sqoop .mt-action .mt-action-body .mt-action-row .mt-action-info {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.mt-sqoop .mt-action .mt-action-body .mt-action-row .mt-action-info .mt-action-icon {
+    display: table-cell;
+    padding: 6px 20px 6px 6px;
+}
+
+.mt-sqoop .mt-action .mt-action-body .mt-action-row .mt-action-info .mt-action-details {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.mt-sqoop .mt-action .mt-action-body .mt-action-row .mt-action-info .mt-action-details .mt-action-author {
+    color: #060606;
+    font-weight: 600;
+}
+
+.mt-sqoop .mt-action .mt-action-body .mt-action-row .mt-action-info .mt-action-details .mt-action-desc {
+    margin-bottom: 0;
+     margin-top: 2px;
+
+    color: #999b9b;
+}
+
+.mt-sqoop .mt-action .mt-action-body .mt-action-row .mt-action-info .mt-action-details .mt-action-desc .sqoop-type {
+   font-size : 10px!important;
+}
+
+.mt-sqoop .mt-action .mt-action-body .mt-action-row .mt-action-info .mt-action-icon>i {
+    display: inline-block;
+    position: relative;
+    top: 10px;
+    font-size: 25px;
+    color: #78E0E8;
+}
+
+.mt-sqoop .mt-action .mt-action-body .mt-action-row .mt-action-datetime {
+    vertical-align: top;
+    display: table-cell;
+    text-align: center;
+    width: 150px;
+    white-space: nowrap;
+    padding-top: 15px;
+    color: #A6A8A8;
+}
+
+.mt-sqoop .mt-action .mt-action-body .mt-action-row .mt-action-buttons {
+    vertical-align: top;
+    display: table-cell;
+    text-align: center;
+    width: 180px;
+    white-space: nowrap;
+    padding-top: 10px;
+}
+

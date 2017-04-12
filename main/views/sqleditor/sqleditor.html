@@ -3,7 +3,7 @@
 	<div class="mt-element-list">
 		<div class="mt-list-head list-simple ext-1 font-white bg-blue-chambray">
 			<div class="list-head-title-container">
-				<a href="javascript:;" class="font-white pull-right">
+				<a ng-click="invalidate()" class="font-white pull-right">
 					<i class="fa fa-refresh"></i>
 				</a>
 				<h3 class="list-title">Database</h3>
@@ -16,12 +16,10 @@
 					<span id="db-help2" class="badge badge-default pull-right bg-white font-green bold">{{datatableLength}}</span>
 				</div>
 			</a>
-			<div style="overflow: auto; max-height: 600px" aria-expanded="true" class="panel-collapse collapse in" id="lstDBtbl">
-				<label style="width:100%;">
-					<input id="db-help3" ng-model="searchText" class="form-control" placeholder="Search"></input>
-				</label>
+			<div style="overflow: auto; max-height: 600px" aria-expanded="true" class="panel-collapse collapse in" id="lstDBtbl" >
 				
-				<div id="tree_4" class="jstree jstree-4 jstree-default" role="tree" aria-multiselectable="true" tabindex="0"  aria-busy="false">
+				<impala database='database' editor="editor"> </impala>
+				<!-- <div id="tree_4" class="jstree jstree-4 jstree-default" role="tree" aria-multiselectable="true" tabindex="0"  aria-busy="false">
 
 					<ul class="jstree-container-ul" role="group">
 					   <div id="db-db" style="margin-left:-24px;">
@@ -56,7 +54,7 @@
 							</ul>
 						</li>
 					</ul>
-				</div>
+				</div> -->
 			</div>
 		</div>
 		
@@ -91,7 +89,7 @@
                 </ul>
             </div>
 			<!-- <button      class="btn btn-sm btn-warning saveqry" data-loading-text="Saving Your Query Please Wait..."> Save </button> -->
-			<button id="report"   class="btn btn-sm btn-info report" ng-disabled="btnReport" data-loading-text="Saving Your Query Please Wait..."> Report </button>
+			<button id="report1"  ng-click="loadReport()"  class="btn btn-sm btn-info report" ng-disabled="btnReport" data-loading-text="Saving Your Query Please Wait..."> Report </button>
 			<button id= "exec"    class="btn btn-sm btn-success exec" ng-disabled="btnExec" data-loading-text="Executing Your Query Please Wait..."> Execute </button>
 			<button id= "explain" class="btn btn-sm btn-primary explain" ng-disabled="btnExec" data-loading-text="Please Wait..."> Explain </button>
 			<!-- <button class="btn btn-sm btn-primary saveas {{editorarea.length > 0 ? '' : 'disabled'}}"> Save As </button>  -->
@@ -278,7 +276,6 @@
 </div>
 
 
-
 <div class="modal fade" id="mdlReport1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 	<div class="modal-dialog" role="document" style="width: 90%">
 		<div class="modal-content">
@@ -295,40 +292,14 @@
 					<span></span>
 				</div>
 				<div class="row">
-					<div class="col-md-3 form">
-						<div class="form-body">
-	                                                <div class="form-group form-md-line-input has-info">
-	                                                    <input type="text" class="form-control" id="form_control_1" ng-model="reportTitle" placeholder="Enter your name">
-	                                                    <label for="form_control_1">Title</label>
-	                                                    <span class="help-block">Enter Report Title</span>
-	                                                </div>
-	                                                <div class="form-group form-md-line-input has-info">
-	                                                    <select class="form-control" id="form_control_1" ng-model="selectedStyle">
-	                                                        <option  value="jim1">JIM 1</option>
-	                                                        <option  value="jim2">JIM 2</option>
-	                                                    </select>
-	                                                    <label for="form_control_1">Template Style</label>
-	                                                   
-	                                                </div>
-	                                               <button type="button" class="btn btn-info" ng-click="update_report()"><i class="fa fa-refresh"></i> Update </button>
-	                                                <button type="button" class="btn btn-info" ng-click="export_jxrml()"><i class="fa fa-download"></i> Generate iReport File(JXRML) </button>
-						</div>
-					</div>
-					<div class="col-md-9 bordered">
-						<div ng-bind-html="reportHtml"></div>
-
-					</div>
-				</div>
-				<div class="clearfix"></div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-danger" id='btncancl' data-dismiss="modal"><i class="fa fa-close"></i> Close </button>
-			</div>
+				<jasperreport id="exec_id" template="" show="showReport" ></jasperreport>
 		</div>
 	</div>
 </div>
+</div>
+</div>
 
-<div class="modal fade" id="mdlSaveReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+<div class="modal fade" id="mdlSaveReport" >
 	<div class="modal-dialog" role="document" style="width: 80%">
 		<div class="modal-content">
 			<div class="modal-header">

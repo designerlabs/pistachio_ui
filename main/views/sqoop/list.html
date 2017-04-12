@@ -17,7 +17,7 @@
                                 </a>
                             </div>
                     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <a class="dashboard-stat dashboard-stat-v2 blue  stat-box" href="#/detaineeAnalysis.html">
+                        <a class="dashboard-stat dashboard-stat-v2 blue  stat-box" >
                             <div class="visual" style="padding-top: 5px!important;">
                                 <i class="fa fa-download" style="opacity:.4"></i>
                             </div>
@@ -25,7 +25,7 @@
                                 <div class="number">
                                     <span data-counter="counterup" data-value="1349" class="ng-binding">{{dbTables.sync}}</span>
                                 </div>
-                                <div class="desc ng-binding">Downloaded</div>
+                                <div class="desc ng-binding">Imported</div>
                             </div>
                         </a>
                     </div>
@@ -177,14 +177,20 @@
 					    <div uib-accordion-group class="panel-default"  ng-class="{'panel-success':group.tableCreated}" ng-repeat="group in dbTables.tables| limitTo : 10 : (currentPage-1)*10">
 
 					    <uib-accordion-heading class="green">
-					    <i class="fa fa-check font-green-jungle font-lg" ng-if="group.table.tableCreated"></i>
-					    <i class="fa fa-refresh font-red font-lg" ng-if="!group.table.tableCreated"></i>
+					    <i class="fa fa-check font-green-jungle font-lg" ng-class="{'fa-spin':group.table.isRunning}" ng-if="group.table.tableCreated"></i>
+					    <i class="fa fa-refresh font-red font-lg" ng-class="{'fa-spin':group.table.isRunning}" ng-if="!group.table.tableCreated"></i>
        						{{group.table.tableName}}
       					</uib-accordion-heading>
 
-      					    <button class="btn green" uib-tooltip="Sync the table" type="button" ng-click="autoSync(group)">Auto-Sync</button>
-      						<button class="btn btn-info" uib-tooltip="Sync the table" type="button" ng-click="sync(group)">Sync</button>
-      						<button class="btn blue-hoki" uib-tooltip="Incrementally update the table" type="button" ng-click="inc(group)">Optimize</button>
+      					    <button class="btn green" type="button"
+                                uib-tooltip="full table import with default settings"
+                             ng-click="autoSync(group)">Auto Import</button>
+      						<button class="btn btn-info" type="button"
+                                uib-tooltip="Configure Sqoop import jobs"
+                             ng-click="sync(group)">Configure Import</button>
+      						<button class="btn blue-hoki" type="button" 
+                                uib-tooltip="Compute table statistics to make queries on this table run faster"
+                                ng-click="inc(group)">Optimize Table</button>
                             <div class="clearfix" style="padding-top:15px;"></div>
                             <div class="portlet light bordered">
                                     <div class="portlet-title tabbable-line">
@@ -206,50 +212,74 @@
                                             <div class="tab-pane active" ng-if="showJobs">
                                                 <!-- BEGIN: Comments -->
                                                 <div ng-if="group.jobs.length==0"> No Jobs Found</div>
-                                                <div class="mt-comments">
-                                                    <div class="mt-comment" ng-repeat="job in group.jobs">
-                                                        <div class="mt-comment-body">
-                                                            <div class="mt-comment-info">
-                                                                <span class="mt-comment-author">{{job.incremental}}</span>
-                                                                <span class="mt-comment-date bold">Last Run: {{job.runTime}}</span>
-                                                            </div>
-                                                            <div class="mt-comment-details">
-                                                                <span class="mt-comment-status mt-comment-status-pending">Success</span>
-                                                                <ul class="mt-comment-actions">
-                                                                        <a  class="btn btn-sm green" ng-click="runWithId(job,group)">Run</a>
-                                                                        <a  class="btn btn-sm blue" ng-click="editWithId(job,group)">Edit</a>
-                                                                        <a  class="btn btn-sm red" ng-click="deleteWithId(job,group)">Delete</a>
-                                                                    </li>
-                                                                </ul>
+                                                <div class="mt-sqoop">
+                                                    <div class="mt-action" ng-repeat="job in group.jobs">
+                                                        <div class="mt-action-body">
+                                                            <div class="mt-action-row">
+                                                                <div class="mt-action-info ">
+                                                                    <div class="mt-action-icon ">
+                                                                        <i class="icon-magnet"></i>
+                                                                    </div>
+                                                                    <div class="mt-action-details ">
+                                                                        <span class="mt-action-author">{{job.incremental}} SQOOP</span>
+                                                                        <p class="mt-action-desc">
+                                                                            <button 
+                                                                            ng-if="job.schedule == 1 || job.schedule == 2"
+                                                                            type="button" class="btn blue-dark btn-xs sqoop-type">SCHEDULED</button>
+                                                                            <button 
+                                                                            ng-if="job.type !='NA'"
+                                                                            type="button" class="btn green-meadow btn-xs sqoop-type">DATA CLEANSE</button>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mt-action-datetime ">
+                                                                    <span class="mt-action-label" ng-if="job.runTime.length>0">Last Run :</span>
+                                                                    <span class="mt-action-label" ng-if="job.runTime == undefined">No Runs</span>
+                                                                    <span class="mt-action-dot bg-green"></span>
+                                                                    <span class="mt-action-date bold font-grey-gallery ">{{job.runTime}}</span>
+                                                                </div>
+                                                                <div class="mt-action-buttons ">
+                                                                    <div class="btn-group btn-group-circle">
+                                                                        <button type="button" class="btn btn-outline green btn-sm"  ng-click="runWithId(job,group)">RUN</button>
+                                                                        <button type="button" class="btn btn-outline yellow btn-sm" ng-click="editWithId(job,group)">EDIT</button>
+                                                                        <button type="button" class="btn btn-outline red btn-sm"  ng-click="deleteWithId(job,group)">DELETE</button>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
-                                                    
-                                                    
                                                 </div>
+                                                
                                                 <!-- END: Comments -->
                                             </div>
                                             <div class="tab-pane active" ng-if="!showJobs">
                                                 <!-- BEGIN: Comments -->
                                                 <div ng-if="group.history.length==0"> No Records Found</div>
-                                                <div class="mt-comments">
-                                                    <div class="mt-comment" ng-repeat="hist in group.history">
-                                                        <div class="mt-comment-body">
-                                                            <div class="mt-comment-info">
-                                                                <span class="mt-comment-author">{{hist.jobName}}</span>
-                                                                <span class="mt-comment-date">{{hist.runTime}}</span>
-                                                            </div>
-                                                            <div class="mt-comment-details">
-                                                                <span class="mt-comment-status mt-comment-status-pending">Admin:</span>
+                                                
+                                            <div class="mt-sqoop">
+                                                    <div class="mt-action" ng-repeat="hist in group.history">
+                                                        <div class="mt-action-body">
+                                                            <div class="mt-action-row">
+                                                                <div class="mt-action-info ">
+                                                                    <div class="mt-action-icon ">
+                                                                        <i class="icon-magnet"></i>
+                                                                    </div>
+                                                                    <div class="mt-action-details ">
+                                                                        <span class="mt-action-author">{{hist.jobName}} SQOOP</span>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mt-action-datetime ">
+                                                                    <span class="mt-action-label">RunTime :</span>
+                                                                    <span class="mt-action-dot bg-green"></span>
+                                                                    <span class="mt-action-date bold font-grey-gallery ">{{hist.runTime}}</span>
+                                                                </div>
+                                                                
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
-                                                    
-                                                    
                                                 </div>
-                                                <!-- END: Comments -->
+                                                    
                                             </div>
                                             
                                         </div>
@@ -259,7 +289,7 @@
                             
 					    </div>
 					</uib-accordion>
-				<ul uib-pagination total-items="dbTables.length" ng-model="currentPage" ng-change="pageChanged()"></ul>
+				<ul uib-pagination total-items="dbTables.tables.length" ng-model="currentPage" ng-change="pageChanged()"></ul>
 
 
                 
@@ -401,11 +431,17 @@
                         <div class="form-group form-md-line-input" ng-show="param.incremental == 'INCREMENTAL'">
                             <label class="col-md-3 control-label font-blue-ebonyclay" for="form_control_1">Check Column</label>
                             <div class="col-md-9">
-                                   <select class="form-control edited" id="form_control_1" ng-model="param.lastValue">
-		                               <option ng-repeat="option in columns| filter:typeFilter" ng-value="{{option.id}}">{{option.column}}</option>
+                                   <select class="form-control edited" id="form_control_1" ng-model="param.checkColumn">
+		                               <option ng-repeat="option in columns| filter:typeFilter" ng-value="{{option.column}}">{{option.column}}</option>
                             </select>
                             </div>
                         </div>  
+                         <div class="form-group form-md-line-input" ng-show="param.incremental == 'INCREMENTAL'&&param.lastValue.length>0">
+                            <label class="col-md-3 control-label font-blue-ebonyclay" for="form_control_1">Last Value</label>
+                            <div class="col-md-9">
+                                   <input type="text" class="form-control" ng-disabled="true" ng-model="param.lastValue" disabled="disabled">
+                            </div>
+                        </div> 
                         <div class="form-group form-md-line-input">
                             <label class="col-md-3 control-label font-blue-ebonyclay" for="form_control_1">Hive</label>
                             <div class="col-md-9">
@@ -417,7 +453,7 @@
                                             <span class="check"></span>
                                             <span class="box"></span> Drop Delims </label>
                                     </div>
-                                    <div class="md-checkbox has-info" ng-hide="param.type == 'INCREMENTAL'">
+                                    <div class="md-checkbox has-info" ng-hide="param.incremental == 'INCREMENTAL'">
                                         <input type="checkbox" id="checkbox34" class="md-check" ng-model="param.hiveOverwriteTable" checked="" >
                                         <label for="checkbox34">
                                             <span></span>
@@ -467,21 +503,21 @@
                             <div class="col-md-9">
                                 <div class="md-radio-inline">
                                     <div class="md-radio">
-                                        <input type="radio" id="radiona" name="radio3" ng-model="param.type" ng-value="NA" value="NA" class="md-radiobtn" >
+                                        <input type="radio" id="radiona" name="radio3" ng-model="param.type" value="NA" class="md-radiobtn" >
                                         <label for="radiona">
                                             <span></span>
                                             <span class="check"></span>
                                             <span class="box"></span> Same </label>
                                     </div>
                                     <div class="md-radio">
-                                        <input type="radio" id="radiotrim" name="radio3" ng-model="param.type" value ="TRIM" ng-value="TRIM" class="md-radiobtn" >
+                                        <input type="radio" id="radiotrim" name="radio3" ng-model="param.type" value ="TRIM"  class="md-radiobtn" >
                                         <label for="radiotrim">
                                             <span></span>
                                             <span class="check"></span>
                                             <span class="box"></span> Trim </label>
                                     </div>
                                     <div class="md-radio">
-                                        <input type="radio" id="radiodup" name="radio3" ng-model="param.type" value="DUPLICATE" ng-value="DUPLICATE" class="md-radiobtn">
+                                        <input type="radio" id="radiodup" name="radio3" ng-model="param.type" value="DUPLICATE" class="md-radiobtn">
                                         <label for="radiodup">
                                             <span></span>
                                             <span class="check"></span>
@@ -491,10 +527,10 @@
                             </div>
                         </div>
                          <div class="form-group form-md-line-input" ng-show="param.type == 'DUPLICATE'">
-                            <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">Duplicate Column</label>
+                            <label class="col-md-3 control-label font-blue-ebonyclay " for="form_control_1">Duplicate Column</label>
                             <div class="col-md-9">
                                    <select class="form-control edited" id="form_control_1" ng-model="param.duplicateColumn">
-                                       <option ng-repeat="option in columns" ng-value="{{option.id}}">{{option.column}}</option>
+                                       <option ng-repeat="option in columns" ng-value="{{option.column}}">{{option.column}}</option>
                             </select>
                             </div>
                         </div>

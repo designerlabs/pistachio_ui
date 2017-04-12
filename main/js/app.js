@@ -21,7 +21,8 @@ var MetronicApp = angular
         "angular-intro",
         'ngJsTree',
         "ui.select",
-        "daterangepicker"
+        "daterangepicker"/*,
+        'angularResizable'*/
     ])
 
 // /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -311,8 +312,8 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 /* Global hosting details */
 
 //var globalURL = "http://10.23.124.243:8080/";
-var globalURL = "http://10.1.17.51:8081/";
-//var globalURL = "http://10.4.104.174:8081/";
+//var globalURL = "http://10.1.17.51:8081/";
+var globalURL = "http://10.4.104.174:8081/";
 //var globalURL = "http://pistachio_server:8080/";
 //var solrHost = "10.23.124.220";
 var solrHost = "10.4.104.176";
@@ -1758,6 +1759,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
                      'assets/pistachio/enforcement/dashboard.css',
+                     'assets/pistachio/enforcement/sqoop.css',
                         'js/controllers/SqoopController.js'
 
                     ]
@@ -2317,7 +2319,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         name: 'MetronicApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            'assets/global/plugins/select2/select2.css',
+                            'assets/global/plugins/select2/select2.min.css',
                             'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
                             'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
                             'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
@@ -2326,6 +2328,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                             'assets/global/plugins/datatables/all.min.js',
                             'js/scripts/table-advanced.js',
                             'js/directives/eReport.js',
+                            'js/directives/jasperReport.js',
                             'js/directives/parameter.js',
                             'assets/pistachio/sqleditor/ereport.css',
                             'js/controllers/ReportController.js',
@@ -2454,12 +2457,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     name: 'MetronicApp',
                     insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                     files: [
-
+                        
                         'assets/global/plugins/select2/select2.css',
                         'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
                         'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
                         'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
-
+                        'assets/pistachio/enforcement/dashboard.css',
                         'assets/global/plugins/select2/select2.min.js',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
@@ -2539,6 +2542,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'assets/global/plugins/datatables/all.min.js',
                         'bower_components/ace-builds/src-min-noconflict/ext-language_tools.js',
                         'js/directives/eReport.js',
+                        'js/directives/hiveDB.js',
+                        'js/directives/jasperReport.js',
                         'js/controllers/SQLEditorMgtController.js',
                         'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
@@ -2687,6 +2692,36 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'js/scripts/table-advanced.js',
 
                         'js/controllers/UserMgtController.js',
+                        'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
+                    ]
+                });
+            }]
+        }
+    })
+    .state("dropMgt", {
+        url: "/report/dropdown.html",
+        templateUrl: "views/reports/dropdown.html",
+        data: {
+            pageTitle: 'Drop Down parameter'
+        },
+        controller: "DropDownController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                    files: [
+                        //'assets/global/plugins/bootstrap-datepicker/css/datepicker3.css',
+                        /*'assets/global/plugins/select2/select2.css',*/
+                        //'assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                        /*'assets/global/plugins/select2/select2.min.js',*/
+                        'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
+                        'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
+                        'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
+                        'assets/global/plugins/datatables/all.min.js',
+                        'js/scripts/table-advanced.js',
+
+                        'js/controllers/DropDownController.js',
                         'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
                 });

@@ -95,8 +95,9 @@ var ModalInstanceCtrlSqoop = function ($scope, $uibModalInstance,$http,row,NgTab
      {
         $scope.param = {};
         $scope.param.hiveOverwriteTable = true; 
-        $scope.schedule = 0;
-        $scope.incremental = "FULL"
+        $scope.param.schedule = 0;
+        $scope.param.incremental = "FULL"
+        $scope.param.type = "NA"
         //$scope.type = "NA"
      }
      
@@ -111,6 +112,11 @@ var ModalInstanceCtrlSqoop = function ($scope, $uibModalInstance,$http,row,NgTab
         item.typeName == 'VARCHAR' ||
         item.typeName == 'VARNCHAR' ||
         item.typeName == 'LONGVARCHAR' ||
+        item.typeName == 'OTHER' ||
+        item.typeName == 'CLOB' ||
+        item.typeName == 'BLOB' ||
+/*        item.typeName == 'LONGNVARCHAR' ||
+        item.typeName == 'LONGNVARCHAR' ||*/
         item.typeName == 'LONGNVARCHAR'
         )
         return false
@@ -189,12 +195,16 @@ var ModalInstanceCtrlSqoop = function ($scope, $uibModalInstance,$http,row,NgTab
         console.log("Params :")
         console.log($scope.param)
         console.log($scope.row)
+        $scope.row.table.isRunning = true;
+        $uibModalInstance.close();
          $http.post(globalURL + "/api/secured/pistachio/sqoop/database/"+$scope.row.table.dbId+"/saveNrun",JSON.stringify($scope.param))
                 .success(function (response) {
-                  $uibModalInstance.close();
+                    $scope.refreshTable()
+                    $scope.row.table.tableCreated = true;
+                    $scope.row.table.isRunning = undefined;
                  })
                 .error(function (response) {
-                  $uibModalInstance.close();
+                 
 
                 }); 
       }
@@ -206,12 +216,16 @@ var ModalInstanceCtrlSqoop = function ($scope, $uibModalInstance,$http,row,NgTab
         console.log("Params :")
         console.log($scope.param)
         console.log($scope.row)
+         $scope.row.table.isRunning = true;
+         $scope.apply();
         console.log(globalURL + "/api/secured/pistachio/sqoop/database/"+$scope.row.table.dbId+"/runJob")
          $http.post(globalURL + "/api/secured/pistachio/sqoop/database/"+$scope.row.table.dbId+"/job",JSON.stringify($scope.param))
                 .success(function (response) {
                   $uibModalInstance.close();
+                  $scope.row.table.isRunning = undefined;
                  })
                 .error(function (response) {
+                  $scope.row.table.isRunning = undefined;
                 }); 
       }
 
@@ -222,6 +236,8 @@ var ModalInstanceCtrlSqoop = function ($scope, $uibModalInstance,$http,row,NgTab
         console.log("Params :")
         console.log($scope.param)
         console.log($scope.row)
+        
+         $scope.apply();
         console.log(globalURL + "/api/secured/pistachio/sqoop/database/"+$scope.row.table.dbId+"/job")
          $http.post(globalURL + "/api/secured/pistachio/sqoop/database/"+$scope.row.table.dbId+"/job",JSON.stringify($scope.param))
                 .success(function (response) {
@@ -371,8 +387,10 @@ MetronicApp.controller('SqoopController', function($rootScope, $scope, $http,NgT
    }
 
    $scope.runWithId = function(row,group) {
+      group.table.isRunning = true
        $http.get(globalURL + "/api/secured/pistachio/sqoop/database/job/run/"+row.id)
                 .success(function (response) {
+                  group.table.isRunning = undefined;
                      $scope.refreshTable(group)
                  })
                 .error(function (response) {
@@ -394,7 +412,7 @@ MetronicApp.controller('SqoopController', function($rootScope, $scope, $http,NgT
             $http.get(globalURL + "/api/secured/pistachio/sqoop/database/table/"+group.table.tableDB)
                 .success(function (response) {
                  group.jobs = response.jobs
-                 roup.history = response.history
+                 group.history = response.history
                    
                  })
                 .error(function (response) {
@@ -426,12 +444,13 @@ MetronicApp.controller('SqoopController', function($rootScope, $scope, $http,NgT
 
    $scope.autoSync = function(row) {
     console.log(row)
-    $scope.sqoopJobs = $scope.sqoopJobs +1;
-           $http.get(globalURL + "/api/secured/pistachio/sqoop/database/"+row.table.dbId+"/sync?table="+row.table.tableName)
+    row.table.isRunning = true;
+               $http.get(globalURL + "/api/secured/pistachio/sqoop/database/"+row.table.dbId+"/sync?table="+row.table.tableName)
                 .success(function (response) {
                   $scope.refresh(row.table.dbId);
-                  $scope.sqoopJobs = $scope.sqoopJobs -1;
-                 })
+                  row.table.isRunning = undefined;
+                  row.table.tableCreated = true;
+                     })
                 .error(function (response) {
         });
    }

@@ -169,5 +169,8 @@
 
     "sqoop" : {
     	"title": "Data Movement (Sqoop)"
+    },
+    "parameter" : {
+    	"title" : "Report Parameter Manager"
     }
 }

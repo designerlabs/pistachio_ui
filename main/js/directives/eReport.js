@@ -30,8 +30,7 @@ var EReportController = function ($scope,$rootScope,$http,Upload,eReportUpdater)
             url: globalURL + "api/pistachio/uploadTemplate?",
             data: {file: file}
         }).then(function (resp) {
-
-            $scope.report.reportFileName = resp.config.data.file.name;
+            $scope.report.reportFileName = resp.data.fileName;
             $scope.report.query = "NA"
             $scope.report.login = $scope.login;
             $scope.report.params = resp.data.params;
@@ -92,9 +91,13 @@ var EReportController = function ($scope,$rootScope,$http,Upload,eReportUpdater)
                 $http.post(globalURL + queryString + "/",JSON.stringify($scope.report)).
                  then(function(response) {
                         $scope.report.id = response.data.id;
+                        $scope.saveSuccess="Report Created"
                         $scope.Savebtn = "Update"
                         $scope.clear();
-                });
+                },
+                 function(error) {
+                    $scope.saveError=response.data.error;
+                 });
 
                
             }
@@ -106,8 +109,8 @@ var EReportController = function ($scope,$rootScope,$http,Upload,eReportUpdater)
         $http.put(globalURL + queryString + "/",JSON.stringify($scope.report)).
                  then(function(response) {
        //                 $scope.updatedReport = response.data;
-                      
-                        $scope.clear();
+                       $scope.saveSuccess="Report Updated"
+                       $scope.clear();
 
                 },
                  function(response) {
@@ -247,7 +250,7 @@ var EReportController = function ($scope,$rootScope,$http,Upload,eReportUpdater)
             }
         },
         "conditionalselect": function (node, event) {
-            alert('dd')
+            
             return true;
         },
         plugins : ['types', "conditionalselect"]
@@ -255,7 +258,7 @@ var EReportController = function ($scope,$rootScope,$http,Upload,eReportUpdater)
         };
 
         $scope.openNode = function() {
-            alert("halla")
+            
         }
         $scope.beforeOpen = function(e, item) {
            addChildNodes(item.node.id)

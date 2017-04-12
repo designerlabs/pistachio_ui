@@ -2,126 +2,51 @@
  <div class="form-body">
                     <div class="note note-success">
                         <div class="form-group col-md-12">
-                            <span class="font-blue-dark font-lg">Template : {{report.reportFileName}}</span>
+                            <span class="font-blue-dark font-lg">Template Report</span>
                             <input id="temp-reportid" type="hidden" value=' + d.id + '>
                             <span class="font-grey-gallery pull-right uppercase"> Author : {{report.displayName ||report.login}}</span>
                         </div>
                         <div class="clearfix"></div>
                     </div>
 
-                        <div class="form-group dtRangeGroup" ng-if="report.dtRange" ng-init="createCalenderCtrl()">
-                            <label class="col-md-3 control-label font-blue-chambray bold">Choose Date Range</label>
-                            <div class="col-md-9">
-                                <div class="btn default form-control " id="reportrange" ng-model="params.dtRange">
-                                    <i class="fa fa-calendar"></i>
-                                    <span>FROM AND TO</span>
-                                     <b class="fa fa-angle-down"></b>
+                    <div ng-repeat="x in report.params">
+                        
+                            <div class="form-group"  ng-if="x.uiType == 'DropDown'">
+                                <label class="col-md-3 control-label font-blue-chambray bold">{{x.display}}</label>
+                                <div class="col-md-9">
+                                        <style type="text/css">
+                                            .select2 .select2-container .select2-container--default .select2-container--focus{
+                                                width: 100%!important;
+                                            }
+                                        </style>
+                                       <select id="{{x.name}}" class="form-control" select2="" ng-init="initDropDown(x.name)" ng-model="nparams[$index]">
+                                      </select>
+
+
+                                     
                                 </div>
                             </div>
-                        </div>
-     
-                    <div class="form-group stateGroup" ng-model="params.state" ng-show="report.state" ng-init="initState()">
-                        <label class="col-md-3 control-label font-blue-chambray bold">State</label>
-                        <div class="col-md-9">
-                            <input  id="temp-state"type="text" class="form-control" placeholder="Enter state">
-                        </div>
+                             <div class="form-group"  ng-if="x.uiType == 'DatePicker'">
+                                <label class="col-md-3 control-label font-blue-chambray bold">{{x.display}}</label>
+                                <div class="col-md-9">
+                                      <div class="input-group">
+                                          <input type="text" class="form-control" ng-model="nparams[$index]" uib-datepicker-popup="dd/MM/yyyy" is-open="popup1.opened" close-text="Close" ng-click="popup1.opened= true"  required="" />
+                                          <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="popup1.opened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+                                          </span>
+                                        </div>
+                                </div>
+                            </div>  
+
+                             <div class="form-group"  ng-if="x.uiType == 'default'">
+                               <label class="col-md-3 control-label font-blue-chambray bold">{{x.name}}</label>
+                                <div class="col-md-9">
+                                      <input type="text" class="form-control" id="form_control_1" ng-model="nparams[$index]" required>
+                                </div>
+                            </div>   
+                        
                     </div>
-                    
+                    <div class="clearfix"></div>
 
-                    <div class="form-group myuserGroup" ng-if="report.user" >
-                        <label class="col-md-3 control-label font-blue-chambray bold">Create User </label>
-                        <div class="col-md-9">
-                            <select id="temp-myuser" class="form-control" ng-model="params.user"></select>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group branchGroup"  ng-if="report.branch" >
-                        <label class="col-md-3 control-label font-blue-chambray bold">Branch </label>
-                        <div class="col-md-9">
-                            <select id="temp-branch" class="form-control" ng-init="initBranch()" ng-model="params.branch">
-                                <!-- <option ng-repeat="branch in branches" value="{{branch}}">{{branch}}</option> -->
-                            </select>
-
-                        </div>
-                    
-                    </div>
-
-                    <div class="form-group deptGroup"   ng-show="report.dept" ng-init="initDept()">
-                        <label class="col-md-3 control-label font-blue-chambray bold">Department </label>
-                        <div class="col-md-9">
-                            <select id="temp-dept" class="form-control department" ng-model="params.dept"></select>
-                        </div>
-                    </div>
-
-                    <div class="form-group nationalityGroup"  ng-if="report.nationality" ng-init="initNationality()">
-                        <label class="col-md-3 control-label font-blue-chambray bold">Nationality </label>
-                        <div class="col-md-9">
-                            <select id="temp-nationality" class="form-control nationality" ng-model="params.nationality"></select>
-                        </div>
-                    </div>
-
-                    <div class="form-group pastypeGroup"  ng-if="report.pasType" ng-init="initPasType()">
-                        <label class="col-md-3 control-label font-blue-chambray bold">Pas type </label>
-                        <div class="col-md-9">
-                            <select id="temp-pasType" class="form-control pasType" ng-model="params.pasType"></select>
-                        </div>
-                    </div>
-
-                    <div class="form-group applicantGroup"  ng-if="report.applicant" ng-init="initApplicant()">
-                        <label class="col-md-3 control-label font-blue-chambray bold">Applicant </label>
-                        <div class="col-md-9">
-                            <select id="temp-applicant" class="form-control applicant" ng-model="params.applicant"></select>
-                        </div>
-                    </div>
-
-                     <div class="form-group applicantGroup"  ng-if="report.applicationStatus" ng-init="initApplicationStatus()">
-                        <label class="col-md-3 control-label font-blue-chambray bold">Application Status </label>
-                        <div class="col-md-9">
-                            <select id="temp-applicationStatus" class="form-control applicationStatus" ng-model="params.applicationStatus"></select>
-                        </div>
-                    </div>
-
-                    <div class="form-group applicationStepGroup"  ng-if="report.applicationStep" ng-init="initApplicationStep()">
-                        <label class="col-md-3 control-label font-blue-chambray bold">Application Step </label>
-                        <div class="col-md-9">
-                            <select id="temp-applicationStep" class="form-control applicationStep" ng-model="params.applicationStep"></select>
-                        </div>
-                    </div>
-
-                    <div class="form-group applicationTypeGroup"  ng-if="report.applicationType" ng-init="initApplicationType()">
-                        <label class="col-md-3 control-label font-blue-chambray bold">Application Type </label>
-                        <div class="col-md-9">
-                            <select id="temp-applicationType" class="form-control applicationType" ng-model="params.applicationType"></select>
-                        </div>
-                    </div>
-
-                    <div class="form-group applicationStepGroup"  ng-if="report.city" ng-init="initCity()">
-                        <label class="col-md-3 control-label font-blue-chambray bold">City</label>
-                        <div class="col-md-9">
-                            <select id="temp-city" class="form-control city" ng-model="params.city"></select>
-                        </div>
-                    </div>
-
-                    <div class="form-group "  ng-if="report.city" ng-init="initCity()">
-                        <label class="col-md-3 control-label font-blue-chambray bold">City</label>
-                        <div class="col-md-9">
-                            <select id="temp-city" class="form-control city" ng-model="params.city"></select>
-                        </div>
-                    </div>
-
-                    <div class="form-group "  ng-if="report.sector" ng-init="initSector()">
-                        <label class="col-md-3 control-label font-blue-chambray bold">Sector</label>
-                        <div class="col-md-9">
-                            <select id="temp-sector" class="form-control sector" ng-model="params.sector"></select>
-                        </div>
-                    </div>
-
-                    <div class="form-group "  ng-if="report.sex" ng-init="initSex()">
-                        <label class="col-md-3 control-label font-blue-chambray bold">Sex</label>
-                        <div class="col-md-9">
-                            <select id="temp-sex" class="form-control sex" ng-model="params.sex"></select>
-                        </div>
-                    </div>
                 
         </form>

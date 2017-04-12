@@ -45,8 +45,13 @@
                                                                 <a href="javascript:;">{{x.queryName}}</a>
                                                             </h3>
                                                             <p class="ereport-desc">{{x.cached}}</p>
+                                                            <p class="custom-alerts alert fade in" ng-class="'alert-' + (alert.type || 'info')" ng-if="x.alert.show ">
+                                                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+                                                                    {{x.alert.status}}
+                                                            </p>
                                                             <div class="ereport-author">
                                                                 <p class="ereport-author-name">Author : {{x.displayName || x.login}}</p>
+                                                                
                                                             </div>
                                                             
                                                             
@@ -83,7 +88,7 @@
     </div>
 </div>
 
-<div id="mdlReportParam" class="modal fade in" role="dialog" aria-hidden="true" >
+<div id="mdlReportParam" class="modal fade in" role="dialog"  >
                                             <div class="modal-dialog"  style="width: 80%">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -93,13 +98,18 @@
                                                     <div class="modal-body">
                                                         <form action="#" class="form-horizontal">
                                                            
-                <params report="active_report" params="params"></params>
+                <params report="active_report" params="params" nparams="nparams"></params>
                                                     </div>
 
                                                     <div class="clearfix"></div>
                                                     <div class="modal-footer">
-                                                        <button class="btn dark btn-outline" data-dismiss="modal" aria-hidden="true">Close</button>
-                                                        <button class="btn green" data-dismiss="modal" ng-click="continueRequest()" >Save changes</button>
+                                                        
+                                                        <div class="col-xs-6 custom-alerts alert fade in" ng-class="'alert-' + (alert.type || 'info')" ng-if="alert.show ">
+                                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+                                                            {{alert.status}}
+                                                        </div>
+                                                        <button class="btn dark btn-outline" ng-click="alert.show=false" data-dismiss="modal" aria-hidden="true">Close</button>
+                                                        <button class="btn green" ng-click="continueRequest1()" >Save changes</button>
                                                     </div>
                                                 </div>
                                             </div>

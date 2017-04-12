@@ -8,6 +8,7 @@ MetronicApp.controller('EReportViewController', function($scope, $rootScope, $ht
     $scope.user = localStorage.getItem('username')
     var queryString = "query"
     $scope.params = {};
+    $scope.nparams = [];
     $scope.$on('$viewContentLoaded', function() {
     	$scope.getReportPrivilege = localStorage.getItem('reportPrivilege');
         $scope.reportPrivilege = JSON.parse($scope.getReportPrivilege);
@@ -48,12 +49,23 @@ MetronicApp.controller('EReportViewController', function($scope, $rootScope, $ht
     		}
     		else {
     		$scope.params.username = localStorage.getItem('username')
-		    window.location.href = globalURL + 'jasperreport/pdf/' + report.id + '?' + JSON.stringify($scope.params);	
+		    //window.location.href = globalURL + 'jasperreport/pdf/' + report.id + '?' + JSON.stringify($scope.params);	
+            alert("hi")
+            $http.get(globalURL + 'jasperreport/pdf/' + report.id + '?' + JSON.stringify($scope.params)).
+                 then(function(response) {
+                 });
     		}
     		
             
 
     	}
+    }
+
+    $scope.showReportPreview =function(tem){
+        console.log(tem)
+        $scope.template = tem
+        $scope.showReport = true;
+        $('#mdlReport1').modal('show');
     }
 
     $scope.download = function(report,type) {
@@ -68,13 +80,30 @@ MetronicApp.controller('EReportViewController', function($scope, $rootScope, $ht
     	 window.location.href = globalURL + 'download/'+type+'/' + report.id;
     	}
     	else {
-    		if(isParamRequired(report)) {
+    		//if(isParamRequired(report)) {
+            if(report.params != undefined && report.params.length>0) {
     			$scope.active_request = type
     			$('#mdlReportParam').modal('show');
     		}
     		else {
-	    		$scope.params.username = localStorage.getItem('username')
-			    window.location.href = globalURL + 'jasperreport/'+type+'/' + report.id + '?' + JSON.stringify($scope.params);	
+                $scope.params.username = localStorage.getItem('username')
+                    var alert = {};
+                    alert.status = "Validating Request"
+                    alert.show =true;
+                     report.alert =alert; 
+                 $http.get(globalURL +"/api/secured/pistachio/report/" + $scope.active_report.id +'?' + JSON.stringify($scope.params)).
+                 then(function(response) {
+                    report.alert.status = "Request Valid, starting download process"
+                    window.location.href = globalURL + '/api/secured/pistachio/report/'+response.data +'/'+type
+                    report.alert.show = false;
+                },
+                function(data) {
+                   console.log(data)
+                      report.alert.status = "Request Invalid!!! "+data.data.error
+                      report.alert.type = "danger"
+                });
+	    		
+			   // window.location.href = globalURL + 'jasperreport/'+type+'/' + report.id + '?' + JSON.stringify($scope.params);	
     		}
     		
             
@@ -87,13 +116,61 @@ MetronicApp.controller('EReportViewController', function($scope, $rootScope, $ht
   	getReports();
   }
 
+    function applyDateFormatting() {
+        var tparams = $scope.active_report.params
+        var sendParam = [];
+        for(var i=0;i<tparams.length;i++) {
+            if(tparams[i].uiType == 'DatePicker') {
+
+                sendParam[i]  = moment($scope.nparams[i]).format(tparams[i].dateFormat)
+            }
+            else
+                sendParam[i] = $scope.nparams[i];
+        }
+        return sendParam;
+    }
+
+    $scope.continueRequest1 = function() {  
+        $scope.submission = $scope.params
+        $scope.submission.username = localStorage.getItem('username')
+        var alert = {};
+        alert.status = "Validating Request"
+        alert.show =true;
+        $scope.alert =alert;
+        //applyDateFormatting(); 
+         $http.post(globalURL +"/api/secured/pistachio/report/" + $scope.active_report.id,applyDateFormatting() ).
+             then(function(response) {
+                $scope.alert.status = "Request Valid, starting download process"
+                    window.location.href = globalURL + '/api/secured/pistachio/report/'+response.data +'/'+$scope.active_request
+                    //$('#mdlReportParam').modal('hide');
+                    $scope.alert.show = false;
+             },
+              function(error) {
+                 console.log(error)
+                       $scope.alert.status = "Request Invalid!!! "+error.data.error
+                       $scope.alert.type = "danger"
+              });
+
+        /* $http.get(globalURL +"/api/secured/pistachio/report/" + $scope.active_report.id +'?' + JSON.stringify($scope.submission)).
+                 then(function(response) {
+                    $scope.alert.status = "Request Valid, starting download process"
+                    window.location.href = globalURL + '/api/secured/pistachio/report/'+response.data +'/'+$scope.active_request
+                    $('#mdlReportParam').modal('hide');
+                    $scope.alert.show = false;
+                },
+                function(data) {
+                   console.log(data)
+                  $scope.alert.status = "Request Invalid!!! "+data.data.error
+                  $scope.alert.type = "danger"
+                });*/
+    }
 
     
     $scope.continueRequest = function() {
     	$scope.submission = $scope.params
     	$scope.submission.username = localStorage.getItem('username')
-    	if($scope.submission.branch !=undefined)
-    		$scope.submission.branch= $scope.submission.branch.substr(0, $scope.submission.branch.indexOf(' - '))
+    	//if($scope.submission.branch !=undefined)
+    	//	$scope.submission.branch= $scope.submission.branch.substr(0, $scope.submission.branch.indexOf(' - '))
     	console.log(globalURL + 'jasperreport/pdf/' + $scope.active_report.id + '?' + JSON.stringify($scope.submission))
 
     	if($scope.active_request == "pdf") {
@@ -108,6 +185,10 @@ MetronicApp.controller('EReportViewController', function($scope, $rootScope, $ht
     		$scope.active_request = ""
     		window.location.href = globalURL + 'jasperreport/xls/' + $scope.active_report.id + '?' + JSON.stringify($scope.submission);	
     	}
+        else if($scope.active_request == "html") {
+            $scope.active_request = ""
+            window.location.href = globalURL + 'jasperreport/html/' + $scope.active_report.id + '?' + JSON.stringify($scope.submission); 
+        }
 
     }
      $scope.uploadFile = function(){
@@ -151,6 +232,7 @@ MetronicApp.controller('EReportViewController', function($scope, $rootScope, $ht
     		report.pasType ||
     		report.sector ||
     		report.sex ||
+            report.city ||
     		report.state ||
     		report.applicant ||
     		report.applicant) return true

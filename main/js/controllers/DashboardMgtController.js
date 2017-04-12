@@ -3,6 +3,7 @@
 MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $http, $timeout) {
     $scope.$on('$viewContentLoaded', function() {   
         // initialize core components
+        $scope.dashboardentity = {};
         Metronic.initAjax();
         $("#dashboard").show();
         $("#tableList").hide();
@@ -167,12 +168,14 @@ MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $h
             console.log(selectedDashboard);
             $("#dashboardAddForm #dashboardUISubmit").addClass('hide');
             $("#dashboardAddForm #dashboardUIUpdate").removeClass('hide');
+          //  $scope.dashboardentity = selectedDashboard;
+            console.log($scope.dashboardentity)
             $("#dashboardForm #dashboard-title").val(selectedDashboard.title);
             $("#dashboardForm #dashboard-url").val(selectedDashboard.url);
             //var userAuthorities = Object.keys(selectedDashboard.ext).map(function() { return selectedDashboard.ext });
             //$("#roleMultiple").val(userAuthorities);
-            //$("#dashboardForm #dashboard-ext").val(selectedDashboard.ext).change();
-            //$('#dashboardForm #dashboard-ext option[value='+selectedDashboard.ext+']').attr('selected','selected');
+           $("#dashboardForm #dashboard-ext").val(selectedDashboard.ext).change();
+           $('#dashboardForm #dashboard-ext option[value='+selectedDashboard.ext+']').attr('selected','selected');
             $('#dashboardForm select[name=dashboard-ext] option[value='+selectedDashboard.ext+']').attr('selected','selected');
       
 

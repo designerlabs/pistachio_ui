@@ -1,0 +1,130 @@
+<div class="row">
+    <div class="col-md-12">
+        <!-- END EXAMPLE TABLE PORTLET-->
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet box red-intense" id="userMgtList">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>E-Reporting drop down management
+                </div>
+                    <div class="tools">
+                    <!-- <button class="btn btn-success btn-sm" data-toggle="modal" id="userMgtAddBtn" data-target="#userMgtAddForm"><i class="fa fa-plus"></i> Add</button> -->
+                     <button class="btn btn-success btn-sm pull-right" ng-click="add()"><i class="fa fa-plus"></i> {{'ereporting.add' | translate}}</button>
+                </div> 
+            </div>
+            <div class="portlet-body">
+               
+
+                  <table ng-table="records" class="table table-bordered table-hover table-condensed editable-table demoTable" show-filter="false">
+                    <colgroup>
+                          <col width="24%"/>
+                          <col width="16%"/>
+                          <col width="12%"/>
+                          <col width="16%"/>
+                          <col width="16%"/>
+                          <col width="16%"/>
+                        </colgroup>
+                    <tr ng-repeat="row in $data" ng-form="rowForm" demo-tracked-table-row="row" class="mt-action" >
+                      <td title="'Name'"  class="uppercase" header-class="'text-left'">
+                        {{row.name}}
+                      </td>
+                      <td title="'Type'" header-class="'text-center'">
+                        {{row.uiType}}
+                      </td>
+                      <td title="'Display'" header-class="'text-center'">
+                        {{row.display}}
+                      </td>
+                      <td title="'Date Format'" header-class="'text-center'">
+                        {{row.dateFormat}}
+                      </td>
+                      <td title="'Author'" header-class="'text-center'">
+                        {{row.author}}
+                      </td>
+                        <td title="'Action'"  >
+                        <button class="btn btn-default btn-sm" ng-click="edit(row)"><span class="glyphicon glyphicon-pencil"></span></button>
+                        <!-- <button  ng-click="demo.del(row)" ng-if="!row.isEditing"></button> -->
+                        <button data-toggle="confirmation"
+                            popover-title="Are You Sure"
+                             popover-placement="left"
+                             popover-class="confirmation"
+                            type="button" class="btn btn-danger btn-sm"
+                            popover-trigger="'mouseenter'"
+                            ng-click="delete(row)"
+                            >
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                      </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="myParameterModal.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">{{row.dbName}}</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+       <div class="portlet-body form">
+                                        <form role="form" class="form-horizontal" name="sqoopForm">
+                                            <div class="form-body">
+                                                <div class="form-group form-md-line-input">
+                                                    <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">Name</label>
+                                                    <div class="col-md-9">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="row.name" required>
+                                                        <div class="form-control-focus"></div>
+                                                    </div>
+                                                </div>
+                                                 <div class="form-group form-md-line-input">
+                                                    <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">Display Name</label>
+                                                    <div class="col-md-9">
+                                                        <input type="text" class="form-control" id="form_control_1" ng-model="row.display" required>
+                                                        <div class="form-control-focus"></div>
+                                                    </div>
+                                                </div>
+                                                
+                                               
+                                                 <div class="form-group form-md-line-input">
+                                                    <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">UI Type</label>
+                                                    <div class="col-md-9">
+                                                           <select class="form-control edited" id="form_control_1" ng-model="row.uiType" required>
+                                                        <option value="DatePicker">Date Picker</option>
+                                                        <option value="DropDown">Dropdown</option>
+                                                    </select>
+                                                    </div>
+                                                </div>   
+                                                 <div class="form-group form-md-line-input" ng-if="row.uiType=='DropDown'">
+                                                    <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">Query</label>
+                                                    <div class="col-md-9">
+                                                        <!-- <input type="textarea" class="form-control" ng-model="row.query" > -->
+                                                        <textarea uib-tooltip="Query should return code,info" class="form-control" ng-model="row.query"></textarea>
+                                                        <div class="form-control-focus"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group form-md-line-input" ng-if="row.uiType=='DatePicker'">
+                                                    <label class="col-md-3 control-label font-blue-ebonyclay font-lg sbold" for="form_control_1">Date Format</label>
+                                                    <div class="col-md-9">
+                                                        
+                                                           <select class="form-control edited" id="form_control_1" ng-model="row.dateFormat" required>
+                                                                <option value="DDMMYYYY">DDMMYYYY</option>
+                                                                <option value='DD/MM/YYYY'>DD/MM/YYYY</option>
+                                                                <option value='DD-MM-YYYY'>DD-MM-YYYY</option>
+                                                                <option value="YYYYMMDD">YYYYMMDD</option>
+                                                                <option value="YYYY">YYYY (Only Year)</option>
+                                                            </select>
+                                                        <div class="form-control-focus"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+    </div>
+    <div class="modal-footer">
+    <div  class="col-md-8">
+    <div uib-alert ng-class="'alert-'+ (alert.type || 'info')" ng-show="alert.msg.length>0">{{alert.msg}}</div>
+    </div>
+    
+        <button class="btn btn-primary" uib-tooltip="Save/Update record" type="submit" ng-disabled="checkForm(sqoopForm)" ng-click="save()">{{saveOrUpdate}}</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </form>
+    </div>
+</script>
