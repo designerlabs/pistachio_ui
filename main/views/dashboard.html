@@ -22,9 +22,9 @@
         </div> -->
         <div class="row">
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" ng-repeat="x in names">
-            <a class="dashboard-stat dashboard-stat-v2 {{x.color}} stat-box" ng-click='go(x.url)' data-category='{{x.queryCategory}}'>
+            <a class="dashboard-stat dashboard-stat-v2 {{x.color}} stat-box" ng-click='go(x.url)' data-category='{{x.queryCategory}}' style="color:white">
                 <div class="visual" style="padding-top: 5px!important;">
-                    <i class="fa" ng-class="x.icon" style="opacity:.4"></i>
+                    <i class="fa fa-{{x.icon}}"  style="opacity:.4"></i>
                 </div>
                 <div class="details">
                     <div class="number">

@@ -21,8 +21,8 @@ var MetronicApp = angular
         "angular-intro",
         'ngJsTree',
         "ui.select",
-        "daterangepicker"/*,
-        'angularResizable'*/
+        "daterangepicker",
+        'ui-iconpicker'
     ])
 
 // /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -312,8 +312,8 @@ angular.module('myModule').config(['$controllerProvider', function($controllerPr
 /* Global hosting details */
 
 //var globalURL = "http://10.23.124.243:8080/";
-//var globalURL = "http://10.1.17.51:8081/";
-var globalURL = "http://10.4.104.174:8081/";
+var globalURL = "http://10.1.17.51:8081/";
+//var globalURL = "http://10.4.104.174:8081/";
 //var globalURL = "http://pistachio_server:8080/";
 //var solrHost = "10.23.124.220";
 var solrHost = "10.4.104.176";
@@ -1164,16 +1164,20 @@ MetronicApp.controller('FooterController', ['$scope', function($scope) {
 }]);
 
 /* Setup Rounting For All Pages */
-MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider,$http) {
 
     // Redirect any unmatched url
     //if (currentUserName == jimUserId || currentUserName == mimosUserId) {
+ 
+      var homePage = localStorage.getItem('homePage');
+      homePage = (homePage == undefined || homePage == "null")? "/myprofile.html":homePage
+
     $urlRouterProvider
     //.when("/search/user/:doc_no"), {
     //    templateUrl: 'partials/page.html', // I made this up
     //    controller: 'StoreController'
     //})
-        .otherwise("/enforcement/dashboard.html");
+        .otherwise(homePage);
     //}else{
     //  $urlRouterProvider.otherwise("/dashboard.html");
     //}
@@ -1195,7 +1199,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                     files: [
                         'assets/admin/pages/css/tasks.css',
-
+                        'assets/pistachio/enforcement/dashboard.css',
+                        'assets/pistachio/enforcement/sqoop.css',
                         'assets/global/plugins/jquery.sparkline.min.js',
 
                         'assets/admin/pages/scripts/index.js',
@@ -2459,11 +2464,11 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                     files: [
                         
                         'assets/global/plugins/select2/select2.css',
+                        'assets/pistachio/enforcement/dashboard.css',
+                        'assets/pistachio/enforcement/sqoop.css',
                         'assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css',
                         'assets/global/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css',
                         'assets/global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css',
-                        'assets/pistachio/enforcement/dashboard.css',
-                        'assets/global/plugins/select2/select2.min.js',
                         'assets/global/plugins/datatables/all.min.js',
                         'js/scripts/table-advanced.js',
 

@@ -37,7 +37,13 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
     $scope.showReportTemplate = function(login){
         $http.get(globalURL+"jasperreport/query/"+login+"?start=0&rows=8")
           .then(function(response) {
+             var template = {};
+            template.total = response.data.length
+            template.maxSize = 5;
+            template.currentPage = 1;
+            $scope.template = template;
             $scope.rptcontent = response.data;
+
           });
      }
 
@@ -66,6 +72,7 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
             $('.edit-form [name=editname]').val(response.firstName);
             $('.edit-form [name=editemail]').val(response.email);
             $('.edit-form #userselLang').val((response.lang == "en") ? "en" : "my");
+            $('#homepage').val((response.homePage ==null) ? "/myprofile.html" : response.homePage);
            });
         }
 
@@ -86,12 +93,15 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
         $('.edit-form [name=editname]').val(response.firstName);
         $('.edit-form [name=editemail]').val(response.email);
         $('.edit-form #userselLang').val((response.lang == "en") ? "en" : "my");
+        $('#homepage').val((response.homePage ==null) ? "/myprofile.html" : response.homePage);
        });
     };
     $rootScope.editSaveChanges = function(){
       var firstnameValue = $('.edit-form input[name=editname]').val();
       var emailValue = $('.edit-form input[name=editemail]').val();
       var userlangValue = $('.edit-form #userselLang').val();
+      var homePage2BeSet = $('#homepage').val();
+      
       $.ajax({
               url: globalURL + 'user',
               contentType: "application/json",
@@ -108,6 +118,7 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
                   "login": "null",
                   "password": "null",
                   "lang": userlangValue,
+                  "homePage" : homePage2BeSet,
                   "id": userId
               }),
           }).done(function (data) {

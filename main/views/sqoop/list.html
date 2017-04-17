@@ -170,11 +170,18 @@
                 <div class="caption">
                     <i class="fa fa-table"></i>Tables
                 </div>
+                <div class="actions">
+                       <div class="portlet-input input-inline">
+                                                <div class="input-icon right">
+                                                    <i class="icon-magnifier"></i>
+                                                    <input type="text" class="form-control input-circle" ng-model="tableFilter" placeholder="search..."> </div>
+                                            </div>                     
+                </div>
                  
             </div>
             <div class="portlet-body">
                <uib-accordion close-others="true">
-					    <div uib-accordion-group class="panel-default"  ng-class="{'panel-success':group.tableCreated}" ng-repeat="group in dbTables.tables| limitTo : 10 : (currentPage-1)*10">
+					    <div uib-accordion-group class="panel-default"  ng-class="{'panel-success':group.tableCreated}" ng-repeat="group in dbTables.tables |filter:tableFilter| limitTo : 10 : (currentPage-1)*10">
 
 					    <uib-accordion-heading class="green">
 					    <i class="fa fa-check font-green-jungle font-lg" ng-class="{'fa-spin':group.table.isRunning}" ng-if="group.table.tableCreated"></i>
@@ -289,7 +296,8 @@
                             
 					    </div>
 					</uib-accordion>
-				<ul uib-pagination total-items="dbTables.tables.length" ng-model="currentPage" ng-change="pageChanged()"></ul>
+				<!-- <ul uib-pagination total-items="dbTables.tables.length" ng-model="currentPage" ng-change="pageChanged()"></ul> -->
+                <ul uib-pagination total-items="dbTables.tables.length" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true"></ul>
 
 
                 

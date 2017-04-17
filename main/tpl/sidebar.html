@@ -15,7 +15,7 @@
                 <span class="arrow "></span>
             </a>
             <ul class="sub-menu">
-                <li ng-repeat="x in displayNames">
+                <li ng-repeat="x in displayNames" class="uppercase">
                     <a ng-click='goes(x.name,x.display)' >
                         <i class="icon-docs"></i> {{x.display}}
                     </a>
@@ -56,7 +56,7 @@
                 </li>
                                        <li>
                                             <a href="#/auditAnalysis.html">
-                                                <i class="icon-pie-chart"></i> {{'sidebar.countryAnalysis' | translate}}
+                                                <i class="icon-pie-chart"></i> My Audit
                                             </a>
                                         </li>
                                         <!--
@@ -65,14 +65,14 @@
                                                 <i class="fa fa-exclamation-triangle"></i> My Alerts
                                             </a>
                                         </li>-->
-                                        <li>
+                                    <!--     <li>
                                             <a href="#/userAnalysis.html">
                                                 <i class="fa fa-user"></i> My User
                                             </a>
-                                        </li>
+                                        </li> -->
                                          <li>
                                             <a href="#/userAnalysis1.html">
-                                                <i class="fa fa-user"></i> My User (new)
+                                                <i class="fa fa-user"></i> My User
                                             </a>
                                         </li>
                                        
@@ -83,7 +83,7 @@
                                     </li> -->
                                     <li>
                                         <a href="#/movementAnalysis.html">
-                                            <i class="icon-imi-Immigration_Security"></i> Movement Analysis
+                                            <i class="icon-imi-Immigration_Security"></i> Foriegn Visitors
                                         </a>
                                     </li>
                                      <!--<li>
@@ -95,7 +95,7 @@
                                     <li class="nav-item">
                                         <a href="#/d2dTracking/d2dTracking.html" id="trackerLink">
                                         <i class="icon-imi-Tracking_Analysis"></i>
-                                            <span class="title">Tracking</span>
+                                            <span class="title">Visitor Profiling</span>
                                         </a>
                                     </li>
 
@@ -153,22 +153,22 @@
                              
                              <li>
                                     <a href="#/enforcement/dashboard.html">
-                                        <i class="icon-pie-chart"></i> Enforcement
+                                        <i class="icon-pie-chart"></i> Activities
                                     </a>
                                 </li>
                                  <li>
                                     <a href="#/detaineeAnalysis.html">
-                                        <i class="icon-imi-ditahan_imi"></i> Detainee Analysis
+                                        <i class="icon-imi-ditahan_imi"></i> Depot Analysis
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#/overstayAnalysis.html">
-                                        <i class="icon-imi-Overstay_Analysis"></i> Overstay Analysis
+                                        <i class="icon-imi-Overstay_Analysis"></i> Entry Point Cases
                                     </a>
                                 </li>
                                    <li>
                                     <a href="#/fastsearch/efs.html">
-                                        <i class="icon-pie-chart"></i> Enforcement Search
+                                        <i class="icon-pie-chart"></i> Pati Profiling
                                     </a>
                                 </li>
                             </ul>

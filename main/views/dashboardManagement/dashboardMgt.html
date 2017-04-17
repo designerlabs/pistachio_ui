@@ -7,125 +7,119 @@
         <div class="portlet box red-intense" id="dashboardList">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-globe"></i>Dashboard Management List
+                    <i class="fa fa-globe"></i>Dashboard Management {{title}}
                 </div>
 
 
                 <div class="tools">
-                    <button class="btn btn-success btn-sm" data-toggle="modal" id="dashboardAddBtn" data-target="#dashboardAddForm"><i class="fa fa-plus"></i> Add</button>
+                    <button class="btn btn-success btn-sm" data-toggle="modal" id="dashboardAddBtn" ng-click="add()"><i class="fa fa-plus"></i> Add</button>
                 </div>
             </div>
             <div class="portlet-body">
-                <table id="dashboardData" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-                    <thead>
+                <table class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                 <thead>
                         <tr>
                             <th>Title</th>
                             <th>URL</th>
-                            <th>Visibility</th>
-                            <th>Icon</th>
-                            <th>Theme</th>
                             <th>Action</th>
                         </tr>
                     </thead>
+                  <tr ng-repeat="x in dashboards |orderBy : 'id'"">
+                    <td>{{ x.title }}</td>
+                    <td>{{ x.url }}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" ng-click="edits(x)"><i class="fa fa-edit"></i> Edit</button>
+                        <button class="btn btn-danger btn-sm" ng-click="delete(x)"><i class="fa fa-trash"></i> Delete</button>
+                    </td>
+                  </tr>
                 </table>
-                <tbody>
-                    <tr ng-repeat="x in names">
-                        <td class="hidden">{{ x.id }}</td>
-                        <td>{{ x.title }}</td>
-                        <td>{{ x.url }}</td>
-                        <td>{{ x.ext }}</td>
-                        <td>{{ x.icon }}</td>
-                        <td>{{ x.color }}</td>
-                    </tr>
-                </tbody>
+                
             </div>
         </div>
-        <div class="portlet box red-intense" id="tableList">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="fa fa-globe"></i>Table List
-                </div>
-                <div class="tools">
-                    <a href="" id="backBtn" class="btn btn-success btn-sm" style="color:#fff; top: -3px; height:27px; position: relative;"><i class="fa fa-chevron-circle-left"></i> Back</a>
-                </div>
-                <div id="loaderTableView" style="position:absolute; top:45px; left:0px; background:rgba(255,255,255,0.8); width:100%; z-index:9; height:100%;">
-                    <!-- BEGIN PAGE SPINNER -->
-                    <div ng-spinner-bar class="page-spinner-bar show">
-                        <div class="bounce1"></div>
-                        <div class="bounce2"></div>
-                        <div class="bounce3"></div>
-                    </div>
-                    <!-- END PAGE SPINNER -->
-                </div>
-            </div>
-            <div class="portlet-body">
-                <table id="example12" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>Table Name</th>
-                            <th>Status</th>
-                            <th>Progress</th>
-                            <th align="center">Action</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
+       
     </div>
 </div>
 <div class="modal fade" id="dashboardAddForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header  {{record.color}}">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="dashboardAddFormHeader">New message</h4>
+                <h4 class="modal-title" id="dashboardAddFormHeader">Dashboard Form</h4>
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger display-hide" id="dashboardRequire">
                     <button class="close" data-close="alert"></button>
                     <span></span>
                 </div>
-                <form id="dashboardForm" name="dashboardUIForm" autocomplete="off">
+                <form id="dashboardForm" name="dashboardUIForm" autocomplete="off" >
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <a class="dashboard-stat dashboard-stat-v2 {{record.color}} stat-box" style="color:white">
+                        <div class="visual" style="padding-top: 5px!important;">
+                            <i class="fa fa-{{record.icon}}"  style="opacity:.4"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number">
+                                <span data-counter="counterup" data-value="89"></div></span>
+                            <div class="desc bold"> {{record.title}} </div>
+                        </div>
+                    </a>
+                </div>
                     <div class="form-group">
-                        <label for="dashboard-title" class="control-label">Dashboard Title:</label>
-                        <input type="text" class="form-control" id="dashboard-title" required>
+                        <label for="dashboard-title" class="control-label">Title</label>
+                        <input type="text" class="form-control" id="dashboard-title" required ng-model="record.title">
                     </div>
                     <div class="form-group">
                         <label for="dashboard-url" class="control-label">URL:</label>
-                        <input type="url" class="form-control" id="dashboard-url" required>
+                        <input type="text" class="form-control" ng-model="record.url" required>
                     </div>
                     <input type="hidden" id="dashboard-ext" required />
-                    <div class="form-group">
-                        <label for="dashboard-ext" class="control-label">Visibility:</label>
-                        <select name="dashboard-ext" class="form-control">
-                             <option value="">please select</option>
-                             <option value="true">true</option>
-                             <option value="false">false</option>
-                        </select>
-                        <!-- <input type="text" class="form-control" id="dashboard-ext"> -->
-                    </div>
-                    <input type="hidden" id="dashboard-icon" required />
-                    <div class="form-group">
-                        <label for="dashboard-icon" class="control-label">Icon:</label>
-                        <select name="dashboard-icon" class="form-control iconfiles">
-                             
-                        </select>
-                        <!-- <input type="text" class="form-control" id="dashboard-icon"> -->
+                     <div class="form-group form-md-line-input">
+                                                    <label class="col-md-3 control-label" for="form_control_1">Visibility</label>
+                                                    <div class="col-md-9">
+                                                        <div class="md-radio-inline">
+                                                            <div class="md-radio">
+                                                                <input type="radio" id="radio53" data-ng-model="record.ext" name="radio2"  data-ng-value="true" class="md-radiobtn">
+                                                                <label for="radio53">
+                                                                    <span></span>
+                                                                    <span class="check"></span>
+                                                                    <span class="box"></span> Enable </label>
+                                                            </div>
+                                                            <div class="md-radio has-error">
+                                                                <input type="radio" id="radio54" name="radio2" data-ng-model="record.ext" class="md-radiobtn" data-ng-value="false"  checked="">
+                                                                <label for="radio54">
+                                                                    <span></span>
+                                                                    <span class="check"></span>
+                                                                    <span class="box"></span> Disable </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                    <div class="form-group form-md-line-input">
+                                                    <label class="col-md-3 control-label" for="form_control_1">Icon : <i class="fa fa-{{record.icon}}"> </i></label>
+                                                    <div class="col-md-9">
+                                                        <select name="dashboard-icon" class="form-control" ng-model="record.icon">
+                                                              <option ng-repeat="option in icons" value="{{option}}" ng-value="option">{{option}}</option>
+                                                        </select>
+                                                </div>
                     </div>
 
-                    <input type="hidden" id="dashboard-theme" required />
-                    <div class="form-group">
-                        <label for="dashboard-theme" class="control-label">Theme:</label>
-                        <select name="dashboard-theme" class="form-control themefiles">
-                             
-                        </select>
+                    
+                    <div class="form-group form-md-line-input">
+                        <label class="col-md-3 control-label " for="form_control_1">Theme</label>
+                        <div class="col-md-9">
+                            <select class="form-control" id="form_control_1" ng-model="record.color" required>
+                               <option ng-repeat="option in colors" value="{{option}}" ng-value="option">{{option}}</option>
+                            </select>
+                            <div class="form-control-focus"> </div>
+                        </div>
                     </div>
+                    
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                <button type="button" id="dashboardUISubmit" class="btn btn-success"><i class="fa fa-check"></i> Save</button>
-                <button type="button" id="dashboardUIUpdate" class="btn btn-primary"><i class="fa fa-check"></i> Update</button>
+                <button type="button" ng-click="save(record)" ng-if="record.id == undefined" class="btn btn-success"><i class="fa fa-check"></i> Save</button>
+                <button type="button" ng-click="updt(record)" ng-if="record.id != undefined" class="btn btn-primary"><i class="fa fa-check"></i> Update</button>
             </div>
         </div>
     </div>
@@ -157,63 +151,4 @@
 </div>
 <!-- END MAIN CONTENT -->
 <!-- BEGIN MAIN JS -->
-<script>
-$(function() {
-    $("#dashboardAddBtn").click(function(event) {
-        $("#dashboardAddForm #dashboardUISubmit").removeClass('hide');
-        $("#dashboardAddForm #dashboardUIUpdate").addClass('hide');
-        $("#dashboardAddFormHeader").html("Add Dashboard");
-        $("#dashboardForm")[0].reset();
-    });
-});
 
-
-$("select[name=dashboard-icon]").change(function(){
-    $("#dashboard-icon").val($(this).val());
-
-    if($("#dashboard-icon").val()==""){
-        $(this).parent(".form-group").addClass("has-error");
-    }else{
-        $(this).parent(".form-group").removeClass("has-error");
-    }
-});
-
-$("select[name=dashboard-theme]").change(function(){
-    $("#dashboard-theme").val($(this).val());
-
-    if($("#dashboard-theme").val()==""){
-        $(this).parent(".form-group").addClass("has-error");
-    }else{
-        $(this).parent(".form-group").removeClass("has-error");
-    }
-});
-
-
-$("select[name=dashboard-ext]").change(function(){
-    $("#dashboard-ext").val($(this).val());
-
-    if($("#dashboard-ext").val()==""){
-        $(this).parent(".form-group").addClass("has-error");
-    }else{
-        $(this).parent(".form-group").removeClass("has-error");
-    }
-});
-//TableAdvanced.init();
-
-$("#loader").hide();
-
-$(document).ajaxStart(function() {
-    $("#loader").hide();
-    $("#loaderTableView").css('height', '500px');
-    $("#loaderTableView .page-spinner-bar").removeClass('hide');
-    $("#loaderTableView").show();
-});
-
-$(document).ajaxStop(function() {
-    $("input[type=search]").addClass('form-control input-small input-inline');
-    $("select[name=jqueryRunData_length]").addClass('form-control input-xsmall input-inline');
-    $("#loader").hide();
-    $("#loaderTableView .page-spinner-bar").addClass('hide');
-    $("#loaderTableView").hide();
-});
-</script>

@@ -1,324 +1,66 @@
 'use strict';
 
-MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $http, $timeout) {
+MetronicApp.controller('DashboardMgtController', function($rootScope, $scope, $http) {
     $scope.$on('$viewContentLoaded', function() {   
-        // initialize core components
-        $scope.dashboardentity = {};
-        Metronic.initAjax();
-        $("#dashboard").show();
-        $("#tableList").hide();
+       $scope.records = [];
+       $scope.title = "List"
+       load()
 
-        $(".page-sidebar-menu > li").removeClass('active');
-        $(".sub-menu > li").removeClass('active');
-
-        $("#adminLink").addClass('active');
-        $("#dashboardmgtLink").addClass('active');
-
-        $('.sub-menu li a').click(function() {
+$scope.icons =  ["glass", "music", "search", "envelope-o", "heart", "star", "star-o", "user", "film", "th-large", "th", "th-list", "check", "times", "search-plus", "search-minus", "power-off", "signal", "gear", "cog", "trash-o", "home", "file-o", "clock-o", "road", "download", "arrow-circle-o-down", "arrow-circle-o-up", "inbox", "play-circle-o", "rotate-right", "repeat", "refresh", "list-alt", "lock", "flag", "headphones", "volume-off", "volume-down", "volume-up", "qrcode", "barcode", "tag", "tags", "book", "bookmark", "print", "camera", "font", "bold", "italic", "text-height", "text-width", "align-left", "align-center", "align-right", "align-justify", "list", "dedent", "outdent", "indent", "video-camera", "picture-o", "pencil", "map-marker", "adjust", "tint", "edit", "pencil-square-o", "share-square-o", "check-square-o", "arrows", "step-backward", "fast-backward", "backward", "play", "pause", "stop", "forward", "fast-forward", "step-forward", "eject", "chevron-left", "chevron-right", "plus-circle", "minus-circle", "times-circle", "check-circle", "question-circle", "info-circle", "crosshairs", "times-circle-o", "check-circle-o", "ban", "arrow-left", "arrow-right", "arrow-up", "arrow-down", "mail-forward", "share", "expand", "compress", "plus", "minus", "asterisk", "exclamation-circle", "gift", "leaf", "fire", "eye", "eye-slash", "warning", "exclamation-triangle", "plane", "calendar", "random", "comment", "magnet", "chevron-up", "chevron-down", "retweet", "shopping-cart", "folder", "folder-open", "arrows-v", "arrows-h", "bar-chart-o", "twitter-square", "facebook-square", "camera-retro", "key", "gears", "cogs", "comments", "thumbs-o-up", "thumbs-o-down", "star-half", "heart-o", "sign-out", "linkedin-square", "thumb-tack", "external-link", "sign-in", "trophy", "github-square", "upload", "lemon-o", "phone", "square-o", "bookmark-o", "phone-square", "twitter", "facebook", "github", "unlock", "credit-card", "rss", "hdd-o", "bullhorn", "bell", "certificate", "hand-o-right", "hand-o-left", "hand-o-up", "hand-o-down", "arrow-circle-left", "arrow-circle-right", "arrow-circle-up", "arrow-circle-down", "globe", "wrench", "tasks", "filter", "briefcase", "arrows-alt", "group", "users", "chain", "link", "cloud", "flask", "cut", "scissors", "copy", "files-o", "paperclip", "save", "floppy-o", "square", "bars", "list-ul", "list-ol", "strikethrough", "underline", "table", "magic", "truck", "pinterest", "pinterest-square", "google-plus-square", "google-plus", "money", "caret-down", "caret-up", "caret-left", "caret-right", "columns", "unsorted", "sort", "sort-down", "sort-asc", "sort-up", "sort-desc", "envelope", "linkedin", "rotate-left", "undo", "legal", "gavel", "dashboard", "tachometer", "comment-o", "comments-o", "flash", "bolt", "sitemap", "umbrella", "paste", "clipboard", "lightbulb-o", "exchange", "cloud-download", "cloud-upload", "user-md", "stethoscope", "suitcase", "bell-o", "coffee", "cutlery", "file-text-o", "building-o", "hospital-o", "ambulance", "medkit", "fighter-jet", "beer", "h-square", "plus-square", "angle-double-left", "angle-double-right", "angle-double-up", "angle-double-down", "angle-left", "angle-right", "angle-up", "angle-down", "desktop", "laptop", "tablet", "mobile-phone", "mobile", "circle-o", "quote-left", "quote-right", "spinner", "circle", "mail-reply", "reply", "github-alt", "folder-o", "folder-open-o", "smile-o", "frown-o", "meh-o", "gamepad", "keyboard-o", "flag-o", "flag-checkered", "terminal", "code", "reply-all", "mail-reply-all", "star-half-empty", "star-half-full", "star-half-o", "location-arrow", "crop", "code-fork", "unlink", "chain-broken", "question", "info", "exclamation", "superscript", "subscript", "eraser", "puzzle-piece", "microphone", "microphone-slash", "shield", "calendar-o", "fire-extinguisher", "rocket", "maxcdn", "chevron-circle-left", "chevron-circle-right", "chevron-circle-up", "chevron-circle-down", "html5", "css3", "anchor", "unlock-alt", "bullseye", "ellipsis-h", "ellipsis-v", "rss-square", "play-circle", "ticket", "minus-square", "minus-square-o", "level-up", "level-down", "check-square", "pencil-square", "external-link-square", "share-square", "compass", "toggle-down", "caret-square-o-down", "toggle-up", "caret-square-o-up", "toggle-right", "caret-square-o-right", "euro", "eur", "gbp", "dollar", "usd", "rupee", "inr", "cny", "rmb", "yen", "jpy", "ruble", "rouble", "rub", "won", "krw", "bitcoin", "btc", "file", "file-text", "sort-alpha-asc", "sort-alpha-desc", "sort-amount-asc", "sort-amount-desc", "sort-numeric-asc", "sort-numeric-desc", "thumbs-up", "thumbs-down", "youtube-square", "youtube", "xing", "xing-square", "youtube-play", "dropbox", "stack-overflow", "instagram", "flickr", "adn", "bitbucket", "bitbucket-square", "tumblr", "tumblr-square", "long-arrow-down", "long-arrow-up", "long-arrow-left", "long-arrow-right", "apple", "windows", "android", "linux", "dribbble", "skype", "foursquare", "trello", "female", "male", "gittip", "sun-o", "moon-o", "archive", "bug", "vk", "weibo", "renren", "pagelines", "stack-exchange", "arrow-circle-o-right", "arrow-circle-o-left", "toggle-left", "caret-square-o-left", "dot-circle-o", "wheelchair", "vimeo-square", "turkish-lira", "try", "plus-square-o"];
+$scope.colors = ["bg-grey-gallery","bg-green-seagreen","bg-green-steel","bg-red","bg-blue","bg-purple"]        //console.log($scope);
         
-            $(".nav-item").removeClass("active");
-            $(".nav-item").removeClass("open");
-            $('.sub-menu').hide();
-            $(this).parent('li').addClass('active');
-            console.log(this);
-
-            //alert(this);
-            $(this).parents('ul').parent('li').addClass("active");
-        });
-
-        var dashboards;
+    });
 
 
-
-        $.extend( true, $.fn.dataTable.defaults, {
-         stateSave: true
-        });
-        
-
-        function dashboardDataFunc() {
-            dashboards = $('#dashboardData').DataTable({
-
-                "ajax": {
-                    "processing": true,
-                    "serverSide": true,
-                    "url": globalURL+"pistachio/dashboard",
-                    "dataSrc": ""
-                },
-                "columns": [{
-                        "data": "title"
-                    }, {
-                        "data": "url"
-                    }, {
-                        "data": "ext"
-                    }, {
-                        "data": "icon",
-                        "width": "10%"
-                    }, {
-                        "data": "color",
-                        "width": "bg-green"
-                    }, {
-                        "data": "action",
-                        "width": "25%",
-                        "render": function(data, type, full, meta) {
-                            return '<button class="btn btn-primary btn-sm updateBtn"><i class="fa fa-edit"></i> Edit</button><button class="btn btn-danger btn-sm deleteBtn"><i class="fa fa-trash"></i> Delete</button>';
-                        }
-                    }
-                ]
+function load(){
+      console.log("reloading the page")
+         $http.get(globalURL+"pistachio/dashboard")
+            .success(function(response) {
+                $scope.dashboards = response;
             });
-        }
-
-        formInputValidation("#dashboardForm");
-
-       /* //Icon files
-        var fileExt = {};
-            fileExt[0]=".png";
-            fileExt[1]=".jpg";
-            fileExt[2]=".gif";
-        $.ajax({
-            //This will retrieve the contents of the folder if the folder is configured as 'browsable'
-            url: '../../icons/images/',
-            success: function (data) {
-                 $(".iconfiles").html('<option value="">please select</option>');
-               //List all png or jpg or gif file names in the page
-               $(data).find('a:contains('+ fileExt[0] + '),a:contains(' + fileExt[1] + '),a:contains(' + fileExt[2] + ')').each(function () {
-                   //console.log(this);
-                   var filename = this.href.replace(window.location.host, "").replace("http:///projects/mimos/pistachio_ui/main/", "").replace(".png", "");
-                  
-                   $(".iconfiles").append('<option value="'+filename+'">'+filename+'</option>');
-               });
-             }     
-          });*/
-
-
-        $.ajax({
-            url: globalURL+"api/gui/icons",
-            success: function (data) {
-                 $(".iconfiles").html('<option value="">please select</option>');
-               //List all png or jpg or gif file names in the page
-                $.each( data, function( i, val ) {
-                  $(".iconfiles").append('<option value="fa-'+val+'">'+val+'</option>');
-                  // Will stop running after "three"
-                  //return ( val !== "three" );
-                });
-            }     
-          });    
         
 
-        $.ajax({
-            url: globalURL+"api/gui/themes",
-            success: function (data) {
-                 $(".themefiles").html('<option value="">please select</option>');
-               //List all png or jpg or gif file names in the page
-                $.each( data, function( i, val) {
-                  $(".themefiles").append('<option value="bg-'+val+'">'+val+'</option>');
-                  // Will stop running after "three"
-                  //return ( val !== "three" );
-                });
-            }     
-          });
-    
+    }
 
-        $("#dashboardUISubmit").click(function(event) {
-            var dashboardTitleVal = $("#dashboardForm #dashboard-title").val();
-            var dashboardURLVal = $("#dashboardForm #dashboard-url").val();
-            var dashboardExtVal = $("#dashboardForm #dashboard-ext").val();
-            var dashboardIconVal = $("#dashboardForm #dashboard-icon").val();
-            var dashboardThemeVal = $("#dashboardForm #dashboard-theme").val();
-            inputValidation("#dashboardForm", dashboardAjax);
-
-            function dashboardAjax() {
-                $.ajax({
-                        url: globalURL+"pistachio/dashboard",
-                        type: "POST",
-                        dataType: 'json',
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify({
-                            title: dashboardTitleVal,
-                            url: dashboardURLVal,
-                            ext: dashboardExtVal,
-                            icon: dashboardIconVal,
-                            color: dashboardThemeVal,
-                            active: "active",
-                            username: "admin"
-
-                        })
-                    })
-                    .done(function() {
-                        dashboards.destroy();
-                        dashboardDataFunc();
-                        $("#dashboardAddForm").modal('hide');
-                        $("#dashboardRequire").hide();
-                    })
-                    .fail(function(data) {
-                        console.log(data.responseJSON.error);
-                        $("#dashboardRequire span").html(data.responseJSON.error);
-                        $("#dashboardRequire").show();
-                        //alert('Failed!');
-                    });
-            }
-        });
-
-        dashboardDataFunc();
+    $scope.add = function() {
+        $scope.record = {};
+         $("#dashboardAddForm").modal('show');
+    }
 
 
-        var selectedDashboardId = undefined;
-        $('#dashboardData').on('click', 'button.updateBtn', function() {
-            var selectedDashboard = dashboards.row($(this).parents('tr')).data();
-            selectedDashboardId = selectedDashboard.id;
-            console.log(selectedDashboard);
-            $("#dashboardAddForm #dashboardUISubmit").addClass('hide');
-            $("#dashboardAddForm #dashboardUIUpdate").removeClass('hide');
-          //  $scope.dashboardentity = selectedDashboard;
-            console.log($scope.dashboardentity)
-            $("#dashboardForm #dashboard-title").val(selectedDashboard.title);
-            $("#dashboardForm #dashboard-url").val(selectedDashboard.url);
-            //var userAuthorities = Object.keys(selectedDashboard.ext).map(function() { return selectedDashboard.ext });
-            //$("#roleMultiple").val(userAuthorities);
-           $("#dashboardForm #dashboard-ext").val(selectedDashboard.ext).change();
-           $('#dashboardForm #dashboard-ext option[value='+selectedDashboard.ext+']').attr('selected','selected');
-            $('#dashboardForm select[name=dashboard-ext] option[value='+selectedDashboard.ext+']').attr('selected','selected');
-      
-
-            //$("#dashboardForm #dashboard-icon").val(selectedDashboard.icon);
-            $("#dashboardForm select[name=dashboard-icon]").val(selectedDashboard.icon);
-            //console.log(selectedDashboard);
-            $("#dashboardForm select[name=dashboard-theme]").val(selectedDashboard.color);
-            $("#dashboardAddFormHeader").html("Update Dashboard");
-            $("#dashboardAddForm").modal('show');
-        });
-        
-
-               console.log(event);
-            
-        
-
-        $("#dashboardUIUpdate").click(function(event) {
-
-
-            if( $('#dashboard-ext:selected').length > 0){
-               //var selectedValue = {};
-               var selectedText = [];
-               
-               var colName = "name";
-               var colValue = "value";
-               
-               $('#dashboard-ext :selected').each(function(i, selected) {
-                     
-                    var jsonData = {};     
-                   jsonData[colName] = $(selected).val();
-                   jsonData[colValue] = $(selected).data('val');
-                   selectedText.push(jsonData);
-                   //var arr = {'name':'+$(selected).val()+','value':'+$(selected).data('val')+'}; 
-                   //console.log(selected, i);
-                   //selectedText.push(JSON.parse(arr));
-                   //alert(selectedText[i]);
-                   //selectedValue[i] = $(selected).data('val');
-               });
-
-
-
-                   
-                    console.log(JSON.stringify(selectedText));
-
-                
-            }
-
-
-            var dashboardUpdateTitleVal = $("#dashboardForm #dashboard-title").val();
-            var dashboardUpdateURLVal = $("#dashboardForm #dashboard-url").val();
-            var dashboardUpdateExtVal = $("#dashboardForm #dashboard-ext").val();
-            var dashboardUpdateIconVal = $("#dashboardForm #dashboard-icon").val();
-            var dashboardUpdateThemeVal = $("#dashboardForm #dashboard-theme").val();
-            //alert(selectedQueryId);
-            inputValidation("#dashboardForm", dashbardAjaxUpdate);
-
-
-            function dashbardAjaxUpdate(){
-            $.ajax({
-                    url: globalURL+"pistachio/dashboard",
-                    type: "PUT",
-                    dataType: 'json',
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify({
-                        id: selectedDashboardId,
-                        title: dashboardUpdateTitleVal,
-                        url: dashboardUpdateURLVal,
-                        ext: dashboardUpdateExtVal,
-                        icon: dashboardUpdateIconVal,
-                        color: dashboardUpdateThemeVal,
-                        active: "active",
-                        username: "admin"
-                    })
-                })
-                .done(function(data) {
-                    dashboards.destroy();
-                    dashboardDataFunc();
-                    //selectedQueryId = null;
-                })
-                .fail(function(e) {
-                    console.log(e);
-                });
-
-            }
-        });
-
-
-
-        var selectedDashboardForDelete;
-        $('#dashboardData').on('click', 'button.deleteBtn', function() {
-            $("#dashboardDelete").modal('show');
-            selectedDashboardForDelete = dashboards.row($(this).parents('tr')).data();
-            console.log(selectedDashboardForDelete);
-            $("#dashboardDelete .modal-body h3").html('Are you sure do you want to<br>delete the dashboard <strong>' + selectedDashboardForDelete.title + '</strong>?');
-
-        });
-
-        $('#dashboardDataDeleteBtn').click(function(event) {
-            //$('#databaseData').on('click', 'button.deleteBtn', function() {
-            //var selectedDatabaseForDelete = databases.row($(this).parents('tr')).data();
-            $.ajax({
-                url: globalURL+'pistachio/dashboard/' + selectedDashboardForDelete.id,
-                type: 'DELETE',
-                success: function(result) {
-                    // Do something with the result
-                    dashboards.destroy();
-                    dashboardDataFunc();
-                    $("#dashboardDelete").modal('hide');
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    //alert("Status: " + textStatus);
-                    //alert("Error: " + errorThrown);
-                    //alert("request: " + XMLHttpRequest);
-                    if (errorThrown) {
-                        $("#errorTitle").html(XMLHttpRequest.responseJSON.error);
-                        $("#dashboardDeleteErrorMsg").modal('show');
-                        //console.log(XMLHttpRequest.responseJSON.error);
-                    }
-                    console.log(XMLHttpRequest);
-                    $("#dashboardDelete").modal('hide');
-                }
+    $scope.save = function(row) {
+        debugger;
+         $http.post(globalURL+"pistachio/dashboard",row)
+            .success(function(response) {
+                $scope.records = response;
+                 $("#dashboardAddForm").modal('hide');
+                 load();
             });
-
-        });
-
-
-        var getUser = localStorage.getItem("username");
-    	$http.get(globalURL+"role/report?user="+getUser)
-    	.success(function(response) {
-    		$scope.names = response;
-       });
-
-    	$scope.go = function(data){
-    		location.href=data;
-            var categoryId = this.$$watchers[2].last;
-            //$scope.message = sharedService.categoryId;
-    	};
-        //console.log($scope);
         
+    }
+
+    $scope.updt = function(row) {
+         $http.put(globalURL+"pistachio/dashboard",row)
+            .success(function(response) {
+                $scope.records = response;
+                $("#dashboardAddForm").modal('hide');
+                load()
+            });
+        
+    }
+
+    $scope.edits = function(row) {
+        console.log(row)
+        $scope.record = row
+        $("#dashboardAddForm").modal('show');
+    }
+
+
+
         // set sidebar closed and body solid layout mode
         $rootScope.settings.layout.pageSidebarClosed = false;
         $rootScope.skipTitle = false;
         $rootScope.settings.layout.setTitle("dashboardmgt");
-    });
+
 
 });

@@ -204,9 +204,19 @@
 												<option value="my">{{'profile.edit.malay' | translate}}</option>
 											</select>
 										</div>
+										<div class="form-group">
+											<label class="control-label">Home Page</label><!-- {{'profile.homepage.lang' | translate}} -->
+											<!-- <input type="text" name="editlang" class="form-control">  -->
+											<select id="homepage" class="valid form-control">
+												<option value="/myprofile.html" selected>MY PROFILE</option>
+												<option value="/enforcement/visadashboard.html">VISA</option>
+												<option value="/enforcement/dashboard.html">ENFORCEMENT</option>
+												<option value="/auditAnalysis.html">MYAUDIT</option>
+											</select>
+										</div>
 										<div class="margin-top-20">
 											<button class="btn green" ng-click="editSaveChanges()">{{'profile.edit.save' | translate}} </button>
-											<button class="btn default">{{'profile.edit.cancel' | translate}} </button>
+											<button class="btn default" ng-click="overview()">{{'profile.edit.cancel' | translate}} </button>
 										</div>
 									</form>
 								</div>
@@ -227,7 +237,7 @@
 									</div>
 									<div class="margin-top-20">
 										<button class="btn green" ng-click="OnChangePwd()"> {{'profile.edit.changePswd' | translate}} </button>
-										<button class="btn default"> {{'profile.edit.cancelPswd' | translate}} </button>
+										<button class="btn default" ng-click="overview()"> {{'profile.edit.cancelPswd' | translate}} </button>
 									</div>
 								</form>
 							</script>
@@ -264,7 +274,7 @@
 										</thead>
 										<tbody>
 											<!-- ngRepeat: y in rptcontent -->
-											<tr ng-repeat="y in rptcontent" class="ng-scope">
+											<tr ng-repeat="y in rptcontent | limitTo : 8 : (template.currentPage-1)*8" class="ng-scope">
 												<td class="table-title">
 													<a href="javascript:;" class="ng-binding">{{y.queryName}}</a>
 												</td>
@@ -275,6 +285,9 @@
 											</tr><!-- end ngRepeat: y in rptcontent -->
 										
 										</tbody>
+										<ul uib-pagination total-items="template.total"
+										 ng-model="template.currentPage" max-size="template.maxSize" class="pagination-sm" boundary-links="true"
+										 num-pages="template.numPages"></ul>
 									</table>
 								</div>
 							</div>
