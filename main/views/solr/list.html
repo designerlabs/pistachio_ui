@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="col-md-12">
+        <!-- END EXAMPLE TABLE PORTLET-->
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet box red-intense" id="userMgtList">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>Solr Collections
+                </div>
+                <!-- <div class="tools">
+                    <button class="btn btn-success btn-sm" data-toggle="modal" id="userMgtAddBtn" data-target="#userMgtAddForm"><i class="fa fa-plus"></i> Add</button>
+                </div> -->
+            </div>
+            <div class="portlet-body">
+               
+
+                  <table ng-table="records" class="table table-bordered table-hover table-condensed editable-table demoTable" show-filter="false">
+                    <colgroup>
+                          <col width="30%"/>
+                          <col width="16%"/>
+                      
+                        </colgroup>
+                    <tr ng-repeat="row in $data" ng-form="rowForm" demo-tracked-table-row="row" class="mt-action" ng-class="{ 'danger': row.elapsedDays > 7, 'success': row.elapsedDays <7 }" >
+                      <td title="'Collection'"  class="uppercase" header-class="'text-left'">
+                        {{row.collectionName}}
+                      </td>
+                      <td title="'Total Records'" header-class="'text-center'" sortable="'noOfRecords'">
+                        {{row.noOfRecords}}
+                      </td>
+                      <td title="'Updated'" header-class="'text-center'" sortable="'latestRecord'">
+                        {{getDate(row.latestRecord)| date:'dd-MM-yyyy'}}
+                      </td>
+                       <td title="'Elapsed'" header-class="'text-center'" sortable="'elapsedDays'">
+                        {{row.elapsedDays}}
+                      </td>
+                        <td title="'Action'"  >
+                        
+                        <button data-toggle="confirmation"
+                            uib-tooltip="Clear Records" 
+                            type="button" class="btn btn-danger btn-sm"
+                            popover-trigger="'mouseenter'"
+                            ng-click="del(row)"
+                            >
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                        <script type="text/ng-template" id="myPopoverTemplate.html">
+                            <div class="popover-content text-center"> No Action taken at the moment
+                                <!-- <div class="btn-group">
+                                    <a class="btn btn-sm btn-success" ng-click="del(row)" data-apply="confirmation"><i class="glyphicon glyphicon-ok"></i> Yes</a>
+                                     <a class="btn btn-sm btn-danger" ng-click="popoverIsOpen = !popoverIsOpen" data-dismiss="confirmation"><i class="glyphicon glyphicon-remove"></i> No</a>
+                                </div> -->
+                            </div>
+                        </script>
+
+                      </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

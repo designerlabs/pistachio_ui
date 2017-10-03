@@ -118,7 +118,7 @@
 							<div class="portlet-title">
 								<div class="caption caption-md">
 									<i class="icon-bar-chart theme-font hide"></i>
-									<span class="caption-subject bold uppercase">{{'profile.recentactivities' | translate}}</span>
+									<span class="caption-subject bold uppercase">1{{'profile.recentactivities' | translate}}</span>
 								</div>
 							</div>
 							<div class="portlet-body">
@@ -298,12 +298,34 @@
 							<div class="portlet-title">
 								<div class="caption caption-md">
 									<i class="icon-bar-chart theme-font hide"></i>
-									<span class="caption-subject bold uppercase ng-binding">Laporan Kegemaran</span>
-									<span class="caption-helper hide">weekly stats...</span>
+									<span class="caption-subject bold uppercase ng-binding">Peranan Saya</span>
+									
 								</div>
 							</div>
 							<div class="portlet-body form">
-
+								<div class="table-scrollable table-scrollable-borderless">
+									<table class="table table-hover table-light">
+										<thead>
+											<tr>
+												<th class="ng-binding" style="width:45%;" >
+													Nama Peranan
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											
+											<tr ng-repeat="j in ProInfoVal.authorities | limitTo : 10 : (role.currentPage-1)*10" class="ng-scope">
+												<td class="table-title">
+													<a href="javascript:;" class="ng-binding uppercase">{{j.name}}</a>
+												</td>
+											</tr>
+										
+										</tbody>
+										<ul uib-pagination total-items="role.total"
+										 ng-model="role.currentPage" max-size="role.maxSize" class="pagination-sm" boundary-links="true"
+										 num-pages="role.numPages"></ul>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>

@@ -29,10 +29,15 @@
                 <li class="nav-item">
                     <a href="#/report/dropdown.html" id="sqleditorLink">
                     <i class="icon-pencil"></i>
-                        <span class="title">Drop Down Mangement</span>
+                        <span class="title">Report Parameter Management</span>
                     </a>
                 </li>
-                
+                 <li class="nav-item">
+                    <a href="#/analytic.html">
+                    <i class="icon-pencil"></i>
+                        <span class="title">Analytics Management</span>
+                    </a>
+                </li>
                 <!--  <li>
                     <a href="#/workflowadmin.html">
                         <i class="icon-docs"></i> Report Request
@@ -42,6 +47,21 @@
 
         </li>
 
+        <li class="nav-item" ng-repeat="x in menu | orderBy:x.name">
+            <a  href="javascript:;" class="nav-link nav-toggle">
+                <i class="{{ x.parent.icon || 'fa fa-dashboard'}}"></i>
+                <span class="title">{{x.parent.name}}</span>
+                 <span class="arrow "></span>
+            </a>
+             <ul class="sub-menu" >
+                 <li ng-repeat="y in x.children">
+                    <a href="{{y.url}}">
+                        <i class="{{ y.icon || 'fa fa-dashboard'}}"></i> {{y.name}}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         <li class="nav-item" id="dashboardLink">
             <a  href="javascript:;" class="nav-link nav-toggle">
                 <i class="icon-imi-statistik_imi"></i>
@@ -49,11 +69,11 @@
                  <span class="arrow "></span>
             </a>
              <ul class="sub-menu">
-                 <li>
+   <!--              <li>
                     <a href="#/dashboard.html">
                         <i class="fa fa-dashboard"></i> {{'sidebar.dashboardlink' | translate}}
                     </a>
-                </li>
+                </li>-->
                                        <li>
                                             <a href="#/auditAnalysis.html">
                                                 <i class="icon-pie-chart"></i> My Audit
@@ -80,24 +100,24 @@
                                         <a href="#/movementAnalysis1.html">
                                             <i class="icon-imi-Movement_Analysis"></i> Movement Analysis
                                         </a>
-                                    </li> -->
+                                    </li> 
                                     <li>
                                         <a href="#/movementAnalysis.html">
                                             <i class="icon-imi-Immigration_Security"></i> Foriegn Visitors
                                         </a>
                                     </li>
-                                     <!--<li>
+                                     <li>
                                         <a href="#/stats.html">
                                             <i class="icon-pie-chart"></i> Statistics
                                         </a>
-                                    </li>-->
+                                    </li>
                                     
                                     <li class="nav-item">
                                         <a href="#/d2dTracking/d2dTracking.html" id="trackerLink">
                                         <i class="icon-imi-Tracking_Analysis"></i>
-                                            <span class="title">Visitor Profiling</span>
+                                            <span class="title">Entry Point Activity</span>
                                         </a>
-                                    </li>
+                                    </li>-->
 
 
                
@@ -120,16 +140,16 @@
                                         <i class="icon-pie-chart"></i> Visa & Pass
                                     </a>
                                 </li>
-                                <li>
+                           <!--     <li>
                                     <a href="#/citizenAnalysis.html">
                                         <i class="icon-pie-chart"></i> Citizen Analysis
                                     </a>
-                                </li>
-                                <li>
+                                </li>-->
+                               <!-- <li>
                                     <a href="#/applAnalysis.html">
                                         <i class="icon-imi-Visa_Application_Analysis"></i> {{'sidebar.appl_analysis' | translate}}
                                     </a>
-                                </li>
+                                </li>-->
                               
                                  <li>
                                     <a href="#/heatMapAnalysis.html">
@@ -166,9 +186,27 @@
                                         <i class="icon-imi-Overstay_Analysis"></i> Entry Point Cases
                                     </a>
                                 </li>
+ <li>
+                                        <a href="#/movementAnalysis.html">
+                                            <i class="icon-imi-Immigration_Security"></i> Foriegn Visitors
+                                        </a>
+                                    </li>
+                                     <!--<li>
+                                        <a href="#/stats.html">
+                                            <i class="icon-pie-chart"></i> Statistics
+                                        </a>
+                                    </li>-->
+
+                                    <li class="nav-item">
+                                        <a href="#/d2dTracking/d2dTracking.html" id="trackerLink">
+                                        <i class="icon-imi-Tracking_Analysis"></i>
+                                            <span class="title">Entry Point Activity</span>
+                                        </a>
+                                    </li>
+
                                    <li>
                                     <a href="#/fastsearch/efs.html">
-                                        <i class="icon-pie-chart"></i> Pati Profiling
+                                        <i class="icon-pie-chart"></i>Enforcement Search
                                     </a>
                                 </li>
                             </ul>
@@ -204,7 +242,12 @@
                         <i class="icon-docs"></i> {{'sidebar.reportmanagement' | translate}}
                     </a>
                 </li>
-               
+
+               <li id="rptmgtLink">
+                    <a href="#/menumgmt.html"">
+                        <i class="icon-docs"></i> Menu Mangement
+                    </a>
+                </li>
                 <li>
                     <a href="#/sparkjob.html">
                         <i class="icon-docs"></i> Analytic Jobs
@@ -246,10 +289,16 @@
                         <span class="title">{{'sidebar.dataconsolidation' | translate}}</span>
                         <span class="arrow "></span>
                     </a>
+                    
                     <ul class="sub-menu">
                         <li>
                             <a href="#/sqoop.html">
                                 <i class="icon-docs"></i> Sqoop
+                            </a>
+                        </li>
+                         <li>
+                            <a href="#/solr.html">
+                                <i class="icon-docs"></i> Solr
                             </a>
                         </li>
                         <li>

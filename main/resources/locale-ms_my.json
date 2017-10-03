@@ -1,6 +1,6 @@
 {
 	"Header.sellanguage" :"Pilih Bahasa",
-	"sidebar.dashboard" : "Paparan Utama",
+	"sidebar.dashboard" : "Pengurusan ID",
 	"directives.language-select.Language": "Bahasa Malaysia",
 	"dashboard.title" : "Paparan Utama",
 	"dashboardmgt.title":"Dashboard Management",
@@ -76,7 +76,7 @@
 	"ereporting.save" : "Simpan",
 	"ereporting.update" : "Kemaskini",
 	"ereporting.delete.message" : "Adakah anda pasti anda mahu memadam rekod ini",
-	"ereporting.delete.no" : "Tiada",
+	"ereporting.delete.no" : "Tidak",
 	"ereporting.delete.yes" : "Ya",
 	"editBtn": "Edit",
 	"delBtn": "Delete",
@@ -100,7 +100,7 @@
 	"session.idlemessage" : "Anda tidak aktif selama lebih daripada 30 minit, dasar Secuirty secara automatik akan log anda keluar, Sila klik untuk meneruskan sesi ini",
 	"session.timeoutmessage" : "Anda telah tamat masa",
 	"session.loggedoutmessage" : "Kami tidak pernah mendengar daripada anda selama kira-kira 30 minit, jadi untuk Server keselamatan anda secara automatik log anda keluar daripada akaun anda.",
-	"tracking.title" : "Border Activity Analysis",
+	"tracking.title" : "Aktiviti Pintu Masuk",
 	"visitorTracking.title" : "Visitor Traveling Analysis",
 	"officeractivity.title":"Officers Activity Analysis",
 	"workflowmgt.title":"Request Management",
@@ -145,7 +145,7 @@
 	"overstay.title" : "Overstay Analysis",
 
 	"efastsearch.title":"Enforcement Search",
-    "efastsearch.detainee":"Tahanan",
+    "efastsearch.detainee":"Pesalah",
     "efastsearch.overstay":"Overstay",
 
     "enforcement" : {
@@ -171,6 +171,15 @@
     	"title": "Data Movement (Sqoop)"
     },
     "parameter" : {
-    	"title" : "Report Parameter Manager"
+    	"title" : "Report Parameter Management"
+    },
+    "analytic" : {
+    	"title" : "Analytics Management"
+    },
+    "solr" : {
+    	"title" : "Solr Administration"
+    },
+    "menu" : {
+    	"title" : "Pengurusan Menu "
     }
 }

@@ -16,6 +16,11 @@ MetronicApp.controller('MyProfileController', function($rootScope, $scope, $http
        $scope.editonly = false;  
 
        $scope.ProInfoVal = response;
+         var role = {};
+         role.total = response.authorities.length
+         role.maxSize = 5;
+         role.currentPage = 1;
+         $scope.role = role;
        $scope.firstName_1 = response.firstName;
        $scope.rank = response.rank;
        $scope.email = response.email;

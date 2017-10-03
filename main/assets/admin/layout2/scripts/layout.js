@@ -35,9 +35,10 @@ var Layout = function() {
                 var footerHeight = $('.page-footer').outerHeight();
 
                 if (Metronic.getViewPort().width < resBreakpointMd) {
-                    var met  = Metronic.getViewPort();
+                    /*var met  = Metronic.getViewPort();
 
-                    height = met.height - headerHeight - footerHeight;
+                    height = met.height - headerHeight - footerHeight;*/
+                    height = Metronic.getViewPort().height - headerHeight - footerHeight;
                 } else {
                 
                     var staticOuterHeight = sidebar.outerHeight();
@@ -61,7 +62,7 @@ var Layout = function() {
             console.log(height);
 
             
-            content.attr('style', 'min-height:' + (height-70) + 'px');
+            content.attr('style', 'min-height:' + (height) + 'px'); //Changed by adline to check sridhar's change to correct footer problem
         }
     };
 

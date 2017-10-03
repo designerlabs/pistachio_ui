@@ -1,51 +1,60 @@
+
 <div class="col-md-2 portlet light portlet-fit bordered" style="padding: 5px;">
 	<div class="mt-element-list">
 		<div class="mt-list-head list-simple ext-1 font-white bg-blue-chambray">
 			<div class="list-head-title-container">
-				<a href="javascript:;" class="font-white pull-right">
+				<a ng-click="invalidate()" class="font-white pull-right">
 					<i class="fa fa-refresh"></i>
 				</a>
 				<h3 class="list-title">Database</h3>
 			</div>
 		</div>
 		<div class="mt-list-container list-simple ext-1 group" id="db-help">
-			<a class="list-toggle-container collapsed" data-toggle="collapse" data-target="#lstDB" aria-expanded="false">
-				<div id="db-help1" class="list-toggle done">{{database}}
-					<span class="badge badge-default pull-right bg-white font-green bold">{{databaseLength}}</span>
-				</div>
-			</a>
-			<div style="" aria-expanded="false" class="panel-collapse collapsed collapse" id="lstDB">
-				<ul>
-					<li class="mt-list-item" ng-repeat="dblist in databaseList" ng-click="OnDBClick(dblist)">
-						<div class="mt-list-title">{{dblist}}</div>
-					</li>
-				</ul>
-			</div>
+
 			<a class="list-toggle-container" data-toggle="collapse"   data-target="#lstDBtbl" aria-expanded="true">
-				<div  class="list-toggle"> {{dbTables}}
+				<div id="db-help1" class="list-toggle"> {{database}}
 					<span id="db-help2" class="badge badge-default pull-right bg-white font-green bold">{{datatableLength}}</span>
 				</div>
 			</a>
-			<div style="overflow: auto; max-height: 600px" aria-expanded="true" class="panel-collapse collapse in" id="lstDBtbl">
-				<label style="width:100%;">
-					<input id="db-help3" ng-model="searchText" class="form-control" placeholder="Search"></input>
-				</label>
+			<div style="overflow: auto; max-height: 600px" aria-expanded="true" class="panel-collapse collapse in" id="lstDBtbl" >
 				
-				<div id="tree_4" class="jstree jstree-4 jstree-default" role="tree" aria-multiselectable="true" tabindex="0"  aria-busy="false">
+				<impala database='database' editor="editor"> </impala>
+				<!-- <div id="tree_4" class="jstree jstree-4 jstree-default" role="tree" aria-multiselectable="true" tabindex="0"  aria-busy="false">
 
-					<ul class="jstree-container-ul jstree-children" role="group">
+					<ul class="jstree-container-ul" role="group">
+					   <div id="db-db" style="margin-left:-24px;">
 						<li role="treeitem"
-						     ng-repeat="dbtbllist in datatableList | filter:searchText" 
-							 aria-selected="false" aria-level="1" aria-labelledby="node_148636173992511_anchor" aria-expanded="false" id="{{dbtbllist}}" class="jstree-node jstree-closed" aria-busy="false">
+						     ng-repeat="dblist in databaseList " 
+						     ng-click="OnDBClick(dblist)"
+							 aria-selected="false" aria-level="0" aria-labelledby="node_148636173992511_anchor" aria-expanded="false" id="{{dblist}}" class="jstree-node jstree-closed ">
 							<i class="jstree-icon jstree-ocl" role="presentation"></i>
 							<a class="jstree-anchor" href="#" tabindex="-1" id="node_148636173992511_anchor">
-								<i class="jstree-icon jstree-themeicon fa fa-table icon-lg icon-state-success jstree-themeicon-custom" role="presentation"></i>
-								{{dbtbllist}}
+								<i class="jstree-icon jstree-themeicon fa fa-database icon-lg icon-state-success jstree-themeicon-custom" role="presentation"></i>
+								{{dblist}}
 							</a>
 						</li>
-						
+						</div>
+						<li role="treeitem"
+							 aria-selected="false" aria-level="1" aria-labelledby="{{dblist}}" aria-expanded="false" id="acive-db" class="jstree-node jstree-open" aria-busy="false">
+							<i class="jstree-icon jstree-ocl" role="presentation"></i>
+							<a class="jstree-anchor jstree-clicked" href="#" tabindex="1" id="node_148636173992511_anchor">
+								<i class="jstree-icon jstree-themeicon fa fa-database icon-lg icon-state-success jstree-themeicon-custom" role="presentation"></i>
+								{{database}}
+							</a>
+							<ul class="jstree-container-ul jstree-children" role="group">
+								<li role="treeitem"
+								     ng-repeat="dbtbllist in datatableList | filter:searchText" 
+									 aria-selected="false" aria-level="1" aria-labelledby="node_148636173992511_anchor" aria-expanded="false" id="{{dbtbllist}}" class="jstree-node jstree-closed" aria-busy="false">
+									<i class="jstree-icon jstree-ocl" role="presentation"></i>
+									<a class="jstree-anchor" href="#" tabindex="-1" id="node_148636173992511_anchor">
+										<i class="jstree-icon jstree-themeicon fa fa-table icon-lg icon-state-success jstree-themeicon-custom" role="presentation"></i>
+										{{dbtbllist}}
+									</a>
+								</li>
+							</ul>
+						</li>
 					</ul>
-				</div>
+				</div> -->
 			</div>
 		</div>
 		
@@ -65,8 +74,25 @@
 		</section>
 		<div class="action" style="float:right; margin:5px 0px;">
 			<button class="btn btn-sm" ng-click="CallMe()"><i class="fa fa-question-circle"></i> Help</button> 
-
-			<button id="save"     class="btn btn-sm btn-warning saveqry" ng-disabled="Saveqry" data-loading-text="Saving Your Query Please Wait..."> Save </button>
+			<div  class="btn-group"  >
+			<!-- ng-disabled="Saveqry" -->
+                <button id="save"  type="button" class="btn yellow dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Save
+                    <i class="fa fa-angle-down"></i>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupVerticalDrop5">
+                    <li>
+                        <a ng-click="saveQuery()"> Save in SQL editor </a>
+                    </li>
+                    <li>
+                        <a ng-click="saveEReport()"> Save in E-Reporting</a>
+                    </li>
+                     <li>
+                        <a ng-click="saveAnalytic()"> Save in Analytic DB</a>
+                    </li>
+                </ul>
+            </div>
+			<!-- <button      class="btn btn-sm btn-warning saveqry" data-loading-text="Saving Your Query Please Wait..."> Save </button> -->
+			<button id="report1"  ng-click="loadReport()"  class="btn btn-sm btn-info report" ng-disabled="btnReport" data-loading-text="Saving Your Query Please Wait..."> Report </button>
 			<button id= "exec"    class="btn btn-sm btn-success exec" ng-disabled="btnExec" data-loading-text="Executing Your Query Please Wait..."> Execute </button>
 			<button id= "explain" class="btn btn-sm btn-primary explain" ng-disabled="btnExec" data-loading-text="Please Wait..."> Explain </button>
 			<!-- <button class="btn btn-sm btn-primary saveas {{editorarea.length > 0 ? '' : 'disabled'}}"> Save As </button>  -->
@@ -251,6 +277,58 @@
 		</div>
 	</div>
 </div>
+
+
+<div class="modal fade" id="mdlReport1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+	<div class="modal-dialog" role="document" style="width: 90%">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="caption">
+                                            <i class="icon-settings"></i>
+                                            <span class="caption-subject bold uppercase"> Report Editor</span>
+                                        </div>
+			</div>
+			<div class="modal-body" id="report-body">
+				<div class="alert alert-danger display-hide" id="mdlSaveQryRequire">
+					<button class="close" data-close="alert"></button>
+					<span></span>
+				</div>
+				<div class="row">
+				<jasperreport id="exec_id" template="" show="showReport" ></jasperreport>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="mdlSaveReport" >
+	<div class="modal-dialog" role="document" style="width: 80%">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="mdlSaveQryHeader">E-Reporting </h4>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-danger display-hide" id="mdlSaveQryRequire">
+					<button class="close" data-close="alert"></button>
+					<span></span>
+				</div>
+				  <ereport query="active_query" report="active_report" close="closeSaveModal()"></ereport>
+				
+		</div>
+	</div>
+</div>
+</div>
+<div class="modal fade" id="analticAddForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <analytic record="record" load='loadall()'> </analytic>
+        </div>
+    </div>
+</div>
+
+
 <!--<div class="tblColLst" style="padding-top: 5px; padding-left: 30px;" >
 	<ul class="lstcol">
 		<li ng-repeat="x in ColResult" style="list-style-type: none;">
@@ -282,3 +360,5 @@
     cursor: hand;
 }*/
 </style>
+
+

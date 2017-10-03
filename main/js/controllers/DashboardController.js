@@ -1,28 +1,36 @@
 'use strict';
 var getToken = localStorage.getItem("token");
-MetronicApp.controller('DashboardController', function($rootScope, $scope, $http, $timeout, $sce) {
+MetronicApp.controller('DashboardController', function($rootScope, $scope, $http, $timeout, $sce,$stateParams) {
+    var getUser;
     $scope.$on('$viewContentLoaded', function() {
 
+        console.log($stateParams)
         // initialize core components
         Metronic.initAjax();
         $scope.iframeHeight = window.innerHeight;
-        var getUser = localStorage.getItem("username");
+        getUser = localStorage.getItem("username");
     	//$http.get(globalURL+"pistachio/dashboard")
-        $http.get(globalURL+"pistachio/dashboard/role?user=" + getToken)
+       /* $http.get(globalURL+"pistachio/dashboard/role?user=" + getToken)
     	.success(function(response) {
     		$scope.names = response;
+       });*/
+
+       $http.get(globalURL+"pistachio/dashboard/role?type="+$stateParams.type+"&user=" + getToken)
+        .success(function(response) {
+            $scope.names = response;
        });
 
-
+        
 
     	$scope.go = function(data){
 
             $("#iframeContainer").show();
             //$("#iframeContainer iframe").attr('ng-src',data);
-            $scope.currentProjectUrl = $sce.trustAsResourceUrl($scope.data);
+            debugger;
+            $scope.currentProjectUrl = $sce.trustAsResourceUrl($scope.data +"&user=" + getUser);
     		//location.href=data;
             $scope.iframeTitle = this.$$watchers[0].last;
-            $("#iframeContainer iframe").attr('src',data);
+            $("#iframeContainer iframe").attr('src',data+"&user=" + getUser);
             
             var categoryId = this.$$watchers[2].last;
             //$scope.message = sharedService.categoryId;

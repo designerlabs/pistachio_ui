@@ -1,6 +1,6 @@
 'use strict';
 
-MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $http,$interval, $sce) {
+MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $http,$interval, $sce,$window) {
 
     var tableCompleter;
     var dbCompletor;
@@ -28,7 +28,10 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         fn_showHistory();
         fn_LoadDb();
         // $('#jstree_Col').jstree();
+         $scope.showDBList = false;
         });
+
+
       
         // fn_showHistory();
 
@@ -268,6 +271,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
            $scope.active_query = qry;
            $scope.active_report = {};
            $scope.active_report.query = qry;
+           $scope.active_report.login = localStorage.login
            $scope.active_report.visiblity = false;
 
            fn_ExecQuery_newImplementation(qry)
@@ -282,6 +286,18 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
         $scope.saveEReport = function() {
             /// $('#savequery-name').val('');
             $("#mdlSaveReport").modal('show');
+        }
+
+        $scope.saveAnalytic = function() {
+            var qry;
+            if(editor.getSelectedText().length > 0){
+                qry = editor.getSelectedText();
+            }else{
+                 qry = $scope.aceDocumentValue;
+            }
+            $scope.record = {};
+            $scope.record.sqlQuery = qry;
+            $("#analticAddForm").modal('show');
         }
 
         $('.saveqry').click(function() {
@@ -466,12 +482,13 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                                 $scope.haveResData = true;           
                                 var resultOutputCol = jQuery.parseJSON(result.data.columns);
                                 var resultOutput = jQuery.parseJSON(result.data.results);
+                                debugger;
                                 var myArrayColumn = [];
                                 var i = 0;
 
                                 $.each(resultOutputCol, function(index, val) {
                                     var obj = {
-                                        sTitle: val
+                                        sTitle: val.toUpperCase()
                                     };
                                     myArrayColumn[i] = obj;
                                     i++;
@@ -491,6 +508,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                                     myArrayRow[i] = rowData;
                                     i++;
                                 });
+                                debugger;
                                 fn_ClearResultTbl();
                                 if(myArrayRow.length > 0){
                                     queryResultFunc(myArrayRow, myArrayColumn);                                    
@@ -733,13 +751,55 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                 "bJQueryUI": true,
                 "bInfo": true,
                 "bFilter": true,
-                "bSort": true,
+                "bSort": false,
                 "aaData": rw,
                 "aoColumns": col,
                 "scrollCollapse": true,
                 "paging": true
             });
         }
+
+
+       $scope.back2DB = function() {
+          $scope.showDBList = true;
+       }
+
+       $scope.click2Table = function(table) {
+        if($scope.selTable == table){
+          $scope.selTable = ""
+          return  
+        } 
+        $scope.selTable = table;
+        $http.get(globalURL + "api/pistachio/secured/hadoop/column?db=" + $scope.database + "&table=" + table)
+                .then(function(response) {
+                    $scope.columnList = response.data;
+                    console.log(editor.completers)
+                    var colCompleter = {
+                    getCompletions: function(editor, session, pos, prefix, callback) {
+                        var wordList = $scope.columnList;
+                        callback(null, wordList.map(function(word) {
+                            return {
+                                caption: word.column,
+                                value: word.column,
+                                meta: table + " - "+word.type
+                            };
+                        }));
+
+                    }
+
+                }
+                                    editor.completers.push(colCompleter);
+                },
+                function(error){
+
+                });
+       }
+
+       $scope.back2Tables = function(database){
+          $scope.showDBList = false;
+          $scope.database = database;
+          fn_LoadDt(database);
+       }
 
 
         function fn_LoadDb() {
@@ -784,7 +844,7 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                 }
             var  sqlCompleter = {
                     getCompletions: function(editor, session, pos, prefix, callback) {
-                        var wordList = ['select * from','select','from','distinct','where','order by','group by','union','join','left join']
+                        var wordList = ['SELECT * FROM','SELECT','FROM','distinct','where','order by','group by','union','join','left join']
                         callback(null, wordList.map(function(word) {
                             return {
                                 caption: word,
@@ -933,18 +993,21 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                         "columns": [{
                             "data": "name",
                             "width": "20%"
-                        }, {
-                            "data": "query",
-                            "width": "50%"
-                        }, {
-                            "data": "savedTime",
-                            "width": "20%"
-                        },{
+                        },
+                        {
                             "data": "action",
                             "width": "10%",
                             "render":function(data, type, full, meta){
-                                return '<button class="btn btn-warning btn-sm sacopyto">Copy All</button>';  
+                                return '<a  uib-tooltip="Copy the query to editor" class="btn btn-sm green sacopyto"><i class="fa fa-edit"></i> </a>\
+                                <a  uib-tooltip="Delete saved Query" class="btn btn-sm red deleteSaved"><i class="fa fa-times"></i> </a>\
+                                ';  
                             }
+                        }, {
+                            "data": "savedTime",
+                            "width": "20%"
+                        }, {
+                            "data": "query",
+                            "width": "50%"
                         }]
                     });
                     $('#tblSavedQuery tbody').on('click', 'tr td:nth-child(2)', function() {
@@ -958,14 +1021,33 @@ MetronicApp.controller('SQLEditorMgtController', function($scope, $rootScope, $h
                         // editor.session.setValue(data.query);
                          // $scope.Saveqry = false;
                     });
-                    $('#tblSavedQuery tbody').on('click', 'button.sacopyto', function() {
+                    $('#tblSavedQuery tbody').on('click', 'a.sacopyto', function() {
                         var data = SavedQryTbl.row($(this).parents('tr')).data();
                         editor.session.setValue('');
                         editor.session.setValue(data.query);
                     });
+                     $('#tblSavedQuery tbody').on('click', 'a.deleteSaved', function() {
+                        var data = SavedQryTbl.row($(this).parents('tr')).data();
+                        $("#delete").modal('show');
+                        $scope.id_to_be_deleted = data.id;
+                        debugger;
+                        
+                    });
                     //$(".page-content").height($(".profile-content").height() + 400);
                     $("#mdlSaveQry").modal('hide');
                 });
+        }
+
+        $scope.deleteSavedQuery = function() {
+            $http.delete(globalURL + "api/pistachio/secured/save/" +  $scope.id_to_be_deleted)
+                        .then(function successCallback(result) {
+                                fn_showSavedQry();
+                                 $("#delete").modal('hide');
+                            }, function errorCallback(response) {
+                                
+                            }
+
+                        );
         }
 
         function fn_showCol(currentList) {

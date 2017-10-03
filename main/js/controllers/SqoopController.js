@@ -95,7 +95,8 @@ var ModalInstanceCtrlSqoop = function ($scope, $uibModalInstance,$http,row,NgTab
      {
         $scope.param = {};
         $scope.param.hiveOverwriteTable = true; 
-        $scope.param.schedule = 0;
+        $scope.param.schedule = 3;
+        $scope.param.schedule = 3;
         $scope.param.incremental = "FULL"
         $scope.param.type = "NA"
         //$scope.type = "NA"
@@ -177,7 +178,7 @@ var ModalInstanceCtrlSqoop = function ($scope, $uibModalInstance,$http,row,NgTab
         console.log($scope.param)
         console.log($scope.row)
         console.log(globalURL + "/api/secured/pistachio/sqoop/database/"+$scope.row.table.dbId+"/job")
-         $http.post(globalURL + "/api/secured/pistachio/sqoop/database/"+$scope.row.table.dbId+"/job",JSON.stringify($scope.param))
+         $http.post(globalURL + "/api/secured/pistachio/sqoop/database/"+$scope.row.table.dbId+"/job",JSON.stringify(processParam($scope.param)))
                 .success(function (response) {
                  $scope.refreshTable()
                    $uibModalInstance.close();
@@ -197,7 +198,7 @@ var ModalInstanceCtrlSqoop = function ($scope, $uibModalInstance,$http,row,NgTab
         console.log($scope.row)
         $scope.row.table.isRunning = true;
         $uibModalInstance.close();
-         $http.post(globalURL + "/api/secured/pistachio/sqoop/database/"+$scope.row.table.dbId+"/saveNrun",JSON.stringify($scope.param))
+         $http.post(globalURL + "/api/secured/pistachio/sqoop/database/"+$scope.row.table.dbId+"/saveNrun",JSON.stringify(processParam($scope.param)))
                 .success(function (response) {
                     $scope.refreshTable()
                     $scope.row.table.tableCreated = true;
@@ -207,6 +208,14 @@ var ModalInstanceCtrlSqoop = function ($scope, $uibModalInstance,$http,row,NgTab
                  
 
                 }); 
+      }
+
+
+      function processParam(param) {
+        if(param.duplicateColumn == null || param.duplicateColumn == undefined) return param
+        var sParam = param
+        sParam.duplicateColumn = sParam.duplicateColumn.join()
+        return(sParam)
       }
 
        $scope.runJob = function() {
@@ -219,7 +228,7 @@ var ModalInstanceCtrlSqoop = function ($scope, $uibModalInstance,$http,row,NgTab
          $scope.row.table.isRunning = true;
          $scope.apply();
         console.log(globalURL + "/api/secured/pistachio/sqoop/database/"+$scope.row.table.dbId+"/runJob")
-         $http.post(globalURL + "/api/secured/pistachio/sqoop/database/"+$scope.row.table.dbId+"/job",JSON.stringify($scope.param))
+         $http.post(globalURL + "/api/secured/pistachio/sqoop/database/"+$scope.row.table.dbId+"/job",JSON.stringify(processParam($scope.param)))
                 .success(function (response) {
                   $uibModalInstance.close();
                   $scope.row.table.isRunning = undefined;

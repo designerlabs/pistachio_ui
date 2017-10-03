@@ -144,7 +144,39 @@
                         </div>
                         <div id="collapse_2_2" class="panel-collapse collapse"  >
                             <div class="panel-body">
-                                <textarea class="form-control" ng-disabled="true" rows="8" ng-model="report.query"></textarea>
+                                <textarea class="form-control" ng-disabled="false" rows="8" ng-model="report.query"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default" ng-if="report.history.length>0">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle" data-toggle="collapse"  data-parent="#accordion3" data-target="#collapse_2_3"> History </a>
+                            </h4>
+                        </div>
+                        <div id="collapse_2_3" class="panel-collapse collapse"  >
+                            <div class="panel-body">
+                                <table class="table table-hover table-light" >
+                                            <thead>
+                                                <tr>
+                                                    <th> Date </th>
+                                                    <th> Operation </th>
+                                                    <th> User </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody ng-repeat="x in report.history | orderBy:-created | limitTo:10">
+                                                <tr>
+                                                    <td rowspan="2"> {{x.created}} </td>
+                                                    <td> {{x.status}} </td>
+                                                    <td>
+                                                       {{x.login}}
+                                                    </td>
+                                                </tr>
+                                                
+                                                
+                                                
+                                            </tbody>
+                                        </table>
                             </div>
                         </div>
                     </div>

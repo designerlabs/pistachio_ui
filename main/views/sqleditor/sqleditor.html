@@ -1,61 +1,79 @@
 
 <div class="col-md-2 portlet light portlet-fit bordered" style="padding: 5px;">
 	<div class="mt-element-list">
-		<div class="mt-list-head list-simple ext-1 font-white bg-blue-chambray">
-			<div class="list-head-title-container">
-				<a ng-click="invalidate()" class="font-white pull-right">
-					<i class="fa fa-refresh"></i>
-				</a>
-				<h3 class="list-title">Database</h3>
-			</div>
-		</div>
-		<div class="mt-list-container list-simple ext-1 group" id="db-help">
+		
+		<div class="mt-element-list">
+    <div class="mt-list-head list-todo red">
+        <div class="list-head-title-container">
+            <h3 class="list-title">Database</h3>
+            <div class="list-head-count">
+                <div class="list-head-count-item">
+                    <i class="fa fa-database"></i> {{databaseLength}}</div>
+                <!-- <div class="list-head-count-item">
+                    <i class="fa fa-table"></i> 34</div> -->
+            </div>
+        </div>
+        <a ng-click="invalidate()">
+            <div class="list-count pull-right red-mint">
+                <i class="fa fa-refresh"></i>
+            </div>
+        </a>
+    </div>
+    
+</div>
+		<div class="mt-list-container list-simple ext-1 group" id="db-help" ng-hide="showDBList">
 
-			<a class="list-toggle-container" data-toggle="collapse"   data-target="#lstDBtbl" aria-expanded="true">
-				<div id="db-help1" class="list-toggle"> {{database}}
+			<a class="list-toggle-container">
+				<div id="db-help1" style="padding-left: 5px;" class="list-toggle"> {{database}}
 					<span id="db-help2" class="badge badge-default pull-right bg-white font-green bold">{{datatableLength}}</span>
+					<div class="pull-left red-mint" style="padding-right: 10px;" ng-click="back2DB()">
+		                <i class="fa fa-chevron-left"></i>
+		            </div>
 				</div>
 			</a>
-			<div style="overflow: auto; max-height: 600px" aria-expanded="true" class="panel-collapse collapse in" id="lstDBtbl" >
+			<div style="overflow: auto; max-height: 600px"  >
 				
-				<impala database='database' editor="editor"> </impala>
-				<!-- <div id="tree_4" class="jstree jstree-4 jstree-default" role="tree" aria-multiselectable="true" tabindex="0"  aria-busy="false">
-
+				<!-- <impala database='database' editor="editor"> </impala> -->
+				<div id="tree_4" class="jstree jstree-4 jstree-default" role="tree" aria-multiselectable="true" tabindex="0"  aria-busy="false">
+					<input id="db-help3" ng-model="searchText" class="form-control" placeholder="Search"></input>
 					<ul class="jstree-container-ul" role="group">
-					   <div id="db-db" style="margin-left:-24px;">
+					   <div id="db-db" style="margin-left:-24px; font-size: 12px;">
 						<li role="treeitem"
-						     ng-repeat="dblist in databaseList " 
-						     ng-click="OnDBClick(dblist)"
-							 aria-selected="false" aria-level="0" aria-labelledby="node_148636173992511_anchor" aria-expanded="false" id="{{dblist}}" class="jstree-node jstree-closed ">
-							<i class="jstree-icon jstree-ocl" role="presentation"></i>
-							<a class="jstree-anchor" href="#" tabindex="-1" id="node_148636173992511_anchor">
-								<i class="jstree-icon jstree-themeicon fa fa-database icon-lg icon-state-success jstree-themeicon-custom" role="presentation"></i>
-								{{dblist}}
-							</a>
-						</li>
-						</div>
-						<li role="treeitem"
-							 aria-selected="false" aria-level="1" aria-labelledby="{{dblist}}" aria-expanded="false" id="acive-db" class="jstree-node jstree-open" aria-busy="false">
-							<i class="jstree-icon jstree-ocl" role="presentation"></i>
-							<a class="jstree-anchor jstree-clicked" href="#" tabindex="1" id="node_148636173992511_anchor">
-								<i class="jstree-icon jstree-themeicon fa fa-database icon-lg icon-state-success jstree-themeicon-custom" role="presentation"></i>
-								{{database}}
-							</a>
-							<ul class="jstree-container-ul jstree-children" role="group">
-								<li role="treeitem"
 								     ng-repeat="dbtbllist in datatableList | filter:searchText" 
-									 aria-selected="false" aria-level="1" aria-labelledby="node_148636173992511_anchor" aria-expanded="false" id="{{dbtbllist}}" class="jstree-node jstree-closed" aria-busy="false">
+									  id="{{dbtbllist}}" class="jstree-node" aria-busy="false" ng-class="{false:'jstree-closed',true:'jstree-open jstree-clicked'}[selTable == dbtbllist]">
 									<i class="jstree-icon jstree-ocl" role="presentation"></i>
-									<a class="jstree-anchor" href="#" tabindex="-1" id="node_148636173992511_anchor">
-										<i class="jstree-icon jstree-themeicon fa fa-table icon-lg icon-state-success jstree-themeicon-custom" role="presentation"></i>
+									<a class="jstree-anchor" href="#" tabindex="-1" id="node_148636173992511_anchor" ng-click="click2Table(dbtbllist)">
 										{{dbtbllist}}
 									</a>
+
+									<ul class="jstree-container-ul" role="group" ng-if="selTable == dbtbllist" >
+									   <div id="db-db" style="margin-left:20px; font-size: 10px;">
+										<li role="treeitem" class="stree-open"
+												     ng-repeat="column in columnList" 
+													  id="{{dbtbllist}}"  aria-busy="false">
+														{{column.column}} ({{column.type}})
+													</a>
+												</li>
+										</div>
+									</ul>
+									
+									
 								</li>
-							</ul>
-						</li>
 					</ul>
-				</div> -->
+				</div>
 			</div>
+		</div>
+
+		<div class="mt-list-container list-simple ext-1 group" id="db-help" ng-hide="!showDBList">
+
+			<a class="list-toggle-container" data-toggle="collapse"   data-target="#lstDBtbl" aria-expanded="true" ng-repeat="x in databaseList" ng-click="back2Tables(x)">
+				<div id="db-help1" class="list-toggle"> {{x}}
+					<div class="pull-right red-mint" ng-click="back2Tables(x)">
+		                <i class="fa fa-chevron-right"></i>
+
+		            </div>
+				</div>
+			</a>
 		</div>
 		
 		<!--<div id="jstree_Col">			
@@ -85,6 +103,9 @@
                     </li>
                     <li>
                         <a ng-click="saveEReport()"> Save in E-Reporting</a>
+                    </li>
+                     <li>
+                        <a ng-click="saveAnalytic()"> Save in Analytic DB</a>
                     </li>
                 </ul>
             </div>
@@ -177,9 +198,9 @@
 											<thead>
 												<tr>
 													<th>Name</th>
-													<th>Query</th>
+													<th>Options</th>
 													<th>Saved Time</th>
-													<th>Copy To Editor</th>
+													<th>Query</th>
 												</tr>
 											</thead>
 										</table>
@@ -316,6 +337,32 @@
 		</div>
 	</div>
 </div>
+</div>
+<div class="modal fade" id="analticAddForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <analytic record="record" load='loadall()'> </analytic>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="delete" tabindex="-1" role="basic" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Confirm Delete</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+                <button type="button" ng-click="deleteSavedQuery()" class="btn green">Delete</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 
 
 <!--<div class="tblColLst" style="padding-top: 5px; padding-left: 30px;" >
@@ -349,3 +396,6 @@
     cursor: hand;
 }*/
 </style>
+
+
+

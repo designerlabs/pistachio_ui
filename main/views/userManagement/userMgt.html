@@ -10,11 +10,12 @@
                 <!-- <div class="tools">
                     <button class="btn btn-success btn-sm" data-toggle="modal" id="userMgtAddBtn" data-target="#userMgtAddForm"><i class="fa fa-plus"></i> Add</button>
                 </div> -->
+
             </div>
             <div class="portlet-body">
                
 
-                  <table ng-table="records" class="table table-bordered table-hover table-condensed editable-table demoTable" show-filter="false">
+                  <table ng-table="records" class="table table-bordered table-hover table-condensed editable-table demoTable" show-filter="true">
                     <colgroup>
                           <col width="24%"/>
                           <col width="16%"/>
@@ -24,13 +25,13 @@
                           <col width="16%"/>
                         </colgroup>
                     <tr ng-repeat="row in $data" ng-form="rowForm" demo-tracked-table-row="row" class="mt-action" >
-                      <td title="'Name'"  class="uppercase" header-class="'text-left'">
+                      <td title="'Name'" filter="{ firstName: 'text'}"  class="uppercase" header-class="'text-left'">
                         {{row.firstName}}
                       </td>
-                      <td title="'Login'" header-class="'text-center'">
+                      <td title="'Login'" filter="{ login: 'text'}"  header-class="'text-center'">
                         {{row.login}}
                       </td>
-                      <td title="'Status'" header-class="'text-center'">
+                      <td title="'Status'" header-class="'text-center'" sortable="'activated'">
                         <button uib-tooltip="click to activate the user" type="button" class="btn red-sunglo" ng-click="actDeAct(row,true)" ng-if="!row.activated">Disabled</button>
                         <button uib-tooltip="click to deactivate the user" type="button" class="btn green-haze" ng-click="actDeAct(row,false)" ng-if="row.activated">Active</button>
                       </td>

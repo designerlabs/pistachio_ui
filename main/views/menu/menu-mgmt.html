@@ -1,0 +1,122 @@
+<div class="row">
+    <div class="col-md-12">
+        <!-- END EXAMPLE TABLE PORTLET-->
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div id="loader" style="position:absolute; top:0px; left:0px; background:rgba(255,255,255,0.8); width:100%; z-index:9999;">
+            <div ng-spinner-bar class="page-spinner-bar">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+
+        <div class="portlet box red-intense" id="menuManage">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>Menu Management
+                </div>
+                <div class="tools">
+                    <button class="btn btn-success btn-sm" data-toggle="modal" ng-click="add()" ><i class="fa fa-plus"></i> Add</button>
+                </div>
+            </div>
+            <div class="portlet-body">
+            <div ng-show="menus.length ==0" style="padding:10px;">
+                        <span class="font-grey-mint font-lg bold uppercase">No Menus Defined</span>
+            </div>
+               <table ng-show="menus.length !=0" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                 <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>URL</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                  <tr ng-repeat="x in menus |orderBy : 'id'"">
+                    <td>{{ x.name }}</td>
+                    <td>{{ x.url }}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" ng-click="edit(x)"><i class="fa fa-edit"></i> Edit</button>
+                        <button class="btn btn-danger btn-sm" ng-click="delete(x)"><i class="fa fa-trash"></i> Delete</button>
+                    </td>
+                  </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+<div class="modal fade" id="menuAddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+     <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header  {{record.color}}">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="dashboardAddFormHeader">Dashboard Form</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger display-hide" id="dashboardRequire">
+                    <button class="close" data-close="alert"></button>
+                    <span></span>
+                </div>
+                <form id="dashboardForm" name="dashboardUIForm" autocomplete="off" >
+                    <div class="form-group form-md-line-input">
+                        <label class="col-md-2 control-label" for="form_control_1">Menu</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="form_control_1" placeholder="Enter Menu Name" required ng-model="record.name">
+                            <div class="form-control-focus"> </div>
+                        </div>
+                    </div>
+                    <div class="form-group form-md-line-input">
+                        <label class="col-md-2 control-label" for="form_control_1">URL</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="form_control_1" placeholder="Enter URL" required ng-model="record.url">
+                            <div class="form-control-focus"> </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="dashboard-ext" required />
+                    <div class="form-group form-md-line-input">
+                        <label class="col-md-2 control-label " for="form_control_1">Parent</label>
+                        <div class="col-md-10">
+                            <select class="form-control" id="form_control_1" ng-model="record.parentId" required>
+                               <option ng-repeat="option in parents" value="{{option.id}}" ng-value="option.id">{{option.name}}</option>
+                            </select>
+                            <div class="form-control-focus"> </div>
+                        </div>
+                    </div>
+                     <div class="form-group form-md-line-input">
+                                                    <label class="col-md-2 control-label" for="form_control_1">Internal</label>
+                                                    <div class="col-md-10">
+                                                        <div class="md-radio-inline">
+                                                            <div class="md-radio">
+                                                                <input type="radio" id="radio53" data-ng-model="record.internal" name="radio2"  data-ng-value="true" class="md-radiobtn">
+                                                                <label for="radio53">
+                                                                    <span></span>
+                                                                    <span class="check"></span>
+                                                                    <span class="box"></span> Yes </label>
+                                                            </div>
+                                                            <div class="md-radio has-error">
+                                                                <input type="radio" id="radio54" name="radio2" data-ng-model="record.internal" class="md-radiobtn" data-ng-value="false"  checked="">
+                                                                <label for="radio54">
+                                                                    <span></span>
+                                                                    <span class="check"></span>
+                                                                    <span class="box"></span> No </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                    <div class="form-group form-md-line-input">
+                                                    <label class="col-md-2 control-label" for="form_control_1">Icon : <i class="fa fa-{{record.icon}}"> </i></label>
+                                                    <div class="col-md-10">
+                                                    <input type="text" class="form-control" id="form_control_1" placeholder="Enter URL" required ng-model="record.icon">
+                                                </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                <button type="button" ng-click="save(record)" ng-if="record.id == undefined" class="btn btn-success"><i class="fa fa-check"></i> Save</button>
+                <button type="button" ng-click="updt(record)" ng-if="record.id != undefined" class="btn btn-primary"><i class="fa fa-check"></i> Update</button>
+            </div>
+        </div>
+    </div>
+</div>

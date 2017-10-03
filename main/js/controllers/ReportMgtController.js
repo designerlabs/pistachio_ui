@@ -231,7 +231,7 @@ MetronicApp.controller('ReportMgtController', function($rootScope, $scope, $http
             $("#reportMgtForm #reportMgt-icon").val(selectedreportMgt.icon);
             $("#reportMgtIconDiv").html(selectedreportMgt.icon);
 
-            $(".selectedIcon").html('<img class="selectedIconImage" src="../main/assets/pistachio/report/' + selectedreportMgt.icon + '.png">');
+            $(".selectedIcon").html('<img class="selectedIconImage" src="/assets/pistachio/report/' + selectedreportMgt.icon + '.png">');
             $("#reportMgtAddFormHeader").html("Update Report");
             $("#reportMgtAddForm").modal('show');
             $('#inpHiddenParent').val($('#reportMgt-parent').val());

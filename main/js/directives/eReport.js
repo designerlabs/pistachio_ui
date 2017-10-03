@@ -14,6 +14,7 @@ var EReportController = function ($scope,$rootScope,$http,Upload,eReportUpdater)
    $scope.$on('$viewContentLoaded', function() {
 
         console.log('ReportEditor'+$scope.report)
+         $scope.clear();
     });
 
    $scope.uploadTemplate = function(file){
@@ -91,6 +92,7 @@ var EReportController = function ($scope,$rootScope,$http,Upload,eReportUpdater)
                 $http.post(globalURL + queryString + "/",JSON.stringify($scope.report)).
                  then(function(response) {
                         $scope.report.id = response.data.id;
+                        $scope.report.history = response.data.history
                         $scope.saveSuccess="Report Created"
                         $scope.Savebtn = "Update"
                         $scope.clear();
@@ -106,10 +108,13 @@ var EReportController = function ($scope,$rootScope,$http,Upload,eReportUpdater)
     else
     {
         console.log("Updating Report")
+        $scope.report.updater = $scope.login;
         $http.put(globalURL + queryString + "/",JSON.stringify($scope.report)).
                  then(function(response) {
        //                 $scope.updatedReport = response.data;
                        $scope.saveSuccess="Report Updated"
+                       //$scope.report.params = response.data.params;
+                       $scope.report.history = response.data.history
                        $scope.clear();
 
                 },
@@ -303,7 +308,7 @@ var EReportController = function ($scope,$rootScope,$http,Upload,eReportUpdater)
         $scope.clear =function() {
             $scope.uploadError ="";
             $scope.saveError = "";
-
+            $scope.saveSuccess = "";
         }
 
         $scope.closing = function() {

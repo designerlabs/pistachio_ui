@@ -182,6 +182,10 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
             $('#myDatabaseSel option').remove();
             $('#myDatabaseSel').multiSelect('refresh');
 
+ //           $('#myMenuSel option').remove();
+ //           $('#myMenuSel').multiSelect('refresh');
+
+
             $.get( globalURL + "reportcat/", function( data ) {
               $.each(data, function (key, value) {
                   $('#myParentSel').append(
@@ -216,6 +220,8 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
               $('#myFastSearchSel').multiSelect('refresh');
             });
 
+
+
             //Load database or Editor
             $.get( globalURL + "api/pistachio/secured/hadoop/db", function( data ) {
                 $.each(data, function (key, value) {
@@ -234,6 +240,84 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                   $('#myDatabaseSel').multiSelect('refresh');
                 });
             }); 
+
+            var childNodes = [];
+            $.get( globalURL+"api/secured/pistachio/menu/parents", function( data ) {
+              $('#myMenuSel option').remove();
+              $('#mySubMenuSel option').remove();
+ //           $('#myMenuSel').multiSelect('refresh');
+              $('#myMenuSel').multiSelect('refresh');
+              $('#mySubMenuSel').multiSelect('refresh');
+                $.each(data, function (key, value) {
+                    $('#myMenuSel').append(
+                        $("<option></option>")
+                          .attr("value", value.id)
+                          .text(value.name)
+                    );
+                });
+                $("#myMenuSel").multiSelect('refresh');
+                $.get( globalURL + "api/role/" + selectedroleMgt.name +"/menu", function( data ) {
+
+                      $.each(data, function(k,v){
+                        $('#myMenuSel').multiSelect('select', ""+v.parent.id+"");
+                      });
+                      $('#myMenuSel').multiSelect('refresh');
+                       $.each(data, function(k,v){
+                          var child = v.children
+                          $.each(child, function(k,v){
+                            console.log(v)
+                             $('#mySubMenuSel').multiSelect('select', ""+v.id+"");
+                          })
+                      });
+                      $('#mySubMenuSel').multiSelect('refresh');
+                }); 
+             });
+
+             
+            $scope.loadSubMenu = function(){
+              $.get( globalURL + "api/role/" + selectedroleMgt.name +"/menu", function( data ) {
+                       $.each(data, function(k,v){
+                          var child = v.children
+                          $.each(child, function(k,v){
+                            console.log(v)
+                             $('#mySubMenuSel').multiSelect('select', ""+v.id+"");
+                          })
+                      });
+                      $('#mySubMenuSel').multiSelect('refresh');
+                }); 
+            }
+       
+       $('#myMenuSel').multiSelect({
+          afterSelect: function (value) {
+            // var value = key;
+               var optgrp = $("<optgroup></optgroup>");
+               optgrp[0].label = $("#myMenuSel option[value =" + value + "]").text();
+
+               //$("#loader").css('height', $(".page-content").height() + 140 + 'px');
+               $("#loader .page-spinner-bar").removeClass('hide');
+
+               $.get( globalURL+"api/secured/pistachio/menu/children/"+value, function( data ) { //$.get(globalURL + "query/report/" + value, function( data ) {
+                $("#loader").show();
+                     $.each(data, function (k, val) {
+                     optgrp.append(
+                          $("<option></option>")
+                            .attr("value", val.id)
+                            .text(val.name)
+                        );
+                     });
+                     $('#mySubMenuSel').append(optgrp);
+                     $('#mySubMenuSel').multiSelect('refresh');
+                $("#loader").hide();
+            });
+          },
+          afterDeselect: function(value){
+            var optionText = '';
+            optionText = $("#myMenuSel option[value=" + value + "]").text();
+            $("#mySubMenuSel optgroup[label='" + optionText + "']").remove();
+            $("#mySubMenuSel").multiSelect('refresh');
+            }
+        });
+
 
             //Load dashboard
             $.get( globalURL + "pistachio/dashboard?user=" + getToken, function( data ) {
@@ -338,7 +422,21 @@ MetronicApp.controller('RoleMgtController', function($rootScope, $scope, setting
                   console.log(response.data.error);
                    $("#roleMgtRequire span").html(response.data.error);
                    $("#roleMgtRequire").show();                     
-                 }); 
+                 });
+
+                 $http.put(globalURL + "api/role/" + roleMgtUpdateNameVal + "/menu",$('#mySubMenuSel').val(),
+      {headers: { 'Content-Type': 'application/json' }})
+                 .then(function successCallback(result) {
+                   console.log("Successfully updated menu in the role");
+                 },
+                 function errorCallback(response) {
+                  console.log(response.data.error);
+                   $("#roleMgtRequire span").html(response.data.error);
+                   $("#roleMgtRequire").show();                     
+                 });
+
+
+                 
         });
 
 function UpdateSubReportsCrud(RoleName){
@@ -542,6 +640,7 @@ function UpdateSubReportsCrud(RoleName){
              SubReportAry.splice($.inArray(filteredNames[0],SubReportAry),1);
             }
         });
+
 
       $('#mySubParentSel').multiSelect({
         selectableOptgroup: false,

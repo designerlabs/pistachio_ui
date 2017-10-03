@@ -1,0 +1,56 @@
+<div class="modal-header  {{record.color}}">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="dashboardAddFormHeader">Fast Analytic Form </h4>
+            </div>
+            <div class="modal-body">
+            <form role="form">
+
+                 <div class="form-group  form-md-line-input form-md-floating-label" >
+                        <label class="col-md-3 control-label font-blue-chambray bold">Name</label>
+                        <div class="col-md-9">
+                            <input  type="text" class="form-control" value="{{report.queryName}}" ng-model="record.name" >
+                        </div>
+                    </div>
+                 <div class="form-group  form-md-line-input form-md-floating-label"  ng-model="record.collectionName">
+                        <label class="col-md-3 control-label font-blue-chambray bold">Collection Name</label>
+                        <div class="col-md-9">
+                            <input  type="text" class="form-control" placeholder="Report Description" ng-model="record.collectionName"  value="{{record.collectionName}}">
+                        </div>
+                    </div>
+                  <div class="form-group  form-md-line-input form-md-floating-label"  ng-model="record.unqiqID">
+                        <label class="col-md-3 control-label font-blue-chambray bold">ID Field</label>
+                        <div class="col-md-9">
+                            <input  type="text" class="form-control" placeholder="Unique Identifier" ng-model="record.unqiqID""  value="{{record.unqiqID"}}">
+                        </div>
+                    </div>
+                 
+                <div class="panel-group accordion scrollable" id="accordion2">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle" data-toggle="collapse"  data-parent="#accordion2" data-target="#collapse_2_2"> SQL </a>
+                            </h4>
+                        </div>
+                        <div id="collapse_2_2" class="panel-collapse"  >
+                            <div class="panel-body">
+                                <textarea class="form-control" ng-disabled="false" rows="8" ng-model="record.sqlQuery"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                   <div class="alert alert-danger" ng-if="saveError.length>0" style="margin-top: 15px;">
+                                            <strong>Error!</strong> {{saveError}} </div>
+                    <div class="alert alert-info" ng-if="saveSuccess.length>0" style="margin-top: 15px;">
+                                            <strong>Success!</strong> {{saveSuccess}} </div>
+                </div>
+              </form>  
+            </div>
+        
+    </div>
+ <div class="clearfix">
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                <button type="button" ng-click="save(record)" ng-if="record.id == undefined" class="btn btn-success"><i class="fa fa-check"></i> Save</button>
+                <button type="button" ng-click="updt(record)" ng-if="record.id != undefined" class="btn btn-primary"><i class="fa fa-check"></i> Update</button>
+            </div>
+</div>

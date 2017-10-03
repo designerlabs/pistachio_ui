@@ -119,13 +119,16 @@ MetronicApp.controller('EReportViewController', function($scope, $rootScope, $ht
     function applyDateFormatting() {
         var tparams = $scope.active_report.params
         var sendParam = [];
+        debugger;
         for(var i=0;i<tparams.length;i++) {
             if(tparams[i].uiType == 'DatePicker') {
 
                 sendParam[i]  = moment($scope.nparams[i]).format(tparams[i].dateFormat)
             }
-            else
-                sendParam[i] = $scope.nparams[i];
+            else {
+
+                sendParam[i] = $scope.nparams[i].split("-")[0]
+            }
         }
         return sendParam;
     }

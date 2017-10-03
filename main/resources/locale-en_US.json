@@ -1,6 +1,6 @@
 {
 	"Header.sellanguage" :"Select Language",
-	"sidebar.dashboard" : "Analytics",
+	"sidebar.dashboard" : "ID Management",
 	"directives.language-select.Language": "Language",
 	"dashboard.title" : "Immigration Intelligent Dashboard",
 	"dashboardmgt.title":"Dashboard Management",
@@ -96,7 +96,7 @@
 	"session.timeoutmessage" : "Automatic Log Out Due to Inactivity",
 	"session.loggedoutmessage" : "We hadn't heard from you for about 30 minute(s), so for your security server automatically logged you out of your account. Log back in below to continue.",
 	"workflowmgt.title":"Request Management",
-	"tracking.title" : "Border Activity Analysis",
+	"tracking.title" : "Entry Point Activity",
 	"visitorTracking.title" : "Visitor Traveling Analysis",
 	"officeractivity.title":"Officers Activity Analysis",
 	"profile.title" : "My Profile",
@@ -144,7 +144,7 @@
 
 
     "efastsearch.title":"Enforcement Search",
-    "efastsearch.detainee":"Detainee",
+    "efastsearch.detainee":"Offender",
     "efastsearch.overstay":"Overstay",
 
     "enforcement" : {
@@ -171,11 +171,15 @@
     	"title": "Data Movement (Sqoop)"
     },
     "parameter" : {
-    	"title" : "Report Parameter Manager"
+    	"title" : "Report Parameter Management"
+    },
+    "analytic" : {
+    	"title" : "Analytics  Managament"
+    },
+    "solr" : {
+    	"title" : "Solr Administration"
+    },
+    "menu" : {
+    	"title" : "Menu Managament"
     }
-
-
-
-
-
 }

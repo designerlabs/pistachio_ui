@@ -80,7 +80,10 @@
                                     </li>   
                                     <li class="">
                                         <a data-toggle="tab" class="tabDB" data-target="#tab_Database" aria-expanded="expanded"> Database Permissions </a>
-                                    </li>                             
+                                    </li>
+                                    <li class="">
+                                        <a data-toggle="tab" class="tabMenu" data-target="#tab_Menu" ng-click="loadSubMenu()" aria-expanded="expanded"> Menu Permissions </a>
+                                    </li>
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane fade active in" id="tab_Report">
@@ -171,7 +174,36 @@
                                                  <br/> -->
                                                   <select multiple="multiple" id="myDatabaseSel">
                                                   </select>
+
                                                 </div>                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="tab_Menu">
+                                        <div class="portlet-body  ">
+                                            <div class="">
+                                                
+                                                 <label for="myMenuSel" class="control-label">Select Application to give access:</label>
+                                                 <br/>
+                                                 <!-- <div>
+                                                     Give full access to All Database
+                                                     <input type="checkbox" name="chkDashboard">
+                                                 </div>
+                                                 <br/> -->
+                                                  
+                                                  <div class="row">
+                                                      <div class="form-group col-md-6 col-xs-12 col-sm-12" style="float: left;">
+                                                       <label for="myMenuSel" class="control-label">Main Menu Selection:</label>
+                                                        <select multiple="multiple" id="myMenuSel">
+                                                        </select>
+                                                      </div>
+                                                      <div id='divSubReport' class="form-group col-md-6 col-xs-12 col-sm-12" style="float: left;" >
+                                                       <label for="mySubMenuSel" class="control-label">Sub Menu Selection:</label>
+                                                        <select id='mySubMenuSel' multiple='multiple'>    
+                                                        </select>
+                                                      </div>  
+                                                  </div>
+                                                                                             
                                             </div>
                                         </div>
                                     </div>

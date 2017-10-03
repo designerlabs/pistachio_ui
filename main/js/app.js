@@ -1055,6 +1055,7 @@ MetronicApp.controller('SidebarController', ['$rootScope','$scope', '$http', 'au
             })
             .done(function(data) {
                 $scope.displayNames = data.reports;
+                $scope.menu = data.menus
                 $rootScope.reports = data.reports;
                 console.log(data.reports);
                 console.log("success");
@@ -1078,6 +1079,7 @@ MetronicApp.controller('SidebarController', ['$rootScope','$scope', '$http', 'au
                 })
                 .done(function(data) {
                     $scope.displayNames = data.reports;
+                   
                     console.log(data.reports);
                     console.log("success");
 
@@ -1170,7 +1172,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
     //if (currentUserName == jimUserId || currentUserName == mimosUserId) {
  
       var homePage = localStorage.getItem('homePage');
-      homePage = (homePage == undefined || homePage == "null")? "/myprofile.html":homePage
+      homePage = (homePage == undefined || homePage == "null"|| homePage == "")? "/myprofile.html":homePage
 
     $urlRouterProvider
     //.when("/search/user/:doc_no"), {
@@ -1186,7 +1188,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
 
     // Dashboard
         .state('dashboard', {
-        url: "/dashboard.html",
+        url: "/dashboard.html?type",
         templateUrl: "views/dashboard.html",
         data: {
             pageTitle: 'Admin Dashboard Template'
@@ -1766,6 +1768,29 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                      'assets/pistachio/enforcement/dashboard.css',
                      'assets/pistachio/enforcement/sqoop.css',
                         'js/controllers/SqoopController.js'
+
+                    ]
+                });
+            }]
+        }
+    })
+
+        .state('solr', {
+        url: "/solr.html",
+        templateUrl: "views/solr/list.html",
+        data: {
+            pageTitle: 'Solr Collection'
+        },
+        controller: "SolrController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                    files: [
+                     'assets/pistachio/enforcement/dashboard.css',
+                     'assets/pistachio/enforcement/sqoop.css',
+                     'js/controllers/SolrController.js'
 
                     ]
                 });
@@ -2482,6 +2507,31 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
         }
     })
 
+      .state('analyticmgnt', {
+        url: "/analytic.html",
+        templateUrl: "views/analytic/analytic.html",
+        data: {
+            pageTitle: 'Fast Analytics'
+        },
+        controller: "AnalyticMgtController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                    files: [
+                        
+                        'assets/global/plugins/select2/select2.css',
+                        'assets/pistachio/enforcement/dashboard.css',
+                        'assets/pistachio/enforcement/sqoop.css',
+                        'js/directives/analytic.js',
+                        'js/controllers/AnalyticMgtController.js'
+                    ]
+                });
+            }]
+        }
+    })
+
 
 
     // Report Management
@@ -2549,6 +2599,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
                         'js/directives/eReport.js',
                         'js/directives/hiveDB.js',
                         'js/directives/jasperReport.js',
+                        'js/directives/analytic.js',
                         'js/controllers/SQLEditorMgtController.js',
                         'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
                     ]
@@ -2698,6 +2749,28 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
 
                         'js/controllers/UserMgtController.js',
                         'assets/global/plugins/mapplic/js/jquery.mousewheel.js'
+                    ]
+                });
+            }]
+        }
+    })
+    // User Management
+    .state("menuMgmt", {
+        url: "/menumgmt.html",
+        templateUrl: "views/menu/menu-mgmt.html",
+        data: {
+            pageTitle: 'Menu Management'
+        },
+        controller: "MenuMgmtController",
+        resolve: {
+            deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load({
+                    name: 'MetronicApp',
+                    insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                    files: [
+                      'js/controllers/MenuMangementController.js'
+
+
                     ]
                 });
             }]
