@@ -27,10 +27,10 @@ MetronicApp.controller('DashboardController', function($rootScope, $scope, $http
             $("#iframeContainer").show();
             //$("#iframeContainer iframe").attr('ng-src',data);
             debugger;
-            $scope.currentProjectUrl = $sce.trustAsResourceUrl($scope.data +"&user=" + getUser);
+            $scope.currentProjectUrl = $sce.trustAsResourceUrl($scope.data +"?user=" + getUser);
     		//location.href=data;
             $scope.iframeTitle = this.$$watchers[0].last;
-            $("#iframeContainer iframe").attr('src',data+"&user=" + getUser);
+            $("#iframeContainer iframe").attr('src',data+"?user=" + getUser);
             
             var categoryId = this.$$watchers[2].last;
             //$scope.message = sharedService.categoryId;
